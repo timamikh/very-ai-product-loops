@@ -1,0 +1,18 @@
+# risk-mitigation — interview
+tool: risk-mitigation
+produces: product-risks
+questions:
+  - id: premortem
+    ask: "It's 12 months from now and the strategy failed — why? (concrete failure stories; include execution & key-person risks, not just external ones)"
+    type: list
+    why: "Pre-mortem surfaces risks before they bite."
+  - id: existing_risks
+    ask: "Any risks already in the R- register to fold in? (⚙️ agent pulls them)"
+    type: list
+  - id: triage
+    ask: "For each risk — probability and impact (L/M/H each)?"
+    type: per_item
+  - id: mitigation
+    ask: "For each carried risk — what's the mitigation, who owns it, and what trigger says 'act now'?"
+    type: per_item
+    why: "A risk with no owner or trigger is not managed."

@@ -1,0 +1,25 @@
+# where-to-play-how-to-win — interview
+tool: where-to-play-how-to-win
+produces: [winning-aspiration, where-to-play, how-to-win]
+questions:
+  - id: aspiration
+    ask: "What does winning mean here — who do we serve, what result, by when? (not a slogan)"
+    type: free_text
+    why: "Vague aspiration produces vague strategy."
+  - id: play_in
+    ask: "Which segments / geographies / channels / product scope do we play in?"
+    type: per_item
+  - id: exclude
+    ask: "For each dimension — what do we DELIBERATELY exclude? (a where-to-play with no exclusions is not a choice)"
+    type: per_item
+    why: "Forces a real choice, not 'everyone everywhere'."
+  - id: how_to_win
+    ask: "What is the coherent logic for beating the specific players in this arena?"
+    type: free_text
+  - id: moats_leveraged
+    ask: "Which moats (from value-definition) does each winning move leverage, and why can't a rival copy it cheaply?"
+    type: per_item
+    why: "A 'how' with no named moat behind it is a hope, not a strategy."
+  - id: cascade_check
+    ask: "Does this how-to-win actually win in this where-to-play, given this aspiration? If not, re-choose."
+    type: free_text
