@@ -29,6 +29,8 @@ which to lean on.
 | `market-sizing` | TAM / SAM / SOM with method + source | `market-sizing` |
 | `competitors` | Direct & indirect competitors | `competitor-analysis` |
 | `competitor-strategy` | What game each plays (revenue/profit/share/social capital — how), vs our moats | `competitor-analysis` |
+| `pricing` | Competitor pricing — orients our pricing & feeds the financial model | `competitor-analysis` |
+| `competitor-dynamics` | How each competitor develops over time (revenue/headcount trend) — compares strategy effectiveness | `competitor-analysis` |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | `substitutes` |
 | `niche-risks` | Structural risks of the niche (light Five Forces) | `analytics-search` |
 | `opportunity` | The "so what" — where the white space / the threat is | — (synthesis) |
@@ -41,6 +43,8 @@ which to lean on.
 - [ ] sizing has an explicit method and source → `analysis#market-sizing`
 - [ ] direct & indirect competitors named → `analysis#competitors`
 - [ ] each competitor's game identified, compared to our moats → `analysis#competitor-strategy`
+- [ ] competitor pricing captured where findable → `analysis#pricing`
+- [ ] competitor development dynamics captured where findable → `analysis#competitor-dynamics`
 - [ ] substitutes incl. "do nothing" covered → `analysis#substitutes`
 - [ ] niche risks logged → `analysis#niche-risks` → risk register
 - [ ] an explicit opportunity/threat conclusion is stated → `analysis#opportunity`

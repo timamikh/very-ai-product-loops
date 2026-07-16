@@ -5,7 +5,7 @@ name: strategy
 title: "Step 3 — Strategy"
 output: strategy.md
 cadence: "~3–12 mo; reviewed ~quarterly"
-method_basis: "Playing to Win (where-to-play / how-to-win) · Dunford positioning · UVP/CPV · channels (Bullseye) · moats revisited (7 Powers)"
+method_basis: "Playing to Win (where-to-play / how-to-win) · Dunford positioning · UVP/CPV · channels (Bullseye) · moats revisited (7 Powers) · product surface & instrumentation · C4-context architecture"
 status: draft
 version: 0.1.0
 updated: 2026-07-16
@@ -33,6 +33,8 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 | `how-to-win` | The winning logic + which moats we leverage | `where-to-play-how-to-win`, `value-definition` |
 | `uvp-cpv` | Unique value proposition / customer-perceived value | `uvp-cpv` |
 | `channels-expansion` | Acquisition/comms channels + expansion paths | `channels-expansion` |
+| `product-surface` | Every user-interaction surface + instrumentation: channels, landings, mailings, admin, metric collection, behavior-study tools | `product-surface` |
+| `architecture` | System architecture at **C4 Context** level (product, its users, external systems) | `architecture-c4` |
 | `bets` | The strategic hypotheses we're wagering on | `jtbd`, `value-definition` |
 | `product-risks` | Risks specific to this strategy | `risk-mitigation` |
 
@@ -47,8 +49,14 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 - [ ] how-to-win names the moat(s) it leverages → `strategy#how-to-win`
 - [ ] UVP/CPV articulated → `strategy#uvp-cpv`
 - [ ] channels & expansion path named → `strategy#channels-expansion`
+- [ ] product surface & instrumentation mapped → `strategy#product-surface`
+- [ ] C4-context architecture sketched → `strategy#architecture`
 - [ ] bets captured as typed hypotheses → `strategy#bets` → hypothesis register
 - [ ] product risks logged → `strategy#product-risks` → risk register
+
+> `product-surface` and `architecture` are **sketched here and refined at Step 4** — the
+> instrumentation defines where metric-tree data comes from, and the architecture feeds infra
+> cost lines in the financial model.
 
 ## Cadence & invalidation
 - **Cadence:** ~quarterly, or when a bet is validated/refuted, or the opportunity shifts.

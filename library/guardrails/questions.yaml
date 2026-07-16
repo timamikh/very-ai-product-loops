@@ -1,0 +1,13 @@
+# guardrails — interview
+tool: guardrails
+produces: guardrails
+questions:
+  - id: what_breaks
+    ask: "For each period goal — what could it break if we optimize it too hard?"
+    type: per_item
+  - id: protected
+    ask: "Which metrics must NOT drop, and what's the floor/ceiling?"
+    type: list
+  - id: red_lines
+    ask: "Any qualitative red lines — things we never do to hit the goal?"
+    type: free_text

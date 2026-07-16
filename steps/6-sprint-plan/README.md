@@ -5,7 +5,7 @@ name: sprint-plan
 title: "Step 6 — Sprint Plan"
 output: sprint-plan.md
 cadence: "~1–2 wk; every sprint"
-method_basis: "minimal must-set + prioritized backlog per direction · prioritization by contribution to the period goal · explicit handoff"
+method_basis: "minimal must-set + prioritized backlog per direction · items in a per-direction format (dev = Feature; growth = Activity; back-office = Task+DoD) · prioritization by contribution to the goal · explicit handoff"
 status: draft
 version: 0.1.0
 updated: 2026-07-16
@@ -26,9 +26,31 @@ The tactical plan (`[[tactical-plan]]`), backlog export, the hypothesis & metric
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
-| `must` | Minimal mandatory tasks, grouped by direction | `prioritization` |
-| `backlog` | The rest, prioritized, grouped by direction | `prioritization` |
+| `must` | Minimal mandatory items, grouped by direction, each in its per-direction format | `prioritization`, `feature-spec`, `growth-activity` |
+| `backlog` | The rest, prioritized, grouped by direction | `prioritization`, `feature-spec`, `growth-activity` |
 | `handoff` | What goes to the development process, and how | — |
+
+## Item formats by direction
+
+The **minimal level of detail** for this framework is one **feature / activity / task** — not
+sub-tasks. Each direction describes its items in its own format:
+
+- **Development → Feature**
+  - **Description** — what the feature is
+  - **Scope** — the list of tasks to implement it
+  - **Business value** — value to the business
+  - **User value** — value to the user
+  - **User stories** — related stories (if applicable)
+- **Growth → Activity** (same altitude; e.g. "launch a reactivation mailing", "publish a TG post on LLM pitfalls")
+  - **Description** — what the activity is
+  - **Scope** — the steps to run it
+  - **Business value** — the metric/hypothesis it moves
+  - **Audience value** — why the audience cares
+  - **Links** — the `H-…` it tests / `M-…` it moves
+- **Back-office → Task**
+  - **Description** — what needs doing
+  - **Definition of Done** — the concrete DoD
+  - **Why** — the business reason
 
 ## Register touchpoints
 - **Hypotheses / Metrics** — each task links to the `H-…` it tests or the `M-…` it moves
@@ -37,7 +59,8 @@ The tactical plan (`[[tactical-plan]]`), backlog export, the hypothesis & metric
 ## Gate checklist (soft) — each item ↔ artifact section
 - [ ] a minimal must-set exists per direction → `sprint-plan#must`
 - [ ] the rest is prioritized, not a flat list → `sprint-plan#backlog`
-- [ ] every task links to a metric node or a hypothesis → `sprint-plan#must` / `#backlog`
+- [ ] dev items follow the **Feature** format; growth items the **Activity** format; back-office items have a **DoD** → `sprint-plan#must` / `#backlog`
+- [ ] every item links to a metric node or a hypothesis → `sprint-plan#must` / `#backlog`
 - [ ] handoff to the dev process is explicit → `sprint-plan#handoff`
 
 ## Cadence & invalidation

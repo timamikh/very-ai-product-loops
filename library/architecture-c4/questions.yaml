@@ -1,0 +1,13 @@
+# architecture-c4 — interview
+tool: architecture-c4
+produces: architecture
+questions:
+  - id: actors
+    ask: "Who uses the system? (map to your segments)"
+    type: free_text
+  - id: externals
+    ask: "What external systems does it integrate with or depend on (auth, payments, LLM providers, analytics, email, data)?"
+    type: list
+  - id: cost_risk
+    ask: "For each external system — is it a cost driver, a dependency risk, and/or a potential moat?"
+    type: per_item

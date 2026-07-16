@@ -27,6 +27,7 @@ The strategy (`[[strategy]]`), `metrics`, `analytics-search`, `kb`.
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
+| `architecture-instrumentation` | Refined C4 architecture + instrumentation from Step 3 — where metric data comes from, and what drives infra cost | `architecture-c4`, `product-surface` |
 | `metric-tree` | North Star → drivers → input metrics | `metric-tree` |
 | `unit-economics` | CAC / LTV / payback / contribution — incl. LLM inference COGS | `unit-economics` |
 | `financial-model` | A simple projection tied to the metric tree | `financial-model` |
@@ -40,7 +41,8 @@ The strategy (`[[strategy]]`), `metrics`, `analytics-search`, `kb`.
 - **Risks** — `risk-mitigation` attaches owners/mitigations to `R-…`.
 
 ## Gate checklist (soft) — each item ↔ artifact section
-- [ ] a North-Star metric tree exists with defined nodes → `strategic-plan#metric-tree` → metric register
+- [ ] architecture & instrumentation refined; metric data sources and infra cost drivers identified → `strategic-plan#architecture-instrumentation`
+- [ ] a North-Star metric tree exists with defined nodes (data sources traced to instrumentation) → `strategic-plan#metric-tree` → metric register
 - [ ] unit economics computed, LLM inference as an explicit COGS line → `strategic-plan#unit-economics`
 - [ ] a projection ties to the metric tree → `strategic-plan#financial-model`
 - [ ] each key risk has an owned mitigation → `strategic-plan#risk-mitigation` → risk register
