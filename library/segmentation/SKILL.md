@@ -51,8 +51,9 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 2. **Name 1–3 segments** on that cut. For each: a one-line description and *why it matters*
    (size, urgency, fit with the moat).
 3. **State reachability** — where each segment is found (a channel, a place, a community).
-4. **Mark the lead segment** — ⚙️ the agent proposes the one to build for first; the human
-   decides. Everything downstream (problems, solution, value) leads with this segment.
+4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …). ⚙️ the
+   agent proposes the lead; the human decides. Everything downstream (problems, solution, value)
+   leads with the priority-1 segment; lower tiers are kept, not dropped.
 5. **Tag confidence & seed hypotheses.** Each segment is `[assumption]` until evidenced;
    turn "segment X exists and is reachable at Y" into an `H-…` for the register.
 
