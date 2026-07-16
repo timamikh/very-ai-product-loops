@@ -216,8 +216,7 @@ Declares which registers it reads/writes and which artifact section it fills.
 
 **Status** (`statuses/<name>.md`) — config:
 ```
-frontmatter: name · goal_type (technical|product) · priority_goals ·
-             recommended_tools · gate_emphasis
+frontmatter: name · order · priority_goals · recommended_tools · gate_emphasis
 body: description + change log
 ```
 
