@@ -36,8 +36,8 @@ Timeframes are indicative — each team moves at its own pace. See
 
 Early draft, building in phases:
 
-- **Phase 0 — Process foundation** → [`process/OVERVIEW.md`](process/OVERVIEW.md) · library + statuses models _(in review)_
-- **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1)** _(next)_
+- **Phase 0 — Process foundation** → [`process/OVERVIEW.md`](process/OVERVIEW.md) · library + statuses models _(merged)_
+- **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1)** _(in review)_
 - **Phase 2 — Remaining steps + register schemas + library growth**
 - **Phase 3 — Agent rules, install skill, examples, contribution + branching**
 - **Phase 4 — Adapters, aggregators, automation** _(later)_

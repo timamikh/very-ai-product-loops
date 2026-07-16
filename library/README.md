@@ -29,11 +29,17 @@ Each tool is a folder `library/<tool>/`:
 
 ```
 library/<tool>/
-  SKILL.md             # what it is · when to apply it · how to do it · anti-patterns
+  SKILL.md             # what it is · when to apply it · PREREQUISITES · how to do it · anti-patterns
   template-fragment.md # the artifact section it produces, with source + confidence markers
   questions.yaml       # the interview to gather inputs (also renders to a fillable file)
   references/          # deeper method notes, worked examples
 ```
+
+**Prerequisites checklist (required).** Every `SKILL.md` lists the info / artifacts / access the
+tool needs before it can run. In the [operating loop](../process/OPERATING-LOOP.md) the agent
+checks this list first; for anything missing it **asks the human to provide it, or offers to
+help develop or obtain it** (draft the analysis, prepare an interview guide, write the access
+request). A tool never runs on a guessed input.
 
 `SKILL.md` frontmatter declares the tool's wiring so steps, statuses, and future aggregators
 can find and compose it:
@@ -41,8 +47,9 @@ can find and compose it:
 ```yaml
 ---
 name: <tool>
-kind: method | check | template
+kind: method | check | template | research   # research = gathers inputs (interviews, data search)
 produces: <artifact-section-id>        # which section it fills
+prerequisites: [<info/artifact/access it needs>]  # checked first; asked for or helped-with if missing
 reads_registers: [metrics, hypotheses] # registers it consumes
 writes_registers: [hypotheses]         # registers it updates
 inputs: [interview, metrics, git, kb]  # source slots it needs
@@ -68,10 +75,12 @@ Status: `planned` = named, not yet authored · `draft` = authored, in review · 
 
 | Tool | Purpose | Recommended for | Status |
 |------|---------|-----------------|--------|
+| `interview` | Gather qualitative signal from users/customers (guide + synthesis) | Steps 1–2 | planned |
+| `analytics-search` | Find and pull relevant analytical/market data | Steps 1–2, 4 | planned |
 | `concept-formation` | Shape the product concept from a raw idea | Step 1 | planned |
-| `segmentation` | Define and cut user/customer segments | Step 1 | planned |
+| `segmentation` | Define and cut user/customer segments | Step 1 | draft |
 | `segment-pains` | Surface each segment's problems (severity × frequency) | Step 1 | planned |
-| `value-definition` | Define value & defensibility (base + derivative moats; post-AI lens) | Step 1, 3 | planned |
+| `value-definition` | Define value & defensibility (base + derivative moats; post-AI lens) | Step 1, 3 | draft |
 | `market-sizing` | TAM / SAM / SOM with method + source | Step 2 | planned |
 | `competitor-analysis` | Direct / indirect competitors and the game they play | Step 2 | planned |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | Step 2 | planned |
