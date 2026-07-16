@@ -25,6 +25,7 @@ lock-in) at concept stage, before there is anything to derive it from.
 | Expertise | soft | Slow-to-build depth | The domain is shallow or well-documented |
 | Processes (speed & precision) | soft | Ship & iterate faster/more accurately | Everyone ships at the same speed |
 | Product complexity / depth | soft | Hard-to-replicate surface area | The surface is thin |
+| Real-world assets / IRL processes | soft | Physical assets or offline ops an IT-only rival can't cheaply copy (servers, facilities, licences) | The asset is rentable/commoditized, or the ops are digital-only |
 
 ## Derivative moats
 
