@@ -69,9 +69,9 @@ Status: `planned` = named, not yet authored · `draft` = authored, in review · 
 | Tool | Purpose | Recommended for | Status |
 |------|---------|-----------------|--------|
 | `concept-formation` | Shape the product concept from a raw idea | Step 1 | planned |
-| `segmentation` | Define and cut user/customer segments | Step 1 | planned |
+| `segmentation` | Define and cut user/customer segments | Step 1 | draft |
 | `segment-pains` | Surface each segment's problems (severity × frequency) | Step 1 | planned |
-| `value-definition` | Define value & defensibility (base + derivative moats; post-AI lens) | Step 1, 3 | planned |
+| `value-definition` | Define value & defensibility (base + derivative moats; post-AI lens) | Step 1, 3 | draft |
 | `market-sizing` | TAM / SAM / SOM with method + source | Step 2 | planned |
 | `competitor-analysis` | Direct / indirect competitors and the game they play | Step 2 | planned |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | Step 2 | planned |

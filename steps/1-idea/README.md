@@ -1,0 +1,74 @@
+---
+node_type: step
+step: 1
+name: idea
+title: "Step 1 — Idea / Concept"
+output: passport.md
+cadence: "~ product lifetime; revisit on pivot or major learning"
+status: draft
+version: 0.1.0
+updated: 2026-07-16
+---
+
+# Step 1 — Idea / Concept
+
+**Goal.** Capture the product concept: who it's for, the problems they have, how the product
+solves them, and its value/defensibility hypothesis. This is the long-lived source of truth
+the rest of the loops build on.
+
+This step is **thin by design** — it owns the *skeleton* of the artifact and the rules of the
+game. The *how* of each section lives in [library](../../library/README.md) tools; the goal
+emphasis is set by the active [status](../../statuses/README.md).
+
+## Inputs (source slots)
+
+`interview` (primary at this stage) · `kb` (existing product notes, if any) ·
+`git`/`metrics` (usually empty this early — leave `— to clarify —`).
+
+## Output
+
+`passport.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+
+## Artifact skeleton
+
+Each section has a stable ID and is filled by a recommended tool. Recommendations are soft —
+swap or add tools per product (see [library](../../library/README.md)).
+
+| Section (ID) | What | Recommended tool |
+|--------------|------|------------------|
+| `concept` | The idea in a few lines: what it is, the shift it makes | `concept-formation` |
+| `segments` | Who it's for — segments and how they're cut | `segmentation` |
+| `problems` | Each segment's problems (severity × frequency) | `segment-pains` |
+| `solution` | How the product solves each problem | `concept-formation` |
+| `value-defensibility` | Value and moats (base + derivative) | `value-definition` |
+
+## Register touchpoints
+
+- **Hypotheses** — seeds the register. Every segment, problem, and value claim starts as
+  `[assumption]` and becomes an entry in the hypothesis register with an ID (`H-001`, …).
+- **Risks / Metrics** — not born here (Steps 2 and 4). Do not force them.
+
+## Gate checklist ("step is defended" — soft)
+
+Reports what's open; does not block descent.
+
+- [ ] `concept` states what the product is and the shift it makes.
+- [ ] At least one `segment` is named, with its cut rationale.
+- [ ] Each named segment has at least one `problem` with severity × frequency.
+- [ ] `solution` maps to the stated problems (no orphan features).
+- [ ] `value-defensibility` names the intended moat(s) and marks each with a confidence tag.
+- [ ] Every claim carries a confidence tag; unknowns are `— to clarify —`, not guessed.
+- [ ] Seeded hypotheses have IDs and are listed for the register.
+
+## Cadence & invalidation
+
+- **Cadence:** ~ product lifetime; revisit on a pivot or a major learning.
+- **Invalidates downward:** a change to `segments`, `problems`, or `value-defensibility`
+  flags Analysis (2) and Strategy (3) for review.
+- **Invalidated from below:** a refuted core hypothesis (from any lower loop) triggers a
+  revisit here.
+
+## The human's role
+
+Decide at the forks the agent surfaces (which segment to lead with, which moat to bet on).
+The agent drafts everything else from sources and marks its proposals with ⚙️.
