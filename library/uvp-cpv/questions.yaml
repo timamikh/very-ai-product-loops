@@ -1,0 +1,21 @@
+# uvp-cpv — interview
+tool: uvp-cpv
+produces: uvp-cpv
+questions:
+  - id: best_fit
+    ask: "From the where-to-play segments — who is this UVP for? (the best-fit customer)"
+    type: single_select_from: segments
+    why: "A UVP that fits everyone fits no one sharply."
+  - id: alternative
+    ask: "What does that customer do today — a rival, a substitute, or nothing? (⚙️ agent proposes from competitor/substitutes work)"
+    type: free_text
+    why: "Value is relative to an alternative; positioning against nothing says nothing."
+  - id: value
+    ask: "For the top jobs/pains — what outcome do we create, and why does it beat the alternative? (value, not features)"
+    type: per_item
+  - id: perceived_value
+    ask: "In the customer's own words — what benefit do they believe they get? Any signal (quote / willingness-to-pay)?"
+    type: per_item
+  - id: one_liner
+    ask: "One line: For [customer] who [job], we [value] — unlike [alternative], because [why us]."
+    type: free_text

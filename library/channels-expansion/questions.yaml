@@ -1,0 +1,19 @@
+# channels-expansion — interview
+tool: channels-expansion
+produces: channels-expansion
+questions:
+  - id: channels
+    ask: "Which acquisition/comms channels could reach these segments? (⚙️ agent brainstorms the full Bullseye list, not just the obvious ones)"
+    type: list
+  - id: rings
+    ask: "Sort each into a ring — inner (test now), middle (promising), outer (unlikely)."
+    type: per_item
+    options: [inner, middle, outer]
+  - id: test
+    ask: "For each inner-ring channel — what metric, cost, and success threshold define the test?"
+    type: per_item
+    why: "A channel you can't measure isn't a test."
+  - id: expansion
+    ask: "What's the expansion path — next segments/markets/geographies, and the trigger that unlocks each?"
+    type: per_item
+    why: "Expansion with no trigger is a wish list."
