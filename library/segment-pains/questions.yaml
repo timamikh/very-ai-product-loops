@@ -1,0 +1,23 @@
+# segment-pains — interview
+tool: segment-pains
+produces: problems
+questions:
+  - id: job
+    ask: "For the lead segment — what are they really trying to get done (the job)?"
+    type: free_text
+    why: "Pains are obstacles to the job, not generic complaints."
+  - id: pains
+    ask: "List the pains in that job. (⚙️ agent drafts from concept + any evidence)"
+    type: list
+  - id: score
+    ask: "For each pain — severity (how much it hurts) × frequency (how often)?"
+    type: per_item
+    options: [H, M, L]
+  - id: class
+    ask: "For each pain — is it a differentiator (where we compete) or table-stakes (must-have, won't win)?"
+    type: per_item
+    options: [differentiator, table-stakes]
+  - id: lead_pain
+    ask: "Which pain do we lead on?"
+    type: single_select_from: pains
+    default: null   # ⚙️ agent proposes the top differentiator by severity × frequency

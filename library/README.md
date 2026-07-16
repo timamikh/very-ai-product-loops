@@ -77,9 +77,9 @@ Status: `planned` = named, not yet authored · `draft` = authored, in review · 
 |------|---------|-----------------|--------|
 | `interview` | Gather qualitative signal from users/customers (guide + synthesis) | Steps 1–2 | planned |
 | `analytics-search` | Find and pull relevant analytical/market data | Steps 1–2, 4 | planned |
-| `concept-formation` | Shape the product concept from a raw idea | Step 1 | planned |
-| `segmentation` | Define and cut user/customer segments | Step 1 | draft |
-| `segment-pains` | Surface each segment's problems (severity × frequency) | Step 1 | planned |
+| `concept-formation` | Shape the product concept from a raw idea (positioning: 'the shift') | Step 1 | draft |
+| `segmentation` | Define and cut user/customer segments (JTBD, priority-tiered) | Step 1 | draft |
+| `segment-pains` | Surface problems (JTBD/VPC, severity × frequency, differentiator vs table-stakes) | Step 1 | draft |
 | `value-definition` | Define value & defensibility (base + derivative moats; post-AI lens) | Step 1, 3 | draft |
 | `market-sizing` | TAM / SAM / SOM with method + source | Step 2 | planned |
 | `competitor-analysis` | Direct / indirect competitors and the game they play | Step 2 | planned |

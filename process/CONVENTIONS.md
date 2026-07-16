@@ -43,7 +43,9 @@ IDs are kebab-case and stable across revisions — rename the heading text freel
 
 Register items have stable IDs:
 
-- Hypotheses: `H-001`, `H-002`, …
+- Hypotheses: `H-001`, `H-002`, … — each carries a **type**: `desirability` (do they want it) ·
+  `feasibility` (can we build it) · `viability` (does it work for the business) · `usability`
+  (can they use it). (The classic product-risk taxonomy.)
 - Risks: `R-001`, …
 - Metric nodes: `M-northstar`, `M-activation`, …
 
