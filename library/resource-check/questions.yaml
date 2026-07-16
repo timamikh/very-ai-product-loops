@@ -1,0 +1,17 @@
+# resource-check — interview (survey)
+tool: resource-check
+produces: resources
+questions:
+  - id: people
+    ask: "Who is available this period, per direction (dev / growth / back-office), and at what capacity?"
+    type: free_text
+  - id: budget
+    ask: "What budget is available this period, and is any of it earmarked?"
+    type: free_text
+  - id: time
+    ask: "How long is the period, and are there fixed dates/constraints?"
+    type: free_text
+  - id: binding
+    ask: "Which resource is most likely to cap the plan (people / budget / time)?"
+    type: single_select
+    options: [people, budget, time]
