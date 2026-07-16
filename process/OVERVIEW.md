@@ -52,14 +52,14 @@ and can be grown or adapted per company — without forking the framework.
 │                           market-sizing, unit-economics… each = what / when / how / template
 │
 └─ Statuses (statuses/) ─── product stages as config: concept-viability · PMF · growth
-                            (extensible): priority goals + goal type + its own tool set
+                            (extensible): priority goals + its own tool set
 ```
 
 **How the planes interlock — softly (per rule 5):**
 - A **step** says "at this stage produce sections A, B, C and pass gate G" and *recommends*
   library tools per section.
-- A **status** re-prioritizes goals and *highlights* the relevant tools, and sets the goal
-  type (technical vs product).
+- A **status** re-prioritizes goals and *highlights* the relevant tools for the current
+  product stage.
 - The **human** overrides anything. Nothing is hard-wired.
 - **Registers** are the shared state that tools read and write.
 
@@ -127,8 +127,8 @@ the product's specifics.
   `risk-mitigation`.
 - **5 · Tactical Plan** — Goal: measurable period goals per direction, and which hypotheses
   to test. Selects **metric-tree** nodes to move; adds period blockers. The active status
-  sets the goal type — e.g. `concept-viability` makes the period goals **technical**
-  (build the prototype/MVP) rather than product/growth metrics.
+  sets which goals take priority — e.g. `concept-viability` prioritizes building a testable
+  prototype/MVP over product/growth metrics.
 - **6 · Sprint Plan** — Goal: turn period goals into sprint tasks per direction — a minimal
   **must** set + a prioritized backlog. Links tasks to metric nodes / hypotheses. Hands off
   to the team's development process.
@@ -155,11 +155,11 @@ once and refined downward, with results flowing back up.
 ## 6. Statuses (product-stage plane)
 
 A **status** is the product's current stage. It parameterizes the loops: which goals take
-priority, whether goals are technical or product, and which tools are most relevant. Defaults
+priority and which tools are most relevant. Defaults
 (extensible — see [`statuses/README.md`](../statuses/README.md)):
 
 1. **concept-viability** — prototype/MVP to test that the product *can* be built and that
-   there is *some* demand worth pursuing toward PMF. Goals are largely **technical**.
+   there is *some* demand worth pursuing toward PMF.
 2. **PMF** — first clients; the product has a path to profit; validate repeatable value and
    monetization so it can be scaled.
 3. **growth** — a working, profitable product to develop and expand.
