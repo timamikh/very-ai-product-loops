@@ -73,29 +73,33 @@ exactly why it lives here and not in the neutral core, so another company can su
 
 Status: `planned` = named, not yet authored · `draft` = authored, in review · `stable` = merged to main.
 
-| Tool | Purpose | Recommended for | Status |
-|------|---------|-----------------|--------|
-| `interview` | Gather qualitative signal from users/customers (guide + synthesis) | Steps 1–2 | planned |
-| `analytics-search` | Find and pull relevant analytical/market data | Steps 1–2, 4 | planned |
-| `concept-formation` | Shape the product concept from a raw idea (positioning: 'the shift') | Step 1 | draft |
-| `segmentation` | Define and cut user/customer segments (JTBD, priority-tiered) | Step 1 | draft |
-| `segment-pains` | Surface problems (JTBD/VPC, severity × frequency, differentiator vs table-stakes) | Step 1 | draft |
-| `value-definition` | Define value & defensibility (base + derivative moats; post-AI lens) | Step 1, 3 | draft |
-| `market-sizing` | TAM / SAM / SOM with method + source | Step 2 | planned |
-| `competitor-analysis` | Direct / indirect competitors and the game they play | Step 2 | planned |
-| `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | Step 2 | planned |
-| `where-to-play-how-to-win` | Strategic choice of arena and winning logic | Step 3 | planned |
-| `uvp-cpv` | Unique value proposition / customer-perceived value | Step 3 | planned |
-| `channels-expansion` | Acquisition/comms channels and expansion paths | Step 3 | planned |
-| `metric-tree` | North Star → drivers → input metrics | Step 4 | planned |
-| `unit-economics` | CAC/LTV/payback/contribution (incl. LLM inference COGS) | Step 4 | planned |
-| `financial-model` | Simple projection tied to the metric tree | Step 4 | planned |
-| `risk-mitigation` | Turn risks into owned mitigations | Step 4 | planned |
-| `hypothesis-test-design` | Design a test for a hypothesis | Step 5 | planned |
-| `ab-test` | Run an A/B test — what/when/how + template | as needed | planned |
-| `cjm` | Customer journey map | as needed | planned |
-| `jtbd` | Jobs-to-be-done framing | Step 1, 3 | planned |
-| `brief` | Product/feature brief | as needed | planned |
-| `prioritization` | Rank items (must vs backlog) by contribution to the gate | Step 5, 6 | planned |
+Every authored tool cites a **method basis** — a recognized, current methodology it applies —
+so the library stays sharp without reinventing theory. Keep it to the method(s) that matter;
+don't turn a tool into a literature review.
+
+| Tool | Purpose | Method basis | Steps | Status |
+|------|---------|--------------|-------|--------|
+| `interview` | Gather qualitative signal from users/customers | Continuous discovery · *The Mom Test* | 1–2 | planned |
+| `analytics-search` | Find & pull relevant analytical/market data | Triangulated desk research | 1–2, 4 | planned |
+| `concept-formation` | Shape the concept from a raw idea | Dunford positioning ('the shift') | 1 | draft |
+| `segmentation` | Define & cut segments | JTBD / needs-based, priority-tiered | 1 | draft |
+| `segment-pains` | Surface problems in the job | JTBD + Value Proposition Canvas; severity × frequency; differentiator vs table-stakes | 1 | draft |
+| `value-definition` | Value & defensibility | 7 Powers (Helmer) → base/derivative; post-AI lens | 1, 3 | draft |
+| `market-sizing` | TAM / SAM / SOM | Bottom-up sizing with named assumptions | 2 | planned |
+| `competitor-analysis` | Competitors & the game they play | 'What game are they playing' + moat comparison | 2 | planned |
+| `substitutes` | Non-obvious competition | JTBD competition incl. do-nothing | 2 | planned |
+| `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) | 3 | planned |
+| `uvp-cpv` | Value proposition / CPV | Value Proposition Design | 3 | planned |
+| `channels-expansion` | Channels & expansion | Bullseye framework (*Traction*) | 3 | planned |
+| `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude) | 4 | planned |
+| `unit-economics` | CAC/LTV/payback/contribution | Unit economics incl. LLM inference COGS | 4 | planned |
+| `financial-model` | Projection off the metric tree | Driver-based modeling | 4 | planned |
+| `risk-mitigation` | Risks → owned mitigations | Pre-mortem (Klein) | 4 | planned |
+| `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping + smallest viable test | 5 | planned |
+| `ab-test` | Run a controlled experiment | A/B testing with guardrail metrics | as needed | planned |
+| `cjm` | Customer journey map | Journey mapping | as needed | planned |
+| `jtbd` | Jobs-to-be-Done framing | JTBD (Christensen / Ulwick) | 1, 3 | planned |
+| `brief` | Product/feature brief | Structured brief | as needed | planned |
+| `prioritization` | Rank must vs backlog | RICE / ICE, ranked by gate contribution | 5, 6 | planned |
 
 The list is a starting set, not a closed spec — grow it as the community adds methods.
