@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# LibreOffice / office lock & temp files
+.~lock.*#
+~$*
+
+# scratch / generated outputs
+outputs/
+*.tmp
