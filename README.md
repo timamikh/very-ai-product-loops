@@ -36,8 +36,9 @@ Timeframes are indicative — each team moves at its own pace. See
 
 Early draft, building in phases:
 
-- **Phase 0 — Process foundation** → [`process/OVERVIEW.md`](process/OVERVIEW.md) · library + statuses models _(merged)_
-- **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1)** _(in review)_
-- **Phase 2 — Remaining steps + register schemas + library growth**
-- **Phase 3 — Agent rules, install skill, examples, contribution + branching**
+- **Phase 0 — Process foundation** → [`process/OVERVIEW.md`](process/OVERVIEW.md) · [operating loop](process/OPERATING-LOOP.md) · [conventions](process/CONVENTIONS.md) _(merged)_
+- **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1, all 4 tools)** _(merged)_
+- **Phase 2 — Steps 2–6 skeletons + [register schemas](process/REGISTERS.md) + library growth** _(in progress)_
+- **Onboarding — [`product-setup`](.claude/skills/product-setup/SKILL.md) + [install](install/README.md)** _(merged)_
+- **Phase 3 — Agent rules (CLAUDE.md), examples, contribution + versioned branching** _(next)_
 - **Phase 4 — Adapters, aggregators, automation** _(later)_

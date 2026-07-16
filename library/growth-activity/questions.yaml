@@ -1,0 +1,16 @@
+# growth-activity — interview (growth direction)
+tool: growth-activity
+produces: must
+questions:
+  - id: description
+    ask: "What is the activity? (e.g. reactivation mailing, TG post, landing test)"
+    type: free_text
+  - id: scope
+    ask: "What steps run it? (draft, audience, schedule, publish, measure)"
+    type: list
+  - id: business_value
+    ask: "Which metric node does it move / hypothesis does it test?"
+    type: free_text
+  - id: audience_value
+    ask: "Why does the audience care (so it isn't spam)?"
+    type: free_text

@@ -1,0 +1,15 @@
+<!--
+  template-fragment: feature-spec → one item in {#must} / {#backlog} (development direction)
+  Follow process/CONVENTIONS.md.
+-->
+
+### Feature: <name>  ·  [must | backlog]  ·  moves `M-…` / tests `H-…`
+
+- **Description:** …
+- **Scope:**
+  - …
+  - …
+- **Business value:** … (`M-…` / `H-…`)
+- **User value:** …
+- **User stories:**
+  - As a <role>, I want <capability>, so that <benefit>.

@@ -1,0 +1,13 @@
+# product-surface — interview
+tool: product-surface
+produces: product-surface
+questions:
+  - id: surfaces
+    ask: "List every surface the user touches — channels, landings, mailings, in-product, admin, integrations."
+    type: list
+  - id: instrumentation
+    ask: "For each surface — what do you measure and how (or is it not yet instrumented)?"
+    type: per_item
+  - id: behavior_tools
+    ask: "Which behavior-study tools are in place (analytics, session capture, surveys, funnels)?"
+    type: free_text

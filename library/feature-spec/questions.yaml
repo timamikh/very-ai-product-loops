@@ -1,0 +1,19 @@
+# feature-spec — interview (development direction)
+tool: feature-spec
+produces: must
+questions:
+  - id: description
+    ask: "What is the feature? (one clear description)"
+    type: free_text
+  - id: scope
+    ask: "What tasks are needed to implement it? (the scope list)"
+    type: list
+  - id: business_value
+    ask: "Business value — which metric node / hypothesis does it move?"
+    type: free_text
+  - id: user_value
+    ask: "User value — what does the user get?"
+    type: free_text
+  - id: user_stories
+    ask: "Any user stories? (As a … I want … so that …) — optional"
+    type: list
