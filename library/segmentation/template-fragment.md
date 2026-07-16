@@ -1,0 +1,17 @@
+<!--
+  template-fragment: segmentation → fills section {#segments}
+  Follow process/CONVENTIONS.md for confidence tags, sources, and hypothesis IDs.
+  ⚙️ marks agent-proposed defaults awaiting human approval.
+-->
+
+## Segments {#segments}
+
+**Cut basis:** _what we segment by (job / context / behavior / buyer-vs-user / willingness to pay) and why it predicts different needs._
+
+| Segment | How it's cut | Why it matters | Where to reach them | Confidence |
+|---------|--------------|----------------|---------------------|------------|
+| … | … | … | … | [assumption] |
+
+**Lead segment:** ⚙️ _<segment>_ — _why we build for this one first._
+
+**Seeded hypotheses:** H-… ("segment X exists and is reachable at Y") → hypothesis register.
