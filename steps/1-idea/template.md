@@ -29,17 +29,17 @@ _What it is, and the shift it makes, in a few lines._
 <!-- tool: segmentation -->
 _Who it's for and how segments are cut._
 
-| Segment | How it's cut | Why it matters | Confidence |
-|---------|--------------|----------------|------------|
-| … | … | … | [assumption] |
+| Priority | Segment | How it's cut | Why it matters | Confidence |
+|----------|---------|--------------|----------------|------------|
+| 1 (lead) | … | … | … | [assumption] |
 
 ## Problems {#problems}
 <!-- tool: segment-pains -->
 _Each segment's problems, scored by severity × frequency._
 
-| Segment | Problem | Severity | Frequency | Confidence |
-|---------|---------|----------|-----------|------------|
-| … | … | H/M/L | H/M/L | [assumption] |
+| Problem | Severity | Frequency | Class | Confidence |
+|---------|----------|-----------|-------|------------|
+| … | H/M/L | H/M/L | differentiator / table-stakes | [assumption] |
 
 ## Solution {#solution}
 <!-- tool: concept-formation -->
@@ -59,9 +59,9 @@ _The value and the moat(s). See the tool for the base/derivative taxonomy._
 ## Seeded hypotheses {#hypotheses}
 _Everything above starts as an assumption. List the ones to carry into the hypothesis register._
 
-| ID | Hypothesis | From section | Confidence |
-|----|------------|--------------|------------|
-| H-001 | … | segments | [assumption] |
+| ID | Hypothesis | Type | From section | Confidence |
+|----|------------|------|--------------|------------|
+| H-001 | … | desirability / feasibility / viability / usability | segments | [assumption] |
 
 ## To clarify {#to-clarify}
 _Open items surfaced by the agent for the human to resolve._

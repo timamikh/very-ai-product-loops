@@ -1,0 +1,20 @@
+# concept-formation — interview
+tool: concept-formation
+produces: concept
+questions:
+  - id: raw_idea
+    ask: "Describe the idea in your own words — what is it and why now?"
+    type: free_text
+  - id: current_alternative
+    ask: "What do people do TODAY instead? (include 'do nothing / do it manually')"
+    type: free_text
+    why: "The shift is defined against the current alternative."
+  - id: one_liner
+    ask: "Confirm the one-line concept (⚙️ agent drafts one from the idea)."
+    type: free_text
+    default: null   # ⚙️ agent proposes
+  - id: riskiest
+    ask: "Which single assumption, if false, sinks this? (⚙️ agent proposes)"
+    type: free_text
+    default: null
+    why: "Becomes the lead hypothesis to test."

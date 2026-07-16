@@ -77,9 +77,11 @@ missing, the agent asks for it or offers to help produce it — it does not gues
    an aspiration is `[assumption]`, not a moat yet.
 2. **Test each against the post-AI premise.** Would this survive someone rebuilding the app
    with an LLM tomorrow? If not, it's a feature, not a moat.
-3. **Identify derivatives (Step 3+).** Given a base value and customers/scale, which
-   derivative moats become reachable? Note the dependency (e.g. "lock-in *if* we land
-   integration X and a customer").
+3. **Identify derivatives (from status `pmf` onward).** Given a base value and customers/scale,
+   which derivative moats become reachable? Note the dependency (e.g. "lock-in *if* we land
+   integration X and a customer"). **Skip this entirely at `concept-viability`** — there are no
+   customers or scale to derive from, so the block is omitted, not left empty (a status-driven
+   suppression: the active status decides whether this sub-section applies).
 4. **Rate defensibility & confidence.** For each claimed moat: how durable, and how sure are
    we? Tag every claim per `process/CONVENTIONS.md`.
 5. **Seed hypotheses.** Turn each unproven moat into a hypothesis (`H-…`) for the register —
