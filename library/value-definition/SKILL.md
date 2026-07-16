@@ -5,6 +5,7 @@ produces: value-defensibility
 reads_registers: []
 writes_registers: [hypotheses]
 inputs: [interview, kb]
+prerequisites: [concept, segments, what-we-have-or-can-build, competitor-context]
 used_by_steps: [1, 3]
 opinionated: true
 status: draft
@@ -57,6 +58,18 @@ claim these at concept stage; they appear at Strategy once there are customers.
 - **Lock-in / switching costs** ← exclusive access/integration **+ an existing customer**.
 - **Network effects** ← audience.
 - **Economies of scale / cost advantage** ← audience / scale.
+
+## Prerequisites
+
+Checked before the tool runs (see [operating loop](../../process/OPERATING-LOOP.md)). If any is
+missing, the agent asks for it or offers to help produce it — it does not guess.
+
+- **Concept** — what the product is (from `{#concept}`). *Missing → run `concept-formation` first.*
+- **Segments** — who it's for (from `{#segments}`). *Missing → run `segmentation` first.*
+- **What we have or can build** — honest inventory of data / algorithms / access / audience /
+  brand / expertise. *Missing → agent interviews the human to elicit it.*
+- **Competitor context** (Step 3) — to judge whether a moat is actually differentiated.
+  *Missing → offer to run `competitor-analysis`.*
 
 ## How to do it
 

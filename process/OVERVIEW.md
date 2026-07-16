@@ -67,6 +67,11 @@ and can be grown or adapted per company — without forking the framework.
 > Tools **fill** specific sections with their own method, mini-template, and interview.
 > Method is swappable; skeleton is stable.
 
+**How a single pass actually runs** — orient (status + step) → focus on a checklist item →
+recommend the fitting tool → check the tool's prerequisites → fill gaps → clarify → act →
+update the checklist/registers/change-log → loop. This runtime is
+[`OPERATING-LOOP.md`](OPERATING-LOOP.md); everything below is data it consumes.
+
 ---
 
 ## 3. The loop model
@@ -154,8 +159,10 @@ once and refined downward, with results flowing back up.
 
 ## 6. Statuses (product-stage plane)
 
-A **status** is the product's current stage. It parameterizes the loops: which goals take
-priority and which tools are most relevant. Defaults
+A **status** is the product's current stage. It parameterizes the loops **per step**: which
+goals take priority (optionally by direction) and which tools to lean on — the same section can
+call for different methods at different stages (pains from interviews early, from internal
+metrics later). Defaults
 (extensible — see [`statuses/README.md`](../statuses/README.md)):
 
 1. **concept-viability** — prototype/MVP to test that the product *can* be built and that
@@ -207,16 +214,18 @@ README.md   # goal · gate checklist · movement rules · register touchpoints �
 
 **Tool** (`library/<tool>/`) — a skill:
 ```
-SKILL.md            # what it is / when to apply / how to do it / anti-patterns
+SKILL.md            # what it is / when to apply / PREREQUISITES / how to do it / anti-patterns
 template-fragment.md # the section it produces, with source + confidence markers
 questions.yaml      # the interview to gather inputs (renders to a fillable file too)
 references/         # deeper method notes, examples
 ```
-Declares which registers it reads/writes and which artifact section it fills.
+Declares which registers it reads/writes, which section it fills, and a **prerequisites
+checklist** (info/artifacts/access) the loop verifies — asking for, or helping obtain, whatever
+is missing.
 
-**Status** (`statuses/<name>.md`) — config:
+**Status** (`statuses/<order>-<name>.md`, numbered by maturity) — config:
 ```
-frontmatter: name · order · priority_goals · recommended_tools · gate_emphasis
+frontmatter: name · order · gate_emphasis · per_step{ <n>: { goals, tools } }
 body: description + change log
 ```
 

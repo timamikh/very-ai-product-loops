@@ -5,6 +5,7 @@ produces: segments
 reads_registers: []
 writes_registers: [hypotheses]
 inputs: [interview, kb, metrics]
+prerequisites: [concept, audience-knowledge-or-analytics]
 used_by_steps: [1]
 opinionated: false
 status: draft
@@ -33,6 +34,15 @@ Define **who the product is for** and how the audience is cut into segments. Fil
 - **Reachable.** You must be able to name *where* to find each segment. A segment you can't
   reach is a daydream.
 - **Few.** Start with 1–3. More segments early is usually false precision.
+
+## Prerequisites
+
+Checked before the tool runs. If missing, the agent asks or offers to help obtain it.
+
+- **Concept** — what the product is (from `{#concept}`). *Missing → run `concept-formation` first.*
+- **Audience knowledge or analytics** — any existing sense of who uses/buys it: interviews,
+  usage data, market notes. *Missing → offer `interview` or `analytics-search`; at
+  `concept-viability` this is expected to be thin, so cuts stay `[assumption]`.*
 
 ## How to do it
 

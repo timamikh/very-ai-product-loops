@@ -50,15 +50,17 @@ swap or add tools per product (see [library](../../library/README.md)).
 
 ## Gate checklist ("step is defended" — soft)
 
-Reports what's open; does not block descent.
+Reports what's open; does not block descent. **Each item validates a specific artifact
+section** (the rule for every step: a checklist item always names the section/artifact it
+checks, so "done" is verifiable, not vibes).
 
-- [ ] `concept` states what the product is and the shift it makes.
-- [ ] At least one `segment` is named, with its cut rationale.
-- [ ] Each named segment has at least one `problem` with severity × frequency.
-- [ ] `solution` maps to the stated problems (no orphan features).
-- [ ] `value-defensibility` names the intended moat(s) and marks each with a confidence tag.
-- [ ] Every claim carries a confidence tag; unknowns are `— to clarify —`, not guessed.
-- [ ] Seeded hypotheses have IDs and are listed for the register.
+- [ ] states what the product is and the shift it makes → `passport#concept`
+- [ ] at least one segment named, with its cut rationale → `passport#segments`
+- [ ] each named segment has ≥1 problem with severity × frequency → `passport#problems`
+- [ ] solution maps to the stated problems, no orphan features → `passport#solution`
+- [ ] intended moat(s) named, each with a confidence tag → `passport#value-defensibility`
+- [ ] every claim carries a confidence tag; unknowns are `— to clarify —` → `passport#to-clarify`
+- [ ] seeded hypotheses have IDs and are listed → `passport#hypotheses` → hypothesis register
 
 ## Cadence & invalidation
 
