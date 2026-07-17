@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.3.0
+version: 0.4.0
 updated: 2026-07-17
 ---
 
@@ -26,6 +26,11 @@ ask.
 Read the step's **gate checklist** and the **goals the active status sets for this step**
 (status › per_step › goals). Propose to the human which checklist item / artifact section to
 create or update next. The human can redirect.
+
+> **Empty `per_step` for this step?** (goals/tools still `— to define —`.) Do **not** block:
+> work by the **step defaults**, and at *Update state* (step 7) the agent **must propose filling
+> that status's `per_step`** from what this pass just learned — so statuses get completed as a
+> by-product of the first run through each stage, never left as standing stubs.
 
 **2 · Recommend tools.**
 Offer the tools tied to that item, **filtered by step and status**:

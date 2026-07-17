@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.3.0
+version: 0.4.0
 updated: 2026-07-17
 ---
 
@@ -98,6 +98,25 @@ where the register is one click away.
   Nothing raw ever sits outside the instance directory.
 - **Secret values** (tokens, passwords) are never written into artifacts, handoffs, or chat —
   only *where* they live and how to rotate them.
+
+## Which conventions apply where
+
+Conventions are **not** uniform across file types — applying all of them everywhere creates the
+same on-the-fly ambiguity "one mechanism, one way" is meant to kill (does a source file need a
+change log? does a register need inline confidence tags when confidence is already a column?).
+The matrix below is authoritative; a file's `node_type` (frontmatter) selects its row.
+
+| `node_type` | Confidence tags | Section IDs | Register/item IDs | Change log | Notes |
+|-------------|-----------------|-------------|-------------------|------------|-------|
+| `artifact` (step outputs) | **yes** — on every non-trivial claim | **yes** | reference by ID | **yes** | the full convention set |
+| `register` (hypotheses/risks/metric-tree) | **no** in prose — `confidence` is a table column instead | n/a | **defines** the IDs | **yes** | values obey the metric-register split (see REGISTERS.md) |
+| `source` (external-data notes) | **yes** — tag each captured fact | optional | reference by ID | **yes** | secrets/raw-data rules apply (see "Raw data & access") |
+| `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
+| `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
+| framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, …) | n/a | **yes** where sectioned | n/a | **yes** + `version` | authored by maintainers; version-bumped |
+
+If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.
+A convention not listed here (e.g. "Talking to the human") is behavioral and applies always.
 
 ## Change log
 
