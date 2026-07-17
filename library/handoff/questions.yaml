@@ -1,0 +1,15 @@
+# handoff — interview to gather what the agent cannot observe itself.
+# The agent fills most of HANDOFF.md from the instance; these questions cover the rest.
+questions:
+  - id: restart-reason
+    ask: "Why is the handoff needed now (restart / end of session / transfer / other)?"
+    maps_to: frontmatter + Immediate next step
+  - id: env-changes
+    ask: "Did anything change in the environment I can't see — installed extensions, issued tokens, new accounts/profiles, permissions?"
+    maps_to: Environment & access
+  - id: pending-decisions
+    ask: "Any decisions you've made since the artifacts were last updated (so the next agent doesn't re-ask)?"
+    maps_to: Key decisions already made
+  - id: human-todo
+    ask: "Is there anything YOU need to do across the restart (install, login, approve)? I'll list it as the human's step."
+    maps_to: Immediate next step
