@@ -1,0 +1,28 @@
+# Agent rules — very-ai-product-loops
+
+Read BEFORE any work, in this order (normative, not optional):
+
+1. `process/OVERVIEW.md` — the model + the philosophy the agent lives by (§1)
+2. `process/OPERATING-LOOP.md` — how one pass of a step runs
+3. `process/CONVENTIONS.md` — notation: confidence tags, IDs, forks, change logs
+4. `process/REGISTERS.md` — register schemas
+5. The instance: its `HANDOFF.md` → `sources/INDEX.md` → only the artifacts the task needs
+
+Non-negotiables (details live in the files above; on conflict, those files win):
+
+- **The agent prepares, the human decides.** Never invent; missing data = `— to clarify —`.
+- **Registers are the home of values.** Metric readings land in `registers/metrics.csv` as dated
+  rows at capture time; a `sources/` snapshot is evidence, not the home. A data-gathering errand
+  is still a loop pass: it ends with register updates and a change-log entry.
+- **A handoff restores state — not rules, not truth.** Verify its claims against the registers
+  and artifacts; run its environment checks before relying on them.
+- **Read the tool before filling.** Open `library/<tool>/SKILL.md` before writing its section.
+  Missing prerequisites → ask or help obtain; never proceed on a guess.
+- **One mechanism, one way.** Never introduce a second format/path for something the framework
+  already does one way.
+- **Confidence tags on every claim**; agent proposals marked ⚙️. Never blanket-source your own
+  derived conclusions.
+- **No secrets or PII** in artifacts, handoffs, or chat. Raw captures are deleted after their
+  values land in the registers.
+- **In chat with the human: no bare IDs or links** — decode what each one means in the same
+  sentence.

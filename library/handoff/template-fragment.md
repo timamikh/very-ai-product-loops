@@ -1,0 +1,56 @@
+---
+node_type: template-fragment
+tool: handoff
+produces: HANDOFF.md
+---
+
+# HANDOFF template (instance root)
+
+```markdown
+---
+node_type: handoff
+product: "<product name>"
+updated: <YYYY-MM-DD>
+read_me_first: true
+---
+
+# HANDOFF — read first after a restart
+
+> Operational state doc (private to the instance). Restores context without asking the human.
+> **Reading order on return:** framework rules (`process/OVERVIEW.md` → `OPERATING-LOOP.md` →
+> `CONVENTIONS.md` → `REGISTERS.md`) → **this file** → `sources/INDEX.md` → only the artifacts
+> the task needs.
+
+## Who / what / where
+- PO / decision-maker, working language, product + scope boundary (one line each).
+- Framework repo/branch; instance path; commit rules (what may / may not be committed).
+
+## Where we are in the process
+- Active status · current step · current section/gate item; what is DONE (steps closed).
+
+## Environment & access (verify before relying)
+| Dependency | Check (command / tool call) | Recover (exact recipe) |
+|---|---|---|
+| <e.g. browser bridge MCP> | <how to test it now> | <install link · profile/account · where the token goes> |
+
+## Open forks (awaiting the human)
+For each fork: 2–4 options with one-line trade-offs + the ⚙️ recommendation — verbatim
+re-presentable, per CONVENTIONS "Forks & options".
+
+## Key decisions already made (do not re-ask)
+Dated one-liners with source (`[PO 2026-07-17]`), newest first.
+
+## Registers (by reference only)
+Current ID ranges + the items that matter now (e.g. "`H-009` is the cross of this tact") —
+IDs and links, no copied tables.
+
+## Framework fixes accumulated this run (for the future PR)
+Bullet list of sanitized framework changes already on the run branch.
+
+## Immediate next step
+Numbered, concrete, executable-without-asking. If a restart is needed: what the human must do,
+what the agent does after.
+
+## Change log
+### <date> — <summary>   (why the state changed; state sections above are overwritable)
+```

@@ -51,6 +51,8 @@ access, and execution — not by features.
   - **Expertise** — depth that's slow to build.
   - **Processes (speed & precision)** — you ship and iterate faster/more accurately.
   - **Product complexity / depth** — hard-to-replicate surface area.
+  - **Real-world assets / IRL processes** — physical assets (servers, facilities, licences) or
+    offline operations that an IT-only competitor can't cheaply replicate.
 
 **Derivative values** — emerge when a base value meets a **customer** or **scale**. Do not
 claim these at concept stage; they appear at Strategy once there are customers.

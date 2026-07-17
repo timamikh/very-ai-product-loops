@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.2.0
-updated: 2026-07-16
+version: 0.2.1
+updated: 2026-07-17
 ---
 
 # very-ai-product-loops
@@ -129,7 +129,8 @@ the product's specifics.
 - **4 · Strategic Plan** — Goal (quantitative instruments): make the strategy measurable,
   financed, and de-risked. Builds the **metric tree**, quantifies hypotheses, adds risk
   mitigation. Recommended tools: `metric-tree`, `unit-economics`, `financial-model`,
-  `risk-mitigation`.
+  `risk-mitigation` (+ refined `architecture-c4` / `product-surface`; the step README is
+  canonical when the two lists drift).
 - **5 · Tactical Plan** — Goal: measurable period goals per direction, and which hypotheses
   to test. Selects **metric-tree** nodes to move; adds period blockers. The active status
   sets which goals take priority — e.g. `concept-viability` prioritizes building a testable

@@ -88,15 +88,15 @@ don't turn a tool into a literature review.
 | `market-sizing` | TAM / SAM / SOM | Bottom-up sizing with named assumptions | 2 | planned |
 | `competitor-analysis` | Competitors, their game, pricing & dynamics | 'What game are they playing' + moat comparison + pricing scan + registry dynamics (datanewton for RU) | 2 | draft |
 | `substitutes` | Non-obvious competition | JTBD competition incl. do-nothing | 2 | planned |
-| `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) | 3 | planned |
-| `uvp-cpv` | Value proposition / CPV | Value Proposition Design | 3 | planned |
-| `channels-expansion` | Channels & expansion | Bullseye framework (*Traction*) | 3 | planned |
+| `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) — winning-aspiration / where-to-play / how-to-win cascade | 3 | draft |
+| `uvp-cpv` | Value proposition / CPV | Dunford positioning + Value Proposition Canvas + customer-perceived value | 3 | draft |
+| `channels-expansion` | Channels & expansion | Bullseye framework (*Traction*, Weinberg/Mares) + expansion-path thinking | 3 | draft |
+| `risk-mitigation` | Risks → owned mitigations | Pre-mortem (Klein) + risk-register triage (prob × impact) + mitigation/owner | 3, 4 | draft |
 | `product-surface` | User-interaction surfaces + instrumentation | Touchpoint mapping + instrumentation planning | 3, 4 | draft |
 | `architecture-c4` | System architecture (Context level) | C4 model — Context (Simon Brown) | 3, 4 | draft |
-| `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude) | 4 | planned |
-| `unit-economics` | CAC/LTV/payback/contribution | Unit economics incl. LLM inference COGS | 4 | planned |
-| `financial-model` | Projection off the metric tree | Driver-based modeling | 4 | planned |
-| `risk-mitigation` | Risks → owned mitigations | Pre-mortem (Klein) | 4 | planned |
+| `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude); anti-lamppost: right metric over measurable metric | 4 | draft |
+| `unit-economics` | CAC/LTV/payback/contribution | Contribution margin; LLM inference as explicit COGS; dual basis (operational/honest own-compute) | 4 | draft |
+| `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
 | `guardrails` | What must not drop while hitting goals | Guardrail metrics + red lines (steering-committee reconciliation) | 5 | draft |
 | `resource-check` | Assess available resources this period | Lightweight capacity survey | 5 | draft |
 | `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping + smallest viable test | 5 | planned |
@@ -106,6 +106,7 @@ don't turn a tool into a literature review.
 | `brief` | Product/feature brief | Structured brief | as needed | planned |
 | `prioritization` | Rank must vs backlog | RICE / ICE, ranked by gate contribution | 5, 6 | planned |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
+| `handoff` | Session-to-session state transfer (HANDOFF.md) | Structured shift-handover (SBAR-style): state · environment checks · open forks · next step | any (session boundary) | draft |
 | `growth-activity` | Growth item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
 
 The list is a starting set, not a closed spec — grow it as the community adds methods.
