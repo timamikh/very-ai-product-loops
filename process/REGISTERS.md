@@ -2,7 +2,7 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.3.0
+version: 0.4.0
 updated: 2026-07-17
 ---
 
@@ -83,6 +83,11 @@ id,period_start,period_end,measured_at,value,basis,source,note
   in `note`.
 - Rows are appended, never edited or deleted. Every `id` in the csv must exist in
   `metric-tree.md` (the md file is the authority on which ids exist and what they mean).
+- **Check after every csv write (manual — no lint tool yet):** the set of ids used in
+  `metrics.csv` must be a subset of the ids defined in `metric-tree.md`. A csv id with no
+  definition is a typo or an orphan reading — fix it before moving on. (When a real
+  desync first bites, promote this to a `tools/` lint script; not before — the framework
+  stays plain markdown until pain justifies code.)
 
 **Where metric readings live (hard rule).** Any captured metric value — from an admin panel, an
 export, an analytics query — goes into **`metrics.csv` as a dated row at capture time**, even
