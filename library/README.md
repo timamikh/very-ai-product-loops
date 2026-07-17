@@ -96,7 +96,7 @@ don't turn a tool into a literature review.
 | `architecture-c4` | System architecture (Context level) | C4 model — Context (Simon Brown) | 3, 4 | draft |
 | `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude); anti-lamppost: right metric over measurable metric | 4 | draft |
 | `unit-economics` | CAC/LTV/payback/contribution | Contribution margin; LLM inference as explicit COGS; dual basis (operational/honest own-compute) | 4 | draft |
-| `financial-model` | Projection off the metric tree | Driver-based modeling | 4 | planned |
+| `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
 | `guardrails` | What must not drop while hitting goals | Guardrail metrics + red lines (steering-committee reconciliation) | 5 | draft |
 | `resource-check` | Assess available resources this period | Lightweight capacity survey | 5 | draft |
 | `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping + smallest viable test | 5 | planned |
