@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.2.0
+version: 0.3.0
 updated: 2026-07-17
 ---
 
@@ -77,6 +77,24 @@ trigger per the step's cadence & invalidation rules — the loops feed each othe
 | **Library tool** | prerequisites checklist · method (how) · template-fragment · questions |
 | **Registers** | current hypotheses / risks / metric nodes to read and update |
 | **Conventions** | confidence tags · sources · section IDs · links · change-log format |
+
+## Session handoff (state transfer between sessions/agents)
+
+The loop assumes one continuous context; reality restarts. Whenever a session boundary
+approaches, run the **`handoff` tool** (`library/handoff/`) to write/update the instance's
+`HANDOFF.md` — *before* the boundary, not after:
+
+- **Environment change needs a restart** (MCP config, extensions, tokens) → write the handoff,
+  tell the human what to do, restart, then verify the handoff's "Environment & access" checks.
+- **End of session / task transfer / imminent context compaction** → same.
+
+Two hard rules, learned from failures:
+1. A handoff restores **state, not rules** — its reading order must send the next agent through
+   `process/` first. An agent resuming from a handoff alone will violate the loop (typically
+   step 7: registers not updated).
+2. A source-gathering errand (pulling metrics, fetching docs) is still a **pass of this loop**:
+   it ends with step 7 — register updates (dated metric readings → metric register), a change-log
+   entry, and open items surfaced. "I only collected data" does not skip Update state.
 
 ## Handling a late, cross-cutting hypothesis
 

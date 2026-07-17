@@ -106,6 +106,7 @@ don't turn a tool into a literature review.
 | `brief` | Product/feature brief | Structured brief | as needed | planned |
 | `prioritization` | Rank must vs backlog | RICE / ICE, ranked by gate contribution | 5, 6 | planned |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
+| `handoff` | Session-to-session state transfer (HANDOFF.md) | Structured shift-handover (SBAR-style): state · environment checks · open forks · next step | any (session boundary) | draft |
 | `growth-activity` | Growth item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
 
 The list is a starting set, not a closed spec — grow it as the community adds methods.

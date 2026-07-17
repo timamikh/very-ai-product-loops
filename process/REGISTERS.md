@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-17
 ---
 
 # Registers
@@ -65,3 +65,16 @@ A decomposition, not a flat list: **North Star → drivers → input metrics**.
 
 Time-series values follow "everything is dated, nothing is overwritten": each reading is a new
 dated line, so the trend is visible, not just the latest number.
+
+**Where metric readings live (hard rule).** Any captured metric value — from an admin panel, an
+export, an analytics query — goes into the **metric register as a dated reading**, from the very
+first capture, even **before Step 4 builds the tree** (seed the node with `parent: — to clarify —`
+and attach it when the tree exists). A raw capture (a snapshot file in `sources/`) is *evidence
+of the reading*, not its home: the register holds the series, the source holds the how/where/raw
+context, and the register entry links to it. A metrics snapshot that lives only in `sources/`
+breaks the register's whole purpose — the visible trend.
+
+Re-captures append new dated lines to the same `M-…` nodes (and may add a new dated snapshot in
+`sources/`); they never overwrite prior readings. If the metric's *definition* changed between
+readings (e.g. "paying" started including grants), note it on the node — otherwise the series
+silently compares incomparables.
