@@ -6,6 +6,20 @@ A product-agnostic workflow that takes a product from **idea → sprint plan** t
 > The agent prepares every artifact from real sources; the human decides at the forks;
 > the loops refresh at their own pace and feed each other in both directions.
 
+## For agents — start here
+
+Before doing ANY work in this repo (or in a product instance built on it), read the rules in
+this order — they are normative, not descriptive:
+
+1. [`process/OVERVIEW.md`](process/OVERVIEW.md) — the model **and the rules the agent lives by** (§1 Philosophy).
+2. [`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) — the runtime: how one pass of a step runs, incl. register updates.
+3. [`process/CONVENTIONS.md`](process/CONVENTIONS.md) — notation: confidence tags, sources, IDs, forks, change logs.
+4. [`process/REGISTERS.md`](process/REGISTERS.md) — register schemas (hypotheses / risks / metric tree).
+5. Then the instance: its `HANDOFF.md` (if present) → `sources/INDEX.md` → the artifacts your task needs.
+
+Skipping 1–4 and working from a handoff or task description alone is how rules get violated
+silently — the handoff restores *state*, not *rules*.
+
 The framework separates **mechanism from content**: a thin, stable process skeleton, plus
 pluggable methods (a **library**) and pluggable product stages (**statuses**). The rules of
 the game stay fixed; *how* you define value, segment users, or test a hypothesis is swappable

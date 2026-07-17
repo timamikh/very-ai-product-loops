@@ -42,6 +42,29 @@ For each material: convert to a convenient, diff-able format (markdown; tabular 
 preserving the original reference. Put the converted copies in **`product/sources/`**, one file
 per original, with a short header noting the original filename/date. Do not edit the originals.
 
+### 3b. Write the sources index (navigation file)
+Create **`product/sources/INDEX.md`** — a navigation map the agent reads *first* on every future
+task, so it opens only the files relevant to the task at hand instead of re-reading everything
+(saves context and prevents lost nuance). For each converted source, the agent **proposes** a row
+and the human corrects it:
+
+| Column | What it captures |
+|--------|------------------|
+| File | `sources/<name>.md` |
+| What it contains | 1–2 lines: the document's actual content |
+| In scope | Which parts apply to **this** product/instance |
+| Out of scope | Which parts explicitly do **not** apply (e.g. "only the SaaS part; the infrastructure/GPU section is a different product") |
+| Feeds steps | Which process steps draw on it (1–6) |
+| Confidence / freshness | source date, staleness, `[assumption]` where the split is inferred |
+
+The out-of-scope column is the point: it durably records boundary decisions (like "take only the
+service part of the strategy, not the infrastructure part") so they are never silently lost when a
+later agent re-reads the raw source. Present the proposed index to the user; they edit before it's
+saved. Re-run this step whenever a source is added or a scope boundary changes.
+
+> INDEX.md is the **entry point for knowledge**, not a step artifact. Agents consult it to decide
+> what to read; it is not itself distributed across steps.
+
 ### 4. Distribute across the steps
 Read the converted materials and map their content onto the step artifacts:
 - Draft each artifact section from the materials as **⚙️ proposals**, tagging every value
@@ -67,6 +90,7 @@ step 4. Hand back the placement report and the first suggested step to work on.
 product/
   config.yaml            # language · active status · directions · metric source slots
   sources/               # converted copies of the user's existing materials (source of record)
+    INDEX.md             # navigation map: per-source what/in-scope/out-of-scope/feeds-steps
   passport.md            # Step 1 artifact
   analysis.md            # Step 2
   strategy.md            # Step 3
@@ -89,3 +113,7 @@ read-only into the repo at install and pinned to a version tag.
 - **Silent conflicts.** Merging contradictory materials without flagging.
 - **Editing originals.** Converted copies live in `product/sources/`; originals are untouched.
 - **Framework in the code tree.** Product docs must sit in `product/`, away from `src/`.
+- **Reading everything, every time.** With `sources/INDEX.md` present, consult it first and open
+  only the files a task needs — don't re-ingest the whole `sources/` folder each turn.
+- **Losing scope boundaries.** A source that only partly applies (e.g. a deck covering two products)
+  must have its out-of-scope part recorded in INDEX.md, or a later agent will silently re-import it.

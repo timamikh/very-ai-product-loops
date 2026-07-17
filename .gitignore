@@ -8,3 +8,6 @@
 # scratch / generated outputs
 outputs/
 *.tmp
+
+# private product instances (real data) — never publish
+instances/
