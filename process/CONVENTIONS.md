@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-17
 ---
 
 # Conventions
@@ -51,6 +51,17 @@ Register items have stable IDs:
 
 Reference them inline in brackets, e.g. "drives `M-activation`" or "tests `H-003`".
 Cross-artifact links use GitMark-lite: `[[analysis#opportunity]]`, `[[strategy#bets]]`.
+
+## Forks & options
+
+At every decision point the agent surfaces to the human, present **2–4 concrete options with
+their trade-offs**, then a recommendation — never a single option with the alternatives hidden.
+A lone recommendation removes the human's choice and buries the risk in the paths not shown.
+
+- Each option gets a one-line pro/con; the recommended one is marked **⚙️** and stated as the lead.
+- This applies in prose forks and in the operating loop's *Clarify* step alike.
+- Technical/implementation gaps are still noted as forks in the artifact, not asked — this rule is
+  about the *product decisions* the human owns.
 
 ## Change log
 
