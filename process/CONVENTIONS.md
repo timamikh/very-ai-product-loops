@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.2.0
+version: 0.3.0
 updated: 2026-07-17
 ---
 
@@ -52,16 +52,52 @@ Register items have stable IDs:
 Reference them inline in brackets, e.g. "drives `M-activation`" or "tests `H-003`".
 Cross-artifact links use GitMark-lite: `[[analysis#opportunity]]`, `[[strategy#bets]]`.
 
+## One mechanism, one way
+
+Product decisions fork; **framework mechanics must not**. For anything the framework itself does —
+where values live, file formats, ID schemes, section anchors — there is exactly **one canonical
+way**. No dual formats, no "start in X then migrate to Y" thresholds, no documented alternatives:
+every mechanical variation point is a place where two agents (or an agent and an aggregator)
+diverge and break. If two ways exist, pick one and eliminate the other in the same change.
+
 ## Forks & options
 
-At every decision point the agent surfaces to the human, present **2–4 concrete options with
-their trade-offs**, then a recommendation — never a single option with the alternatives hidden.
-A lone recommendation removes the human's choice and buries the risk in the paths not shown.
+**Triage first — fewer forks, higher quality each.** Escalate a decision to the human only if it
+is (a) consequential — changes strategy, is irreversible or expensive — AND (b) not closable from
+evidence with a confident default. Everything reversible and cheap the agent decides itself,
+marks **⚙️**, and logs with its rationale — it does not ask. An open fork is an unresolved risk:
+close it, or escalate it with an owner — never let `— to clarify —` become standing debt.
+(This raises the bar on agent judgment: confidence tags and logged defaults become mandatory,
+not optional.)
+
+For the forks that survive triage, present **2–4 concrete options with their trade-offs**, then
+a recommendation — never a single option with the alternatives hidden. A lone recommendation
+removes the human's choice and buries the risk in the paths not shown.
 
 - Each option gets a one-line pro/con; the recommended one is marked **⚙️** and stated as the lead.
 - This applies in prose forks and in the operating loop's *Clarify* step alike.
 - Technical/implementation gaps are still noted as forks in the artifact, not asked — this rule is
   about the *product decisions* the human owns.
+
+## Talking to the human
+
+In chat, never send a bare register ID, section anchor, or link: decode what stands behind it in
+the same sentence ("`H-009` — the bet that tech leads stay for the frontier stream"), so the human
+never has to open the repo just to follow the conversation. IDs stay bare only inside artifacts,
+where the register is one click away.
+
+## Raw data & access
+
+- **Access to an external data source** (an admin panel, an analytics account) is described in a
+  dedicated source file under `sources/` — what it is, how to connect, how to verify, how to
+  recover — and indexed in `sources/INDEX.md`. Handoffs and artifacts point to it, never duplicate it.
+- **Captured values** go straight to the registers (dated rows); the source file records the
+  capture context.
+- **Raw captures** (page snapshots, exports) containing real data live only inside the instance
+  while being processed and are **deleted once their values land** in the registers/sources.
+  Nothing raw ever sits outside the instance directory.
+- **Secret values** (tokens, passwords) are never written into artifacts, handoffs, or chat —
+  only *where* they live and how to rotate them.
 
 ## Change log
 

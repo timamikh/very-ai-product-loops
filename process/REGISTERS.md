@@ -2,7 +2,7 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.2.0
+version: 0.3.0
 updated: 2026-07-17
 ---
 
@@ -49,32 +49,44 @@ A **refuted** hypothesis is a signal: it can trigger an upward revisit (see step
 | `status` | `open` · `mitigating` · `closed` · `accepted` |
 | `source` | where it surfaced |
 
-## Metric tree (`metric-tree.md`)
+## Metric register (`metric-tree.md` + `metrics.csv`)
 
-A decomposition, not a flat list: **North Star → drivers → input metrics**.
+A decomposition, not a flat list: **North Star → drivers → input metrics**. One canonical split
+(per CONVENTIONS "One mechanism, one way"): **definitions in markdown, values in CSV** — always,
+from the first capture; no md-cell time series, no transition thresholds.
+
+**`metric-tree.md` — node definitions only:**
 
 | Field | Values / notes |
 |-------|----------------|
-| `id` | `M-northstar`, `M-activation`, … |
-| `name` / `definition` | what it is, precisely |
-| `parent` | the node it feeds (builds the tree) |
-| `values` | **time series** — dated entries appended, never overwritten (`2026-07-16: 12.3%`) |
+| `id` | `M-northstar`, `M-activation`, … — **a changed definition mints a NEW id**, never reuses the old one (else the series silently compares incomparables) |
+| `name` / `definition` | what it is, precisely — incl. what it excludes |
+| `unit` | ₽ · $ · % · count · … (a property of the node, not of a reading) |
+| `kind` | `measured` (captured) · `derived` (computed — state the formula) |
+| `parent` | the node it feeds (builds the tree); `— to clarify —` before Step 4 |
+| `instrumentation` | `instrumented` · `proxy` · `not-instrumented` — where the data comes from, or why it can't yet |
 | `target` | the goal + horizon |
 | `owner` | who owns it |
 | `source` | metric source slot |
 
-Time-series values follow "everything is dated, nothing is overwritten": each reading is a new
-dated line, so the trend is visible, not just the latest number.
+**`metrics.csv` — append-only dated readings**, one row per reading:
+
+```csv
+id,period_start,period_end,measured_at,value,basis,source,note
+```
+
+- `measured_at` = when the reading was taken; `period_start/period_end` = what interval the value
+  describes (empty for point-in-time values). Collapsing these into one date makes every
+  trailing-window metric ("last 30d") lie to trend readers.
+- `basis` = the value's qualifier when one node legitimately carries variants
+  (`operational` · `with_depreciation` · `metered` · `fact` …) — a parseable column, never prose
+  in `note`.
+- Rows are appended, never edited or deleted. Every `id` in the csv must exist in
+  `metric-tree.md` (the md file is the authority on which ids exist and what they mean).
 
 **Where metric readings live (hard rule).** Any captured metric value — from an admin panel, an
-export, an analytics query — goes into the **metric register as a dated reading**, from the very
-first capture, even **before Step 4 builds the tree** (seed the node with `parent: — to clarify —`
-and attach it when the tree exists). A raw capture (a snapshot file in `sources/`) is *evidence
-of the reading*, not its home: the register holds the series, the source holds the how/where/raw
-context, and the register entry links to it. A metrics snapshot that lives only in `sources/`
-breaks the register's whole purpose — the visible trend.
-
-Re-captures append new dated lines to the same `M-…` nodes (and may add a new dated snapshot in
-`sources/`); they never overwrite prior readings. If the metric's *definition* changed between
-readings (e.g. "paying" started including grants), note it on the node — otherwise the series
-silently compares incomparables.
+export, an analytics query — goes into **`metrics.csv` as a dated row at capture time**, even
+before Step 4 builds the tree. A raw capture (a snapshot file in `sources/`) is *evidence of the
+reading*, not its home: the csv holds the series, the source holds the how/where/context, and
+they link to each other. A metrics snapshot that lives only in `sources/` breaks the register's
+whole purpose — the visible trend.

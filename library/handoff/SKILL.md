@@ -22,6 +22,12 @@ fresh agent reads to resume work after a session restart, context loss, or agent
 **without re-asking the human**. It restores *state*; the framework's rules restore *behavior*
 (see the required reading order below — a handoff must never become a substitute for the rules).
 
+**A handoff is a hint, not a source of truth.** The home of state is the registers and the
+artifacts; the receiving agent verifies the handoff's "where we are" against them, and treats
+anything older than the handoff's last change-log entry as suspect. If an environment check
+diverges from reality — fix the handoff first, then work; never work on top of a record you
+know is stale.
+
 **When to apply (triggers — see also OPERATING-LOOP → "Session handoff"):**
 1. **Environment change requires a session restart** — MCP servers added/reconfigured, browser
    extensions installed, tokens issued, permissions changed. Write the handoff BEFORE the restart.
@@ -66,3 +72,9 @@ running the listed checks before relying on it; fix and update the handoff if re
 - **Register copies.** Pasting hypothesis/risk tables into the handoff instead of IDs.
 - **Append-only theatre.** Treating the handoff like a step artifact and never pruning done
   items — a handoff that only grows stops being readable at exactly the moment it's needed.
+- **Secrets or PII in the handoff.** Token/password VALUES never appear — only where they live
+  and how to rotate. No user emails, balances, or other personal data; reference the instance
+  source that holds them instead.
+- **Duplicating access recipes.** How to reach an external data source lives in its dedicated
+  `sources/` access file (per CONVENTIONS "Raw data & access"); the handoff's environment table
+  links to it and carries only the check.
