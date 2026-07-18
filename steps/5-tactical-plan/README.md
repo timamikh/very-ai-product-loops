@@ -26,7 +26,7 @@ The strategic plan (`[[strategic-plan]]`), the metric register, the hypothesis r
 `metrics`, backlog export.
 
 ## Output
-`tactical-plan.md`.
+`tactical-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |

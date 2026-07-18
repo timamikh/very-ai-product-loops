@@ -20,8 +20,8 @@ opportunity (or threat) is**. Analysis without a "so what" is inert — the conc
 `analytics-search` · `kb` · `interview` · the passport (`[[passport]]`).
 
 ## Output
-`analysis.md`. Recommended tools are soft; the active [status](../../statuses/README.md) sets
-which to lean on.
+`analysis.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+Recommended tools are soft; the active [status](../../statuses/README.md) sets which to lean on.
 
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |
@@ -29,7 +29,7 @@ which to lean on.
 | `market-sizing` | TAM / SAM / SOM with method + source | `market-sizing` |
 | `competitors` | Direct & indirect competitors | `competitor-analysis` |
 | `competitor-strategy` | What game each plays (revenue/profit/share/social capital — how), vs our moats | `competitor-analysis` |
-| `pricing` | Competitor pricing — orients our pricing & feeds the financial model | `competitor-analysis` |
+| `competitor-pricing` | Competitor pricing — input to our pricing (Step 3) & the financial model | `competitor-analysis` |
 | `competitor-dynamics` | How each competitor develops over time (revenue/headcount trend) — compares strategy effectiveness | `competitor-analysis` |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | `substitutes` |
 | `niche-risks` | Structural risks of the niche (light Five Forces) | — (synthesis, light Five Forces) |
@@ -43,7 +43,7 @@ which to lean on.
 - [ ] sizing has an explicit method and source → `analysis#market-sizing`
 - [ ] direct & indirect competitors named → `analysis#competitors`
 - [ ] each competitor's game identified, compared to our moats → `analysis#competitor-strategy`
-- [ ] competitor pricing captured where findable → `analysis#pricing`
+- [ ] competitor pricing captured where findable → `analysis#competitor-pricing`
 - [ ] competitor development dynamics captured where findable → `analysis#competitor-dynamics`
 - [ ] substitutes incl. "do nothing" covered → `analysis#substitutes`
 - [ ] niche risks logged → `analysis#niche-risks` → risk register

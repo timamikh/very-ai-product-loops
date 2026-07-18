@@ -28,8 +28,8 @@ copied blindly. Package with a **value metric** that scales with the value the c
 WTP questions, or observed pilot/price-talk behaviour — never guessed.
 
 > **Relation to neighbours (one mechanism, one way).**
-> - `competitor-analysis` captures **what others charge** (Step 2 `pricing` scan) — that is an
->   *input* to this tool, not the decision.
+> - `competitor-analysis` captures **what others charge** (Step 2 `competitor-pricing` scan) —
+>   that is an *input* to this tool, not the decision.
 > - `unit-economics` (Step 4) checks whether the chosen price **survives the margin** (CAC/LTV/
 >   contribution, incl. LLM inference COGS) — that *validates* the decision; it does not set it.
 > - `financial-model` projects the chosen price forward. **`pricing` is the only place the price
@@ -50,7 +50,7 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
 - **Value proposition (`uvp-cpv`)** — price anchors to value vs an alternative. *Missing → run `uvp-cpv`.*
 - **Segments** — different segments have different WTP and fences. *Missing → run `segmentation`.*
 - **Competitor pricing scan** — the reference points customers compare against. *Missing → run
-  `competitor-analysis` (Step 2 `pricing`).*
+  `competitor-analysis` (Step 2 `competitor-pricing`).*
 - *(Step 4)* WTP evidence — interview WTP / pilot price-talk / van Westendorp responses; if none
   yet, mark price points `[assumption]` and seed a pricing hypothesis to test.
 
