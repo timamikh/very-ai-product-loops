@@ -15,7 +15,7 @@ per_step:
     goals:
       - Refresh the market read with LIVE data — prices and competitors move; a stale read misleads pricing
       - State the sharpest threat to repeatable monetization (commoditization, a direct competitor) as the "so what"
-    tools: [competitor-analysis, market-sizing, substitutes]
+    tools: [analytics-search, competitor-analysis, market-sizing, substitutes]
   "3":  # Strategy
     goals:
       - Sharpen how-to-win around what actually RETAINS paying users, not just what attracts them
@@ -52,6 +52,14 @@ metrics** (with a few interviews for the "why"). Hypotheses move from "is there 
 "does value repeat and can we charge".
 
 ## Change log
+
+### 2026-07-18 — analytics-search added to step 2
+- **From → To:** step-2 `tools` gained `analytics-search` — now an authored **research tool** it's
+  the gathering front-end that feeds `market-sizing` / `competitor-analysis` / `substitutes`.
+- **Why:** the audit had dropped it as an unauthored source-slot; that premise changed when
+  `library/analytics-search/` was written. Step 2's job (re-read the market with live data) starts
+  with this desk-research pass.
+- **Trigger:** interview/analytics-search authored as tools, 2026-07-18.
 
 ### 2026-07-18 — filled per_step for steps 2–6 (from the first full pmf run)
 - **From → To:** steps 2–6 were `— to define —` stubs → concrete goals + existing tools, drawn

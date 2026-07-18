@@ -11,7 +11,7 @@ per_step:
       - Name the riskiest assumption the concept rests on
       - Frame segments and pains as testable hypotheses, not facts
       - State the value bet (lead moat) to validate
-    tools: [concept-formation, segmentation, segment-pains, value-definition, jtbd]
+    tools: [interview, concept-formation, segmentation, segment-pains, value-definition, jtbd]
   "2": { goals: ["— to define alongside step 2 —"], tools: [] }
   "3": { goals: ["— to define alongside step 3 —"], tools: [] }
   "4": { goals: ["— to define alongside step 4 —"], tools: [] }
@@ -34,6 +34,15 @@ not internal product metrics (there aren't any yet). The hypothesis register is 
 gravity.
 
 ## Change log
+
+### 2026-07-18 — interview re-added as a tool
+- **From → To:** step-1 `tools` gained `interview` — now that it's an authored **research tool**
+  (`kind: research`, prepares goal/portrait/questions/interviewer-guide → `sources/`), it's the
+  primary discovery method for this stage, not just an input slot.
+- **Why:** the earlier cleanup dropped it because it was an unauthored source-slot; that premise
+  changed when `library/interview/` was written. A discovery stage without interview in its tool
+  list read as a gap.
+- **Trigger:** interview/analytics-search authored as tools, 2026-07-18.
 
 ### 2026-07-18 — step-1 tools cleanup (audit)
 - **From → To:** step-1 `tools` dropped `interview` and `analytics-search` (those are **source

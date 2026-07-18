@@ -79,8 +79,8 @@ don't turn a tool into a literature review.
 
 | Tool | Purpose | Method basis | Steps | Status |
 |------|---------|--------------|-------|--------|
-| `interview` | Gather qualitative signal from users/customers | Continuous discovery · *The Mom Test* | 1–2 | planned |
-| `analytics-search` | Find & pull relevant analytical/market data | Triangulated desk research | 1–2, 4 | planned |
+| `interview` | Prep an interview (goal · interviewee portrait · questions · interviewer guide) that yields learning | Continuous discovery (Torres) + *The Mom Test* — non-leading, past behaviour | 1, 2 | draft |
+| `analytics-search` | Desk research → sourced market digest (size · dynamics · trends · barriers · risks/drivers · players) | Triangulated desk research — ≥2 independent sources per claim | 1, 2, 4 | draft |
 | `concept-formation` | Shape the concept from a raw idea | Dunford positioning ('the shift') | 1 | draft |
 | `segmentation` | Define & cut segments | JTBD / needs-based, priority-tiered | 1 | draft |
 | `segment-pains` | Surface problems in the job | JTBD + Value Proposition Canvas; severity × frequency; differentiator vs table-stakes | 1 | draft |
