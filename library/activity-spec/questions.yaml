@@ -1,6 +1,6 @@
-# growth-activity — interview (growth direction)
-tool: growth-activity
-produces: must
+# activity-spec — interview (go-to-market direction)
+tool: activity-spec
+produces: [must, backlog]
 questions:
   - id: description
     ask: "What is the activity? (e.g. reactivation mailing, TG post, landing test)"

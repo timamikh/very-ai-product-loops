@@ -1,7 +1,7 @@
 ---
 name: feature-spec
 kind: template
-produces: must
+produces: [must, backlog]
 reads_registers: [hypotheses, metrics]
 writes_registers: []
 inputs: [interview, kb]
@@ -10,8 +10,8 @@ used_by_steps: [6]
 opinionated: false
 method_basis: "Feature description at grooming altitude (Description / Scope / Business value / User value / User stories)"
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Feature Spec (development direction)

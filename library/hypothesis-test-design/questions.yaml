@@ -1,0 +1,23 @@
+# hypothesis-test-design — interview
+tool: hypothesis-test-design
+produces: hypotheses-to-test
+questions:
+  - id: hypothesis
+    ask: "Which H-… are we testing, and what's the riskiest assumption behind it? (the one that would kill the bet, not the comfortable one)"
+    type: text
+  - id: metric_node
+    ask: "Which metric node (M-…) reflects this hypothesis? (must be a defined node in the metric tree, not a number invented for the test)"
+    type: text
+    why: "A metric invented for the test can't be compared or trusted."
+  - id: thresholds
+    ask: "What's the success threshold (validated) and the failure threshold (refuted)? The gap between them is the inconclusive zone."
+    type: text
+    why: "No pre-declared bar means any result can be spun as a win."
+  - id: sample_duration
+    ask: "What sample size or duration is available — the smallest that can tell success from failure at that threshold?"
+    type: text
+    why: "Unspecified sample/duration means the test stops when someone likes the number, not when it's conclusive."
+  - id: decision_rule
+    ask: "What's the decision rule, fixed before running? (≥ success → validated; < failure → refuted; in between → inconclusive, and what we do then)"
+    type: text
+    why: "'Let's look at the data' with no rule means the verdict gets negotiated after the fact."

@@ -1,5 +1,5 @@
 <!--
-  template-fragment: growth-activity → one item in {#must} / {#backlog} (growth direction)
+  template-fragment: activity-spec → one item in {#must} / {#backlog} (go-to-market direction)
   Follow process/CONVENTIONS.md.
 -->
 

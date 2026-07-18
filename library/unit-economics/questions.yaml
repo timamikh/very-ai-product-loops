@@ -1,11 +1,13 @@
-# unit-economics — questions the data can't answer
+# unit-economics — interview
+tool: unit-economics
+produces: unit-economics
 questions:
   - id: honest-base
     ask: "For the honest base: hardware depreciation from capex, or market compute price? (pick one rule)"
-    maps_to: "#unit-economics honest column"
+    type: single_select
   - id: free-burn-owner
     ask: "Who carries free-tier/grant inference burn — marketing (CAC-like), product (COGS), or the infra supplier?"
-    maps_to: "#unit-economics allocation"
+    type: single_select
   - id: cac-claim
     ask: "Is CAC≈0 still true for every active channel (incl. paid bloggers when they start)?"
-    maps_to: "#unit-economics CAC"
+    type: free_text

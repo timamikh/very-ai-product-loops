@@ -5,9 +5,10 @@ name: idea
 title: "Step 1 — Idea / Concept"
 output: passport.md
 cadence: "~ product lifetime; revisit on pivot or major learning"
+method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Step 1 — Idea / Concept
