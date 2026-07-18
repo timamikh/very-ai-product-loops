@@ -21,7 +21,8 @@ hand off to the team's development process.
 The tactical plan (`[[tactical-plan]]`), backlog export, the hypothesis & metric registers.
 
 ## Output
-`sprint-plan.md`. The active [status](../../statuses/README.md) shapes the must-set:
+`sprint-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+The active [status](../../statuses/README.md) shapes the must-set:
 `concept-viability` favors prototype/learning items (validate the bet); `pmf` favors items that
 prove repeatable value and monetization; `growth` favors scale-and-defend items.
 

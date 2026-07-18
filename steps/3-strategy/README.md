@@ -22,7 +22,8 @@ updated: 2026-07-18
 The passport (`[[passport]]`), the analysis (`[[analysis]]`), `interview`, `kb`.
 
 ## Output
-`strategy.md`. The [status](../../statuses/README.md) sets goal shape: `concept-viability`
+`strategy.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+The [status](../../statuses/README.md) sets goal shape: `concept-viability`
 strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 
 ## Artifact skeleton
