@@ -35,7 +35,7 @@ The strategic plan (`[[strategic-plan]]`), the metric register, the hypothesis r
 | `goal-targets` | What each goal maps to: **go-to-market → metric node (`M-…`); technical & back-office → a Definition of Done** | `metric-tree` |
 | `guardrails` | What must **not** drop while hitting the goals — protected metrics / red lines | `guardrails` |
 | `resources` | Resources available this period (people, budget, time) — via survey | `resource-check` |
-| `hypotheses-to-test` | Which `H-…` we test now + the test design | `hypothesis-test-design` |
+| `hypotheses-to-test` | Which `H-…` we test now + the test design | `hypothesis-test-design` (`ab-test` when the test is a split-traffic experiment) |
 | `blockers` | Dependencies/blockers with an owner | — |
 
 ## Register touchpoints

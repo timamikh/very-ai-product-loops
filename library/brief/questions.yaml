@@ -1,0 +1,28 @@
+# brief — interview
+tool: brief
+produces: brief
+questions:
+  - id: problem
+    ask: "What problem or opportunity does this frame — the change in the world it exists to make? Link an H-… / R-… if one exists."
+    type: free_text
+    why: "If you can't state the problem, there's nothing to brief — 'build X' is a solution, not a problem."
+  - id: audience
+    ask: "Who is it for — which segment / team / stakeholder does the work serve?"
+    type: free_text
+  - id: goal_metric
+    ask: "What is the ONE goal, and the target metric (M-…) it's read against?"
+    type: free_text
+    why: "Many goals means none is the goal."
+  - id: scope_in
+    ask: "What's in scope — what does this cover?"
+    type: list
+  - id: scope_out
+    ask: "What's explicitly OUT of scope? (this list is what actually stops scope creep)"
+    type: list
+    why: "If everything's in scope, scope creeps unchecked."
+  - id: constraints
+    ask: "What constraints apply — budget, time, tech, policy, dependencies?"
+    type: list
+  - id: success_owner
+    ask: "What does 'done / it worked' mean, and who is the decision owner that calls it?"
+    type: free_text
