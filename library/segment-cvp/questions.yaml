@@ -1,0 +1,41 @@
+# segment-cvp — market-entry bundle (intake to compose & gate the bundles)
+tool: segment-cvp
+produces: market-bundles
+questions:
+  - id: segment_situation
+    ask: "Which segment, in which specific SITUATION/trigger? (not demographics — the moment the pain bites)"
+    type: free_text
+    why: "A segment without a situation can't have a channel or a message built for it."
+  - id: pain
+    ask: "What is the pain, and what is the cost of NOT solving it? (money lost, risk, time)"
+    type: free_text
+    why: "No cost of inaction → nothing to sell against; the bundle fails the Pain filter."
+  - id: alternative
+    ask: "How does this segment solve it TODAY (rival, substitute, do-nothing)?"
+    type: free_text
+    why: "Value is relative to today's way; 'nohow / unknown' means the bundle isn't ready."
+  - id: cvp
+    ask: "What concrete RESULT do we promise (not a feature)? Would the segment recognize themselves?"
+    type: free_text
+    why: "'Become more efficient / convenient / with AI' promises nothing testable."
+  - id: offer
+    ask: "What is the first concrete step of the offer — demo / diagnostic / trial / calculation / pilot?"
+    type: single_select
+    options: [demo, diagnostic, trial, calculation, pilot, consultation, other]
+    why: "A bundle must contain a first step you can actually offer and measure."
+  - id: channel
+    ask: "Where EXACTLY do we reach this segment — a named community, base, or partner? (not 'somewhere online')"
+    type: free_text
+    why: "If you can't name where to find them, the bundle fails the Find filter."
+  - id: signal
+    ask: "What qualified action would prove interest, and which tier is it (weak/medium/strong)?"
+    type: free_text
+    why: "Clicks diagnose the channel; success is a qualified action (reply/meeting/trial/payment)."
+  - id: readiness
+    ask: "Run the 6 filters (Find · Recognize · Pain · Alternative · CVP · Action) and the three-things test — which pass, which fail?"
+    type: per_item
+    why: "A bundle failing any filter is kept for reference but not staged for test."
+  - id: decision_rule
+    ask: "What decision will each outcome trigger — scale / iterate / reject / back-to-research?"
+    type: free_text
+    why: "A bundle isn't tested until a decision is recorded."
