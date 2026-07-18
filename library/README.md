@@ -100,10 +100,10 @@ don't turn a tool into a literature review.
 | `guardrails` | What must not drop while hitting goals | Guardrail metrics + red lines (steering-committee reconciliation) | 5 | draft |
 | `resource-check` | Assess available resources this period | Lightweight capacity survey | 5 | draft |
 | `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping (Bland/Osterwalder) + smallest viable test (metric · threshold · sample/duration · decision rule) | 4, 5 | draft |
-| `ab-test` | Run a controlled experiment | A/B testing with guardrail metrics | as needed | planned |
-| `cjm` | Customer journey map | Journey mapping | as needed | planned |
+| `ab-test` | Run a controlled experiment | Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrails, MDE-driven sizing, no-peek stopping rule | 5 | draft |
+| `cjm` | Customer journey map | Journey mapping — stages · touchpoints · emotion curve · pains → opportunities | 1, 3 | draft |
 | `jtbd` | Jobs-to-be-Done framing | JTBD — Christensen 'progress' + Ulwick ODI (job statement · forces · desired outcomes) | 1, 3 | draft |
-| `brief` | Product/feature brief | Structured brief | as needed | planned |
+| `brief` | Product/feature brief | Structured brief — problem · goal · target metric · scope in/out · owner | any | draft |
 | `prioritization` | Rank must vs backlog | RICE / ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line | 5, 6 | draft |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
 | `handoff` | Session-to-session state transfer (HANDOFF.md) | Structured shift-handover (SBAR-style): state · environment checks · open forks · next step | any (session boundary) | draft |
