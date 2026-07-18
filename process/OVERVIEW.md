@@ -2,7 +2,7 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.4.0
+version: 0.4.1
 updated: 2026-07-18
 ---
 
@@ -274,21 +274,37 @@ body: description + change log
 
 ---
 
-## 10. What this is not (yet)
+## 10. The output layer (adapters) and what's still deferred
 
-Deferred by design, kept out of the neutral core:
-- **Adapters** that reshape base artifacts into a company's own formats and into downstream
-  dev processes (e.g. an adapter for an external development framework, steering-committee
-  cards, traction cards). These live outside the base and reference external tools there.
+**Adapters** ([`adapters/`](../adapters/README.md)) are the framework's **output layer**: they read
+the structured instance and render **deliverables** (tables, documents, decks). This is exactly what
+the stable IDs / source slots / typed links are *for* — the structure is the contract an adapter
+renders against, so deliverables regenerate from source instead of being hand-maintained.
+
+- **Base adapters** ship in `adapters/` and are **neutral and open**: `to-table`, `to-document`,
+  `to-deck`. They assume no house style.
+- **Company adapters** stay **outside** the base (a private/plugin repo) and **specialize** a base
+  adapter into a specific format — a branded deck, a steering-committee/traction card, a hand-in to a
+  downstream dev framework. They re-skin the base; they don't fork it.
+
+Still deferred by design, kept out of the base:
 - **Aggregators** that pull and merge product data from git, metrics, and the KB.
 - **Automation** of bottom-up refresh across loops.
 
-The base artifacts are kept structured (stable IDs, source slots, typed links) precisely so
-these can be added on top without rework.
+The base artifacts are kept structured (stable IDs, source slots, typed links) precisely so both
+adapters and the deferred aggregators/automation can be added on top without rework.
 
 ---
 
 ## Change log
+
+### 2026-07-18 — added the adapters output layer (§10)
+- **From → To:** §10 "What this is not (yet)" → "The output layer (adapters) and what's still
+  deferred". Base adapters (`to-table`, `to-document`, `to-deck`) now ship in `adapters/`; the
+  base-vs-company boundary is stated; aggregators/automation remain deferred.
+- **Why:** the framework produced a well-structured instance but had no neutral way to render the
+  everyday deliverables. Base renderers belong in the open framework; company formats stay external.
+- **Trigger:** base-converters pass, 2026-07-18.
 
 ### 2026-07-18 — realign OVERVIEW with the 0.3–0.4 rules (audit fix)
 - **From → To:** OVERVIEW had drifted at 0.2.1 while the other process files reached 0.4.0 →
