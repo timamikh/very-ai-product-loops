@@ -18,7 +18,7 @@ way you'd add any agent framework — point the agent at this repo and ask.
 
 The agent will:
 1. **Vendor** the framework (read-only) into the repo, pinned to a version tag:
-   `steps/` · `library/` · `statuses/` · `process/` · the `product-setup` skill.
+   `steps/` · `library/` · `statuses/` · `process/` · `adapters/` · the `product-setup` skill.
 2. **Run [`product-setup`](../.claude/skills/product-setup/SKILL.md)** — ask your documentation
    language, ask for all existing product materials, convert and file them under
    `product/sources/`, and distribute their content across the step artifacts (as ⚙️ drafts with
@@ -28,7 +28,7 @@ The agent will:
 ## What lands in your repo
 
 - **Framework (vendored, read-only, versioned):** `steps/`, `library/`, `statuses/`, `process/`,
-  `.claude/skills/`. Update by bumping the tag.
+  `adapters/`, `.claude/skills/`. Update by bumping the tag.
 - **Your product (yours, edited over time):** `product/` — kept **separate from your code** so it
   never interferes with development.
 

@@ -2,7 +2,7 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: draft
-version: 0.4.0
+version: 0.4.1
 updated: 2026-07-18
 ---
 
@@ -33,12 +33,16 @@ pluggable methods (a **library**) and pluggable product stages (**statuses**). T
 the game stay fixed; *how* you define value, segment users, or test a hypothesis is swappable
 and grows per company — without forking the framework.
 
-## Architecture — four planes
+## Architecture — four planes (+ an output layer)
 
 - **Process core** (`steps/`) — thin skeleton per step: goal, gate checklist, movement rules, register touchpoints, artifact structure. No methods inside.
 - **Registers** — three living, vertical objects: metrics · hypotheses · risks.
 - **Library** (`library/`) — product methods as skills: what / when / how / template. See [`library/README.md`](library/README.md).
 - **Statuses** (`statuses/`) — product stages as config (concept-viability · PMF · growth, extensible). See [`statuses/README.md`](statuses/README.md).
+
+On top of the four planes, an **output layer** renders the structured instance into deliverables:
+
+- **Adapters** (`adapters/`) — `to-table` · `to-document` · `to-deck`. Base adapters ship here (neutral); company-specific formats stay external and specialize them. See [`adapters/README.md`](adapters/README.md).
 
 ## The six steps
 
@@ -60,7 +64,7 @@ Early draft, building in phases:
 
 - **Phase 0 — Process foundation** → [`process/OVERVIEW.md`](process/OVERVIEW.md) · [operating loop](process/OPERATING-LOOP.md) · [conventions](process/CONVENTIONS.md) _(merged)_
 - **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1, all 4 tools)** _(merged)_
-- **Phase 2 — Steps 2–6 skeletons + [register schemas](process/REGISTERS.md) + library growth** _(in progress)_
+- **Phase 2 — Steps 2–6 skeletons + [register schemas](process/REGISTERS.md) + artifact templates + library fully authored** _(templates + full library done; run-hardening continues)_
 - **Onboarding — [`product-setup`](.claude/skills/product-setup/SKILL.md) + [install](install/README.md)** _(merged)_
-- **Phase 3 — Agent rules (CLAUDE.md), examples, contribution + versioned branching** _(next)_
-- **Phase 4 — Adapters, aggregators, automation** _(later)_
+- **Phase 3 — Agent rules ([CLAUDE.md](CLAUDE.md)), examples, contribution + versioned branching** _(CLAUDE.md merged; contribution/branching next)_
+- **Phase 4 — base [adapters](adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_

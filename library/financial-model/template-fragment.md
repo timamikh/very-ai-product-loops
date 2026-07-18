@@ -1,23 +1,20 @@
----
-node_type: template-fragment
-tool: financial-model
-produces: strategic-plan#financial-model
----
+<!--
+  template-fragment: financial-model → fills {#financial-model} (Step 4)
+  Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
+-->
 
-```markdown
-## Финансовая модель {#financial-model}
-_Метод: driver-based, от узлов дерева метрик. Горизонт 12 мес, помесячный compound._
+## Financial model {#financial-model}
+_Method: driver-based, off the metric-tree nodes. Horizon 12 mo, monthly compounding._
 
-**Драйверы (сегодня → допущение):** новые платящие/мес `M-…` · churn %/мес (ось сценариев) ·
-ARPPU `M-…` · COGS-на-usage · фикс-затраты. [теги на каждом]
+**Drivers (today → assumption):** new payers/mo `M-…` · churn %/mo (scenario axis) ·
+ARPPU `M-…` · COGS-per-usage · fixed costs. [tag each]
 
-| Сценарий | Допущения | MRR через 12 мес | Когда упирается в кап | Прибыль (obе базы) |
-|----------|-----------|------------------|----------------------|---------------------|
-| Консервативный | | | | |
-| База ⚙️ | | | | |
-| Стретч (⟵ гипотеза `H-…`) | | | | |
+| Scenario | Assumptions | MRR at 12 mo | When it hits a cap | Profit (both bases) |
+|----------|-------------|--------------|--------------------|---------------------|
+| Conservative | | | | |
+| Base ⚙️ | | | | |
+| Stretch (⟵ hypothesis `H-…`) | | | | |
 
-**Ограничения ёмкости:** <капы слотов/регистраций/compute и месяц, когда связывают>.
-**Безубыточность:** operational … ₽/мес · honest … ₽/мес (сейчас: …).
-**Триггеры пересмотра:** факт отклоняется от базы на >X% два месяца подряд → ревизит Шага 4.
-```
+**Capacity limits:** <slot / registration / compute caps and the month they bind>.
+**Break-even:** operational … ₽/mo · honest … ₽/mo (now: …).
+**Revisit triggers:** actuals diverge from base by >X% for two months running → revisit Step 4.

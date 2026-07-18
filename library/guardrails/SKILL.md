@@ -10,8 +10,8 @@ used_by_steps: [5]
 opinionated: false
 method_basis: "Guardrail metrics + red lines (steering-committee reconciliation pattern)"
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.1.1
+updated: 2026-07-18
 ---
 
 # Guardrails
@@ -20,8 +20,8 @@ Define **what must not drop while we chase the period's goals** — the metrics 
 refuse to sacrifice. Fills `{#guardrails}`. A goal without guardrails invites winning the number
 and losing the product (e.g. spiking signups while retention or unit economics collapse).
 
-**Method basis.** Guardrail metrics + red lines, in the spirit of the steering-committee
-reconciliation (УК-сверка): each cycle names the gate it moves *and* the things it protects.
+**Method basis.** Guardrail metrics + red lines, in the spirit of a steering-committee
+reconciliation: each cycle names the gate it moves *and* the things it protects.
 
 ## When to apply
 - Step 5, once period goals are set — every goal gets its guardrails.
