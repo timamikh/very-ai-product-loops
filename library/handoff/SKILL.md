@@ -1,18 +1,20 @@
 ---
 name: handoff
 kind: template
-produces: HANDOFF.md (instance root — operational state doc, not a step artifact)
+produces: HANDOFF.md
+reads_registers: [hypotheses, risks, metrics]
+writes_registers: []
+inputs: [kb]
 prerequisites:
   - the instance exists (product/ or instances/<name>/ working area)
   - current position in the process is known (step, section, open gate items)
   - open forks and pending human decisions are known
-reads_registers: [hypotheses, risks, metrics]
-writes_registers: []
-inputs: [kb]
 used_by_steps: [any]
+opinionated: false
+method_basis: "Structured shift-handover (SBAR-style): state · environment checks · open forks · next step"
 status: draft
-version: 0.1.0
-updated: 2026-07-17
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Handoff — session-to-session state transfer
@@ -28,7 +30,9 @@ anything older than the handoff's last change-log entry as suspect. If an enviro
 diverges from reality — fix the handoff first, then work; never work on top of a record you
 know is stale.
 
-**When to apply (triggers — see also OPERATING-LOOP → "Session handoff"):**
+## When to apply
+
+**Triggers — see also OPERATING-LOOP → "Session handoff":**
 1. **Environment change requires a session restart** — MCP servers added/reconfigured, browser
    extensions installed, tokens issued, permissions changed. Write the handoff BEFORE the restart.
 2. **End of a working session** on an instance with work in flight (an artifact mid-fill, an
@@ -36,7 +40,14 @@ know is stale.
 3. **Context is about to be compacted / the task is being transferred** to another agent.
 4. **On request** — the human says "подготовь хэндофф" / "prepare a handoff".
 
-**How to do it.**
+## Prerequisites
+
+- **The instance exists** — a `product/` or `instances/<name>/` working area to write `HANDOFF.md` into.
+- **Current position in the process is known** — step, section, open gate items.
+- **Open forks and pending human decisions are known.**
+
+## How to do it
+
 1. Read the current `HANDOFF.md` (if any) and the registers — carry forward what is still true,
    drop what is done, update what changed. The handoff is an **operational state doc**: unlike
    step artifacts it IS updated in place (keep `updated:` in frontmatter current and keep the
@@ -78,3 +89,8 @@ running the listed checks before relying on it; fix and update the handoff if re
 - **Duplicating access recipes.** How to reach an external data source lives in its dedicated
   `sources/` access file (per CONVENTIONS "Raw data & access"); the handoff's environment table
   links to it and carries only the check.
+
+## Output
+
+Writes/updates `HANDOFF.md` at the instance root via [`template-fragment.md`](template-fragment.md);
+inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).

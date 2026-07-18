@@ -1,3 +1,11 @@
+---
+node_type: readme
+title: very-ai-product-loops — README
+status: draft
+version: 0.4.0
+updated: 2026-07-18
+---
+
 # very-ai-product-loops
 
 A product-agnostic workflow that takes a product from **idea → sprint plan** through

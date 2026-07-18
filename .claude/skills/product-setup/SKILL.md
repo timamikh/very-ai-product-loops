@@ -78,7 +78,7 @@ Produce a **placement report**: what went where, what conflicts were found, what
 ### 5. Set status and directions
 Ask (or infer + confirm) the product's current [status](../../../statuses/README.md)
 (`concept-viability` / `pmf` / `growth` / custom) and its work directions (default
-`development · growth · back-office`). Record in `product/config.yaml`.
+`development · go-to-market · back-office`). Record in `product/config.yaml`.
 
 ### 6. Scaffold the working area
 Create `product/` from templates (see layout below), in the chosen language, pre-filled per
@@ -100,7 +100,8 @@ product/
   registers/
     hypotheses.md        # H-… (typed)
     risks.md             # R-…
-    metric-tree.md       # M-…
+    metric-tree.md       # M-… node definitions (id/unit/kind/parent/instrumentation/target)
+    metrics.csv          # append-only dated readings (id,period_start,period_end,measured_at,value,basis,source,note)
 ```
 
 Kept **separate from code** (its own top-level `product/`), so it never interferes with the

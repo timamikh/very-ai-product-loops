@@ -8,9 +8,10 @@ inputs: [interview, kb, metrics]
 prerequisites: [concept, audience-knowledge-or-analytics]
 used_by_steps: [1]
 opinionated: false
+method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Segmentation

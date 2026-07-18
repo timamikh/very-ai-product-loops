@@ -57,12 +57,12 @@ per_step:
   "5":
     goals:                       # … or split by work direction where the step is direction-organized
       development: [<goal>]
-      growth: [<goal>]
+      go-to-market: [<goal>]
       back-office: [<goal>]
     tools: [<tool>, ...]
 ---
 ```
-Body: a description + a dated change log. Directions default to `development · growth ·
+Body: a description + a dated change log. Directions default to `development · go-to-market ·
 back-office` but are an instance config; use whichever the product has.
 
 ## Add or change a status

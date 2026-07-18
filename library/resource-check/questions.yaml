@@ -3,7 +3,7 @@ tool: resource-check
 produces: resources
 questions:
   - id: people
-    ask: "Who is available this period, per direction (dev / growth / back-office), and at what capacity?"
+    ask: "Who is available this period, per direction (dev / go-to-market / back-office), and at what capacity?"
     type: free_text
   - id: budget
     ask: "What budget is available this period, and is any of it earmarked?"

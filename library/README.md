@@ -85,9 +85,9 @@ don't turn a tool into a literature review.
 | `segmentation` | Define & cut segments | JTBD / needs-based, priority-tiered | 1 | draft |
 | `segment-pains` | Surface problems in the job | JTBD + Value Proposition Canvas; severity × frequency; differentiator vs table-stakes | 1 | draft |
 | `value-definition` | Value & defensibility | 7 Powers (Helmer) → base/derivative; post-AI lens | 1, 3 | draft |
-| `market-sizing` | TAM / SAM / SOM | Bottom-up sizing with named assumptions | 2 | planned |
+| `market-sizing` | TAM / SAM / SOM | Bottom-up sizing (top-down cross-check) with named assumptions | 2 | draft |
 | `competitor-analysis` | Competitors, their game, pricing & dynamics | 'What game are they playing' + moat comparison + pricing scan + registry dynamics (datanewton for RU) | 2 | draft |
-| `substitutes` | Non-obvious competition | JTBD competition incl. do-nothing | 2 | planned |
+| `substitutes` | Non-obvious competition | JTBD competition incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes | 2 | draft |
 | `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) — winning-aspiration / where-to-play / how-to-win cascade | 3 | draft |
 | `uvp-cpv` | Value proposition / CPV | Dunford positioning + Value Proposition Canvas + customer-perceived value | 3 | draft |
 | `channels-expansion` | Channels & expansion | Bullseye framework (*Traction*, Weinberg/Mares) + expansion-path thinking | 3 | draft |
@@ -99,14 +99,14 @@ don't turn a tool into a literature review.
 | `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
 | `guardrails` | What must not drop while hitting goals | Guardrail metrics + red lines (steering-committee reconciliation) | 5 | draft |
 | `resource-check` | Assess available resources this period | Lightweight capacity survey | 5 | draft |
-| `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping + smallest viable test | 5 | planned |
+| `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping (Bland/Osterwalder) + smallest viable test (metric · threshold · sample/duration · decision rule) | 4, 5 | draft |
 | `ab-test` | Run a controlled experiment | A/B testing with guardrail metrics | as needed | planned |
 | `cjm` | Customer journey map | Journey mapping | as needed | planned |
-| `jtbd` | Jobs-to-be-Done framing | JTBD (Christensen / Ulwick) | 1, 3 | planned |
+| `jtbd` | Jobs-to-be-Done framing | JTBD — Christensen 'progress' + Ulwick ODI (job statement · forces · desired outcomes) | 1, 3 | draft |
 | `brief` | Product/feature brief | Structured brief | as needed | planned |
-| `prioritization` | Rank must vs backlog | RICE / ICE, ranked by gate contribution | 5, 6 | planned |
+| `prioritization` | Rank must vs backlog | RICE / ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line | 5, 6 | draft |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
 | `handoff` | Session-to-session state transfer (HANDOFF.md) | Structured shift-handover (SBAR-style): state · environment checks · open forks · next step | any (session boundary) | draft |
-| `growth-activity` | Growth item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
+| `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
 
 The list is a starting set, not a closed spec — grow it as the community adds methods.

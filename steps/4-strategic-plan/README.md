@@ -22,7 +22,10 @@ This is where the strategy's choices get numbers, a metric tree, and mitigations
 The strategy (`[[strategy]]`), `metrics`, `analytics-search`, `kb`.
 
 ## Output
-`strategic-plan.md`.
+`strategic-plan.md`. The active [status](../../statuses/README.md) sets how far to push the
+instruments: `concept-viability` keeps the metric tree and model light (few real numbers yet);
+`pmf` builds the economics and North Star from first data; `growth` re-forecasts and optimizes
+against a working model.
 
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |

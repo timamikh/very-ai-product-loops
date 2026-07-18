@@ -1,3 +1,11 @@
+---
+node_type: agent-rules
+title: Agent rules — very-ai-product-loops
+status: draft
+version: 0.4.0
+updated: 2026-07-18
+---
+
 # Agent rules — very-ai-product-loops
 
 Read BEFORE any work, in this order (normative, not optional):

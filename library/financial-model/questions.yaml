@@ -1,11 +1,13 @@
-# financial-model — questions the data can't answer
+# financial-model — interview
+tool: financial-model
+produces: financial-model
 questions:
   - id: cap-policy
     ask: "If a scenario hits your slot/registration caps — do we model raising them (and the capacity/economics cost of that), or treat caps as policy?"
-    maps_to: "#financial-model capacity"
+    type: single_select
   - id: stretch-hypothesis
     ask: "Which named hypothesis powers the stretch scenario (e.g. activation fix, new channel)?"
-    maps_to: "#financial-model scenarios"
+    type: free_text
   - id: divergence-trigger
     ask: "What actual-vs-model divergence (%, months) should force a Step-4 revisit?"
-    maps_to: "#financial-model triggers"
+    type: free_text

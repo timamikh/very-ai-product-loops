@@ -11,15 +11,15 @@ per_step:
       - Name the riskiest assumption the concept rests on
       - Frame segments and pains as testable hypotheses, not facts
       - State the value bet (lead moat) to validate
-    tools: [interview, analytics-search, segmentation, segment-pains, value-definition, concept-formation]
+    tools: [concept-formation, segmentation, segment-pains, value-definition, jtbd]
   "2": { goals: ["— to define alongside step 2 —"], tools: [] }
   "3": { goals: ["— to define alongside step 3 —"], tools: [] }
   "4": { goals: ["— to define alongside step 4 —"], tools: [] }
   "5": { goals: ["— to define alongside step 5 —"], tools: [] }
   "6": { goals: ["— to define alongside step 6 —"], tools: [] }
 status: draft
-version: 0.2.0
-updated: 2026-07-16
+version: 0.2.1
+updated: 2026-07-18
 ---
 
 # Status: concept-viability
@@ -34,6 +34,14 @@ not internal product metrics (there aren't any yet). The hypothesis register is 
 gravity.
 
 ## Change log
+
+### 2026-07-18 — step-1 tools cleanup (audit)
+- **From → To:** step-1 `tools` dropped `interview` and `analytics-search` (those are **source
+  slots** / inputs, not library tools) and added `jtbd` (a step-1 job lens). Steps 2–6 stay
+  stubbed until a run on this stage fills them.
+- **Why:** `tools` should list library methods that fill sections; gathering is expressed via a
+  tool's `inputs`. Interviews/analytics as inputs are still described in the body below.
+- **Trigger:** framework audit, 2026-07-18.
 
 ### 2026-07-16 — per-step structure
 - **From → To:** flat priority_goals/recommended_tools → per_step goals + tools (step 1 filled)
