@@ -1,0 +1,24 @@
+# analytics-search — interview
+tool: analytics-search
+produces: market-research
+questions:
+  - id: research_questions
+    ask: "What must this research answer — market size? a specific trend? a barrier? (scope it; 'research the market' returns noise)"
+    type: list
+    why: "An open-ended search with no question is a pile of links that answers nothing."
+  - id: sources
+    ask: "Which sources will you triangulate — analyst reviews, articles, official indicators/statistics, named-expert opinion? (prefer primary + multiple independent)"
+    type: list
+    why: "One source stated as fact lets a stale or biased number drive strategy."
+  - id: size
+    ask: "Size signals — what does the evidence say about TAM/SAM/segment sizes? (each with source + date)"
+    type: free_text
+  - id: dynamics_trends
+    ask: "Dynamics and trends — is the market growing/declining, and what shifts are underway? (source + date; note conflicts)"
+    type: free_text
+  - id: barriers_risks_drivers
+    ask: "Barriers to entry, risks, and drivers — what helps or blocks a player here?"
+    type: list
+  - id: players
+    ask: "Who are the main players, and what's notable about each's position?"
+    type: list

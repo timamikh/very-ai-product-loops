@@ -1,0 +1,21 @@
+# interview — interview (intake to build the guide)
+tool: interview
+produces: interview-guide
+questions:
+  - id: goal
+    ask: "What one decision or hypothesis (H-…) must this interview inform?"
+    type: free_text
+    why: "No goal means a pleasant chat that decides nothing."
+  - id: portrait
+    ask: "Who exactly should we talk to — segment, role, behaviours — and what screening questions qualify or disqualify a candidate?"
+    type: free_text
+    why: "Recruiting for convenience means talking to the wrong people confidently."
+  - id: questions
+    ask: "Draft the questions — about PAST specific behaviour ('walk me through the last time…'), not hypotheticals, not leading, no pitching. Broad → specific."
+    type: list
+  - id: probes
+    ask: "What follow-up probes get past the first rehearsed answer? (why / tell me more / what did you do next)"
+    type: list
+  - id: logistics
+    ask: "Interviewer guide basics — how to open, length, consent/recording, what to avoid, how to close?"
+    type: free_text
