@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.2.1
-updated: 2026-07-17
+version: 0.4.0
+updated: 2026-07-18
 ---
 
 # very-ai-product-loops
@@ -48,12 +48,20 @@ and can be grown or adapted per company — without forking the framework.
 ├─ Registers ────────────── metrics · hypotheses · risks (vertical, living, shared state)
 │
 ├─ Library (library/) ───── methods as skills: value-definition, segmentation,
-│                           segment-pains, concept-formation, CJM, JTBD, A/B test, brief,
-│                           market-sizing, unit-economics… each = what / when / how / template
+│                           segment-pains, competitor-analysis, market-sizing, metric-tree,
+│                           unit-economics, financial-model, jtbd… each = what / when / how / template
 │
 └─ Statuses (statuses/) ─── product stages as config: concept-viability · PMF · growth
                             (extensible): priority goals + its own tool set
 ```
+
+Alongside the four planes, an **instance** also carries two supporting mechanisms, defined in
+[`CONVENTIONS.md`](CONVENTIONS.md) and [`OPERATING-LOOP.md`](OPERATING-LOOP.md):
+- **`sources/`** — external-data access notes and captured evidence, indexed in `sources/INDEX.md`
+  (see *Raw data & access* in CONVENTIONS: captured values go to the registers, secrets never into
+  artifacts, raw captures deleted once their values land).
+- **`HANDOFF.md`** — session-to-session state transfer, written by the `handoff` library tool at a
+  session boundary (it restores *state, not rules* — the reader still starts from `process/`).
 
 **How the planes interlock — softly (per rule 5):**
 - A **step** says "at this stage produce sections A, B, C and pass gate G" and *recommends*
@@ -112,8 +120,9 @@ tool emphasis are set by the active [status](../statuses/README.md).
 
 Strategy (3–4) is organized around **goals / bets / metrics** — never org structure.
 Execution (5–6) is organized around **directions**, an editable instance config (default:
-`development` · `growth` · `back-office`); the number of directions can change depending on
-the product's specifics.
+`development` · `go-to-market` · `back-office`); the number of directions can change depending on
+the product's specifics. (The direction is named `go-to-market`, not `growth`, to avoid colliding
+with the `growth` **status** — a stage of maturity, not a stream of work.)
 
 - **1 · Idea / Concept** — Goal: capture the concept — who it's for, their problems, how the
   product solves them, and its value/defensibility hypothesis. Seeds the **hypothesis
@@ -148,13 +157,20 @@ the product's specifics.
 ## 5. The three vertical registers
 
 Metrics, hypotheses, and risks are **not re-authored at each step** — living objects born
-once and refined downward, with results flowing back up.
+once and refined downward, with results flowing back up. Field schemas and the hard rules are in
+[`REGISTERS.md`](REGISTERS.md).
 
 | Register | Born at | Refined at | Purpose |
 |----------|---------|------------|---------|
-| **Metric tree** | Step 4 | 5 (nodes to move) → 6 (task ↔ metric) | one canonical decomposition of the North Star |
+| **Metric register** | Step 4 | 5 (nodes to move) → 6 (task ↔ metric) | one canonical decomposition of the North Star |
 | **Hypothesis register** | Step 1/3 | 4 (quantify) → 5 (test design) → 6 (experiment tasks) | bets get concrete downward; results feed back up |
 | **Risk register** | Step 2 | 3 (product) → 4 (mitigation) → 5 (period blockers) | accumulates, never rewritten |
+
+> **Metric register = one split, always** (per *One mechanism, one way*): node **definitions** live
+> in `metric-tree.md`, dated **values** live in `metrics.csv` (append-only:
+> `id,period_start,period_end,measured_at,value,basis,source,note`). A captured value goes to the
+> csv at capture time — even before Step 4 builds the tree; a `sources/` snapshot is *evidence*, not
+> its home. A changed definition mints a **new id**; every id in the csv must be defined in the md.
 
 ---
 
@@ -176,6 +192,11 @@ Statuses (and their goals, rules, and tool sets) are **configurable per company/
 You can add stages without breaking the framework: the process core reads whatever status is
 active and applies its parameters.
 
+> **A status may not yet define `per_step` for a given step.** That does not block: the loop
+> works by the step defaults, and at *Update state* the agent proposes filling that status's
+> `per_step` from what the pass just learned — so statuses complete as a by-product of the first
+> run through each stage, never left as standing stubs.
+
 ---
 
 ## 7. Library (method plane)
@@ -190,11 +211,30 @@ company-specific or opinionated methods live, keeping the process core neutral.
 
 ## 8. Cross-cutting conventions
 
-- **Dated entries + rationale everywhere.** Each artifact has a change log: date, from→to,
-  why, trigger. Git history is secondary; the in-artifact log carries the motivation.
-- **Confidence tags:** `assumption` · `sourced` · `validated` · `refuted` on every claim.
-- **Source slots.** Each step and tool declares its inputs (git · metrics · KB · interview),
-  so aggregation skills can later fill them automatically.
+The authority is [`CONVENTIONS.md`](CONVENTIONS.md); this is the map. Conventions are **not
+uniform across file types** — the *Which conventions apply where* matrix (by `node_type`) says
+which apply to an artifact vs a register vs a source vs a handoff. Omitting a convention the
+matrix marks n/a is correct, not a lapse.
+
+- **Dated change logs + rationale.** Artifacts, sources, registers, and framework files carry a
+  change log (date · from→to · why · trigger). Narrative artifacts included. Not source files'
+  raw captures.
+- **Confidence tags** (`assumption` · `sourced` · `validated` · `refuted`) on every non-trivial
+  claim **in artifacts** — *but not in registers*, where confidence is a table column instead
+  (per the matrix). A missing tag reads as `assumption`.
+- **One mechanism, one way.** Framework mechanics have exactly one canonical form (where values
+  live, file formats, ids, anchors) — no dual formats or migration thresholds. Product decisions
+  fork; mechanics must not.
+- **Forks & options — triage first.** The agent escalates only consequential + not-defaultable
+  decisions, each as 2–4 options with trade-offs + a ⚙️ recommendation; everything reversible and
+  cheap it decides itself, marks ⚙️, and logs — it does not ask. `— to clarify —` is never
+  standing debt.
+- **Source slots + Raw data & access.** Each step and tool declares its inputs (git · metrics ·
+  KB · interview). External-data access lives in a `sources/` file (indexed in `sources/INDEX.md`);
+  captured values go to the registers; raw captures are deleted once landed; secrets are never
+  written into artifacts, only where they live and how to rotate them.
+- **Talking to the human.** In chat, never a bare id/anchor/link — decode what stands behind it
+  in the same sentence.
 - **Typed links (GitMark-lite).** Artifacts link across steps: plan item → hypothesis →
   metric node → strategy bet. Gives graph + search for free.
 - **Soft gates.** Each step has a "step is defended" checklist that reports open items but
@@ -204,7 +244,9 @@ company-specific or opinionated methods live, keeping the process core neutral.
 
 ## 9. The three anatomies
 
-Defined in Phase 1; summarized here.
+Defined in Phase 1; summarized here. (`template-fragment.md` is part of **every** tool, including
+survey-style ones; the `handoff` tool follows the same tool anatomy and writes the instance's
+`HANDOFF.md` at session boundaries — see §2 and OPERATING-LOOP.)
 
 **Step** (`steps/N-name/`) — thin:
 ```
@@ -243,3 +285,21 @@ Deferred by design, kept out of the neutral core:
 
 The base artifacts are kept structured (stable IDs, source slots, typed links) precisely so
 these can be added on top without rework.
+
+---
+
+## Change log
+
+### 2026-07-18 — realign OVERVIEW with the 0.3–0.4 rules (audit fix)
+- **From → To:** OVERVIEW had drifted at 0.2.1 while the other process files reached 0.4.0 →
+  pulled in the rules it was missing or contradicting: *One mechanism, one way*; fork triage
+  (agent closes reversible forks itself); *Talking to the human*; *Raw data & access* + the
+  `sources/` instance mechanism; the *node_type × conventions* matrix (§8 no longer claims tags
+  "on every claim everywhere" — registers use a column, not prose tags); the metric-register
+  split (`metric-tree.md` defs + `metrics.csv` values, csv⊆md); the `handoff` tool + `HANDOFF.md`;
+  empty-`per_step` fallback. Renamed the **direction** `growth` → `go-to-market` (the `growth`
+  **status** is unchanged); unified the register's name to **Metric register**; refreshed the
+  library examples to tools that actually exist.
+- **Why:** a full 6-step run surfaced that the master overview no longer matched the canon it
+  summarizes — the audit traced most process-plane discrepancies back to this drift.
+- **Trigger:** framework audit, 2026-07-18.

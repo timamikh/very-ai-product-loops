@@ -1,19 +1,21 @@
 ---
 name: unit-economics
 kind: method
-produces: strategic-plan#unit-economics
+produces: unit-economics
+reads_registers: [metrics, hypotheses]
+writes_registers: [metrics]
+inputs: [metrics]
 prerequisites:
   - revenue and paying-customer counts by tariff (billing)
   - cost lines incl. LLM inference (fact external spend AND own-compute cost: server + hardware depreciation)
   - acquisition channel costs (or an explicit CAC≈0 claim with its source)
   - churn/retention if instrumented — otherwise model as scenarios, never as a guessed constant
-reads_registers: [metrics, hypotheses]
-writes_registers: [metrics]
-inputs: [metrics]
 used_by_steps: [4]
+opinionated: true
+method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
 status: draft
-version: 0.1.0
-updated: 2026-07-17
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Unit economics — does one customer pay for themselves?
@@ -24,7 +26,17 @@ runs on its own GPUs, compute the economics in **two bases side by side** — `o
 the P&L shows under internal transfer pricing) and `honest` (adding hardware depreciation /
 market compute price) — so a segment can't look profitable only because the metal is "free".
 
-**How to do it (thin):**
+## When to apply
+- Step 4, when you need to know whether a single customer pays for themselves before scaling.
+
+## Prerequisites
+- **Revenue and paying-customer counts by tariff** (billing).
+- **Cost lines incl. LLM inference** — fact external spend AND own-compute cost (server + hardware
+  depreciation).
+- **Acquisition channel costs** — or an explicit CAC≈0 claim with its source.
+- **Churn/retention if instrumented** — otherwise model as scenarios, never as a guessed constant.
+
+## How to do it
 1. **Revenue per paying account** — blended AND by tariff (price ≠ ARPPU when one-time/PAYG mix in).
 2. **COGS per paying account** in both bases. Allocate inference by actual usage share (tokens),
    not headcount; state the allocation rule as an `[assumption]`. Non-paying usage (free tier,
@@ -36,6 +48,13 @@ market compute price) — so a segment can't look profitable only because the me
 6. **Register:** unit metrics become `M-…` nodes (ARPPU, contribution, CAC) with basis column
    in `metrics.csv`.
 
-**Anti-patterns:** one blended number hiding a money-losing segment · inference cost averaged
-per user when usage is power-law (top accounts eat the budget — check the distribution) ·
-LTV from an invented churn constant · ignoring free-tier burn because "they don't pay".
+## Anti-patterns
+- One blended number hiding a money-losing segment.
+- Inference cost averaged per user when usage is power-law (top accounts eat the budget — check
+  the distribution).
+- LTV from an invented churn constant.
+- Ignoring free-tier burn because "they don't pay".
+
+## Output
+Fills `{#unit-economics}` via [`template-fragment.md`](template-fragment.md); inputs via
+[`questions.yaml`](questions.yaml).

@@ -8,9 +8,10 @@ inputs: [interview, kb]
 prerequisites: [concept, segments, what-we-have-or-can-build, competitor-context]
 used_by_steps: [1, 3]
 opinionated: true
+method_basis: "7 Powers (Helmer) → base/derivative moats; post-AI lens (software isn't the moat, position is)"
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Value & Defensibility

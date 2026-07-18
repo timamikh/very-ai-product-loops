@@ -32,7 +32,7 @@ which to lean on.
 | `pricing` | Competitor pricing — orients our pricing & feeds the financial model | `competitor-analysis` |
 | `competitor-dynamics` | How each competitor develops over time (revenue/headcount trend) — compares strategy effectiveness | `competitor-analysis` |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | `substitutes` |
-| `niche-risks` | Structural risks of the niche (light Five Forces) | `analytics-search` |
+| `niche-risks` | Structural risks of the niche (light Five Forces) | — (synthesis, light Five Forces) |
 | `opportunity` | The "so what" — where the white space / the threat is | — (synthesis) |
 
 ## Register touchpoints
