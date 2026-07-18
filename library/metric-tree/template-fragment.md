@@ -1,25 +1,22 @@
----
-node_type: template-fragment
-tool: metric-tree
-produces: strategic-plan#metric-tree
----
+<!--
+  template-fragment: metric-tree → fills {#metric-tree} (Step 4)
+  Follow process/CONVENTIONS.md. Node DEFINITIONS live in registers/metric-tree.md and VALUES in
+  registers/metrics.csv — this section is the shape + rationale, not a value store. ⚙️ = agent proposal.
+-->
 
-```markdown
-## Дерево метрик {#metric-tree}
-_Метод: North Star Framework. Узлы — в реестре метрик (`registers/metric-tree.md` — определения,
-`metrics.csv` — значения)._
+## Metric tree {#metric-tree}
+_Method: North Star Framework. Nodes live in the metric register (`registers/metric-tree.md` —
+definitions; `registers/metrics.csv` — values). This section is the shape + rationale, not a value store._
 
-**North Star:** `M-…` — <формула> [статус решения: ⚙️ / утверждено <кем, когда>]
-_Почему она: leading / value-repeating / strategy-encoding — одной строкой каждое._
+**North Star:** `M-…` — <formula> · [decision: ⚙️ / approved <who, when>]
+_Why this one: leading · value-repeating · strategy-encoding (one line each)._
 
-| Драйвер | Узел | Инпуты (узлы) | Instrumentation |
-|---------|------|---------------|-----------------|
-| <acquisition/активация> | `M-…` | `M-…` | instrumented/proxy/not |
-| <conversion> | … | … | … |
-| <deepening — ось стратегии> | … | … | … |
-| <retention> | … | … | … |
+| Driver | Node | Inputs (nodes) | Instrumentation |
+|--------|------|----------------|-----------------|
+| acquisition / activation | `M-…` | `M-…` | instrumented / proxy / not |
+| conversion | … | … | … |
+| deepening (strategy axis) | … | … | … |
+| retention | `M-…` | … | … |
 
-**Guardrails:** `M-…` — <что не должно просесть и почему>.
-
-**Не инструментировано (→ Шаги 5–6):** список узлов + чем закрывать.
-```
+**Guardrails:** `M-…` — <what must not drop and why>.
+**Not instrumented (→ Steps 5–6):** list of nodes + how to close each.

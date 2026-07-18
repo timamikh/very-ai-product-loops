@@ -72,7 +72,7 @@ Set the period's priorities and accept the goals; the agent proposes goals from 
   testable go-to-market entry with a channel + first action + success signal, gated on
   test-readiness. Bundles are the candidates `prioritization` scores and `hypothesis-test-design`
   then turns into experiments.
-- **Trigger:** missing-tools pass (сегмент-CVP method), 2026-07-18.
+- **Trigger:** missing-tools pass (segment-CVP method), 2026-07-18.
 
 ### 2026-07-18 — ab-test note on hypotheses-to-test
 - **From → To:** `hypotheses-to-test` recommended-tool cell now names `ab-test` for split-traffic

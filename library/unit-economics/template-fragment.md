@@ -1,23 +1,21 @@
----
-node_type: template-fragment
-tool: unit-economics
-produces: strategic-plan#unit-economics
----
+<!--
+  template-fragment: unit-economics → fills {#unit-economics} (Step 4)
+  Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
+-->
 
-```markdown
-## Юнит-экономика {#unit-economics}
-_Метод: contribution margin, LLM-инференс — явная строка COGS. Две базы: operational / honest._
+## Unit economics {#unit-economics}
+_Method: contribution margin, LLM inference as an explicit COGS line. Two bases: operational / honest.
+LTV uses the retention curve from `{#retention}`, not an assumed churn %._
 
-| Показатель | Operational | Honest (+износ/рыночный compute) | Допущения |
-|-----------|-------------|----------------------------------|-----------|
-| Выручка на платящего (blended, ₽/мес) | | | |
-| COGS на платящего (₽/мес) | | | [assumption: правило аллокации] |
-| Вклад (₽/мес · %) | | | |
-| CAC (по каналам) | | | [sourced/⚙️] |
+| Metric | Operational | Honest (+depreciation / market compute) | Assumptions |
+|--------|-------------|------------------------------------------|-------------|
+| Revenue per payer (blended, ₽/mo) | | | |
+| COGS per payer (₽/mo) | | | [assumption: allocation rule] |
+| Contribution (₽/mo · %) | | | |
+| CAC (by channel) | | | [sourced / ⚙️] |
 | Payback | | | |
-| LTV | — сценарии по churn X/Y/Z% ⚙️ — | | до инструментовки честного churn |
+| LTV | — churn scenarios X/Y/Z% ⚙️ — | | from the `{#retention}` curve once instrumented |
 
-**По тарифам:** <строка на тариф: цена · факт-ARPPU · вклад в обеих базах>
-**Кто несёт free/грантовое потребление:** <явное решение>
-**Сегменты-исключения:** <например, полигон-аккаунты — вклад в honest-базе>
-```
+**By tariff:** <one row per tariff: price · actual ARPPU · contribution in both bases>
+**Who bears free / grant consumption:** <explicit decision>
+**Excluded segments:** <e.g. polygon accounts — contribution in the honest basis>

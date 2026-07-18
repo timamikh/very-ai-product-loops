@@ -75,3 +75,11 @@ checks, so "done" is verifiable, not vibes).
 
 Decide at the forks the agent surfaces (which segment to lead with, which moat to bet on).
 The agent drafts everything else from sources and marks its proposals with ⚙️.
+
+## Change log
+
+### 2026-07-16 — created (golden exemplar)
+- **From → To:** — → Step 1 skeleton + `template.md` (passport), the anatomy the other steps mirror.
+- **Note:** at `concept-viability`, `segment-cvp` and `jtbd` act here as **lenses** (surfaced via the
+  status' per_step tools), seeding the hypothesis register without owning a passport section.
+- **Trigger:** Phase 1 / PR #2.

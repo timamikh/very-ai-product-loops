@@ -13,7 +13,7 @@ used_by_steps: [4, 5]
 opinionated: true
 method_basis: "North Star Framework (Amplitude); anti-lamppost — right metric over measurable"
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-07-18
 ---
 

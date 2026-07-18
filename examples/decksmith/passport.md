@@ -77,14 +77,14 @@ back it. [assumption]
 | Priority | Moat | Layer | Have / Building / Aspiration | Survives an LLM rebuild? | Confidence |
 |----------|------|-------|------------------------------|--------------------------|------------|
 | A (lead) | Unique algorithms/IP — the "editable + beautiful" engine | hard | Aspiration | Yes — quality is hard to replicate | [assumption] → `H-004` |
-| Д | Brand / design expertise — recognized design taste | soft | Aspiration | Partly | [assumption] |
-| Б | Unique data — corpus of high-quality designed decks | hard | Aspiration | Yes — supports A | [assumption] |
+| D | Brand / design expertise — recognized design taste | soft | Aspiration | Partly | [assumption] |
+| B | Unique data — corpus of high-quality designed decks | hard | Aspiration | Yes — supports A | [assumption] |
 
 **Derivative moats:** none claimed at concept stage (no customers/scale yet). Revisit at
 Strategy — potential lock-in via native-format/workspace integration once customers exist.
 
-**Defensibility summary:** ⚙️ lead moat = the engine (A), fed by a design corpus (Б), fronted
-by design brand (Д). Durability = M–H *if* engine quality proves out. Why it holds = the app is
+**Defensibility summary:** ⚙️ lead moat = the engine (A), fed by a design corpus (B), fronted
+by design brand (D). Durability = M–H *if* engine quality proves out. Why it holds = the app is
 cloneable, the sustained editable-and-beautiful quality is not.
 
 ## Seeded hypotheses {#hypotheses}

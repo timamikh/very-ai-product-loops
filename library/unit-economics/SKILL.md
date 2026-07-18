@@ -14,7 +14,7 @@ used_by_steps: [4]
 opinionated: true
 method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-07-18
 ---
 

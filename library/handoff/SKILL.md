@@ -13,7 +13,7 @@ used_by_steps: [any]
 opinionated: false
 method_basis: "Structured shift-handover (SBAR-style): state · environment checks · open forks · next step"
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-07-18
 ---
 
@@ -38,7 +38,7 @@ know is stale.
 2. **End of a working session** on an instance with work in flight (an artifact mid-fill, an
    open fork awaiting the human).
 3. **Context is about to be compacted / the task is being transferred** to another agent.
-4. **On request** — the human says "подготовь хэндофф" / "prepare a handoff".
+4. **On request** — the human asks to prepare a handoff (in any language).
 
 ## Prerequisites
 

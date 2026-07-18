@@ -1,8 +1,8 @@
----
-node_type: template-fragment
-tool: handoff
-produces: HANDOFF.md
----
+<!--
+  template-fragment: handoff → writes the instance-root HANDOFF.md (a whole file, not a section).
+  Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
+  The fenced block below is the HANDOFF.md file skeleton the tool emits.
+-->
 
 # HANDOFF template (instance root)
 
