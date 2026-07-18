@@ -10,7 +10,7 @@ per_step:
     goals:
       - Sharpen segments/pains with real usage evidence, not just interviews
       - Confirm the value bet against how first clients actually behave
-    tools: [segment-pains, segmentation, value-definition]
+    tools: [segment-pains, segmentation, value-definition, segment-cvp]
   "2":  # Analysis
     goals:
       - Refresh the market read with LIVE data — prices and competitors move; a stale read misleads pricing
@@ -20,25 +20,28 @@ per_step:
     goals:
       - Sharpen how-to-win around what actually RETAINS paying users, not just what attracts them
       - Turn the retention logic into a testable bet and name the moats it leverages
-    tools: [where-to-play-how-to-win, uvp-cpv, value-definition, channels-expansion, jtbd, risk-mitigation]
+      - Set pricing & packaging that captures the repeatable value (value metric + fences), tested not assumed
+    tools: [where-to-play-how-to-win, uvp-cpv, value-definition, pricing, channels-expansion, jtbd, risk-mitigation]
   "4":  # Strategic Plan
     goals:
       - Build the metric tree with a North Star that ENCODES the strategy, not a vanity/lag metric
       - Prove unit economics in BOTH bases (operational and honest own-compute) — profit must survive the honest one
+      - Read retention by cohort — the flattening curve is the PMF signal and the real churn input to LTV, not an assumed %
       - Model off drivers, treat churn as a scenario axis, and surface capacity caps as a first-class ceiling
-    tools: [metric-tree, unit-economics, financial-model, risk-mitigation, hypothesis-test-design]
+    tools: [metric-tree, retention-analysis, unit-economics, financial-model, risk-mitigation, hypothesis-test-design]
   "5":  # Tactical Plan
     goals:
       - Pick the few metric nodes whose movement would prove repeatable value this period
       - Design the smallest tests for the live bets; set guardrails so growth doesn't erode the economics
-    tools: [prioritization, metric-tree, hypothesis-test-design, guardrails, resource-check]
+      - Compose & stage market-entry bundles for the go-to-market direction; test the strongest with pre-set decision rules
+    tools: [prioritization, segment-cvp, metric-tree, hypothesis-test-design, guardrails, resource-check]
   "6":  # Sprint Plan
     goals:
       - Must-set = only what proves value/monetization or unblocks its measurement (instrumentation first if it's missing)
       - Every item moves a metric node or tests a hypothesis; defer scale-spend items to the backlog
     tools: [prioritization, feature-spec, activity-spec]
 status: draft
-version: 0.3.0
+version: 0.3.1
 updated: 2026-07-18
 ---
 
@@ -52,6 +55,15 @@ metrics** (with a few interviews for the "why"). Hypotheses move from "is there 
 "does value repeat and can we charge".
 
 ## Change log
+
+### 2026-07-18 — wired in the three new tools
+- **From → To:** added the new library tools to pmf per_step where they fit: `segment-cvp`
+  (steps 1 & 5 — compose/stage go-to-market bundles), `pricing` (step 3 — value metric + fences
+  that capture the repeatable value), `retention-analysis` (step 4 — cohort curve as the churn
+  input to LTV). Added a goal line for each.
+- **Why:** the missing-tools pass added tools directly relevant to the PMF job (capture repeatable
+  value, prove it retains); the status should point to them.
+- **Trigger:** missing-tools + per_step pass, 2026-07-18.
 
 ### 2026-07-18 — analytics-search added to step 2
 - **From → To:** step-2 `tools` gained `analytics-search` — now an authored **research tool** it's
