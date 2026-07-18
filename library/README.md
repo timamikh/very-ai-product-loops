@@ -2,8 +2,8 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Library
@@ -90,6 +90,7 @@ don't turn a tool into a literature review.
 | `substitutes` | Non-obvious competition | JTBD competition incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes | 2 | draft |
 | `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) — winning-aspiration / where-to-play / how-to-win cascade | 3 | draft |
 | `uvp-cpv` | Value proposition / CPV | Dunford positioning + Value Proposition Canvas + customer-perceived value | 3 | draft |
+| `pricing` | Pricing model & packaging | Value-based pricing — value metric, tiers/fences, WTP (van Westendorp), price vs the next-best alternative | 3, 4 | draft |
 | `channels-expansion` | Channels & expansion | Bullseye framework (*Traction*, Weinberg/Mares) + expansion-path thinking | 3 | draft |
 | `risk-mitigation` | Risks → owned mitigations | Pre-mortem (Klein) + risk-register triage (prob × impact) + mitigation/owner | 3, 4 | draft |
 | `product-surface` | User-interaction surfaces + instrumentation | Touchpoint mapping + instrumentation planning | 3, 4 | draft |
@@ -97,12 +98,14 @@ don't turn a tool into a literature review.
 | `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude); anti-lamppost: right metric over measurable metric | 4 | draft |
 | `unit-economics` | CAC/LTV/payback/contribution | Contribution margin; LLM inference as explicit COGS; dual basis (operational/honest own-compute) | 4 | draft |
 | `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
+| `retention-analysis` | Cohort retention curve + engagement loop | Flattening cohort curve as PMF signal; retention by cohort/frequency; real churn input to LTV, not an assumed % | 4 | draft |
 | `guardrails` | What must not drop while hitting goals | Guardrail metrics + red lines (steering-committee reconciliation) | 5 | draft |
 | `resource-check` | Assess available resources this period | Lightweight capacity survey | 5 | draft |
 | `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping (Bland/Osterwalder) + smallest viable test (metric · threshold · sample/duration · decision rule) | 4, 5 | draft |
 | `ab-test` | Run a controlled experiment | Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrails, MDE-driven sizing, no-peek stopping rule | 5 | draft |
 | `cjm` | Customer journey map | Journey mapping — stages · touchpoints · emotion curve · pains → opportunities | 1, 3 | draft |
 | `jtbd` | Jobs-to-be-Done framing | JTBD — Christensen 'progress' + Ulwick ODI (job statement · forces · desired outcomes) | 1, 3 | draft |
+| `segment-cvp` | Compose a testable go-to-market entry bundle | Market-entry bundle (segment · situation · pain · CVP · offer · channel · signal) + 6-filter readiness gate + qualified-action signal scale | 1, 5 | draft |
 | `brief` | Product/feature brief | Structured brief — problem · goal · target metric · scope in/out · owner | any | draft |
 | `prioritization` | Rank must vs backlog | RICE / ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line | 5, 6 | draft |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
@@ -110,3 +113,21 @@ don't turn a tool into a literature review.
 | `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
 
 The list is a starting set, not a closed spec — grow it as the community adds methods.
+
+## Change log
+
+### 2026-07-18 — three tools added (missing-tools pass)
+- **From → To:** added `segment-cvp` (compose a testable go-to-market entry bundle + readiness
+  gate; Steps 1, 5 → new `market-bundles` section), `pricing` (value-based pricing & packaging;
+  Steps 3, 4 → new `pricing` section), `retention-analysis` (cohort retention curve + engagement
+  loop; Step 4 → new `retention` section). Each wired into its step README(s) and, where relevant,
+  the statuses' per_step.
+- **Why:** a gap review (informed by the segment-CVP sprint method) found the framework decomposed
+  value but never *composed* a testable market entry; had no place to *set* price (only inputs and
+  a margin check); and consumed a churn number no tool measured.
+- **Trigger:** missing-tools pass, 2026-07-18. Each new tool carries an explicit "Relation to
+  neighbours" note (one mechanism, one way).
+
+### 2026-07-16 — created
+- **From → To:** — → library index + anatomy
+- **Trigger:** Phase 1.

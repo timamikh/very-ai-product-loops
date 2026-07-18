@@ -5,10 +5,10 @@ name: tactical-plan
 title: "Step 5 — Tactical Plan"
 output: tactical-plan.md
 cadence: "~1–3 mo; stage-gate ~monthly"
-method_basis: "OKR-style goals per direction · targets = metric nodes (go-to-market) or DoD (technical & back-office) · guardrails / red lines (steering-committee reconciliation) · resource survey · experiment design · prioritization (RICE/ICE)"
+method_basis: "OKR-style goals per direction · targets = metric nodes (go-to-market) or DoD (technical & back-office) · guardrails / red lines (steering-committee reconciliation) · resource survey · go-to-market bundle composition + readiness gate · experiment design · prioritization (RICE/ICE)"
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.2.0
+updated: 2026-07-18
 ---
 
 # Step 5 — Tactical Plan
@@ -35,12 +35,15 @@ The strategic plan (`[[strategic-plan]]`), the metric register, the hypothesis r
 | `goal-targets` | What each goal maps to: **go-to-market → metric node (`M-…`); technical & back-office → a Definition of Done** | `metric-tree` |
 | `guardrails` | What must **not** drop while hitting the goals — protected metrics / red lines | `guardrails` |
 | `resources` | Resources available this period (people, budget, time) — via survey | `resource-check` |
+| `market-bundles` | Candidate go-to-market entries (segment · situation · pain · CVP · offer · channel · signal), gated on test-readiness | `segment-cvp` |
 | `hypotheses-to-test` | Which `H-…` we test now + the test design | `hypothesis-test-design` (`ab-test` when the test is a split-traffic experiment) |
 | `blockers` | Dependencies/blockers with an owner | — |
 
 ## Register touchpoints
 - **Metric tree** — go-to-market goals select nodes to move (`M-…`); guardrails are protected `M-…` nodes.
-- **Hypotheses** — picks `H-…` to test and attaches a test design.
+- **Hypotheses** — `market-bundles` seed go-to-market bets (`H-…`, `type: desirability`);
+  `hypotheses-to-test` picks `H-…` and attaches a test design. `prioritization` scores which
+  ready bundles are staged this period.
 - **Risks** — period `blockers` link back to `R-…`; guardrails encode risks-not-to-realize.
 
 ## Gate checklist (soft) — each item ↔ artifact section
@@ -48,6 +51,7 @@ The strategic plan (`[[strategic-plan]]`), the metric register, the hypothesis r
 - [ ] go-to-market goals map to metric nodes; technical & back-office goals map to a DoD → `tactical-plan#goal-targets` → metric register
 - [ ] guardrails set — what must not drop → `tactical-plan#guardrails`
 - [ ] available resources assessed (survey) → `tactical-plan#resources`
+- [ ] go-to-market entries composed as bundles and gated on readiness (6 filters + three-things test) → `tactical-plan#market-bundles` → hypothesis register
 - [ ] hypotheses to test have a test design → `tactical-plan#hypotheses-to-test` → hypothesis register
 - [ ] blockers listed with an owner → `tactical-plan#blockers`
 
@@ -58,3 +62,23 @@ The strategic plan (`[[strategic-plan]]`), the metric register, the hypothesis r
 
 ## The human's role
 Set the period's priorities and accept the goals; the agent proposes goals from the metric tree and ranks the work.
+
+## Change log
+
+### 2026-07-18 — added `market-bundles` section
+- **From → To:** skeleton gained `market-bundles` (segment · situation · pain · CVP · offer ·
+  channel · signal), filled by the new `segment-cvp` tool; gate + register touchpoints updated.
+- **Why:** the framework decomposed value (segments/pains/jtbd/uvp) but had no place to *compose* a
+  testable go-to-market entry with a channel + first action + success signal, gated on
+  test-readiness. Bundles are the candidates `prioritization` scores and `hypothesis-test-design`
+  then turns into experiments.
+- **Trigger:** missing-tools pass (сегмент-CVP method), 2026-07-18.
+
+### 2026-07-18 — ab-test note on hypotheses-to-test
+- **From → To:** `hypotheses-to-test` recommended-tool cell now names `ab-test` for split-traffic
+  experiments alongside `hypothesis-test-design`.
+- **Trigger:** PR #8 (ab-test authored).
+
+### 2026-07-16 — created
+- **From → To:** — → Step 5 skeleton (period goals per direction · test selection)
+- **Trigger:** Phase 1 / PR #5.
