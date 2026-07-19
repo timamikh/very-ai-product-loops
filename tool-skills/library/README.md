@@ -2,8 +2,8 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.3.0
+updated: 2026-07-19
 ---
 
 # Library
@@ -25,10 +25,10 @@ All of this is soft: recommendations, not requirements.
 
 ## Anatomy of a tool
 
-Each tool is a folder `library/<tool>/`:
+Each tool is a folder `tool-skills/library/<tool>/`:
 
 ```
-library/<tool>/
+tool-skills/library/<tool>/
   SKILL.md             # what it is · when to apply it · PREREQUISITES · how to do it · anti-patterns
   template-fragment.md # the artifact section it produces, with source + confidence markers
   questions.yaml       # the interview to gather inputs (also renders to a fillable file)
@@ -36,7 +36,7 @@ library/<tool>/
 ```
 
 **Prerequisites checklist (required).** Every `SKILL.md` lists the info / artifacts / access the
-tool needs before it can run. In the [operating loop](../process/OPERATING-LOOP.md) the agent
+tool needs before it can run. In the [operating loop](../../process/OPERATING-LOOP.md) the agent
 checks this list first; for anything missing it **asks the human to provide it, or offers to
 help develop or obtain it** (draft the analysis, prepare an interview guide, write the access
 request). A tool never runs on a guessed input.
@@ -59,7 +59,7 @@ used_by_steps: [1, 3]                  # soft, informational
 
 ## How to add a tool
 
-1. Create `library/<tool>/` with the anatomy above.
+1. Create `tool-skills/library/<tool>/` with the anatomy above.
 2. Fill `SKILL.md` (what / when / how / anti-patterns) and its frontmatter wiring.
 3. Add `template-fragment.md` and `questions.yaml`.
 4. Register it in the index below.
@@ -109,12 +109,23 @@ don't turn a tool into a literature review.
 | `brief` | Product/feature brief | Structured brief — problem · goal · target metric · scope in/out · owner | any | draft |
 | `prioritization` | Rank must vs backlog | RICE / ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line | 5, 6 | draft |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
-| `handoff` | Session-to-session state transfer (HANDOFF.md) | Structured shift-handover (SBAR-style): state · environment checks · open forks · next step | any (session boundary) | draft |
 | `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
+
+> **Runtime skills live elsewhere.** `handoff` (session-to-session state transfer) was a library
+> entry; it is a *runtime* capability, not a product method, and now lives in
+> [`tool-skills/operations/`](../operations/README.md). The library holds product methods only.
 
 The list is a starting set, not a closed spec — grow it as the community adds methods.
 
 ## Change log
+
+### 2026-07-19 — moved under `tool-skills/`; `handoff` left for `operations/`
+- **From → To:** `library/` → `tool-skills/library/`. Removed the `handoff` row — it is a runtime
+  capability, not a product method, and moved to [`tool-skills/operations/`](../operations/README.md).
+  The library is now product methods only.
+- **Why:** the three pluggable skill planes (`library` · `operations` · `adapters`) now live under one
+  `tool-skills/` umbrella, opposite the fixed core (`process` · `steps` · `statuses` · `registers`).
+- **Trigger:** restructure discussion, 2026-07-19.
 
 ### 2026-07-18 — three tools added (missing-tools pass)
 - **From → To:** added `segment-cvp` (compose a testable go-to-market entry bundle + readiness

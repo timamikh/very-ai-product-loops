@@ -13,8 +13,8 @@ used_by_steps: [any]
 opinionated: false
 method_basis: "Structured shift-handover (SBAR-style): state · environment checks · open forks · next step"
 status: draft
-version: 0.2.1
-updated: 2026-07-18
+version: 0.3.0
+updated: 2026-07-19
 ---
 
 # Handoff — session-to-session state transfer
@@ -94,3 +94,12 @@ running the listed checks before relying on it; fix and update the handoff if re
 
 Writes/updates `HANDOFF.md` at the instance root via [`template-fragment.md`](template-fragment.md);
 inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).
+
+## Change log
+
+### 2026-07-19 — moved to `operations/`
+- **From → To:** `library/handoff/` → `tool-skills/operations/handoff/`. No behavior change.
+- **Why:** `handoff` is a runtime skill (how the agent works across sessions), not a product method;
+  the library now holds product methods only. The mechanism's authority stays
+  `process/OPERATING-LOOP.md` → "Session handoff"; this file carries the form.
+- **Trigger:** restructure discussion, 2026-07-19.

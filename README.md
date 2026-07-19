@@ -2,7 +2,7 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: draft
-version: 0.4.2
+version: 0.5.0
 updated: 2026-07-19
 ---
 
@@ -33,16 +33,22 @@ pluggable methods (a **library**) and pluggable product stages (**statuses**). T
 the game stay fixed; the methods themselves — and how each product stage prioritizes them —
 are swappable and extensible per company, without forking the framework.
 
-## Architecture — four planes (+ an output layer)
+## Architecture — a fixed core + pluggable tool-skills
+
+**The fixed core** — the rules and the board; it changes rarely:
 
 - **Process core** (`steps/`) — thin skeleton per step: goal, gate checklist, movement rules, register touchpoints, artifact structure. No methods inside.
 - **Registers** — three living, vertical objects: metrics · hypotheses · risks.
-- **Library** (`library/`) — product methods as skills: what / when / how / template. See [`library/README.md`](library/README.md).
 - **Statuses** (`statuses/`) — product stages as config (concept-viability · PMF · growth, extensible). See [`statuses/README.md`](statuses/README.md).
+- **Rules** (`process/`) — the normative model, loop, conventions, register schemas.
 
-On top of the four planes, an **output layer** renders the structured instance into deliverables:
+**The pluggable skills** — instruction skills the agent picks up and runs, grouped under [`tool-skills/`](tool-skills/README.md) and swappable per company without forking the core:
 
-- **Adapters** (`adapters/`) — `to-table` · `to-document` · `to-deck`. Base adapters ship here (neutral); company-specific formats stay external and specialize them. See [`adapters/README.md`](adapters/README.md).
+- **Library** (`tool-skills/library/`) — product methods as skills: what / when / how / template. See [`tool-skills/library/README.md`](tool-skills/library/README.md).
+- **Operations** (`tool-skills/operations/`) — runtime skills for how the agent works across sessions (e.g. `handoff`). See [`tool-skills/operations/README.md`](tool-skills/operations/README.md).
+- **Adapters** (`tool-skills/adapters/`) — the output layer: `to-table` · `to-document` · `to-deck`. Base adapters ship here (neutral); company-specific formats stay external and specialize them. See [`tool-skills/adapters/README.md`](tool-skills/adapters/README.md).
+
+To find a skill for a task, pick the category by phase (produce a section → `library`; render a deliverable → `adapters`; carry state across a restart → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.
 
 ## The six steps
 
@@ -67,9 +73,17 @@ Early draft, building in phases:
 - **Phase 2 — Steps 2–6 skeletons + [register schemas](process/REGISTERS.md) + artifact templates + library fully authored** _(templates + full library done; run-hardening continues)_
 - **Onboarding — [`product-setup`](.claude/skills/product-setup/SKILL.md) + [install](install/README.md)** _(merged)_
 - **Phase 3 — Agent rules ([CLAUDE.md](CLAUDE.md)), examples, contribution + versioned branching** _(CLAUDE.md merged; contribution/branching next)_
-- **Phase 4 — base [adapters](adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_
+- **Phase 4 — base [adapters](tool-skills/adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_
 
 ## Change log
+
+### 2026-07-19 — `tool-skills/` umbrella
+- **From → To:** the architecture section now frames a **fixed core** vs **pluggable tool-skills**;
+  `library/` and `adapters/` moved under `tool-skills/`, and `handoff` relocated to a new
+  `tool-skills/operations/` plane. Added the skill-discovery rule.
+- **Why:** the three pluggable planes are one kind of thing (skills the agent runs) and belong
+  together, opposite the fixed core; enables a single discovery rule.
+- **Trigger:** restructure discussion, 2026-07-19.
 
 ### 2026-07-19 — clarified the mechanism/content one-liner
 - **From → To:** replaced the "*how* you define value, segment users, or test a hypothesis …"
