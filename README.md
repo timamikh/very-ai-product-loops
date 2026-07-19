@@ -2,8 +2,8 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: draft
-version: 0.4.1
-updated: 2026-07-18
+version: 0.4.2
+updated: 2026-07-19
 ---
 
 # very-ai-product-loops
@@ -30,8 +30,8 @@ silently — the handoff restores *state*, not *rules*.
 
 The framework separates **mechanism from content**: a thin, stable process skeleton, plus
 pluggable methods (a **library**) and pluggable product stages (**statuses**). The rules of
-the game stay fixed; *how* you define value, segment users, or test a hypothesis is swappable
-and grows per company — without forking the framework.
+the game stay fixed; the methods themselves — and how each product stage prioritizes them —
+are swappable and extensible per company, without forking the framework.
 
 ## Architecture — four planes (+ an output layer)
 
@@ -68,3 +68,11 @@ Early draft, building in phases:
 - **Onboarding — [`product-setup`](.claude/skills/product-setup/SKILL.md) + [install](install/README.md)** _(merged)_
 - **Phase 3 — Agent rules ([CLAUDE.md](CLAUDE.md)), examples, contribution + versioned branching** _(CLAUDE.md merged; contribution/branching next)_
 - **Phase 4 — base [adapters](adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_
+
+## Change log
+
+### 2026-07-19 — clarified the mechanism/content one-liner
+- **From → To:** replaced the "*how* you define value, segment users, or test a hypothesis …"
+  example list with the universal "the methods themselves — and how each product stage prioritizes
+  them — are swappable and extensible per company …" (mirrors `process/OVERVIEW.md`).
+- **Trigger:** user review, 2026-07-19.

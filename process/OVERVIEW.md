@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.4.1
-updated: 2026-07-18
+version: 0.4.2
+updated: 2026-07-19
 ---
 
 # very-ai-product-loops
@@ -16,8 +16,8 @@ at the forks; the loops refresh at their own pace and feed each other in both di
 
 The framework separates **mechanism from content**: a thin, stable process skeleton, plus
 pluggable methods (a **library**) and pluggable product stages (**statuses**). The rules of
-the game stay fixed; *how* you define value, segment users, or test a hypothesis is swappable
-and can be grown or adapted per company — without forking the framework.
+the game stay fixed; the methods themselves — and how each product stage prioritizes them —
+are swappable and extensible per company, without forking the framework.
 
 ---
 
@@ -297,6 +297,15 @@ adapters and the deferred aggregators/automation can be added on top without rew
 ---
 
 ## Change log
+
+### 2026-07-19 — clarified the mechanism/content one-liner
+- **From → To:** "*how* you define value, segment users, or test a hypothesis is swappable …" →
+  "the methods themselves — and how each product stage prioritizes them — are swappable and
+  extensible per company …". Same fix mirrored in the root `README.md`.
+- **Why:** the concrete example list read as if only those three things were swappable and each
+  example was itself ambiguous; the universal form (methods = library · prioritization = statuses)
+  removes the misreading.
+- **Trigger:** user review, 2026-07-19.
 
 ### 2026-07-18 — added the adapters output layer (§10)
 - **From → To:** §10 "What this is not (yet)" → "The output layer (adapters) and what's still
