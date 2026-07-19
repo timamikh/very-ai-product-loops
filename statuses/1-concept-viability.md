@@ -76,7 +76,7 @@ gravity.
   (`kind: research`, prepares goal/portrait/questions/interviewer-guide → `sources/`), it's the
   primary discovery method for this stage, not just an input slot.
 - **Why:** the earlier cleanup dropped it because it was an unauthored source-slot; that premise
-  changed when `library/interview/` was written. A discovery stage without interview in its tool
+  changed when `tool-skills/library/interview/` was written. A discovery stage without interview in its tool
   list read as a gap.
 - **Trigger:** interview/analytics-search authored as tools, 2026-07-18.
 

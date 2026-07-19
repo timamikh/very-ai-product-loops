@@ -2,8 +2,8 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.4.0
-updated: 2026-07-18
+version: 0.4.1
+updated: 2026-07-19
 ---
 
 # Agent rules — very-ai-product-loops
@@ -24,8 +24,10 @@ Non-negotiables (details live in the files above; on conflict, those files win):
   is still a loop pass: it ends with register updates and a change-log entry.
 - **A handoff restores state — not rules, not truth.** Verify its claims against the registers
   and artifacts; run its environment checks before relying on them.
-- **Read the tool before filling.** Open `library/<tool>/SKILL.md` before writing its section.
-  Missing prerequisites → ask or help obtain; never proceed on a guess.
+- **Read the tool before filling.** Open `tool-skills/library/<tool>/SKILL.md` before writing its
+  section. Missing prerequisites → ask or help obtain; never proceed on a guess. (Pluggable skills
+  live under `tool-skills/`: `library/` methods · `operations/` runtime skills · `adapters/` output —
+  pick by task phase; see [`tool-skills/README.md`](tool-skills/README.md).)
 - **One mechanism, one way.** Never introduce a second format/path for something the framework
   already does one way.
 - **Confidence tags on every claim**; agent proposals marked ⚙️. Never blanket-source your own

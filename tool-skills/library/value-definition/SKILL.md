@@ -64,7 +64,7 @@ claim these at concept stage; they appear at Strategy once there are customers.
 
 ## Prerequisites
 
-Checked before the tool runs (see [operating loop](../../process/OPERATING-LOOP.md)). If any is
+Checked before the tool runs (see [operating loop](../../../process/OPERATING-LOOP.md)). If any is
 missing, the agent asks for it or offers to help produce it — it does not guess.
 
 - **Concept** — what the product is (from `{#concept}`). *Missing → run `concept-formation` first.*

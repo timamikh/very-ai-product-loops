@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.4.0
-updated: 2026-07-17
+version: 0.4.1
+updated: 2026-07-19
 ---
 
 # Operating Loop
@@ -79,14 +79,14 @@ trigger per the step's cadence & invalidation rules — the loops feed each othe
 |-------|----------------------------|
 | **Step** | goals · gate checklist (tied to artifact sections) · artifact skeleton · default tool per section · register touchpoints · cadence/invalidation |
 | **Status** | per-step goals (focus) · per-step tool emphasis (which method fits this stage) · gate emphasis |
-| **Library tool** | prerequisites checklist · method (how) · template-fragment · questions |
+| **Tool-skill** (`tool-skills/library/`) | prerequisites checklist · method (how) · template-fragment · questions |
 | **Registers** | current hypotheses / risks / metric nodes to read and update |
 | **Conventions** | confidence tags · sources · section IDs · links · change-log format |
 
 ## Session handoff (state transfer between sessions/agents)
 
 The loop assumes one continuous context; reality restarts. Whenever a session boundary
-approaches, run the **`handoff` tool** (`library/handoff/`) to write/update the instance's
+approaches, run the **`handoff` operations skill** (`tool-skills/operations/handoff/`) to write/update the instance's
 `HANDOFF.md` — *before* the boundary, not after:
 
 - **Environment change needs a restart** (MCP config, extensions, tokens) → write the handoff,
@@ -130,3 +130,11 @@ Active status `2-pmf`, step `1-idea`, section `problems`:
 6. Act → fills `problems` with severity × frequency, each `[sourced: metrics …]` / `[assumption]`.
 7. Update → ticks the `problems` gate item, seeds `H-007` ("pain A blocks payment"), logs the change.
 8. Loop → next section `solution`.
+
+## Change log
+
+### 2026-07-19 — `handoff` moved to `tool-skills/operations/`
+- **From → To:** the `handoff` path (`library/handoff/` → `tool-skills/operations/handoff/`) and the
+  plane label ("Library tool" → "Tool-skill `tool-skills/library/`") updated. Mechanism unchanged —
+  this file stays the authority for the handoff behavior.
+- **Trigger:** `tool-skills/` restructure, 2026-07-19.

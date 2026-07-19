@@ -2,7 +2,7 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.4.2
+version: 0.5.0
 updated: 2026-07-19
 ---
 
@@ -47,7 +47,7 @@ are swappable and extensible per company, without forking the framework.
 │
 ├─ Registers ────────────── metrics · hypotheses · risks (vertical, living, shared state)
 │
-├─ Library (library/) ───── methods as skills: value-definition, segmentation,
+├─ Library (tool-skills/library/) ─ methods as skills: value-definition, segmentation,
 │                           segment-pains, competitor-analysis, market-sizing, metric-tree,
 │                           unit-economics, financial-model, jtbd… each = what / when / how / template
 │
@@ -55,13 +55,20 @@ are swappable and extensible per company, without forking the framework.
                             (extensible): priority goals + its own tool set
 ```
 
+The **fixed core** above (`steps/` · `registers/` · `statuses/` and the rules in `process/`) is
+opposed by the **pluggable skills** the agent runs, grouped under [`tool-skills/`](../tool-skills/README.md):
+`library/` (product methods, above), `operations/` (runtime skills — e.g. the `handoff`), and
+`adapters/` (the output layer — see §10). Companies swap or extend any tool-skill without forking
+the core.
+
 Alongside the four planes, an **instance** also carries two supporting mechanisms, defined in
 [`CONVENTIONS.md`](CONVENTIONS.md) and [`OPERATING-LOOP.md`](OPERATING-LOOP.md):
 - **`sources/`** — external-data access notes and captured evidence, indexed in `sources/INDEX.md`
   (see *Raw data & access* in CONVENTIONS: captured values go to the registers, secrets never into
   artifacts, raw captures deleted once their values land).
-- **`HANDOFF.md`** — session-to-session state transfer, written by the `handoff` library tool at a
-  session boundary (it restores *state, not rules* — the reader still starts from `process/`).
+- **`HANDOFF.md`** — session-to-session state transfer, written by the `handoff` operations skill
+  ([`tool-skills/operations/`](../tool-skills/operations/README.md)) at a session boundary (it
+  restores *state, not rules* — the reader still starts from `process/`).
 
 **How the planes interlock — softly (per rule 5):**
 - A **step** says "at this stage produce sections A, B, C and pass gate G" and *recommends*
@@ -106,7 +113,7 @@ trigger keeps the cascade alive instead of stale.
 ## 4. The six steps (essence only)
 
 Steps hold only the essence: goal, output, register touchpoints, and *recommended* tools.
-The "how" of each method lives in the [library](../library/README.md); the goal shape and
+The "how" of each method lives in the [library](../tool-skills/library/README.md); the goal shape and
 tool emphasis are set by the active [status](../statuses/README.md).
 
 | # | Step | Horizon (~) | Cadence (~) | Output |
@@ -201,7 +208,7 @@ active and applies its parameters.
 
 ## 7. Library (method plane)
 
-The [library](../library/README.md) is a catalog of product methods, each authored as a
+The [library](../tool-skills/library/README.md) is a catalog of product methods, each authored as a
 **skill**: *what it is · when to apply it · how to do it · a template*. When a step needs a
 section produced, or a status calls for a check (e.g. test a hypothesis), the agent picks the
 right tool and follows it. The library is meant to grow and be adapted — it is where
@@ -245,7 +252,7 @@ matrix marks n/a is correct, not a lapse.
 ## 9. The three anatomies
 
 Defined in Phase 1; summarized here. (`template-fragment.md` is part of **every** tool, including
-survey-style ones; the `handoff` tool follows the same tool anatomy and writes the instance's
+survey-style ones; the `handoff` operations skill follows the same anatomy and writes the instance's
 `HANDOFF.md` at session boundaries — see §2 and OPERATING-LOOP.)
 
 **Step** (`steps/N-name/`) — thin:
@@ -255,7 +262,7 @@ README.md   # goal · gate checklist · movement rules · register touchpoints �
             # cadence + invalidation
 ```
 
-**Tool** (`library/<tool>/`) — a skill:
+**Tool** (`tool-skills/library/<tool>/`) — a skill:
 ```
 SKILL.md            # what it is / when to apply / PREREQUISITES / how to do it / anti-patterns
 template-fragment.md # the section it produces, with source + confidence markers
@@ -276,12 +283,13 @@ body: description + change log
 
 ## 10. The output layer (adapters) and what's still deferred
 
-**Adapters** ([`adapters/`](../adapters/README.md)) are the framework's **output layer**: they read
+**Adapters** ([`tool-skills/adapters/`](../tool-skills/adapters/README.md)) are the framework's
+**output layer** — one of the three [`tool-skills/`](../tool-skills/README.md) planes: they read
 the structured instance and render **deliverables** (tables, documents, decks). This is exactly what
 the stable IDs / source slots / typed links are *for* — the structure is the contract an adapter
 renders against, so deliverables regenerate from source instead of being hand-maintained.
 
-- **Base adapters** ship in `adapters/` and are **neutral and open**: `to-table`, `to-document`,
+- **Base adapters** ship in `tool-skills/adapters/` and are **neutral and open**: `to-table`, `to-document`,
   `to-deck`. They assume no house style.
 - **Company adapters** stay **outside** the base (a private/plugin repo) and **specialize** a base
   adapter into a specific format — a branded deck, a steering-committee/traction card, a hand-in to a
@@ -297,6 +305,15 @@ adapters and the deferred aggregators/automation can be added on top without rew
 ---
 
 ## Change log
+
+### 2026-07-19 — `tool-skills/` umbrella (structural)
+- **From → To:** `library/` and `adapters/` moved under a new `tool-skills/` umbrella; `handoff`
+  relocated from the library to a new `tool-skills/operations/` plane. §2 now states the
+  fixed-core-vs-pluggable-skills split; §7/§9/§10 paths and the handoff mentions updated.
+- **Why:** the three pluggable planes (`library` · `operations` · `adapters`) are one kind of thing —
+  skills the agent runs — and belong together, opposite the fixed core. Enables a single skill-discovery
+  rule (see [`tool-skills/README.md`](../tool-skills/README.md)).
+- **Trigger:** restructure discussion, 2026-07-19.
 
 ### 2026-07-19 — clarified the mechanism/content one-liner
 - **From → To:** "*how* you define value, segment users, or test a hypothesis is swappable …" →

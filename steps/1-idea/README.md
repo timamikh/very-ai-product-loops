@@ -18,7 +18,7 @@ solves them, and its value/defensibility hypothesis. This is the long-lived sour
 the rest of the loops build on.
 
 This step is **thin by design** — it owns the *skeleton* of the artifact and the rules of the
-game. The *how* of each section lives in [library](../../library/README.md) tools; the goal
+game. The *how* of each section lives in [library](../../tool-skills/library/README.md) tools; the goal
 emphasis is set by the active [status](../../statuses/README.md).
 
 ## Inputs (source slots)
@@ -33,7 +33,7 @@ emphasis is set by the active [status](../../statuses/README.md).
 ## Artifact skeleton
 
 Each section has a stable ID and is filled by a recommended tool. Recommendations are soft —
-swap or add tools per product (see [library](../../library/README.md)).
+swap or add tools per product (see [library](../../tool-skills/library/README.md)).
 
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|

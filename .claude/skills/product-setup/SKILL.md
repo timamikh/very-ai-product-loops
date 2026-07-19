@@ -105,7 +105,7 @@ product/
 ```
 
 Kept **separate from code** (its own top-level `product/`), so it never interferes with the
-repo's source. The framework itself (`steps/`, `library/`, `statuses/`, `process/`) is vendored
+repo's source. The framework itself (`steps/`, `statuses/`, `process/`, `tool-skills/`) is vendored
 read-only into the repo at install and pinned to a version tag.
 
 ## Anti-patterns

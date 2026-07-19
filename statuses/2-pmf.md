@@ -69,7 +69,7 @@ metrics** (with a few interviews for the "why"). Hypotheses move from "is there 
 - **From → To:** step-2 `tools` gained `analytics-search` — now an authored **research tool** it's
   the gathering front-end that feeds `market-sizing` / `competitor-analysis` / `substitutes`.
 - **Why:** the audit had dropped it as an unauthored source-slot; that premise changed when
-  `library/analytics-search/` was written. Step 2's job (re-read the market with live data) starts
+  `tool-skills/library/analytics-search/` was written. Step 2's job (re-read the market with live data) starts
   with this desk-research pass.
 - **Trigger:** interview/analytics-search authored as tools, 2026-07-18.
 
