@@ -77,10 +77,8 @@ way you'd add any agent framework — point the agent at this repo and ask:
 
 The agent then **vendors** the framework (read-only, pinned to a version), asks for your existing
 materials, and **scaffolds a `product/` working area** — pre-filled from whatever you have, with
-gaps clearly marked. It hands back a placement report and the first step to work on.
-
-👉 **Full step-by-step user story** — starting from scratch, from a pile of docs that aren't in
-git yet, or inside an existing code repo — is in **[`install/README.md`](install/README.md)**.
+gaps clearly marked. It hands back a placement report and the first step to work on. See
+[`install/README.md`](install/README.md) for the details.
 
 Your product docs live in `product/`, kept **separate from your code** so they never interfere with
 development. The framework files stay read-only and are updated by bumping the version.
@@ -134,9 +132,8 @@ Early draft, building in phases:
 
 ### 2026-07-19 — human-first rewrite
 - **From → To:** the README now opens for a *human* landing on the framework (what it is, who it's
-  for, how a working session goes, a quickstart) with a link to the full install user story; the
-  agent reading-order moved into a clearly-labeled "How the agent reads the repo" section
-  (`CLAUDE.md` remains the enforced version).
+  for, how a working session goes, a quickstart); the agent reading-order moved into a clearly-labeled
+  "How the agent reads the repo" section (`CLAUDE.md` remains the enforced version).
 - **Why:** the previous top was agent-facing ("For agents — start here") and read as internal spec,
   not an entry point for a person evaluating the framework.
 - **Trigger:** user request, 2026-07-19.
