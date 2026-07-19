@@ -2,8 +2,8 @@
 node_type: statuses-index
 title: Statuses — product-stage plane
 status: draft
-version: 0.2.0
-updated: 2026-07-16
+version: 0.3.0
+updated: 2026-07-19
 ---
 
 # Statuses
@@ -39,6 +39,21 @@ as the product matures; the change is a dated change-log entry like any other.
 | 1 | [concept-viability](1-concept-viability.md) | Prototype/MVP: can it be built, is there demand worth chasing toward PMF |
 | 2 | [pmf](2-pmf.md) | First clients; validate repeatable value + monetization so it can scale |
 | 3 | [growth](3-growth.md) | Working, profitable product to develop and expand |
+
+## Choosing a status (used at product setup)
+
+During onboarding the agent **proposes** a status rather than asking cold: it presents the options
+below with a recommendation, and the human confirms. Pick by where the product actually is today.
+
+| Status | You're here when | This stage optimizes for | Main evidence |
+|--------|------------------|--------------------------|---------------|
+| **concept-viability** | no product in market yet (or just a prototype/MVP), few or no users, demand unproven | learning fast — is it buildable, is there real demand worth chasing toward PMF | interviews + desk/analytics search (no product metrics yet) |
+| **pmf** | first paying/active clients, but repeatable value & monetization not yet proven | proving value repeats and you can charge for it, so it can scale with confidence | internal product metrics + a few interviews for the "why" |
+| **growth** | a working, profitable product | scaling acquisition/revenue within guardrails, opening new segments, defending the moats | internal product metrics (dominant) |
+
+Each status file's body adds a fuller description; the agent surfaces this table plus a
+recommendation, and the human decides. A company can add or rename stages (see *Add or change a
+status*); the setup presents whatever statuses exist.
 
 ## Anatomy of a status
 
@@ -77,3 +92,12 @@ back-office` but are an instance config; use whichever the product has.
 A company can add stages (e.g. `pre-seed-validation`, `scale-up`, `harvest`) or rename these to
 its own vocabulary. The framework only assumes that *a* status is active and exposes its
 per-step goals and tools.
+
+## Change log
+
+### 2026-07-19 — added "Choosing a status" (onboarding presentation)
+- **From → To:** added a comparison the agent presents at product setup (you're here when · optimizes
+  for · main evidence) so it can **propose** a status with context instead of asking cold.
+- **Why:** `product-setup` now proposes the status with a recommendation; the human picks with
+  context. Supports the corrected onboarding flow.
+- **Trigger:** onboarding-flow fix, 2026-07-19.

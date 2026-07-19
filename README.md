@@ -2,7 +2,7 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: draft
-version: 0.6.0
+version: 0.6.1
 updated: 2026-07-19
 ---
 
@@ -69,16 +69,15 @@ Timeframes are indicative — each team moves at its own pace.
 
 ## Quickstart
 
-You add the framework to a repository through an AI agent (Claude Code / Claude Desktop), the same
-way you'd add any agent framework — point the agent at this repo and ask:
+Two separate phases, through an AI agent (Claude Code / Claude Desktop):
 
-> "Add the very-ai-product-loops framework from
-> https://github.com/timamikh/very-ai-product-loops to this repository and run product setup."
+1. **Install** — point the agent at this repo and ask it to install the framework for your project.
+   It vendors the framework (read-only, pinned to a version). No product is set up yet.
+2. **Set up the product** — when ready, ask the agent to set up the product. It asks your docs
+   language and for your existing materials / links / accesses, files and distributes them, **proposes
+   a status** for you to pick, and hands back a summary of what's filled vs open plus where to start.
 
-The agent then **vendors** the framework (read-only, pinned to a version), asks for your existing
-materials, and **scaffolds a `product/` working area** — pre-filled from whatever you have, with
-gaps clearly marked. It hands back a placement report and the first step to work on. See
-[`install/README.md`](install/README.md) for the details.
+See [`install/README.md`](install/README.md) for both phases.
 
 Your product docs live in `product/`, kept **separate from your code** so they never interfere with
 development. The framework files stay read-only and are updated by bumping the version.
@@ -129,6 +128,11 @@ Early draft, building in phases:
 - **Phase 4 — base [adapters](tool-skills/adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_
 
 ## Change log
+
+### 2026-07-19 — quickstart split into install + setup
+- **From → To:** the quickstart now shows install and product setup as two separate phases (was one
+  bundled ask), matching the corrected `product-setup` flow.
+- **Trigger:** onboarding-flow fix, 2026-07-19.
 
 ### 2026-07-19 — human-first rewrite
 - **From → To:** the README now opens for a *human* landing on the framework (what it is, who it's
