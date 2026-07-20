@@ -15,7 +15,7 @@ scales with the value the customer gets. … [assumption]
 
 | Tier | For which segment | What's included | Fence (why this segment picks it) | Price point | Model | Confidence |
 |------|-------------------|-----------------|-----------------------------------|-------------|-------|------------|
-| … (good) | … | … | … | … ₽/… | subscription / usage / hybrid / one-off | [assumption] |
+| … (good) | … | … | … | … $/… | subscription / usage / hybrid / one-off | [assumption] |
 | … (better) | … | … | … | … | … | [assumption] |
 | … (best) | … | … | … | … | … | [assumption] |
 

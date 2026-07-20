@@ -16,5 +16,5 @@ ARPPU `M-…` · COGS-per-usage · fixed costs. [tag each]
 | Stretch (⟵ hypothesis `H-…`) | | | | |
 
 **Capacity limits:** <slot / registration / compute caps and the month they bind>.
-**Break-even:** operational … ₽/mo · honest … ₽/mo (now: …).
+**Break-even:** operational … $/mo · honest … $/mo (now: …).
 **Revisit triggers:** actuals diverge from base by >X% for two months running → revisit Step 4.
