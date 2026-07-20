@@ -6,12 +6,12 @@ prerequisites: [segments, segment-pains]
 reads_registers: [hypotheses]
 writes_registers: [hypotheses]
 inputs: [interview, kb, analytics-search]
-used_by_steps: [1, 5]
+used_by_steps: [1, 3, 5]
 opinionated: true
 method_basis: "Market-entry bundle (segment · situation · pain · CVP · offer · first action · channel · signal) with a 6-filter readiness gate and a qualified-action signal scale; one bundle = one testable go-to-market hypothesis"
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-07-21
 ---
 
 # Segment–CVP bundle
@@ -44,6 +44,10 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
 - **Step 1 — as a lens (no passport section).** Once segments and pains exist, turn them into a
   first set of market-entry bundles to seed the hypothesis register with **desirability** bets.
   It sharpens which entries are even worth carrying forward; it does not own a passport section.
+- **Step 3 — as a lens (no strategy section).** Sharpen each strategic `{#bets}` entry into a
+  concrete, testable market-entry shape (segment + situation + pain + CVP + offer + channel +
+  signal) so the bet is specific enough to test. It informs `{#bets}`; the full bundle table +
+  readiness gate is composed at Step 5.
 - **Step 5 — owns `{#market-bundles}`.** Refresh/expand the bundle set for the period, gate each on
   readiness, and stage the strongest for testing. `prioritization` then scores which 3–5 go to
   test this period; `hypothesis-test-design` designs the chosen ones.
@@ -101,5 +105,6 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
 
 ## Output
 At Step 5, fills `{#market-bundles}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml). At Step 1 it produces no artifact section — its output seeds the
-hypothesis register (desirability bets) and informs `segments`/`problems`.
+[`questions.yaml`](questions.yaml). At Steps 1 and 3 it produces no artifact section — it acts as a
+lens: at Step 1 it seeds the hypothesis register (desirability bets) and informs `segments`/`problems`;
+at Step 3 it sharpens `{#bets}` into concrete, testable market-entry shapes.
