@@ -4,8 +4,8 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.2.0
-updated: 2026-07-20
+version: 0.2.1
+updated: 2026-07-21
 ---
 
 <!--
@@ -95,9 +95,9 @@ _System architecture at C4 **Context** level (product, its users, external syste
 <!-- tool: jtbd, value-definition -->
 _The strategic hypotheses we're wagering on (framed on the customer's job + forces)._
 
-| ID | Bet | Type | Rests on (job/force/moat) | Confidence |
-|----|-----|------|---------------------------|------------|
-| H-… | … | desirability / viability / … | … | [assumption] |
+| ID | Bet | Type | Job / circumstance | Why it wins (pull > anxiety + habit) | Outcome it moves | Confidence |
+|----|-----|------|--------------------|--------------------------------------|------------------|------------|
+| H-… | … | desirability / viability / … | … | … | … | [assumption] |
 
 ## Product risks {#product-risks}
 <!-- tool: risk-mitigation -->

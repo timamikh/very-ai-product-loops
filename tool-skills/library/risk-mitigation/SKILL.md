@@ -10,8 +10,8 @@ used_by_steps: [3, 4]
 opinionated: false
 method_basis: "Pre-mortem (Klein) + risk register triage (prob × impact) + mitigation/owner"
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.2.1
+updated: 2026-07-21
 ---
 
 # Risk & Mitigation
