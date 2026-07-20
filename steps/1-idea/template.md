@@ -4,7 +4,7 @@ artifact: passport
 step: 1
 title: "Product Passport — <Product>"
 status: template
-version: 0.3.0
+version: 0.3.1
 updated: 2026-07-21
 ---
 
@@ -49,9 +49,9 @@ they judge success by. States the job; the pains inside it are scored in #proble
 <!-- tool: segmentation -->
 _Who it's for and how segments are cut._
 
-| Priority | Segment | How it's cut | Why it matters | Confidence |
-|----------|---------|--------------|----------------|------------|
-| 1 (lead) | … | … | … | [assumption] |
+| Priority | Segment | How it's cut | Why it matters | Where to reach them | Confidence |
+|----------|---------|--------------|----------------|---------------------|------------|
+| 1 (lead) | … | … | … | … | [assumption] |
 
 ## Problems {#problems}
 <!-- tool: segment-pains -->

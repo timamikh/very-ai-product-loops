@@ -10,8 +10,8 @@ used_by_steps: [1, 3]
 opinionated: true
 method_basis: "7 Powers (Helmer) → base/derivative moats; post-AI lens (software isn't the moat, position is)"
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.2.1
+updated: 2026-07-21
 ---
 
 # Value & Defensibility
@@ -82,9 +82,11 @@ missing, the agent asks for it or offers to help produce it — it does not gues
    with an LLM tomorrow? If not, it's a feature, not a moat.
 3. **Identify derivatives (from status `pmf` onward).** Given a base value and customers/scale,
    which derivative moats become reachable? Note the dependency (e.g. "lock-in *if* we land
-   integration X and a customer"). **Skip this entirely at `concept-viability`** — there are no
-   customers or scale to derive from, so the block is omitted, not left empty (a status-driven
-   suppression: the active status decides whether this sub-section applies).
+   integration X and a customer"). **Skip the derivative *table* at `concept-viability`** — there
+   are no customers or scale to derive from (a status-driven suppression: the active status decides
+   whether this sub-section applies). Leave **one line** pointing to where it's picked up ("deferred
+   to Step 3 — derivatives need a customer/scale") rather than silently omitting it, so a reader
+   knows it was considered, not forgotten. Do not leave an empty table.
 4. **Rate defensibility & confidence.** For each claimed moat: how durable, and how sure are
    we? Tag every claim per `process/CONVENTIONS.md`.
 5. **Seed hypotheses.** Turn each unproven moat into a hypothesis (`H-…`) for the register —

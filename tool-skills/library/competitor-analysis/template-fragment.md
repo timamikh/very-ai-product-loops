@@ -20,7 +20,8 @@ _Input to our own pricing (Step 3 `pricing` tool) — not our price._
 | … | … | … | site / search | [sourced: …] |
 
 ## Competitor dynamics {#competitor-dynamics}
-_Trend over time — to compare whose strategy is working. RU entities: datanewton.ru/contragents/<OGRN>._
+_Trend over time — to compare whose strategy is working. Source per firm: public financials / press
+/ filings (for RU legal entities, datanewton.ru/contragents/<OGRN> exposes revenue/headcount)._
 | Competitor | Metric (revenue / headcount / …) | Trend + period | Source (+ date) | Confidence |
 |------------|----------------------------------|----------------|-----------------|------------|
-| … | revenue | … | datanewton (OGRN …) | [sourced: …] |
+| … | revenue | … | public financials / press (RU: datanewton OGRN) | [sourced: …] |
