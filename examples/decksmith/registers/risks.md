@@ -18,5 +18,9 @@ updated: 2026-07-20
 | R-004 | Engine quality and COGS depend on third-party LLM providers (cost/availability outside our control) | dependency | M | H | — | — | open | Step 2 (`../analysis.md#niche-risks`) |
 | R-005 | Low entry barrier for "AI slide wrappers" → crowded, fast-moving rivalry | market | H | M | — | — | open | Step 2 (`../analysis.md#niche-risks`) |
 | R-006 | Manual build / hiring a designer keeps the high-stakes, brand-critical flagship decks | market | M | M | — | — | open | Step 2 (`../analysis.md#substitutes`) |
+| R-007 | The engine never reliably hits native-fidelity + design at scale — the whole strategy rests on one feasibility bet (`H-001`) | product/execution | M | H | — | — | open | Step 3 (`../strategy.md#product-risks`) |
+| R-008 | The beachhead won't pay standalone vs bundled incumbents (Copilot/Canva at $15–30 bundled) → no viable revenue | financial | M | H | — | — | open | Step 3 (`../strategy.md#pricing`) |
+| R-009 | Community + product-led virality doesn't materialize → CAC too high to grow | market/execution | M | M | — | — | open | Step 3 (`../strategy.md#channels-expansion`) |
 
-_Accumulates downward, never rewritten. Categories: market · product · execution · legal · financial · dependency._
+_Accumulates downward, never rewritten. Categories: market · product · execution · legal · financial · dependency.
+Mitigation/owner/due are added at Step 4 (`risk-mitigation`) — `—` until then._
