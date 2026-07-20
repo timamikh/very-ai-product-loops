@@ -10,8 +10,8 @@ used_by_steps: [2]
 opinionated: false
 method_basis: "'What game are they playing' + moat comparison; pricing scan; growth-dynamics from public registries"
 status: draft
-version: 0.1.1
-updated: 2026-07-18
+version: 0.1.2
+updated: 2026-07-21
 ---
 
 # Competitor Analysis

@@ -17,7 +17,8 @@
 | e.g. Unique data: … | hard | Have | Yes | [sourced: …] |
 | e.g. Audience: … | soft | Building | Partly | [assumption] |
 
-**Derivative moats** _(omit this block at status `concept-viability` — no customers/scale yet to derive from; add it from `pmf` onward)_
+**Derivative moats** _(at `concept-viability`: omit the table, leave one deferral line — e.g.
+"deferred to Step 3; derivatives need a customer/scale". Add the table from `pmf` onward.)_
 
 | Derivative | Depends on | Reachable when | Confidence |
 |------------|------------|----------------|------------|
