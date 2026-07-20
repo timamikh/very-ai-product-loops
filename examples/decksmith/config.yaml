@@ -1,0 +1,13 @@
+# Decksmith (fictional sample) · instance config
+product: "Decksmith (fictional sample)"
+language: en
+active_status: concept-viability   # no product/market data yet — hypotheses are the center of gravity (see registers/)
+directions: [development, go-to-market, back-office]   # execution streams for Steps 5–6 (framework default set)
+scope_note: >
+  Fictional walkthrough of the framework — no real product or company data. Decksmith is an AI
+  generator of native, editable AND well-designed .pptx/.key decks. At concept-viability there is
+  no product in market and no usage metrics; every value is illustrative and most claims are
+  [assumption] by design.
+sources:
+  - sources/founder-brief.md        # the raw idea + founder decisions (origin of the concept)
+metric_source_slots: {}             # none yet — no product in market at concept stage
