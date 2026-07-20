@@ -2,8 +2,8 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.2.0
-updated: 2026-07-19
+version: 0.2.1
+updated: 2026-07-20
 ---
 
 # Install
@@ -22,8 +22,8 @@ and onboard the product later.
 
 The agent **vendors** the framework (read-only) into the repo, pinned to a version tag:
 `steps/` · `statuses/` · `process/` · `tool-skills/` (library · operations · adapters) · the
-`product-setup` skill. That's it — the framework is present and configured; **no product is set up
-yet.**
+`product-setup` and `start-work` skills. That's it — the framework is present and configured; **no
+product is set up yet.**
 
 ## 2. Set up the product (a separate phase)
 
@@ -34,6 +34,9 @@ distributes their content across the step artifacts (⚙️ drafts with sources;
 then **proposes a status** for you to pick. It finishes by summarizing what's filled vs still open
 and proposing where to start — which is the first turn of the working loop. See
 [`product-setup`](../.claude/skills/product-setup/SKILL.md) for the full flow.
+
+Every session after that, begin with the [`start-work`](../.claude/skills/start-work/SKILL.md)
+skill — it self-bootstraps the rules and runs the operating loop one pass at a time.
 
 ## What lands in your repo
 
@@ -49,6 +52,11 @@ and proposing where to start — which is the first turn of the working loop. Se
 - Optionally: connectors to your metrics/KB, so later steps can pull data automatically.
 
 ## Change log
+
+### 2026-07-20 — vendor the `start-work` skill
+- **From → To:** added `start-work` to the vendored skills and to the "set up the product" section —
+  the entry point for every working session after onboarding (self-bootstraps the rules + runs the loop).
+- **Trigger:** post-first-run hardening, 2026-07-20.
 
 ### 2026-07-19 — split install from product setup
 - **From → To:** the one-line ask "add framework **and run product setup**" → two separate phases:
