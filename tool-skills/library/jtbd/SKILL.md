@@ -1,7 +1,7 @@
 ---
 name: jtbd
 kind: method
-produces: bets
+produces: [jtbd, bets]
 prerequisites: [a segment/customer]
 reads_registers: [hypotheses]
 writes_registers: [hypotheses]
@@ -10,15 +10,18 @@ used_by_steps: [1, 3]
 opinionated: false
 method_basis: "Jobs-to-be-Done — Christensen 'progress' + Ulwick ODI: job statement · forces (push/pull/anxiety/habit) · desired outcomes"
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.2.0
+updated: 2026-07-21
 ---
 
 # Jobs-to-be-Done
 
 Frame the **job** a customer hires the product to do — the *progress they want in a
-circumstance* — and the **forces** that move them toward or away from it. At Step 3 this sharpens
-`bets`: strategic wagers framed around the customer's job, not around our features. Fills `{#bets}`.
+circumstance* — and the **forces** that move them toward or away from it. At Step 1 it fills
+`{#jtbd}` (the job, four forces, and desired outcomes) — this anchors `{#segments}` and
+`{#problems}` and **feeds Step 2 `substitutes`**, where the job is the frame for finding indirect
+competition. At Step 3 it sharpens `{#bets}`: strategic wagers framed around the customer's job,
+not around our features.
 
 **Method basis.** JTBD in two lenses: Christensen's *progress in a circumstance* (a job is
 "when… I want… so that…") and Ulwick's ODI (a job resolves into measurable **desired outcomes**).
@@ -32,10 +35,11 @@ habit.
 
 ## When to apply
 
-- **Step 1 — as a lens, not a section owner.** JTBD frames *who* (segments) and *where it hurts*
-  (problems) upstream. Its output feeds `segmentation` and `segment-pains`; it does **not** own a
-  passport section. Reach for it when segments read as demographics or pains read as a feature
-  wish-list — the job re-anchors both on progress.
+- **Step 1 — fills `{#jtbd}`, upstream of segments and pains.** JTBD frames *who* (segments) and
+  *where it hurts* (problems), so run it before/alongside `segmentation` and `segment-pains` — its
+  job statement and forces anchor both, and the job is what `substitutes` (Step 2) uses to find
+  indirect competition. Reach for it especially when segments read as demographics or pains read as
+  a feature wish-list — the job re-anchors both on progress.
 - **Step 3 — to sharpen `bets`.** Alongside `value-definition`, frame the strategic wagers around
   the customer's job and the forces that gate switching. A bet worded as "customers will hire us
   over the status quo *for this job* because the pull beats the anxiety+habit" is testable.
@@ -81,6 +85,7 @@ habit.
 
 ## Output
 
-At Step 3, fills `{#bets}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml). At Step 1 it produces no section of its own — its output feeds
-`segmentation` and `segment-pains`.
+At Step 1, fills `{#jtbd}`; at Step 3, fills `{#bets}` — both via
+[`template-fragment.md`](template-fragment.md); inputs via [`questions.yaml`](questions.yaml). The
+Step-1 job statement anchors `{#segments}`/`{#problems}` and is the input `substitutes` (Step 2)
+frames indirect competition against.

@@ -7,8 +7,8 @@ output: passport.md
 cadence: "~ product lifetime; revisit on pivot or major learning"
 method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.3.0
+updated: 2026-07-21
 ---
 
 # Step 1 — Idea / Concept
@@ -38,6 +38,7 @@ swap or add tools per product (see [library](../../tool-skills/library/README.md
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
 | `concept` | The idea in a few lines: what it is, the shift it makes | `concept-formation` |
+| `jtbd` | The job + the four forces that gate switching (anchors segments/pains; feeds Step 2 substitutes) | `jtbd` |
 | `segments` | Who it's for — segments and how they're cut | `segmentation` |
 | `problems` | Each segment's problems (severity × frequency) | `segment-pains` |
 | `solution` | How the product solves each problem | `concept-formation` |
@@ -56,6 +57,7 @@ section** (the rule for every step: a checklist item always names the section/ar
 checks, so "done" is verifiable, not vibes).
 
 - [ ] states what the product is and the shift it makes → `passport#concept`
+- [ ] the customer's job stated with its four forces (push/pull/anxiety/habit) → `passport#jtbd`
 - [ ] at least one segment named, with its cut rationale → `passport#segments`
 - [ ] each named segment has ≥1 problem with severity × frequency → `passport#problems`
 - [ ] solution maps to the stated problems, no orphan features → `passport#solution`
@@ -78,8 +80,19 @@ The agent drafts everything else from sources and marks its proposals with ⚙�
 
 ## Change log
 
+### 2026-07-21 — jtbd owns its own section `{#jtbd}`
+- **From → To:** jtbd was a section-less Step-1 lens (seeded hypotheses only) → it now owns
+  `passport#jtbd` (job statement + four forces + desired outcomes), added to the artifact skeleton
+  and the gate checklist. `segment-cvp` remains a section-less lens at Step 1.
+- **Why:** the lens produced durable, decision-shaping content (the forces — the anxiety that gates
+  adoption; the job that frames indirect competition) with nowhere canonical to live, so it was lost
+  and easy to skip. The job statement is also the required input to `substitutes` (Step 2), so a
+  homeless jtbd broke indirect-competitor discovery downstream.
+- **Trigger:** example run review — jtbd dropped from the Step-1 pass, 2026-07-21.
+
 ### 2026-07-16 — created (golden exemplar)
 - **From → To:** — → Step 1 skeleton + `template.md` (passport), the anatomy the other steps mirror.
-- **Note:** at `concept-viability`, `segment-cvp` and `jtbd` act here as **lenses** (surfaced via the
-  status' per_step tools), seeding the hypothesis register without owning a passport section.
+- **Note:** at `concept-viability`, `segment-cvp` acts here as a **lens** (surfaced via the status'
+  per_step tools), seeding the hypothesis register without owning a passport section. (`jtbd` also
+  did until 2026-07-21, when it was given `#jtbd` — see the entry above.)
 - **Trigger:** Phase 1 / PR #2.

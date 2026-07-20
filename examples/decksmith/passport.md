@@ -5,8 +5,8 @@ product: Decksmith (fictional sample)
 step: 1
 status_stage: concept-viability
 owner: sample
-updated: 2026-07-20
-version: 0.2.0
+updated: 2026-07-21
+version: 0.3.0
 ---
 
 # Product Passport — Decksmith (fictional sample)
@@ -30,6 +30,37 @@ is editable **and** well-designed, so you don't regenerate it by hand. [assumpti
 **Riskiest assumption:** the engine can *reliably* produce native files that are both genuinely
 editable and genuinely well-designed, at scale. This is the core bet. [assumption] → `H-001`
 
+## Job-to-be-Done {#jtbd}
+<!-- tool: jtbd (lens — anchors #segments and #problems; the job feeds Step 2 substitutes) -->
+
+**Job statement.** _When_ I have to present to a client/prospect and I'm judged on how the deck
+looks and how well it makes the case, _I want to_ produce a credible, on-brand, well-structured
+deck fast, _so that_ I win the meeting/deal without spending hours redoing slides by hand. [assumption]
+
+**Four forces (switch from the current way → Decksmith)**
+
+| Force | Direction | For this job | Confidence |
+|-------|-----------|--------------|------------|
+| Push | away from status quo | AI decks look templated → I redo them by hand anyway; manual design eats hours; a designer is slow/expensive | [assumption] |
+| Pull | toward Decksmith | native files that are editable **and** designed → no redo, looks credible, tells the right story | [assumption] |
+| Anxiety | resists switching | "AI won't match our brand / will look generic / won't be truly editable — I'll have to fix it anyway" | [assumption] |
+| Habit / inertia | resists leaving status quo | comfort with PowerPoint/Keynote/Canva templates and the company-standard deck | [assumption] |
+
+_Progress happens only when push + pull > anxiety + habit. The adoption-killing force here is the
+**anxiety "I'll still have to fix it"** — which is exactly the feasibility bet `H-001` (the engine
+reliably produces editable-and-beautiful files). So jtbd **sharpens** `H-001`/`H-002`/`H-003`; it
+seeds no new hypothesis._
+
+**Desired outcomes (ODI).** Measurable directions the segment judges success by:
+- Minimize time from brief → presentation-ready deck. [assumption]
+- Maximize likelihood the deck is on-brand/credible without manual rework. [assumption]
+- Minimize manual edits needed after generation (edit-fidelity). [assumption]
+- Maximize fit of structure/narrative to the specific audience. [assumption]
+
+_Feeds Step 2: this job is the frame for `substitutes` — "what else gets this job done": do-nothing
+(live with a mediocre deck), do-it-manually (build in PPT/Canva or hire a designer), self-build
+(prompt ChatGPT + hand-format), adjacent tools (Canva / Gamma / Tome / Beautiful.ai / Pitch)._
+
 ## Segments {#segments}
 <!-- tool: segmentation -->
 
@@ -50,8 +81,8 @@ Everything downstream leads with this segment; lower tiers are kept, not dropped
 
 ## Problems {#problems}
 <!-- tool: segment-pains -->
-_For the lead segment (salespeople & marketers). Job-to-be-done: produce a client-facing deck that
-looks credible and tells the right story — fast, without redoing it by hand._
+_For the lead segment (salespeople & marketers). Job: see `#jtbd`. The pains below are the
+obstacles inside that job, scored by severity × frequency._
 
 | Rank | Problem (pain in the job) | Severity | Frequency | Class | Confidence |
 |------|---------------------------|----------|-----------|-------|------------|
@@ -117,6 +148,14 @@ _Everything above starts as an assumption. These are carried into `registers/hyp
 - **Monetization / willingness to pay** — deferred to Strategy (Step 3); noted here so it isn't lost.
 
 ## Change log
+
+### 2026-07-21 — added `#jtbd` (job-to-be-done lens)
+- **From → To:** v0.2.0 → v0.3.0; added the `Job-to-be-Done {#jtbd}` section (job statement + four
+  forces + desired outcomes). `#problems` now points its job line to `#jtbd` instead of restating it.
+- **Why:** the jtbd lens produces the anxiety that gates adoption (maps to `H-001`) and the job that
+  frames indirect competition for Step 2 `substitutes` — content that was being lost. Corresponds to
+  the framework change giving jtbd its own Step-1 section.
+- **Trigger:** example run review — jtbd was wrongly deferred out of the Step-1 pass, 2026-07-21.
 
 ### 2026-07-20 — rebuilt from scratch through the Step-1 tools (example run)
 - **From → To:** v0.1.0 passport → v0.2.0, regenerated method-by-method (`concept-formation` →
