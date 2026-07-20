@@ -4,7 +4,7 @@ artifact: analysis
 step: 2
 title: "Market & Competitive Analysis — <Product>"
 status: template
-version: 0.2.1
+version: 0.2.2
 updated: 2026-07-21
 ---
 
@@ -64,11 +64,12 @@ _Input to our own pricing (Step 3 `pricing`) and the financial model — not our
 ## Competitor dynamics {#competitor-dynamics}
 <!-- tool: competitor-analysis -->
 _Trend over time — to compare whose strategy is working. Source per firm: public financials / press
-/ filings (for RU legal entities, datanewton.ru/contragents/<OGRN>)._
+/ filings / public company registries appropriate to the jurisdiction. (Region-specific registry
+lookups are a regional/company adapter concern, not the base.)_
 
 | Competitor | Metric (revenue / headcount / …) | Trend + period | Source (+ date) | Confidence |
 |------------|----------------------------------|----------------|-----------------|------------|
-| … | revenue | … | public financials / press (RU: datanewton OGRN) | [sourced: …] |
+| … | revenue | … | public financials / registry | [sourced: …] |
 
 ## Substitutes {#substitutes}
 <!-- tool: substitutes -->

@@ -2,7 +2,7 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.3.0
+version: 0.3.1
 updated: 2026-07-19
 ---
 
@@ -86,7 +86,7 @@ don't turn a tool into a literature review.
 | `segment-pains` | Surface problems in the job | JTBD + Value Proposition Canvas; severity × frequency; differentiator vs table-stakes | 1 | draft |
 | `value-definition` | Value & defensibility | 7 Powers (Helmer) → base/derivative; post-AI lens | 1, 3 | draft |
 | `market-sizing` | TAM / SAM / SOM | Bottom-up sizing (top-down cross-check) with named assumptions | 2 | draft |
-| `competitor-analysis` | Competitors, their game, pricing & dynamics | 'What game are they playing' + moat comparison + pricing scan + registry dynamics (datanewton for RU) | 2 | draft |
+| `competitor-analysis` | Competitors, their game, pricing & dynamics | 'What game are they playing' + moat comparison + pricing scan + registry dynamics (public company registries) | 2 | draft |
 | `substitutes` | Non-obvious competition | JTBD competition incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes | 2 | draft |
 | `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) — winning-aspiration / where-to-play / how-to-win cascade | 3 | draft |
 | `uvp-cpv` | Value proposition / CPV | Dunford positioning + Value Proposition Canvas + customer-perceived value | 3 | draft |
