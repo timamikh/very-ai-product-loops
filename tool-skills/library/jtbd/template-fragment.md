@@ -1,11 +1,12 @@
 <!--
   template-fragment: jtbd
-  Step 1: a lens — feeds {#segments} and {#problems}, owns no section of its own.
+  Step 1: fills {#jtbd} — states the job + forces + outcomes; anchors {#segments}/{#problems}
+          and feeds Step 2 `substitutes` (the job is the frame for indirect competition).
   Step 3: fills {#bets} — strategic wagers framed around the customer's job.
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
 -->
 
-## Job-to-be-Done
+## Job-to-be-Done {#jtbd}
 
 **Job statement.** _When_ <circumstance / trigger>, _I want to_ <make this progress>, _so that_
 <outcome / motivation>. [assumption]
@@ -27,6 +28,13 @@ _Progress happens only when **push + pull > anxiety + habit**._
 increase the time / likelihood / effort of …
 
 - … [assumption]
+
+_Feeds Step 2: this job is the frame for `substitutes` — "what else gets this job done" (do-nothing,
+do-it-manually, self-build, adjacent tools)._
+
+**Seeded hypotheses:** H-… (`type: desirability` — this is the job / this force is real and this
+strong) → hypothesis register. Often jtbd **sharpens** existing segment/pain hypotheses rather than
+adding new ones.
 
 ---
 

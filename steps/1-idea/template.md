@@ -4,8 +4,8 @@ artifact: passport
 step: 1
 title: "Product Passport — <Product>"
 status: template
-version: 0.2.0
-updated: 2026-07-20
+version: 0.3.0
+updated: 2026-07-21
 ---
 
 <!--
@@ -30,6 +30,20 @@ updated: 2026-07-20
 _What it is, and the shift it makes, in a few lines._
 
 - …  [assumption]
+
+## Job-to-be-Done {#jtbd}
+<!-- tool: jtbd (lens — anchors #segments and #problems; the job feeds Step 2 substitutes) -->
+_The job the customer hires the product for, the four forces around switching, and the outcomes
+they judge success by. States the job; the pains inside it are scored in #problems._
+
+**Job statement.** _When_ <circumstance>, _I want to_ <make this progress>, _so that_ <outcome>.  [assumption]
+
+| Force | Direction | For this job | Confidence |
+|-------|-----------|--------------|------------|
+| Push | away from status quo | … | [assumption] |
+| Pull | toward this product | … | [assumption] |
+| Anxiety | resists switching | … | [assumption] |
+| Habit / inertia | resists leaving status quo | … | [assumption] |
 
 ## Segments {#segments}
 <!-- tool: segmentation -->
