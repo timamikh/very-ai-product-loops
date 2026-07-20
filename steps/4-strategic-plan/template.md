@@ -4,8 +4,8 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.2.0
-updated: 2026-07-20
+version: 0.2.1
+updated: 2026-07-21
 ---
 
 <!--
@@ -70,9 +70,9 @@ _Contribution margin; LLM inference as an explicit COGS line. Two bases: operati
 
 | Metric | Operational | Honest (+depreciation / market compute) | Assumptions |
 |--------|-------------|------------------------------------------|-------------|
-| Revenue per payer (₽/mo) | … | … | … |
-| COGS per payer (₽/mo) | … | … | [assumption: allocation rule] |
-| Contribution (₽/mo · %) | … | … | … |
+| Revenue per payer ($/mo) | … | … | … |
+| COGS per payer ($/mo) | … | … | [assumption: allocation rule] |
+| Contribution ($/mo · %) | … | … | … |
 | CAC (by channel) | … | … | [sourced / ⚙️] |
 | Payback | … | … | … |
 | LTV | — churn scenarios X/Y/Z% ⚙️ — | … | uses the `#retention` curve |

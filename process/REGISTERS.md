@@ -2,7 +2,7 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.4.0
+version: 0.4.1
 updated: 2026-07-17
 ---
 
@@ -61,7 +61,7 @@ from the first capture; no md-cell time series, no transition thresholds.
 |-------|----------------|
 | `id` | `M-northstar`, `M-activation`, … — **a changed definition mints a NEW id**, never reuses the old one (else the series silently compares incomparables) |
 | `name` / `definition` | what it is, precisely — incl. what it excludes |
-| `unit` | ₽ · $ · % · count · … (a property of the node, not of a reading) |
+| `unit` | $ · € · % · count · … (a property of the node, not of a reading) |
 | `kind` | `measured` (captured) · `derived` (computed — state the formula) |
 | `parent` | the node it feeds (builds the tree); `— to clarify —` before Step 4 |
 | `instrumentation` | `instrumented` · `proxy` · `not-instrumented` — where the data comes from, or why it can't yet |

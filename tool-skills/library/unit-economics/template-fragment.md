@@ -9,9 +9,9 @@ LTV uses the retention curve from `{#retention}`, not an assumed churn %._
 
 | Metric | Operational | Honest (+depreciation / market compute) | Assumptions |
 |--------|-------------|------------------------------------------|-------------|
-| Revenue per payer (blended, ₽/mo) | | | |
-| COGS per payer (₽/mo) | | | [assumption: allocation rule] |
-| Contribution (₽/mo · %) | | | |
+| Revenue per payer (blended, $/mo) | | | |
+| COGS per payer ($/mo) | | | [assumption: allocation rule] |
+| Contribution ($/mo · %) | | | |
 | CAC (by channel) | | | [sourced / ⚙️] |
 | Payback | | | |
 | LTV | — churn scenarios X/Y/Z% ⚙️ — | | from the `{#retention}` curve once instrumented |
