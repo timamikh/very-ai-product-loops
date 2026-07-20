@@ -10,7 +10,7 @@ used_by_steps: [2]
 opinionated: false
 method_basis: "'What game are they playing' + moat comparison; pricing scan; growth-dynamics from public registries"
 status: draft
-version: 0.1.2
+version: 0.1.3
 updated: 2026-07-21
 ---
 
@@ -36,14 +36,14 @@ dynamics** over time.
 2. **Name each one's game** — are they chasing revenue, profit, share, or social capital, and by
    what strategy? Compare on the Step-1 moat axes (who has data / distribution / brand …).
 3. **Competitor pricing scan.** Capture each competitor's pricing where findable — the
-   competitor's own site, or a web search (Google/Yandex). This is an **input** to our own pricing
+   competitor's own site, or a web search. This is an **input** to our own pricing
    decision (the `pricing` tool at Step 3) and feeds the Step-4 financial model — it is not our
    price. Tag `[sourced: …]`; if not public, `— to clarify —`.
 4. **Development dynamics.** Capture how each competitor is trending (revenue, headcount, filings)
-   to compare strategy effectiveness. For RU legal entities, `datanewton.ru` exposes this — e.g.
-   `https://datanewton.ru/contragents/<OGRN>` (the trailing number is the company OGRN; you can
-   also search by INN or name). Treat as one regional source among others; for non-RU firms use
-   the appropriate registry / public financials. Record source + date.
+   to compare strategy effectiveness. Use public company registries, filings, and financial press
+   appropriate to the company's jurisdiction. Region-specific registry integrations (a national
+   business registry, a paid data provider) belong in a **regional/company adapter**, not the base
+   framework — keep this tool jurisdiction-neutral. Record source + date.
 5. **Conclude** into `{#opportunity}` (the step's synthesis): where the white space / threat is.
 6. **Seed registers.** Competitive threats → `R-…`; assumptions about a rival's move → `H-…`.
 

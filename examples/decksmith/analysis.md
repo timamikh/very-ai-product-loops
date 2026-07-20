@@ -82,8 +82,8 @@ _Input to our own pricing (Step 3) and the Step-4 model — not our price._
 
 ## Competitor dynamics {#competitor-dynamics}
 <!-- tool: competitor-analysis -->
-_Trend over time — whose strategy is working. (RU entities use datanewton.ru/contragents/<OGRN>;
-these are US firms, so public press/financials are the source instead.)_
+_Trend over time — whose strategy is working. Source: public financials / press / registries
+appropriate to the company's jurisdiction._
 
 | Competitor | Metric | Trend + period | Source (+ date) | Confidence |
 |------------|--------|----------------|-----------------|------------|
