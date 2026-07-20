@@ -14,8 +14,8 @@ used_by_steps: [4]
 opinionated: true
 method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
 status: draft
-version: 0.2.1
-updated: 2026-07-18
+version: 0.2.2
+updated: 2026-07-21
 ---
 
 # Unit economics — does one customer pay for themselves?
@@ -25,6 +25,8 @@ line** (the 2026 baseline: for an AI product, inference is COGS, not overhead). 
 runs on its own GPUs, compute the economics in **two bases side by side** — `operational` (what
 the P&L shows under internal transfer pricing) and `honest` (adding hardware depreciation /
 market compute price) — so a segment can't look profitable only because the metal is "free".
+**The dual basis is optional:** on third-party / API compute (no own hardware) the two collapse —
+compute a single basis and say so.
 
 ## When to apply
 - Step 4, when you need to know whether a single customer pays for themselves before scaling.
