@@ -18,4 +18,4 @@ exist to show what a finished artifact looks like and to serve as a reference wh
 
 | Example | Product (fictional) | Covers |
 |---------|---------------------|--------|
-| [decksmith](decksmith/) | AI generator of editable, well-designed `.pptx`/`.key` decks | Steps 1–3 (Idea/Concept · Analysis · Strategy) · status `concept-viability` · full instance (config · sources · registers) |
+| [decksmith](decksmith/) | AI generator of editable, well-designed `.pptx`/`.key` decks | Steps 1–4 (Idea/Concept · Analysis · Strategy · Strategic Plan) · status `concept-viability` · full instance (config · sources · registers) |
