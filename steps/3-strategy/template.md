@@ -4,8 +4,8 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.1.0
-updated: 2026-07-18
+version: 0.2.0
+updated: 2026-07-20
 ---
 
 <!--
@@ -19,6 +19,12 @@ updated: 2026-07-18
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Last review: <date>
 > Inputs: [[passport]] · [[analysis]]. Feeds: [[strategic-plan]].
+
+> ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
+> library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under
+> `tool-skills/library/`, check its prerequisites, clarify real forks as options, then fill. Filling
+> straight from this template bypasses the method (see `CLAUDE.md` → "Read the tool before filling").
+> The shell is for structure and stable IDs only.
 
 ## Winning aspiration {#winning-aspiration}
 <!-- tool: where-to-play-how-to-win -->

@@ -4,8 +4,8 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — <Product> · <period>"
 status: template
-version: 0.1.0
-updated: 2026-07-18
+version: 0.2.0
+updated: 2026-07-20
 ---
 
 <!--
@@ -19,6 +19,12 @@ updated: 2026-07-18
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Period: <start–end>
 > Inputs: [[strategic-plan]] · registers. Feeds: [[sprint-plan]].
+
+> ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
+> library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under
+> `tool-skills/library/`, check its prerequisites, clarify real forks as options, then fill. Filling
+> straight from this template bypasses the method (see `CLAUDE.md` → "Read the tool before filling").
+> The shell is for structure and stable IDs only.
 
 ## Period goals {#period-goals}
 <!-- tool: prioritization -->
