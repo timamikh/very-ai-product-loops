@@ -45,9 +45,9 @@ Each bet is a strategic wager framed on the job: _we bet that <segment> will hir
 
 ## Bets {#bets}
 
-| Bet (framed on the job) | Job / circumstance | Why it wins (forces) | Outcome it moves | Confidence | Hypothesis |
-|-------------------------|--------------------|----------------------|------------------|------------|------------|
-| … | … | pull > anxiety + habit because … | e.g. minimize <outcome> | [assumption] | H-… |
+| ID | Bet | Type | Job / circumstance | Why it wins (pull > anxiety + habit) | Outcome it moves | Confidence |
+|----|-----|------|--------------------|--------------------------------------|------------------|------------|
+| H-… | … | desirability / viability / … | … | pull > anxiety + habit because … | e.g. minimize <outcome> | [assumption] |
 
-**Seeded hypotheses:** H-… (`type: desirability` — the job/force is real; at Step 3, mixed types
-per bet) → hypothesis register.
+**Seeded hypotheses:** each bet → H-… in the register (mixed types per bet; the `ID` column *is* that
+H-id). This table is the one canonical shape for `{#bets}` — it matches `steps/3-strategy/template.md`.

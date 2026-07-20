@@ -10,7 +10,7 @@ used_by_steps: [1, 3]
 opinionated: false
 method_basis: "Jobs-to-be-Done — Christensen 'progress' + Ulwick ODI: job statement · forces (push/pull/anxiety/habit) · desired outcomes"
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-07-21
 ---
 

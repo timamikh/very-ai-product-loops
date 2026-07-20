@@ -172,12 +172,12 @@ the dependency and cost driver (→ `R-004`, quantified at Step 4)._
 <!-- tool: jtbd, value-definition · segment-cvp lens sharpens each into a testable entry -->
 _The strategic hypotheses we're wagering on, framed on the customer's job + forces (`passport#jtbd`)._
 
-| ID | Bet | Type | Rests on (job / force / moat) | Confidence |
-|----|-----|------|-------------------------------|------------|
-| H-007 | For the beachhead job, "actually-editable + designed native decks" is a strong enough wedge that salespeople & marketers switch (pull beats the "I'll still have to fix it" anxiety + PowerPoint habit) | desirability | job + forces (`#jtbd`); `H-005` | [assumption] |
-| H-008 | A standalone native-fidelity+design engine can stay ahead of incumbents (Copilot/Canva) closing the wedge long enough to build lock-in | viability/moat | `H-004` + `H-001`; `analysis#opportunity` | [assumption] |
-| H-009 | The beachhead will pay a standalone subscription (~$15–25) despite incumbents bundling | viability | pricing; the value gap | [assumption] |
-| H-010 | Sales/marketing communities + product-led virality acquire the beachhead at viable CAC | viability | channels | [assumption] |
+| ID | Bet | Type | Job / circumstance | Why it wins (pull > anxiety + habit) | Outcome it moves | Confidence |
+|----|-----|------|--------------------|--------------------------------------|------------------|------------|
+| H-007 | The "actually-editable + designed native deck" wedge is enough for the beachhead to switch | desirability | Making a client deck that looks designed **and** stays editable in PowerPoint, fast (`#jtbd`) | pull (no redo, credible, right story) beats the "I'll still have to fix it" anxiety + PowerPoint habit; `H-005` | manual redo ↓ · on-brand-without-rework ↑ | [assumption] |
+| H-008 | A standalone native-fidelity+design engine stays ahead of incumbents closing the wedge | viability/moat | Incumbents (Copilot/Canva) entering the editable+designed space (`analysis#opportunity`) | engine quality (`H-004`) + feasibility (`H-001`) hold a gap generalists can't cheaply copy | sustained quality gap → retention/lock-in | [assumption] |
+| H-009 | The beachhead pays a standalone subscription (~$15–25) despite bundled incumbents | viability | Paying for deck tooling when Copilot/Canva are already bundled | the fidelity+design value gap justifies a standalone price | willingness to pay standalone | [assumption] |
+| H-010 | Communities + product-led virality acquire the beachhead at viable CAC | viability | Reaching frequent deck-makers where they gather | shared editable decks carry a mark → virality; tight community fit | CAC ↓ | [assumption] |
 
 _Each bet is a candidate market-entry entry; the full `segment-cvp` bundle set + readiness gate is
 composed and staged for test at Step 5._
