@@ -9,8 +9,8 @@ description: >
   status with descriptions for the human to pick. Ends by summarizing what's filled vs blank and
   proposing a gap-closing plan in step order — the point where the working loops begin.
 status: draft
-version: 0.2.0
-updated: 2026-07-19
+version: 0.3.0
+updated: 2026-07-20
 ---
 
 # Product Setup (onboarding)
@@ -27,6 +27,21 @@ the framework.
 
 Golden rule holds: **the agent prepares, the human decides.** Everything ingested is tagged with
 its source and confidence; nothing is invented; gaps are `— to clarify —`.
+
+## Step 0 — bootstrap the rules (before anything)
+
+**Do not trust auto-load.** This skill is usually invoked right after install or from another repo's
+session, when the framework's root `CLAUDE.md` was never auto-loaded as the boot entry. So load the
+rules yourself, in order, before any setup work:
+`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` → `REGISTERS.md`. They define the
+disciplined loop and the "prepare, don't invent" rule the rest of this skill depends on. Skipping
+them is exactly how a first run turns into an invented bulk-fill.
+
+**Onboarding is not a work cycle.** Setup only *places* existing material and *marks* gaps. It does
+**not** produce method-derived content (metric thresholds, test designs, pricing, hypotheses beyond
+what a source states) and does **not** bulk-fill the downstream steps. That work happens later, one
+section at a time, each through its library method, per the operating loop. Blurring the two is the
+single most common failure — see anti-patterns.
 
 ## Phase 1 — Setup
 
@@ -81,6 +96,10 @@ Read the converted materials and map their content onto the step artifacts:
 - Where materials conflict, mark the field `[assumption]` and surface the conflict.
 - Where a section has no supporting material, leave `— to clarify —`.
 - Seed the registers (hypotheses/risks/metrics) from anything the materials imply.
+- **Only place what the sources say.** Do NOT derive numbers, thresholds, hypotheses, test designs,
+  or pricing here — those are method work for the loop. If a section would need a library method to
+  produce it, leave it `— to clarify —` (optionally with a ⚙️ note naming the method that will
+  produce it later), not an invented draft.
 
 Produce a **placement report**: what went where, what conflicts were found, what's still open.
 
@@ -108,9 +127,11 @@ Now that everything is filled and a status is set, give the human a **product su
   the **white spots** are (`— to clarify —` sections, open forks, unseeded registers, conflicts).
 - **Proposed plan:** in step order, propose closing the biggest/earliest gaps first — the shortest
   path to a coherent line from concept to sprint, weighted by the active status's `per_step` goals.
-- The human **agrees or proposes their own plan.** Either way, acting on it **is** the operating
-  loop (OPERATING-LOOP.md) — Phase 2 is simply the first Orient/Focus. Setup does not "end" so much
-  as become the loop.
+- The human **agrees or proposes their own plan** — then **stop. Setup ends here.** Acting on the
+  plan is the operating loop (OPERATING-LOOP.md): it runs **one section at a time, each produced
+  through its library method** — open the method's `SKILL.md`, check prerequisites, clarify real
+  forks as 2–4 options + ⚙️ and wait, then fill. That is **never** another bulk fill. Do not slide
+  from setup straight into that work; hand the plan over and begin the loop only on the human's go.
 
 ## Instance layout (created in the product's repo)
 
@@ -150,8 +171,26 @@ read-only into the repo at install and pinned to a version tag.
   with descriptions and a recommendation instead (the human may not know the options).
 - **Forking on directions in v1.** Don't ask about work directions at first-run — default them and
   let power users edit `config.yaml` later.
+- **Skipping the rules.** Running setup without first reading `process/` in order (Step 0). Auto-load
+  of the root `CLAUDE.md` does not fire when this skill runs from install or another session — load
+  the rules yourself.
+- **Onboarding as a work cycle.** Bulk-filling downstream artifacts or running a "first cycle" during
+  setup. Setup places sourced material and stops; method work is the loop's job, one section at a time.
+- **Deriving content during onboarding.** Producing thresholds, test designs, pricing, or hypotheses
+  beyond what the sources state — that is method work (e.g. `hypothesis-test-design`), not onboarding.
 
 ## Change log
+
+### 2026-07-19 — enforcement hardening (R1/R2, from the first live run)
+- **From → To:** added **Step 0 — bootstrap the rules** (read `process/` in order; don't trust
+  auto-load); stated **"onboarding is not a work cycle"**; step 4 now **forbids deriving** numbers/
+  thresholds/hypotheses/tests during onboarding (place sourced material only); Phase 2 now **stops
+  after proposing the plan** — the loop runs one section per method, never a bulk fill; added four
+  anti-patterns (skipping rules · onboarding as a cycle · deriving content · plus the earlier ones).
+- **Why:** the first live install produced an invented bulk-fill — the agent skipped OVERVIEW/
+  OPERATING-LOOP (auto-load never fired when run from another session), opened no method `SKILL.md`,
+  and fabricated MVP thresholds during setup. The rules existed but nothing carried them into behavior.
+- **Trigger:** first real deployment (salt-pepper), 2026-07-20.
 
 ### 2026-07-19 — corrected onboarding flow (install≠setup · propose status · Phase 2)
 - **From → To:** (1) framed the skill as the PRODUCT-setup phase that runs *after* install (it does
