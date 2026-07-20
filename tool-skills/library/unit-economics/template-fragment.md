@@ -4,11 +4,13 @@
 -->
 
 ## Unit economics {#unit-economics}
-_Method: contribution margin, LLM inference as an explicit COGS line. Two bases: operational / honest.
-LTV uses the retention curve from `{#retention}`, not an assumed churn %._
+_Method: contribution margin, LLM inference as an explicit COGS line. **The "honest" basis is optional
+— it applies only when the product runs its own compute (own GPUs)**; on third-party/API compute the
+two bases collapse, so use a single column. LTV uses the retention curve from `{#retention}`, not an
+assumed churn %._
 
-| Metric | Operational | Honest (+depreciation / market compute) | Assumptions |
-|--------|-------------|------------------------------------------|-------------|
+| Metric | Operational | Honest (+depreciation / market compute) — own-compute only | Assumptions |
+|--------|-------------|------------------------------------------------------------|-------------|
 | Revenue per payer (blended, $/mo) | | | |
 | COGS per payer ($/mo) | | | [assumption: allocation rule] |
 | Contribution ($/mo · %) | | | |

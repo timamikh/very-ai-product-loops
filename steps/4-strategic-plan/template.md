@@ -4,7 +4,7 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.2.1
+version: 0.2.2
 updated: 2026-07-21
 ---
 
@@ -66,10 +66,11 @@ Readings land in `registers/metrics.csv` against their `M-…`._
 
 ## Unit economics {#unit-economics}
 <!-- tool: unit-economics -->
-_Contribution margin; LLM inference as an explicit COGS line. Two bases: operational / honest._
+_Contribution margin; LLM inference as an explicit COGS line. The "honest" basis is **optional —
+own-compute (own-GPU) products only**; on third-party/API compute the bases collapse to one._
 
-| Metric | Operational | Honest (+depreciation / market compute) | Assumptions |
-|--------|-------------|------------------------------------------|-------------|
+| Metric | Operational | Honest (+depreciation / market compute) — own-compute only | Assumptions |
+|--------|-------------|------------------------------------------------------------|-------------|
 | Revenue per payer ($/mo) | … | … | … |
 | COGS per payer ($/mo) | … | … | [assumption: allocation rule] |
 | Contribution ($/mo · %) | … | … | … |
