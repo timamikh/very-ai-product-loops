@@ -13,6 +13,7 @@ updated: 2026-07-20
 | File | Contains | In scope | Out of scope | Feeds steps | Confidence |
 |------|----------|----------|--------------|-------------|------------|
 | `founder-brief.md` | The raw idea, the founder's observations of the sales/marketing crowd, an honest have/can-build inventory, and the early bets (lead segment, riskiest = feasibility, pricing deferred) | Concept, lead segment, the pains to test, the value/moat inventory | Pricing (deferred to Step 3), collaboration/co-editing, non-slide formats | 1 | [sourced: founder brief 2026-07-16] |
+| `market-research.md` | Triangulated desk-research digest (real, public): market size/dynamics, players (Gamma, Copilot, Canva, Beautiful.ai, Pitch, Tome), pricing, trends, barriers; the Gamma `.pptx` export-fidelity gap | Sizing inputs, competitor game/pricing/dynamics, substitutes, niche risks | Anything about Decksmith's own (fictional) metrics — none exist | 2, 3, 4 | [sourced] primary press for funding; secondary for pricing/export |
 
 ## Open sources (not yet obtained)
 
