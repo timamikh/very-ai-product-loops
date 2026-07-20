@@ -40,7 +40,9 @@ trustworthy paper trail — instead of a folder of disconnected docs.
 
 ## How you actually work with it
 
-You don't fill templates alone. A working session looks like this:
+You don't fill templates alone. To begin or resume a session, ask the agent to **start work** (the
+`start-work` skill) — it loads the rules and picks up where you left off. A working session looks
+like this:
 
 1. You tell the agent what you want to move (e.g. "let's firm up the strategy").
 2. The agent orients — reads where the product is, picks the right method, checks it has the

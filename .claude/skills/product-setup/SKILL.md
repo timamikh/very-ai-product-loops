@@ -132,6 +132,8 @@ Now that everything is filled and a status is set, give the human a **product su
   through its library method** — open the method's `SKILL.md`, check prerequisites, clarify real
   forks as 2–4 options + ⚙️ and wait, then fill. That is **never** another bulk fill. Do not slide
   from setup straight into that work; hand the plan over and begin the loop only on the human's go.
+From the next session on, that loop is entered via the **`start-work`** skill (which self-bootstraps
+the rules and runs one pass at a time).
 
 ## Instance layout (created in the product's repo)
 
