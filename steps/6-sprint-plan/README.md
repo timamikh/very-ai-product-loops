@@ -3,7 +3,7 @@ node_type: step
 step: 6
 name: sprint-plan
 title: "Step 6 — Sprint Plan"
-output: sprint-plan.md
+output: 6-sprint-plan.md
 cadence: "~1–2 wk; every sprint"
 method_basis: "minimal must-set + prioritized backlog per direction · items in a per-direction format (dev = Feature; go-to-market = Activity; back-office = Task+DoD) · prioritization by contribution to the goal · explicit handoff"
 status: draft
@@ -21,7 +21,7 @@ hand off to the team's development process.
 The tactical plan (`[[tactical-plan]]`), backlog export, the hypothesis & metric registers.
 
 ## Output
-`sprint-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+`6-sprint-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 The active [status](../../statuses/README.md) shapes the must-set:
 `concept-viability` favors prototype/learning items (validate the bet); `pmf` favors items that
 prove repeatable value and monetization; `growth` favors scale-and-defend items.

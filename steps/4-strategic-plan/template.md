@@ -9,7 +9,7 @@ updated: 2026-07-21
 ---
 
 <!--
-  strategic-plan.md assembly shell. Each section is filled by its recommended library tool
+  4-strategic-plan.md assembly shell. Each section is filled by its recommended library tool
   (see steps/4-strategic-plan/README.md). Keep section IDs stable. Follow process/CONVENTIONS.md.
   This step is INSTRUMENTS & RESOURCES (quantitative). Metric NODE DEFINITIONS live in
   registers/metric-tree.md and VALUES in registers/metrics.csv — this artifact references them,

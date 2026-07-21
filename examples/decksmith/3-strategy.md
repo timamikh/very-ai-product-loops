@@ -12,7 +12,7 @@ version: 0.1.0
 # Strategy — Decksmith (fictional sample)
 
 > Status: `concept-viability` · Owner: sample · Last review: 2026-07-21
-> Inputs: `passport.md` · `analysis.md`. Feeds: `strategic-plan.md`.
+> Inputs: `1-passport.md` · `2-analysis.md`. Feeds: `4-strategic-plan.md`.
 > This step is **choices** (qualitative). At `concept-viability` the goal is to find fit: one
 > beachhead, a testable positioning bet, packaging as a hypothesis — **WTP stays open, not a set price**.
 

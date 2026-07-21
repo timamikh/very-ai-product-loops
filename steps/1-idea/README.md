@@ -3,7 +3,7 @@ node_type: step
 step: 1
 name: idea
 title: "Step 1 — Idea / Concept"
-output: passport.md
+output: 1-passport.md
 cadence: "~ product lifetime; revisit on pivot or major learning"
 method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
@@ -28,7 +28,7 @@ emphasis is set by the active [status](../../statuses/README.md).
 
 ## Output
 
-`passport.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+`1-passport.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 
 ## Artifact skeleton
 

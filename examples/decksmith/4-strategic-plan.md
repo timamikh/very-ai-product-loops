@@ -12,7 +12,7 @@ version: 0.1.0
 # Strategic Plan — Decksmith (fictional sample)
 
 > Status: `concept-viability` · Owner: sample · Last review: 2026-07-21
-> Inputs: `strategy.md` · registers. Feeds: `tactical-plan.md`.
+> Inputs: `3-strategy.md` · registers. Feeds: `5-tactical-plan.md`.
 > **Quantitative instruments — but at concept stage there is no product data.** So the metric tree is
 > the *plan of what to measure* (all nodes `not-instrumented`), unit economics are placeholders with
 > WTP/COGS as hypotheses, retention and the financial model are deferred (no cohorts, no run-rate),
@@ -21,7 +21,7 @@ version: 0.1.0
 
 ## Architecture & instrumentation {#architecture-instrumentation}
 <!-- tool: architecture-c4, product-surface -->
-_Refined from `strategy.md#architecture` / `#product-surface`: where metric data will come from, and what drives infra cost._
+_Refined from `3-strategy.md#architecture` / `#product-surface`: where metric data will come from, and what drives infra cost._
 
 | Surface / component | Instrumentation | Data it will produce | Infra cost driver | Confidence |
 |---------------------|-----------------|----------------------|-------------------|------------|

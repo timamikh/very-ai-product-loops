@@ -9,7 +9,7 @@ updated: 2026-07-21
 ---
 
 <!--
-  analysis.md assembly shell. Each section is filled by its recommended library tool
+  2-analysis.md assembly shell. Each section is filled by its recommended library tool
   (see steps/2-analysis/README.md). Keep section IDs stable. Follow process/CONVENTIONS.md
   for confidence tags, sources, IDs, links, and the change log.
   The point of this step is the CONCLUSION (#opportunity) — analysis without a "so what" is inert.

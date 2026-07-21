@@ -3,7 +3,7 @@ node_type: step
 step: 3
 name: strategy
 title: "Step 3 — Strategy"
-output: strategy.md
+output: 3-strategy.md
 cadence: "~3–12 mo; reviewed ~quarterly"
 method_basis: "Playing to Win (where-to-play / how-to-win) · Dunford positioning · UVP/CPV · value-based pricing & packaging · channels (Bullseye) · moats revisited (7 Powers) · product surface & instrumentation · C4-context architecture"
 status: draft
@@ -22,7 +22,7 @@ updated: 2026-07-18
 The passport (`[[passport]]`), the analysis (`[[analysis]]`), `interview`, `kb`.
 
 ## Output
-`strategy.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+`3-strategy.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 The [status](../../statuses/README.md) sets goal shape: `concept-viability`
 strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 

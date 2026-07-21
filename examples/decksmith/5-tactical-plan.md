@@ -12,7 +12,7 @@ version: 0.1.0
 # Tactical Plan — Decksmith (fictional sample) · Concept Test (6 wk)
 
 > Status: `concept-viability` · Owner: sample · Period: 2026-07-21 → 2026-09-01 (~6 wk)
-> Inputs: `strategic-plan.md` · registers. Feeds: `sprint-plan.md`.
+> Inputs: `4-strategic-plan.md` · registers. Feeds: `6-sprint-plan.md`.
 > **ONE learning goal this period: prove the concept-killer — can the engine hit native edit-fidelity?**
 > (`H-001`). Everything else is sized to *not over-invest before that signal* (status goal).
 

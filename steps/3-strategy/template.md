@@ -9,7 +9,7 @@ updated: 2026-07-21
 ---
 
 <!--
-  strategy.md assembly shell. Each section is filled by its recommended library tool
+  3-strategy.md assembly shell. Each section is filled by its recommended library tool
   (see steps/3-strategy/README.md). Keep section IDs stable. Follow process/CONVENTIONS.md.
   This step is CHOICES (qualitative). Numbers, models, mitigations belong to Step 4.
   ⚙️ marks agent-proposed defaults awaiting human approval.

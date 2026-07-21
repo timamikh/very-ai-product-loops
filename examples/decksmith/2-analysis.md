@@ -12,7 +12,7 @@ version: 0.1.0
 # Market & Competitive Analysis — Decksmith (fictional sample)
 
 > Status: `concept-viability` · Owner: sample · Last review: 2026-07-21
-> Feeds: `strategy.md` · seeds the risk register (`registers/risks.md`).
+> Feeds: `3-strategy.md` · seeds the risk register (`registers/risks.md`).
 > Fictional product; **the market and competitors are real, public information** (dated). Evidence:
 > `sources/market-research.md`. At concept stage, sizing leans on a bottom-up SAM with wide error bars.
 
@@ -20,7 +20,7 @@ version: 0.1.0
 <!-- tool: market-sizing -->
 
 **Arena / segment sized:** AI-generated client-facing decks for the lead segment — salespeople &
-marketers who make decks often, in English-first paying markets (job: see `passport.md#jtbd`).
+marketers who make decks often, in English-first paying markets (job: see `1-passport.md#jtbd`).
 
 **TAM / SAM / SOM**
 
