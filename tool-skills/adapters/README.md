@@ -54,10 +54,15 @@ Each adapter is a folder `adapters/<name>/`:
 ```
 adapters/<name>/
   ADAPTER.md   # what it renders · what it consumes (by stable id) · how to render · output shape · anti-patterns
+  render.py    # OPTIONAL — a generic, instance-agnostic renderer, shipped ONLY where a library is required
 ```
 
 `ADAPTER.md` is an **instruction skill** (the agent renders — no build step; the framework stays
-plain markdown until pain justifies code). Its frontmatter declares the wiring:
+plain markdown until pain justifies code). **Exception:** where a deliverable format needs a library
+(`.docx` → python-docx, `.xlsx` → openpyxl), the adapter also ships a **generic `render.py`** that
+reads *any* instance and holds **no product data** — so the render logic travels with the framework
+and the base stays instance-agnostic. Formats the agent can author directly (HTML, CSV, markdown)
+ship no code. Its frontmatter declares the wiring:
 
 ```yaml
 ---
