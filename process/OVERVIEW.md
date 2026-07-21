@@ -118,12 +118,12 @@ tool emphasis are set by the active [status](../statuses/README.md).
 
 | # | Step | Horizon (~) | Cadence (~) | Output |
 |---|------|-------------|-------------|--------|
-| 1 | **Idea / Concept** | product lifetime | on pivot / major learning | `passport.md` |
-| 2 | **Analysis** | ~6–12 mo view | ~quarterly / on market shift | `analysis.md` |
-| 3 | **Strategy** | ~3–12 mo | reviewed ~quarterly | `strategy.md` |
-| 4 | **Strategic Plan** | ~3–12 mo | with strategy / on shift | `strategic-plan.md` |
-| 5 | **Tactical Plan** | ~1–3 mo | ~monthly | `tactical-plan.md` |
-| 6 | **Sprint Plan** | ~1–2 wk | every sprint | `sprint-plan.md` |
+| 1 | **Idea / Concept** | product lifetime | on pivot / major learning | `1-passport.md` |
+| 2 | **Analysis** | ~6–12 mo view | ~quarterly / on market shift | `2-analysis.md` |
+| 3 | **Strategy** | ~3–12 mo | reviewed ~quarterly | `3-strategy.md` |
+| 4 | **Strategic Plan** | ~3–12 mo | with strategy / on shift | `4-strategic-plan.md` |
+| 5 | **Tactical Plan** | ~1–3 mo | ~monthly | `5-tactical-plan.md` |
+| 6 | **Sprint Plan** | ~1–2 wk | every sprint | `6-sprint-plan.md` |
 
 Strategy (3–4) is organized around **goals / bets / metrics** — never org structure.
 Execution (5–6) is organized around **directions**, an editable instance config (default:

@@ -12,8 +12,8 @@ tables with --section. Each source contributes the first markdown table (after #
 
 Example (decksmith):
   render.py examples/decksmith \\
-    --section "strategic-plan.md#global-hypotheses:Strategic plan" \\
-    --section "sprint-plan.md#backlog:Sprint plan" \\
+    --section "4-strategic-plan.md#global-hypotheses:Strategic plan" \\
+    --section "6-sprint-plan.md#backlog:Sprint plan" \\
     --out examples/decksmith/deliverables/decksmith-registers-and-plan.xlsx
 """
 import argparse, csv, os, re, sys

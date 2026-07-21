@@ -60,12 +60,12 @@ hypothesis, a changed segment), that signal bubbles back up. That's the "loops" 
 
 | # | Step | Horizon (~) | You end up with |
 |---|------|-------------|-----------------|
-| 1 | Idea / Concept | product lifetime | `passport.md` — what it is, for whom, why it wins |
-| 2 | Analysis | ~6–12 mo | `analysis.md` — market, competitors, substitutes, sizing |
-| 3 | Strategy | ~3–12 mo | `strategy.md` — where to play, how to win, pricing, channels |
-| 4 | Strategic Plan | ~3–12 mo | `strategic-plan.md` — metric tree, unit economics, risks |
-| 5 | Tactical Plan | ~1–3 mo | `tactical-plan.md` — the bets for this quarter, guardrails |
-| 6 | Sprint Plan | ~1–2 wk | `sprint-plan.md` — the prioritized items for the next sprint |
+| 1 | Idea / Concept | product lifetime | `1-passport.md` — what it is, for whom, why it wins |
+| 2 | Analysis | ~6–12 mo | `2-analysis.md` — market, competitors, substitutes, sizing |
+| 3 | Strategy | ~3–12 mo | `3-strategy.md` — where to play, how to win, pricing, channels |
+| 4 | Strategic Plan | ~3–12 mo | `4-strategic-plan.md` — metric tree, unit economics, risks |
+| 5 | Tactical Plan | ~1–3 mo | `5-tactical-plan.md` — the bets for this quarter, guardrails |
+| 6 | Sprint Plan | ~1–2 wk | `6-sprint-plan.md` — the prioritized items for the next sprint |
 
 Timeframes are indicative — each team moves at its own pace.
 

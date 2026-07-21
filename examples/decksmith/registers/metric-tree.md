@@ -27,5 +27,5 @@ updated: 2026-07-21
 
 **Not instrumented (→ Steps 5–6):** *all of the above* — nothing is instrumented at concept stage.
 The first build slice must stand up event capture for `M-activation` + `M-edit-fidelity` (the export
-pipeline is the instrumentation point — see `../strategy.md#product-surface`). `M-wk-retention`
+pipeline is the instrumentation point — see `../3-strategy.md#product-surface`). `M-wk-retention`
 needs cohorts (from `pmf`). No own-GPU compute → COGS is third-party API only (no depreciation basis).

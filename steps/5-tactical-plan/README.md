@@ -3,7 +3,7 @@ node_type: step
 step: 5
 name: tactical-plan
 title: "Step 5 — Tactical Plan"
-output: tactical-plan.md
+output: 5-tactical-plan.md
 cadence: "~1–3 mo; stage-gate ~monthly"
 method_basis: "OKR-style goals per direction · targets = metric nodes (go-to-market) or DoD (technical & back-office) · guardrails / red lines (steering-committee reconciliation) · resource survey · go-to-market bundle composition + readiness gate · experiment design · prioritization (RICE/ICE)"
 status: draft
@@ -26,7 +26,7 @@ The strategic plan (`[[strategic-plan]]`), the metric register, the hypothesis r
 `metrics`, backlog export.
 
 ## Output
-`tactical-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+`5-tactical-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |

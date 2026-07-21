@@ -69,8 +69,8 @@ the framework. Defaults to the three registers as tabs; add artifact-section tab
 
 ```sh
 python3 render.py <INSTANCE_DIR> \
-  --section "strategic-plan.md#global-hypotheses:Strategic plan" \
-  --section "sprint-plan.md#backlog:Sprint plan" \
+  --section "4-strategic-plan.md#global-hypotheses:Strategic plan" \
+  --section "6-sprint-plan.md#backlog:Sprint plan" \
   --out <INSTANCE_DIR>/deliverables/tables.xlsx
 ```
 

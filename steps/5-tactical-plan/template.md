@@ -9,7 +9,7 @@ updated: 2026-07-20
 ---
 
 <!--
-  tactical-plan.md assembly shell. Each section is filled by its recommended library tool
+  5-tactical-plan.md assembly shell. Each section is filled by its recommended library tool
   (see steps/5-tactical-plan/README.md). Keep section IDs stable. Follow process/CONVENTIONS.md.
   Goals are grouped by work DIRECTION (instance config; default development · go-to-market · back-office).
   ⚙️ marks agent-proposed defaults awaiting human approval.

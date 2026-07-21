@@ -34,7 +34,7 @@ layered on top. Base = a real, neutral document; company = the house template.
 - A **document profile** — which sections, in what order. Base profiles:
   - **one-pager** — `passport#concept` + `passport#problems` + `strategy#uvp-cpv` +
     `strategy#pricing` + top `hypotheses` + one headline metric. (For a `brief`, use the `brief` section.)
-  - **full-doc** — a whole step artifact (e.g. all of `strategy.md`) cleaned for reading.
+  - **full-doc** — a whole step artifact (e.g. all of `3-strategy.md`) cleaned for reading.
   - **report** — the weekly/period test readout: bundles tested → signals → decision (mirrors the
     `to-deck` report mapping, as a document).
   - **status-update** — goals this period + metric movement + open risks + next step.

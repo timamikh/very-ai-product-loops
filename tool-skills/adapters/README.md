@@ -2,8 +2,8 @@
 node_type: adapters-index
 title: Adapters — render instance data into deliverables
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.2.0
+updated: 2026-07-21
 ---
 
 # Adapters
@@ -45,7 +45,7 @@ formats on top without forking. (See `process/OVERVIEW.md` §10.)
 |---------|------|---------|----------------------|
 | [`to-table`](to-table/ADAPTER.md) | table | a register or artifact section → a flat table | hypothesis scoreboard · metric series · market-bundle registry · sprint backlog |
 | [`to-document`](to-document/ADAPTER.md) | document | selected sections → one compiled document | one-pager brief · full strategy doc · weekly test report · status update |
-| [`to-deck`](to-deck/ADAPTER.md) | deck | the instance → a self-contained, presentable HTML deck (one idea per slide) | strategy-defense · analysis readout · sprint-review · concept-pitch |
+| [`to-deck`](to-deck/ADAPTER.md) | deck | the instance → a self-contained, presentable HTML deck (one idea per slide), plus a PDF companion once approved | strategy-defense · analysis readout · sprint-review · concept-pitch |
 
 ## Anatomy of an adapter
 
@@ -54,15 +54,22 @@ Each adapter is a folder `adapters/<name>/`:
 ```
 adapters/<name>/
   ADAPTER.md   # what it renders · what it consumes (by stable id) · how to render · output shape · anti-patterns
-  render.py    # OPTIONAL — a generic, instance-agnostic renderer, shipped ONLY where a library is required
+  render.py    # a generic, instance-agnostic renderer — shipped where the deliverable format needs a library/engine
 ```
 
-`ADAPTER.md` is an **instruction skill** (the agent renders — no build step; the framework stays
-plain markdown until pain justifies code). **Exception:** where a deliverable format needs a library
-(`.docx` → python-docx, `.xlsx` → openpyxl), the adapter also ships a **generic `render.py`** that
-reads *any* instance and holds **no product data** — so the render logic travels with the framework
-and the base stays instance-agnostic. Formats the agent can author directly (HTML, CSV, markdown)
-ship no code. Its frontmatter declares the wiring:
+`ADAPTER.md` is an **instruction skill** (the agent selects, orders, and decodes — no build step for
+the *reasoning*). **Where the final format needs a library or engine, the adapter also ships a
+generic `render.py`** that reads *any* instance and holds **no product data** — so the render logic
+travels with the framework and the base stays instance-agnostic. In the base set all three now carry
+one, which is the canon:
+
+- `to-table` → `.xlsx` needs **openpyxl**;
+- `to-document` → `.docx` needs **python-docx**;
+- `to-deck` → the emailable **PDF** needs a **browser engine** (uses the installed system browser).
+
+The *content* is still authored per instance by the agent (a deck's HTML, a doc's markdown); the
+renderer only applies the format. Formats the agent can emit directly with no library (CSV, markdown,
+the deck's HTML) need no code. `ADAPTER.md` frontmatter declares the wiring:
 
 ```yaml
 ---
@@ -89,6 +96,16 @@ updated: <date>
    is for neutral base adapters only.
 
 ## Change log
+
+### 2026-07-21 — every base adapter ships a generic renderer (the canon)
+- **From → To:** `render.py` went from "OPTIONAL, only where a library is required" to **present on
+  all three base adapters** — `to-table` (openpyxl), `to-document` (python-docx), and now `to-deck`
+  (a PDF companion via the installed system browser). Reworded the anatomy so the renderer is the
+  norm where a format needs a library/engine, holding no product data. `to-deck` gained a
+  present→iterate→**freeze-to-PDF** loop.
+- **Why:** the output layer is now consistent — agent authors the content, a generic renderer applies
+  any library-backed format. Consistency is the point: one shape across every adapter.
+- **Trigger:** decksmith live run — the approved deck needed an emailable PDF.
 
 ### 2026-07-21 — sharpened the "finished deliverable" purpose; `to-deck` now emits HTML
 - **From → To:** stated the adapter's purpose as the agent-readable → human-consumable last hop

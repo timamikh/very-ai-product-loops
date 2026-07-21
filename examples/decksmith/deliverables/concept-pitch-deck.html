@@ -195,6 +195,25 @@
     .c3,.split{grid-template-columns:1fr}.facts{grid-template-columns:1fr;gap:.35em 0}}
   @media (prefers-reduced-motion:reduce){
     .slide{transition:opacity .01s}*{scroll-behavior:auto}}
+
+  /* ---------- print / PDF: one slide per landscape page ----------
+     The to-deck renderer prints this file to PDF via a headless browser.
+     Reveal every slide (screen shows one at a time), size each to a 16:9
+     page, drop the on-screen chrome, and force color fills to print. */
+  @media print{
+    @page{size:1280px 720px;margin:0}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    html,body{height:auto;overflow:visible;background:#fff}
+    .stage{position:static;display:block;height:auto;padding:0;background:#fff}
+    .canvas{position:static;width:1280px;height:auto;aspect-ratio:auto;
+      border:0;border-radius:0;box-shadow:none;overflow:visible}
+    .canvas::before,.canvas::after{display:none}
+    .meta,.bar{display:none!important}
+    .slide{position:relative;inset:auto;width:1280px;height:720px;
+      opacity:1!important;visibility:visible!important;transform:none!important;
+      break-after:page;page-break-after:always}
+    .slide:last-child{break-after:auto;page-break-after:auto}
+  }
 </style>
 
 <div class="stage" id="stage">

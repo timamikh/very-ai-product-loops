@@ -27,6 +27,6 @@ updated: 2026-07-20
 ## Boundaries stated explicitly
 
 - **Editability is a baseline, not the differentiator.** It's in the concept; the product competes
-  on *look* (P1) and *structure/framing* (P2). See `../passport.md#problems`.
+  on *look* (P1) and *structure/framing* (P2). See `../1-passport.md#problems`.
 - **Pricing is deferred.** The founder brief deliberately leaves willingness-to-pay open — do not
-  invent a price; it's a Step 3 decision. See `../passport.md#to-clarify`.
+  invent a price; it's a Step 3 decision. See `../1-passport.md#to-clarify`.

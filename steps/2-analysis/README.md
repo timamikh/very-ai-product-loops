@@ -3,7 +3,7 @@ node_type: step
 step: 2
 name: analysis
 title: "Step 2 — Analysis"
-output: analysis.md
+output: 2-analysis.md
 cadence: "~6–12 mo view; revisit ~quarterly or on a market shift"
 method_basis: "TAM/SAM/SOM (bottom-up preferred) · competitor 'what game are they playing' · substitutes incl. do-nothing · light Five Forces for niche risk"
 status: draft
@@ -20,7 +20,7 @@ opportunity (or threat) is**. Analysis without a "so what" is inert — the conc
 `analytics-search` · `kb` · `interview` · the passport (`[[passport]]`).
 
 ## Output
-`analysis.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+`2-analysis.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 Recommended tools are soft; the active [status](../../statuses/README.md) sets which to lean on.
 
 ## Artifact skeleton

@@ -12,7 +12,7 @@ version: 0.1.0
 # Sprint Plan — Decksmith (fictional sample) · Sprint 1 (2026-07-21 → 2026-08-01, ~2 wk)
 
 > Status: `concept-viability` · Owner: sample · Capacity: 1 feature · 1 activity · 2 tasks
-> Inputs: `tactical-plan.md` · registers. Hands off to: the team's development process.
+> Inputs: `5-tactical-plan.md` · registers. Hands off to: the team's development process.
 > **Every item this sprint must produce a learning signal toward the period gate `H-001`**
 > (`M-edit-fidelity` ≥ 90%). Anything that tests no hypothesis is cut (status goal).
 
@@ -42,7 +42,7 @@ _Ranked by contribution to the gate: the export slice + its measurement harness 
 - **Scope:** draft copy → get community entry (see `R-009` blocker) → post → collect trial sign-ups in a simple form → tag each as qualified/not.
 - **Business value:** First signal for `H-005` (wedge demand); builds the qualified-trial pool that `M-activation` will later read against.
 - **Audience value:** Salespeople prepping client decks under time pressure get an early fix for "AI decks look templated and I can't edit them" — a real pain, not spam.
-- **Links:** tests `H-005`, moves proxy for `M-activation`; runs on the community channel from bundle `B-01` (`tactical-plan.md#market-bundles`).
+- **Links:** tests `H-005`, moves proxy for `M-activation`; runs on the community channel from bundle `B-01` (`5-tactical-plan.md#market-bundles`).
 
 ### Back-office — Tasks
 <!-- tool: prioritization -->
@@ -71,9 +71,9 @@ _What goes to the development process, and how (the framework ends here; work pr
 - **Handed off:** `F-1` and `T-1` to the eng pair's board; `A-1` to the founder. Items carry their `H-`/`M-` links so the reason each exists travels with it.
 - **Acceptance / how results flow back:**
   - `F-1` + `T-1` produce the first `M-edit-fidelity` read → recorded in `registers/metrics.csv` against `M-edit-fidelity`.
-  - A fidelity read **< 70%** refutes `H-001` → bubbles up to `tactical-plan.md#hypotheses-to-test` (rethink engine or pivot); **70–90%** → iterate the slice next sprint; **≥ 90%** → `H-001` toward `validated`, proceed.
+  - A fidelity read **< 70%** refutes `H-001` → bubbles up to `5-tactical-plan.md#hypotheses-to-test` (rethink engine or pivot); **70–90%** → iterate the slice next sprint; **≥ 90%** → `H-001` toward `validated`, proceed.
   - `A-1` qualified-trial count feeds the `H-005` probe read in the Tactical Plan; a weak signal (≤ 2) reframes positioning, not the build.
 
 ## To clarify {#to-clarify}
 - **"Objects-editable %" scoring rule** — which object types count, and does a partially-editable object count as pass or fail? (sharpens the `M-edit-fidelity` definition)
-- **"Keep" event** — is export enough to count a qualified trial, or is an edit event required? (mirrors the open question in `tactical-plan.md` / Step 4)
+- **"Keep" event** — is export enough to count a qualified trial, or is an edit event required? (mirrors the open question in `5-tactical-plan.md` / Step 4)

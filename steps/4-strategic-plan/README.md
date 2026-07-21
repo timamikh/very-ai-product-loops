@@ -3,7 +3,7 @@ node_type: step
 step: 4
 name: strategic-plan
 title: "Step 4 — Strategic Plan"
-output: strategic-plan.md
+output: 4-strategic-plan.md
 cadence: "~3–12 mo; with strategy / on a financial or metric shift"
 method_basis: "North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · pre-mortem (risk mitigation)"
 status: draft
@@ -22,7 +22,7 @@ This is where the strategy's choices get numbers, a metric tree, and mitigations
 The strategy (`[[strategy]]`), `metrics`, `analytics-search`, `kb`.
 
 ## Output
-`strategic-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+`4-strategic-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 The active [status](../../statuses/README.md) sets how far to push the
 instruments: `concept-viability` keeps the metric tree and model light (few real numbers yet);
 `pmf` builds the economics and North Star from first data; `growth` re-forecasts and optimizes

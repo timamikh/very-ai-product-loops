@@ -142,12 +142,12 @@ product/
   config.yaml            # language · active status · directions · metric source slots
   sources/               # converted copies of the user's existing materials (source of record)
     INDEX.md             # navigation map: per-source what/in-scope/out-of-scope/feeds-steps
-  passport.md            # Step 1 artifact
-  analysis.md            # Step 2
-  strategy.md            # Step 3
-  strategic-plan.md      # Step 4
-  tactical-plan.md       # Step 5
-  sprint-plan.md         # Step 6
+  1-passport.md            # Step 1 artifact
+  2-analysis.md            # Step 2
+  3-strategy.md            # Step 3
+  4-strategic-plan.md      # Step 4
+  5-tactical-plan.md       # Step 5
+  6-sprint-plan.md         # Step 6
   registers/
     hypotheses.md        # H-… (typed)
     risks.md             # R-…

@@ -9,7 +9,7 @@ updated: 2026-07-20
 ---
 
 <!--
-  sprint-plan.md assembly shell. Filled per steps/6-sprint-plan/README.md. Keep section IDs stable.
+  6-sprint-plan.md assembly shell. Filled per steps/6-sprint-plan/README.md. Keep section IDs stable.
   Follow process/CONVENTIONS.md. Items are grouped by DIRECTION, each in its own format
   (dev = Feature · go-to-market = Activity · back-office = Task+DoD). The minimal level of detail
   is one feature/activity/task — not sub-tasks. Every item links to an H-… or M-….

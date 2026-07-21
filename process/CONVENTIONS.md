@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.4.0
-updated: 2026-07-17
+version: 0.5.0
+updated: 2026-07-21
 ---
 
 # Conventions
@@ -51,6 +51,21 @@ Register items have stable IDs:
 
 Reference them inline in brackets, e.g. "drives `M-activation`" or "tests `H-003`".
 Cross-artifact links use GitMark-lite: `[[analysis#opportunity]]`, `[[strategy#bets]]`.
+
+## Artifact filenames
+
+A step's output artifact is named **`<step-number>-<slug>.md`** — `1-passport.md`, `2-analysis.md`,
+`3-strategy.md`, `4-strategic-plan.md`, `5-tactical-plan.md`, `6-sprint-plan.md`. The numeric prefix
+exists for **one reason: a directory listing sorts in step order** (a plain `ls`/Finder view walks
+the pipeline top to bottom instead of scrambling it alphabetically). It is good UX and nothing more.
+
+The prefix is a **filesystem ordering key, not part of the artifact's identity.** The **logical id**
+of an artifact is its bare slug (`strategy`, `strategic-plan`), and cross-artifact links use that:
+`[[strategy#bets]]`, `passport#concept` — **never** `[[3-strategy#bets]]`. When a link (or a tool)
+resolves a logical id to a file, it drops any leading `<digits>-` prefix. So there is still exactly
+one identity per artifact (the slug); the number is only how the file sorts on disk. A **literal file
+path** — e.g. a path passed to an adapter renderer — does carry the prefix (`4-strategic-plan.md`),
+because that's the real filename. (Registers and deliverables are not step outputs and take no prefix.)
 
 ## One mechanism, one way
 
