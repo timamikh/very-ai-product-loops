@@ -1,9 +1,9 @@
 ---
 node_type: readme
 title: very-ai-product-loops — README
-status: draft
-version: 0.6.1
-updated: 2026-07-19
+status: released
+version: 0.8.0
+updated: 2026-07-21
 ---
 
 # very-ai-product-loops
@@ -120,16 +120,29 @@ description alone is how they get violated silently.
 
 ## Status
 
-Early draft, building in phases:
+Released as **v0.8.0** under the MIT license — usable and open for others to vendor. Built in phases:
 
 - **Phase 0 — Process foundation** → [`process/OVERVIEW.md`](process/OVERVIEW.md) · [operating loop](process/OPERATING-LOOP.md) · [conventions](process/CONVENTIONS.md) _(merged)_
 - **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1, all 4 tools)** _(merged)_
 - **Phase 2 — Steps 2–6 skeletons + [register schemas](process/REGISTERS.md) + artifact templates + library fully authored** _(templates + full library done; run-hardening continues)_
 - **Onboarding — [`product-setup`](.claude/skills/product-setup/SKILL.md) + [install](install/README.md)** _(merged)_
-- **Phase 3 — Agent rules ([CLAUDE.md](CLAUDE.md)), examples, contribution + versioned branching** _(CLAUDE.md merged; contribution/branching next)_
+- **Phase 3 — Agent rules ([CLAUDE.md](CLAUDE.md)), examples, contribution + versioned branching** _(merged; [contributing](CONTRIBUTING.md) + git tags shipped)_
 - **Phase 4 — base [adapters](tool-skills/adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_
 
+## License
+
+MIT — see [`LICENSE`](LICENSE). Use it, modify it, vendor it into your product's repo; keep the
+copyright notice. How to propose changes: [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Change log
+
+### 2026-07-21 — first public release (v0.8.0)
+- **From → To:** status `draft` → `released`; added a top-level [`LICENSE`](LICENSE) (MIT,
+  © Timofey Mikhailov), [`CHANGELOG.md`](CHANGELOG.md), and [`CONTRIBUTING.md`](CONTRIBUTING.md);
+  README now carries a License section. No framework mechanics changed beyond 0.7.0.
+- **Why:** the project is opening for others to use and vendor; an open framework needs an explicit
+  license, a changelog keyed to tags, and a contribution path.
+- **Trigger:** official release, 2026-07-21.
 
 ### 2026-07-19 — quickstart split into install + setup
 - **From → To:** the quickstart now shows install and product setup as two separate phases (was one
