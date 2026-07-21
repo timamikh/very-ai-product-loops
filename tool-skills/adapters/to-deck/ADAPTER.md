@@ -147,33 +147,3 @@ apply the house visual system — brand color, logo, type scale, minimum text si
 layout, forks-as-ballot, etc. — by **overriding the base's neutral design tokens**. The slide
 *structure, the messaging discipline, and the fact that the output is a real openable deck* stay
 here; only the *skin* lives in the company adapter.
-
-## Change log
-
-### 2026-07-21 — approve-then-freeze loop + a PDF companion (shipped renderer)
-- **From → To:** `formats: [html]` → `[html, pdf]`. Added the **present → iterate → freeze** loop:
-  the agent shows the HTML, applies edits until the human says it's final, and **only then** renders
-  a **PDF beside it** for emailing. Shipped a **generic `render.py`** (HTML → PDF via the installed
-  system browser, no product data) — so, like `to-document` and `to-table`, every base adapter now
-  carries its library-backed renderer where a format needs one. Required a standard `@media print`
-  block in the deck (one landscape page per slide) and documented it inline.
-- **Why:** the HTML is presentable but not the easiest thing to send; a PDF is the emailable, frozen
-  form. Rendering it *after* approval keeps the deliverable from freezing a draft. "All adapters now
-  have renderers" makes the output layer consistent — this is the canon.
-- **Trigger:** decksmith live run — the deck was approved and needed an emailable companion.
-
-### 2026-07-21 — the deliverable is a real HTML deck, not a markdown outline
-- **From → To:** `formats: [markdown-slides]` → `[html]`. The output is now a **self-contained,
-  presentable HTML deck** (readable, navigable, neutral-but-real design), with the markdown outline
-  demoted to an internal step. Reframed the base/company boundary from "structure vs. any visuals"
-  to "a real neutral deck (base) vs. the brand skin (company)". Added the **concept-pitch** profile
-  (spans the whole instance).
-- **Why:** an adapter's purpose is to turn agent-readable structure into a **human-consumable**
-  deliverable; a markdown deck isn't something a human presents, so the base stopped halfway and
-  contradicted the adapters README ("a presentation a human actually shares").
-- **Trigger:** decksmith live run — a real deck was needed at the Step-6 wrap and the adapter only
-  emitted an outline.
-
-### 2026-07-18 — created
-- **From → To:** — → `to-deck` base adapter (profiles + slide-hygiene rules; emitted a markdown outline).
-- **Trigger:** base-converters pass, 2026-07-18.

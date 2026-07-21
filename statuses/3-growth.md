@@ -54,32 +54,3 @@ durable.
 
 Evidence is dominated by **internal product metrics**. At the passport level the job is mostly
 to keep it honest against reality and catch shifts early.
-
-## Change log
-
-### 2026-07-18 — filled per_step for steps 2–6
-- **From → To:** steps 2–6 were `— to define —` stubs → concrete growth-stage goals + tools:
-  expansion-arena + threat re-read (2); defend-the-moat how-to-win + expansion pricing (3);
-  re-forecast + cohort retention + honest-at-scale economics (4); compounding levers within
-  guardrails + expansion-bundle tests (5); scale-and-defend must-set (6). Added the new tools
-  (`pricing`, `retention-analysis`, `segment-cvp`) where they fit, and `segment-cvp` to step 1.
-- **Why:** an empty per_step parameterized only step 1; the framework nears release and the growth
-  stage needed its full guidance. Filled by design (goals lean scale + defense on internal metrics)
-  ahead of a live growth run, per the user's release push — to be sharpened on the first real run.
-- **Trigger:** per_step fill pass, 2026-07-18.
-
-### 2026-07-18 — step-1 tools cleanup (audit)
-- **From → To:** step-1 `tools` dropped `analytics-search` (a source slot / input, not a library
-  tool). Steps 2–6 stay stubbed until a run on this stage fills them.
-- **Why:** `tools` should list library methods; gathering is expressed via a tool's `inputs`
-  (analytics as an input is still described in the body).
-- **Trigger:** framework audit, 2026-07-18.
-
-### 2026-07-16 — per-step structure
-- **From → To:** flat lists → per_step goals + tools (step 1 filled)
-- **Why:** per-step focus (see OPERATING-LOOP.md)
-- **Trigger:** review feedback on PR #2
-
-### 2026-07-16 — created
-- **From → To:** — → initial default status definition
-- **Trigger:** Phase 1 (golden exemplar)

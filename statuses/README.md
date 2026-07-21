@@ -77,7 +77,7 @@ per_step:
     tools: [<tool>, ...]
 ---
 ```
-Body: a description + a dated change log. Directions default to `development · go-to-market ·
+Body: a description. Directions default to `development · go-to-market ·
 back-office` but are an instance config; use whichever the product has.
 
 ## Add or change a status
@@ -92,12 +92,3 @@ back-office` but are an instance config; use whichever the product has.
 A company can add stages (e.g. `pre-seed-validation`, `scale-up`, `harvest`) or rename these to
 its own vocabulary. The framework only assumes that *a* status is active and exposes its
 per-step goals and tools.
-
-## Change log
-
-### 2026-07-19 — added "Choosing a status" (onboarding presentation)
-- **From → To:** added a comparison the agent presents at product setup (you're here when · optimizes
-  for · main evidence) so it can **propose** a status with context instead of asking cold.
-- **Why:** `product-setup` now proposes the status with a recommendation; the human picks with
-  context. Supports the corrected onboarding flow.
-- **Trigger:** onboarding-flow fix, 2026-07-19.

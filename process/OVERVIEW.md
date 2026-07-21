@@ -223,9 +223,9 @@ uniform across file types** — the *Which conventions apply where* matrix (by `
 which apply to an artifact vs a register vs a source vs a handoff. Omitting a convention the
 matrix marks n/a is correct, not a lapse.
 
-- **Dated change logs + rationale.** Artifacts, sources, registers, and framework files carry a
-  change log (date · from→to · why · trigger). Narrative artifacts included. Not source files'
-  raw captures.
+- **Dated change logs + rationale.** Artifacts, sources, and registers carry a change log
+  (date · from→to · why · trigger). Narrative artifacts included. Not source files' raw captures.
+  Framework files track their own history in the repository's root `CHANGELOG.md` instead.
 - **Confidence tags** (`assumption` · `sourced` · `validated` · `refuted`) on every non-trivial
   claim **in artifacts** — *but not in registers*, where confidence is a table column instead
   (per the matrix). A missing tag reads as `assumption`.
@@ -276,7 +276,7 @@ is missing.
 **Status** (`statuses/<order>-<name>.md`, numbered by maturity) — config:
 ```
 frontmatter: name · order · gate_emphasis · per_step{ <n>: { goals, tools } }
-body: description + change log
+body: description
 ```
 
 ---
@@ -303,45 +303,3 @@ The base artifacts are kept structured (stable IDs, source slots, typed links) p
 adapters and the deferred aggregators/automation can be added on top without rework.
 
 ---
-
-## Change log
-
-### 2026-07-19 — `tool-skills/` umbrella (structural)
-- **From → To:** `library/` and `adapters/` moved under a new `tool-skills/` umbrella; `handoff`
-  relocated from the library to a new `tool-skills/operations/` plane. §2 now states the
-  fixed-core-vs-pluggable-skills split; §7/§9/§10 paths and the handoff mentions updated.
-- **Why:** the three pluggable planes (`library` · `operations` · `adapters`) are one kind of thing —
-  skills the agent runs — and belong together, opposite the fixed core. Enables a single skill-discovery
-  rule (see [`tool-skills/README.md`](../tool-skills/README.md)).
-- **Trigger:** restructure discussion, 2026-07-19.
-
-### 2026-07-19 — clarified the mechanism/content one-liner
-- **From → To:** "*how* you define value, segment users, or test a hypothesis is swappable …" →
-  "the methods themselves — and how each product stage prioritizes them — are swappable and
-  extensible per company …". Same fix mirrored in the root `README.md`.
-- **Why:** the concrete example list read as if only those three things were swappable and each
-  example was itself ambiguous; the universal form (methods = library · prioritization = statuses)
-  removes the misreading.
-- **Trigger:** user review, 2026-07-19.
-
-### 2026-07-18 — added the adapters output layer (§10)
-- **From → To:** §10 "What this is not (yet)" → "The output layer (adapters) and what's still
-  deferred". Base adapters (`to-table`, `to-document`, `to-deck`) now ship in `adapters/`; the
-  base-vs-company boundary is stated; aggregators/automation remain deferred.
-- **Why:** the framework produced a well-structured instance but had no neutral way to render the
-  everyday deliverables. Base renderers belong in the open framework; company formats stay external.
-- **Trigger:** base-converters pass, 2026-07-18.
-
-### 2026-07-18 — realign OVERVIEW with the 0.3–0.4 rules (audit fix)
-- **From → To:** OVERVIEW had drifted at 0.2.1 while the other process files reached 0.4.0 →
-  pulled in the rules it was missing or contradicting: *One mechanism, one way*; fork triage
-  (agent closes reversible forks itself); *Talking to the human*; *Raw data & access* + the
-  `sources/` instance mechanism; the *node_type × conventions* matrix (§8 no longer claims tags
-  "on every claim everywhere" — registers use a column, not prose tags); the metric-register
-  split (`metric-tree.md` defs + `metrics.csv` values, csv⊆md); the `handoff` tool + `HANDOFF.md`;
-  empty-`per_step` fallback. Renamed the **direction** `growth` → `go-to-market` (the `growth`
-  **status** is unchanged); unified the register's name to **Metric register**; refreshed the
-  library examples to tools that actually exist.
-- **Why:** a full 6-step run surfaced that the master overview no longer matched the canon it
-  summarizes — the audit traced most process-plane discrepancies back to this drift.
-- **Trigger:** framework audit, 2026-07-18.

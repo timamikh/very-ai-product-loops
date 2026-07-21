@@ -151,11 +151,3 @@ Active status `2-pmf`, step `1-idea`, section `problems`:
 6. Act → fills `problems` with severity × frequency, each `[sourced: metrics …]` / `[assumption]`.
 7. Update → ticks the `problems` gate item, seeds `H-007` ("pain A blocks payment"), logs the change.
 8. Loop → next section `solution`.
-
-## Change log
-
-### 2026-07-19 — `handoff` moved to `tool-skills/operations/`
-- **From → To:** the `handoff` path (`library/handoff/` → `tool-skills/operations/handoff/`) and the
-  plane label ("Library tool" → "Tool-skill `tool-skills/library/`") updated. Mechanism unchanged —
-  this file stays the authority for the handoff behavior.
-- **Trigger:** `tool-skills/` restructure, 2026-07-19.

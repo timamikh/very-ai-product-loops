@@ -47,12 +47,3 @@ default, not a gate.
 `.claude/skills/` holds **Claude Code-native skills** (e.g. `product-setup`), invoked by the
 harness as slash-skills. `tool-skills/` holds **framework skills** — markdown methods the agent
 *reads and applies* as part of the workflow. Different mechanism, different home.
-
-## Change log
-
-### 2026-07-19 — created
-- **From → To:** — → `tool-skills/` umbrella over `library/` (moved), `operations/` (new, holds the
-  relocated `handoff`), `adapters/` (moved).
-- **Why:** make the framework's "fixed core vs pluggable skills" split visible in the tree, and give
-  skill discovery a single rule (pick category by phase). Realizes the restructure discussion.
-- **Trigger:** restructure discussion, 2026-07-19.

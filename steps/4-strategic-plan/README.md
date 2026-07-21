@@ -64,17 +64,3 @@ against a working model.
 
 ## The human's role
 Approve targets, economics assumptions, and mitigations; the agent builds the tree, the model, and the math.
-
-## Change log
-
-### 2026-07-18 — added `retention` section
-- **From → To:** skeleton gained `retention` (cohort curve + engagement loop), filled by the new
-  `retention-analysis` tool; gate + register touchpoints updated.
-- **Why:** `unit-economics` (LTV) and `financial-model` (churn scenarios) both *consumed* a churn
-  input that was, until now, an assumption — no tool *measured* the retention curve. The flattening
-  cohort curve is also the PMF signal, so it belongs in the quantitative-instruments step.
-- **Trigger:** missing-tools pass, 2026-07-18.
-
-### 2026-07-16 — created
-- **From → To:** — → Step 4 skeleton (metric tree · unit economics · model · mitigation)
-- **Trigger:** Phase 1 / PR #5.

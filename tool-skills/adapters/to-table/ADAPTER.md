@@ -105,16 +105,3 @@ _Source: `tactical-plan#market-bundles`, readiness=ready, sorted by signal tier 
 A company adapter can wrap `to-table` to emit a specific internal form (e.g. a scoring sheet in a
 fixed column order) or a single multi-tab `.xlsx` workbook. It re-skins the output; the
 selection/flattening logic stays here.
-
-## Change log
-
-### 2026-07-21 — one-table rule, .xlsx for multi-dataset, column-planning step
-- **From → To:** (1) added the **one-table rule** — "give me a table with X, Y, Z" means one
-  deliverable, so several datasets → **one `.xlsx` workbook with tabs**, not scattered CSVs (`xlsx`
-  added to `formats`). (2) Added a required **plan-the-columns-first** step (write the schema before
-  filling) to stop fields collapsing into one cell. (3) Fixed the CSV provenance guidance — a
-  comma-less caption on line 1 makes spreadsheets collapse to one column; use a trailing row/sidecar.
-  (4) Affirmed CSV/markdown are finished deliverables (agent-readable → human-consumable).
-- **Why:** decksmith live run — the user wanted one tabbed workbook, and a `#`-caption CSV rendered
-  as a single column in the spreadsheet.
-- **Trigger:** feedback on the first CSV render.

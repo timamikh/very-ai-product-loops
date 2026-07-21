@@ -136,15 +136,16 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `source` (external-data notes) | **yes** — tag each captured fact | optional | reference by ID | **yes** | secrets/raw-data rules apply (see "Raw data & access") |
 | `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
-| framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, …) | n/a | **yes** where sectioned | n/a | **yes** + `version` | authored by maintainers; version-bumped |
+| framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
 
 If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.
 A convention not listed here (e.g. "Talking to the human") is behavioral and applies always.
 
-## Change log
+## Change logs
 
-Every artifact ends with a change log. Narrative artifacts included — the log carries the
-*motivation*, not just the diff. Newest entry first.
+Every **instance artifact** ends with a change log — the `artifact`, `register`, `source`,
+`sources-index`, and `handoff` rows in the matrix above. Narrative artifacts included: the log
+carries the *motivation*, not just the diff. Newest entry first.
 
 ```markdown
 ## Change log
@@ -155,18 +156,5 @@ Every artifact ends with a change log. Narrative artifacts included — the log 
 - **Trigger:** <what prompted it — a metric shift, a refuted hypothesis, a decision, …>
 ```
 
-## Change log
-
-### 2026-07-21 — one link canon (relative paths); single-valued type/category
-- **From → To:** cross-artifact links were a GitMark-lite wiki-style double-bracket form resolving a
-  bare "logical id" (numeric prefix stripped) → they are now **real relative file paths + `{#anchor}`**
-  (`3-strategy.md#bets`), the form the golden example already used. Removed the double-bracket scheme
-  and the logical-id / drop-the-prefix machinery it required. Hypothesis `type` and risk `category`
-  are now explicitly **single-valued**; a cross-cutting theme (e.g. *moat*) moves to a free,
-  non-load-bearing **`tags`** column instead of being compounded (`viability/moat` → `type: viability`
-  + `tags: moat`).
-- **Why:** two link mechanisms coexisted and the exemplar diverged from the stated convention (it
-  used relative paths). Relative paths are standard, clickable without a resolver, and win on revealed
-  preference. Compound enum values broke aggregation. A wiring linter (`tools/lint.py`) now **enforces**
-  both — no wiki double-bracket links, no out-of-enum values — so the drift can't silently return.
-- **Trigger:** independent audit + the new wiring linter, 2026-07-21.
+Framework files (this one included) do **not** carry an inline change log — their history lives in
+the repository's root [`CHANGELOG.md`](../CHANGELOG.md), keyed to git version tags.

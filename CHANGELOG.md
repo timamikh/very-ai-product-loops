@@ -10,6 +10,16 @@ All notable changes to very-ai-product-loops are recorded here. The format follo
 
 The version you pin to is the **git tag**; this file is its human-readable story.
 
+## [0.8.1] — 2026-07-21 — Single changelog
+
+- **Single changelog:** framework files no longer carry inline `## Change log` sections —
+  their history is consolidated into this file, keyed to git tags. Instance artifacts (a
+  product's own step outputs, registers, sources, handoff) still keep their change logs; that
+  reasoning trail is a product feature, not maintainer bookkeeping.
+- `process/CONVENTIONS.md` updated accordingly: the node_type matrix now routes framework-file
+  history to this changelog, while instance artifacts keep the dated-change-log convention.
+- Docs only — no change to framework mechanics.
+
 ## [0.8.0] — 2026-07-21 — First public release
 
 - **License:** the project is now released under the MIT license.
@@ -31,5 +41,6 @@ The version you pin to is the **git tag**; this file is its human-readable story
 - **Versioning contract:** real git tags, plus a `FRAMEWORK-VERSION` file written at
   install time echoing the pinned tag + commit SHA.
 
+[0.8.1]: https://github.com/timamikh/very-ai-product-loops/releases/tag/v0.8.1
 [0.8.0]: https://github.com/timamikh/very-ai-product-loops/releases/tag/v0.8.0
 [0.7.0]: https://github.com/timamikh/very-ai-product-loops/releases/tag/v0.7.0

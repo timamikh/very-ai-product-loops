@@ -76,14 +76,3 @@ sub-tasks. Each direction describes its items in its own format:
 ## The human's role
 Draw the must/backlog line and approve the sprint; the agent ranks by contribution to the gate
 and prepares the handoff. Downstream, work proceeds in the team's own development flow.
-
-## Change log
-
-### 2026-07-18 — added template
-- **From → To:** added `template.md` (per-direction item formats: Feature / Activity / Task+DoD)
-  and linked it from Output.
-- **Trigger:** templates pass, 2026-07-18.
-
-### 2026-07-16 — created
-- **From → To:** — → Step 6 skeleton (must-set + prioritized backlog per direction · handoff).
-- **Trigger:** Phase 1 / PR #5.

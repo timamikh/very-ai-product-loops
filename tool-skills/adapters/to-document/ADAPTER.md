@@ -104,18 +104,3 @@ as the source; change the artifact/register and re-render.
 A company adapter wraps `to-document` with a house template — cover page, brand color, letterhead,
 fixed section order — by overriding the base's neutral style. The section selection, ID-decoding, and
 the fact that the output is a real formatted file stay here; only the *skin* lives in the company adapter.
-
-## Change log
-
-### 2026-07-21 — default output is a formatted .docx, not a markdown dump
-- **From → To:** `formats: [markdown, html]` → `[docx, markdown, html]`, with **`.docx` the default**
-  shareable deliverable (title block, styled headings, a summary table, provenance footer); markdown/
-  HTML kept for PR/wiki use. Reframed the base/company boundary to "a real neutral document (base) vs.
-  the house template (company)".
-- **Why:** an adapter's purpose is a **human-consumable** deliverable; handing a stakeholder raw
-  markdown stops halfway. Same fix applied to `to-deck`. Surfaced by the decksmith live run.
-- **Trigger:** example run — a stakeholder-ready product brief was needed at the Step-6 wrap.
-
-### 2026-07-18 — created
-- **From → To:** — → `to-document` base adapter (profiles + narrative/ID-decoding rules; emitted markdown/HTML).
-- **Trigger:** base-converters pass, 2026-07-18.
