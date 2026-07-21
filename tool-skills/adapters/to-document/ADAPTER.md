@@ -63,10 +63,17 @@ layered on top. Base = a real, neutral document; company = the house template.
    - markdown or HTML instead **only when asked** (e.g. for a PR or a wiki).
    Keep the section-selection + narrative ordering as the reasoning step, then render to the file.
 
+## The renderer (shipped, generic)
+Because a `.docx` needs a library, this adapter ships a **generic, instance-agnostic** renderer here:
+[`render.py`](render.py) — `markdown content → styled, house-neutral .docx` (requires `python-docx`).
+It holds **no product data** (so it travels with the framework and never pollutes the base): the
+agent authors the content markdown per this ADAPTER (title / sections / bullets / a table / footer),
+then the renderer styles it. `python3 render.py CONTENT.md --out <deliverables>/<profile>.docx`.
+(HTML/CSV/markdown adapters need no shipped code — the agent authors those directly.)
+
 ## Output shape
 A single formatted file placed with the instance's other deliverables — e.g.
-`deliverables/<profile>.docx`. It opens in Word/Pages/Docs and is **regeneratable from source**
-(ship the small renderer script alongside it so the doc can be rebuilt when the instance changes).
+`deliverables/<profile>.docx`. It opens in Word/Pages/Docs and is **regeneratable from source**.
 The content model (before formatting) reads like:
 
 ```markdown

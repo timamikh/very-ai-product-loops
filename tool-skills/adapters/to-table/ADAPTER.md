@@ -61,6 +61,21 @@ into a spreadsheet or a report — without hand-copying, and re-runnable when th
    this is a caption cell or footer; for CSV, a sidecar or a clearly-marked trailing row (never a
    header-breaking first line).
 
+## The renderer (shipped, generic)
+Because `.xlsx` needs a library, this adapter ships a **generic, instance-agnostic** renderer here:
+[`render.py`](render.py) — parses markdown tables from *any* instance and emits one styled `.xlsx`
+(a tab per source) or CSVs (requires `openpyxl`). It holds **no product data**, so it travels with
+the framework. Defaults to the three registers as tabs; add artifact-section tables with `--section`:
+
+```sh
+python3 render.py <INSTANCE_DIR> \
+  --section "strategic-plan.md#global-hypotheses:Strategic plan" \
+  --section "sprint-plan.md#backlog:Sprint plan" \
+  --out <INSTANCE_DIR>/deliverables/tables.xlsx
+```
+
+(CSV and markdown output need no library — the agent can author those directly from this ADAPTER.)
+
 ## Output shape
 
 ```
