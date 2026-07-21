@@ -13,6 +13,11 @@ produce a structured **instance** — markdown artifacts with stable section IDs
 and `sources/`. An **adapter** reads that structured instance and renders it into a **deliverable**
 a human actually shares: a table, a document, or a presentation.
 
+An adapter's whole job is that **last hop**: from what's structured for an *agent* to read
+(stable IDs, typed links, register codes) into what's convenient for a *human* to consume. Its
+output must therefore be the **finished deliverable**, not another intermediate form — a deck is a
+presentable file you can open and present, not a markdown outline.
+
 Adapters are why the base artifacts are kept structured (stable `{#ids}`, typed links, register
 IDs): the structure is the contract an adapter renders against, so deliverables can be regenerated
 from source instead of hand-maintained in parallel.
@@ -40,7 +45,7 @@ formats on top without forking. (See `process/OVERVIEW.md` §10.)
 |---------|------|---------|----------------------|
 | [`to-table`](to-table/ADAPTER.md) | table | a register or artifact section → a flat table | hypothesis scoreboard · metric series · market-bundle registry · sprint backlog |
 | [`to-document`](to-document/ADAPTER.md) | document | selected sections → one compiled document | one-pager brief · full strategy doc · weekly test report · status update |
-| [`to-deck`](to-deck/ADAPTER.md) | deck | one artifact → a slide outline (one idea per slide) | strategy-defense deck · analysis readout · sprint-review deck |
+| [`to-deck`](to-deck/ADAPTER.md) | deck | the instance → a self-contained, presentable HTML deck (one idea per slide) | strategy-defense · analysis readout · sprint-review · concept-pitch |
 
 ## Anatomy of an adapter
 
@@ -79,6 +84,15 @@ updated: <date>
    is for neutral base adapters only.
 
 ## Change log
+
+### 2026-07-21 — sharpened the "finished deliverable" purpose; `to-deck` now emits HTML
+- **From → To:** stated the adapter's purpose as the agent-readable → human-consumable last hop
+  (output must be the finished deliverable, not an intermediate form); updated the `to-deck` row —
+  it renders a self-contained **HTML deck** (not a markdown outline) and gained a `concept-pitch`
+  profile. See `to-deck/ADAPTER.md`.
+- **Why:** a markdown slide list isn't something a human presents; the base adapter was stopping
+  halfway. Surfaced by the decksmith live run.
+- **Trigger:** example run, Step-6 wrap.
 
 ### 2026-07-18 — created
 - **From → To:** — → base adapters plane (`to-table`, `to-document`, `to-deck`) + anatomy + the
