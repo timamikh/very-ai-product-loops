@@ -113,6 +113,10 @@
            font-weight:700;letter-spacing:-.04em;color:var(--warn)}
   .statside{max-width:26ch;font-size:clamp(13px,1.55vw,19px);
             line-height:1.42;color:var(--muted)}
+  .conf{font-family:var(--mono);font-size:.6em;letter-spacing:.05em;color:var(--faint);
+        border:1px solid var(--line);border-radius:4px;padding:.14em .42em;
+        vertical-align:middle;margin-left:.55em;white-space:nowrap}
+  .conf.src{color:var(--accent-ink);border-color:var(--accent)}
   .tag{display:inline-block;margin-top:1.2em;font-family:var(--mono);
        font-size:clamp(11px,1.3vw,15px);color:var(--accent-ink);
        border:1px solid var(--accent);border-radius:999px;
@@ -206,7 +210,7 @@
       <p class="lede">AI that generates presentation decks you can <b>actually edit</b> —
         native <span class="mono">.pptx</span> and <span class="mono">.key</span> files that
         are designed, not flattened into images.</p>
-      <div class="foot">A worked example · very-ai-product-loops · Steps 1–6 · status concept-viability</div>
+      <div class="foot">Concept pitch · status concept-viability · July 2026 — a worked example rendered by very-ai-product-loops (to-deck)</div>
     </section>
 
     <!-- 2 — THE JOB -->
@@ -232,7 +236,8 @@
         <div class="bigstat">30–40%</div>
         <div class="statside">of slides get <b>flattened to images</b> when Gamma exports to
           <span class="mono">.pptx</span>. Incumbents polish the browser view; the moment you
-          need PowerPoint or Keynote, fidelity collapses.</div>
+          need PowerPoint or Keynote, fidelity collapses.
+          <span class="conf src">sourced: market-research</span></div>
       </div>
       <span class="tag">The gap = native fidelity — unclaimed ground.</span>
     </section>
@@ -262,7 +267,7 @@
       <div class="split">
         <div>
           <div class="kicker">Bottom-up · wide error bars</div>
-          <h2 style="margin-bottom:.2em">~$750M SAM</h2>
+          <h2 style="margin-bottom:.2em">~$750M SAM <span class="conf">assumption</span></h2>
           <p class="lede">Obtainable market for editable, designed decks — sized from reachable
             segments, not a top-down share of "all presentations."</p>
         </div>
@@ -322,14 +327,17 @@
     </section>
 
     <!-- 9 — CLOSE -->
-    <section class="slide close" data-sec="08 — Where it stands">
-      <div class="kicker">Concept stage · no product data yet</div>
-      <p class="lede" style="max-width:40ch">Every hypothesis is an <span class="mono">[assumption]</span>
-        by design. The riskiest — and the one we test first — is whether the export is genuinely
-        native at scale.</p>
-      <p class="closebig">If the export is real,<br><em>the wedge is real.</em></p>
+    <section class="slide close" data-sec="08 — The ask">
+      <div class="kicker">The decision on the table</div>
+      <h2 style="max-width:24ch">Fund a 6-week Concept Test to buy one honest signal.</h2>
+      <ul class="facts" style="margin-top:.6em">
+        <li><span class="lbl">Commit</span><span class="txt">~6 weeks · founder + 1 eng · no paid acquisition — the smallest test that can answer it.</span></li>
+        <li><span class="lbl">Decide</span><span class="txt">Go / no-go on the native edit-fidelity read: <b>≥ 90%</b> → build on · <b>&lt; 70%</b> → stop or pivot.</span></li>
+        <li><span class="lbl">Today</span><span class="txt">Everything is <span class="mono">[assumption]</span> — this is the cheapest way to get the first real evidence.</span></li>
+      </ul>
+      <p class="pull" style="margin-top:1em">If the export is real, the wedge is real.</p>
       <div class="foot" style="position:absolute;left:clamp(26px,5.2vw,74px);bottom:clamp(22px,3.4vw,42px);font-family:var(--mono);font-size:clamp(9px,1.05vw,12px);color:var(--faint)">
-        Fictional sample · built with very-ai-product-loops · status concept-viability</div>
+        Fictional sample · rendered by very-ai-product-loops (to-deck) · concept-viability</div>
     </section>
 
     <div class="meta"><span class="sec"></span><span class="num mono"></span></div>
