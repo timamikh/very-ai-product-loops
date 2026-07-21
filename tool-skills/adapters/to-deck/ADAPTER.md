@@ -72,6 +72,9 @@ Base = a real, neutral deck you can already present; company = the brand skin.
    - `prefers-reduced-motion` respected.
    Keep the one-message-per-slide **outline as an internal step** (that's the messaging discipline),
    then render it to the deck — the outline is scaffolding, not the deliverable.
+7. **Present for review — don't presume done.** After rendering, show the deck (link/path) and
+   invite the human to review and give edits before it's treated as final. A deck is an
+   argument to a person; the first render is a draft to react to, not a finished artifact.
 
 ## Output shape
 A single self-contained `.html` file placed with the instance's other deliverables — e.g.

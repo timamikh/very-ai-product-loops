@@ -18,4 +18,4 @@ exist to show what a finished artifact looks like and to serve as a reference wh
 
 | Example | Product (fictional) | Covers |
 |---------|---------------------|--------|
-| [decksmith](decksmith/) | AI generator of editable, well-designed `.pptx`/`.key` decks | Steps 1–6 (Idea → Sprint Plan) · status `concept-viability` · full instance (config · sources · registers) · rendered [deliverables](decksmith/deliverables/) (`to-deck`→HTML · `to-document`→docx · `to-table`→CSV) |
+| [decksmith](decksmith/) | AI generator of editable, well-designed `.pptx`/`.key` decks | Steps 1–6 (Idea → Sprint Plan) · status `concept-viability` · full instance (config · sources · registers) · rendered [deliverables](decksmith/deliverables/) (`to-deck`→HTML · `to-document`→docx · `to-table`→xlsx) |

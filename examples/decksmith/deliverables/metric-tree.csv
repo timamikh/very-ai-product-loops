@@ -1,9 +1,0 @@
-# Metric tree (definitions) — source: registers/metric-tree.md · rendered 2026-07-21 (to-table) · concept stage: all not-instrumented, no readings
-id,definition,unit,kind,parent,instrumentation,target,source
-M-ns-kept-decks-wk,"North Star (candidate). Decks generated -> exported -> kept and edited per active deck-maker per week. A redo = the value failed, so it encodes 'editable AND designed'.",count,measured,— (top),not-instrumented,grow,product events (future)
-M-edit-fidelity,"THE concept-proving metric. Share of exported slide objects that are natively editable (real shapes/text, not flattened images) — the anti-Gamma metric.",%,measured,M-ns-kept-decks-wk,not-instrumented,>= 90%,export pipeline (future)
-M-activation,Share of new signups who generate AND export a first editable deck <= 7d.,%,measured,M-ns-kept-decks-wk,not-instrumented,to clarify,product events (future)
-M-wk-retention,Share of activated users who return and export another deck the next week.,%,measured,M-ns-kept-decks-wk,not-instrumented,to clarify (no cohorts yet),product events (future)
-M-free-paid-conv,Free -> paid conversion <= 30d (full funnel).,%,measured,M-ns-kept-decks-wk,not-instrumented,to clarify,billing (future)
-M-cogs-per-deck,LLM inference + render cost per generated deck (COGS).,$,measured,— (guardrail),not-instrumented,down,LLM/API billing (future)
-M-gross-margin,(Revenue - COGS) / Revenue.,%,derived,— (guardrail),not-instrumented,>= 70%,derived (future)

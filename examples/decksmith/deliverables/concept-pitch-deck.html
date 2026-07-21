@@ -159,12 +159,14 @@
         max-width:34ch;font-weight:500}
   .note b{color:var(--warn)}
 
-  .facts{list-style:none;margin:clamp(10px,1.7vw,20px) 0 0;padding:0;
-         display:flex;flex-direction:column;gap:clamp(9px,1.2vw,15px);max-width:54ch}
-  .facts li{display:grid;grid-template-columns:auto 1fr;gap:.9em;align-items:baseline}
+  /* fact list — shared label column so every row's text starts at the same x */
+  .facts{list-style:none;margin:clamp(14px,2.4vw,26px) 0 0;padding:0;
+         display:grid;grid-template-columns:clamp(98px,10vw,134px) 1fr;
+         gap:clamp(15px,2.4vw,26px) clamp(16px,1.6vw,26px);max-width:60ch;align-content:center}
+  .facts li{display:contents}
   .facts .lbl{font-family:var(--mono);font-size:clamp(10.5px,1.15vw,13px);
-    color:var(--accent-ink);white-space:nowrap;font-weight:600;letter-spacing:.02em}
-  .facts .txt{font-size:clamp(12px,1.4vw,17px);line-height:1.36;color:var(--ink)}
+    color:var(--accent-ink);white-space:nowrap;font-weight:600;letter-spacing:.02em;padding-top:.12em}
+  .facts .txt{font-size:clamp(12.5px,1.45vw,18px);line-height:1.46;color:var(--ink)}
   .facts .txt small{color:var(--muted);font-size:.82em}
 
   .rule{display:flex;gap:0;margin-top:clamp(10px,1.7vw,20px);
@@ -190,7 +192,7 @@
   .count{font-family:var(--mono);font-size:12px;letter-spacing:.1em;min-width:52px}
   .hint{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#59616D}
   @media (max-width:640px){.hint{display:none}
-    .c3,.split{grid-template-columns:1fr}.facts li{grid-template-columns:1fr}}
+    .c3,.split{grid-template-columns:1fr}.facts{grid-template-columns:1fr;gap:.35em 0}}
   @media (prefers-reduced-motion:reduce){
     .slide{transition:opacity .01s}*{scroll-behavior:auto}}
 </style>

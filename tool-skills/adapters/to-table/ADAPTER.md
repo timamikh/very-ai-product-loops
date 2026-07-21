@@ -4,12 +4,12 @@ kind: adapter
 mode: table
 consumes: [registers, artifacts]
 reads_ids: [hypotheses, risks, metric-tree, metrics.csv, "<any artifact section with a table>"]
-produces: A flat, shareable table (CSV / markdown / spreadsheet-ready) from a register or artifact section
-formats: [csv, markdown, tsv]
+produces: A shareable table from a register or artifact section — CSV by default; a single multi-tab .xlsx when several datasets are asked for together
+formats: [csv, xlsx, markdown, tsv]
 opinionated: false
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.2.0
+updated: 2026-07-21
 ---
 
 # to-table
@@ -20,8 +20,13 @@ Sheets/Excel), markdown (for a doc/PR), or TSV.
 
 Unlike a deck, a table is **already human-consumable in these formats**: a **CSV opens directly in
 Excel/Sheets** and a markdown table drops straight into a doc or PR. So the emitted CSV (or markdown)
-file *is* the finished deliverable — not an intermediate step. (For a single file with several
-tables as tabs, a company adapter can emit `.xlsx`; the base stays CSV/markdown/TSV.)
+file *is* the finished deliverable — not an intermediate step.
+
+> **One-table rule.** If the human asks for "a table" and enumerates what should be in it, that is
+> **one deliverable** unless they say otherwise. For a single dataset → one CSV. For several
+> **heterogeneous** datasets asked for together (e.g. hypotheses + risks + metrics + a plan) → **one
+> `.xlsx` workbook with a tab per dataset**, not a scatter of separate CSV files. Only split into
+> multiple files when explicitly asked, or when the consumer needs raw CSV per source.
 
 **What it is for.** The instance already holds tables (registers, skeleton sections). `to-table`
 *selects*, *flattens*, *filters*, and *reshapes* them into the exact table a human wants to paste
@@ -38,15 +43,23 @@ into a spreadsheet or a report — without hand-copying, and re-runnable when th
 1. **Resolve the source.** Read the register / section by id. If it's the metric register, join
    `metric-tree.md` (definitions) with `metrics.csv` (values) on `id` — never invent values; use the
    latest reading per `measured_at`, or emit the full series if a time table is asked for.
-2. **Select & order columns.** Keep only requested columns; preserve register IDs (`H-…`/`R-…`/`M-…`)
+2. **Plan the columns first (write them down).** Before emitting a single row, state the schema
+   explicitly: list each column, and for each one where its value comes from in the source. This is a
+   required planning step — it prevents the classic failure where every field lands in one cell
+   because the delimiter/structure wasn't planned. One field = one column; a row = one record.
+3. **Select & order columns.** Keep only planned columns; preserve register IDs (`H-…`/`R-…`/`M-…`)
    as the first column so the table stays linkable back to source.
-3. **Filter & sort** as asked. State the filter/sort applied in a caption so the view is reproducible.
-4. **Compute derived columns explicitly.** If asked for a score/ratio, show the formula in the
-   caption; mark any input that was `[assumption]` so a soft number isn't read as hard.
-5. **Emit in the requested format.** CSV with a header row for spreadsheets; a markdown table for
-   docs/PRs; TSV on request. Keep confidence tags in a column (don't drop them silently).
-6. **Stamp provenance.** Add a caption line: source id(s), filter/sort, and the date rendered — so a
-   pasted table says what it is and when it was true.
+4. **Filter & sort** as asked. State the filter/sort applied in the provenance so the view is reproducible.
+5. **Compute derived columns explicitly.** If asked for a score/ratio, show the formula in the
+   provenance; mark any input that was `[assumption]` so a soft number isn't read as hard.
+6. **Emit in the right format.** One dataset → **CSV** (header row first; do **not** put a comma-less
+   caption on line 1 — a single-field line makes spreadsheets collapse everything into one column;
+   put provenance in a trailing row or a sidecar). Several datasets asked for together → **one `.xlsx`**
+   with a tab per dataset (header row bold/shaded, freeze the header, size columns to content).
+   Markdown table for docs/PRs; TSV on request. Keep confidence tags in a column (don't drop them).
+7. **Stamp provenance.** Record source id(s), filter/sort, and date rendered — in a `.docx`/`.xlsx`
+   this is a caption cell or footer; for CSV, a sidecar or a clearly-marked trailing row (never a
+   header-breaking first line).
 
 ## Output shape
 
@@ -80,10 +93,13 @@ selection/flattening logic stays here.
 
 ## Change log
 
-### 2026-07-21 — CSV/markdown affirmed as finished deliverables
-- **From → To:** stated that a table is already human-consumable in its base formats (CSV opens in
-  Excel/Sheets; markdown drops into a doc/PR), so the emitted file *is* the deliverable — no
-  intermediate step. Noted `.xlsx` (multi-tab) as a company-adapter option. No format change.
-- **Why:** aligns with the sharpened adapters purpose (agent-readable → human-consumable). Unlike
-  `to-deck`/`to-document`, `to-table` already terminated at a usable file, so only the wording changed.
-- **Trigger:** decksmith live run — rendering the registers/plan sections as CSV.
+### 2026-07-21 — one-table rule, .xlsx for multi-dataset, column-planning step
+- **From → To:** (1) added the **one-table rule** — "give me a table with X, Y, Z" means one
+  deliverable, so several datasets → **one `.xlsx` workbook with tabs**, not scattered CSVs (`xlsx`
+  added to `formats`). (2) Added a required **plan-the-columns-first** step (write the schema before
+  filling) to stop fields collapsing into one cell. (3) Fixed the CSV provenance guidance — a
+  comma-less caption on line 1 makes spreadsheets collapse to one column; use a trailing row/sidecar.
+  (4) Affirmed CSV/markdown are finished deliverables (agent-readable → human-consumable).
+- **Why:** decksmith live run — the user wanted one tabbed workbook, and a `#`-caption CSV rendered
+  as a single column in the spreadsheet.
+- **Trigger:** feedback on the first CSV render.
