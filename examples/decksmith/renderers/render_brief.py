@@ -15,6 +15,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 BASE = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = os.path.normpath(os.path.join(BASE, "..", "deliverables"))
 INK   = RGBColor(0x14, 0x17, 0x1D)
 ACCENT= RGBColor(0x1D, 0x46, 0xD6)
 MUTED = RGBColor(0x5B, 0x64, 0x70)
@@ -136,6 +137,6 @@ rf = foot.add_run("Fictional sample · rendered from very-ai-product-loops (to-d
                   "source of truth: examples/decksmith/ artifacts + registers")
 rf.font.size = Pt(7.5); rf.font.color.rgb = MUTED; rf.font.name = "Consolas"
 
-out = os.path.join(BASE, "concept-brief.docx")
+out = os.path.join(OUT_DIR, "concept-brief.docx")
 doc.save(out)
 print("saved", out)

@@ -1,6 +1,0 @@
-# Strategic plan — global hypotheses (quantified bets) — source: strategic-plan.md#global-hypotheses · rendered 2026-07-21 (to-table)
-id,bet,metric_node,success_threshold,failure_threshold,confidence
-H-001,The engine reliably produces editable+designed native files,M-edit-fidelity,>= 90% objects natively editable,< 70%,assumption
-H-005,"The editable+designed wedge is valued (users keep/edit, don't redo)",M-activation / M-ns-kept-decks-wk,>= 30% activate (generate+export+keep),< 10%,assumption
-H-007,The beachhead switches for the wedge,M-wk-retention,retention curve flattens > 0,decays to 0,assumption
-H-009,Beachhead pays a standalone subscription,WTP -> M-free-paid-conv,WTP >= $15/mo in pilot,< $10/mo,assumption
