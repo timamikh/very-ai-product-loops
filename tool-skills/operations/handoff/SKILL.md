@@ -98,21 +98,3 @@ running the listed checks before relying on it; fix and update the handoff if re
 
 Writes/updates `HANDOFF.md` at the instance root via [`template-fragment.md`](template-fragment.md);
 inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).
-
-## Change log
-
-### 2026-07-21 — position moved to `state.yaml`; handoff narrows to environment + forks
-- **From → To:** the handoff used to carry the cycle **position** (step, gate items) → position now
-  lives in `product/state.yaml` (agent-written every pass). `HANDOFF.md` narrows to what `state.yaml`
-  doesn't hold: **environment/access checks** and **open forks in flight**. The resume reading order
-  now routes rules → `state.yaml` → handoff → `sources/INDEX.md`.
-- **Why:** position is rewritten every pass and belongs in one machine-readable home, not smuggled in
-  a prose handoff that can go stale; the split also lets `state-not-truth` be literally true.
-- **Trigger:** independent audit — state had no canonical home, 2026-07-21.
-
-### 2026-07-19 — moved to `operations/`
-- **From → To:** `library/handoff/` → `tool-skills/operations/handoff/`. No behavior change.
-- **Why:** `handoff` is a runtime skill (how the agent works across sessions), not a product method;
-  the library now holds product methods only. The mechanism's authority stays
-  `process/OPERATING-LOOP.md` → "Session handoff"; this file carries the form.
-- **Trigger:** restructure discussion, 2026-07-19.

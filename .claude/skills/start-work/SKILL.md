@@ -82,13 +82,3 @@ boundary — so the next `start-work` can resume cleanly.
 - **Working from the handoff alone.** It restores state, not rules — Step 0 still runs first.
 - **Asking technical gaps as forks.** Only product decisions become 2–4 options; implementation gaps
   are noted as forks in the artifact, not put to the human.
-
-## Change log
-
-### 2026-07-20 — created
-- **From → To:** — → `start-work` skill: self-bootstrap the rules + orient + run the operating loop
-  one pass at a time.
-- **Why:** enforcement hinged on `CLAUDE.md` auto-load, which doesn't fire when work is begun via a
-  skill or from another session. `product-setup` now self-bootstraps for first run (R1); this closes
-  the same gap for *every subsequent* working session.
-- **Trigger:** post-first-run hardening, 2026-07-20.

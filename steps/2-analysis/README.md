@@ -56,17 +56,3 @@ Recommended tools are soft; the active [status](../../statuses/README.md) sets w
 
 ## The human's role
 Decide the opportunity call at the forks the agent surfaces; the agent gathers and compares the facts.
-
-## Change log
-
-### 2026-07-18 — renamed `pricing` → `competitor-pricing`; added template
-- **From → To:** the competitor pricing section id `pricing` → `competitor-pricing` (it captures
-  competitors' prices — an INPUT to our own pricing, which Step 3 now owns), removing the ambiguous
-  duplicate id-name. Added `template.md` and linked it from Output.
-- **Why:** Step 3 gained a `pricing` section (the new `pricing` tool); two different sections named
-  `pricing` across artifacts read ambiguously. Clarity + one-mechanism.
-- **Trigger:** missing-tools pass + templates pass, 2026-07-18.
-
-### 2026-07-16 — created
-- **From → To:** — → Step 2 skeleton (sizing · competitors · substitutes · opportunity).
-- **Trigger:** Phase 1 / PR #5.

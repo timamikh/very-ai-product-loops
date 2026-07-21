@@ -79,31 +79,3 @@ checks, so "done" is verifiable, not vibes).
 
 Decide at the forks the agent surfaces (which segment to lead with, which moat to bet on).
 The agent drafts everything else from sources and marks its proposals with ⚙️.
-
-## Change log
-
-### 2026-07-21 — cjm gets a home section `{#cjm}` (optional)
-- **From → To:** cjm was a section-less lens whose output (`produces: cjm`) had nowhere to live → it
-  now owns an **optional** `passport#cjm` (journey stages · touchpoints · emotion curve · pains),
-  added to the artifact skeleton and a soft (optional) gate item. Mirrors the jtbd fix.
-- **Why:** a tool that `produces:` a section with no home is the same homeless-output bug fixed for
-  jtbd — the linter now catches it. cjm is optional (used when a drop-off needs explaining), so its
-  section and gate item are marked optional, not required.
-- **Trigger:** independent audit + wiring linter, 2026-07-21.
-
-### 2026-07-21 — jtbd owns its own section `{#jtbd}`
-- **From → To:** jtbd was a section-less Step-1 lens (seeded hypotheses only) → it now owns
-  `passport#jtbd` (job statement + four forces + desired outcomes), added to the artifact skeleton
-  and the gate checklist. `segment-cvp` remains a section-less lens at Step 1.
-- **Why:** the lens produced durable, decision-shaping content (the forces — the anxiety that gates
-  adoption; the job that frames indirect competition) with nowhere canonical to live, so it was lost
-  and easy to skip. The job statement is also the required input to `substitutes` (Step 2), so a
-  homeless jtbd broke indirect-competitor discovery downstream.
-- **Trigger:** example run review — jtbd dropped from the Step-1 pass, 2026-07-21.
-
-### 2026-07-16 — created (golden exemplar)
-- **From → To:** — → Step 1 skeleton + `template.md` (passport), the anatomy the other steps mirror.
-- **Note:** at `concept-viability`, `segment-cvp` acts here as a **lens** (surfaced via the status'
-  per_step tools), seeding the hypothesis register without owning a passport section. (`jtbd` also
-  did until 2026-07-21, when it was given `#jtbd` — see the entry above.)
-- **Trigger:** Phase 1 / PR #2.

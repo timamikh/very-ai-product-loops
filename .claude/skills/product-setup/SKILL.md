@@ -185,28 +185,3 @@ read-only into the repo at install and pinned to a version tag.
   setup. Setup places sourced material and stops; method work is the loop's job, one section at a time.
 - **Deriving content during onboarding.** Producing thresholds, test designs, pricing, or hypotheses
   beyond what the sources state — that is method work (e.g. `hypothesis-test-design`), not onboarding.
-
-## Change log
-
-### 2026-07-19 — enforcement hardening (R1/R2, from the first live run)
-- **From → To:** added **Step 0 — bootstrap the rules** (read `process/` in order; don't trust
-  auto-load); stated **"onboarding is not a work cycle"**; step 4 now **forbids deriving** numbers/
-  thresholds/hypotheses/tests during onboarding (place sourced material only); Phase 2 now **stops
-  after proposing the plan** — the loop runs one section per method, never a bulk fill; added four
-  anti-patterns (skipping rules · onboarding as a cycle · deriving content · plus the earlier ones).
-- **Why:** the first live install produced an invented bulk-fill — the agent skipped OVERVIEW/
-  OPERATING-LOOP (auto-load never fired when run from another session), opened no method `SKILL.md`,
-  and fabricated MVP thresholds during setup. The rules existed but nothing carried them into behavior.
-- **Trigger:** first real deployment (salt-pepper), 2026-07-20.
-
-### 2026-07-19 — corrected onboarding flow (install≠setup · propose status · Phase 2)
-- **From → To:** (1) framed the skill as the PRODUCT-setup phase that runs *after* install (it does
-  not vendor the framework); (2) step 2 now also asks for links & accesses; (3) step 5 changed from
-  "ask status + directions" to **propose the status with descriptions + a recommendation** — and
-  **directions are no longer asked** (defaulted; power users edit later); (4) added **Phase 2** — a
-  product summary (filled vs white spots) + a gap-closing plan in step order that becomes the first
-  turn of the operating loop.
-- **Why:** the old "what status? what directions?" was a cold question a context-less human can't
-  answer — it violated "agent prepares, human decides"; and setup had no explicit hand-off into the
-  loops. Fewer first-run forks (directions defaulted) per the v1 simplicity goal.
-- **Trigger:** onboarding-flow review, 2026-07-19.

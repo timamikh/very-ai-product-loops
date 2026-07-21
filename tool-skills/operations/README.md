@@ -35,11 +35,3 @@ typically `any`, and it reads/writes the instance's operational state rather tha
 **Rules stay in the core.** Where an operations skill has normative behavior (e.g. the handoff
 reading order, the "state not rules" guarantee), the authority is `process/` — the skill file
 carries the *form* and points to the core for the *rule*, so there is one source of truth.
-
-## Change log
-
-### 2026-07-19 — created
-- **From → To:** — → `operations/` plane; `handoff` moved here from `library/handoff/`.
-- **Why:** `handoff` is a runtime capability, not a product method; the library is now product
-  methods only. Room to grow (scheduling, automation) without bloating the library or the core.
-- **Trigger:** restructure discussion, 2026-07-19.

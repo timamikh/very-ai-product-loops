@@ -94,32 +94,3 @@ updated: <date>
 3. Register it in the table above.
 4. If it encodes a company-specific format, put it in the company/plugin repo instead — this folder
    is for neutral base adapters only.
-
-## Change log
-
-### 2026-07-21 — every base adapter ships a generic renderer (the canon)
-- **From → To:** `render.py` went from "OPTIONAL, only where a library is required" to **present on
-  all three base adapters** — `to-table` (openpyxl), `to-document` (python-docx), and now `to-deck`
-  (a PDF companion via the installed system browser). Reworded the anatomy so the renderer is the
-  norm where a format needs a library/engine, holding no product data. `to-deck` gained a
-  present→iterate→**freeze-to-PDF** loop.
-- **Why:** the output layer is now consistent — agent authors the content, a generic renderer applies
-  any library-backed format. Consistency is the point: one shape across every adapter.
-- **Trigger:** decksmith live run — the approved deck needed an emailable PDF.
-
-### 2026-07-21 — sharpened the "finished deliverable" purpose; `to-deck` now emits HTML
-- **From → To:** stated the adapter's purpose as the agent-readable → human-consumable last hop
-  (output must be the finished deliverable, not an intermediate form); updated the `to-deck` row —
-  it renders a self-contained **HTML deck** (not a markdown outline) and gained a `concept-pitch`
-  profile. See `to-deck/ADAPTER.md`.
-- **Why:** a markdown slide list isn't something a human presents; the base adapter was stopping
-  halfway. Surfaced by the decksmith live run.
-- **Trigger:** example run, Step-6 wrap.
-
-### 2026-07-18 — created
-- **From → To:** — → base adapters plane (`to-table`, `to-document`, `to-deck`) + anatomy + the
-  base-vs-company boundary.
-- **Why:** the framework produced a well-structured instance but had no neutral, open way to turn it
-  into the everyday deliverables (tables/docs/decks). Base renderers belong in the open framework;
-  company-specific formats stay external. Realizes the "adapters" concept OVERVIEW §10 had deferred.
-- **Trigger:** base-converters pass, 2026-07-18.

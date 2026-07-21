@@ -62,23 +62,3 @@ The strategic plan (`4-strategic-plan.md`), the metric register, the hypothesis 
 
 ## The human's role
 Set the period's priorities and accept the goals; the agent proposes goals from the metric tree and ranks the work.
-
-## Change log
-
-### 2026-07-18 — added `market-bundles` section
-- **From → To:** skeleton gained `market-bundles` (segment · situation · pain · CVP · offer ·
-  channel · signal), filled by the new `segment-cvp` tool; gate + register touchpoints updated.
-- **Why:** the framework decomposed value (segments/pains/jtbd/uvp) but had no place to *compose* a
-  testable go-to-market entry with a channel + first action + success signal, gated on
-  test-readiness. Bundles are the candidates `prioritization` scores and `hypothesis-test-design`
-  then turns into experiments.
-- **Trigger:** missing-tools pass (segment-CVP method), 2026-07-18.
-
-### 2026-07-18 — ab-test note on hypotheses-to-test
-- **From → To:** `hypotheses-to-test` recommended-tool cell now names `ab-test` for split-traffic
-  experiments alongside `hypothesis-test-design`.
-- **Trigger:** PR #8 (ab-test authored).
-
-### 2026-07-16 — created
-- **From → To:** — → Step 5 skeleton (period goals per direction · test selection)
-- **Trigger:** Phase 1 / PR #5.

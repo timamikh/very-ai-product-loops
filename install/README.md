@@ -65,27 +65,3 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
   read `process/` in order (`OVERVIEW → OPERATING-LOOP → CONVENTIONS → REGISTERS`) and then run the
   same loop manually.
 - Optionally: connectors to your metrics/KB, so later steps can pull data automatically.
-
-## Change log
-
-### 2026-07-21 — versioning contract + host-repo CLAUDE.md pointer + Desktop caveat
-- **From → To:** install now (1) writes a **`FRAMEWORK-VERSION`** file recording the pinned **tag +
-  SHA** (legalizing what the first real install improvised); (2) adds a **pointer to the host repo's
-  root `CLAUDE.md`** so a plain request enters the `start-work` loop instead of an ad-hoc bulk-fill;
-  (3) states the **Claude Desktop** limitation (skills don't auto-surface — read `process/` in order
-  manually). The tag-pin promise is now real: the framework carries git tags.
-- **Why:** the docs promised tag-pinning with no tags in git, the entry-skills only fire when
-  invoked, and Desktop had no working entry path — all three surfaced by the independent audit.
-- **Trigger:** independent audit, 2026-07-21.
-
-### 2026-07-20 — vendor the `start-work` skill
-- **From → To:** added `start-work` to the vendored skills and to the "set up the product" section —
-  the entry point for every working session after onboarding (self-bootstraps the rules + runs the loop).
-- **Trigger:** post-first-run hardening, 2026-07-20.
-
-### 2026-07-19 — split install from product setup
-- **From → To:** the one-line ask "add framework **and run product setup**" → two separate phases:
-  (1) install (vendor the framework only), (2) product setup as a later, separate ask.
-- **Why:** installing the framework and onboarding a product are distinct; bundling them forced setup
-  to run immediately. Matches the corrected `product-setup` flow.
-- **Trigger:** onboarding-flow fix, 2026-07-19.

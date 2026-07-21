@@ -70,17 +70,3 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 
 ## The human's role
 Make the strategic choices; the agent frames the options, the trade-offs, and the moats in play.
-
-## Change log
-
-### 2026-07-18 — added `pricing` section
-- **From → To:** skeleton gained `pricing` (value metric · packaging/fences · price vs the
-  alternative), filled by the new `pricing` tool; gate + register touchpoints updated.
-- **Why:** pricing was the one strategic choice with no home — competitor pricing (Step 2) is an
-  input and `unit-economics` (Step 4) only validates the margin; nowhere *set* the price. Pricing
-  is a choice, so it lives at Step 3 and is quantified at Step 4.
-- **Trigger:** missing-tools pass, 2026-07-18.
-
-### 2026-07-16 — created
-- **From → To:** — → Step 3 skeleton (thin, grounded in Playing to Win + Dunford)
-- **Trigger:** Phase 1 / PR #5.
