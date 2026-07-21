@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.5.0
+version: 0.6.0
 updated: 2026-07-21
 ---
 
@@ -39,18 +39,28 @@ Every artifact section carries a stable ID so tools can fill it and links can ta
 
 IDs are kebab-case and stable across revisions — rename the heading text freely, keep the ID.
 
-## Typed links & register item IDs
+## Links & register item IDs
 
 Register items have stable IDs:
 
-- Hypotheses: `H-001`, `H-002`, … — each carries a **type**: `desirability` (do they want it) ·
-  `feasibility` (can we build it) · `viability` (does it work for the business) · `usability`
-  (can they use it). (The classic product-risk taxonomy.)
-- Risks: `R-001`, …
+- Hypotheses: `H-001`, `H-002`, … — each carries **exactly one `type`**: `desirability` (do they
+  want it) · `feasibility` (can we build it) · `viability` (does it work for the business) ·
+  `usability` (can they use it). (The classic product-risk taxonomy.) A cross-cutting theme
+  (e.g. *moat*, *pricing*) is **not** a fifth type — it goes in a separate, free **`tags`** column,
+  declared non-load-bearing for aggregators; never compound it into `type`. (`viability/moat` is
+  wrong — write `type: viability`, `tags: moat`.)
+- Risks: `R-001`, … — likewise **exactly one `category`**; extra themes go in `tags`.
 - Metric nodes: `M-northstar`, `M-activation`, …
 
-Reference them inline in brackets, e.g. "drives `M-activation`" or "tests `H-003`".
-Cross-artifact links use GitMark-lite: `[[analysis#opportunity]]`, `[[strategy#bets]]`.
+Reference an item inline in brackets, e.g. "drives `M-activation`" or "tests `H-003`".
+
+**Cross-artifact links use a relative file path + the target's stable `{#anchor}`** — e.g.
+`2-analysis.md#opportunity`, `3-strategy.md#bets` (from a register or other subdirectory, prefix the
+path: `../2-analysis.md#opportunity`). This is the one canon: standard markdown, clickable without a
+custom resolver, parseable by any tool. **Never** a wiki-style double-bracket link (the removed
+GitMark-lite form). Two rules carry over: point at the stable `{#anchor}`, never a heading's changeable text; and keep anchors
+stable across revisions (rename the heading freely, keep the id). A gate checklist may use the
+shorthand `artifact#section` (e.g. `passport#concept`) to name the section it validates.
 
 ## Artifact filenames
 
@@ -59,13 +69,11 @@ A step's output artifact is named **`<step-number>-<slug>.md`** — `1-passport.
 exists for **one reason: a directory listing sorts in step order** (a plain `ls`/Finder view walks
 the pipeline top to bottom instead of scrambling it alphabetically). It is good UX and nothing more.
 
-The prefix is a **filesystem ordering key, not part of the artifact's identity.** The **logical id**
-of an artifact is its bare slug (`strategy`, `strategic-plan`), and cross-artifact links use that:
-`[[strategy#bets]]`, `passport#concept` — **never** `[[3-strategy#bets]]`. When a link (or a tool)
-resolves a logical id to a file, it drops any leading `<digits>-` prefix. So there is still exactly
-one identity per artifact (the slug); the number is only how the file sorts on disk. A **literal file
-path** — e.g. a path passed to an adapter renderer — does carry the prefix (`4-strategic-plan.md`),
-because that's the real filename. (Registers and deliverables are not step outputs and take no prefix.)
+Because cross-artifact links are **real relative paths** (see "Links" above), the prefix is simply
+part of the path you link to: `3-strategy.md#bets`, `../1-passport.md#concept`. There is no separate
+"logical id" to resolve and no prefix to strip — you link the actual file, and a section is
+identified by its bare `{#anchor}` within it. (Registers and deliverables are not step outputs and
+take no numeric prefix.)
 
 ## One mechanism, one way
 
@@ -146,3 +154,19 @@ Every artifact ends with a change log. Narrative artifacts included — the log 
 - **Why:** <reasoning>
 - **Trigger:** <what prompted it — a metric shift, a refuted hypothesis, a decision, …>
 ```
+
+## Change log
+
+### 2026-07-21 — one link canon (relative paths); single-valued type/category
+- **From → To:** cross-artifact links were a GitMark-lite wiki-style double-bracket form resolving a
+  bare "logical id" (numeric prefix stripped) → they are now **real relative file paths + `{#anchor}`**
+  (`3-strategy.md#bets`), the form the golden example already used. Removed the double-bracket scheme
+  and the logical-id / drop-the-prefix machinery it required. Hypothesis `type` and risk `category`
+  are now explicitly **single-valued**; a cross-cutting theme (e.g. *moat*) moves to a free,
+  non-load-bearing **`tags`** column instead of being compounded (`viability/moat` → `type: viability`
+  + `tags: moat`).
+- **Why:** two link mechanisms coexisted and the exemplar diverged from the stated convention (it
+  used relative paths). Relative paths are standard, clickable without a resolver, and win on revealed
+  preference. Compound enum values broke aggregation. A wiring linter (`tools/lint.py`) now **enforces**
+  both — no wiki double-bracket links, no out-of-enum values — so the drift can't silently return.
+- **Trigger:** independent audit + the new wiring linter, 2026-07-21.

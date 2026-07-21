@@ -19,7 +19,7 @@ This is where the strategy's choices get numbers, a metric tree, and mitigations
 > **Boundary 3 ↔ 4:** choices live in Step 3; this step is instruments and resources.
 
 ## Inputs (source slots)
-The strategy (`[[strategy]]`), `metrics`, `analytics-search`, `kb`.
+The strategy (`3-strategy.md`), `metrics`, `analytics-search`, `kb`.
 
 ## Output
 `4-strategic-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).

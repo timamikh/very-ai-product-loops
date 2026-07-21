@@ -48,6 +48,7 @@ def render(html, out, browser=None):
         sys.exit("No Chromium-family browser found (Chrome/Edge/Brave/Chromium). Install one, or "
                  "pass --browser PATH. This adapter uses the system browser to print HTML -> PDF.")
     html_url = "file://" + os.path.abspath(html)
+    os.makedirs(os.path.dirname(os.path.abspath(out)) or ".", exist_ok=True)   # fresh instance: no deliverables/ yet
     cmd = [browser, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
            "--print-to-pdf=" + os.path.abspath(out), html_url]
     r = subprocess.run(cmd, capture_output=True, text=True)

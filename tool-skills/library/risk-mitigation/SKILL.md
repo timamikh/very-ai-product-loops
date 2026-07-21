@@ -1,7 +1,7 @@
 ---
 name: risk-mitigation
 kind: method
-produces: [product-risks, risk-mitigation]
+produces: [product-risks]
 reads_registers: [risks]
 writes_registers: [risks]
 inputs: [interview, kb]

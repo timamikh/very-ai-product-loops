@@ -2,8 +2,8 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.2.1
-updated: 2026-07-20
+version: 0.3.0
+updated: 2026-07-21
 ---
 
 # Install
@@ -25,6 +25,17 @@ The agent **vendors** the framework (read-only) into the repo, pinned to a versi
 `product-setup` and `start-work` skills. That's it — the framework is present and configured; **no
 product is set up yet.**
 
+As part of vendoring, the agent also:
+- writes a **`FRAMEWORK-VERSION`** file at the vendor root recording the exact **tag _and_ commit
+  SHA** it pinned — the tag is the human-readable version, the SHA the immutable anchor (tags can
+  move or be deleted; a SHA can't). Updating the framework = re-vendor at a newer tag and rewrite
+  this file. (The tag in git is the source of truth; `FRAMEWORK-VERSION` is its echo inside the
+  vendored copy, written at install time — not a second number anyone hand-bumps.)
+- adds a short **pointer to your repo's root `CLAUDE.md`** (creating it if absent): *"Product-strategy
+  work in this repo runs through very-ai-product-loops — begin with the `start-work` skill; the rules
+  live in the vendored `process/`."* This is what makes a plain "continue the strategy" land in the
+  disciplined loop instead of an ad-hoc bulk-fill.
+
 ## 2. Set up the product (a separate phase)
 
 When ready, ask the agent to set up the product. It runs the
@@ -41,17 +52,31 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
 ## What lands in your repo
 
 - **Framework (vendored, read-only, versioned):** `steps/`, `statuses/`, `process/`,
-  `tool-skills/` (library · operations · adapters), `.claude/skills/`. Update by bumping the tag.
+  `tool-skills/` (library · operations · adapters), `.claude/skills/`, and a `FRAMEWORK-VERSION`
+  file (pinned tag + SHA). Update by bumping the tag and re-vendoring.
 - **Your product (yours, edited over time):** `product/` — kept **separate from your code** so it
   never interferes with development.
 
 ## Requirements
 
 - A git repository (your product's repo).
-- An agent with file access (Claude Code, or Claude Desktop with the repo mounted).
+- An agent with file access. The skill entry-points (`product-setup`, `start-work`) are a **Claude
+  Code** mechanism; on **Claude Desktop** (repo mounted) they don't auto-surface — ask the agent to
+  read `process/` in order (`OVERVIEW → OPERATING-LOOP → CONVENTIONS → REGISTERS`) and then run the
+  same loop manually.
 - Optionally: connectors to your metrics/KB, so later steps can pull data automatically.
 
 ## Change log
+
+### 2026-07-21 — versioning contract + host-repo CLAUDE.md pointer + Desktop caveat
+- **From → To:** install now (1) writes a **`FRAMEWORK-VERSION`** file recording the pinned **tag +
+  SHA** (legalizing what the first real install improvised); (2) adds a **pointer to the host repo's
+  root `CLAUDE.md`** so a plain request enters the `start-work` loop instead of an ad-hoc bulk-fill;
+  (3) states the **Claude Desktop** limitation (skills don't auto-surface — read `process/` in order
+  manually). The tag-pin promise is now real: the framework carries git tags.
+- **Why:** the docs promised tag-pinning with no tags in git, the entry-skills only fire when
+  invoked, and Desktop had no working entry path — all three surfaced by the independent audit.
+- **Trigger:** independent audit, 2026-07-21.
 
 ### 2026-07-20 — vendor the `start-work` skill
 - **From → To:** added `start-work` to the vendored skills and to the "set up the product" section —

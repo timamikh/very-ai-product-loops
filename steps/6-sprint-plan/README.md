@@ -18,7 +18,7 @@ updated: 2026-07-18
 hand off to the team's development process.
 
 ## Inputs (source slots)
-The tactical plan (`[[tactical-plan]]`), backlog export, the hypothesis & metric registers.
+The tactical plan (`5-tactical-plan.md`), backlog export, the hypothesis & metric registers.
 
 ## Output
 `6-sprint-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
@@ -62,8 +62,8 @@ sub-tasks. Each direction describes its items in its own format:
 ## Gate checklist (soft) — each item ↔ artifact section
 - [ ] a minimal must-set exists per direction → `sprint-plan#must`
 - [ ] the rest is prioritized, not a flat list → `sprint-plan#backlog`
-- [ ] dev items follow the **Feature** format; go-to-market items the **Activity** format; back-office items have a **DoD** → `sprint-plan#must` / `#backlog`
-- [ ] every item links to a metric node or a hypothesis → `sprint-plan#must` / `#backlog`
+- [ ] dev items follow the **Feature** format; go-to-market items the **Activity** format; back-office items have a **DoD** → `sprint-plan#must` + `#backlog` · tick-id `item-format`
+- [ ] every item links to a metric node or a hypothesis → `sprint-plan#must` + `#backlog` · tick-id `item-links`
 - [ ] handoff to the dev process is explicit → `sprint-plan#handoff`
 
 ## Cadence & invalidation

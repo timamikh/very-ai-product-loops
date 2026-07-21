@@ -110,6 +110,7 @@ def render(md, out):
     if footer:
         fp = doc.sections[0].footer.paragraphs[0]; fp.alignment = WD_ALIGN_PARAGRAPH.LEFT
         rf = fp.add_run(footer); rf.font.size = Pt(7.5); rf.font.color.rgb = MUTED; rf.font.name = "Consolas"
+    os.makedirs(os.path.dirname(out) or ".", exist_ok=True)   # a fresh instance has no deliverables/ yet
     doc.save(out); print("saved", out)
 
 def main(argv=None):

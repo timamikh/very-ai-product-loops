@@ -19,7 +19,7 @@ updated: 2026-07-20
 # Sprint Plan — <Product> · Sprint <n> (<dates>)
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Capacity: <n features / n activities / …>
-> Inputs: [[tactical-plan]] · registers. Hands off to: the team's development process.
+> Inputs: `5-tactical-plan.md` · registers. Hands off to: the team's development process.
 
 > ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
 > library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under
@@ -67,7 +67,7 @@ _The rest, prioritized (not a flat list), grouped by direction. Same item format
 _What goes to the development process, and how (the framework ends here; work proceeds in the team's own flow)._
 
 - Handed off: … (which items, to which board/process)
-- Acceptance / how results flow back: … (a refuted `H-…` or missed `M-…` bubbles up to [[tactical-plan]])
+- Acceptance / how results flow back: … (a refuted `H-…` or missed `M-…` bubbles up to `5-tactical-plan.md`)
 
 ## Change log
 

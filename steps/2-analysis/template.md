@@ -19,7 +19,7 @@ updated: 2026-07-21
 # Market & Competitive Analysis — <Product>
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Last review: <date>
-> Feeds: [[strategy]] · seeds the risk register.
+> Feeds: `3-strategy.md` · seeds the risk register.
 
 > ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
 > library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under

@@ -1,7 +1,7 @@
 ---
 name: analytics-search
 kind: research
-produces: market-research
+produces: product/sources/<topic>-research.md
 prerequisites: [the market/arena to research, the questions the research must answer]
 reads_registers: []
 writes_registers: [hypotheses, risks]
@@ -18,8 +18,9 @@ updated: 2026-07-18
 
 Run a **desk-research pass** and distil a **sourced market digest**: pull analyst reviews,
 articles, official indicators, and named-expert opinion, and turn them into a dated, sourced read
-of **market size · dynamics · trends · barriers · risks & drivers · main players**. Fills
-`{#market-research}` → `product/sources/`.
+of **market size · dynamics · trends · barriers · risks & drivers · main players**. Produced as a
+dated, sourced **digest file** in `product/sources/` (indexed in `sources/INDEX.md`), not an
+artifact section.
 
 **Method basis.** Triangulated desk research: every claim rests on **multiple independent
 sources**, prefer primary over secondary, and each number carries a **source and a date** so its
@@ -67,7 +68,7 @@ consume. It fills the `analytics-search` **input slot** those tools list.
 - **"Research the market" with no question.** A pile of links that answers nothing.
 
 ## Output
-Fills `{#market-research}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml). The digest lives in `product/sources/` (indexed in
+Produced from [`template-fragment.md`](template-fragment.md) as a digest file in `product/sources/`;
+inputs via [`questions.yaml`](questions.yaml). The digest lives in `product/sources/` (indexed in
 `sources/INDEX.md`) and feeds `market-sizing`, `competitor-analysis`, `substitutes`,
 `risk-mitigation`; seeds the hypotheses and risk registers.

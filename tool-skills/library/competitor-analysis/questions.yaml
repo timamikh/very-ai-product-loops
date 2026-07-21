@@ -1,6 +1,6 @@
 # competitor-analysis — interview
 tool: competitor-analysis
-produces: [competitors, competitor-strategy, pricing, competitor-dynamics]
+produces: [competitors, competitor-strategy, competitor-pricing, competitor-dynamics]
 questions:
   - id: competitors
     ask: "Who are the direct and indirect competitors? (⚙️ agent proposes from analytics-search)"
