@@ -9,8 +9,8 @@ description: >
   status with descriptions for the human to pick. Ends by summarizing what's filled vs blank and
   proposing a gap-closing plan in step order — the point where the working loops begin.
 status: draft
-version: 0.3.0
-updated: 2026-07-20
+version: 0.4.0
+updated: 2026-07-21
 ---
 
 # Product Setup (onboarding)
@@ -116,8 +116,9 @@ human confirms or overrides. Record the choice in `product/config.yaml` as `acti
 
 ### 6. Scaffold the working area
 Create `product/` from templates (see layout below), in the chosen language, pre-filled per
-step 4. Produce the **placement report**: what went where, what conflicts were found, what's still
-open. This closes Phase 1 — the product is set up.
+step 4. Write an initial **`state.yaml`** (`current_step: 1`, gate ticks empty) — the cycle's
+position home, distinct from the human-authored `config.yaml`. Produce the **placement report**:
+what went where, what conflicts were found, what's still open. This closes Phase 1 — the product is set up.
 
 ## Phase 2 — Orient and hand into the loops
 
@@ -139,9 +140,12 @@ the rules and runs one pass at a time).
 
 ```
 product/
-  config.yaml            # language · active status · directions · metric source slots
+  config.yaml            # HUMAN-authored: language · active status · directions · metric source slots
+  state.yaml             # AGENT-written each pass: current_step · last_pass · gate ticks (cycle position)
+  HANDOFF.md             # session-to-session: environment/access checks + open forks (see operations/handoff)
   sources/               # converted copies of the user's existing materials (source of record)
     INDEX.md             # navigation map: per-source what/in-scope/out-of-scope/feeds-steps
+  briefs/                # standalone briefs from the `brief` tool (<slug>.md)
   1-passport.md            # Step 1 artifact
   2-analysis.md            # Step 2
   3-strategy.md            # Step 3
@@ -149,10 +153,11 @@ product/
   5-tactical-plan.md       # Step 5
   6-sprint-plan.md         # Step 6
   registers/
-    hypotheses.md        # H-… (typed)
-    risks.md             # R-…
+    hypotheses.md        # H-… (single-value type + optional tags)
+    risks.md             # R-… (single-value category + optional tags)
     metric-tree.md       # M-… node definitions (id/unit/kind/parent/instrumentation/target)
     metrics.csv          # append-only dated readings (id,period_start,period_end,measured_at,value,basis,source,note)
+  deliverables/          # adapter outputs (decks/docs/tables) — regeneratable views, not source
 ```
 
 Kept **separate from code** (its own top-level `product/`), so it never interferes with the

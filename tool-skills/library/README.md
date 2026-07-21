@@ -47,8 +47,8 @@ can find and compose it:
 ```yaml
 ---
 name: <tool>
-kind: method | check | template | research   # research = gathers inputs (interviews, data search)
-produces: <artifact-section-id>        # which section it fills
+kind: method | template | research   # research = gathers inputs (interviews, data search)
+produces: <section-id | product/path/file.md>  # a section it fills, OR a standalone file it creates
 prerequisites: [<info/artifact/access it needs>]  # checked first; asked for or helped-with if missing
 reads_registers: [metrics, hypotheses] # registers it consumes
 writes_registers: [hypotheses]         # registers it updates
@@ -95,7 +95,7 @@ don't turn a tool into a literature review.
 | `risk-mitigation` | Risks → owned mitigations | Pre-mortem (Klein) + risk-register triage (prob × impact) + mitigation/owner | 3, 4 | draft |
 | `product-surface` | User-interaction surfaces + instrumentation | Touchpoint mapping + instrumentation planning | 3, 4 | draft |
 | `architecture-c4` | System architecture (Context level) | C4 model — Context (Simon Brown) | 3, 4 | draft |
-| `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude); anti-lamppost: right metric over measurable metric | 4 | draft |
+| `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude); anti-lamppost: right metric over measurable metric | 4, 5 | draft |
 | `unit-economics` | CAC/LTV/payback/contribution | Contribution margin; LLM inference as explicit COGS; dual basis (operational/honest own-compute) | 4 | draft |
 | `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
 | `retention-analysis` | Cohort retention curve + engagement loop | Flattening cohort curve as PMF signal; retention by cohort/frequency; real churn input to LTV, not an assumed % | 4 | draft |
@@ -105,7 +105,7 @@ don't turn a tool into a literature review.
 | `ab-test` | Run a controlled experiment | Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrails, MDE-driven sizing, no-peek stopping rule | 5 | draft |
 | `cjm` | Customer journey map | Journey mapping — stages · touchpoints · emotion curve · pains → opportunities | 1, 3 | draft |
 | `jtbd` | Jobs-to-be-Done framing | JTBD — Christensen 'progress' + Ulwick ODI (job statement · forces · desired outcomes) | 1, 3 | draft |
-| `segment-cvp` | Compose a testable go-to-market entry bundle | Market-entry bundle (segment · situation · pain · CVP · offer · channel · signal) + 6-filter readiness gate + qualified-action signal scale | 1, 5 | draft |
+| `segment-cvp` | Compose a testable go-to-market entry bundle | Market-entry bundle (segment · situation · pain · CVP · offer · channel · signal) + 6-filter readiness gate + qualified-action signal scale | 1, 3, 5 | draft |
 | `brief` | Product/feature brief | Structured brief — problem · goal · target metric · scope in/out · owner | any | draft |
 | `prioritization` | Rank must vs backlog | RICE / ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line | 5, 6 | draft |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
@@ -118,6 +118,18 @@ don't turn a tool into a literature review.
 The list is a starting set, not a closed spec — grow it as the community adds methods.
 
 ## Change log
+
+### 2026-07-21 — wiring-linter pass: produces forms, homeless outputs, index fixes
+- **From → To:** documented the two `produces` shapes (a **section id** *or* a
+  `product/path/file.md`); `interview` / `analytics-search` / `brief` now declare their **file**
+  outputs (they produce standalone files, not artifact sections). Removed the unused `check` from the
+  `kind` enum. Fixed `produces` desyncs (`competitor-analysis` questions `pricing → competitor-pricing`;
+  `concept-formation` / `feature-spec` / `jtbd` / `risk-mitigation` SKILL↔questions aligned). Corrected
+  the index `Steps` for `metric-tree` (4 → 4, 5) and `segment-cvp` (1, 5 → 1, 3, 5). `cjm` was given a
+  home section (`passport#cjm`, optional).
+- **Why:** the new `tools/lint.py` surfaced ~15 wiring desyncs the eye had missed; these are the
+  library-side fixes, now enforced in CI.
+- **Trigger:** independent audit + wiring linter, 2026-07-21.
 
 ### 2026-07-19 — moved under `tool-skills/`; `handoff` left for `operations/`
 - **From → To:** `library/` → `tool-skills/library/`. Removed the `handoff` row — it is a runtime

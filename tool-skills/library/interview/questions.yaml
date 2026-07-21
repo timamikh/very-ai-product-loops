@@ -1,6 +1,6 @@
 # interview — interview (intake to build the guide)
 tool: interview
-produces: interview-guide
+produces: product/sources/<slug>-interview-guide.md
 questions:
   - id: goal
     ask: "What one decision or hypothesis (H-…) must this interview inform?"

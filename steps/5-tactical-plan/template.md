@@ -18,7 +18,7 @@ updated: 2026-07-20
 # Tactical Plan — <Product> · <period>
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Period: <start–end>
-> Inputs: [[strategic-plan]] · registers. Feeds: [[sprint-plan]].
+> Inputs: `4-strategic-plan.md` · registers. Feeds: `6-sprint-plan.md`.
 
 > ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
 > library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under

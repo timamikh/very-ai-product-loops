@@ -19,7 +19,7 @@ updated: 2026-07-18
 > **Boundary 3 ↔ 4:** if it's a *choice* → here; if it's a *number, model, or mitigation* → Step 4.
 
 ## Inputs (source slots)
-The passport (`[[passport]]`), the analysis (`[[analysis]]`), `interview`, `kb`.
+The passport (`1-passport.md`), the analysis (`2-analysis.md`), `interview`, `kb`.
 
 ## Output
 `3-strategy.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).

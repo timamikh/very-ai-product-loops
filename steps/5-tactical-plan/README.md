@@ -22,7 +22,7 @@ the number can change with the product. The active [status](../../statuses/READM
 goals take priority (e.g. `concept-viability` → building a prototype, not traction metrics).
 
 ## Inputs (source slots)
-The strategic plan (`[[strategic-plan]]`), the metric register, the hypothesis register,
+The strategic plan (`4-strategic-plan.md`), the metric register, the hypothesis register,
 `metrics`, backlog export.
 
 ## Output

@@ -1,0 +1,23 @@
+name: lint
+
+# The wiring & enum linter is the framework's guard against silent drift (produces <-> section ids
+# <-> step README <-> library index <-> questions.yaml; adapter reads_ids; register enums; csv ⊆ md;
+# the relative-path link canon). It runs on every push and PR so a desync can't merge unnoticed.
+# Private instances live under instances/ (gitignored) and are never present here — the linter checks
+# the framework and the committed examples only.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Run the wiring/enum linter
+        run: python3 tools/lint.py

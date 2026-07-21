@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.4.1
-updated: 2026-07-19
+version: 0.5.0
+updated: 2026-07-21
 ---
 
 # Operating Loop
@@ -18,9 +18,10 @@ part of one step's artifact. The agent repeats the loop, item by item, step by s
 ## The loop, step by step
 
 **0 · Orient.**
-Determine the **active status** (instance config, e.g. `2-pmf`) and the **current step**
-(where the product is in the loops, e.g. `3-strategy`). Both are read, not guessed; if unclear,
-ask.
+Read the **active status** from `product/config.yaml` and the **current step** + **gate ticks** from
+`product/state.yaml` (e.g. `current_step: 3`). Both are **read, not guessed** — `state.yaml` is the
+home of the cycle's position, so a fresh session resumes without asking. If `state.yaml` is missing,
+reconstruct it from the artifacts and confirm with the human.
 
 **1 · Focus.**
 Read the step's **gate checklist** and the **goals the active status sets for this step**
@@ -63,7 +64,10 @@ confidence per `CONVENTIONS.md`, marking its own proposals ⚙️.
 
 **7 · Update state.**
 The agent then:
-- ticks the step's **gate checklist** items now satisfied (and links them to the section they validate);
+- **records progress in `product/state.yaml`** — ticks the step's **gate checklist** items now
+  satisfied (each keyed by its `artifact#section` target — see the step README's gate checklist) and
+  sets `current_step` / `last_pass`. `state.yaml` is rewritten every pass; it is the single home of
+  cycle position and ticks;
 - **seeds / updates the registers** (hypotheses, risks, metric nodes) with stable IDs;
 - adds a dated **change-log** entry (from → to · why · trigger);
 - surfaces what remains open (`— to clarify —`).
@@ -72,6 +76,21 @@ The agent then:
 Move to the next checklist item / section, or the next step. If this pass **invalidated** a
 higher or lower artifact (e.g. a refuted hypothesis, a changed segment), raise that as a
 trigger per the step's cadence & invalidation rules — the loops feed each other both ways.
+
+## Instance state: `config.yaml` vs `state.yaml`
+
+Two files at the instance root, deliberately split by **who writes them and how often**:
+
+- **`config.yaml`** — *human-authored, rarely changes*: language, `active_status`, work directions,
+  metric source slots. Decisions, not progress.
+- **`state.yaml`** — *agent-written every pass*: `current_step`, `last_pass`, and the **gate ticks**.
+  It is the home of the cycle's **position** — never rules or product truth (those live in the
+  artifacts and registers). Keeping the frequent automatic write out of `config.yaml` is what stops
+  an agent from ever clobbering the human's decisions.
+
+A **gate item's stable id is its `artifact#section` target** (unique within a step — see each step
+README's gate checklist); where an item spans or repeats sections it carries an explicit `tick-id`.
+That id is its key in `state.yaml`. Tick values: `done` · `open` · `n/a` · `deferred`.
 
 ## What each plane contributes to a pass
 
@@ -85,9 +104,11 @@ trigger per the step's cadence & invalidation rules — the loops feed each othe
 
 ## Session handoff (state transfer between sessions/agents)
 
-The loop assumes one continuous context; reality restarts. Whenever a session boundary
-approaches, run the **`handoff` operations skill** (`tool-skills/operations/handoff/`) to write/update the instance's
-`HANDOFF.md` — *before* the boundary, not after:
+The loop assumes one continuous context; reality restarts. **Cycle position (current step, gate
+ticks) persists in `state.yaml`** — a fresh session resumes from it directly. For everything
+`state.yaml` doesn't hold (environment/access checks, open forks in flight), whenever a session
+boundary approaches run the **`handoff` operations skill** (`tool-skills/operations/handoff/`) to
+write/update the instance's `HANDOFF.md` — *before* the boundary, not after:
 
 - **Environment change needs a restart** (MCP config, extensions, tokens) → write the handoff,
   tell the human what to do, restart, then verify the handoff's "Environment & access" checks.

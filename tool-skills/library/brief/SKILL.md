@@ -1,7 +1,7 @@
 ---
 name: brief
 kind: template
-produces: brief
+produces: product/briefs/<slug>.md
 prerequisites: [the problem or opportunity this frames, who it is for, how success will be judged]
 reads_registers: [hypotheses, metrics, risks]
 writes_registers: []
@@ -18,7 +18,8 @@ updated: 2026-07-18
 
 A **one-page framing** that aligns a team before work starts — on an initiative, an experiment,
 or an epic — by stating the problem, the one goal, the metric that will judge it, what's in and
-out of scope, the constraints, and who decides. Fills `{#brief}`.
+out of scope, the constraints, and who decides. Produced as a **standalone one-page file** at
+`product/briefs/<slug>.md` (not an artifact section) — `to-document` can render it to `.docx` on request.
 
 **Method basis.** The structured brief: `problem · goal · target metric · scope in/out ·
 constraints · success criteria · decision owner`. Its whole value is forcing agreement on *why*
@@ -63,6 +64,8 @@ hands off to `concept-formation` (product-level) or `feature-spec`/`activity-spe
   `feature-spec` / `activity-spec`.
 
 ## Output
-Fills `{#brief}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml). A framing wrapper callable at any altitude; on approval it
+Produced as a one-page file at `product/briefs/<slug>.md` from
+[`template-fragment.md`](template-fragment.md); inputs via [`questions.yaml`](questions.yaml). It is
+its own document, not a section of a step artifact (an adapter may render it — `to-document` →
+`.docx`). A framing wrapper callable at any altitude; on approval it
 hands off to `concept-formation` (product-level) or `feature-spec` / `activity-spec` (build-level).

@@ -13,16 +13,18 @@ used_by_steps: [any]
 opinionated: false
 method_basis: "Structured shift-handover (SBAR-style): state · environment checks · open forks · next step"
 status: draft
-version: 0.3.0
-updated: 2026-07-19
+version: 0.4.0
+updated: 2026-07-21
 ---
 
 # Handoff — session-to-session state transfer
 
-**What it is.** A tool that writes/updates the instance's `HANDOFF.md` — the single file a
-fresh agent reads to resume work after a session restart, context loss, or agent switch,
-**without re-asking the human**. It restores *state*; the framework's rules restore *behavior*
-(see the required reading order below — a handoff must never become a substitute for the rules).
+**What it is.** A tool that writes/updates the instance's `HANDOFF.md` — the file a fresh agent
+reads to resume work after a session restart, context loss, or agent switch, **without re-asking the
+human**. **Cycle position — current step and gate ticks — lives in `state.yaml`, not here** (see
+OPERATING-LOOP → "Instance state"); the handoff carries only what `state.yaml` doesn't: the
+**environment / access checks** and the **open forks in flight**. The framework's rules restore
+*behavior* (see the required reading order below — a handoff must never become a substitute for the rules).
 
 **A handoff is a hint, not a source of truth.** The home of state is the registers and the
 artifacts; the receiving agent verifies the handoff's "where we are" against them, and treats
@@ -42,8 +44,9 @@ know is stale.
 
 ## Prerequisites
 
-- **The instance exists** — a `product/` or `instances/<name>/` working area to write `HANDOFF.md` into.
-- **Current position in the process is known** — step, section, open gate items.
+- **The instance exists** — a working area (e.g. `product/`) to write `HANDOFF.md` into.
+- **Cycle position is recorded in `state.yaml`** — current step and gate ticks (the handoff points at
+  it, it does not duplicate it).
 - **Open forks and pending human decisions are known.**
 
 ## How to do it
@@ -55,8 +58,9 @@ know is stale.
 2. Fill every section of `template-fragment.md`. Sections that deserve special care, from
    field-tested failures:
    - **Reading order** must start with the framework rules (`process/OVERVIEW → OPERATING-LOOP →
-     CONVENTIONS → REGISTERS`), *then* the handoff, *then* `sources/INDEX.md`. A handoff that
-     routes straight to sources produces an agent that works without rules.
+     CONVENTIONS → REGISTERS`), *then* `state.yaml` (position + gate ticks), *then* the handoff
+     (environment + open forks), *then* `sources/INDEX.md`. A handoff that routes straight to sources
+     produces an agent that works without rules.
    - **Environment & access** must be *verifiable*: for each dependency record (a) what it is,
      (b) how to CHECK it works (a command / a tool call), (c) how to RECOVER it (exact install
      link, profile/account it lives under, where the token goes). "It worked yesterday" is not
@@ -96,6 +100,15 @@ Writes/updates `HANDOFF.md` at the instance root via [`template-fragment.md`](te
 inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).
 
 ## Change log
+
+### 2026-07-21 — position moved to `state.yaml`; handoff narrows to environment + forks
+- **From → To:** the handoff used to carry the cycle **position** (step, gate items) → position now
+  lives in `product/state.yaml` (agent-written every pass). `HANDOFF.md` narrows to what `state.yaml`
+  doesn't hold: **environment/access checks** and **open forks in flight**. The resume reading order
+  now routes rules → `state.yaml` → handoff → `sources/INDEX.md`.
+- **Why:** position is rewritten every pass and belongs in one machine-readable home, not smuggled in
+  a prose handoff that can go stale; the split also lets `state-not-truth` be literally true.
+- **Trigger:** independent audit — state had no canonical home, 2026-07-21.
 
 ### 2026-07-19 — moved to `operations/`
 - **From → To:** `library/handoff/` → `tool-skills/operations/handoff/`. No behavior change.

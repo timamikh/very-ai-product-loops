@@ -1,6 +1,6 @@
 # jtbd — interview
 tool: jtbd
-produces: bets
+produces: [bets, jtbd]
 questions:
   - id: circumstance
     ask: "What's the circumstance/trigger — the situation the customer is in when this job shows up? (⚙️ agent drafts from interviews/kb)"

@@ -33,7 +33,7 @@ layered on top. Base = a real, neutral document; company = the house template.
 ## What it consumes
 - A **document profile** — which sections, in what order. Base profiles:
   - **one-pager** — `passport#concept` + `passport#problems` + `strategy#uvp-cpv` +
-    `strategy#pricing` + top `hypotheses` + one headline metric. (For a `brief`, use the `brief` section.)
+    `strategy#pricing` + top `hypotheses` + one headline metric. (For a `brief`, render the brief file `product/briefs/<slug>.md`.)
   - **full-doc** — a whole step artifact (e.g. all of `3-strategy.md`) cleaned for reading.
   - **report** — the weekly/period test readout: bundles tested → signals → decision (mirrors the
     `to-deck` report mapping, as a document).
@@ -46,7 +46,7 @@ layered on top. Base = a real, neutral document; company = the house template.
    show `— to clarify —` (never invent to fill a gap).
 2. **Order into a narrative.** Problem → who → value → how we'll know → status, or the profile's
    order. A document reads top-to-bottom; don't just concatenate tables.
-3. **Decode IDs & links for the reader.** In prose, never a bare `H-009`/`M-activation`/`[[…]]` —
+3. **Decode IDs & links for the reader.** In prose, never a bare `H-009`/`M-activation`/section link —
    write what it means, per CONVENTIONS "Talking to the human". IDs may stay in an appendix/summary
    table for traceability.
 4. **Carry confidence honestly.** Keep `[assumption]`/`[validated]` where a claim's status matters;

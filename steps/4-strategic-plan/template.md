@@ -20,7 +20,7 @@ updated: 2026-07-21
 # Strategic Plan — <Product>
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Last review: <date>
-> Inputs: [[strategy]] · registers. Feeds: [[tactical-plan]].
+> Inputs: `3-strategy.md` · registers. Feeds: `5-tactical-plan.md`.
 
 > ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
 > library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under

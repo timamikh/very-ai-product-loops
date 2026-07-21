@@ -1,6 +1,6 @@
 # analytics-search — interview
 tool: analytics-search
-produces: market-research
+produces: product/sources/<topic>-research.md
 questions:
   - id: research_questions
     ask: "What must this research answer — market size? a specific trend? a barrier? (scope it; 'research the market' returns noise)"

@@ -7,7 +7,7 @@ output: 1-passport.md
 cadence: "~ product lifetime; revisit on pivot or major learning"
 method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
-version: 0.3.0
+version: 0.4.0
 updated: 2026-07-21
 ---
 
@@ -41,6 +41,7 @@ swap or add tools per product (see [library](../../tool-skills/library/README.md
 | `jtbd` | The job + the four forces that gate switching (anchors segments/pains; feeds Step 2 substitutes) | `jtbd` |
 | `segments` | Who it's for — segments and how they're cut | `segmentation` |
 | `problems` | Each segment's problems (severity × frequency) | `segment-pains` |
+| `cjm` (optional) | The segment's journey over time — where it breaks (the temporal view behind `problems`) | `cjm` |
 | `solution` | How the product solves each problem | `concept-formation` |
 | `value-defensibility` | Value and moats (base + derivative) | `value-definition` |
 
@@ -60,6 +61,7 @@ checks, so "done" is verifiable, not vibes).
 - [ ] the customer's job stated with its four forces (push/pull/anxiety/habit) → `passport#jtbd`
 - [ ] at least one segment named, with its cut rationale → `passport#segments`
 - [ ] each named segment has ≥1 problem with severity × frequency → `passport#problems`
+- [ ] (optional) journey mapped where a drop-off needs explaining → `passport#cjm`
 - [ ] solution maps to the stated problems, no orphan features → `passport#solution`
 - [ ] intended moat(s) named, each with a confidence tag → `passport#value-defensibility`
 - [ ] every claim carries a confidence tag; unknowns are `— to clarify —` → `passport#to-clarify`
@@ -79,6 +81,15 @@ Decide at the forks the agent surfaces (which segment to lead with, which moat t
 The agent drafts everything else from sources and marks its proposals with ⚙️.
 
 ## Change log
+
+### 2026-07-21 — cjm gets a home section `{#cjm}` (optional)
+- **From → To:** cjm was a section-less lens whose output (`produces: cjm`) had nowhere to live → it
+  now owns an **optional** `passport#cjm` (journey stages · touchpoints · emotion curve · pains),
+  added to the artifact skeleton and a soft (optional) gate item. Mirrors the jtbd fix.
+- **Why:** a tool that `produces:` a section with no home is the same homeless-output bug fixed for
+  jtbd — the linter now catches it. cjm is optional (used when a drop-off needs explaining), so its
+  section and gate item are marked optional, not required.
+- **Trigger:** independent audit + wiring linter, 2026-07-21.
 
 ### 2026-07-21 — jtbd owns its own section `{#jtbd}`
 - **From → To:** jtbd was a section-less Step-1 lens (seeded hypotheses only) → it now owns

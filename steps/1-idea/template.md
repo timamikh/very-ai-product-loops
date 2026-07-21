@@ -4,7 +4,7 @@ artifact: passport
 step: 1
 title: "Product Passport — <Product>"
 status: template
-version: 0.3.1
+version: 0.3.2
 updated: 2026-07-21
 ---
 
@@ -60,6 +60,17 @@ _Each segment's problems, scored by severity × frequency._
 | Problem | Severity | Frequency | Class | Confidence |
 |---------|----------|-----------|-------|------------|
 | … | H/M/L | H/M/L | differentiator / table-stakes | [assumption] |
+
+## Customer Journey {#cjm}
+<!-- tool: cjm (optional lens — the temporal view behind #problems; fill when a drop-off needs explaining) -->
+_Optional. One segment's end-to-end journey doing the job over time — the stages and where it
+breaks. Fill when a flat pain list isn't enough (e.g. an unexplained drop-off). Its pains feed
+`#problems`; its touchpoints feed Step-3 `#product-surface`. Omit it if not needed — it is not a
+required passport section._
+
+| Stage | Actions | Touchpoints | Thoughts / emotions | Pains | Emotion (▲/▼) | Confidence |
+|-------|---------|-------------|---------------------|-------|---------------|------------|
+| … | … | … | … | … | ▼ | [assumption] |
 
 ## Solution {#solution}
 <!-- tool: concept-formation -->

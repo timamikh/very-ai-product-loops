@@ -96,9 +96,11 @@ def write_xlsx(sheets, out, stamp):
             longest = max([len(header[j])] + [len(r[j]) for r in rows if j < len(r)])
             ws.column_dimensions[get_column_letter(j + 1)].width = min(max(longest + 2, 8), 54)
         ws.freeze_panes = "A3"
+    os.makedirs(os.path.dirname(out) or ".", exist_ok=True)   # a fresh instance has no deliverables/ yet
     wb.save(out); print("saved", out, "· sheets:", wb.sheetnames)
 
 def write_csvs(sheets, outdir, stamp):
+    os.makedirs(outdir or ".", exist_ok=True)   # a fresh instance has no deliverables/ yet
     for tab, header, rows, src in sheets:
         path = os.path.join(outdir, re.sub(r"[^\w.-]+", "-", tab.lower()) + ".csv")
         with open(path, "w", newline="", encoding="utf-8") as f:
