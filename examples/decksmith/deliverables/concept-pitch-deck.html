@@ -7,6 +7,9 @@
     --accent-soft:rgba(42,92,255,.09); --warn:#D5382F;
     --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --pad-x:clamp(28px,4.4vw,60px);   /* slide side padding */
+    --pad-top:clamp(52px,7.6vh,82px);  /* reserved band for the meta row */
+    --pad-bot:clamp(38px,5.4vh,54px);  /* reserved band for the footer */
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -19,54 +22,53 @@
   /* ---------- stage / chrome ---------- */
   .stage{
     position:fixed;inset:0;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;padding:clamp(14px,3vh,34px);
-    background:
-      radial-gradient(120% 90% at 50% -10%, #171E29 0%, var(--chrome) 60%);
+    align-items:center;justify-content:center;padding:clamp(8px,1.5vh,16px);
+    background:radial-gradient(120% 90% at 50% -10%, #171E29 0%, var(--chrome) 65%);
   }
   .canvas{
-    position:relative;width:min(94vw, calc((100vh - 150px) * 1.6));
+    position:relative;width:min(97vw, calc((100vh - 74px) * 1.6));
     aspect-ratio:16/9;background:var(--canvas);
-    border:1px solid #E8E5DE;border-radius:5px;
-    box-shadow:0 40px 90px -30px rgba(0,0,0,.7), 0 4px 16px rgba(0,0,0,.35);
+    border:1px solid #E8E5DE;border-radius:4px;
+    box-shadow:0 16px 46px -22px rgba(0,0,0,.6);
     overflow:hidden;
   }
-
   /* corner registration ticks on the artboard */
   .canvas::before,.canvas::after{
-    content:"";position:absolute;width:9px;height:9px;pointer-events:none;
+    content:"";position:absolute;width:8px;height:8px;pointer-events:none;
     border-color:var(--line);border-style:solid;opacity:.9;
   }
-  .canvas::before{top:14px;left:14px;border-width:1px 0 0 1px}
-  .canvas::after{bottom:14px;right:14px;border-width:0 1px 1px 0}
+  .canvas::before{top:12px;left:12px;border-width:1px 0 0 1px}
+  .canvas::after{bottom:12px;right:12px;border-width:0 1px 1px 0}
 
   /* ---------- slides ---------- */
   .slide{
     position:absolute;inset:0;
-    padding:clamp(26px,5.2vw,74px);
+    padding:var(--pad-top) var(--pad-x) var(--pad-bot);
     display:flex;flex-direction:column;justify-content:center;
-    opacity:0;visibility:hidden;transform:translateY(10px);
-    transition:opacity .5s ease, transform .5s ease, visibility .5s;
+    opacity:0;visibility:hidden;transform:translateY(8px);
+    transition:opacity .45s ease, transform .45s ease, visibility .45s;
   }
   .slide.active{opacity:1;visibility:visible;transform:none}
 
+  /* meta lives inside the reserved top band, never overlapping content */
   .meta{
-    position:absolute;top:clamp(18px,3vw,34px);
-    left:clamp(26px,5.2vw,74px);right:clamp(26px,5.2vw,74px);
+    position:absolute;top:clamp(18px,2.7vh,28px);
+    left:var(--pad-x);right:var(--pad-x);
     display:flex;justify-content:space-between;align-items:baseline;
-    font-family:var(--mono);font-size:clamp(9px,1.05vw,12px);
-    letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+    font-family:var(--mono);font-size:clamp(9px,1vw,11.5px);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--faint);z-index:3;
   }
   .meta .sec{color:var(--accent-ink);font-weight:600}
 
-  h1{font-size:clamp(44px,9.2vw,124px);line-height:.9;margin:0;
+  h1{font-size:clamp(40px,7.8vw,102px);line-height:.9;margin:0;
      letter-spacing:-.035em;font-weight:680}
-  h2{font-size:clamp(24px,4.4vw,58px);line-height:1.02;margin:0 0 .5em;
-     letter-spacing:-.025em;font-weight:660;text-wrap:balance;max-width:20ch}
-  .lede{font-size:clamp(14px,1.85vw,23px);line-height:1.42;color:var(--muted);
+  h2{font-size:clamp(20px,3.55vw,43px);line-height:1.03;margin:0 0 .45em;
+     letter-spacing:-.022em;font-weight:660;text-wrap:balance;max-width:22ch}
+  .lede{font-size:clamp(12.5px,1.5vw,19px);line-height:1.4;color:var(--muted);
         max-width:34ch;font-weight:400}
-  .kicker{font-family:var(--mono);font-size:clamp(10px,1.15vw,13px);
+  .kicker{font-family:var(--mono);font-size:clamp(9.5px,1.05vw,12px);
           letter-spacing:.18em;text-transform:uppercase;color:var(--accent-ink);
-          margin-bottom:1.1em;font-weight:600}
+          margin-bottom:.9em;font-weight:600}
   mark{background:var(--accent-soft);color:var(--accent-ink);
        padding:.02em .18em;border-radius:3px}
   .mono{font-family:var(--mono)}
@@ -84,48 +86,48 @@
   .selwrap .h.bm{bottom:-5px;left:calc(50% - 4.5px)}
   .selwrap .h.ml{top:calc(50% - 4.5px);left:-5px}
   .selwrap .h.mr{top:calc(50% - 4.5px);right:-5px}
-  .hero .lede{margin-top:1.5em}
-  .hero .foot{position:absolute;left:clamp(26px,5.2vw,74px);
-    bottom:clamp(22px,3.4vw,42px);font-family:var(--mono);
-    font-size:clamp(9px,1.05vw,12px);color:var(--faint);letter-spacing:.06em}
+  .hero .lede{margin-top:1.3em}
+  .foot{position:absolute;left:var(--pad-x);bottom:clamp(16px,2.4vh,28px);
+    font-family:var(--mono);font-size:clamp(9px,1vw,11.5px);
+    color:var(--faint);letter-spacing:.05em}
 
   /* ---------- generic content grid ---------- */
-  .cols{display:grid;gap:clamp(14px,2vw,26px);margin-top:clamp(16px,2.4vw,30px)}
+  .cols{display:grid;gap:clamp(12px,1.6vw,20px);margin-top:clamp(12px,1.9vw,22px)}
   .c3{grid-template-columns:repeat(3,1fr)}
   .card{border:1px solid var(--line);border-radius:6px;
-        padding:clamp(14px,1.9vw,24px);background:#fff}
-  .card .n{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+        padding:clamp(11px,1.4vw,18px);background:#fff}
+  .card .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
            color:var(--faint);text-transform:uppercase}
-  .card h3{margin:.5em 0 .35em;font-size:clamp(15px,1.7vw,21px);
+  .card h3{margin:.45em 0 .3em;font-size:clamp(13px,1.45vw,18px);
            letter-spacing:-.01em;font-weight:640}
-  .card p{margin:0;font-size:clamp(12px,1.35vw,16px);line-height:1.4;
+  .card p{margin:0;font-size:clamp(11px,1.2vw,14px);line-height:1.38;
           color:var(--muted)}
   .card.killer{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
   .card.killer .n{color:var(--accent-ink)}
 
-  .pull{margin-top:clamp(16px,2.2vw,26px);font-size:clamp(14px,1.7vw,21px);
-        color:var(--ink);font-weight:560;max-width:40ch}
+  .pull{margin-top:clamp(10px,1.6vw,18px);font-size:clamp(12.5px,1.5vw,18px);
+        color:var(--ink);font-weight:560;max-width:42ch}
 
   /* stat slide */
-  .statrow{display:flex;gap:clamp(20px,4vw,54px);align-items:center;
-           margin-top:clamp(14px,2vw,26px);flex-wrap:wrap}
-  .bigstat{font-size:clamp(60px,12vw,150px);line-height:.85;
+  .statrow{display:flex;gap:clamp(18px,3.4vw,46px);align-items:center;
+           margin-top:clamp(10px,1.7vw,22px);flex-wrap:wrap}
+  .bigstat{font-size:clamp(52px,10vw,120px);line-height:.85;
            font-weight:700;letter-spacing:-.04em;color:var(--warn)}
-  .statside{max-width:26ch;font-size:clamp(13px,1.55vw,19px);
-            line-height:1.42;color:var(--muted)}
+  .statside{max-width:26ch;font-size:clamp(12px,1.4vw,17px);
+            line-height:1.4;color:var(--muted)}
+  .tag{display:inline-block;margin-top:1.1em;font-family:var(--mono);
+       font-size:clamp(10.5px,1.2vw,14px);color:var(--accent-ink);
+       border:1px solid var(--accent);border-radius:999px;
+       padding:.4em .9em;letter-spacing:.04em}
   .conf{font-family:var(--mono);font-size:.6em;letter-spacing:.05em;color:var(--faint);
         border:1px solid var(--line);border-radius:4px;padding:.14em .42em;
         vertical-align:middle;margin-left:.55em;white-space:nowrap}
   .conf.src{color:var(--accent-ink);border-color:var(--accent)}
-  .tag{display:inline-block;margin-top:1.2em;font-family:var(--mono);
-       font-size:clamp(11px,1.3vw,15px);color:var(--accent-ink);
-       border:1px solid var(--accent);border-radius:999px;
-       padding:.4em .9em;letter-spacing:.04em}
 
   /* flow slide */
   .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;
-        margin-top:clamp(18px,2.6vw,34px)}
-  .step{flex:1 1 0;min-width:120px;padding:clamp(12px,1.6vw,20px) clamp(10px,1.4vw,18px);
+        margin-top:clamp(12px,2vw,24px)}
+  .step{flex:1 1 0;min-width:110px;padding:clamp(10px,1.4vw,16px) clamp(9px,1.2vw,15px);
         border:1px solid var(--line);border-right:0;background:#fff;
         display:flex;flex-direction:column;gap:.3em}
   .step:first-child{border-radius:6px 0 0 6px}
@@ -134,53 +136,51 @@
   .step:last-child .st-k{color:var(--accent-ink)}
   .st-k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;
         text-transform:uppercase;color:var(--faint)}
-  .st-t{font-size:clamp(13px,1.5vw,18px);font-weight:600;letter-spacing:-.01em}
-  .arrow{align-self:center;color:var(--faint);font-size:18px;padding:0 4px}
+  .st-t{font-size:clamp(12px,1.4vw,17px);font-weight:600;letter-spacing:-.01em}
+  .arrow{align-self:center;color:var(--faint);font-size:16px;padding:0 4px}
 
-  .vp{display:flex;gap:clamp(14px,2.4vw,34px);margin-top:clamp(16px,2.2vw,28px);
+  .vp{display:flex;gap:clamp(12px,2.2vw,30px);margin-top:clamp(10px,1.7vw,22px);
       flex-wrap:wrap}
   .vp div{flex:1 1 140px}
-  .vp .vk{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  .vp .vk{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
           text-transform:uppercase;color:var(--accent-ink);font-weight:600}
-  .vp .vt{font-size:clamp(12px,1.35vw,16px);color:var(--muted);
-          line-height:1.4;margin-top:.35em}
+  .vp .vt{font-size:clamp(11px,1.2vw,15px);color:var(--muted);
+          line-height:1.38;margin-top:.35em}
 
   /* two-column layout */
-  .split{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(20px,3.4vw,54px);
+  .split{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(18px,3vw,46px);
          align-items:center}
   .players{display:flex;flex-wrap:wrap;gap:8px;margin-top:.4em}
-  .players span{font-family:var(--mono);font-size:clamp(11px,1.25vw,14px);
+  .players span{font-family:var(--mono);font-size:clamp(10.5px,1.15vw,13px);
     border:1px solid var(--line);border-radius:999px;padding:.34em .8em;
     color:var(--muted);background:#fff}
   .note{border-left:3px solid var(--warn);padding:.2em 0 .2em 1em;
-        font-size:clamp(13px,1.5vw,18px);line-height:1.42;color:var(--ink);
+        font-size:clamp(12px,1.4vw,17px);line-height:1.4;color:var(--ink);
         max-width:34ch;font-weight:500}
   .note b{color:var(--warn)}
 
-  .facts{list-style:none;margin:clamp(14px,2vw,26px) 0 0;padding:0;
-         display:flex;flex-direction:column;gap:clamp(12px,1.5vw,18px);max-width:52ch}
+  .facts{list-style:none;margin:clamp(10px,1.7vw,20px) 0 0;padding:0;
+         display:flex;flex-direction:column;gap:clamp(9px,1.2vw,15px);max-width:54ch}
   .facts li{display:grid;grid-template-columns:auto 1fr;gap:.9em;align-items:baseline}
-  .facts .lbl{font-family:var(--mono);font-size:clamp(11px,1.2vw,14px);
+  .facts .lbl{font-family:var(--mono);font-size:clamp(10.5px,1.15vw,13px);
     color:var(--accent-ink);white-space:nowrap;font-weight:600;letter-spacing:.02em}
-  .facts .txt{font-size:clamp(13px,1.5vw,18px);line-height:1.38;color:var(--ink)}
+  .facts .txt{font-size:clamp(12px,1.4vw,17px);line-height:1.36;color:var(--ink)}
   .facts .txt small{color:var(--muted);font-size:.82em}
 
-  .rule{display:flex;gap:0;margin-top:clamp(16px,2.2vw,26px);
+  .rule{display:flex;gap:0;margin-top:clamp(10px,1.7vw,20px);
         border:1px solid var(--line);border-radius:6px;overflow:hidden;flex-wrap:wrap}
-  .rule div{flex:1 1 120px;padding:clamp(10px,1.4vw,16px);border-right:1px solid var(--line)}
+  .rule div{flex:1 1 120px;padding:clamp(9px,1.3vw,15px);border-right:1px solid var(--line)}
   .rule div:last-child{border-right:0}
-  .rule .rv{font-family:var(--mono);font-weight:600;font-size:clamp(13px,1.5vw,18px)}
-  .rule .rl{font-size:clamp(11px,1.2vw,14px);color:var(--muted);margin-top:.3em;line-height:1.35}
+  .rule .rv{font-family:var(--mono);font-weight:600;font-size:clamp(12px,1.4vw,17px)}
+  .rule .rl{font-size:clamp(10.5px,1.15vw,13px);color:var(--muted);margin-top:.3em;line-height:1.34}
   .rule .go .rv{color:var(--accent-ink)} .rule .go{background:var(--accent-soft)}
   .rule .stop .rv{color:var(--warn)}
 
-  .close h2{max-width:22ch}
-  .closebig{font-size:clamp(30px,6vw,78px);line-height:.98;letter-spacing:-.03em;
-            font-weight:680;max-width:16ch;margin-top:.2em}
-  .closebig em{font-style:normal;color:var(--accent-ink)}
+  .close h2{max-width:24ch}
+  .pull.close-thesis{font-size:clamp(15px,1.9vw,24px);font-weight:640}
 
   /* ---------- controls ---------- */
-  .bar{margin-top:clamp(12px,2vh,22px);display:flex;align-items:center;
+  .bar{margin-top:clamp(6px,1.2vh,12px);display:flex;align-items:center;
        gap:16px;color:#8A93A0}
   .dots{display:flex;gap:7px}
   .dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;
@@ -272,12 +272,12 @@
             segments, not a top-down share of "all presentations."</p>
         </div>
         <div>
-          <div class="mono" style="font-size:12px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase">Who's already here</div>
+          <div class="mono" style="font-size:11.5px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase">Who's already here</div>
           <div class="players">
             <span>Gamma</span><span>Microsoft&nbsp;Copilot</span><span>Canva</span>
             <span>Beautiful.ai</span><span>Pitch</span><span>Tome</span>
           </div>
-          <div class="note" style="margin-top:1.4em"><b>The threat:</b> Copilot and Canva are
+          <div class="note" style="margin-top:1.3em"><b>The threat:</b> Copilot and Canva are
             entering the same wedge. The moat has to be the fidelity + design <b>engine</b>,
             not the app around it.</div>
         </div>
@@ -299,7 +299,7 @@
     <section class="slide" data-sec="06 — How we'll know">
       <h2>One metric decides whether the concept is real.</h2>
       <ul class="facts">
-        <li><span class="lbl">M-edit-fidelity</span><span class="txt"><b>≥ 90%</b> of exported objects natively editable — the concept-proving gate.</span></li>
+        <li><span class="lbl">Edit-fidelity</span><span class="txt"><b>≥ 90%</b> of exported objects natively editable <small>(M-edit-fidelity)</small> — the concept-proving gate.</span></li>
         <li><span class="lbl">North&nbsp;Star</span><span class="txt">Kept decks per week <small>— the value that has to repeat.</small></span></li>
         <li><span class="lbl">Guardrail</span><span class="txt">COGS ≤ $1 / deck <small>— LLM inference is a cost line, not overhead.</small></span></li>
         <li><span class="lbl">Red&nbsp;line</span><span class="txt" style="color:var(--warn)">No flatten-to-image shortcut — it would fake the entire wedge.</span></li>
@@ -309,8 +309,8 @@
     <!-- 8 — THE TEST -->
     <section class="slide" data-sec="07 — The test">
       <h2>A 6-week Concept Test with one learning goal.</h2>
-      <p class="lede">Can we build native edit-fidelity at scale? <span class="mono">(H-001)</span>
-        Everything else is sized to not over-invest before that signal.</p>
+      <p class="lede" style="max-width:44ch">Can we build native edit-fidelity at scale?
+        <span class="mono">(H-001)</span> Everything else is sized to not over-invest before that signal.</p>
       <div class="cols c3">
         <div class="card"><div class="n">Dev · F-1</div><h3>Native export slice</h3>
           <p>Generate → export one real <span class="mono">.pptx</span>; measure fidelity.</p></div>
@@ -326,18 +326,17 @@
       </div>
     </section>
 
-    <!-- 9 — CLOSE -->
+    <!-- 9 — THE ASK -->
     <section class="slide close" data-sec="08 — The ask">
       <div class="kicker">The decision on the table</div>
-      <h2 style="max-width:24ch">Fund a 6-week Concept Test to buy one honest signal.</h2>
-      <ul class="facts" style="margin-top:.6em">
+      <h2>Fund a 6-week Concept Test to buy one honest signal.</h2>
+      <ul class="facts">
         <li><span class="lbl">Commit</span><span class="txt">~6 weeks · founder + 1 eng · no paid acquisition — the smallest test that can answer it.</span></li>
         <li><span class="lbl">Decide</span><span class="txt">Go / no-go on the native edit-fidelity read: <b>≥ 90%</b> → build on · <b>&lt; 70%</b> → stop or pivot.</span></li>
         <li><span class="lbl">Today</span><span class="txt">Everything is <span class="mono">[assumption]</span> — this is the cheapest way to get the first real evidence.</span></li>
       </ul>
-      <p class="pull" style="margin-top:1em">If the export is real, the wedge is real.</p>
-      <div class="foot" style="position:absolute;left:clamp(26px,5.2vw,74px);bottom:clamp(22px,3.4vw,42px);font-family:var(--mono);font-size:clamp(9px,1.05vw,12px);color:var(--faint)">
-        Fictional sample · rendered by very-ai-product-loops (to-deck) · concept-viability</div>
+      <p class="pull close-thesis">If the export is real, the wedge is real.</p>
+      <div class="foot">Fictional sample · rendered by very-ai-product-loops (to-deck) · concept-viability</div>
     </section>
 
     <div class="meta"><span class="sec"></span><span class="num mono"></span></div>

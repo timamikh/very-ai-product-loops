@@ -18,6 +18,11 @@ Render a **register or an artifact section** into a **flat, shareable table** �
 scoreboard, the metric series, the market-bundle registry, a sprint backlog — in CSV (for
 Sheets/Excel), markdown (for a doc/PR), or TSV.
 
+Unlike a deck, a table is **already human-consumable in these formats**: a **CSV opens directly in
+Excel/Sheets** and a markdown table drops straight into a doc or PR. So the emitted CSV (or markdown)
+file *is* the finished deliverable — not an intermediate step. (For a single file with several
+tables as tabs, a company adapter can emit `.xlsx`; the base stays CSV/markdown/TSV.)
+
 **What it is for.** The instance already holds tables (registers, skeleton sections). `to-table`
 *selects*, *flattens*, *filters*, and *reshapes* them into the exact table a human wants to paste
 into a spreadsheet or a report — without hand-copying, and re-runnable when the source changes.
@@ -70,4 +75,15 @@ _Source: `tactical-plan#market-bundles`, readiness=ready, sorted by signal tier 
 
 ## Company specialization
 A company adapter can wrap `to-table` to emit a specific internal form (e.g. a scoring sheet in a
-fixed column order). It re-skins the output; the selection/flattening logic stays here.
+fixed column order) or a single multi-tab `.xlsx` workbook. It re-skins the output; the
+selection/flattening logic stays here.
+
+## Change log
+
+### 2026-07-21 — CSV/markdown affirmed as finished deliverables
+- **From → To:** stated that a table is already human-consumable in its base formats (CSV opens in
+  Excel/Sheets; markdown drops into a doc/PR), so the emitted file *is* the deliverable — no
+  intermediate step. Noted `.xlsx` (multi-tab) as a company-adapter option. No format change.
+- **Why:** aligns with the sharpened adapters purpose (agent-readable → human-consumable). Unlike
+  `to-deck`/`to-document`, `to-table` already terminated at a usable file, so only the wording changed.
+- **Trigger:** decksmith live run — rendering the registers/plan sections as CSV.

@@ -1,0 +1,12 @@
+# Hypotheses — source: registers/hypotheses.md · rendered 2026-07-21 (to-table)
+id,hypothesis,type,status,born,test,confidence
+H-001,"Engine reliably produces native files both genuinely editable AND well-designed, at scale",feasibility,testing,Step 1,Step4 M-edit-fidelity >=90% (fail <70%); Step5 20 test decks + decision rule; Step6 F-1+T-1 first read,assumption
+H-002,Salespeople & marketers are a reachable segment who feel 'AI decks look templated' (P1) enough to switch,desirability,open,Step 1,discovery interviews + demand test (Step 5),assumption
+H-003,"'Wrong structure/framing' (P2) is a top pain worth solving, not just styling slides",desirability,open,Step 1,discovery interviews (Step 5),assumption
+H-004,The editable-and-beautiful quality is defensible (survives an LLM rebuild); pressured at Step 2 by Copilot/Canva,viability/moat,open,Step 1,observe replication attempts / sustained quality gap (Step 3+),assumption
+H-005,A native high-fidelity editable+designed deck is a real unmet need the lead segment values over web-format generation,desirability/viability,testing,Step 2,Step4 M-activation >=30% (fail <10%); Step5 demand probe B-01/B-03 >=10 qualified trials; Step6 A-1 seeds B-01,assumption
+H-006,The obtainable market is large enough to build a business on (bottom-up SAM ~$750M),viability,open,Step 2,validate reachable-count + price + adoption (Step 4),assumption
+H-007,"For the beachhead job, actually-editable + designed native decks is a strong enough wedge to switch",desirability,open,Step 3,Step4 M-wk-retention flattens >0; demand test (Step 5),assumption
+H-008,A standalone native-fidelity+design engine can stay ahead of incumbents long enough to build lock-in,viability/moat,open,Step 3,sustained quality gap + retention once customers exist (pmf),assumption
+H-009,The beachhead will pay a standalone subscription (~$15-25) despite incumbents bundling,viability,open,Step 3,Step4 WTP >=$15/mo (fail <$10); price-talk pilot (Step 5),assumption
+H-010,Sales/marketing communities + product-led virality acquire the beachhead at viable CAC,viability,open,Step 3,channel tests with pre-set CAC threshold (Step 5),assumption
