@@ -196,10 +196,15 @@
   @media (prefers-reduced-motion:reduce){
     .slide{transition:opacity .01s}*{scroll-behavior:auto}}
 
+  /* per-slide meta (section label + number) — injected by JS, shown only in print.
+     On screen the single live .meta row does this job; in a stacked print layout each
+     page needs its own, so every slide carries a static copy. */
+  .pmeta{display:none}
+
   /* ---------- print / PDF: one slide per landscape page ----------
      The to-deck renderer prints this file to PDF via a headless browser.
      Reveal every slide (screen shows one at a time), size each to a 16:9
-     page, drop the on-screen chrome, and force color fills to print. */
+     page, drop the live chrome, show the per-slide meta, force color fills. */
   @media print{
     @page{size:1280px 720px;margin:0}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -213,6 +218,10 @@
       opacity:1!important;visibility:visible!important;transform:none!important;
       break-after:page;page-break-after:always}
     .slide:last-child{break-after:auto;page-break-after:auto}
+    .pmeta{display:flex;position:absolute;top:34px;left:60px;right:60px;
+      justify-content:space-between;align-items:baseline;z-index:5;
+      font-family:var(--mono);font-size:13px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--faint)}
   }
 </style>
 
@@ -385,6 +394,13 @@
   });
   var dots=[].slice.call(dotsEl.children);
   function pad(n){return (n<10?'0':'')+n}
+  // stamp each slide with its own meta (section + number) for the printed PDF
+  slides.forEach(function(s,n){
+    var pm=document.createElement('div'); pm.className='pmeta';
+    var a=document.createElement('span'); a.textContent=s.getAttribute('data-sec')||'';
+    var b=document.createElement('span'); b.textContent=pad(n+1)+' / '+pad(slides.length);
+    pm.appendChild(a); pm.appendChild(b); s.appendChild(pm);
+  });
   function render(){
     slides.forEach(function(s,n){s.classList.toggle('active',n===i)});
     dots.forEach(function(d,n){d.classList.toggle('on',n===i)});

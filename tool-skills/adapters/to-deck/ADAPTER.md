@@ -72,8 +72,13 @@ Base = a real, neutral deck you can already present; company = the brand skin.
    - `prefers-reduced-motion` respected;
    - a **print block** so the deck exports cleanly to PDF (the next step). On screen the deck shows
      one slide at a time; `@media print` must reveal **every** slide, size each to one landscape
-     page, hide the on-screen chrome (nav, counter, progress), and keep color fills. The canonical
-     block (paste as-is, adjust the page size to the deck's aspect ratio):
+     page, hide the on-screen chrome (nav, counter, progress), and keep color fills. **Watch the
+     meta row:** a live "section label · NN / TT" chrome is usually a single element updated by JS
+     for the *current* slide — in a stacked print layout that element appears once, so the other
+     pages lose their numbering/section. Give **each slide its own static copy** of that meta (e.g.
+     inject a per-slide `.pmeta` from the slide's data + index; show it only in print) so every PDF
+     page keeps its section heading and slide number. The canonical block (paste as-is, adjust the
+     page size to the deck's aspect ratio):
      ```css
      @media print{
        @page{size:1280px 720px;margin:0}                    /* 16:9 page */
