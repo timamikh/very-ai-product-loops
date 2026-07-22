@@ -2,8 +2,8 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: released
-version: 0.8.0
-updated: 2026-07-21
+version: 0.8.2
+updated: 2026-07-22
 ---
 
 # very-ai-product-loops
@@ -17,6 +17,8 @@ from and how sure we are.
 
 > Idea → Analysis → Strategy → Strategic plan → Tactical plan → Sprint plan — as **nested loops**
 > that keep feeding back into each other, not a one-way waterfall.
+
+![very-ai-product-loops on one page — six steps, three living registers running through them, the working loop, and how the framework is built](docs/onepager.png)
 
 ---
 
