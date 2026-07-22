@@ -1,0 +1,262 @@
+<title>very-ai-product-loops — one-pager</title>
+<style>
+  :root{
+    --chrome:#0C1016; --canvas:#FAF9F6; --paper:#FFFFFF;
+    --ink:#14171D; --muted:#5B6470; --faint:#9AA1AC; --line:#E7E4DD; --line-2:#D9D5CC;
+    --accent:#2A5CFF; --accent-ink:#1D46D6; --accent-soft:rgba(42,92,255,.08);
+    --hyp:#1D46D6; --hyp-soft:rgba(29,70,214,.08);
+    --risk:#C4362D; --risk-soft:rgba(196,54,45,.08);
+    --met:#1E7A5A; --met-soft:rgba(30,122,90,.09);
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--chrome);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .sheet{
+    width:1400px;height:990px;margin:0 auto;background:var(--canvas);
+    padding:34px 40px 26px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;
+  }
+  /* corner registration ticks — house motif from the deck */
+  .sheet::before,.sheet::after{content:"";position:absolute;width:9px;height:9px;border-color:var(--line-2);border-style:solid}
+  .sheet::before{top:14px;left:16px;border-width:1px 0 0 1px}
+  .sheet::after{bottom:14px;right:16px;border-width:0 1px 1px 0}
+
+  /* ---------- header ---------- */
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+        border-bottom:1.5px solid var(--accent);padding-bottom:13px}
+  .brandwrap{position:relative}
+  h1{font-size:37px;line-height:.95;letter-spacing:-.03em;font-weight:720}
+  .tag{margin-top:7px;font-size:13.5px;color:var(--muted);max-width:62ch;line-height:1.35}
+  .tag b{color:var(--ink);font-weight:600}
+  .chips{display:flex;gap:8px;flex-shrink:0;align-items:stretch}
+  .chip{font-family:var(--mono);font-size:10px;letter-spacing:.02em;line-height:1.3;color:var(--accent-ink);
+        border:1px solid var(--accent);border-radius:7px;padding:9px 11px;width:165px;background:var(--accent-soft);
+        display:flex;flex-direction:column}
+  .chip b{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;min-height:2.6em}
+
+  /* ---------- hero: descent | matrix | feedback ---------- */
+  .hero{flex:1;display:flex;gap:14px;min-height:0}
+  .kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+        color:var(--faint);font-weight:600}
+
+  /* left descent gutter */
+  .descent{width:54px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;
+           padding-top:34px;padding-bottom:6px}
+  .descent .bar{flex:1;width:2px;background:linear-gradient(to bottom,var(--accent) 0%,#8AA0FF 100%);position:relative;border-radius:2px}
+  .descent .bar::after{content:"";position:absolute;bottom:-1px;left:-4px;border:5px solid transparent;border-top-color:#8AA0FF}
+  .descent .lab{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--mono);font-size:9.5px;
+                letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:8px 0}
+
+  /* matrix */
+  .matrix{flex:1;display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;
+          grid-template-rows:auto repeat(6,1fr);gap:0 10px;min-width:0}
+  .colh{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+         font-weight:700;padding:0 0 7px;display:flex;align-items:flex-end;gap:6px}
+  .colh.steps{color:var(--ink)}
+  .colh .born{font-size:8.5px;letter-spacing:.04em;color:var(--faint);font-weight:500;text-transform:none}
+  .colh.h{color:var(--hyp)} .colh.r{color:var(--risk)} .colh.m{color:var(--met)}
+
+  /* step cell */
+  .step{display:flex;align-items:center;gap:12px;padding:8px 12px;border:1px solid var(--line);
+        border-radius:8px;background:var(--paper);margin:3px 0}
+  .step .no{font-family:var(--mono);font-weight:700;font-size:16px;color:#fff;background:var(--accent-ink);
+            width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step .body{min-width:0;flex:1}
+  .step .nm{font-size:15px;font-weight:650;letter-spacing:-.01em;line-height:1.1}
+  .step .meta{font-size:10.5px;color:var(--muted);margin-top:2px;line-height:1.2}
+  .step .meta .art{font-family:var(--mono);color:var(--accent-ink)}
+  .step .hz{font-family:var(--mono);font-size:9.5px;color:var(--faint);white-space:nowrap;flex-shrink:0;text-align:right}
+
+  /* register rail cell */
+  .cell{position:relative;display:flex;align-items:center;justify-content:center;margin:3px 0;padding:4px 6px}
+  .cell .rail{position:absolute;top:-3px;bottom:-3px;left:50%;width:2px;transform:translateX(-50%);z-index:0}
+  .cell.hyp .rail{background:var(--hyp)} .cell.risk .rail{background:var(--risk)} .cell.met .rail{background:var(--met)}
+  .cell.off{opacity:1}
+  .cell.off .dash{font-family:var(--mono);font-size:11px;color:#CBCFD6}
+  .tagx{position:relative;z-index:1;font-family:var(--mono);font-size:10px;line-height:1.15;text-align:center;
+        background:var(--canvas);padding:3px 7px;border-radius:6px;max-width:100%}
+  .cell.hyp .tagx{color:var(--hyp)} .cell.risk .tagx{color:var(--risk)} .cell.met .tagx{color:var(--met)}
+  .tagx.birth{font-weight:700;border:1px solid currentColor;background:var(--paper)}
+  .tagx .dot{font-size:12px;vertical-align:-1px}
+  .tagx.faint{color:#B9BEC6;font-weight:500}
+
+  /* feedback up gutter */
+  .feedback{width:60px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:34px;padding-bottom:6px}
+  .feedback .bar{flex:1;width:2px;background:repeating-linear-gradient(to bottom,var(--met) 0 6px,transparent 6px 12px);position:relative}
+  .feedback .bar::before{content:"";position:absolute;top:-1px;left:-4px;border:5px solid transparent;border-bottom-color:var(--met)}
+  .feedback .lab{writing-mode:vertical-rl;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+                 text-transform:uppercase;color:var(--met);margin:8px 0;font-weight:600;text-align:center;line-height:1.3}
+
+  /* ---------- bottom strip ---------- */
+  .strip{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:12px;height:196px}
+  .panel{border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+  .panel h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink);font-weight:700}
+  .panel h3 span{color:var(--faint);font-weight:500;text-transform:none;letter-spacing:0}
+
+  /* loop flow */
+  .flow{display:flex;flex-wrap:wrap;gap:5px 0;align-items:center}
+  .fstep{font-size:11px;line-height:1.15;padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--canvas)}
+  .fstep b{font-weight:650}
+  .fstep.you{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+  .farr{color:var(--faint);font-size:12px;padding:0 4px}
+  .loopnote{font-size:10.5px;color:var(--muted);line-height:1.3;margin-top:auto}
+  .loopnote code{font-family:var(--mono);color:var(--accent-ink);font-size:10px}
+
+  /* architecture */
+  .arch{display:flex;flex-direction:column;gap:7px}
+  .archrow .rl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:3px}
+  .pills{display:flex;flex-wrap:wrap;gap:4px}
+  .pill{font-family:var(--mono);font-size:10px;padding:4px 8px;border-radius:5px;border:1px solid var(--line-2);color:var(--ink);background:var(--canvas)}
+  .pill.core{border-color:var(--ink);color:var(--ink);font-weight:600}
+  .pill.plug{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+  .archnote{font-size:10px;color:var(--muted);line-height:1.3;margin-top:auto}
+
+  /* deliverables */
+  .deliv{display:flex;flex-direction:column;gap:7px}
+  .drow{display:flex;align-items:center;gap:9px;font-size:11.5px}
+  .drow .fmt{font-family:var(--mono);font-weight:700;font-size:11px;color:#fff;background:var(--accent-ink);
+             border-radius:5px;padding:3px 7px;min-width:52px;text-align:center}
+  .drow .fmt.x{background:#1E7A5A} .drow .fmt.d{background:#1D46D6} .drow .fmt.p{background:#C4362D}
+  .drow .dd{color:var(--muted);line-height:1.2}
+  .drow .dd b{color:var(--ink);font-weight:600}
+  .delivnote{font-size:10px;color:var(--muted);line-height:1.3;margin-top:auto}
+
+  .foot{position:absolute;left:40px;right:40px;bottom:14px;display:flex;justify-content:space-between;
+        font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.04em}
+  @media print{ @page{size:1400px 990px;margin:0} *{-webkit-print-color-adjust:exact;print-color-adjust:exact} body{background:#fff} }
+</style>
+
+<div class="sheet">
+
+  <!-- HEADER -->
+  <div class="head">
+    <div class="brandwrap">
+      <h1>very-ai-product-loops</h1>
+      <div class="tag">Product strategy you run <b>with an AI agent</b> — from a raw idea to a sprint
+        plan. The agent prepares; <b>you decide at every fork</b>.</div>
+    </div>
+    <div class="chips">
+      <div class="chip"><b>Nothing invented</b>every fact comes from your own materials</div>
+      <div class="chip"><b>Source + confidence</b>every claim is tagged with both</div>
+      <div class="chip"><b>The human decides</b>the agent proposes options, you choose</div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+
+    <!-- descent gutter -->
+    <div class="descent">
+      <div class="kick" style="text-align:center;line-height:1.2">descent</div>
+      <div class="bar"></div>
+      <div class="lab">lower down = shorter horizon, faster cadence</div>
+    </div>
+
+    <!-- matrix -->
+    <div class="matrix">
+      <div class="colh steps">Six steps — from concept to sprint</div>
+      <div class="colh h">Hypotheses <span class="born">born&nbsp;at&nbsp;1</span></div>
+      <div class="colh r">Risks <span class="born">at&nbsp;2</span></div>
+      <div class="colh m">Metrics <span class="born">at&nbsp;4</span></div>
+
+      <!-- step 1 -->
+      <div class="step"><div class="no">1</div><div class="body"><div class="nm">Idea / Concept</div>
+        <div class="meta">what it is, for whom, why it wins · <span class="art">1-passport.md</span></div></div>
+        <div class="hz">product<br>lifetime</div></div>
+      <div class="cell hyp"><span class="rail"></span><span class="tagx birth"><span class="dot">●</span> seeds H-001…</span></div>
+      <div class="cell off"><span class="dash">—</span></div>
+      <div class="cell off"><span class="dash">—</span></div>
+
+      <!-- step 2 -->
+      <div class="step"><div class="no">2</div><div class="body"><div class="nm">Analysis</div>
+        <div class="meta">market, competitors, substitutes, sizing · <span class="art">2-analysis.md</span></div></div>
+        <div class="hz">~6–12 mo</div></div>
+      <div class="cell hyp"><span class="rail"></span></div>
+      <div class="cell risk"><span class="rail"></span><span class="tagx birth"><span class="dot">●</span> seeds R-…</span></div>
+      <div class="cell off"><span class="dash">—</span></div>
+
+      <!-- step 3 -->
+      <div class="step"><div class="no">3</div><div class="body"><div class="nm">Strategy</div>
+        <div class="meta">where to play, how to win, pricing, channels · <span class="art">3-strategy.md</span></div></div>
+        <div class="hz">~3–12 mo</div></div>
+      <div class="cell hyp"><span class="rail"></span><span class="tagx">bets → H</span></div>
+      <div class="cell risk"><span class="rail"></span><span class="tagx">product risks</span></div>
+      <div class="cell off"><span class="dash">—</span></div>
+
+      <!-- step 4 -->
+      <div class="step"><div class="no">4</div><div class="body"><div class="nm">Strategic Plan</div>
+        <div class="meta">metric tree, unit economics, risks · <span class="art">4-strategic-plan.md</span></div></div>
+        <div class="hz">~3–12 mo</div></div>
+      <div class="cell hyp"><span class="rail"></span><span class="tagx">quantify</span></div>
+      <div class="cell risk"><span class="rail"></span><span class="tagx">mitigation + owner</span></div>
+      <div class="cell met"><span class="rail"></span><span class="tagx birth"><span class="dot">●</span> metric tree</span></div>
+
+      <!-- step 5 -->
+      <div class="step"><div class="no">5</div><div class="body"><div class="nm">Tactical Plan</div>
+        <div class="meta">the bets for this quarter, guardrails · <span class="art">5-tactical-plan.md</span></div></div>
+        <div class="hz">~1–3 mo</div></div>
+      <div class="cell hyp"><span class="rail"></span><span class="tagx">test design</span></div>
+      <div class="cell risk"><span class="rail"></span><span class="tagx">period blockers</span></div>
+      <div class="cell met"><span class="rail"></span><span class="tagx">select nodes</span></div>
+
+      <!-- step 6 -->
+      <div class="step"><div class="no">6</div><div class="body"><div class="nm">Sprint Plan</div>
+        <div class="meta">prioritized items for the sprint · <span class="art">6-sprint-plan.md</span></div></div>
+        <div class="hz">~1–2 wk</div></div>
+      <div class="cell hyp"><span class="rail"></span><span class="tagx">experiment tasks</span></div>
+      <div class="cell risk"><span class="rail"></span><span class="tagx">mitigation task</span></div>
+      <div class="cell met"><span class="rail"></span><span class="tagx">task ↔ metric</span></div>
+    </div>
+
+    <!-- feedback gutter -->
+    <div class="feedback">
+      <div class="kick" style="text-align:center;line-height:1.2;color:var(--met)">loops</div>
+      <div class="bar"></div>
+      <div class="lab">results below reshape the steps above — the whole cycle re-forms</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM STRIP -->
+  <div class="strip">
+
+    <div class="panel">
+      <h3>One pass <span>· every session starts with start-work</span></h3>
+      <div class="flow">
+        <span class="fstep"><b>Orient</b><br>where the product is</span><span class="farr">→</span>
+        <span class="fstep"><b>Method</b><br>for the task</span><span class="farr">→</span>
+        <span class="fstep"><b>Inputs</b><br>present? if not, fetched</span><span class="farr">→</span>
+        <span class="fstep"><b>Draft</b><br>sourced + ⚙️</span><span class="farr">→</span>
+        <span class="fstep you"><b>Fork</b><br>you decide</span><span class="farr">→</span>
+        <span class="fstep"><b>Record</b><br>artifact, registers</span>
+      </div>
+      <div class="loopnote">One step at a time — not “generate the whole strategy”. A gap is never guessed —
+        it's marked <code>— to clarify —</code>. Artifacts keep a dated trail: how it was → what changed → why.</div>
+    </div>
+
+    <div class="panel">
+      <h3>How it's built <span>· fixed core + pluggable parts</span></h3>
+      <div class="arch">
+        <div class="archrow"><div class="rl">Fixed core — changes rarely</div>
+          <div class="pills"><span class="pill core">process</span><span class="pill core">steps</span><span class="pill core">statuses</span><span class="pill core">registers</span></div></div>
+        <div class="archrow"><div class="rl">Pluggable tool-skills — swapped per company</div>
+          <div class="pills"><span class="pill plug">library · methods</span><span class="pill plug">operations · runtime</span><span class="pill plug">adapters · output</span></div></div>
+      </div>
+      <div class="archnote">The rules of the game stay fixed; methods and output formats plug in and swap — without forking the framework.</div>
+    </div>
+
+    <div class="panel">
+      <h3>Deliverables <span>· adapters assemble from the working area</span></h3>
+      <div class="deliv">
+        <div class="drow"><span class="fmt x">.xlsx</span><span class="dd"><b>Table</b> — registers &amp; plans for work and sign-off</span></div>
+        <div class="drow"><span class="fmt d">.docx</span><span class="dd"><b>Document</b> — a brief or memo for a colleague / lead</span></div>
+        <div class="drow"><span class="fmt p">PDF</span><span class="dd"><b>Deck</b> — a presentation for a meeting or chat</span></div>
+      </div>
+      <div class="delivnote">Same data, different formats. You never re-assemble by hand.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Install: ask the agent to “install very-ai-product-loops for this project” → then “set up the product”.</span>
+    <span>v0.8.2 · MIT · github.com/timamikh/very-ai-product-loops</span>
+  </div>
+</div>
