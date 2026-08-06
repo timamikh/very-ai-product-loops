@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>very-ai-product-loops · console</title>
+<link rel="stylesheet" href="/app/app.css">
+</head>
+<body>
+<!-- Chrome is English, like every other framework file; the *content* stays in the instance's own
+     language, because it is read from the instance. All UI strings live in one STR object in app.js
+     so a locale can be added by translating that object (phase 5: pick it from config.yaml language). -->
+<header class="top">
+  <div class="brand">
+    <div class="mark">loops</div>
+    <div class="who">
+      <h1 id="product">…</h1>
+      <div class="sub" id="subline"></div>
+    </div>
+  </div>
+  <div class="chips" id="chips"></div>
+</header>
+
+<nav class="tabs" id="tabs"></nav>
+
+<main id="view"><div class="loading">reading the product folder…</div></main>
+
+<footer class="foot">
+  <span id="footpath"></span>
+  <span class="dot">·</span>
+  <span id="footrev">read-only — the console never writes to the instance</span>
+</footer>
+
+<script src="/app/app.js"></script>
+</body>
+</html>

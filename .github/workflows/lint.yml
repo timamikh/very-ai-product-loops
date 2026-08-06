@@ -21,3 +21,5 @@ jobs:
           python-version: "3.x"
       - name: Run the wiring/enum linter
         run: python3 tools/lint.py
+      - name: Smoke-test the shared read layer (tools/loops)
+        run: python3 tools/loops/selftest.py
