@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.6.0
-updated: 2026-07-21
+version: 0.7.0
+updated: 2026-08-03
 ---
 
 # Conventions
@@ -74,6 +74,33 @@ part of the path you link to: `3-strategy.md#bets`, `../1-passport.md#concept`. 
 "logical id" to resolve and no prefix to strip — you link the actual file, and a section is
 identified by its bare `{#anchor}` within it. (Registers and deliverables are not step outputs and
 take no numeric prefix.)
+
+## Instance config (`config.yaml`) — the pinned schema
+
+`config.yaml` is the **human's decisions** about the instance (the cycle's position lives in
+`state.yaml` — see OPERATING-LOOP). Its keys are canon, spelled exactly one way. A second spelling is
+a place two readers diverge, so the linter enforces this table.
+
+| Key | Required | Shape | What it is |
+|-----|----------|-------|------------|
+| `product` | **yes** | text | the product's name as a human says it (never inferred from the folder) |
+| `language` | **yes** | `ru` · `en` · … | the documentation language; tools also read it for their own UI |
+| `active_status` | **yes** | a status name from `statuses/` | the stage the loops are parameterized by |
+| `directions` | **yes** | list | execution streams for Steps 5–6 (default: `development` · `go-to-market` · `back-office`) |
+| `scope_note` | no | text (block scalar) | what is in and out of this instance's scope, in prose |
+| `metric_source_slots` | no | map | where metric data comes from — *where* it lives and how to reach it, **never a secret value** |
+| `sources` | no | list of paths | the origin documents this instance was built from |
+| `products` | no | map | **multi-product instance only**: `<name>: { path, title, goal, users, active_status }`, one sub-folder per product, each with its own artifacts, `state.yaml` and `registers/`; the sub-products inherit everything above from this file |
+
+Rules:
+
+- **Nothing else is load-bearing.** Extra keys are allowed but no tool may depend on them (the linter
+  reports them so they don't quietly become de-facto schema).
+- **No alias spellings.** `metric_sources`, `product_scope`, `lang`, `title` are *not* accepted forms —
+  fix the key, don't add a reader.
+- **Readers stay tolerant, the linter stays strict.** A reader that meets an off-canon key should still
+  show the data (a product manager must not see an empty screen because of a key name) *and* surface
+  the drift. Tolerance is for the human's benefit; it is never permission.
 
 ## One mechanism, one way
 

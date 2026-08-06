@@ -73,7 +73,9 @@ Timeframes are indicative — each team moves at its own pace.
 
 ## Quickstart
 
-Two separate phases, through an AI agent (Claude Code / Claude Desktop):
+Two separate phases, through **any** AI agent that can read and write files (Claude Code, Codex,
+Cursor, a chat window with the repo attached — see
+[*Running on an agent other than Claude Code*](install/README.md)):
 
 1. **Install** — point the agent at this repo and ask it to install the framework for your project.
    It vendors the framework (read-only, pinned to a version). No product is set up yet.
@@ -106,10 +108,19 @@ and how each stage prioritizes them are swappable per company, without forking t
 
 To find a skill for a task, pick the category by phase (produce a section → `library`; render a deliverable → `adapters`; carry state across a restart → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.
 
+Adapting the framework to your company — a new method, a new stage, different work directions — has one procedure per dial: [`EXTENDING.md`](EXTENDING.md).
+
+**The tooling** — plain scripts over the same files, no dependencies beyond `python3`:
+
+- **Linter** (`tools/lint.py`) — checks the framework's wiring and every instance's registers against the canon; runs in CI.
+- **Local console** (`tools/ui/serve.py`) — `python3 tools/ui/serve.py` opens a browser view of one instance: where the cycle stands, what each gate still has open, the registers, the metric series, every `— to clarify —`, and the change-log timeline. **Read-only by design** — a viewer, not an interface to the process: the human asks an agent, the agent writes the files, the console shows what they now say. See [`tools/ui/README.md`](tools/ui/README.md).
+- Both read through one shared layer (`tools/loops/`), so the linter and the console can never disagree about what the canon says.
+
 ## How the agent reads the repo (for the curious)
 
-An agent working here boots in a fixed order — the environment auto-loads the root
-[`CLAUDE.md`](CLAUDE.md), which sends it through the rules first:
+An agent working here boots in a fixed order. The rules live in one file, [`AGENTS.md`](AGENTS.md)
+(the cross-vendor convention; the root [`CLAUDE.md`](CLAUDE.md) is a pointer to it, because Claude Code
+auto-loads that name). It sends the agent through the rules first:
 
 1. [`process/OVERVIEW.md`](process/OVERVIEW.md) — the model and the philosophy it lives by.
 2. [`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) — the runtime: how one pass of a step runs.
@@ -117,8 +128,9 @@ An agent working here boots in a fixed order — the environment auto-loads the 
 4. [`process/REGISTERS.md`](process/REGISTERS.md) — register schemas (hypotheses / risks / metric tree).
 5. Then the instance: its `HANDOFF.md` (if present) → `sources/INDEX.md` → only the artifacts the task needs.
 
-`CLAUDE.md` is the enforced version of this list — skipping the rules and working from a task
-description alone is how they get violated silently.
+`AGENTS.md` is the enforced version of this list — skipping the rules and working from a task
+description alone is how they get violated silently. Where an agent auto-loads nothing, the human
+points it at that file; the framework never depends on a vendor's boot behaviour.
 
 ## Status
 
@@ -128,7 +140,7 @@ Released as **v0.8.0** under the MIT license — usable and open for others to v
 - **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1, all 4 tools)** _(merged)_
 - **Phase 2 — Steps 2–6 skeletons + [register schemas](process/REGISTERS.md) + artifact templates + library fully authored** _(templates + full library done; run-hardening continues)_
 - **Onboarding — [`product-setup`](.claude/skills/product-setup/SKILL.md) + [install](install/README.md)** _(merged)_
-- **Phase 3 — Agent rules ([CLAUDE.md](CLAUDE.md)), examples, contribution + versioned branching** _(merged; [contributing](CONTRIBUTING.md) + git tags shipped)_
+- **Phase 3 — Agent rules ([AGENTS.md](AGENTS.md)), examples, contribution + versioned branching** _(merged; [contributing](CONTRIBUTING.md) + git tags shipped)_
 - **Phase 4 — base [adapters](tool-skills/adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_
 
 ## License

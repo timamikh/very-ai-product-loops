@@ -71,7 +71,7 @@ know is stale.
      the single home; a handoff duplicate goes stale silently.
 3. Keep it under ~2 pages. A handoff is an index into the instance, not a second copy of it.
 4. Tell the human the handoff is written and what (if anything) they must do across the restart
-   (e.g. "restart Claude Code", "install extension X into profile Y").
+   (e.g. "restart the agent/CLI", "install extension X into profile Y").
 
 **After resume (the receiving agent):** verify the Environment & access section by actually
 running the listed checks before relying on it; fix and update the handoff if reality drifted.
