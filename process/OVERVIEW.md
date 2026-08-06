@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.5.0
-updated: 2026-07-19
+version: 0.5.2
+updated: 2026-08-03
 ---
 
 # very-ai-product-loops
@@ -59,7 +59,8 @@ The **fixed core** above (`steps/` · `registers/` · `statuses/` and the rules 
 opposed by the **pluggable skills** the agent runs, grouped under [`tool-skills/`](../tool-skills/README.md):
 `library/` (product methods, above), `operations/` (runtime skills — e.g. the `handoff`), and
 `adapters/` (the output layer — see §10). Companies swap or extend any tool-skill without forking
-the core.
+the core — which dial to turn for what, and the two procedures that live nowhere else, are in
+[`EXTENDING.md`](../EXTENDING.md).
 
 Alongside the four planes, an **instance** also carries two supporting mechanisms, defined in
 [`CONVENTIONS.md`](CONVENTIONS.md) and [`OPERATING-LOOP.md`](OPERATING-LOOP.md):
@@ -242,8 +243,9 @@ matrix marks n/a is correct, not a lapse.
   written into artifacts, only where they live and how to rotate them.
 - **Talking to the human.** In chat, never a bare id/anchor/link — decode what stands behind it
   in the same sentence.
-- **Typed links (GitMark-lite).** Artifacts link across steps: plan item → hypothesis →
-  metric node → strategy bet. Gives graph + search for free.
+- **Links across steps.** Artifacts link plan item → hypothesis → metric node → strategy bet, as a
+  **relative path + the target's stable `{#anchor}`** (the one canon — see CONVENTIONS *Links & register
+  item IDs*). Gives graph + search for free.
 - **Soft gates.** Each step has a "step is defended" checklist that reports open items but
   does not block descent.
 
@@ -294,6 +296,15 @@ renders against, so deliverables regenerate from source instead of being hand-ma
 - **Company adapters** stay **outside** the base (a private/plugin repo) and **specialize** a base
   adapter into a specific format — a branded deck, a steering-committee/traction card, a hand-in to a
   downstream dev framework. They re-skin the base; they don't fork it.
+
+**The local console** ([`tools/ui/`](../tools/ui/README.md)) is a third consumer of the same structure,
+next to the linter: it renders one instance as an interactive local view (cycle position, gate ticks,
+registers, metric series, open `— to clarify —`, change-log timeline) instead of a deliverable file.
+It is a **lens, not a home for values and not an interface to the process** — it has no write path at
+all. The human asks an agent, the agent runs the loop and writes the files, the console shows what the
+files now say; changing the framework's own dials goes the same way (see
+[`EXTENDING.md`](../EXTENDING.md)). Same reason the IDs and source slots exist: structure is the
+contract, so anything that can read a folder can be a consumer — or the agent.
 
 Still deferred by design, kept out of the base:
 - **Aggregators** that pull and merge product data from git, metrics, and the KB.

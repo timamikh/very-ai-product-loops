@@ -2,7 +2,7 @@
 name: start-work
 description: >
   Begin or resume product work on a very-ai-product-loops instance (not onboarding — use
-  product-setup for first run). Self-bootstraps the rules (does NOT trust CLAUDE.md auto-load, which
+  product-setup for first run). Self-bootstraps the rules (does NOT trust AGENTS.md auto-load, which
   doesn't fire when invoked as a skill or from another session), orients on the instance state, then
   runs the operating loop ONE pass at a time — one section produced through its method, never a bulk
   fill. Use at the start of any working session, on resume after a restart/compaction, or when
@@ -24,7 +24,7 @@ loaded and the agent works the disciplined loop instead of bulk-filling.
 ## Step 0 — bootstrap the rules (before anything)
 
 **Do not trust auto-load.** When this skill is invoked (or the repo wasn't opened as a fresh
-session), the framework's root `CLAUDE.md` was not auto-loaded as the boot entry. So load the rules
+session, or on a tool that auto-loads nothing), the framework's root `AGENTS.md` was not read for you. So load the rules
 yourself, in order, before touching any artifact:
 `process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` → `REGISTERS.md`. These are the
 authority for everything below — this skill only walks you into them, it does not restate them.
@@ -74,7 +74,7 @@ boundary — so the next `start-work` can resume cleanly.
 
 ## Anti-patterns
 
-- **Trusting auto-load.** Starting work without Step 0 because "CLAUDE.md is in the repo" — it isn't
+- **Trusting auto-load.** Starting work without Step 0 because "AGENTS.md is in the repo" — it isn't
   in context unless it auto-loaded, which a skill invocation / cross-session start does not do.
 - **Bulk-filling.** Producing several sections (or a whole "first cycle") in one pass. One section,
   one method, one pass — then propose the next.

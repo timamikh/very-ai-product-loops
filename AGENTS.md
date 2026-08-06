@@ -2,11 +2,16 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.4.2
-updated: 2026-07-20
+version: 0.5.0
+updated: 2026-08-03
 ---
 
 # Agent rules — very-ai-product-loops
+
+**This file is the one home of the rules, for any agent.** `AGENTS.md` is the cross-vendor convention
+(Codex, Cursor and others auto-load it); the root `CLAUDE.md` is a one-line pointer here, not a second
+copy. Whatever reads a folder and writes markdown can run this framework — see
+[`install/README.md`](install/README.md) → *Running on an agent other than Claude Code*.
 
 Read BEFORE any work, in this order (normative, not optional):
 
@@ -16,9 +21,10 @@ Read BEFORE any work, in this order (normative, not optional):
 4. `process/REGISTERS.md` — register schemas
 5. The instance: its `HANDOFF.md` → `sources/INDEX.md` → only the artifacts the task needs
 
-When work is begun via a skill or from another session, this root file may not have auto-loaded —
-use the **`start-work`** skill (or **`product-setup`** for first run); both self-bootstrap this
-reading order before any work, so the rules are never skipped.
+**Never trust auto-load.** When work begins via a skill, from another session, or on a tool that loads
+nothing, this file was not read for you — read the order above yourself. The `start-work` skill (or
+`product-setup` for first run) walks it; on a tool without slash-skills, read
+`.claude/skills/start-work/SKILL.md` as a plain file and follow it.
 
 Non-negotiables (details live in the files above; on conflict, those files win):
 
@@ -40,3 +46,5 @@ Non-negotiables (details live in the files above; on conflict, those files win):
   values land in the registers.
 - **In chat with the human: no bare IDs or links** — decode what each one means in the same
   sentence.
+- **Changing the framework itself** (a new skill, a status, the work directions, a step) follows
+  [`EXTENDING.md`](EXTENDING.md) — never an ad-hoc edit of the core.

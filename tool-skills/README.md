@@ -2,8 +2,8 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.1.0
-updated: 2026-07-19
+version: 0.2.0
+updated: 2026-08-03
 ---
 
 # Tool-skills
@@ -41,6 +41,30 @@ category's index.**
 
 The human may always call any skill directly or override the recommendation — discovery is a
 default, not a gate.
+
+## Where a product's OWN skills live
+
+The vendored framework is **read-only**: updating it means re-vendoring at a newer tag, which
+overwrites `tool-skills/`. So a company's or a product's own methods do **not** go here. Their one
+canonical home is inside the product's working area, mirroring this layout:
+
+```
+product/tool-skills/library/<name>/      # a product's own method
+product/tool-skills/operations/<name>/   # a product's own runtime skill
+```
+
+Three rules, and no other variant:
+
+- **Same anatomy.** A local skill is a normal skill — `SKILL.md` (with the same frontmatter wiring) +
+  `template-fragment.md` + `questions.yaml`. The linter checks it exactly like a vendored one, so a
+  local method cannot quietly produce a homeless section.
+- **Local wins.** If a local skill and a vendored one share a name, the local one is the method the
+  agent runs. That is how a company specializes a base method without forking the framework.
+- **Survives updates.** Because it sits under `product/`, re-vendoring the framework never touches it.
+
+The **agent** writes it, asked for in words — describe the method, or point at an existing skill to adapt.
+The procedure is in [`EXTENDING.md`](../EXTENDING.md); the local console
+([`tools/ui/`](../tools/ui/README.md)) then displays it, and never creates one itself.
 
 ## Not to be confused with `.claude/skills/`
 

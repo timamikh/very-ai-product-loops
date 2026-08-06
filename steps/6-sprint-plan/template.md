@@ -24,7 +24,7 @@ updated: 2026-07-20
 > ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
 > library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under
 > `tool-skills/library/`, check its prerequisites, clarify real forks as options, then fill. Filling
-> straight from this template bypasses the method (see `CLAUDE.md` → "Read the tool before filling").
+> straight from this template bypasses the method (see the repo's agent rules `AGENTS.md` → "Read the tool before filling").
 > The shell is for structure and stable IDs only.
 
 ## Must {#must}

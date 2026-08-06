@@ -31,7 +31,7 @@ its source and confidence; nothing is invented; gaps are `— to clarify —`.
 ## Step 0 — bootstrap the rules (before anything)
 
 **Do not trust auto-load.** This skill is usually invoked right after install or from another repo's
-session, when the framework's root `CLAUDE.md` was never auto-loaded as the boot entry. So load the
+session, when the framework's root `AGENTS.md` was never auto-loaded as the boot entry. So load the
 rules yourself, in order, before any setup work:
 `process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` → `REGISTERS.md`. They define the
 disciplined loop and the "prepare, don't invent" rule the rest of this skill depends on. Skipping
@@ -179,7 +179,7 @@ read-only into the repo at install and pinned to a version tag.
 - **Forking on directions in v1.** Don't ask about work directions at first-run — default them and
   let power users edit `config.yaml` later.
 - **Skipping the rules.** Running setup without first reading `process/` in order (Step 0). Auto-load
-  of the root `CLAUDE.md` does not fire when this skill runs from install or another session — load
+  of the root `AGENTS.md` does not fire when this skill runs from install or another session — load
   the rules yourself.
 - **Onboarding as a work cycle.** Bulk-filling downstream artifacts or running a "first cycle" during
   setup. Setup places sourced material and stops; method work is the loop's job, one section at a time.

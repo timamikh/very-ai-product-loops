@@ -13,7 +13,9 @@ new methods, fixes, sharper wording — are welcome.
   into deliverables). Most contributions land here.
 
 Read `process/OVERVIEW.md` and `process/CONVENTIONS.md` first — they define the wiring rules
-the linter enforces.
+the linter enforces. If you are adapting the framework for **your own company** rather than
+contributing upstream, most of it needs no fork at all: `EXTENDING.md` maps each dial to its
+procedure, and a company's own methods live in its `product/tool-skills/`.
 
 ## Proposing a change
 
