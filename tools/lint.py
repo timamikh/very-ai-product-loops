@@ -6,6 +6,9 @@ framework's *mechanics* (where drift silently breaks two agents or an aggregator
 instance's registers against the canon. This is the "one script" that turns the wiring class of
 bugs from a manual audit into a CI gate.
 
+Parsing lives in `tools/loops/` — the one shared read layer, used by this linter and the local UI
+alike. A second parser would drift from the canon and reintroduce exactly the bugs checked here.
+
 Checks (ERROR fails CI · WARN never does):
   A  tool `produces` (section form) has a matching `{#id}` in its template-fragment
   A2 tool `questions.yaml` `produces` matches its SKILL `produces`
@@ -15,115 +18,52 @@ Checks (ERROR fails CI · WARN never does):
   E  metrics.csv ids are a subset of metric-tree.md ids
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
+  H  instance config.yaml follows the pinned schema (required keys, one spelling, no aliases)
+  I  a product's own skills (product/tool-skills/…) obey the same wiring rules as vendored ones
 
 Run:  python3 tools/lint.py            # from anywhere; resolves the repo root itself
 """
-import os, re, sys, glob
+import glob
+import os
+import re
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # tools/ -> repo root
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+
+from loops import framework as F  # noqa: E402
+from loops import text as T  # noqa: E402
+from loops import yamlite  # noqa: E402
 
 ERRORS, WARNS = [], []
-def err(msg):  ERRORS.append(msg)
-def warn(msg): WARNS.append(msg)
+
+
+def err(msg):
+    ERRORS.append(msg)
+
+
+def warn(msg):
+    WARNS.append(msg)
+
 
 def read(path):
-    with open(path, encoding="utf-8") as f:
-        return f.read()
+    return T.read(path)
+
 
 def rel(path):
-    return os.path.relpath(path, ROOT)
+    return T.rel(path, ROOT)
 
-# ---------------------------------------------------------------- frontmatter
-
-def parse_scalar(v):
-    v = v.strip()
-    if v.startswith("[") and v.endswith("]"):
-        inner = v[1:-1].strip()
-        return [] if not inner else [x.strip().strip('"').strip("'") for x in inner.split(",")]
-    return v.strip('"').strip("'")
-
-def frontmatter(path):
-    """Minimal `key: value` frontmatter parse (top-level, single-line values only)."""
-    text = read(path)
-    m = re.match(r"^---\n(.*?)\n---", text, re.S)
-    fm = {}
-    if m:
-        for line in m.group(1).splitlines():
-            mm = re.match(r"^([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$", line)
-            if mm:
-                fm[mm.group(1)] = parse_scalar(mm.group(2))
-    return fm, text
-
-def as_list(v):
-    if v is None or v == "":
-        return []
-    return v if isinstance(v, list) else [v]
-
-def section_ids(text):
-    return set(re.findall(r"\{#([a-z0-9][a-z0-9-]*)\}", text))
-
-def is_file_produces(p):
-    # a `produces` that names a file (brief -> product/briefs/<slug>.md, handoff -> HANDOFF.md),
-    # not an artifact section id.
-    return "/" in p or p.endswith(".md") or p.isupper() or p in ("HANDOFF.md",)
-
-# ---------------------------------------------------------------- markdown tables
-
-def table_column(text, colname):
-    """Values under the first table column whose header equals `colname` (case-insensitive)."""
-    lines = text.splitlines()
-    target = colname.lower()
-    for i, line in enumerate(lines):
-        s = line.strip()
-        if not s.startswith("|"):
-            continue
-        headers = [c.strip().lower() for c in s.strip("|").split("|")]
-        if target not in headers:
-            continue
-        if i + 1 >= len(lines) or not re.match(r"^\s*\|?[\s:|-]+\|?\s*$", lines[i + 1]):
-            continue
-        idx = headers.index(target)
-        vals = []
-        for row in lines[i + 2:]:
-            if not row.strip().startswith("|"):
-                break
-            cells = [c.strip() for c in row.strip().strip("|").split("|")]
-            if len(cells) > idx:
-                vals.append(cells[idx])
-        return vals
-    return None
-
-def clean_cell(v):
-    return re.sub(r"[*`]", "", v).strip()
-
-# ---------------------------------------------------------------- load tools
-
-def load_tools():
-    tools = {}
-    for skill in sorted(glob.glob(ROOT + "/tool-skills/library/*/SKILL.md")):
-        d = os.path.dirname(skill)
-        name = os.path.basename(d)
-        fm, _ = frontmatter(skill)
-        tools[name] = {"dir": d, "fm": fm, "skill": skill}
-    return tools
-
-def homed_sections():
-    """Every section id that has a real home in a step artifact (a step template {#id})."""
-    homed = set()
-    for tpl in glob.glob(ROOT + "/steps/*/template.md"):
-        homed |= section_ids(read(tpl))
-    return homed
 
 # ---------------------------------------------------------------- checks
 
 def check_tools(tools, homed):
     for name, t in tools.items():
         fm = t["fm"]
-        produces = as_list(fm.get("produces"))
-        secs = [p for p in produces if not is_file_produces(p)]
+        produces = T.as_list(fm.get("produces"))
+        secs = [p for p in produces if not T.is_file_produces(p)]
         # A — produces section present in template-fragment
         frag = os.path.join(t["dir"], "template-fragment.md")
-        frag_ids = section_ids(read(frag)) if os.path.exists(frag) else set()
+        frag_ids = T.section_ids(read(frag)) if os.path.exists(frag) else set()
         for sid in secs:
             if sid not in frag_ids:
                 err("A [%s] produces `%s` but its template-fragment.md has no {#%s}"
@@ -133,7 +73,7 @@ def check_tools(tools, homed):
         if os.path.exists(q):
             mm = re.search(r"^produces:\s*(.+)$", read(q), re.M)
             if mm:
-                qp = set(as_list(parse_scalar(mm.group(1))))
+                qp = set(T.as_list(T.parse_scalar(mm.group(1))))
                 sp = set(produces)
                 if qp != sp:
                     err("A2 [%s] questions.yaml produces %s != SKILL produces %s"
@@ -143,6 +83,7 @@ def check_tools(tools, homed):
             if sid not in homed:
                 err("B [%s] produces section `%s` with no home — not in any step template {#%s} "
                     "(homeless output)" % (name, sid, sid))
+
 
 def check_index(tools):
     idx = read(ROOT + "/tool-skills/library/README.md")
@@ -162,36 +103,36 @@ def check_index(tools):
         name, steps_col = m.group(1), m.group(2)
         idx_steps = sorted(s.strip() for s in steps_col.split(",") if s.strip())
         if name in tools:
-            ubs = sorted(str(x) for x in as_list(tools[name]["fm"].get("used_by_steps")))
+            ubs = sorted(str(x) for x in T.as_list(tools[name]["fm"].get("used_by_steps")))
             if idx_steps and ubs and idx_steps != ubs:
                 err("C [%s] index Steps %s != SKILL used_by_steps %s" % (name, idx_steps, ubs))
 
-ENUMS = {
-    "hypothesis type":       ({"desirability", "feasibility", "viability", "usability"}, "type"),
-    "risk category":         ({"market", "product", "execution", "legal", "financial", "dependency"}, "category"),
-    "metric kind":           ({"measured", "derived"}, "kind"),
-    "metric instrumentation":({"instrumented", "proxy", "not-instrumented"}, "instrumentation"),
-}
 
 def check_instance(inst):
     name = rel(inst)
     reg = os.path.join(inst, "registers")
     files = {
-        "hypothesis type":        os.path.join(reg, "hypotheses.md"),
-        "risk category":          os.path.join(reg, "risks.md"),
-        "metric kind":            os.path.join(reg, "metric-tree.md"),
+        "hypothesis type": os.path.join(reg, "hypotheses.md"),
+        "risk category": os.path.join(reg, "risks.md"),
+        "metric kind": os.path.join(reg, "metric-tree.md"),
         "metric instrumentation": os.path.join(reg, "metric-tree.md"),
     }
-    for label, (allowed, col) in ENUMS.items():
+    for label, (allowed, aliases) in F.ENUMS.items():
         path = files[label]
         if not os.path.exists(path):
             continue
-        vals = table_column(read(path), col)
+        text = read(path)
+        vals, col = None, None
+        for alias in aliases:  # the column header follows the instance's language; values never do
+            vals = T.table_column(text, alias)
+            if vals is not None:
+                col = alias
+                break
         if vals is None:
-            warn("D [%s] %s: no `%s` column found to check" % (name, os.path.basename(path), col))
+            warn("D [%s] %s: no `%s` column found to check" % (name, os.path.basename(path), aliases[0]))
             continue
         for v in vals:
-            cv = clean_cell(v)
+            cv = T.clean_cell(v)
             if not cv or cv in ("—", "- to clarify -", "— to clarify —"):
                 continue
             if cv not in allowed:
@@ -202,14 +143,75 @@ def check_instance(inst):
     mt = os.path.join(reg, "metric-tree.md")
     if os.path.exists(csv) and os.path.exists(mt):
         md_ids = set()
-        for v in (table_column(read(mt), "id") or []):
-            t = clean_cell(v)
+        for v in (T.table_column(read(mt), "id") or []):
+            t = T.clean_cell(v)
             if t.startswith("M-"):
                 md_ids.add(t)
         for ln in read(csv).splitlines()[1:]:
             cid = ln.split(",")[0].strip()
             if cid and cid.startswith("M-") and cid not in md_ids:
                 err("E [%s] metrics.csv id `%s` not defined in metric-tree.md" % (name, cid))
+
+
+CONFIG_REQUIRED = ("product", "language", "active_status", "directions")
+CONFIG_OPTIONAL = ("scope_note", "metric_source_slots", "sources", "products")
+CONFIG_BANNED = {"metric_sources": "metric_source_slots", "metric_slots": "metric_source_slots",
+                 "product_scope": "scope_note", "scope": "scope_note", "lang": "language",
+                 "title": "product", "name": "product", "status": "active_status",
+                 "sources_dir": "sources"}
+
+
+def check_config(inst):
+    """H — the instance config follows the pinned schema (CONVENTIONS → Instance config)."""
+    name = rel(inst)
+    path = os.path.join(inst, "config.yaml")
+    if not os.path.exists(path):
+        # a sub-product of a multi-product instance inherits the parent's config — that is canon
+        parent = os.path.join(os.path.dirname(inst), "config.yaml")
+        if not os.path.exists(parent):
+            err("H [%s] no config.yaml, and no parent instance to inherit one from" % name)
+        return
+    data, skipped = yamlite.load(path)
+    for ln, raw in skipped:
+        warn("H [%s] config.yaml line %d not parseable by the framework's YAML subset: %s"
+             % (name, ln, raw.strip()))
+    for key in CONFIG_REQUIRED:
+        if data.get(key) in (None, "", [], {}):
+            err("H [%s] config.yaml is missing required key `%s`" % (name, key))
+    for key in data:
+        if key in CONFIG_BANNED:
+            err("H [%s] config.yaml uses `%s` — the canon key is `%s` (one spelling, no aliases)"
+                % (name, key, CONFIG_BANNED[key]))
+        elif key not in CONFIG_REQUIRED and key not in CONFIG_OPTIONAL:
+            warn("H [%s] config.yaml has non-schema key `%s` — allowed, but no tool may depend on it"
+                 % (name, key))
+
+
+def check_local_skills(inst):
+    """I — a product's own skills (product/tool-skills/…) obey the same wiring rules as vendored ones."""
+    name = rel(inst)
+    homed = F.homed_sections(ROOT)
+    for plane in ("library", "operations"):
+        for skill in sorted(glob.glob(os.path.join(inst, "tool-skills", plane, "*", "SKILL.md"))):
+            d = os.path.dirname(skill)
+            local = os.path.basename(d)
+            fm, _ = T.frontmatter(skill)
+            produces = T.as_list(fm.get("produces"))
+            if not produces:
+                err("I [%s] local skill `%s` declares no `produces`" % (name, local))
+            secs = [p for p in produces if not T.is_file_produces(p)]
+            frag = os.path.join(d, "template-fragment.md")
+            frag_ids = T.section_ids(read(frag)) if os.path.exists(frag) else set()
+            for sid in secs:
+                if sid not in homed:
+                    err("I [%s] local skill `%s` produces section `%s` with no home in any step template"
+                        % (name, local, sid))
+                if sid not in frag_ids:
+                    err("I [%s] local skill `%s` produces `%s` but its template-fragment.md has no {#%s}"
+                        % (name, local, sid, sid))
+            if not T.as_list(fm.get("used_by_steps")):
+                warn("I [%s] local skill `%s` names no `used_by_steps` — no step reaches it" % (name, local))
+
 
 def check_links():
     roots = ["process", "steps", "statuses", "tool-skills", "examples", "README.md"]
@@ -219,32 +221,34 @@ def check_links():
         for p in paths:
             if "/.git/" in p:
                 continue
-            hits = re.findall(r"\[\[[^\]]+\]\]", read(p))
+            hits = T.LINK_RE.findall(read(p))
             if hits:
                 err("F %s: %d GitMark-lite [[...]] link(s) — canon is relative path + {#anchor}: %s"
                     % (rel(p), len(hits), ", ".join(sorted(set(hits))[:5])))
 
+
 def check_gates(homed):
     for readme in glob.glob(ROOT + "/steps/*/README.md"):
-        for m in re.finditer(r"->|→", read(readme)):
-            pass
         for mm in re.finditer(r"[→>]\s*`?[a-z0-9-]+#([a-z0-9-]+)`?", read(readme)):
             sid = mm.group(1)
             if sid not in homed:
                 warn("G %s: gate item references section `%s` not found in any step template"
                      % (rel(readme), sid))
 
+
 # ---------------------------------------------------------------- main
 
 def main():
-    tools = load_tools()
-    homed = homed_sections()
+    tools = F.load_tools(ROOT)
+    homed = F.homed_sections(ROOT)
 
     check_tools(tools, homed)
     check_index(tools)
     for inst in sorted(glob.glob(ROOT + "/examples/*") + glob.glob(ROOT + "/instances/*")):
         if os.path.isdir(inst):
             check_instance(inst)
+            check_config(inst)
+            check_local_skills(inst)
     check_links()
     check_gates(homed)
 
@@ -260,6 +264,7 @@ def main():
     print("NOT checked: prose quality, prerequisite completeness, whether register *values* are "
           "correct (only their enums/ids), or adapter render fidelity.")
     return 1 if ERRORS else 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
