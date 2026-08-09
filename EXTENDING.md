@@ -2,8 +2,8 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.1.0
-updated: 2026-08-03
+version: 0.2.1
+updated: 2026-08-08
 ---
 
 # Extending the framework
@@ -34,7 +34,7 @@ that fills a method is the failure this framework exists to prevent).
 | **change the documentation language** | `product/config.yaml` → `language` | your product | edit the key; artifacts already written stay in their language until rewritten |
 | **contribute a method to the framework itself** | `tool-skills/library/<name>/` upstream | upstream | [`tool-skills/library/README.md`](tool-skills/library/README.md) → *How to add a tool* + [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | **add, remove or reorder a step** | `steps/` — the fixed core | **almost never** | *below — read it before trying* |
-| **the register schemas** (hypotheses / risks / metric tree) | `process/REGISTERS.md` | canon | not a dial: the schemas are the contract every tool reads. Add a free `tags` column instead |
+| **the register schemas** (hypotheses / risks / metric tree) | `process/REGISTERS.md` | canon | not a dial: the schemas are the contract every tool reads. What an instance may use instead: `tags` for a cross-cutting theme, `note` for a qualifier an enum cell cannot hold |
 
 Everything in the vendored framework is **read-only**: updating means re-vendoring at a newer tag,
 which overwrites it. That is why your own skills live under `product/` — they survive the update, and
@@ -101,9 +101,17 @@ affected methods, fix the links, run the linter to zero, bump the version and re
 - **One mechanism, one way.** If your change introduces a second format or a second path for something
   the framework already does one way, it is the wrong change — see
   [`process/CONVENTIONS.md`](process/CONVENTIONS.md).
+- **Classify before you write it.** A rule that a machine can verify belongs in the linter; a procedure
+  belongs in a skill; only a contract two readers must agree on belongs in `process/` — see CONVENTIONS
+  → *Where a new rule goes*. This is what keeps the always-loaded rule set from thickening with every
+  lesson learned.
+- **A fourth register is a core change**, decided by the four-sign test in
+  [`process/REGISTERS.md`](process/REGISTERS.md) — not by how much the need itches.
 - **The agent never invents the method.** If you have not said what a new method *does*, its content
   lines stay `— to clarify —`. A plausible-looking method nobody chose is worse than a blank one.
-- **The linter is the gate.** `python3 tools/lint.py` reports 0 errors before a change is done. It
-  checks wiring and enums — not whether your method is any good.
+- **The linter is the gate.** `python3 tools/lint.py <instance>` reports 0 errors before a change is
+  done — name the instance, and check the line it prints (`instances checked: …`): a run that found
+  nothing to check is a failure wearing a success message. It checks wiring and enums — not whether
+  your method is any good.
 - **History is recorded where the file lives:** instance files (artifacts, registers, sources, handoff)
   carry a dated change log; framework files carry a `version` bump and a line in `CHANGELOG.md`.

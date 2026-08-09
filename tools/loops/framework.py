@@ -258,18 +258,24 @@ def homed_sections(root=ROOT):
 # The *values* are canon and never translated. The *column header* is written in the instance's own
 # language (`config.yaml` → language), so each check carries the aliases it accepts — otherwise a
 # non-English register silently escapes validation entirely.
+CONFIDENCE = ["assumption", "sourced", "validated", "refuted"]   # ordered for display
+
 ENUMS = {
     "hypothesis type": ({"desirability", "feasibility", "viability", "usability"},
                         ("type", "тип")),
+    # `superseded`: the hypothesis was split in two, not disproved — closing it as `refuted` would
+    # record a falsehood (CONVENTIONS → Links & register item IDs).
+    "hypothesis status": ({"open", "testing", "validated", "refuted", "superseded"},
+                          ("status", "статус")),
+    "hypothesis confidence": (set(CONFIDENCE), ("confidence", "уверенность")),
     "risk category": ({"market", "product", "execution", "legal", "financial", "dependency"},
                       ("category", "категория")),
+    "risk status": ({"open", "mitigating", "closed", "accepted"},
+                    ("status", "статус")),
     "metric kind": ({"measured", "derived"},
                     ("kind", "вид")),
     "metric instrumentation": ({"instrumented", "proxy", "not-instrumented"},
                                ("instrumentation", "инструментирование")),
 }
 
-CONFIDENCE = ["assumption", "sourced", "validated", "refuted"]
-HYPOTHESIS_STATUS = ["open", "testing", "validated", "refuted"]
-RISK_STATUS = ["open", "mitigating", "closed", "accepted"]
 TICK_VALUES = ["done", "open", "n/a", "deferred"]

@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.5.2
-updated: 2026-08-03
+version: 0.5.4
+updated: 2026-08-08
 ---
 
 # very-ai-product-loops
@@ -64,9 +64,8 @@ the core — which dial to turn for what, and the two procedures that live nowhe
 
 Alongside the four planes, an **instance** also carries two supporting mechanisms, defined in
 [`CONVENTIONS.md`](CONVENTIONS.md) and [`OPERATING-LOOP.md`](OPERATING-LOOP.md):
-- **`sources/`** — external-data access notes and captured evidence, indexed in `sources/INDEX.md`
-  (see *Raw data & access* in CONVENTIONS: captured values go to the registers, secrets never into
-  artifacts, raw captures deleted once their values land).
+- **`sources/`** — access notes, the methods that turn a raw source into values, and dated evidence,
+  indexed in `sources/INDEX.md` (the three roles and the raw-data rules: CONVENTIONS *Raw data & access*).
 - **`HANDOFF.md`** — session-to-session state transfer, written by the `handoff` operations skill
   ([`tool-skills/operations/`](../tool-skills/operations/README.md)) at a session boundary (it
   restores *state, not rules* — the reader still starts from `process/`).
@@ -174,11 +173,10 @@ once and refined downward, with results flowing back up. Field schemas and the h
 | **Hypothesis register** | Step 1/3 | 4 (quantify) → 5 (test design) → 6 (experiment tasks) | bets get concrete downward; results feed back up |
 | **Risk register** | Step 2 | 3 (product) → 4 (mitigation) → 5 (period blockers) | accumulates, never rewritten |
 
-> **Metric register = one split, always** (per *One mechanism, one way*): node **definitions** live
-> in `metric-tree.md`, dated **values** live in `metrics.csv` (append-only:
-> `id,period_start,period_end,measured_at,value,basis,source,note`). A captured value goes to the
-> csv at capture time — even before Step 4 builds the tree; a `sources/` snapshot is *evidence*, not
-> its home. A changed definition mints a **new id**; every id in the csv must be defined in the md.
+> **Metric register = one split, always** (per *One mechanism, one way*): node **definitions** live in
+> `metric-tree.md`, dated **values** in append-only `metrics.csv`. The columns, the capture-time rule and
+> the id discipline are stated once, in [`REGISTERS.md`](REGISTERS.md) — not restated here, so a change to
+> the schema has one place to land. What earns a *fourth* register is the four-sign test there.
 
 ---
 
@@ -224,30 +222,20 @@ uniform across file types** — the *Which conventions apply where* matrix (by `
 which apply to an artifact vs a register vs a source vs a handoff. Omitting a convention the
 matrix marks n/a is correct, not a lapse.
 
-- **Dated change logs + rationale.** Artifacts, sources, and registers carry a change log
-  (date · from→to · why · trigger). Narrative artifacts included. Not source files' raw captures.
-  Framework files track their own history in the repository's root `CHANGELOG.md` instead.
-- **Confidence tags** (`assumption` · `sourced` · `validated` · `refuted`) on every non-trivial
-  claim **in artifacts** — *but not in registers*, where confidence is a table column instead
-  (per the matrix). A missing tag reads as `assumption`.
-- **One mechanism, one way.** Framework mechanics have exactly one canonical form (where values
-  live, file formats, ids, anchors) — no dual formats or migration thresholds. Product decisions
-  fork; mechanics must not.
-- **Forks & options — triage first.** The agent escalates only consequential + not-defaultable
-  decisions, each as 2–4 options with trade-offs + a ⚙️ recommendation; everything reversible and
-  cheap it decides itself, marks ⚙️, and logs — it does not ask. `— to clarify —` is never
-  standing debt.
-- **Source slots + Raw data & access.** Each step and tool declares its inputs (git · metrics ·
-  KB · interview). External-data access lives in a `sources/` file (indexed in `sources/INDEX.md`);
-  captured values go to the registers; raw captures are deleted once landed; secrets are never
-  written into artifacts, only where they live and how to rotate them.
-- **Talking to the human.** In chat, never a bare id/anchor/link — decode what stands behind it
-  in the same sentence.
-- **Links across steps.** Artifacts link plan item → hypothesis → metric node → strategy bet, as a
-  **relative path + the target's stable `{#anchor}`** (the one canon — see CONVENTIONS *Links & register
-  item IDs*). Gives graph + search for free.
-- **Soft gates.** Each step has a "step is defended" checklist that reports open items but
-  does not block descent.
+- **Dated change logs + rationale** on artifacts, sources and registers (date · from→to · why ·
+  trigger), narrative artifacts included; framework files log to the root `CHANGELOG.md` instead.
+- **Confidence tags** (`assumption` · `sourced` · `validated` · `refuted`) on every non-trivial claim
+  **in artifacts** — in registers confidence is a column instead. A missing tag reads as `assumption`.
+- **One mechanism, one way.** Product decisions fork; framework mechanics have exactly one form.
+- **Forks & options — triage first.** Escalate only what is consequential *and* not defaultable, as
+  2–4 options with a ⚙️ recommendation; decide and log the rest. `— to clarify —` is never standing debt.
+- **Source slots + Raw data & access.** Steps and tools declare their inputs (git · metrics · KB ·
+  interview); `sources/` carries access, method and evidence; values land in the registers; raw
+  captures and secrets never go under version control.
+- **Talking to the human.** Never a bare id/anchor/link in chat — decode it in the same sentence.
+- **Links across steps.** Plan item → hypothesis → metric node → bet, as a relative path + the
+  target's stable `{#anchor}` (the one canon). Gives graph + search for free.
+- **Soft gates.** A "step is defended" checklist that reports open items and never blocks descent.
 
 ---
 

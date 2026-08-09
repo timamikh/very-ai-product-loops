@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.7.0
-updated: 2026-08-03
+version: 0.9.0
+updated: 2026-08-08
 ---
 
 # Conventions
@@ -48,7 +48,10 @@ Register items have stable IDs:
   `usability` (can they use it). (The classic product-risk taxonomy.) A cross-cutting theme
   (e.g. *moat*, *pricing*) is **not** a fifth type — it goes in a separate, free **`tags`** column,
   declared non-load-bearing for aggregators; never compound it into `type`. (`viability/moat` is
-  wrong — write `type: viability`, `tags: moat`.)
+  wrong — write `type: viability`, `tags: moat`.) A hypothesis needing **two verdicts** is split in
+  two **at the first attempt to test it** (Step 4, when a metric is attached): the halves name the
+  original, the original closes as `superseded` — not `refuted`, it was divided, not disproved. Half
+  a refuted bet is the half worth keeping: it takes a named bet off the table for good.
 - Risks: `R-001`, … — likewise **exactly one `category`**; extra themes go in `tags`.
 - Metric nodes: `M-northstar`, `M-activation`, …
 
@@ -110,6 +113,36 @@ way**. No dual formats, no "start in X then migrate to Y" thresholds, no documen
 every mechanical variation point is a place where two agents (or an agent and an aggregator)
 diverge and break. If two ways exist, pick one and eliminate the other in the same change.
 
+## Where a new rule goes — contract · method · check
+
+The framework accretes: every real failure tempts a paragraph that would have prevented it, and
+paragraphs land in the files an agent reads on **every** pass. So a proposed rule is first *classified*,
+and only one of the three classes is allowed to grow the canon.
+
+| Class | Home | What it costs | Use it for |
+|-------|------|---------------|------------|
+| **Check** | [`tools/lint.py`](../tools/lint.py) | **nothing at read time**; catches the case every run | anything a machine can verify: shapes, ids, enum membership, cross-file agreement |
+| **Method** | a skill under `tool-skills/` | read only when that skill is used | procedure, technique, judgement — *how* to do the thing well |
+| **Contract** | `process/` (this canon) | paid on every pass, by every agent | only what two independent readers must agree on: field names, enum values, id shapes, file roles (`node_type`), path/link form |
+
+**Try the classes in that order.** A check costs no context and does not depend on the agent
+remembering; a sentence in the canon costs context forever and does. "The linter is the gate" is not
+just enforcement — it is where a rule belongs when it *can* live there.
+
+Two consequences worth stating:
+
+- **A budget on the always-loaded set.** The rule files an agent must read before any work
+  (`AGENTS.md` + the four in `process/`) are about **850 lines**; the method library is over twice that
+  and costs nothing until used. Keep the first number near 900: an addition to `process/` names what it
+  displaces, or why it is neither a check nor a method.
+- **Subtraction is part of the job.** A rule stated in two of these files is two places to drift — and
+  drift is what happened: the overview described a link mechanism for a release and a half after the
+  canon had replaced it. When a change touches a duplicated rule, delete the copy in the same change and
+  leave a pointer.
+
+This section governs changes to the framework itself; [`EXTENDING.md`](../EXTENDING.md) says which dial
+to turn for what.
+
 ## Forks & options
 
 **Triage first — fewer forks, higher quality each.** Escalate a decision to the human only if it
@@ -138,14 +171,20 @@ where the register is one click away.
 
 ## Raw data & access
 
-- **Access to an external data source** (an admin panel, an analytics account) is described in a
-  dedicated source file under `sources/` — what it is, how to connect, how to verify, how to
-  recover — and indexed in `sources/INDEX.md`. Handoffs and artifacts point to it, never duplicate it.
+- **`sources/` holds three roles**, kept apart because they age differently — all indexed in
+  `sources/INDEX.md`, pointed at by artifacts and handoffs, never duplicated by them:
+  **access** (`node_type: source`, living — what the source is, how to connect, verify, recover),
+  **method** (`node_type: source-method`, living — how its raw rows become register values: who is
+  excluded, how keys fold to one person, which window; this is what makes a reading *reproducible*),
+  and **evidence** (`node_type: source`, dated and immutable — a capture). Put the method inside
+  dated evidence and the next capture forks it into two authoritative versions.
 - **Captured values** go straight to the registers (dated rows); the source file records the
   capture context.
-- **Raw captures** (page snapshots, exports) containing real data live only inside the instance
-  while being processed and are **deleted once their values land** in the registers/sources.
-  Nothing raw ever sits outside the instance directory.
+- **Raw captures** (page snapshots, exports) are **never committed** and are **deleted once their
+  values land** in the registers/sources. The instance folder is not automatically a safe place:
+  vendored, it sits in a repo whose `origin` may be public — where that is so, the working folder for
+  raw data and the analysis code that reads it live **outside** the repository, and only a reference
+  goes inside (a change-log entry names the script that produced a reading).
 - **Secret values** (tokens, passwords) are never written into artifacts, handoffs, or chat —
   only *where* they live and how to rotate them.
 
@@ -161,6 +200,7 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `artifact` (step outputs) | **yes** — on every non-trivial claim | **yes** | reference by ID | **yes** | the full convention set |
 | `register` (hypotheses/risks/metric-tree) | **no** in prose — `confidence` is a table column instead | n/a | **defines** the IDs | **yes** | values obey the metric-register split (see REGISTERS.md) |
 | `source` (external-data notes) | **yes** — tag each captured fact | optional | reference by ID | **yes** | secrets/raw-data rules apply (see "Raw data & access") |
+| `source-method` (raw source → register values) | **yes** — on every judgement call (a cut-off, an exclusion) | optional | reference by ID | **yes** | living, never dated evidence: rewritten in place, so a reading stays reproducible |
 | `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
 | framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
@@ -182,6 +222,10 @@ carries the *motivation*, not just the diff. Newest entry first.
 - **Why:** <reasoning>
 - **Trigger:** <what prompted it — a metric shift, a refuted hypothesis, a decision, …>
 ```
+
+A **register** entry names the ids it moved (`H-004`, `M-activation`) inside its From → To. That one
+habit is what makes a single item's history retrievable — the console assembles the trail of one
+hypothesis from these entries instead of anyone storing it a second time.
 
 Framework files (this one included) do **not** carry an inline change log — their history lives in
 the repository's root [`CHANGELOG.md`](../CHANGELOG.md), keyed to git version tags.

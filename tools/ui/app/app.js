@@ -29,8 +29,11 @@ const STR = {
     live: 'live', testing: 'testing',
     toClarify: 'To clarify', openGates: 'Gate items open', inFlight: 'Hypotheses in flight',
     latest: 'Latest readings', series: 'Series', allReadings: 'All readings',
+    trail: 'Trail', trailHint: 'every change-log entry that names this id',
+    trailEmpty: 'No change-log entry names this id yet.',
+    observedNote: 'a rate is read against observed_n, not the whole population',
     definedNotMeasured: 'Defined, never measured', notInTree: 'not defined in metric-tree.md',
-    vsPrev: 'vs previous', basisNote: 'compared within the same basis',
+    vsPrev: 'vs previous', basisNote: 'compared within the same basis and population',
     nothingOpen: 'Nothing open here.', nothingYet: 'Nothing here yet.', all: 'all',
     search: 'search…', lintTitle: 'Canon linter', healthTitle: 'Instance reading',
     lintClean: 'The linter reports no findings.', healthClean: 'Reads cleanly against the canon.',
@@ -67,8 +70,11 @@ const STR = {
     live: 'в работе', testing: 'на проверке',
     toClarify: 'На уточнение', openGates: 'Незакрытые пункты гейта', inFlight: 'Гипотезы в работе',
     latest: 'Последние значения', series: 'Ряды', allReadings: 'Все показания',
+    trail: 'След', trailHint: 'все записи журналов, которые называют этот идентификатор',
+    trailEmpty: 'Ни одна запись журнала пока не называет этот идентификатор.',
+    observedNote: 'доля считается от observed_n, а не от всей популяции',
     definedNotMeasured: 'Определены, но не измеряются', notInTree: 'нет определения в metric-tree.md',
-    vsPrev: 'к предыдущему', basisNote: 'сравнение внутри одного basis',
+    vsPrev: 'к предыдущему', basisNote: 'сравнение внутри одного basis и одной population',
     nothingOpen: 'Здесь всё закрыто.', nothingYet: 'Пока пусто.', all: 'все',
     search: 'поиск…', lintTitle: 'Линтер канона', healthTitle: 'Чтение инстанса',
     lintClean: 'Линтер не нашёл замечаний.', healthClean: 'Инстанс читается по канону без замечаний.',
@@ -94,7 +100,7 @@ const STR = {
 const S = {
   model: null, lint: null, instances: [], rev: -1,
   tab: 'overview', step: null, artifact: null, section: null,
-  reg: 'hypotheses', regFilter: 'all', regSearch: '',
+  reg: 'hypotheses', regFilter: 'all', regSearch: '', regItem: null,
   skillPlane: 'library', skillPick: null, skillFile: null,
 };
 
@@ -598,7 +604,8 @@ function viewRegisters() {
     ['risks', `${t('risks')} · ${m.registers.risks.rows.length}`],
     ['metrics', `${t('metricNodes')} · ${m.registers.metric_tree.rows.length}`],
   ].map(([k, lab]) => h('button', {
-    'aria-pressed': which === k, onclick: () => { S.reg = k; S.regFilter = 'all'; render(); },
+    'aria-pressed': which === k,
+    onclick: () => { S.reg = k; S.regFilter = 'all'; S.regItem = null; render(); },
   }, lab)));
 
   if (!reg.present) return h('div', {}, tabs, h('div', { class: 'empty' }, `${reg.file} — ${t('nothingYet')}`));
@@ -617,6 +624,20 @@ function viewRegisters() {
     h('input', { type: 'search', placeholder: t('search'), value: S.regSearch,
       oninput: e => { S.regSearch = e.target.value; renderInto('#regtable', regTable()); } }));
 
+  // The trail of one item, assembled by the reader from the change logs that name its id — no
+  // second store, and no journal column anyone has to keep in step (CONVENTIONS → Change logs).
+  const history = S.model.history || {};
+
+  function trail(id) {
+    const es = history[id] || [];
+    return h('tr', { class: 'trailrow' }, h('td', { colspan: reg.columns.length },
+      h('div', { class: 'kick' }, `${t('trail')} · ${id}`),
+      es.length ? h('div', { class: 'tl' }, es.map(e => h('div', { class: 'e' },
+        h('div', {}, h('div', { class: 'd' }, e.date), h('div', { class: 'tiny faint mono' }, e.file)),
+        h('div', {}, h('div', { class: 's', html: inline(e.summary) })))))
+        : h('div', { class: 'tiny faint' }, t('trailEmpty'))));
+  }
+
   function regTable() {
     const cols = reg.columns;
     const rows = reg.rows.filter(r => {
@@ -626,12 +647,20 @@ function viewRegisters() {
     });
     return h('div', { class: 'tablewrap' }, h('table', {},
       h('thead', {}, h('tr', {}, cols.map(c => h('th', {}, c)))),
-      h('tbody', {}, rows.map(r => {
+      h('tbody', {}, rows.flatMap(r => {
         const val = stripMd(cell(r, ...enumCol));
         const bad = allowed && val && !allowed.includes(val);
-        return h('tr', { class: bad ? 'flagged' : '' }, cols.map(c => {
+        const rid = stripMd(cell(r, 'id'));
+        const main = h('tr', { class: bad ? 'flagged' : '' }, cols.map(c => {
           const v = r[c] || '';
-          if (c === 'id') return h('td', { class: 'id' }, h('code', {}, stripMd(v)));
+          if (c === 'id') {
+            const n = (history[rid] || []).length;
+            return h('td', { class: 'id' }, h('code', {}, stripMd(v)),
+              h('button', {
+                class: 'trailbtn', 'aria-pressed': S.regItem === rid, title: t('trailHint'),
+                onclick: () => { S.regItem = S.regItem === rid ? null : rid; render(); },
+              }, `⟲ ${n}`));
+          }
           if (statusCols.includes(c)) {
             return h('td', {}, h('span', { class: 'tag ' + stripMd(v).split(/[\s·]/)[0] }, stripMd(v) || '—'));
           }
@@ -641,6 +670,7 @@ function viewRegisters() {
           }
           return h('td', { html: inline(v) });
         }));
+        return S.regItem === rid ? [main, trail(rid)] : [main];
       }))));
   }
 
@@ -648,6 +678,10 @@ function viewRegisters() {
 }
 
 /* ---------------------------------------------------------------- metrics */
+// One reading's comparable variant: how it was computed and who was counted. Two readings of the
+// same node with different variants are different series, never two points of one line.
+const variant = r => [r.basis, r.population].filter(Boolean).join(' · ');
+
 function viewMetrics() {
   const m = S.model;
   const tree = m.registers.metric_tree.rows;
@@ -665,7 +699,9 @@ function viewMetrics() {
     const rows = series[id].filter(r => r.value !== null);
     if (!rows.length) return null;
     const last = rows[rows.length - 1];
-    const same = rows.filter(r => (r.basis || '') === (last.basis || ''));
+    // A delta is only meaningful inside one variant: readings compare across neither a different
+    // `basis` (how it was computed) nor a different `population` (who was counted).
+    const same = rows.filter(r => variant(r) === variant(last));
     const prev = same.length > 1 ? same[same.length - 2] : null;
     const d = prev && prev.value ? (last.value - prev.value) / Math.abs(prev.value) * 100 : null;
     const def = defOf(id);
@@ -678,14 +714,16 @@ function viewMetrics() {
       d === null ? h('div', { class: 'delta flat' }, '—')
         : h('div', { class: 'delta ' + (d > 0.5 ? 'up' : d < -0.5 ? 'down' : 'flat'), title: t('basisNote') },
           `${d > 0 ? '+' : ''}${d.toFixed(1)}% ${t('vsPrev')}`),
-      h('div', { class: 'when' }, `${id} · ${dateOf(last)}${last.basis ? ' · ' + last.basis : ''}`));
+      h('div', { class: 'when' }, `${id} · ${dateOf(last)}${variant(last) ? ' · ' + variant(last) : ''}`
+        + `${last.observed_n ? ` · n=${last.observed_n}` : ''}`));
   }));
 
   const charts = h('div', { class: 'charts' }, withReadings.map(id => {
     const rows = series[id], def = defOf(id);
-    const bases = [...new Set(rows.map(r => r.basis).filter(Boolean))];
-    const groups = bases.length > 1 ? bases.map(b => ({ label: b, rows: rows.filter(r => r.basis === b) }))
-      : [{ label: bases[0] || '', rows }];
+    const variants = [...new Set(rows.map(variant).filter(Boolean))];
+    const groups = variants.length > 1
+      ? variants.map(b => ({ label: b, rows: rows.filter(r => variant(r) === b) }))
+      : [{ label: variants[0] || '', rows }];
     const chart = lineChart(groups, { unit: stripMd(cell(def, 'unit')) });
     return h('div', { class: 'chart' },
       h('div', { class: 'head' },
@@ -698,13 +736,16 @@ function viewMetrics() {
   }));
 
   const table = h('div', { class: 'tablewrap' }, h('table', {},
-    h('thead', {}, h('tr', {}, ['id', 'period', 'measured_at', 'value', 'basis', 'source', 'note']
-      .map(c => h('th', {}, c)))),
+    h('thead', {}, h('tr', {}, ['id', 'period', 'measured_at', 'value', 'observed_n', 'population',
+      'basis', 'source', 'note'].map(c => h('th', { title: c === 'observed_n' ? t('observedNote') : null }, c)))),
     h('tbody', {}, withReadings.flatMap(id => series[id].map(r => h('tr', {},
       h('td', { class: 'id' }, h('code', {}, id)),
       h('td', { class: 'mono tiny' }, r.period_start ? `${r.period_start} → ${r.period_end}` : '—'),
       h('td', { class: 'mono tiny' }, r.measured_at),
-      h('td', { class: 'num' }, r.value === null ? r.raw_value : num(r.value)),
+      // an empty value is canon, not a gap: the outcome was not observable yet (REGISTERS → csv)
+      h('td', { class: 'num' }, r.value === null ? (r.raw_value || '—') : num(r.value)),
+      h('td', { class: 'num tiny' }, r.observed_n || '—'),
+      h('td', { class: 'mono tiny' }, r.population || '—'),
       h('td', { class: 'mono tiny' }, r.basis || '—'),
       h('td', { class: 'mono tiny' }, r.source || '—'),
       h('td', { class: 'tiny muted' }, r.note || '')))))));
@@ -989,7 +1030,9 @@ async function load(instancePath) {
     S.skillFile = null;
   }
   render();
-  fetch('/api/lint').then(x => x.json()).then(l => { S.lint = l; render(); }).catch(() => {});
+  // lint the instance being shown, not every instance on the machine
+  fetch('/api/lint?instance=' + encodeURIComponent(S.model.path))
+    .then(x => x.json()).then(l => { S.lint = l; render(); }).catch(() => {});
 }
 
 async function boot() {

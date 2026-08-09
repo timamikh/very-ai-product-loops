@@ -2,7 +2,7 @@
 node_type: register
 register: hypotheses
 product: "Decksmith (fictional sample)"
-updated: 2026-07-21
+updated: 2026-08-08
 ---
 
 # Hypothesis register — Decksmith
@@ -27,3 +27,29 @@ updated: 2026-07-21
 _Refuted hypotheses stay as `refuted` rows (a guard against re-litigating them). At
 concept-viability the whole register is `[assumption]` by design — there is no product data yet.
 H-005 is the key hypothesis this stage turns on: the native-fidelity white space the analysis surfaced._
+
+## Change log
+
+### 2026-07-21 — Step 4 quantified the live bets
+- **From → To:** `H-001` and `H-005` `open` → `testing`, each with a metric node and a success/failure
+  threshold (`M-edit-fidelity` ≥ 90%, `M-activation` ≥ 30%)
+- **Why:** a bet with no number attached cannot come back either true or false — Step 4 is where the
+  hypothesis register stops being prose.
+- **Trigger:** Step 4 (`../4-strategic-plan.md#global-hypotheses`).
+
+### 2026-07-20 — strategy bets entered the register
+- **From → To:** `H-001`–`H-006` → plus `H-007`, `H-008`, `H-009`, `H-010`
+- **Why:** the beachhead, the moat, the standalone price and the channel are choices made at Step 3;
+  each is a bet, so each takes an id instead of living as a sentence in the strategy.
+- **Trigger:** Step 3 (`../3-strategy.md#bets`, `#pricing`, `#channels-expansion`).
+
+### 2026-07-19 — the analysis pressured `H-004` and added `H-005`, `H-006`
+- **From → To:** `H-004` unqualified → pressured by the competitor read (incumbents are entering the
+  wedge, so the moat must be the engine, not the app); `H-005`, `H-006` added
+- **Why:** an analysis that changes no earlier claim was not read.
+- **Trigger:** Step 2 (`../2-analysis.md#opportunity`, `#competitor-strategy`).
+
+### 2026-07-16 — born at Step 1
+- **From → To:** — → `H-001`–`H-004` from the concept and its value/defensibility claim
+- **Why:** the concept rests on assumptions; naming them is what makes them testable later.
+- **Trigger:** Step 1 (`../1-passport.md#concept`, `#value-defensibility`).

@@ -289,13 +289,14 @@ def _register(path, filename, id_prefix, health, enum_checks=()):
                                       % (filename, aliases[0], label)})
             continue
         for r in rows:
-            v = T.clean_cell(r.get(col, ""))
-            if not v or v in ("—", "-", "— to clarify —"):
+            v = T.enum_value(r.get(col, ""))
+            if not v:
                 continue
             if v not in allowed:
                 health.append({"level": "error", "code": "enum",
-                               "message": "%s · %s: %s = `%s` is not one of %s (a cross-cutting theme "
-                                          "belongs in `tags`, never compounded into the value)"
+                               "message": "%s · %s: %s = `%s` is not one of %s (a qualifier belongs "
+                                          "in `note`, a cross-cutting theme in `tags` — never "
+                                          "compounded into the value)"
                                           % (filename, T.clean_cell(r.get("id", "?")), col, v,
                                              ", ".join(sorted(allowed)))})
     return {"present": True, "file": filename, "columns": headers or [], "rows": rows}
@@ -325,6 +326,10 @@ def _metrics(path, tree_rows, health):
                 "measured_at": (row.get("measured_at") or "").strip(),
                 "value": value,
                 "raw_value": (row.get("value") or "").strip(),
+                # observed_n / population arrived after the first instances were written, and
+                # csv.DictReader is header-driven, so an older file simply reports them empty.
+                "observed_n": (row.get("observed_n") or "").strip(),
+                "population": (row.get("population") or "").strip(),
                 "basis": (row.get("basis") or "").strip(),
                 "source": (row.get("source") or "").strip(),
                 "note": (row.get("note") or "").strip(),
@@ -374,6 +379,23 @@ def _sources(path):
         "index": rows,
         "files": files,
     }
+
+
+def _history(timeline):
+    """The trail of one register item: every change-log entry that names its id, keyed by id.
+
+    Assembled, never stored a second time. The entries already exist in the artifacts' and registers'
+    change logs, and the requirement that a register entry names the ids it moved (CONVENTIONS →
+    Change logs) is what makes the assembly reliable rather than lucky. This is why a per-item
+    journal column is not needed: the mechanism that carries the reasoning already carries the id.
+    """
+    out = {}
+    for e in timeline:                                   # already newest-first
+        mk = T.markers("%s\n%s" % (e["summary"], e["body"]))
+        for iid in mk["hypotheses"] + mk["risks"] + mk["metrics"]:
+            out.setdefault(iid, []).append({"date": e["date"], "summary": e["summary"],
+                                            "file": e["file"], "kind": e["kind"]})
+    return out
 
 
 def _handoff(path):
@@ -479,8 +501,10 @@ def load(path, framework_root=F.ROOT):
         allowed, aliases = F.ENUMS[label]
         return (aliases, allowed, label)
 
-    hypotheses = _register(path, "hypotheses.md", "H-", health, [check("hypothesis type")])
-    risks = _register(path, "risks.md", "R-", health, [check("risk category")])
+    hypotheses = _register(path, "hypotheses.md", "H-", health,
+                           [check("hypothesis type"), check("hypothesis status"),
+                            check("hypothesis confidence")])
+    risks = _register(path, "risks.md", "R-", health, [check("risk category"), check("risk status")])
     metric_tree = _register(path, "metric-tree.md", "M-", health,
                             [check("metric kind"), check("metric instrumentation")])
     metrics = _metrics(path, metric_tree["rows"], health)
@@ -558,5 +582,6 @@ def load(path, framework_root=F.ROOT):
         "deliverables": deliverables,
         "gaps": gaps,
         "timeline": timeline,
+        "history": _history(timeline),
         "health": health,
     }

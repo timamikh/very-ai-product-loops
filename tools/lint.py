@@ -14,14 +14,18 @@ Checks (ERROR fails CI · WARN never does):
   A2 tool `questions.yaml` `produces` matches its SKILL `produces`
   B  every section-form `produces` is homed in some step's artifact (a step template `{#id}`)
   C  library index rows <-> tool folders, and index "Steps" <-> SKILL `used_by_steps`
-  D  register enums per instance (hypothesis type · risk category · metric kind/instrumentation)
+  D  register enums per instance (hypothesis type/status/confidence · risk category/status ·
+     metric kind/instrumentation)
   E  metrics.csv ids are a subset of metric-tree.md ids
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
   H  instance config.yaml follows the pinned schema (required keys, one spelling, no aliases)
   I  a product's own skills (product/tool-skills/…) obey the same wiring rules as vendored ones
+  J  a register table is not split by a blank line  (WARN)
+  K  a register `id` cell names exactly one item (one row = one id)
 
-Run:  python3 tools/lint.py            # from anywhere; resolves the repo root itself
+Run:  python3 tools/lint.py            # every instance discoverable from here
+      python3 tools/lint.py product    # or name the instance(s) to check
 """
 import glob
 import os
@@ -32,6 +36,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # tools/ -> 
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 from loops import framework as F  # noqa: E402
+from loops import instance as I  # noqa: E402
 from loops import text as T  # noqa: E402
 from loops import yamlite  # noqa: E402
 
@@ -113,7 +118,10 @@ def check_instance(inst):
     reg = os.path.join(inst, "registers")
     files = {
         "hypothesis type": os.path.join(reg, "hypotheses.md"),
+        "hypothesis status": os.path.join(reg, "hypotheses.md"),
+        "hypothesis confidence": os.path.join(reg, "hypotheses.md"),
         "risk category": os.path.join(reg, "risks.md"),
+        "risk status": os.path.join(reg, "risks.md"),
         "metric kind": os.path.join(reg, "metric-tree.md"),
         "metric instrumentation": os.path.join(reg, "metric-tree.md"),
     }
@@ -132,11 +140,12 @@ def check_instance(inst):
             warn("D [%s] %s: no `%s` column found to check" % (name, os.path.basename(path), aliases[0]))
             continue
         for v in vals:
-            cv = T.clean_cell(v)
-            if not cv or cv in ("—", "- to clarify -", "— to clarify —"):
+            cv = T.enum_value(v)
+            if not cv:
                 continue
             if cv not in allowed:
-                err("D [%s] %s: `%s` = %r not in enum %s (compound values -> use a `tags` column)"
+                err("D [%s] %s: `%s` = %r not in enum %s (a qualifier belongs in `note`, a "
+                    "cross-cutting theme in `tags` — never compounded into the value)"
                     % (name, os.path.basename(path), col, cv, sorted(allowed)))
     # E — metrics.csv ids subset of metric-tree.md ids
     csv = os.path.join(reg, "metrics.csv")
@@ -150,7 +159,50 @@ def check_instance(inst):
         for ln in read(csv).splitlines()[1:]:
             cid = ln.split(",")[0].strip()
             if cid and cid.startswith("M-") and cid not in md_ids:
-                err("E [%s] metrics.csv id `%s` not defined in metric-tree.md" % (name, cid))
+                # Name the cause: the message used to be formally correct and read as a linter bug,
+                # which is the same as not reporting it (field report, point 6).
+                err("E [%s] metrics.csv id `%s` has no definition row in metric-tree.md — a typo, a "
+                    "node renamed without minting a new id, or several ids written into one "
+                    "definition cell (a row defines exactly one id)" % (name, cid))
+
+
+def check_register_tables(inst):
+    """J — a register's table is one table, not one split by a stray blank line.
+
+    The reader stitches the halves back together (see loops.text.tables), so nothing is lost — but a
+    split table renders as two in markdown and is a live trap for the next hand that edits it.
+    """
+    name = rel(inst)
+    for path in sorted(glob.glob(os.path.join(inst, "registers", "*.md"))):
+        for t in T.tables(read(path)):
+            if t["broken"]:
+                warn("J [%s] %s: table at line %d is split by a blank line — remove it (the halves "
+                     "are read as one table, but markdown renders two)"
+                     % (name, os.path.basename(path), t["line"]))
+
+
+REGISTER_ID_RE = re.compile(r"\b(?:H-\d+|R-\d+|M-[a-z0-9][a-z0-9-]*)\b")
+
+
+def check_register_ids(inst):
+    """K — an `id` cell names exactly one register item.
+
+    Three ids sharing one definition row (`M-dau / M-wau / M-mau`) is the compound-enum disease one
+    column over: every reference and every `metrics.csv` series can only reach the first, so the
+    other two point at nothing while the register looks complete.
+    """
+    name = rel(inst)
+    for filename in ("hypotheses.md", "risks.md", "metric-tree.md"):
+        path = os.path.join(inst, "registers", filename)
+        if not os.path.exists(path):
+            continue
+        for v in (T.table_column(read(path), "id") or []):
+            ids = REGISTER_ID_RE.findall(T.clean_cell(v))
+            if len(ids) > 1:
+                err("K [%s] %s: id cell `%s` names %d ids — one row is one item, so only `%s` is "
+                    "reachable and the rest have no definition; split it into %d rows (they may "
+                    "repeat the definition text)"
+                    % (name, filename, T.clean_cell(v), len(ids), ids[0], len(ids)))
 
 
 CONFIG_REQUIRED = ("product", "language", "active_status", "directions")
@@ -238,22 +290,52 @@ def check_gates(homed):
 
 # ---------------------------------------------------------------- main
 
-def main():
+def instances(argv):
+    """The instances to check: the paths given, else every instance discoverable from here.
+
+    Discovery is by **marker** (`config.yaml` / `state.yaml` / `registers/` / artifacts), never by a
+    parent folder's name — the canon puts a vendored framework's instance in `product/`, so a linter
+    that only globbed `examples/*` and `instances/*` checked nothing at all in the normal install and
+    still reported success. `loops.instance.discover` is the same finder the console uses, so the two
+    can never disagree about what an instance is.
+    """
+    if argv:
+        out = []
+        for raw in argv:
+            p = os.path.abspath(os.path.expanduser(raw))
+            if not os.path.isdir(p):
+                err("path `%s` is not a folder" % raw)
+            elif not I.looks_like_instance(p):
+                err("path `%s` has no instance marker (config.yaml / state.yaml / registers/)" % raw)
+            else:
+                out.append(p)
+                out.extend(c["path"] for c in I.discover(p, ROOT)
+                           if c["path"].startswith(p + os.sep))
+        return sorted(set(out))
+    return sorted({c["path"] for c in I.discover(ROOT, ROOT)})
+
+
+def main(argv=()):
     tools = F.load_tools(ROOT)
     homed = F.homed_sections(ROOT)
 
     check_tools(tools, homed)
     check_index(tools)
-    for inst in sorted(glob.glob(ROOT + "/examples/*") + glob.glob(ROOT + "/instances/*")):
-        if os.path.isdir(inst):
-            check_instance(inst)
-            check_config(inst)
-            check_local_skills(inst)
+    checked = instances(list(argv))
+    for inst in checked:
+        check_instance(inst)
+        check_config(inst)
+        check_local_skills(inst)
+        check_register_tables(inst)
+        check_register_ids(inst)
     check_links()
     check_gates(homed)
 
-    print("very-ai-product-loops linter — %d tool(s), canon: relative links + strict enums\n"
-          % len(tools))
+    print("very-ai-product-loops linter — %d tool(s), canon: relative links + strict enums" % len(tools))
+    # Say what was covered: "0 instances" must read as a problem, not as a clean run.
+    print("instances checked: %d%s\n"
+          % (len(checked), (" — " + ", ".join(rel(c) for c in checked)) if checked else
+             " (none found — pass a path, e.g. `python3 tools/lint.py product`)"))
     for w in WARNS:
         print("  WARN  " + w)
     if WARNS:
@@ -267,4 +349,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

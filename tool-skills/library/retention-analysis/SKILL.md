@@ -10,8 +10,8 @@ used_by_steps: [4]
 opinionated: true
 method_basis: "Cohort retention curve (does it flatten?) + usage-frequency / engagement-loop analysis + resurrection; the flattening retention curve is the PMF signal and the real input to LTV/churn — not an assumed churn %"
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.2.0
+updated: 2026-08-08
 ---
 
 # Retention Analysis
@@ -62,19 +62,29 @@ metric that judges a monthly product on daily use lies), and paired with the **e
 2. **Build the cohort curve.** Group users by join period; plot % still active at N periods.
    Read the **shape**: does it flatten at a non-zero floor (value recurs), or decay to zero (no
    retained value)? The floor height and where it flattens are the headline.
-3. **Segment the curve.** Split by segment / plan / acquisition channel — a blended curve hides a
+3. **Divide by the observed, never by the cohort.** At period N the denominator is only the members
+   who joined at least N periods ago — the rest are **censored**: their window has not elapsed, so
+   they cannot yet have shown the outcome. Count them and the newest cohorts look worst for a reason
+   that is purely arithmetic. Write that count into the reading's `observed_n`; where nothing is
+   observable yet, leave `value` empty rather than publishing a zero (REGISTERS → `metrics.csv`).
+   State the observation window in the node's definition, so the next reader inherits it.
+4. **Segment the curve.** Split by segment / plan / acquisition channel — a blended curve hides a
    retained core inside a churning average. Name the cohort that retains best (often the real
    target segment).
-4. **Characterize the engagement loop.** Map trigger → action → reward → investment for the
+5. **Characterize the engagement loop.** Map trigger → action → reward → investment for the
    retained core: what brings them back, and what the drop-off cohorts never reached. Locate the
    **drop-off point** (where the curve bends down) and any **resurrection** path.
-5. **Write readings back and feed the economics.** Append the retention/churn readings to
+6. **Write readings back and feed the economics.** Append the retention/churn readings to
    `metrics.csv` (dated rows) against their `M-…` nodes; hand the curve to `unit-economics` (LTV)
    and `financial-model` (churn scenario). If a node is missing, flag it for `metric-tree`.
-6. **Seed hypotheses.** Each driver you'd act on → `H-…` (`type: desirability`/`usability` — will
+7. **Seed hypotheses.** Each driver you'd act on → `H-…` (`type: desirability`/`usability` — will
    *this change* bend the curve). Retention bets are tested via `hypothesis-test-design`.
 
 ## Anti-patterns
+- **Dividing by the un-observed.** A period-N rate computed over everyone who ever joined, including
+  members who *cannot yet* have reached period N. The result is plausible and simply wrong, and the
+  error survives into every comparison: two groups then differ by their age, not their behaviour.
+  Report `observed_n` beside the value; an unobservable outcome is an empty `value`, not a zero.
 - **Blended churn %.** A single company-wide number hides a retained core inside a churning
   average — always read by cohort and segment.
 - **Wrong frequency.** Judging a monthly-value product on daily retention (or vice-versa) — the
