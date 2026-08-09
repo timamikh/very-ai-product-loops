@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.5.0
-updated: 2026-07-21
+version: 0.5.1
+updated: 2026-08-09
 ---
 
 # Operating Loop
@@ -118,9 +118,10 @@ Two hard rules, learned from failures:
 1. A handoff restores **state, not rules** — its reading order must send the next agent through
    `process/` first. An agent resuming from a handoff alone will violate the loop (typically
    step 7: registers not updated).
-2. A source-gathering errand (pulling metrics, fetching docs) is still a **pass of this loop**:
-   it ends with step 7 — register updates (dated metric readings → metric register), a change-log
-   entry, and open items surfaced. "I only collected data" does not skip Update state.
+2. A source-gathering errand (pulling metrics, fetching docs) is still a **pass of this loop**: it
+   ends with step 7 — register updates, a change-log entry, open items surfaced. "I only collected
+   data" does not skip Update state. For metric values the procedure is the **`metrics-capture`**
+   operations skill (`tool-skills/operations/metrics-capture/`).
 
 ## Handling a late, cross-cutting hypothesis
 

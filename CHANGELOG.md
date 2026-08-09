@@ -83,6 +83,29 @@ predicted.
   control on every register row. Nothing stores a per-item journal; `⟲ 0` means that item moved without
   anyone writing why. The committed example gained the change logs it never had, written that way.
 
+**The missing method the field report was really about** — [`metrics-capture`](tool-skills/operations/metrics-capture/SKILL.md),
+a new **operations** skill. Every method in the library begins where the numbers already exist: the metric
+tree wants "the register seeded with captured readings", retention wants "usage data with a per-user
+timestamp", unit economics wants a measured churn rate. Nothing said how to *get* there. The rule existed —
+`OPERATING-LOOP.md` has always said a data-gathering errand is a full pass of the loop — with no procedure
+behind it, so each pass was improvised, and points 1, 2 and 9 above were all born in one such improvisation.
+
+The pass it prescribes, in the order that matters: name the question before the source (or you measure what
+is easy to query); read the node's existing definition and rows first — **a changed derivation mints a new
+id**, because a silently redefined metric keeps a continuous chart over a discontinuous meaning; declare the
+population and the identity rule in writing, as judgement calls the human confirms; decide what is
+observable and compute `observed_n`; compute with the script living outside the repository where the origin
+is external; **verify against something independent** before believing the number; then land it — rows in
+`metrics.csv`, a living `source-method` file, a change-log entry naming the ids, and the raw capture
+deleted. Operations rather than library because it fills no artifact section and belongs to no step: it is
+triggered by an event (a value is missing, or has gone stale) and acts on the registers.
+
+**Zero canon growth beyond one pointer.** The skill produces a file rather than a section, so it needs no
+new contract; the always-loaded set moved 876 → 877 lines. What it needed instead was wiring, so it is not
+the thirty-second file nobody opens: the three methods whose prerequisites demand readings
+(`metric-tree`, `retention-analysis`, `unit-economics`) now name the skill that produces them, and
+`OPERATING-LOOP.md` points at it from the errand rule itself.
+
 **Two rules about the framework's own growth.** A field report from a live instance (a SaaS product,
 six steps done, real database access) produced eleven proposals — and nine of them would
 have added a field, a file or a paragraph to the files an agent reads on *every* pass. Each was justified;

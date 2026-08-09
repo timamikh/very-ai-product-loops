@@ -2,8 +2,8 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.2.0
-updated: 2026-08-03
+version: 0.2.1
+updated: 2026-08-09
 ---
 
 # Tool-skills
@@ -21,7 +21,7 @@ The framework splits into two halves:
 | Category | What it does | When it runs | Index |
 |----------|--------------|--------------|-------|
 | [`library/`](library/README.md) | product methods that fill an artifact **section** (segmentation, pricing, jtbd, …) | *during* a step pass — recommended by the step & status | [`library/README.md`](library/README.md) |
-| [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, and future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
+| [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, metrics capture, and future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
 | [`adapters/`](adapters/README.md) | render the instance into a **deliverable** (table · document · deck) | *after* the content exists — on a delivery request | [`adapters/README.md`](adapters/README.md) |
 
 ## How the agent finds the right skill (discovery rule)
@@ -35,9 +35,9 @@ category's index.**
 - The task is *"render this into a deliverable"* (a deck, a one-pager, a table for a stakeholder)
   → **`adapters/`**. Match the deliverable to a mode in the adapters index (`to-deck` for a
   presentation, `to-document` for a doc, `to-table` for a register/backlog).
-- The task is *"carry state across a restart / set up how the agent runs"* → **`operations/`**.
-  See also the OPERATING-LOOP "Session handoff" section, which is the authority for the handoff
-  mechanism.
+- The task is *"carry state across a restart / go get a number the register doesn't have"* →
+  **`operations/`**. See also the OPERATING-LOOP "Session handoff" section, which is the authority
+  for the handoff mechanism and for the rule that a data-gathering errand is a full pass of the loop.
 
 The human may always call any skill directly or override the recommendation — discovery is a
 default, not a gate.
