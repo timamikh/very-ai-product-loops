@@ -2,8 +2,8 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.5.1
-updated: 2026-08-08
+version: 0.6.0
+updated: 2026-08-09
 ---
 
 # Agent rules — very-ai-product-loops
@@ -40,6 +40,9 @@ Non-negotiables (details live in the files above; on conflict, those files win):
   pick by task phase; see [`tool-skills/README.md`](tool-skills/README.md).)
 - **One mechanism, one way.** Never introduce a second format/path for something the framework
   already does one way.
+- **Only the orchestrator writes.** If you were spawned with a brief, you are a subagent: read,
+  search, reason, **return text** — never edit a file, never close a fork, never tick a gate. The
+  rule is transitive to any subagent you spawn. See OPERATING-LOOP → *Delegation*.
 - **Confidence tags on every claim**; agent proposals marked ⚙️. Never blanket-source your own
   derived conclusions.
 - **No secrets or PII** in artifacts, handoffs, or chat. Raw captures are **never committed** and

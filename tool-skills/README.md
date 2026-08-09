@@ -2,7 +2,7 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.2.1
+version: 0.3.0
 updated: 2026-08-09
 ---
 
@@ -21,7 +21,7 @@ The framework splits into two halves:
 | Category | What it does | When it runs | Index |
 |----------|--------------|--------------|-------|
 | [`library/`](library/README.md) | product methods that fill an artifact **section** (segmentation, pricing, jtbd, …) | *during* a step pass — recommended by the step & status | [`library/README.md`](library/README.md) |
-| [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, metrics capture, and future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
+| [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, metrics capture, delegation to subagents, the friction log; future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
 | [`adapters/`](adapters/README.md) | render the instance into a **deliverable** (table · document · deck) | *after* the content exists — on a delivery request | [`adapters/README.md`](adapters/README.md) |
 
 ## How the agent finds the right skill (discovery rule)
@@ -35,9 +35,11 @@ category's index.**
 - The task is *"render this into a deliverable"* (a deck, a one-pager, a table for a stakeholder)
   → **`adapters/`**. Match the deliverable to a mode in the adapters index (`to-deck` for a
   presentation, `to-document` for a doc, `to-table` for a register/backlog).
-- The task is *"carry state across a restart / go get a number the register doesn't have"* →
-  **`operations/`**. See also the OPERATING-LOOP "Session handoff" section, which is the authority
-  for the handoff mechanism and for the rule that a data-gathering errand is a full pass of the loop.
+- The task is *"carry state across a restart / go get a number the register doesn't have / split this
+  pass across several agents / record what the framework got wrong"* → **`operations/`**. See also
+  the OPERATING-LOOP sections "Session handoff" (the authority for the handoff mechanism and for the
+  rule that a data-gathering errand is a full pass of the loop) and "Delegation" (the authority for
+  who may write, and for what is never delegated).
 
 The human may always call any skill directly or override the recommendation — discovery is a
 default, not a gate.
@@ -71,3 +73,10 @@ The procedure is in [`EXTENDING.md`](../EXTENDING.md); the local console
 `.claude/skills/` holds **Claude Code-native skills** (e.g. `product-setup`), invoked by the
 harness as slash-skills. `tool-skills/` holds **framework skills** — markdown methods the agent
 *reads and applies* as part of the workflow. Different mechanism, different home.
+
+`.claude/agents/` is the same distinction one step further: the `loops-*` subagent definitions there
+are **runtime enforcement** of a rule that is written in markdown — they give a delegated agent no
+write tools, so the canon's "only the orchestrator writes" cannot be forgotten. The rule lives in
+[`process/OPERATING-LOOP.md`](../process/OPERATING-LOOP.md) → *Delegation* and the procedure in
+[`operations/orchestration/`](operations/orchestration/SKILL.md); the definitions are how one
+particular runtime happens to enforce it, and the framework runs without them.

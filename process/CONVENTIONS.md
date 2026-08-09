@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.9.0
-updated: 2026-08-08
+version: 0.10.0
+updated: 2026-08-09
 ---
 
 # Conventions
@@ -132,9 +132,14 @@ just enforcement — it is where a rule belongs when it *can* live there.
 Two consequences worth stating:
 
 - **A budget on the always-loaded set.** The rule files an agent must read before any work
-  (`AGENTS.md` + the four in `process/`) are about **850 lines**; the method library is over twice that
-  and costs nothing until used. Keep the first number near 900: an addition to `process/` names what it
-  displaces, or why it is neither a check nor a method.
+  (`AGENTS.md` + the four in `process/`) are about **930 lines**; the method library is over twice that
+  and costs nothing until used. Keep the first number near **1000**: an addition to `process/` names
+  what it displaces, or why it is neither a check nor a method. *(The ceiling was 900 through v0.8.2.
+  Delegation raised it: the orchestrator↔subagent protocol is the definition of a contract — two
+  independent agent roles must agree on it, and neither a linter check nor a skill file can carry a
+  rule that a fresh subagent has to know **before** it reads anything else. The rest of delegation —
+  decomposition, templates, the passport — went to a skill, which is why the raise was ~50 lines and
+  not ~200.)*
 - **Subtraction is part of the job.** A rule stated in two of these files is two places to drift — and
   drift is what happened: the overview described a link mechanism for a release and a half after the
   canon had replaced it. When a change touches a duplicated rule, delete the copy in the same change and
@@ -203,6 +208,7 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `source-method` (raw source → register values) | **yes** — on every judgement call (a cut-off, an exclusion) | optional | reference by ID | **yes** | living, never dated evidence: rewritten in place, so a reading stays reproducible |
 | `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
+| `friction` (`FRICTION.md`) | n/a | n/a | reference by ID | **is itself a log** | dated entries, newest first, appended at step 7 of every pass. Records where the *framework* got in the way — never product values, never a substitute for a register |
 | framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
 
 If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.

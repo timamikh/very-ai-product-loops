@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.5.1
+version: 0.6.0
 updated: 2026-08-09
 ---
 
@@ -60,7 +60,8 @@ implementation gaps are not asked; they are noted as forks in the artifact.
 **6 · Act.**
 With no blank spots, the agent follows the tool's `SKILL.md` instructions and fills its
 `template-fragment.md` into the artifact section — tagging every claim with a source and
-confidence per `CONVENTIONS.md`, marking its own proposals ⚙️.
+confidence per `CONVENTIONS.md`, marking its own proposals ⚙️. Gathering and drafting inside this
+step may be **delegated to subagents** (see *Delegation* below); the writing never is.
 
 **7 · Update state.**
 The agent then:
@@ -70,7 +71,10 @@ The agent then:
   cycle position and ticks;
 - **seeds / updates the registers** (hypotheses, risks, metric nodes) with stable IDs;
 - adds a dated **change-log** entry (from → to · why · trigger);
-- surfaces what remains open (`— to clarify —`).
+- surfaces what remains open (`— to clarify —`);
+- **reports its own friction** — appends to the instance's `FRICTION.md` wherever the loop, a skill
+  or a rule got in the way this pass. Nothing to report is itself the report: say so. Procedure:
+  the **`friction-log`** operations skill (`tool-skills/operations/friction-log/`).
 
 **8 · Loop or bubble.**
 Move to the next checklist item / section, or the next step. If this pass **invalidated** a
@@ -122,6 +126,54 @@ Two hard rules, learned from failures:
    ends with step 7 — register updates, a change-log entry, open items surfaced. "I only collected
    data" does not skip Update state. For metric values the procedure is the **`metrics-capture`**
    operations skill (`tool-skills/operations/metrics-capture/`).
+
+## Delegation (orchestrator ↔ subagents)
+
+One pass may be run by **more than one agent**. The agent holding the human's session is the
+**orchestrator**; every agent it spawns is a **subagent**. The reason for the split is narrow:
+*gathering* fills a context window, and a full context is where an agent starts skipping loop steps.
+Delegation moves the gathering out and keeps the reasoning in. It does **not** save tokens — every
+subagent re-reads what it needs — it buys the orchestrator a context that stays clear enough to think.
+
+**The write rule (absolute).** Only the orchestrator writes to the instance. Subagents read, search,
+fetch and reason; they **return text**. The rule is transitive: a subagent may spawn its own
+subagents, and none of them writes either. This is what removes the two failure modes delegation
+would otherwise add — concurrent register writes colliding over id allocation, and a gate ticked by
+an agent that never read the gate.
+
+**Never delegated**, however busy the orchestrator is:
+
+- a **fork with the human** — the agent prepares, the human decides, and a subagent has neither the
+  human nor the context to decide in their place. It returns the options; it never picks;
+- **register id allocation and register writes**, and **gate ticks in `state.yaml`**;
+- the **Step 1–4 reasoning chain** — one argument, where Step 3 is entitled to contradict Step 2.
+  Cut into parallel pieces it loses exactly the coherence it exists for.
+
+**Delegatable task kinds** — a closed list; anything else stays with the orchestrator:
+
+| Kind | The subagent is given | It returns |
+|------|-----------------------|------------|
+| `gather` | one source + the question the number/fact must answer | dated tagged values + what it could not reach |
+| `research` | one question + its scope and stop condition | a sourced digest, every claim tagged |
+| `draft` | one library method + the inputs it needs | proposed section text, ⚙️-marked, written nowhere |
+| `verify` | one artifact/section + the checklist to hold it against | findings: file · anchor · what fails · why |
+
+**A brief is a scoped handoff.** Same problem as a session handoff — give a fresh agent enough state
+without giving it your context — so it is the same mechanism, narrowed: reading order first, then
+scope, inputs, the return contract, and the **non-negotiables block** the subagent works under. A
+subagent that is read-only does not need the whole canon (registers, change logs, gate ticks are not
+its to touch), but it does need the rules that make its output usable: never invent, tag every claim,
+mark proposals ⚙️, no secrets or PII, `— to clarify —` for a gap, and never close a fork.
+
+**The return gate is hard.** Unlike this framework's step gates, which are soft ticks for a human,
+a return is checked by the orchestrator against the **return passport** and is *not integrated* if it
+fails. A failing return goes back **once** with the named defects; after the second failure the
+orchestrator stops re-trying, records what is missing as `— to clarify —`, and surfaces it to the
+human. Two iterations is the cap because a third is nearly always the brief's fault, not the
+subagent's — rewrite the brief instead.
+
+The procedure — how to decompose, the brief and return templates, the passport, the anti-patterns —
+is the **`orchestration`** operations skill (`tool-skills/operations/orchestration/`).
 
 ## Handling a late, cross-cutting hypothesis
 

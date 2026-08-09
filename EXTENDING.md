@@ -2,8 +2,8 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.2.1
-updated: 2026-08-08
+version: 0.3.0
+updated: 2026-08-09
 ---
 
 # Extending the framework
@@ -28,6 +28,7 @@ that fills a method is the failure this framework exists to prevent).
 | **change a shipped method** to how you work | `product/tool-skills/library/<same-name>/` — a local skill wins over the vendored one | your product | same as above; copy the vendored skill as the starting point |
 | **add a runtime skill** (how the agent works across sessions) | `product/tool-skills/operations/<name>/` | your product | same as above |
 | **add a deliverable format** (a branded deck, a board card) | an adapter | your product or upstream | [`tool-skills/adapters/README.md`](tool-skills/adapters/README.md) → *How to add an adapter* |
+| **change what a delegated subagent may do** (its tools, its instructions) | `.claude/agents/loops-*.md` on Claude Code; the brief itself on any other runtime | your fork / your setup | [`tool-skills/operations/orchestration/SKILL.md`](tool-skills/operations/orchestration/SKILL.md) → *On the runtime*. The **rule** is canon and not a dial: only the orchestrator writes ([`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) → *Delegation*) |
 | **add or rename a product stage** | `statuses/<order>-<name>.md` | upstream / your fork of the core | [`statuses/README.md`](statuses/README.md) → *Add or change a status* |
 | **change what a stage asks per step** (its goals and recommended tools) | the active status file, `per_step` | upstream / your fork | [`statuses/README.md`](statuses/README.md) → *Anatomy of a status* |
 | **change the work directions** (execution streams in Steps 5–6) | `product/config.yaml` → `directions` | your product | *below* |
