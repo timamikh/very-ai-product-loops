@@ -12,11 +12,15 @@ loop. Supplies the retention/churn input to `unit-economics` (LTV) and `financia
 **"Active" definition:** what counts as a retained active action, and the natural frequency
 (daily / weekly / monthly). … [sourced: …]
 
-**Cohort retention curve**
+**Observation window:** how long after joining the outcome becomes countable — and therefore who is
+**censored** at each period. Cells below are read over the observed only. … [sourced: …]
 
-| Cohort (join period) | P1 | P2 | P3 | P6 | P12 | Flattens at | Shape read | Confidence |
-|----------------------|----|----|----|----|-----|-------------|------------|------------|
-| … | …% | …% | …% | …% | …% | …% floor / decays to 0 | flattening (value recurs) / decaying | [sourced: metrics …] |
+**Cohort retention curve** (`n` = observed at that period, never the whole cohort; `—` = not
+observable yet)
+
+| Cohort (join period) | Cohort n | P1 | P2 | P3 | P6 | P12 | Flattens at | Shape read | Confidence |
+|----------------------|----------|----|----|----|----|-----|-------------|------------|------------|
+| … | … | …% (n=…) | …% (n=…) | …% (n=…) | — | — | …% floor / decays to 0 | flattening (value recurs) / decaying | [sourced: metrics …] |
 
 _Headline: does the curve flatten above zero (PMF signal) or decay to zero (no retained value)?_
 

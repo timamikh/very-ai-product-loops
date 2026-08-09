@@ -4,8 +4,8 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.2.2
-updated: 2026-07-21
+version: 0.3.0
+updated: 2026-08-08
 ---
 
 <!--
@@ -55,11 +55,13 @@ _Why this one: leading · value-repeating · strategy-encoding (one line each)._
 ## Retention {#retention}
 <!-- tool: retention-analysis -->
 _Cohort retention curve + engagement loop. The real churn input to LTV (where usage history exists).
-Readings land in `registers/metrics.csv` against their `M-…`._
+Readings land in `registers/metrics.csv` against their `M-…`. Each cell is read over the **observed**
+(`n`) — members whose window has not elapsed are censored, not counted as churned; `—` = not
+observable yet._
 
 | Cohort (join period) | P1 | P3 | P6 | P12 | Flattens at | Shape read | Confidence |
 |----------------------|----|----|----|-----|-------------|------------|------------|
-| … | …% | …% | …% | …% | …% floor / decays to 0 | flattening / decaying | [sourced: metrics …] |
+| … | …% (n=…) | …% (n=…) | — | — | …% floor / decays to 0 | flattening / decaying | [sourced: metrics …] |
 
 - Engagement loop (retained core): trigger → action → reward → investment. …
 - Drop-off point / resurrection path: …
@@ -109,6 +111,14 @@ _Strategy bets, now quantified & tied to metric nodes (threshold set here; test 
 _What's still unknown, explicitly — not hidden._
 
 - …
+
+**Checked, not confirmed.** A check that came back neither validated nor refuted is a result: written
+down it stops the next cycle from re-running it, unwritten it is re-run forever. Name what moved —
+a hypothesis split into halves closes as `superseded`, not `refuted` (`process/CONVENTIONS.md`).
+
+| What we checked | What the data said | Why it is not a verdict | Moved |
+|-----------------|--------------------|-------------------------|-------|
+| … | … | … | `H-…` / `M-…` / — |
 
 ## Change log
 

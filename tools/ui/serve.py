@@ -94,14 +94,23 @@ class Watcher:
 # ---------------------------------------------------------------- linter
 
 
-LINT_LINE_RE = re.compile(r"^\s*(WARN|ERROR)\s+([A-G]\d?)\s+(?:\[([^\]]+)\]\s*)?(.*)$")
+# The check letter is open-ended on purpose: a new check must never be invisible here (A-G was
+# already dropping the H and I findings on the floor).
+LINT_LINE_RE = re.compile(r"^\s*(WARN|ERROR)\s+([A-Z]\d?)\s+(?:\[([^\]]+)\]\s*)?(.*)$")
 
 
-def run_lint():
-    """Run the canon linter and structure its output (no second implementation of the checks)."""
+def run_lint(inst_path=None):
+    """Run the canon linter on the served instance and structure its output.
+
+    Named explicitly rather than left to discovery: with no argument the linter checks every instance
+    it can find, so a product manager looking at one product would be shown findings about another —
+    and would reasonably read them as their own.
+    """
+    argv = [sys.executable, os.path.join(ROOT, "tools", "lint.py")]
+    if inst_path:
+        argv.append(inst_path)
     try:
-        p = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "lint.py")],
-                           capture_output=True, text=True, timeout=60)
+        p = subprocess.run(argv, capture_output=True, text=True, timeout=60)
         out = p.stdout
         code = p.returncode
     except Exception as e:  # linter absent or unrunnable — report instead of hiding
@@ -217,7 +226,11 @@ class Handler(BaseHTTPRequestHandler):
                     self.server.switch(p)
                 return self._json({"rev": self.server.watcher.rev, "model": model_payload(p)})
             if route == "/api/lint":
-                return self._json(run_lint())
+                path = q.get("instance", [self.server.instance_path])[0]
+                p = self._resolve_instance(path)
+                if not p:
+                    return self._json({"error": "instance outside the served roots"}, 403)
+                return self._json(run_lint(p))
             if route == "/api/file":
                 rel = q.get("path", [""])[0]
                 p = safe_path(os.path.join(self.server.instance_path, rel),

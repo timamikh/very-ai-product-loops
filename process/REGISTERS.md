@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.4.1
-updated: 2026-07-17
+version: 0.6.0
+updated: 2026-08-08
 ---
 
 # Registers
@@ -18,6 +18,39 @@ Follow [`CONVENTIONS.md`](CONVENTIONS.md) for IDs, confidence, and dated change 
 | Risks | Step 2 | 3 (product) → 4 (mitigation) → 5 (period blockers) |
 | Metric tree | Step 4 | 5 (select nodes) → 6 (task ↔ metric) |
 
+## What earns a register — the four-sign test
+
+Three is not a magic number, but a fourth register is a change to the load-bearing core (it appears in
+the overview, the README, the diagram and every tool), so a candidate is tested rather than argued. All
+four signs, not three:
+
+1. **A stable id other artifacts reference** — `H-001`, `R-001`, `M-activation` are cited from prose
+   across steps.
+2. **An enumerable lifecycle** — a `status` column. A register is a state machine, not a filing cabinet.
+3. **A life outlasting the step that bore it** — born at one step, *refined by others* (the table above).
+4. **State that flows both ways** — a result below revises a decision above (a refuted hypothesis
+   triggers an upward revisit).
+
+**Fail one sign and the home is a step artifact section**, whose change log already carries the
+reasoning. Worked examples: *competitors* are a snapshot re-run when the market moves — no lifecycle,
+few referrers → a section. *Value-for-the-customer* is an attribute of a segment, with no identity of its
+own → a section keyed to the segment.
+
+Two guards on this test:
+
+- **A register of "workings" fails by construction.** Registers hold **state**; artifacts hold the
+  **reasoning** that produced it. A register that stored analyses would be a second home for artifact
+  content — see CONVENTIONS *One mechanism, one way*.
+- **No halves.** An id plus a status inside an artifact *is* a register, hidden where nobody looks.
+  Either it earns a register, or it stays prose in a section.
+
+**Open candidate (not adopted): segments.** They pass all four — cited by pains, value proposition,
+pricing, channels, retention (read *by segment* is a method requirement), guardrails; and they have a
+real cycle (candidate → chosen → deprioritized → dropped). They are deliberately left as a Step 2
+section until one of two triggers: a second instance reporting the same friction, or a method that must
+reference a segment by id and cannot. Naming the candidate is how it gets decided on evidence instead of
+being re-argued every time it itches.
+
 ## Hypothesis register (`hypotheses.md`)
 
 Every bet/assumption becomes an entry. Fields:
@@ -27,7 +60,8 @@ Every bet/assumption becomes an entry. Fields:
 | `id` | `H-001`, … (stable) |
 | `statement` | the hypothesis, falsifiable |
 | `type` | `desirability` · `feasibility` · `viability` · `usability` |
-| `status` | `open` · `testing` · `validated` · `refuted` (never delete — refuted stays) |
+| `tags` | free cross-cutting themes (*moat*, *pricing*) — never compounded into `type`, never load-bearing |
+| `status` | `open` · `testing` · `validated` · `refuted` · `superseded` (never delete — refuted stays; `superseded` = split in two, not disproved) |
 | `born` | step it originated in |
 | `source` | where it came from |
 | `test` | link to the test design (Step 5) / experiment (Step 6) |
@@ -42,6 +76,7 @@ A **refuted** hypothesis is a signal: it can trigger an upward revisit (see step
 | `id` | `R-001`, … |
 | `description` | the risk |
 | `category` | market · product · execution · legal · financial · dependency |
+| `tags` | free cross-cutting themes — same rule as hypotheses: never compounded into `category` |
 | `likelihood` | H/M/L |
 | `impact` | H/M/L |
 | `mitigation` | the plan (added Step 4) |
@@ -59,35 +94,41 @@ from the first capture; no md-cell time series, no transition thresholds.
 
 | Field | Values / notes |
 |-------|----------------|
-| `id` | `M-northstar`, `M-activation`, … — **a changed definition mints a NEW id**, never reuses the old one (else the series silently compares incomparables) |
-| `name` / `definition` | what it is, precisely — incl. what it excludes |
+| `id` | `M-northstar`, … — **exactly one id per row** (ids sharing a definition are separate nodes, else their csv series point at nothing), and **a changed definition mints a NEW id**, never reuses the old one (else the series silently compares incomparables) |
+| `name` / `definition` | what it is, precisely — incl. what it excludes and, for an outcome/cohort node, **the observation window** (the outcome is countable only once that window has elapsed) |
 | `unit` | $ · € · % · count · … (a property of the node, not of a reading) |
 | `kind` | `measured` (captured) · `derived` (computed — state the formula) |
 | `parent` | the node it feeds (builds the tree); `— to clarify —` before Step 4 |
+| `population` | who is counted **by default** — all accounts · paying · a named cohort. An empty `population` in the csv means *this* value; never a sentence standing nearby |
 | `instrumentation` | `instrumented` · `proxy` · `not-instrumented` — where the data comes from, or why it can't yet |
 | `target` | the goal + horizon |
 | `owner` | who owns it |
 | `source` | metric source slot |
+| `note` | what an enum cell may not carry (`since 2026-05`, `manual pass`, a caveat). **An enum cell holds the bare value** — the qualifier goes here, the theme in `tags` |
 
 **`metrics.csv` — append-only dated readings**, one row per reading:
 
 ```csv
-id,period_start,period_end,measured_at,value,basis,source,note
+id,period_start,period_end,measured_at,value,observed_n,population,basis,source,note
 ```
 
 - `measured_at` = when the reading was taken; `period_start/period_end` = what interval the value
   describes (empty for point-in-time values). Collapsing these into one date makes every
   trailing-window metric ("last 30d") lie to trend readers.
-- `basis` = the value's qualifier when one node legitimately carries variants
-  (`operational` · `with_depreciation` · `metered` · `fact` …) — a parseable column, never prose
-  in `note`.
+- `observed_n` = how many of the population **could already have shown the outcome** — the
+  denominator of a rate. A cohort metric divides by the observed, never by the whole cohort: the
+  un-observed produce a plausible number that is simply false, and the error survives into every
+  comparison (two groups then "differ" by their age, not their behaviour). **An empty `value` means
+  the outcome was not observable yet** — never a word inside a numeric column.
+- `basis` = **how the value was computed**, and nothing else (`operational` · `with_depreciation` ·
+  `metered` · `fact` …). *Who* was counted is `population`; *which slice* is a node of its own. One
+  column cannot mean three things: rows are comparable across `basis`, and are not across
+  `population`.
 - Rows are appended, never edited or deleted. Every `id` in the csv must exist in
   `metric-tree.md` (the md file is the authority on which ids exist and what they mean).
-- **Check after every csv write (manual — no lint tool yet):** the set of ids used in
-  `metrics.csv` must be a subset of the ids defined in `metric-tree.md`. A csv id with no
-  definition is a typo or an orphan reading — fix it before moving on. (When a real
-  desync first bites, promote this to a `tools/` lint script; not before — the framework
-  stays plain markdown until pain justifies code.)
+- **Checked after every csv write** — `python3 tools/lint.py <instance>` (check E): every id in
+  `metrics.csv` must be defined in `metric-tree.md`. A csv id with no definition is a typo or an
+  orphan reading — fix it before moving on.
 
 **Where metric readings live (hard rule).** Any captured metric value — from an admin panel, an
 export, an analytics query — goes into **`metrics.csv` as a dated row at capture time**, even

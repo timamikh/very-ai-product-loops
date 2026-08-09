@@ -2,8 +2,8 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.5.0
-updated: 2026-08-03
+version: 0.5.1
+updated: 2026-08-08
 ---
 
 # Agent rules — very-ai-product-loops
@@ -42,8 +42,8 @@ Non-negotiables (details live in the files above; on conflict, those files win):
   already does one way.
 - **Confidence tags on every claim**; agent proposals marked ⚙️. Never blanket-source your own
   derived conclusions.
-- **No secrets or PII** in artifacts, handoffs, or chat. Raw captures are deleted after their
-  values land in the registers.
+- **No secrets or PII** in artifacts, handoffs, or chat. Raw captures are **never committed** and
+  are deleted once their values land in the registers.
 - **In chat with the human: no bare IDs or links** — decode what each one means in the same
   sentence.
 - **Changing the framework itself** (a new skill, a status, the work directions, a step) follows

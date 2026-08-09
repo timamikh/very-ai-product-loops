@@ -2,8 +2,8 @@
 node_type: tooling
 title: The local console — a UI for a very-ai-product-loops instance
 status: draft
-version: 0.3.0
-updated: 2026-08-03
+version: 0.4.0
+updated: 2026-08-08
 ---
 
 # The local console
@@ -111,6 +111,17 @@ config decisions, cycle state and gate ticks, artifacts split into sections (wit
 counts, `— to clarify —` lines, ⚙️ proposals, referenced register ids), the three registers, the
 metric series from `metrics.csv`, the sources index, the handoff, the change-log timeline, and a
 `health` list of every deviation from the canon it noticed.
+
+Two things it **assembles** rather than reads, because storing them twice is how two homes for one
+truth appear:
+
+- **The trail of one item.** Every register row carries a `⟲ n` control that opens the change-log
+  entries naming that id — across artifacts *and* registers, newest first. Nothing keeps a per-item
+  journal; the trail exists because a register entry names the ids it moved (CONVENTIONS →
+  *Change logs*). A row with `⟲ 0` is a real signal: that item moved without anyone writing why.
+- **A metric's comparable variants.** A series is split by `basis` **and** `population` — how the
+  value was computed and who was counted. Two readings that differ in either are two lines, never two
+  points of one, and the delta on a KPI tile is computed inside one variant only.
 
 Two rules hold there:
 

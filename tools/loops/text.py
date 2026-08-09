@@ -103,12 +103,34 @@ def clean_cell(v):
     return re.sub(r"[*`]", "", v).strip()
 
 
+def enum_value(v):
+    """A table cell reduced to the canonical enum value it carries, or "" for a gap.
+
+    Confidence is written the same way in a register cell as in prose — `[sourced: metrics W24]` —
+    so a checker that compared the raw cell to the enum would reject every correctly written one.
+    The bracket is notation and everything after the colon is the *evidence*, not the value.
+    """
+    s = clean_cell(v)
+    m = re.match(r"^\[(.*)\]$", s)
+    if m:
+        s = m.group(1).strip()
+    s = s.split(":", 1)[0].strip()
+    return "" if s in ("—", "-", "– to clarify –", "— to clarify —", "- to clarify -") else s
+
+
 def _is_divider(line):
     return bool(re.match(r"^\s*\|?[\s:|-]+\|?\s*$", line))
 
 
 def tables(text):
-    """Every pipe table in the text as {headers: [...], rows: [[cell, ...], ...]}."""
+    """Every pipe table in the text as {headers, rows, broken, line}.
+
+    A blank line inside a table is an editing accident, not a second table: markdown renders the
+    halves as two tables and a reader barely notices, while a parser that stopped at the blank line
+    would silently lose the rest of a register. So the rows resume across blanks — unless what
+    follows is a real new table (a header row with its own divider underneath). `broken` records
+    that it happened, so the linter can report it instead of the reader guessing.
+    """
     lines = text.splitlines()
     out = []
     i = 0
@@ -116,12 +138,28 @@ def tables(text):
         s = lines[i].strip()
         if s.startswith("|") and i + 1 < len(lines) and _is_divider(lines[i + 1]):
             headers = [c.strip() for c in s.strip("|").split("|")]
-            rows = []
+            rows, broken = [], False
             j = i + 2
-            while j < len(lines) and lines[j].strip().startswith("|"):
-                rows.append([c.strip() for c in lines[j].strip().strip("|").split("|")])
-                j += 1
-            out.append({"headers": headers, "rows": rows})
+            while j < len(lines):
+                cur = lines[j].strip()
+                if cur.startswith("|"):
+                    if _is_divider(lines[j]):       # a divider mid-table: a new table's, not ours
+                        break
+                    rows.append([c.strip() for c in cur.strip("|").split("|")])
+                    j += 1
+                    continue
+                if cur:                             # any other prose ends the table
+                    break
+                k = j                               # blank line(s): look past them
+                while k < len(lines) and not lines[k].strip():
+                    k += 1
+                if (k < len(lines) and lines[k].strip().startswith("|")
+                        and not (k + 1 < len(lines) and _is_divider(lines[k + 1]))):
+                    broken = True                   # same table, accidentally split
+                    j = k
+                    continue
+                break
+            out.append({"headers": headers, "rows": rows, "broken": broken, "line": i + 1})
             i = j
         else:
             i += 1
@@ -129,38 +167,47 @@ def tables(text):
 
 
 def table_column(text, colname):
-    """Values under the first table column whose header equals `colname` (case-insensitive).
+    """Values under `colname` across EVERY table in the file that carries it (case-insensitive).
+
+    Reading only the first table is how half a register becomes invisible: a register naturally grows
+    a second table (inherited nodes above, newly instrumented ones below, a paragraph between), and a
+    first-table-only reader validates the top half while reporting the bottom half's ids as undefined.
 
     Returns None when no table carries that column — the caller distinguishes "no such column"
     (a schema problem) from "column present but empty".
     """
     target = colname.lower()
+    found, vals = False, []
     for t in tables(text):
         headers = [h.lower() for h in t["headers"]]
         if target not in headers:
             continue
+        found = True
         idx = headers.index(target)
-        return [r[idx] for r in t["rows"] if len(r) > idx]
-    return None
+        vals.extend(r[idx] for r in t["rows"] if len(r) > idx)
+    return vals if found else None
 
 
 def table_rows(text, *required_headers):
-    """Rows of the first table containing all `required_headers`, as dicts keyed by header.
+    """Rows of EVERY table containing all `required_headers`, as dicts keyed by header.
 
-    Header keys are lowercased; cells keep their markdown (callers clean what they compare).
+    Same reason as `table_column`: a register split across two tables is one register. Headers come
+    from the first matching table; a later table's own column order is honoured per row.
     """
     want = [h.lower() for h in required_headers]
+    first, rows = None, []
     for t in tables(text):
         headers = [h.lower() for h in t["headers"]]
-        if all(w in headers for w in want):
-            rows = []
-            for r in t["rows"]:
-                row = {}
-                for k, h in enumerate(headers):
-                    row[h] = r[k] if k < len(r) else ""
-                rows.append(row)
-            return headers, rows
-    return None, []
+        if not all(w in headers for w in want):
+            continue
+        if first is None:
+            first = headers
+        for r in t["rows"]:
+            row = {}
+            for k, h in enumerate(headers):
+                row[h] = r[k] if k < len(r) else ""
+            rows.append(row)
+    return first, rows
 
 
 # ---------------------------------------------------------------- canon markers

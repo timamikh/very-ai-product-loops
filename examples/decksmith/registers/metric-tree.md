@@ -2,7 +2,7 @@
 node_type: register
 register: metric-tree
 product: "Decksmith (fictional sample)"
-updated: 2026-07-21
+updated: 2026-08-08
 ---
 
 # Metric register — Decksmith
@@ -29,3 +29,15 @@ updated: 2026-07-21
 The first build slice must stand up event capture for `M-activation` + `M-edit-fidelity` (the export
 pipeline is the instrumentation point — see `../3-strategy.md#product-surface`). `M-wk-retention`
 needs cohorts (from `pmf`). No own-GPU compute → COGS is third-party API only (no depreciation basis).
+
+## Change log
+
+### 2026-07-21 — born at Step 4
+- **From → To:** — → `M-ns-kept-decks-wk` (North Star, ⚙️ candidate), `M-edit-fidelity`,
+  `M-activation`, `M-wk-retention`, `M-free-paid-conv`, `M-cogs-per-deck`, `M-gross-margin`
+- **Why:** the strategy needed instruments. `M-edit-fidelity` is the one concept-proving metric — the
+  anti-Gamma number the whole wedge rests on; the rest are the tree it hangs in.
+- **Trigger:** Step 4 (`../4-strategic-plan.md#metric-tree`).
+- **Note:** every node is `not-instrumented` and `metrics.csv` is empty by design at
+  concept-viability — the tree is the plan of what to measure, so the instrumentation work is visible
+  at Steps 5–6 instead of the metric being chosen later under the lamppost.

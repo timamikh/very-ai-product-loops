@@ -12,6 +12,103 @@ The version you pin to is the **git tag**; this file is its human-readable story
 
 ## [Unreleased] — The local console + one shared read layer
 
+**Wave 1 of the field-report fixes — the tooling now tells the truth.** Three defects that made every
+other check meaningless, shipped together (see
+[`docs/2026-08-08-field-report-response.md`](docs/2026-08-08-field-report-response.md) for the verdict on
+all eleven points the report raised):
+
+- **The linter finds the instance.** It globbed `examples/*` and `instances/*`, so the canonical vendored
+  layout — the instance in `product/` of the host repo — was never checked, and the run still printed
+  `0 error(s)`. It now takes instance paths as arguments and, with none, discovers them **by marker**
+  through the same finder the console uses, so the two can never disagree about what an instance is. Every
+  run prints `instances checked: N — <paths>`: **zero now reads as a problem instead of as success.**
+- **A register split across two tables is one register.** `table_column`/`table_rows` returned on the first
+  matching table, so a register that grew a second table was validated in its top half and reported as
+  undefined in its bottom half. They now span every table carrying the column, and a table split by a stray
+  blank line is stitched back rather than truncated — with new check **J** reporting the split, since the
+  file is a trap for the next hand that edits it. (Shipped with the discovery fix on purpose: alone, that
+  fix would have produced a screen of false errors on its first honest run.)
+- **The console stopped losing findings.** Its parser of the linter's output matched check letters `A-G`,
+  so checks H and I — added a week earlier — were dropped on the floor. The pattern is open-ended now.
+- The smoke test grew an instance created **outside** the repo, plus the multi-table and split-table cases:
+  "works in the monorepo" now fails in CI instead of in someone's product. `REGISTERS.md` no longer calls
+  check E a manual procedure — it names the command.
+
+**Waves 2–4 — the eight remaining points of the field report, decided and shipped.** The whole set cost
+**+13 lines** of always-loaded canon, paid for by deleting the copies it made stale (876 lines against a
+900-line ceiling). Four of the eight turned out to be code or a method, exactly as the classification rule
+predicted.
+
+- **Outcome observability (censoring)** — the one place where following the framework faithfully produced
+  a *wrong* answer. `metrics.csv` gains **`observed_n`**: how many of the population could already have
+  shown the outcome. A cohort metric divides by the observed, never by the whole cohort — the un-observed
+  yield a plausible false number that survives into every comparison, where two groups then differ by
+  their age rather than their behaviour. **An empty `value` means the outcome was not observable yet**, not
+  a zero. The observation window is declared in the node's own definition; the procedure (and the
+  anti-pattern) went into [`retention-analysis`](tool-skills/library/retention-analysis/SKILL.md) 0.2.0,
+  which insisted on reading *by cohort* and said nothing about who could be read at all.
+- **`basis` stopped meaning three things.** It now says only **how** a value was computed; **who** was
+  counted is a new `population` column, whose per-node default is a *field* in `metric-tree.md` rather
+  than a sentence standing nearby; a slice is a node of its own. Rows compare across `basis` and do not
+  compare across `population` — the console enforces exactly that, splitting a series by both and
+  computing a delta only inside one variant. (A compound `pop:` prefix was rejected: the canon cannot ban
+  compound values on one side and mint them on the other.)
+- **A valve for enum cells.** `metric-tree.md` gains a `note` column, and `tags` is finally written into
+  `REGISTERS.md` for hypotheses and risks — the escape hatch existed only in `CONVENTIONS.md`, so the
+  schema file did not know about it. An enum cell holds the bare value; the qualifier goes in `note`, the
+  theme in `tags`. Check **D** now covers `status` and `confidence` too (only `type` and `category` were
+  checked), reading `[sourced: metrics W24]` for the value it carries.
+- **One id, one row** — new check **K**. Three ids in one definition cell (`M-dau / M-wau / M-mau`) left
+  three csv series pointing at nothing while the register looked complete. Check **E**'s message now names
+  its likely cause instead of being formally correct and reading as a linter bug.
+- **A hypothesis can be half-refuted.** A bet needing two verdicts is split at the first attempt to test
+  it; the halves name the original and the original closes as **`superseded`** — a new status value,
+  because closing it as `refuted` would record a falsehood: it was divided, not disproved.
+- **`sources/` has three roles, not two**: access · **method** (`node_type: source-method`) · evidence.
+  The rules that turn raw rows into register values — who is excluded, how keys fold to one person, which
+  window — are living, and putting them inside dated evidence forks them into two authoritative versions
+  at the next capture. This is what makes a reading *reproducible*.
+- **The raw-data rule restated from its intent.** It assumed the instance folder is a safe place; under
+  vendoring it is the opposite — the framework sits in a repo whose `origin` may be public. Raw captures
+  are **never committed** and are deleted once their values land; where the origin is external, the
+  working folder and the analysis code live *outside* the repository with only a reference inside.
+- **Side-effect worth naming:** the console used to run the linter with no argument, so a product
+  manager looking at one product was shown findings about every other instance on the machine — and
+  would reasonably read them as their own. It now lints the instance it is showing. (Only possible
+  because wave 1 gave the linter an argument to take.)
+- **A negative result has a home** — without a fourth register (`registers/tests.md` fails the four-sign
+  test; a null result about a metric definition is a refuted hypothesis in all but name). Instead: a
+  *Checked, not confirmed* table in the Step 4 template, the rule that **a register change-log entry names
+  the ids it moved**, and a console lens that assembles the trail of one item from those entries — a `⟲ n`
+  control on every register row. Nothing stores a per-item journal; `⟲ 0` means that item moved without
+  anyone writing why. The committed example gained the change logs it never had, written that way.
+
+**Two rules about the framework's own growth.** A field report from a live instance (a SaaS product,
+six steps done, real database access) produced eleven proposals — and nine of them would
+have added a field, a file or a paragraph to the files an agent reads on *every* pass. Each was justified;
+together they would have thickened exactly the expensive layer. So the growth question is now answered
+before the individual proposals are:
+
+- **Where a new rule goes — contract · method · check** (`process/CONVENTIONS.md` 0.7.0 → 0.8.0). Three
+  classes, tried in that order: a **check** in the linter costs nothing at read time and does not rely on
+  the agent remembering; a **method** in a skill is read only when used; only a **contract** — field names,
+  enum values, id shapes, `node_type` roles, link form — earns a place in `process/`. With it: a stated
+  budget on the always-loaded set (about 850 lines today; an addition names what it displaces or why it is
+  neither a check nor a method) and the duty to *subtract* — a rule stated in two canon files is two places
+  to drift, which is how a removed link mechanism survived in the overview for a release and a half.
+- **What earns a register — the four-sign test** (`process/REGISTERS.md` 0.4.1 → 0.5.0). A fourth register
+  is a core change, so a candidate is tested: a stable id other artifacts cite · an enumerable lifecycle ·
+  a life outlasting the step that bore it · state that flows both ways. All four, not three. Fail one and
+  the home is a step artifact section, whose change log already carries the reasoning. Two guards: a
+  register of *workings* fails by construction (registers hold state, artifacts hold reasoning), and there
+  are no halves — an id plus a status inside an artifact *is* a register, hidden where nobody looks.
+  **Segments** are recorded as the one open candidate that passes all four, deliberately not adopted, with
+  the two triggers that would decide it.
+- Paid for in the same change: `process/OVERVIEW.md` (0.5.2 → 0.5.3) stops restating the metric register's
+  columns and rules — they live once in `REGISTERS.md`, so the schema change the field report asks for has
+  one place to land instead of two. `EXTENDING.md` (0.1.0 → 0.2.0) routes both rules from the doorway where
+  changes are actually made.
+
 **Vendor-neutral by name, not just by claim.** The framework never needed a vendor API, but its entry
 points were spelled for one tool. Now:
 
