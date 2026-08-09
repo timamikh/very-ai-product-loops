@@ -14,8 +14,8 @@ used_by_steps: [4]
 opinionated: true
 method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
 status: draft
-version: 0.2.2
-updated: 2026-07-21
+version: 0.2.3
+updated: 2026-08-09
 ---
 
 # Unit economics — does one customer pay for themselves?
@@ -37,6 +37,9 @@ compute a single basis and say so.
   depreciation).
 - **Acquisition channel costs** — or an explicit CAC≈0 claim with its source.
 - **Churn/retention if instrumented** — otherwise model as scenarios, never as a guessed constant.
+
+*Any of these missing as a number rather than as a source → [`metrics-capture`](../../operations/metrics-capture/SKILL.md)
+(operations) is the pass that lands it in the register; this tool reads the register, it does not query.*
 
 ## How to do it
 1. **Revenue per paying account** — blended AND by tariff (price ≠ ARPPU when one-time/PAYG mix in).

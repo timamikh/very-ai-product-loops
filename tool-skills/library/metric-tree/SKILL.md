@@ -13,8 +13,8 @@ used_by_steps: [4, 5]
 opinionated: true
 method_basis: "North Star Framework (Amplitude); anti-lamppost — right metric over measurable"
 status: draft
-version: 0.2.1
-updated: 2026-07-18
+version: 0.2.2
+updated: 2026-08-09
 ---
 
 # Metric tree — North Star → drivers → inputs
@@ -29,6 +29,8 @@ tree of drivers that explain and predict it; guardrails that must not degrade wh
 ## Prerequisites
 - **Strategy exists** — how-to-win logic; the tree must encode it, not generic SaaS.
 - **Metric register seeded** with captured readings (metrics.csv) and instrumentation status per node.
+  *Missing → run [`metrics-capture`](../../operations/metrics-capture/SKILL.md) (operations) — it is the
+  pass that produces the rows this tool reads.*
 - **The product's paying/value base numbers** — who pays, what they do.
 
 ## How to do it

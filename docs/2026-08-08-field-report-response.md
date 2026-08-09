@@ -253,9 +253,26 @@ the tooling and the canon were written against this repository's layout, while v
 framework is actually deployed. The smoke test now carries an instance created **outside** the repo, so
 "works in the monorepo" fails in CI instead of in someone's product.
 
-**One thing the framework is still missing, larger than any single point.** There is no method for the
-data-gathering pass itself — how to reach a source, decide the population, compute, and land the values
-in the registers. The library has 31 methods, including cohort retention, and none of them covers this.
-The report's author had to invent it, and points 1, 2 and 9 were all born there. That is a skill to
-write, tracked separately from this list — and it stays open after all eleven points are closed, which is
-the useful thing to notice: the report's individual complaints were symptoms of one missing method.
+**The one thing larger than any single point — now written.** There was no method for the data-gathering
+pass itself: how to reach a source, decide the population, compute, and land the values in the registers.
+The library has 31 methods, including cohort retention, and none of them covered it — every one of them
+*starts* from readings that already exist. The report's author had to invent the pass, and points 1, 2 and
+9 were all born in that invention, which is the useful thing to notice: several of the report's individual
+complaints were symptoms of one missing method.
+
+Shipped as [`metrics-capture`](../tool-skills/operations/metrics-capture/SKILL.md), and the placement is
+the argument: **operations, not library.** It fills no section of any step artifact and belongs to no step;
+it is triggered by an event — a value is missing or has gone stale — and it acts on the registers and
+`sources/`. Its product content is entirely dictated by the node it serves, so what it contributes is how
+the pass is run, which is the definition of an operations skill.
+
+It cost **one line** of always-loaded canon (877 against the 900 ceiling): the errand rule in
+`OPERATING-LOOP.md` now names the procedure it always implied. Everything else was wiring rather than
+prose — the three methods whose prerequisites demand readings (`metric-tree`, `retention-analysis`,
+`unit-economics`) point at the skill that produces them, so it is reached from where the need is felt
+rather than from an index nobody consults.
+
+**Stated weakness, in the same spirit as point 2.** The steps this skill enforces — a declared population,
+an independent verification, a written derivation — are discipline, not machine checks. A linter cannot see
+that a query excluded internal staff. What *is* checkable it already leans on: an id in the csv with no
+definition (check E), an enum cell carrying a qualifier (check D), several ids in one row (check K).

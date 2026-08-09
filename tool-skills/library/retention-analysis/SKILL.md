@@ -10,8 +10,8 @@ used_by_steps: [4]
 opinionated: true
 method_basis: "Cohort retention curve (does it flatten?) + usage-frequency / engagement-loop analysis + resurrection; the flattening retention curve is the PMF signal and the real input to LTV/churn — not an assumed churn %"
 status: draft
-version: 0.2.0
-updated: 2026-08-08
+version: 0.2.1
+updated: 2026-08-09
 ---
 
 # Retention Analysis
@@ -52,7 +52,8 @@ metric that judges a monthly product on daily use lies), and paired with the **e
 
 ## Prerequisites
 - **Usage metrics with a per-user / per-account timestamp** — needed to form cohorts and a curve.
-  *Missing → run the `metrics` source-slot pull, or instrument the event first (`product-surface`).*
+  *Missing → run [`metrics-capture`](../../operations/metrics-capture/SKILL.md) (operations) to pull and
+  land them, or instrument the event first (`product-surface`).*
 - **The activation / "active" definition** — what counts as a retained active use (the curve is
   meaningless without a crisp "active"). *Missing → define it (a `metric-tree` node) before reading.*
 

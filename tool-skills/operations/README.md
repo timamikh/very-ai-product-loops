@@ -2,8 +2,8 @@
 node_type: operations-index
 title: Operations — runtime skills for how the agent works
 status: draft
-version: 0.1.0
-updated: 2026-07-19
+version: 0.2.0
+updated: 2026-08-09
 ---
 
 # Operations
@@ -21,9 +21,11 @@ change, a schedule) — the OPERATING-LOOP and each skill's own file define thos
 | Skill | What it does | Triggered by | Authority for the mechanism |
 |-------|--------------|--------------|-----------------------------|
 | [`handoff`](handoff/SKILL.md) | Write/update the instance's `HANDOFF.md` so a fresh agent resumes without re-asking the human | session boundary · environment change needing restart · imminent compaction · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → "Session handoff" |
+| [`metrics-capture`](metrics-capture/SKILL.md) | Turn a source into dated rows in `metrics.csv` plus the living method file that makes them reproducible | a step/gate needs a value the register lacks · a hypothesis enters `testing` · a reading went stale · the source changed · on request | [`process/REGISTERS.md`](../../process/REGISTERS.md) → "Metric register" + [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Raw data & access" |
 
 The list is a starting set. Candidate future operations skills (not yet authored): a metrics
-**collection schedule** (when to pull which metric), and **automation** wiring for aggregators.
+**collection schedule** (when to pull which metric — `metrics-capture` runs one pass, it does not
+decide the cadence), and **automation** wiring for aggregators.
 
 ## Anatomy
 

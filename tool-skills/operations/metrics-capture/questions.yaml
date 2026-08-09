@@ -1,0 +1,47 @@
+# metrics-capture — the inputs the agent cannot read out of the source itself.
+# Everything computable from the source is computed, not asked. These are the judgement calls
+# and the environment facts; each one, guessed, silently corrupts the series.
+tool: metrics-capture
+produces: product/sources/<source>-method.md
+questions:
+  - id: question-served
+    ask: "Which metric node or hypothesis is waiting on this number, and what decision changes depending on the answer?"
+    type: free_text
+    why: "Starting from the source instead of the question is how you end up measuring what is easy to query."
+  - id: source-reach
+    ask: "Where does this number come from, and do I already have access — database, analytics tool, admin panel, billing export, a hand count?"
+    type: free_text
+    why: "Missing access is a prerequisite to obtain, never to work around; the access recipe belongs in a sources/ file."
+  - id: excluded-accounts
+    ask: "Who must NOT be counted — test accounts, your own staff, demo tenants, agencies, refunded orders? How do I recognise them in the data?"
+    type: list
+    why: "The commonest silent error: exclusions applied in one query and in no other, making a series incomparable with itself."
+  - id: deletion-semantics
+    ask: "What happens to a deleted or churned record — is it removed, soft-deleted, or kept with a flag?"
+    type: free_text
+    why: "A soft-delete flag nobody mentioned turns a churn rate into a signup rate."
+  - id: identity-folding
+    ask: "Can one person or company hold several accounts here, and if so what makes them the same one?"
+    type: free_text
+    why: "Counting accounts as people inflates every per-user metric, and the inflation is invisible in the output."
+  - id: window
+    ask: "For an outcome metric — how long after the start does the outcome get its chance (30 days? one billing cycle?)"
+    type: free_text
+    why: "Sets the observation window, and therefore who is in `observed_n` and which periods are not yet observable."
+  - id: reconciliation
+    ask: "Is there an existing number I should reconcile against — a dashboard, a billing report, a figure someone already quotes?"
+    type: free_text
+    why: "An independent check is what separates a reading from a guess; a divergence found now is cheap."
+  - id: repo-origin
+    ask: "Does the repository this instance lives in have an external origin (anything pushed outside your machine)?"
+    type: single_select
+    options: [yes-external-origin, local-only, unsure]
+    why: "Decides where the raw data and the analysis script may live — under an external origin they stay outside the repo entirely."
+  - id: work-folder
+    ask: "If raw data must stay outside the repo — which folder should I use for it and for the query/script?"
+    type: free_text
+    why: "The reference to it goes into the method file; the folder itself is never committed."
+  - id: cadence
+    ask: "Should this number be refreshed on a cadence, and how often before it counts as stale?"
+    type: free_text
+    why: "Recorded in the node's `note`; without it, 'stale' is decided ad hoc by whoever is in a hurry."
