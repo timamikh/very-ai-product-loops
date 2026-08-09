@@ -13,7 +13,7 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: the writer is single, the readers are many, and a return is accepted against a passport rather than on trust"
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -199,8 +199,18 @@ forgotten by an agent with a full context, which is exactly the population this 
 > the certain way: drop `Agent` from the definition's tools and let the orchestrator do the second
 > level of fan-out itself.
 
-On a runtime with no subagent mechanism, the same briefs work by hand: paste the brief into a second
-session and paste the return back. The procedure does not change; only the plumbing does.
+**A definition added mid-session is not available in that session.** Claude Code reads
+`.claude/agents/` when the session starts, so a `loops-*` type created or renamed during a session
+cannot be spawned until the session restarts — the spawn simply fails with "agent type not found".
+Two consequences worth knowing before you plan a fan-out: after re-vendoring the framework or writing
+your own definition, **restart before delegating**; and when a restart is not on the table, fall back
+to the paragraph below rather than rewriting the brief.
+
+On a runtime with no subagent mechanism — or in a session that has not picked the definitions up yet
+— the same briefs work unchanged against any general-purpose read-only agent, or by hand: paste the
+brief into a second session and paste the return back. The write rule then rests on the brief's rule
+block instead of on the tool list, which is weaker; say so in the pass's `FRICTION.md` entry rather
+than letting the difference go unrecorded. The procedure does not change; only the plumbing does.
 
 ## Output
 

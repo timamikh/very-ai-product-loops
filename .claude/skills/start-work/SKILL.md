@@ -8,8 +8,8 @@ description: >
   fill. Use at the start of any working session, on resume after a restart/compaction, or when
   picking up an instance someone else set up.
 status: draft
-version: 0.1.0
-updated: 2026-07-20
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Start work (begin / resume a session)
@@ -58,13 +58,24 @@ and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load t
 6. **Act** — fill the section via the tool's `template-fragment.md`, tagging every claim with a
    source + confidence per `CONVENTIONS.md`; mark your own proposals ⚙️.
 7. **Update state** — tick the gate item, seed/update registers (`H-…`/`R-…`/`M-…`), add a dated
-   change-log entry, surface what's still `— to clarify —`.
+   change-log entry, surface what's still `— to clarify —`, and append the pass's entry to
+   `FRICTION.md` (`tool-skills/operations/friction-log/`) — including on a pass where nothing went
+   wrong.
 8. **Loop or bubble** — propose the next pass; if this pass invalidated a higher/lower artifact,
    raise it as a trigger per the step's cadence/invalidation rules.
 
 **Hard rule: one section per pass.** Propose the next section and let the human steer — do **not**
 barrel through the artifact set in one go. A bulk fill bypasses the method, the prerequisites, and
 the human's decisions all at once (see anti-patterns).
+
+## Step 2b — When the pass is wider than one context
+
+Many sources, many directions, or an artifact that needs checking by someone who did not write it:
+run the pass with subagents per the **`orchestration`** operations skill
+(`tool-skills/operations/orchestration/`). **Only you write** — subagents read, reason and return
+text, they never edit a file, close a fork or tick a gate, and a return that fails its passport is not
+integrated. The rule is canon (`process/OPERATING-LOOP.md` → *Delegation*); the skill is the
+procedure. If the pass fits in one context, don't — delegation costs more tokens, not fewer.
 
 ## Step 3 — At a session boundary
 
@@ -80,5 +91,7 @@ boundary — so the next `start-work` can resume cleanly.
   one method, one pass — then propose the next.
 - **Template without method.** Filling `template.md` sections without opening each one's `SKILL.md`.
 - **Working from the handoff alone.** It restores state, not rules — Step 0 still runs first.
+- **Letting a subagent write.** Even "just the register row". Two agents allocating `H-0xx` at once
+  is a corrupted register, and the fix costs more than the delegation saved.
 - **Asking technical gaps as forks.** Only product decisions become 2–4 options; implementation gaps
   are noted as forks in the artifact, not put to the human.

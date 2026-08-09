@@ -2,8 +2,8 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: released
-version: 0.8.2
-updated: 2026-07-22
+version: 0.8.3
+updated: 2026-08-09
 ---
 
 # very-ai-product-loops
@@ -103,10 +103,14 @@ and how each stage prioritizes them are swappable per company, without forking t
 **The pluggable skills** — instruction skills the agent picks up and runs, grouped under [`tool-skills/`](tool-skills/README.md) and swappable per company without forking the core:
 
 - **Library** (`tool-skills/library/`) — product methods as skills: what / when / how / template. See [`tool-skills/library/README.md`](tool-skills/library/README.md).
-- **Operations** (`tool-skills/operations/`) — runtime skills for how the agent works across sessions (e.g. `handoff`). See [`tool-skills/operations/README.md`](tool-skills/operations/README.md).
+- **Operations** (`tool-skills/operations/`) — runtime skills for how the agent works: `handoff` (state across a restart), `metrics-capture` (a source → reproducible register rows), `orchestration` (running one pass with subagents), `friction-log` (what the framework got wrong this pass). See [`tool-skills/operations/README.md`](tool-skills/operations/README.md).
 - **Adapters** (`tool-skills/adapters/`) — the output layer: `to-table` · `to-document` · `to-deck`. Base adapters ship here (neutral); company-specific formats stay external and specialize them. See [`tool-skills/adapters/README.md`](tool-skills/adapters/README.md).
 
-To find a skill for a task, pick the category by phase (produce a section → `library`; render a deliverable → `adapters`; carry state across a restart → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.
+To find a skill for a task, pick the category by phase (produce a section → `library`; render a deliverable → `adapters`; carry state across a restart, go get a number, or split a pass across agents → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.
+
+**Running a pass with subagents.** When a pass is wider than one context, the lead agent becomes an *orchestrator*: it cuts the work into briefs, and subagents read, search and reason but **never write** — they return text, and a return that fails its acceptance passport is not integrated. The rule is canon ([`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) → *Delegation*), the procedure is [`tool-skills/operations/orchestration/`](tool-skills/operations/orchestration/SKILL.md), and on Claude Code the write rule is enforced mechanically by the read-only agent definitions in `.claude/agents/`.
+
+**What a method claims about its own evidence.** Every library method declares an `evidence_standard`, how much it must generate before it cuts, how it cuts, and whether it must show what it rejected — checked by the linter, so a method cannot quietly stop saying what would make its output wrong. The source-quality rules those declarations point at are in [`tool-skills/library/references/evidence-standards.md`](tool-skills/library/references/evidence-standards.md).
 
 Adapting the framework to your company — a new method, a new stage, different work directions — has one procedure per dial: [`EXTENDING.md`](EXTENDING.md).
 

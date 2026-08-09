@@ -202,6 +202,12 @@ def skill_card(path, plane, origin, root=ROOT):
         "inputs": T.as_list(fm.get("inputs")),
         "used_by_steps": [str(x) for x in T.as_list(fm.get("used_by_steps"))],
         "method_basis": fm.get("method_basis", ""),
+        # the quality declaration (library README -> "The quality declaration"); shown so a reader can
+        # see what the method claims about its own evidence before running it
+        "evidence_standard": fm.get("evidence_standard", ""),
+        "volume_rule": fm.get("volume_rule", ""),
+        "selection_rule": fm.get("selection_rule", ""),
+        "rejects_shown": fm.get("rejects_shown", ""),
         "version": fm.get("version", ""),
         "opinionated": fm.get("opinionated", ""),
         "summary": re.sub(r"\s+", " ", T.plain(intro))[:260] if intro else "",
