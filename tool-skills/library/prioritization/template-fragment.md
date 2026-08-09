@@ -37,3 +37,11 @@ _Step 6 — the rest, prioritized (not a flat list), grouped by direction._
 | … | … | e.g. ICE 5 · [assumption] | backlog | H-… |
 
 **Links:** each item references the `M-…` it moves or the `H-…` it tests → registers.
+
+**Excluded outright** — candidates that entered the ranking (N = …) and left it entirely, as opposed
+to landing in backlog. Backlog is the visible reject of the must-set; an item cut before that has
+nowhere else to be seen.
+
+| Item | Direction | Why excluded |
+|------|-----------|--------------|
+| … | … | no `M-…`/`H-…` link · out of period scope · superseded by <item> |

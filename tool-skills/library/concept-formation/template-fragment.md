@@ -10,3 +10,5 @@ _<Product> is a <category> that <core thing> for <who>._  [sourced: … | assump
 **The shift:** today <current alternative>; with <Product>, <what becomes possible instead>.  [assumption]
 
 **Riskiest assumption:** <the belief the concept most depends on>.  [assumption] → `H-001`
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: "screen-in/screen-out criteria tied to the target behaviour — never availability or convenience"
 rejects_shown: required
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -58,7 +58,12 @@ raw notes.
    first, rehearsed answer.
 5. **Write a one-page interviewer guide.** How to open, length, recording/consent, what to avoid
    (pitching, leading, interrupting), how to close.
-6. **Seed the register.** Each assumption the interview is testing → `H-…`, so the notes can flip
+6. **Record who you actually talked to, and who you did not.** Names of the screens applied, how
+   many candidates were screened out and on which criterion, and the bias you know the sample has
+   ("all inbound users, so nobody who evaluated us and left"). A conclusion drawn from five people is
+   a conclusion about five people until the sample is stated — and the people who were screened *out*
+   are the cheapest thing to lose and the most expensive to notice missing.
+7. **Seed the register.** Each assumption the interview is testing → `H-…`, so the notes can flip
    its confidence later.
 
 ## Anti-patterns

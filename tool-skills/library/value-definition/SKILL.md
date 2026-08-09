@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
 rejects_shown: required
 status: draft
-version: 0.2.2
+version: 0.2.3
 updated: 2026-08-09
 ---
 
@@ -83,7 +83,10 @@ missing, the agent asks for it or offers to help produce it — it does not gues
 1. **Name the base value(s).** Which primitives do we actually have or can build? Be honest —
    an aspiration is `[assumption]`, not a moat yet.
 2. **Test each against the post-AI premise.** Would this survive someone rebuilding the app
-   with an LLM tomorrow? If not, it's a feature, not a moat.
+   with an LLM tomorrow? If not, it's a feature, not a moat. **Keep the candidates this test
+   killed, with the reason.** They are the most valuable output of the step: a team that cannot see
+   what was rejected as "not a moat" re-proposes it as a moat within two quarters, and the list is
+   also the honest answer to "why don't we just say our UX is the advantage".
 3. **Identify derivatives (from status `pmf` onward).** Given a base value and customers/scale,
    which derivative moats become reachable? Note the dependency (e.g. "lock-in *if* we land
    integration X and a customer"). **Skip the derivative *table* at `concept-viability`** — there

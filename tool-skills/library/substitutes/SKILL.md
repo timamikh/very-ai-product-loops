@@ -14,7 +14,7 @@ volume_rule: "the three baseline substitutes (do nothing · do it manually · bu
 selection_rule: "a substitute that wins in a real segment is promoted to the risk register; the rest stay in the map"
 rejects_shown: required
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -46,11 +46,15 @@ our price and adoption regardless of how few "direct" rivals exist.
    - **Do nothing** — living with the problem / status quo.
    - **Do it manually** — spreadsheets, email, a person, a one-off script.
    - **Build / host it themselves** — in-house build or self-hosted open source.
-3. **Add the adjacent ones.** Repurposed tools, generalist platforms, and services from other
-   categories that happen to close the job.
+3. **Add at least two adjacent ones.** Repurposed tools, generalist platforms, and services from
+   other categories that happen to close the job. The baseline three plus two adjacent is the floor:
+   a substitute map that stops at "do nothing" has not left the room the product was designed in.
 4. **For each substitute, answer two questions.** *Why does the customer choose it?* and *When does
    it win against us?* — the specific segment, price point, or trigger where the substitute is the
-   rational pick.
+   rational pick. Both answers are claims about the outside world: tag each `[sourced: interview …]` /
+   `[sourced: analytics-search …, as_of …]` / `[assumption]`, judged per fact type against
+   [`../references/evidence-standards.md`](../references/evidence-standards.md). "Everyone just uses
+   spreadsheets" with nothing behind it is an assumption, and usually a comforting one.
 5. **Find the self-build threshold.** Name the point where "just build it ourselves" beats buying
    from us (team capability, volume, data sensitivity, cost crossover).
 6. **Name the switching friction.** What keeps a customer on the substitute — habit, sunk cost,

@@ -16,3 +16,11 @@
 **Lead segment:** ⚙️ _<segment>_ — _why we build for this one first._
 
 **Seeded hypotheses:** H-… ("segment X exists and is reachable at Y") → hypothesis register.
+
+**Cutting bases considered and rejected** — the other ways this market could have been cut, and why
+they lost. The first cut anyone proposes is usually the one the org is already structured around
+(industry, headcount), which is the cut least likely to predict need.
+
+| Basis | Why rejected |
+|-------|--------------|
+| company size · industry · job-to-be-done · buying trigger · behaviour · willingness to pay | does not predict different needs · not reachable as a group · we cannot tell who is in it |

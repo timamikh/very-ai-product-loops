@@ -14,7 +14,7 @@ volume_rule: "≥3 candidate cuts on different bases (situation · job · behavi
 selection_rule: "priority tiers 1–3 on reachability × pain acuteness × fit; lower tiers are kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-08-09
 ---
 
@@ -51,16 +51,22 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 
 ## How to do it
 
-1. **List candidate cuts** — by job-to-be-done, use context, behavior, buyer vs user, or
-   willingness to pay. Pick the cut that best predicts different needs.
+1. **List at least 3 candidate cuts on different bases** — job-to-be-done, use context, behaviour,
+   buyer vs user, buying trigger, willingness to pay. Then pick the cut that best predicts *different
+   needs*, and **record the bases you rejected and why**. One cut, arrived at directly, is not a
+   choice: the first cut anyone proposes is almost always the one the org is already structured
+   around (industry, company size), which is the cut least likely to predict need.
 2. **Name 1–3 segments** on that cut. For each: a one-line description and *why it matters*
    (size, urgency, fit with the moat).
 3. **State reachability** — where each segment is found (a channel, a place, a community).
 4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …). ⚙️ the
    agent proposes the lead; the human decides. Everything downstream (problems, solution, value)
    leads with the priority-1 segment; lower tiers are kept, not dropped.
-5. **Tag confidence & seed hypotheses.** Each segment is `[assumption]` until evidenced;
-   turn "segment X exists and is reachable at Y" into an `H-…` for the register.
+5. **Tag confidence & seed hypotheses — and name which evidence the cut rests on.** Say plainly
+   whether this segmentation comes from customer conversations, from usage data, or from desk
+   research, because the three fail differently and a reader cannot tell them apart from the table.
+   Each segment is `[assumption]` until evidenced; turn "segment X exists and is reachable at Y" into
+   an `H-…` for the register.
 
 ## Anti-patterns
 

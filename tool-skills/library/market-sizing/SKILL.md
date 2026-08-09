@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -41,8 +41,11 @@ answer. Every input is a **named assumption** traced to its source; sizing assum
    segment × the price they'd pay per period. This — not the headline TAM — is the number that
    matters. Show the arithmetic.
 2. **Cross-check top-down.** Pull a published market figure or a defensible analog and derive the
-   same SAM from it. If bottom-up and top-down diverge wildly, say why and don't average them —
-   reconcile or flag the gap.
+   same SAM from it — from a source that survives the per-fact-type test in
+   [`../references/evidence-standards.md`](../references/evidence-standards.md) (a vendor's "market
+   size" is a claim about the vendor's interest). If bottom-up and top-down diverge by more than
+   ~20%, report **both** and mark it `[CONFLICT]`; do not average them and do not quietly pick the
+   more convenient one. Reconciling is allowed only when you can say *why* one is wrong.
 3. **Name and trace every assumption.** Each input (segment size, adoption %, price, frequency)
    gets a `[sourced: …]` or `[assumption]` tag. A number with no visible input is not a size.
 4. **Keep SAM honest.** SAM is who you can actually serve — the right segment, geography, channel,

@@ -13,3 +13,5 @@
 - **User value:** …
 - **User stories:**
   - As a <role>, I want <capability>, so that <benefit>.
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

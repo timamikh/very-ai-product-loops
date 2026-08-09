@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
+version: 0.2.3
 updated: 2026-08-09
 ---
 
@@ -71,7 +71,10 @@ habit.
    State outcomes as measurable directions (minimize / increase the time/likelihood/effort of …),
    not features. These are what `segment-pains` later scores and what metrics later track.
 4. **Tag confidence & source.** `[sourced: interview …]` / `[sourced: kb …]` / `[assumption]` per
-   `process/CONVENTIONS.md`. Early on the job and forces are largely `[assumption]`.
+   `process/CONVENTIONS.md`. Early on the job and forces are largely `[assumption]`. Where a force is
+   sourced from interviews, name the sample (how many, who) — the four forces are the part of this
+   method most often filled in from the team's own intuition and then quoted back as customer
+   evidence.
 5. **Seed hypotheses.** Each unproven claim about the job or a force → `H-…` (`type: desirability`
    — is this the job, is this force real and this strong). At Step 3, each bet framed on the job →
    `H-…` (mixed types) in the register.

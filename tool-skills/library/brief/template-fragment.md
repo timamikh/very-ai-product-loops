@@ -15,3 +15,5 @@
 - **Decision owner:** <who calls it>
 
 _Hands off to: `concept-formation` (product-level) · `feature-spec` / `activity-spec` (build-level)._
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

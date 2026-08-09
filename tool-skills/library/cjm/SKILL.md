@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -51,7 +51,11 @@ touchpoints feed step-3 `product-surface`. Don't restate those — link to them.
 2. **Lay out the real stages.** The phases the customer moves through in *their* terms (e.g. aware
    → evaluate → onboard → habitual use → renew), not a projection of your internal funnel.
 3. **Fill each stage.** Actions taken, touchpoints used, thoughts/emotions, and pains. Anchor each
-   in evidence (interviews, analytics); mark anything unverified `[assumption]`.
+   in evidence (interviews, analytics); mark anything unverified `[assumption]`. Say **how many**
+   people each stage rests on and how they were selected — a stage backed by three power users and a
+   stage backed by fifty logged sessions look identical on the map and mean very different things.
+   Prefer observed behaviour over reported intent: what people said they would do at renewal is a
+   forecast, not a fact.
 4. **Plot the emotional curve and the moments that matter.** The highs, the lows, and the
    make-or-break moments where the journey is won or lost.
 5. **Turn pains into opportunities.** Each significant pain → an opportunity/bet; each drop-off →

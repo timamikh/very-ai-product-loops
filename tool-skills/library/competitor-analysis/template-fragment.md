@@ -26,3 +26,10 @@ lookups are provided by a regional/company adapter, not the base.)_
 | Competitor | Metric (revenue / headcount / …) | Trend + period | Source (+ date) | Confidence |
 |------------|----------------------------------|----------------|-----------------|------------|
 | … | revenue | … | public financials / registry | [sourced: …] |
+
+**Players considered and excluded** — found in the sweep, kept out of the detailed table, with the
+reason. An excluded player with no reason is indistinguishable from one nobody thought of.
+
+| Player | Found via | Why excluded |
+|--------|-----------|--------------|
+| … | registry / search / app store / community | different job · different segment · no longer trading |

@@ -30,3 +30,13 @@ _Questions this answers: <the scoped questions>. Every row: source + date; `[sou
 **Conflicts noted:** <where sources disagree — surfaced, not averaged>.
 **Feeds:** `market-sizing` (size) · `competitor-analysis` (players) · `substitutes` · `risk-mitigation`.
 **Seeded registers:** H-… (market assumptions) · R-… (barriers/risks) → registers.
+
+**Sources rejected** — checked and not used, with the reason. Without this the next pass finds the
+same plausible page and uses it; and a source that was never opened is indistinguishable from one
+that was opened and passed.
+
+| Source | Why rejected | Class |
+|--------|--------------|-------|
+| <url> | press quoting press — original unreachable | forbidden zone |
+| <url> | vendor's own market sizing | vendor |
+| <url> | **could not reach** — paywall / 404 (declared, not dropped) | — |

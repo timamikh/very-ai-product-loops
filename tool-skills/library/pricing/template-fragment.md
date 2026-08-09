@@ -32,3 +32,5 @@ segment, each tagged `[sourced: …]` or `[assumption]`. …
 
 **Seeded registers:** each unproven price/packaging choice → hypothesis register (`H-…`,
 `type: viability`); price points → `unit-economics` + `financial-model` at Step 4.
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

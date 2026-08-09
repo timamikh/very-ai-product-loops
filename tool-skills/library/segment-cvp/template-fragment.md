@@ -28,7 +28,24 @@ message, ② the landing/offer, ③ the sales first-contact script. If not → b
 lead · registration · outreach reply · diagnostic completed · strong = meeting with a real
 decision-maker · trial · price talk · pilot · prepayment · sale.
 
-**Staged for test this period** (top 3–5 by `prioritization`, test designed by
+**Test-readiness score** — ready bundles only, 1 · 3 · 5 per criterion, sum 5–25. Top 3–5 are staged.
+A criterion that cannot be judged is `— to clarify —`, never a 3. Scores are ⚙️ until confirmed.
+
+| Bundle | Pain acuteness | Reachability | Deliverability | Willingness to pay | Speed to a signal | Sum | Staged? |
+|--------|----------------|--------------|----------------|--------------------|-------------------|-----|---------|
+| B-01 | 5 | 3 | 5 | 1 | 5 | 19 | ✅ ⚙️ |
+
+**Cut, and why** — every bundle that did not get staged, kept for the next pass. Without this the
+same entry is re-proposed next period and nobody can tell a filter that was applied from one that was
+never reached.
+
+| Bundle | Cut at | Reason | Revisit when |
+|--------|--------|--------|--------------|
+| B-07 | readiness gate — **Find** | no named place this segment is reachable | a partner/community is identified |
+| B-04 | score 11 of 25 | slow to a signal (needs a 3-week pilot to learn anything) | the offer can be cut down to a 2-day diagnostic |
+
+**Staged for test this period** (top 3–5 by the score above; `prioritization` then decides whether
+they fit the period's capacity and does not re-score them; test designed by
 `hypothesis-test-design`): B-…, B-…
 
 **Seeded registers:** each `ready` bundle → hypothesis register (`H-…`, `type: desirability`,

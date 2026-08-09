@@ -80,7 +80,7 @@ Exactly one value; a secondary class is discussed in the body, never compounded 
 | `primary-research` | talking to or observing people directly — interviews, usability sessions, field observation | non-leading questions, past behaviour over stated intent, the sample and its bias named; a quote is evidence of one person, and *n* is stated |
 | `internal-data` | the product's own instrumentation and registers — **including controlled experiments run on it** | the reading is reproducible — population, window, derivation written down per [`operations/metrics-capture/`](../operations/metrics-capture/SKILL.md); never a number without its denominator |
 | `derived` | no new empirical claim — it composes, computes or ranks what other methods established | every input names the method or register it came from; the method's own reasoning is `[assumption]`, never blanket-sourced to its inputs |
-| `decision` | a choice, a plan or a specification the humans own | the decision is dated and attributed; alternatives considered are shown; ⚙️ on anything the agent proposed |
+| `decision` | a choice, a plan or a specification the humans own | the decision is dated and attributed and the alternatives are shown, in one canonical line at the end of the produced section — `**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why>`, with ⚙️ while the agent's proposal is unconfirmed |
 
 **The tie-break**, because most methods touch more than one class: declare the class of **the claims a
 reader is most likely to take on trust**. A channel plan is a choice, but what a reader swallows

@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -45,8 +45,10 @@ gains), and customer-perceived value (what the customer believes they get, not w
    gets and why it beats the alternative. Map to the Value Proposition Canvas: our pain-relievers
    and gain-creators against their pains and gains.
 4. **Capture customer-perceived value.** Phrase it as the customer would — the benefit they
-   believe they receive. Where possible, back it with a signal (interview quote, willingness-to-pay);
-   otherwise tag `[assumption]`.
+   believe they receive. Back it with a signal and say what the signal was: a quote is evidence of one
+   person (name the sample), and **money beats words** — what they pay for today, or agreed to pay,
+   outranks what they said they would value. Absent a signal, tag `[assumption]`; "customers tell us
+   they love it" with no behaviour behind it is one.
 5. **Write the one-liner.** "For [best-fit customer] who [job/pain], we [value] — unlike
    [alternative], because [why us / moat]."
 6. **Seed hypotheses.** Each unproven value claim → `H-…` for the register.

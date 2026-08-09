@@ -20,3 +20,13 @@ _Why this one: leading · value-repeating · strategy-encoding (one line each)._
 
 **Guardrails:** `M-…` — <what must not drop and why>.
 **Not instrumented (→ Steps 5–6):** list of nodes + how to close each.
+
+**North Star candidates considered** — including the ones that lost, and on which filter. This is the
+most re-litigated decision in the tree; without it the same argument restarts next quarter from a
+blank page.
+
+| Candidate | Leading? | Value-repeating? | Strategy-encoding? | Verdict |
+|-----------|----------|------------------|--------------------|---------|
+| `M-…` | ✅/❌ | ✅/❌ | ✅/❌ | chosen · rejected: <which filter and why> |
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

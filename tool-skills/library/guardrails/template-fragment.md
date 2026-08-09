@@ -14,3 +14,12 @@
 - …
 
 **Breach = risk:** logged as `R-…`.
+
+**Considered, not guardrailed** — every break-category checked that did not become a guardrail. A
+category nobody looked at and one that was looked at and cleared are indistinguishable afterwards.
+
+| Category | What was checked | Why not a guardrail |
+|----------|------------------|---------------------|
+| retention · unit economics · CAC · quality · brand/trust · support load · churn | … | no metric node yet (→ instrumentation task) · no plausible mechanism this period · already covered by <other guardrail> |
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

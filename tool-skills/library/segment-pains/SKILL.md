@@ -14,7 +14,7 @@ volume_rule: "≥5 candidate pains per segment before any is ranked"
 selection_rule: "severity × frequency; differentiator vs table-stakes; the top 3 carry forward, the rest stay ranked in the table"
 rejects_shown: required
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -43,12 +43,20 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
 
 1. **State the job.** For the lead segment, what are they really trying to get done (the JTBD)?
    Pains are obstacles to *that job*, not generic complaints.
-2. **List pains,** each scored **severity** (how much it hurts) × **frequency** (how often).
-   Lead with high×high.
+2. **List at least 5 candidate pains per segment, then score** each on **severity** (how much it
+   hurts) × **frequency** (how often). Lead with high×high. Five is the floor because two or three
+   pains are always the ones the team already talks about — the ranking has nothing to do and the
+   result is the starting opinion with a table around it. **The top 3 carry forward** into the CVP
+   and the bundle; the rest stay in the table with their rank, never deleted — a pain ranked low this
+   quarter is the cheapest thing to re-check next quarter, and the most expensive to re-derive.
 3. **Classify each pain: `differentiator` or `table-stakes`.** Table-stakes must be met but
    won't win anyone; differentiators are where you actually compete. (This distinction is why a
    pain can also be a baseline requirement baked into the concept.)
-4. **Tag confidence & source.** `[sourced: metrics …]` / `[sourced: interview …]` / `[assumption]`.
+4. **Tag confidence & source — and say what the evidence actually was.** `[sourced: metrics …]` /
+   `[sourced: interview …]` / `[assumption]`. For an interview-sourced pain, name **how many people**
+   and **who** (the sample and its bias: five power users is not five customers), and prefer evidence
+   of **past behaviour** — what they did, paid for, or built around — over what they said would be
+   nice. A stated complaint with no behaviour behind it is `[assumption]`, however vivid the quote.
 5. **Seed hypotheses.** Each unproven pain → `H-…` with `type: desirability` (does this pain
    exist and matter enough).
 

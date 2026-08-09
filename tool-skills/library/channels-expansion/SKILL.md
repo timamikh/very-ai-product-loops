@@ -14,7 +14,7 @@ volume_rule: "≥8 candidate channels across ≥3 channel-type categories before
 selection_rule: "reach × cost-to-test × testability (1/3/5); inner ring = the 3 highest, tested now"
 rejects_shown: required
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -36,10 +36,19 @@ expansion-path thinking: sequence the segments/markets we grow into once the fir
 - **UVP** — the message the channel carries. *Missing → run `uvp-cpv`.*
 
 ## How to do it
-1. **Brainstorm the full list.** Consider every channel type, not just the obvious two — don't
-   pre-filter to what's familiar.
-2. **Rank into rings.** Sort into inner (test now), middle (promising), outer (unlikely). Bet the
-   first tests on the inner ring; keep the rest as backlog.
+1. **Brainstorm the full list — at least 8 candidates across at least 3 channel-type categories**
+   (e.g. content/SEO · paid · communities · partnerships/resellers · outbound · events · marketplaces
+   · existing-base motions). Don't pre-filter to what's familiar: the ring model does nothing if the
+   only candidates are the two you already run. Fewer than 8, or all from one category, means the
+   brainstorm has not happened yet.
+2. **Score, then rank into rings.** Score each candidate **1 · 3 · 5** on **reach** (how many of this
+   exact segment sit there), **cost to test** (what one honest test costs, inverted — cheap scores
+   high), and **testability** (can we read a signal in days, not a quarter). The three highest go to
+   the **inner ring** (test now); the next tier is **middle** (promising, revisit); the rest are
+   **outer** — kept with the reason they lost, never deleted. A claim about a channel's reach is an
+   external claim: source it per
+   [`../references/evidence-standards.md`](../references/evidence-standards.md), or tag it
+   `[assumption]` and say so.
 3. **Define a measurable test per inner-ring channel.** For each, state the metric, the cost, and
    the success threshold *before* running it. A channel you can't measure isn't a test.
 4. **Keep channel separate from message.** The channel is *where* you reach them; the UVP is

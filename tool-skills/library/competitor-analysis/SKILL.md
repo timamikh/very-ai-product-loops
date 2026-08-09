@@ -14,7 +14,7 @@ volume_rule: "≥5 named players, including ≥1 the team did not name first (re
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.1.4
+version: 0.1.5
 updated: 2026-08-09
 ---
 
@@ -36,11 +36,18 @@ dynamics** over time.
 - **Competitor list seed** — at least a few names to start. *Missing → derive from analytics-search.*
 
 ## How to do it
-1. **List** direct + indirect competitors (substitutes are a separate tool).
+1. **List** direct + indirect competitors (substitutes are a separate tool). **At least 5 named
+   players, of which at least one is a player the team did not name first** — found by a registry,
+   search, app-store or community sweep, not from memory. The failure this prevents is the two-rival
+   analysis: the incumbents everyone already worries about get studied, and the entrant that actually
+   takes the segment is not on the page. Then say which players enter the detailed table (they share
+   our segment **and** our job) and **list the ones excluded with the reason** — an excluded player
+   with no reason is indistinguishable from one nobody thought of.
 2. **Name each one's game** — are they chasing revenue, profit, share, or social capital, and by
    what strategy? Compare on the Step-1 moat axes (who has data / distribution / brand …).
 3. **Competitor pricing scan.** Capture each competitor's pricing where findable — the
-   competitor's own site, or a web search. This is an **input** to our own pricing
+   competitor's own site, or a web search. Record the **date you read it**: published pricing is the
+   fastest-ageing fact in this table, and an undated price is a claim about an unknown month. This is an **input** to our own pricing
    decision (the `pricing` tool at Step 3) and feeds the Step-4 financial model — it is not our
    price. Tag `[sourced: …]`; if not public, `— to clarify —`.
 4. **Development dynamics.** Capture how each competitor is trending (revenue, headcount, filings)

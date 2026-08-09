@@ -17,7 +17,7 @@ volume_rule: "2–4 candidate North Stars, each run through all three filters (l
 selection_rule: "the candidate passing all three filters becomes the North Star; 3–5 drivers under it, not more"
 rejects_shown: required
 status: draft
-version: 0.2.3
+version: 0.2.4
 updated: 2026-08-09
 ---
 
@@ -45,6 +45,9 @@ Thin, in order:
    `strategy#how-to-win`). Revenue is never the North Star; it is the outcome.
    **Do not reject a candidate because it isn't measured yet** — the gap between the right
    metric and today's instrumentation becomes the work plan (the lamppost trap).
+   **Record the candidates that lost, and which filter they failed.** A North Star is the most
+   re-litigated decision in the tree; without the losing candidates and their reason, the same
+   argument is had again next quarter from a blank page.
 2. **Pick drivers (3–5, not more):** acquisition-side (new accounts reaching value), conversion,
    deepening (the strategy's engagement axis), retention. Every driver is a register node with
    `parent` = the North Star.

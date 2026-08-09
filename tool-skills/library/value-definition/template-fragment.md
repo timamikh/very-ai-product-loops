@@ -27,3 +27,10 @@
 **Defensibility summary:** ⚙️ _lead moat = … ; durability = H/M/L ; why it holds = …_
 
 **Seeded hypotheses:** H-… (moat claim to validate) → hypothesis register.
+
+**Candidates rejected as features, not moats** — what failed the post-AI rebuild test, and why. A
+team that cannot see this list re-proposes the same "advantage" within two quarters.
+
+| Candidate value | Why it fails the rebuild test |
+|-----------------|-------------------------------|
+| … | reproducible by anyone with the same model and a week |

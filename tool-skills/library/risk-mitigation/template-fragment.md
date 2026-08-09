@@ -21,3 +21,13 @@ not only external ones. Pull existing risks from the R- register before inventin
 
 _Ranked by P×I. At Step 4 every carried risk gets an owner and a trigger, or it isn't managed.
 Upsert each into the R- register (one row per risk — the Step-4 columns fill in the same register entry)._
+
+**Disposition of every risk surfaced** — including the ones not carried. A risk that simply fails to
+reappear in the next table is indistinguishable from one nobody raised, and the pre-mortem's whole
+value is that somebody did.
+
+| Risk | P × I | Disposition | Reason |
+|------|-------|-------------|--------|
+| … | H×M | carried · parked · dropped | … |
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

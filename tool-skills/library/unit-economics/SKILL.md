@@ -18,7 +18,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.4
+version: 0.2.5
 updated: 2026-08-09
 ---
 
@@ -46,7 +46,10 @@ compute a single basis and say so.
 (operations) is the pass that lands it in the register; this tool reads the register, it does not query.*
 
 ## How to do it
-1. **Revenue per paying account** — blended AND by tariff (price ≠ ARPPU when one-time/PAYG mix in).
+1. **State the window first, then revenue per paying account.** Name the period every figure below
+   is read over (trailing 30 days, last full month, the quarter) — revenue, COGS and CAC read over
+   different windows do not divide into each other, and nothing on the page says so afterwards. Then:
+   revenue per paying account, blended AND by tariff (price ≠ ARPPU when one-time/PAYG mix in).
 2. **COGS per paying account** in both bases. Allocate inference by actual usage share (tokens),
    not headcount; state the allocation rule as an `[assumption]`. Non-paying usage (free tier,
    grants) is a real cost — decide explicitly who "carries" it and write that down.

@@ -14,7 +14,7 @@ volume_rule: "all 7 break-categories checked against every period goal before an
 selection_rule: "a category becomes a guardrail only with an M- node and a stated floor/ceiling; the rest are logged as considered"
 rejects_shown: required
 status: draft
-version: 0.1.2
+version: 0.1.3
 updated: 2026-08-09
 ---
 
@@ -36,10 +36,15 @@ reconciliation: each cycle names the gate it moves *and* the things it protects.
 - **Period goals** — you guardrail *against* the current goals. *Missing → set them first.*
 
 ## How to do it
-1. **For each goal, ask "what could this break?"** Retention, unit economics, CAC, quality,
-   brand/trust, support load, churn.
+1. **For each goal, check all seven break-categories** — retention, unit economics, CAC, quality,
+   brand/trust, support load, churn. Not "consider": check each one and write down what you found,
+   including the ones that turn out to be safe. A category nobody looked at and a category that was
+   looked at and cleared are indistinguishable afterwards, and the one that breaks is usually the one
+   nobody wrote down.
 2. **Pick guardrail metrics** — the `M-…` nodes that must not cross a threshold. State the
-   threshold (floor/ceiling).
+   threshold (floor/ceiling). A category becomes a guardrail only if it has **both** a metric node and
+   a stated number; the categories that have neither are logged as *considered, not guardrailed* with
+   the reason (usually "no instrumentation" — which is itself a Step 5–6 task, not a shrug).
 3. **State red lines** — qualitative "never do" limits (e.g. dark patterns, off-brand content).
 4. **Assign monitoring** — where each guardrail is watched and how often.
 5. **Log as risks-not-to-realize** — breaching a guardrail is a risk (`R-…`).

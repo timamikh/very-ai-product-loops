@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -61,8 +61,13 @@ test selection, it executes one kind of test.
 4. **Set the randomization unit and arms.** Unit (user / account / session), control vs
    variant(s), allocation split. The unit must match the metric's grain and avoid spillover
    between arms.
-5. **Size it from the MDE.** From the minimum detectable effect, the baseline rate, and power/α,
-   compute the required sample and run length. Don't start a test that can't reach its own bar.
+5. **Size it from the MDE, and state the population.** From the minimum detectable effect, the
+   baseline rate, and power/α, compute the required sample and run length. Don't start a test that
+   can't reach its own bar. Write down **who is in the test** — which traffic, which segments, who is
+   excluded (internal accounts, bots, an ineligible plan) and any skew you know about (time of day,
+   new vs returning). The read is only reproducible if a later reader can reconstruct the denominator;
+   this is the same discipline as any register reading (see
+   [`../../operations/metrics-capture/SKILL.md`](../../operations/metrics-capture/SKILL.md)).
 6. **Pre-register the stopping rule.** A fixed horizon, or a valid sequential method — never
    peek-and-stop when it looks significant. The verdict maps to the `hypothesis-test-design`
    validated / refuted / inconclusive bars.

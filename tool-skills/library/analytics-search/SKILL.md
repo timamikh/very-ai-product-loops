@@ -14,7 +14,7 @@ volume_rule: "≥2 independent sources per load-bearing claim; ≥3 for any numb
 selection_rule: "prefer primary over secondary per fact type; on >20% divergence report both as [CONFLICT], never average"
 rejects_shown: required
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-09
 ---
 
@@ -53,13 +53,27 @@ consume. It fills the `analytics-search` **input slot** those tools list.
    Scope the search before opening a tab.
 2. **Cast a triangulated net.** Analyst/industry reviews, articles, official indicators and
    statistics, and named-expert opinion. Prefer primary sources and several independent ones.
+   Judge each source **per fact type** and keep out of the forbidden zone — the rules are in
+   [`../references/evidence-standards.md`](../references/evidence-standards.md), §1–2. A source
+   whose original cannot be reached is not a weak source; it is not a source.
 3. **Distil into the digest buckets.** Size signals · dynamics (growth/decline) · trends ·
    barriers to entry · risks & drivers · main players. Every claim carries a source and a date.
-4. **Triangulate every number.** One source → `[assumption]`; two independent sources →
-   `[sourced]`. Surface conflicts, don't average them into a false middle.
-5. **Flag freshness.** Mark stale data — a three-year-old market size can mislead pricing. Prefer
-   the most recent credible read.
-6. **Hand off and seed registers.** Size signals → `market-sizing`; players → `competitor-analysis`;
+4. **Triangulate every number — before the synthesis, not after.** Two independent sources for
+   every load-bearing claim (**three** for any number that will reach a conclusion, a headline or a
+   chart); one source → `[assumption]`. *Independent* means it does not trace back to the same
+   original — two articles citing one report are one source. Divergence over 20%: report both,
+   mark `[CONFLICT]`, and do not resolve it yourself. Doing this after the analysis is worse than
+   not doing it: by then the number is load-bearing and the check becomes a search for permission
+   to keep it (`evidence-standards.md` §5).
+5. **Flag freshness, and record what you actually opened.** Every source carries `as_of` — the
+   date *you* read it, not the date on the page — and its class (primary · database · expert ·
+   press · vendor). Mark stale data: a three-year-old market size can mislead pricing.
+6. **Show the sources you rejected.** The ones that turned out to be press quoting press, vendor
+   marketing, or unreachable originals — with the reason. Without this list the next pass finds
+   the same plausible page and uses it, and nobody can tell a source that was checked and passed
+   from one that was never opened. **Fail loud:** a source you could not reach is named, never
+   silently dropped.
+7. **Hand off and seed registers.** Size signals → `market-sizing`; players → `competitor-analysis`;
    barriers/risks/drivers → risk register (`R-…`) and hypotheses (`H-…`). The digest lives in
    `product/sources/`, indexed in `sources/INDEX.md`.
 

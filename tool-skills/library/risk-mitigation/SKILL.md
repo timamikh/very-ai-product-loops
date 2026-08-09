@@ -14,7 +14,7 @@ volume_rule: "≥8 named failure modes from the pre-mortem before any triage"
 selection_rule: "probability × impact; carried · parked · dropped, each with the reason"
 rejects_shown: required
 status: draft
-version: 0.2.2
+version: 0.2.3
 updated: 2026-08-09
 ---
 
@@ -38,13 +38,17 @@ mitigation + owner + trigger for each risk worth carrying.
   *Missing → run `where-to-play-how-to-win` (and related Step-3 tools) first.*
 
 ## How to do it
-1. **Run the pre-mortem.** Assume it's 12 months out and the strategy failed. Ask *why* — force
-   concrete failure stories, not abstract worries. Cover execution and key-person risks, not just
-   external/market ones.
+1. **Run the pre-mortem — to at least 8 named failure modes.** Assume it's 12 months out and the
+   strategy failed. Ask *why* — force concrete failure stories, not abstract worries. Cover execution
+   and key-person risks, not just external/market ones. Stopping at three is the pre-mortem's
+   characteristic failure: the first three are always the ones already being discussed, and the risk
+   that kills the plan is rarely among them.
 2. **Pull existing risks.** Read the R- register for risks already logged (e.g. seeded by earlier
    tools); don't re-invent them.
-3. **Triage.** Score each risk on probability × impact; keep the ones worth carrying and drop or
-   park the trivial. Rank by the product.
+3. **Triage — and record the disposition of every risk you surfaced.** Score each on probability ×
+   impact, then mark it **carried · parked · dropped**, each with a one-line reason. Rank the carried
+   set by the product. A risk that simply fails to reappear in the next table is indistinguishable
+   from one nobody raised, and the pre-mortem's whole value is that somebody did raise it.
 4. **Assign mitigation + owner + trigger.** For each carried risk: what we'll do about it, *who*
    owns it, and the *trigger* (the observable signal that says "act now"). A risk with no owner or
    trigger is not managed.

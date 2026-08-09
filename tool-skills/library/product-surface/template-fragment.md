@@ -13,3 +13,5 @@
 
 **Behavior-study tools:** … (analytics / session capture / surveys / funnels)
 **Infra implications (→ Step 4 costs):** …
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.
