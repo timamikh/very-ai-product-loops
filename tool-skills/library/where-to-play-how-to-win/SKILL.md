@@ -9,9 +9,13 @@ prerequisites: [product-concept, market-analysis, value-moats]
 used_by_steps: [3]
 opinionated: true
 method_basis: "Playing to Win (Lafley/Martin) — winning aspiration, where-to-play, how-to-win cascade"
+evidence_standard: decision
+volume_rule: "≥3 distinct where-to-play / how-to-win possibilities before one cascade is chosen"
+selection_rule: "the chosen cascade must be internally consistent end to end; the others are recorded with why they lose"
+rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Where to Play / How to Win

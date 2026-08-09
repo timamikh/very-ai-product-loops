@@ -9,9 +9,13 @@ inputs: [interview, kb, analytics-search]
 used_by_steps: [1, 3, 5]
 opinionated: true
 method_basis: "Market-entry bundle (segment · situation · pain · CVP · offer · first action · channel · signal) with a 6-filter readiness gate and a qualified-action signal scale; one bundle = one testable go-to-market hypothesis"
+evidence_standard: derived
+volume_rule: "≥3 distinct situations per priority segment and ≥8 bundles in total before any is staged"
+selection_rule: "6-filter readiness gate (binary) → among the ready, 5 criteria × 1/3/5 = 5–25 → top 3–5 staged"
+rejects_shown: required
 status: draft
-version: 0.1.1
-updated: 2026-07-21
+version: 0.1.2
+updated: 2026-08-09
 ---
 
 # Segment–CVP bundle

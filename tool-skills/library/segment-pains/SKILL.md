@@ -9,9 +9,13 @@ prerequisites: [segments, evidence-source]
 used_by_steps: [1]
 opinionated: false
 method_basis: "Jobs-to-be-Done + Value Proposition Canvas (jobs/pains/gains), scored by severity × frequency, classified differentiator vs table-stakes"
+evidence_standard: primary-research
+volume_rule: "≥5 candidate pains per segment before any is ranked"
+selection_rule: "severity × frequency; differentiator vs table-stakes; the top 3 carry forward, the rest stay ranked in the table"
+rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Segment Pains

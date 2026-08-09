@@ -9,9 +9,13 @@ prerequisites: [segments, segment-pains, where-to-play]
 used_by_steps: [3]
 opinionated: false
 method_basis: "Dunford positioning + Value Proposition Canvas + customer-perceived value"
+evidence_standard: primary-research
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # UVP & Customer-Perceived Value

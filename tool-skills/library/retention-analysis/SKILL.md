@@ -9,8 +9,12 @@ inputs: [metrics, kb]
 used_by_steps: [4]
 opinionated: true
 method_basis: "Cohort retention curve (does it flatten?) + usage-frequency / engagement-loop analysis + resurrection; the flattening retention curve is the PMF signal and the real input to LTV/churn — not an assumed churn %"
+evidence_standard: internal-data
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-08-09
 ---
 

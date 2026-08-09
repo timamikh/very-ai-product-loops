@@ -9,9 +9,13 @@ prerequisites: [concept, audience-knowledge-or-analytics]
 used_by_steps: [1]
 opinionated: false
 method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
+evidence_standard: primary-research
+volume_rule: "≥3 candidate cuts on different bases (situation · job · behaviour · buying trigger) before one is chosen"
+selection_rule: "priority tiers 1–3 on reachability × pain acuteness × fit; lower tiers are kept, never deleted"
+rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.2.1
+updated: 2026-08-09
 ---
 
 # Segmentation

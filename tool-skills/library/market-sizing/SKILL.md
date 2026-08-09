@@ -9,9 +9,13 @@ inputs: [analytics-search, kb]
 used_by_steps: [2]
 opinionated: false
 method_basis: "TAM/SAM/SOM — bottom-up preferred, top-down cross-check, named assumptions"
+evidence_standard: external-sources
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Market Sizing

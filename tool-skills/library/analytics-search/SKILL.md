@@ -9,9 +9,13 @@ inputs: [kb]
 used_by_steps: [1, 2, 4]
 opinionated: false
 method_basis: "Triangulated desk research — analyst reviews · articles · indicators/statistics · named-expert opinion; multiple independent sources per claim"
+evidence_standard: external-sources
+volume_rule: "≥2 independent sources per load-bearing claim; ≥3 for any number that reaches a conclusion"
+selection_rule: "prefer primary over secondary per fact type; on >20% divergence report both as [CONFLICT], never average"
+rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Market Research (desk research)

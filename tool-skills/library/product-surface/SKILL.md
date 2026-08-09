@@ -9,9 +9,13 @@ prerequisites: [product-concept, channels-draft]
 used_by_steps: [3, 4]
 opinionated: false
 method_basis: "Touchpoint mapping + instrumentation planning (every user-interaction surface and every behavior/metric collection point)"
+evidence_standard: decision
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Product Surface

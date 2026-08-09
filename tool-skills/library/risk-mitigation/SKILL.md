@@ -9,9 +9,13 @@ prerequisites: [strategy-choices]
 used_by_steps: [3, 4]
 opinionated: false
 method_basis: "Pre-mortem (Klein) + risk register triage (prob × impact) + mitigation/owner"
+evidence_standard: decision
+volume_rule: "≥8 named failure modes from the pre-mortem before any triage"
+selection_rule: "probability × impact; carried · parked · dropped, each with the reason"
+rejects_shown: required
 status: draft
-version: 0.2.1
-updated: 2026-07-21
+version: 0.2.2
+updated: 2026-08-09
 ---
 
 # Risk & Mitigation

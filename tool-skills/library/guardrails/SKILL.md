@@ -9,9 +9,13 @@ prerequisites: [metric-tree, period-goals]
 used_by_steps: [5]
 opinionated: false
 method_basis: "Guardrail metrics + red lines (steering-committee reconciliation pattern)"
+evidence_standard: decision
+volume_rule: "all 7 break-categories checked against every period goal before any guardrail is picked"
+selection_rule: "a category becomes a guardrail only with an M- node and a stated floor/ceiling; the rest are logged as considered"
+rejects_shown: required
 status: draft
-version: 0.1.1
-updated: 2026-07-18
+version: 0.1.2
+updated: 2026-08-09
 ---
 
 # Guardrails

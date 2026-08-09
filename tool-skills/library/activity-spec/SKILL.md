@@ -9,9 +9,13 @@ prerequisites: [period-goals]
 used_by_steps: [6]
 opinionated: false
 method_basis: "Go-to-market activity at the same altitude as a feature (Description / Scope / Business value / Audience value / Links)"
+evidence_standard: decision
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.2.1
+updated: 2026-08-09
 ---
 
 # Activity Spec (go-to-market direction)

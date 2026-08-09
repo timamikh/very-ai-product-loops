@@ -13,9 +13,13 @@ prerequisites:
 used_by_steps: [4]
 opinionated: true
 method_basis: "Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint"
+evidence_standard: derived
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.2.1
-updated: 2026-07-18
+version: 0.2.2
+updated: 2026-08-09
 ---
 
 # Financial model — a simple projection off the metric tree

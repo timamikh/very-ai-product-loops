@@ -9,9 +9,13 @@ prerequisites: []
 used_by_steps: [5]
 opinionated: false
 method_basis: "Lightweight capacity survey (people · budget · time); full resource planning is a future integration"
+evidence_standard: decision
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.2.1
+updated: 2026-08-09
 ---
 
 # Resource Check

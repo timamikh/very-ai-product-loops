@@ -23,6 +23,10 @@ Checks (ERROR fails CI · WARN never does):
   I  a product's own skills (product/tool-skills/…) obey the same wiring rules as vendored ones
   J  a register table is not split by a blank line  (WARN)
   K  a register `id` cell names exactly one item (one row = one id)
+  L  every library tool carries the quality declaration (evidence_standard · volume_rule ·
+     selection_rule · rejects_shown), with legal values and internally consistent
+  M  every vendored operations skill declares its wiring (name · kind · produces · used_by_steps ·
+     status · version) and has the template-fragment its `produces` implies
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -90,8 +94,91 @@ def check_tools(tools, homed):
                     "(homeless output)" % (name, sid, sid))
 
 
+EVIDENCE_STANDARDS = {"external-sources", "primary-research", "internal-data", "derived", "decision"}
+REJECTS_SHOWN = {"required", "n/a"}
+QUALITY_KEYS = ("evidence_standard", "volume_rule", "selection_rule", "rejects_shown")
+
+
+def _blank(v):
+    """A frontmatter value that is present but says nothing."""
+    return v is None or (isinstance(v, str) and not v.strip())
+
+
+def check_quality(tools):
+    """L — the quality declaration every library method owes.
+
+    A method that never states what would make its output wrong produces plausible output forever.
+    These four keys are the cheapest place to make it state it: checked once per run, costing nothing
+    at read time (CONVENTIONS -> "Where a new rule goes": a check before a paragraph).
+    """
+    for name, t in sorted(tools.items()):
+        fm = t["fm"]
+        for key in QUALITY_KEYS:
+            if key not in fm or _blank(fm.get(key)):
+                err("L [%s] no `%s` in SKILL.md frontmatter — the quality declaration is required for "
+                    "every library method (see tool-skills/library/README.md -> The quality declaration)"
+                    % (name, key))
+        ev = fm.get("evidence_standard")
+        if isinstance(ev, str) and ev.strip() and ev.strip() not in EVIDENCE_STANDARDS:
+            err("L [%s] evidence_standard = %r is not one of %s — exactly one value; a secondary "
+                "class belongs in the body, never compounded into the key"
+                % (name, ev.strip(), sorted(EVIDENCE_STANDARDS)))
+        rs = fm.get("rejects_shown")
+        if isinstance(rs, str) and rs.strip() and rs.strip() not in REJECTS_SHOWN:
+            err("L [%s] rejects_shown = %r is not one of %s" % (name, rs.strip(), sorted(REJECTS_SHOWN)))
+        # a method that generates or selects must show what it cut: otherwise the next pass
+        # re-proposes the same discarded option, and a filter never reached is indistinguishable
+        # from one that was applied and passed
+        cuts = [k for k in ("volume_rule", "selection_rule")
+                if isinstance(fm.get(k), str) and fm[k].strip() and fm[k].strip() != "n/a"]
+        if cuts and isinstance(rs, str) and rs.strip() == "n/a":
+            err("L [%s] declares %s but rejects_shown = n/a — a method that generates or selects "
+                "shows what it cut and why" % (name, " and ".join("`%s`" % c for c in cuts)))
+
+
+OPS_REQUIRED = ("name", "kind", "produces", "used_by_steps", "status", "version")
+SECTION_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+
+
+def check_operations():
+    """M — vendored operations skills obey the wiring rules too.
+
+    They were the one plane nothing checked: `library/` had checks A-C and a product's own skills had
+    check I, while an operations skill could declare anything at all. Its `produces` is a file or a
+    prose note far more often than a section id, so only a real section-form value is held to the
+    template-fragment/homing rule.
+    """
+    homed = F.homed_sections(ROOT)
+    for skill in sorted(glob.glob(os.path.join(ROOT, "tool-skills", "operations", "*", "SKILL.md"))):
+        d = os.path.dirname(skill)
+        name = os.path.basename(d)
+        fm, _ = T.frontmatter(skill)
+        for key in OPS_REQUIRED:
+            if key not in fm or _blank(fm.get(key)):
+                err("M [%s] operations skill declares no `%s`" % (name, key))
+        if fm.get("name") and fm["name"] != name:
+            err("M [%s] frontmatter name is `%s` — it must match the folder" % (name, fm["name"]))
+        for p in T.as_list(fm.get("produces")):
+            if T.is_file_produces(p) or not SECTION_ID_RE.match(str(p)):
+                continue  # a file, or prose about what it produces — not a section id
+            frag = os.path.join(d, "template-fragment.md")
+            frag_ids = T.section_ids(read(frag)) if os.path.exists(frag) else set()
+            if p not in frag_ids:
+                err("M [%s] produces `%s` but its template-fragment.md has no {#%s}" % (name, p, p))
+            if p not in homed:
+                err("M [%s] produces section `%s` with no home in any step template" % (name, p))
+        if not os.path.exists(os.path.join(d, "template-fragment.md")):
+            warn("M [%s] has no template-fragment.md — the shape it produces is described in prose "
+                 "only, so two runs can produce two shapes" % name)
+
+
 def check_index(tools):
     idx = read(ROOT + "/tool-skills/library/README.md")
+    # Only the "## Index" section is the index. The file also documents schemas in tables whose first
+    # column is a backticked value (`external-sources`, …), and reading the whole file made every enum
+    # value look like a tool with a missing folder.
+    cut = re.search(r"^##\s+Index\s*$", idx, re.M)
+    idx = idx[cut.start():] if cut else idx
     # tool names appear as `name` in the first column of the index table
     listed = set(re.findall(r"^\|\s*`([a-z0-9-]+)`\s*\|", idx, re.M))
     folders = set(tools)
@@ -320,6 +407,8 @@ def main(argv=()):
     homed = F.homed_sections(ROOT)
 
     check_tools(tools, homed)
+    check_quality(tools)
+    check_operations()
     check_index(tools)
     checked = instances(list(argv))
     for inst in checked:

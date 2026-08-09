@@ -9,9 +9,13 @@ inputs: []
 used_by_steps: [5, 6]
 opinionated: false
 method_basis: "RICE/ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line"
+evidence_standard: derived
+volume_rule: "every candidate current for the period enters the ranking — none pre-cut; record the count N that entered"
+selection_rule: "RICE/ICE, re-ranked by contribution to the period gate; the must/backlog line is capacity-bounded"
+rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Prioritization

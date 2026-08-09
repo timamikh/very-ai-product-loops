@@ -9,9 +9,13 @@ prerequisites: [product-concept, competitor-list-seed]
 used_by_steps: [2]
 opinionated: false
 method_basis: "'What game are they playing' + moat comparison; pricing scan; growth-dynamics from public registries"
+evidence_standard: external-sources
+volume_rule: "≥5 named players, including ≥1 the team did not name first (registry/search/app-store sweep)"
+selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
+rejects_shown: required
 status: draft
-version: 0.1.3
-updated: 2026-07-21
+version: 0.1.4
+updated: 2026-08-09
 ---
 
 # Competitor Analysis

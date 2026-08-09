@@ -13,8 +13,12 @@ prerequisites:
 used_by_steps: [4]
 opinionated: true
 method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
+evidence_standard: internal-data
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.2.3
+version: 0.2.4
 updated: 2026-08-09
 ---
 

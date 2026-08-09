@@ -9,9 +9,13 @@ inputs: [interview, kb, analytics-search]
 used_by_steps: [2]
 opinionated: false
 method_basis: "JTBD-competition — alternatives incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes"
+evidence_standard: external-sources
+volume_rule: "the three baseline substitutes (do nothing · do it manually · build it themselves) always enumerated, plus ≥2 adjacent"
+selection_rule: "a substitute that wins in a real segment is promoted to the risk register; the rest stay in the map"
+rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Substitutes

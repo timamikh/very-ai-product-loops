@@ -9,9 +9,13 @@ inputs: []
 used_by_steps: [1, 2]
 opinionated: false
 method_basis: "Continuous discovery (Torres) + The Mom Test (Fitzpatrick) — non-leading questions, past behaviour over hypotheticals"
+evidence_standard: primary-research
+volume_rule: n/a
+selection_rule: "screen-in/screen-out criteria tied to the target behaviour — never availability or convenience"
+rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Interview (prep)

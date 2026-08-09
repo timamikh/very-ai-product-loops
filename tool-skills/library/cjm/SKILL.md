@@ -9,9 +9,13 @@ inputs: [interview, analytics-search]
 used_by_steps: [1, 3]
 opinionated: false
 method_basis: "Journey mapping — stages · actions · touchpoints · thoughts/emotions · pains → opportunities; moments that matter"
+evidence_standard: primary-research
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Customer Journey Map

@@ -12,8 +12,12 @@ prerequisites:
 used_by_steps: [4, 5]
 opinionated: true
 method_basis: "North Star Framework (Amplitude); anti-lamppost — right metric over measurable"
+evidence_standard: decision
+volume_rule: "2–4 candidate North Stars, each run through all three filters (leading · value-repeating · strategy-encoding)"
+selection_rule: "the candidate passing all three filters becomes the North Star; 3–5 drivers under it, not more"
+rejects_shown: required
 status: draft
-version: 0.2.2
+version: 0.2.3
 updated: 2026-08-09
 ---
 

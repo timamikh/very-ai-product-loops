@@ -9,9 +9,13 @@ inputs: [metrics]
 used_by_steps: [4, 5]
 opinionated: false
 method_basis: "Assumption mapping (Bland/Osterwalder) + smallest viable test: metric · threshold · sample/duration · decision rule"
+evidence_standard: derived
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Hypothesis Test Design

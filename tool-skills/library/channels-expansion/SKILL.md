@@ -9,9 +9,13 @@ prerequisites: [segments, uvp]
 used_by_steps: [3]
 opinionated: false
 method_basis: "Bullseye framework (Traction, Weinberg/Mares) + expansion-path thinking"
+evidence_standard: external-sources
+volume_rule: "≥8 candidate channels across ≥3 channel-type categories before any ring is assigned"
+selection_rule: "reach × cost-to-test × testability (1/3/5); inner ring = the 3 highest, tested now"
+rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-07-16
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Channels & Expansion

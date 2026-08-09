@@ -9,9 +9,13 @@ inputs: [metrics]
 used_by_steps: [5]
 opinionated: false
 method_basis: "Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrail metrics, MDE-driven sizing, pre-registered stopping rule (no peeking)"
+evidence_standard: internal-data
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # A/B Test

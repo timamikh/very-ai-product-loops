@@ -9,9 +9,13 @@ inputs: [interview, kb, analytics-search, metrics]
 used_by_steps: [3, 4]
 opinionated: true
 method_basis: "Value-based pricing & packaging — value metric selection, tiering/fences (good-better-best), willingness-to-pay (van Westendorp / direct WTP), price relative to the next-best alternative; price is a strategic choice, cost is a floor not the method"
+evidence_standard: decision
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-07-18
+version: 0.1.1
+updated: 2026-08-09
 ---
 
 # Pricing & Packaging

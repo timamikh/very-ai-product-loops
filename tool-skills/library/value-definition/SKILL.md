@@ -9,9 +9,13 @@ prerequisites: [concept, segments, what-we-have-or-can-build, competitor-context
 used_by_steps: [1, 3]
 opinionated: true
 method_basis: "7 Powers (Helmer) → base/derivative moats; post-AI lens (software isn't the moat, position is)"
+evidence_standard: derived
+volume_rule: n/a
+selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
+rejects_shown: required
 status: draft
-version: 0.2.1
-updated: 2026-07-21
+version: 0.2.2
+updated: 2026-08-09
 ---
 
 # Value & Defensibility

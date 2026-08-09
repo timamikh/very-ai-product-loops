@@ -33,6 +33,9 @@ tool-skills/library/<tool>/
   template-fragment.md # the artifact section it produces, with source + confidence markers
   questions.yaml       # the interview to gather inputs (also renders to a fillable file)
   references/          # deeper method notes, worked examples
+
+tool-skills/library/references/   # shared by many methods — not a tool folder
+  evidence-standards.md           # what a source may be used for, and what must be checked
 ```
 
 **Prerequisites checklist (required).** Every `SKILL.md` lists the info / artifacts / access the
@@ -54,8 +57,51 @@ reads_registers: [metrics, hypotheses] # registers it consumes
 writes_registers: [hypotheses]         # registers it updates
 inputs: [interview, metrics, git, kb]  # source slots it needs
 used_by_steps: [1, 3]                  # soft, informational
+# --- the quality declaration (all four required; the linter checks them) ---
+evidence_standard: external-sources    # what class of evidence carries this method's claims
+volume_rule: "10–15 situational segments → 20–30 bundles"   # generate-before-you-cut, or n/a
+selection_rule: "5 criteria × 1/3/5 → top 3–5"              # how candidates are cut, or n/a
+rejects_shown: required                # must the output show what was cut and why · required | n/a
 ---
 ```
+
+## The quality declaration
+
+A method that does not say what would make its output *wrong* produces plausible output forever. Four
+frontmatter keys make each method state it, and the linter checks that all four are present and legal
+(a check costs nothing at read time; a paragraph of good intentions in the canon costs every pass).
+
+**`evidence_standard`** — the class of evidence that carries the method's load-bearing claims.
+Exactly one value; a secondary class is discussed in the body, never compounded into the key.
+
+| Value | The claims rest on | Obligation it creates |
+|-------|--------------------|------------------------|
+| `external-sources` | sources outside the company — registries, filings, statistics, competitors, press | follow [`references/evidence-standards.md`](references/evidence-standards.md): judge each source per fact type, stay out of the forbidden zone, record `as_of`, run the headline check on any number that reaches a conclusion |
+| `primary-research` | talking to or observing people directly — interviews, usability sessions, field observation | non-leading questions, past behaviour over stated intent, the sample and its bias named; a quote is evidence of one person, and *n* is stated |
+| `internal-data` | the product's own instrumentation and registers — **including controlled experiments run on it** | the reading is reproducible — population, window, derivation written down per [`operations/metrics-capture/`](../operations/metrics-capture/SKILL.md); never a number without its denominator |
+| `derived` | no new empirical claim — it composes, computes or ranks what other methods established | every input names the method or register it came from; the method's own reasoning is `[assumption]`, never blanket-sourced to its inputs |
+| `decision` | a choice, a plan or a specification the humans own | the decision is dated and attributed; alternatives considered are shown; ⚙️ on anything the agent proposed |
+
+**The tie-break**, because most methods touch more than one class: declare the class of **the claims a
+reader is most likely to take on trust**. A channel plan is a choice, but what a reader swallows
+whole is "this channel reaches our segment" — so it is `external-sources`. A strategy cascade rests on
+analysis, but what a reader takes is the choice itself — so it is `decision`. Ask what would embarrass
+you if it turned out to be unfounded; that is the class.
+
+**`volume_rule`** — how much is generated *before* anything is cut, or `n/a`. It exists because the
+default failure of a generative method is not a bad candidate, it is **too few candidates**: four
+polite options, all of them survivors, and no selection actually happened. A volume rule states the
+number that makes the selection real.
+
+**`selection_rule`** — how the set is cut down: the criteria, the scale, and how many survive. `n/a`
+where the method produces one thing rather than a set. A method with a `volume_rule` and no
+`selection_rule` is generating candidates nobody chooses between.
+
+**`rejects_shown`** — `required` when the output must carry what was cut *and why it was cut*, `n/a`
+otherwise. Rejects are the cheapest artifact in the framework and the most re-derived: without them
+the next pass re-proposes the same discarded option, and nobody can tell a filter that was applied
+from one that was never reached. Any method with a `volume_rule` or a `selection_rule` shows its
+rejects.
 
 ## How to add a tool
 
