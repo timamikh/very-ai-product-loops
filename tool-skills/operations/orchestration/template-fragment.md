@@ -100,6 +100,10 @@ draft as it would appear in the artifact.>
 |--------|--------------|----------------------------|-----------|---------|
 | <the headline figure> | <…> | <…> | <%> | agrees · **CONFLICT — both reported, not resolved** |
 
+*A return with no numeric claims — most `draft` and `verify` work — writes* `n/a — this return
+carries no numbers` *here and scores passport line 4 `n/a`. The section is never omitted: every
+return has the same six sections, because the orchestrator reads several of them side by side.*
+
 ## Open forks — NOT decided
 | The decision | Option A | Option B | Option C | ⚙️ Recommended, and why |
 |--------------|----------|----------|----------|--------------------------|

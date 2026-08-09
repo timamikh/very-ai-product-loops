@@ -13,7 +13,7 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Reproducible measurement: a declared population, a declared observation window, a written derivation, and an independent recount before the value is trusted"
 status: draft
-version: 0.1.0
+version: 0.1.1
 updated: 2026-08-09
 ---
 

@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
+version: 0.2.3
 updated: 2026-08-09
 ---
 
@@ -34,7 +34,13 @@ planning is a future integration; don't fake precision we don't have.
 2. **Budget** — spend available this period (and what it's earmarked for).
 3. **Time** — the period length and any fixed dates/constraints.
 4. **Flag the binding constraint** — the resource most likely to cap the plan.
-5. Feed into `prioritization` so the must-set fits the capacity.
+5. **Record it as a commitment, not an observation.** Capacity is not measured here, it is *stated*
+   by the people who own it — so the number is only worth the name attached to it. Write who
+   confirmed each figure and when, and name the alternative that was declined ("two engineers, not
+   three; the third stays on support"). An unattributed capacity number is the one everyone
+   remembers differently at the end of the period, which is why this method is a `decision` and not a
+   reading.
+6. Feed into `prioritization` so the must-set fits the capacity.
 
 ## Anti-patterns
 - **Fake precision.** Inventing capacity numbers instead of asking.

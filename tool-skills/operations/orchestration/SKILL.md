@@ -13,7 +13,7 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: the writer is single, the readers are many, and a return is accepted against a passport rather than on trust"
 status: draft
-version: 0.1.0
+version: 0.1.1
 updated: 2026-08-09
 ---
 
@@ -125,19 +125,27 @@ separable, not that the brief needs to be longer).
 ## The return passport
 
 The acceptance gate. It is **hard**: a return that fails any line is not integrated (canon —
-OPERATING-LOOP → *Delegation*). Pasted verbatim into each brief; the orchestrator scores it.
+OPERATING-LOOP → *Delegation*). The **one home of the wording** is §7 of the brief in
+[`template-fragment.md`](template-fragment.md) — that is the copy pasted into every brief and the
+copy the subagent self-checks against. The table below is the same nine lines with what each one is
+guarding against; if the two ever read differently, the template is right and this table is the bug.
 
 | # | The check | Fails when |
 |---|-----------|-----------|
 | 1 | **Every claim carries a confidence tag** and names its origin | a bare sentence with no `[sourced: …]` / `[assumption]` |
 | 2 | **Every source given was actually opened**, with the date it was read | a plausible URL that was never fetched, or a title with no link |
 | 3 | **Unreachable sources are declared**, not dropped | a 404 or a paywall silently omitted from the list |
-| 4 | **Headline numbers are cross-checked** against a second independent source | the number that will end up in a conclusion rests on one source |
+| 4 | **Headline numbers are cross-checked** against a second independent source; a divergence over 20% is reported as a conflict, not silently resolved | the number that will end up in a conclusion rests on one source, or two sources disagreed and one was quietly chosen |
 | 5 | **Nothing invented** — gaps are `— to clarify —` | a filled-in plausible value where the source had none |
 | 6 | **No fork closed** — decisions come back as options | the return picked one and moved on |
 | 7 | **No secrets or PII**, and no raw capture pasted in | a token, a customer name, an exported row set |
 | 8 | **Scope covered, or the uncovered part named** | four of six sources done, silently |
 | 9 | **The "could not do" block is present** | absent, or "everything went fine" with no detail |
+
+A line that cannot apply to a task kind is answered **`n/a`, in writing** — a `verify` return has no
+headline numbers, so line 4 is `n/a` and its Cross-checks table says so. Every return carries every
+section; the shape does not vary by kind, only its content does. Two shapes would be two things to
+read, and the orchestrator reads *n* of these.
 
 Lines 2–4 come from the failure this gate is really about: an agent that cannot reach a source and
 fills the hole with something reasonable. **Fail loudly** is the instruction to the subagent, and

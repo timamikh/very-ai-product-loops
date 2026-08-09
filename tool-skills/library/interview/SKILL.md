@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: "screen-in/screen-out criteria tied to the target behaviour — never availability or convenience"
 rejects_shown: required
 status: draft
-version: 0.1.2
+version: 0.1.3
 updated: 2026-08-09
 ---
 

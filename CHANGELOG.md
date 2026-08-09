@@ -10,6 +10,96 @@ All notable changes to very-ai-product-loops are recorded here. The format follo
 
 The version you pin to is the **git tag**; this file is its human-readable story.
 
+## [Unreleased] — Delegation, and a quality declaration on every method
+
+### One pass, more than one agent
+
+The framework filled the lead agent's context faster than it filled the artifacts, and a full context
+is where an agent starts skipping loop steps — registers not updated, a gate ticked without being
+read, a claim shipped without its tag. `process/OPERATING-LOOP.md` → **Delegation** (~45 lines of
+canon) now lets one pass run across several agents, on terms that keep the golden rule intact.
+
+- **Only the orchestrator writes.** Subagents read, search, fetch, reason — and **return text**. The
+  rule is transitive: a subagent may spawn its own subagents, and none of them writes either. This is
+  what removes the two failure modes delegation would otherwise add — two agents allocating `H-0xx`
+  at the same time, and a gate ticked by an agent that never read the gate.
+- **Never delegated**: a fork with the human (the agent prepares, the human decides — a subagent has
+  neither the human nor the context to decide in their place), register ids and writes, gate ticks,
+  and the **Step 1–4 reasoning chain**, which is one argument and loses the coherence it exists for
+  when cut into parallel pieces.
+- **Four task kinds, a closed list:** `gather` · `research` · `draft` · `verify`.
+- **A brief is a scoped handoff** — the same mechanism as a session handoff, narrowed, because it is
+  the same problem: give a fresh agent enough state without giving it your context.
+- **The return gate is hard.** Unlike this framework's step gates, which are soft ticks for a human,
+  a return that fails its **passport** is *not integrated*. One remediation with the defects named,
+  then stop: the gap becomes `— to clarify —` for the human, because a third attempt is nearly always
+  the brief's fault rather than the subagent's.
+- **It costs more tokens, not fewer** — every subagent re-reads what it needs. What it buys is a
+  context that stays clear enough to think in. The skill says so in a callout, so nobody adopts it
+  expecting a saving.
+
+Two new operations skills: **`orchestration`** (how to cut the work, brief it, score the nine-line
+passport, integrate a return without laundering its confidence tags) and **`friction-log`** (a
+`FRICTION.md` entry at step 7 of *every* pass, including the clean ones — our largest single
+improvement came from one field report a human happened to write, and everything in it had been
+visible to the agent at the time; nothing asked).
+
+`.claude/agents/loops-{gather,research,draft,verify}.md` enforce the write rule **mechanically** on
+Claude Code: no write tools at all, checked by the linter. The remaining hole — those definitions keep
+the ability to spawn further agents, which is guarded by instruction only — is stated in the skill
+rather than hidden.
+
+**The ceiling on the always-loaded rule set moves 900 → 1000 lines**, recorded with its reason: the
+orchestrator↔subagent protocol is the definition of a contract, and a fresh subagent must know it
+*before* it reads anything else. The rest of delegation went to a skill, which is why the raise was
+~50 lines and not ~200. Canon is now 938.
+
+### Every method states what would make it wrong
+
+A method that never says what would make its output wrong produces plausible output forever. All 31
+library methods now carry a **quality declaration** — `evidence_standard` · `volume_rule` ·
+`selection_rule` · `rejects_shown` — enforced by check **L**, and about twenty method bodies were
+rewritten so the declarations describe the method instead of decorating it.
+
+- **Volume floors, stated as numbers a reader can fail.** The characteristic failure of a generative
+  method is not a bad candidate — it is four polite candidates, all survivors, with no selection
+  having happened. `segment-cvp`: ≥3 distinct situations per priority segment and ≥8 bundles (the
+  unit of generation is the *situation*, not the segment). `competitor-analysis`: ≥5 named players,
+  at least one the team did not name first — which is how the entrant that actually takes the segment
+  gets onto the page. `risk-mitigation`: ≥8 failure modes before triage, because the first three are
+  always the ones already being discussed. Also `channels-expansion`, `segment-pains`, `segmentation`,
+  `where-to-play-how-to-win`.
+- **`segment-cvp` gets the scoring rubric it lacked** — 5 criteria × 1/3/5 = 5–25, top 3–5 staged.
+  It lives there and not in `prioritization` because of one criterion RICE has no axis for: **speed
+  to a signal**. RICE's Effort is build cost, near-constant across bundles that need a landing page
+  and ad copy, so it discriminates nothing. The boundary is now written in **both** files —
+  `segment-cvp` picks which bet is worth learning about first, `prioritization` decides whether it
+  fits the period's capacity, and a staged bundle is never re-scored.
+- **Reject tables** wherever `rejects_shown: required` — sources rejected, players excluded, risk
+  dispositions, North Star candidates and the filter each failed, cutting bases rejected, values that
+  failed the post-AI rebuild test. Rejects are the cheapest artifact here and the most re-derived.
+
+New shared reference **`tool-skills/library/references/evidence-standards.md`** — the part of a
+serious research process we did not have at all. A source is judged **per fact type** (a filing is
+authoritative for its own revenue and worthless for a rival's share); a credibility pyramid with an
+explicit **forbidden zone** (anything whose original cannot be reached is not a weak source, it is not
+a source); five statement labels — *fact · estimate · forecast · statement · pledge* — orthogonal to
+our confidence tags, because a vendor's shipping promise is honestly `[sourced: …]` and still a
+pledge; provenance with `as_of` and **fail loud**; and the **headline check**: any number that will
+reach a conclusion gets a second independent source *before* the synthesis, with >20% divergence
+reported as `[CONFLICT]` and never quietly resolved.
+
+Three new linter checks: **L** (the quality declaration), **M** (vendored operations skills — the one
+plane nothing checked, now including index-vs-folder), **N** (a shipped subagent definition carries no
+write-capable tool). Check **C** no longer mistakes the README's schema tables for index rows.
+
+The declarations were drafted by three read-only subagents running the orchestration brief, and the
+result was verified by two more against different lenses — the first live use of the mechanism on
+itself. Their findings are in this release: an `evidence_standard` value that could be present and
+still check nothing, a passport whose two copies had already drifted in its first version, two agent
+definitions that dropped a section the other two required, and a `selection_rule` that had been
+copied from a neighbouring method rather than derived from its own.
+
 ## [Unreleased] — The local console + one shared read layer
 
 **Wave 1 of the field-report fixes — the tooling now tells the truth.** Three defects that made every

@@ -33,9 +33,12 @@ Your job is one method applied to inputs you were given.
    trade-offs and a ⚙️ recommendation.
 7. **No secrets, no PII, no raw capture.**
 
-Return the drafted section exactly as it would appear in the artifact, then **Sources actually opened**,
-**Open forks — NOT decided**, **Could not do** (including any prerequisite you lacked and any part of
-the fragment you could not fill), and your **Passport self-check** against the nine numbered lines in
-the brief.
+Return the drafted section exactly as it would appear in the artifact, then **Sources actually
+opened**, **Cross-checks**, **Open forks — NOT decided**, **Could not do** (including any prerequisite
+you lacked and any part of the fragment you could not fill), and your **Passport self-check** against
+the nine numbered lines in the brief. Every return has the same six sections whatever the task kind:
+a draft that carries no numbers writes `n/a — this return carries no numbers` under Cross-checks and
+scores passport line 4 `n/a`. Do not omit a section — the orchestrator reads several returns side by
+side, and a missing section reads as an unanswered one.
 
 Read the brief's reading order first. Read nothing else from the instance unless the brief names it.

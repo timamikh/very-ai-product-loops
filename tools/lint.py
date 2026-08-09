@@ -26,7 +26,9 @@ Checks (ERROR fails CI · WARN never does):
   L  every library tool carries the quality declaration (evidence_standard · volume_rule ·
      selection_rule · rejects_shown), with legal values and internally consistent
   M  every vendored operations skill declares its wiring (name · kind · produces · used_by_steps ·
-     status · version) and has the template-fragment its `produces` implies
+     status · version), has the template-fragment its `produces` implies, and matches the
+     operations index row for row
+  N  a shipped subagent definition (.claude/agents/loops-*.md) carries no write-capable tool
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -100,8 +102,23 @@ QUALITY_KEYS = ("evidence_standard", "volume_rule", "selection_rule", "rejects_s
 
 
 def _blank(v):
-    """A frontmatter value that is present but says nothing."""
-    return v is None or (isinstance(v, str) and not v.strip())
+    """A frontmatter value that is present but says nothing.
+
+    Anything that is not a non-empty string counts: `key:` with nothing after it parses to None, and
+    `key: []` parses to an empty list. Both used to pass the "is it declared" test *and* slip past the
+    enum test below (which is guarded on `isinstance(str)`), so a required key could be present and
+    check nothing — the exact failure this check exists to prevent, one level up.
+    """
+    return not (isinstance(v, str) and v.strip())
+
+
+def _missing(v):
+    """A required frontmatter key that is absent or empty — for keys whose legal value may be a list.
+
+    Distinct from `_blank`, which is stricter on purpose: the quality keys are single words or one
+    sentence, so a list there is a mistake, while `used_by_steps: [any]` is the canon spelling.
+    """
+    return v is None or v == "" or v == [] or v == {}
 
 
 def check_quality(tools):
@@ -119,13 +136,13 @@ def check_quality(tools):
                     "every library method (see tool-skills/library/README.md -> The quality declaration)"
                     % (name, key))
         ev = fm.get("evidence_standard")
-        if isinstance(ev, str) and ev.strip() and ev.strip() not in EVIDENCE_STANDARDS:
+        if not _blank(ev) and ev.strip() not in EVIDENCE_STANDARDS:
             err("L [%s] evidence_standard = %r is not one of %s — exactly one value; a secondary "
                 "class belongs in the body, never compounded into the key"
-                % (name, ev.strip(), sorted(EVIDENCE_STANDARDS)))
+                % (name, ev, sorted(EVIDENCE_STANDARDS)))
         rs = fm.get("rejects_shown")
-        if isinstance(rs, str) and rs.strip() and rs.strip() not in REJECTS_SHOWN:
-            err("L [%s] rejects_shown = %r is not one of %s" % (name, rs.strip(), sorted(REJECTS_SHOWN)))
+        if not _blank(rs) and rs.strip() not in REJECTS_SHOWN:
+            err("L [%s] rejects_shown = %r is not one of %s" % (name, rs, sorted(REJECTS_SHOWN)))
         # a method that generates or selects must show what it cut: otherwise the next pass
         # re-proposes the same discarded option, and a filter never reached is indistinguishable
         # from one that was applied and passed
@@ -149,12 +166,13 @@ def check_operations():
     template-fragment/homing rule.
     """
     homed = F.homed_sections(ROOT)
+    names = set()
     for skill in sorted(glob.glob(os.path.join(ROOT, "tool-skills", "operations", "*", "SKILL.md"))):
         d = os.path.dirname(skill)
         name = os.path.basename(d)
         fm, _ = T.frontmatter(skill)
         for key in OPS_REQUIRED:
-            if key not in fm or _blank(fm.get(key)):
+            if key not in fm or _missing(fm.get(key)):
                 err("M [%s] operations skill declares no `%s`" % (name, key))
         if fm.get("name") and fm["name"] != name:
             err("M [%s] frontmatter name is `%s` — it must match the folder" % (name, fm["name"]))
@@ -170,6 +188,44 @@ def check_operations():
         if not os.path.exists(os.path.join(d, "template-fragment.md")):
             warn("M [%s] has no template-fragment.md — the shape it produces is described in prose "
                  "only, so two runs can produce two shapes" % name)
+        names.add(name)
+    # the operations index is the discovery mechanism for this plane (tool-skills/README.md), so an
+    # index that has drifted from the folders misdirects silently — the same gap check C closes for
+    # the library
+    idx = read(os.path.join(ROOT, "tool-skills", "operations", "README.md"))
+    listed = set(re.findall(r"^\|\s*\[`([a-z0-9-]+)`\]", idx, re.M))
+    for missing in sorted(names - listed):
+        err("M operations skill `%s` has a folder but no row in operations/README.md" % missing)
+    for extra in sorted(listed - names):
+        err("M operations/README.md lists `%s` with no skill folder" % extra)
+
+
+WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Bash", "Task"}
+
+
+def check_subagent_defs():
+    """N — a shipped subagent definition may not carry a write tool.
+
+    "Only the orchestrator writes" is canon (OPERATING-LOOP -> Delegation), and on a runtime with
+    typed subagents the framework enforces it *mechanically* by shipping definitions with no write
+    tools. That claim is only true while it stays true: a tool name added to one of those frontmatter
+    lists silently converts a machine-enforced rule back into a hope. Which tools a definition lists
+    is a shape, and a shape belongs in the linter (CONVENTIONS -> "Where a new rule goes").
+    """
+    for path in sorted(glob.glob(os.path.join(ROOT, ".claude", "agents", "loops-*.md"))):
+        name = os.path.basename(path)
+        fm, _ = T.frontmatter(path)
+        raw = fm.get("tools")
+        if _missing(raw):
+            err("N [%s] declares no `tools` — a subagent definition with no tool list inherits "
+                "everything, including the ability to write" % name)
+            continue
+        items = raw if isinstance(raw, list) else str(raw).split(",")
+        listed = {str(t).strip() for t in items if str(t).strip()}
+        bad = sorted(listed & WRITE_TOOLS)
+        if bad:
+            err("N [%s] lists write-capable tool(s) %s — a delegated subagent never writes, and this "
+                "list is what enforces it" % (name, ", ".join(bad)))
 
 
 def check_index(tools):
@@ -409,6 +465,7 @@ def main(argv=()):
     check_tools(tools, homed)
     check_quality(tools)
     check_operations()
+    check_subagent_defs()
     check_index(tools)
     checked = instances(list(argv))
     for inst in checked:

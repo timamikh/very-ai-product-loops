@@ -14,7 +14,7 @@ volume_rule: "≥5 named players, including ≥1 the team did not name first (re
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.1.5
+version: 0.1.6
 updated: 2026-08-09
 ---
 
@@ -51,7 +51,12 @@ dynamics** over time.
    decision (the `pricing` tool at Step 3) and feeds the Step-4 financial model — it is not our
    price. Tag `[sourced: …]`; if not public, `— to clarify —`.
 4. **Development dynamics.** Capture how each competitor is trending (revenue, headcount, filings)
-   to compare strategy effectiveness. Use public company registries, filings, and financial press
+   to compare strategy effectiveness. These are **external claims about other companies**, which is
+   where sourcing goes wrong most often: judge each source *per fact type* — a company's own filing is
+   authoritative for its own revenue and worthless for a rival's share — stay out of the forbidden
+   zone, record `as_of`, and give any number that reaches a conclusion a second independent source
+   before you draw it. The rules are in
+   [`../references/evidence-standards.md`](../references/evidence-standards.md). Use public company registries, filings, and financial press
    appropriate to the company's jurisdiction. Region-specific registry integrations (a national
    business registry, a paid data provider) belong in a **regional/company adapter**, not the base
    framework — keep this tool jurisdiction-neutral. Record source + date.

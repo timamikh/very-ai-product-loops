@@ -14,7 +14,7 @@ node_type: source-method
 title: "<source> → <what it yields> — derivation"
 source: <relative path to the access file, e.g. ./analytics-access.md>
 feeds: [M-activation, M-retention-30d]
-status: draft
+status: living
 updated: <YYYY-MM-DD>
 ---
 

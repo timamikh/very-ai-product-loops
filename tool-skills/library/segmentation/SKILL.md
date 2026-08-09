@@ -11,10 +11,10 @@ opinionated: false
 method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
 evidence_standard: primary-research
 volume_rule: "≥3 candidate cuts on different bases (situation · job · behaviour · buying trigger) before one is chosen"
-selection_rule: "priority tiers 1–3 on reachability × pain acuteness × fit; lower tiers are kept, never deleted"
+selection_rule: "priority tiers 1–3 on need-difference × reachability × fit with the moat; ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.2.2
+version: 0.2.3
 updated: 2026-08-09
 ---
 
@@ -59,9 +59,13 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 2. **Name 1–3 segments** on that cut. For each: a one-line description and *why it matters*
    (size, urgency, fit with the moat).
 3. **State reachability** — where each segment is found (a channel, a place, a community).
-4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …). ⚙️ the
-   agent proposes the lead; the human decides. Everything downstream (problems, solution, value)
-   leads with the priority-1 segment; lower tiers are kept, not dropped.
+4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …) on three
+   stated grounds: **how sharply its needs differ** from the others (a tier that needs the same thing
+   as tier 1 is not a separate segment), **reachability** (can we get in front of it at all), and
+   **fit with the moat** from `value-definition`. Say which ground decided each placement; a tier
+   order with no stated ground is a preference. ⚙️ the agent proposes the lead; the human decides.
+   Everything downstream (problems, solution, value) leads with the priority-1 segment; lower tiers
+   are kept, not dropped.
 5. **Tag confidence & seed hypotheses — and name which evidence the cut rests on.** Say plainly
    whether this segmentation comes from customer conversations, from usage data, or from desk
    research, because the three fail differently and a reader cannot tell them apart from the table.

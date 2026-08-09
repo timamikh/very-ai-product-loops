@@ -24,3 +24,15 @@
 - **Close:** <ask for referrals / permission to follow up>
 
 **Seeded registers:** `H-…` (assumptions under test) → hypothesis register.
+
+**Who we actually talked to** — filled after recruiting, not at design time. A conclusion drawn from
+five people is a conclusion about five people until this is written down.
+
+| | Count | Notes |
+|---|-------|-------|
+| Interviewed | … | segments/roles represented |
+| Screened out | … | on which criterion, and how many on each |
+| Declined / no-show | … | — |
+
+**Known bias of this sample:** … (e.g. all inbound users, so nobody who evaluated us and left)
+[assumption]
