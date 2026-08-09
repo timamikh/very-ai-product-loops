@@ -200,7 +200,11 @@ def check_operations():
         err("M operations/README.md lists `%s` with no skill folder" % extra)
 
 
-WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Bash", "Task"}
+WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Bash"}
+# Deliberately NOT flagged: the spawn tools (`Agent` / `Task`). An agent that can spawn any type can
+# reach one that writes, which is the hole `orchestration/SKILL.md` states out loud — but every
+# shipped definition keeps that tool on purpose, so a check here would warn on every run forever and
+# teach the reader to ignore warnings. A standing "this is intended" warning is worse than the prose.
 
 
 def check_subagent_defs():
