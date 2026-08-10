@@ -12,6 +12,40 @@ The version you pin to is the **git tag**; this file is its human-readable story
 
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
+### The first field test moved delegation into the loop itself
+
+One live product ran a full pass on the delegation release, and its owner's review found the same
+root under every complaint: **the mechanics were written next to the loop, not into it** — so a
+faithful agent ran the eight steps solo and treated the *Delegation* section as reference reading.
+Changes, all from that one review:
+
+- **The split decision is step 3** ("size the pass, aloud"), where the volume first becomes
+  observable — "wider than one context" was dropped as a trigger because it can only be checked
+  after the context is spent. **The split work is step 6**: briefs, spawning, and scoring every
+  return against its passport. **Step 7 writes only after returns are accepted.** The *Delegation*
+  section remains as the contract the steps reference.
+- **Two new obligations before anything lands on disk** (the test's sharpest lesson — one spoken
+  answer became writes to nine files with no preview): a section resting mainly on the agent's own
+  reasoning or the human's spoken answer is **shown in chat before it is written**, and the pass
+  **declares its write perimeter** — the files it will touch — in the same message.
+- **A gate tick on a reasoning-based section waits for a `verify` subagent** that did not write it
+  (the human may waive). The author ticking their own gate was legal until now.
+- **The subagent contract slimmed to the brief.** Subagents no longer read `AGENTS.md`: the brief's
+  role block is their complete contract (the canon already said a read-only subagent does not need
+  the whole canon — the brief template contradicted it). `AGENTS.md` now defines *orchestrator* and
+  *subagent* at first use.
+- **The runtime is checked, not assumed.** `start-work` verifies at step 0 that the `loops-*` agent
+  types are visible and spawning is permitted, and says so if not; `product-setup` tells the human
+  to restart once after install (definitions are read at session start); install writes the owner's
+  **standing approval of delegation** into the host repo's root `AGENTS.md` — the field test ran
+  solo partly because a session-level restriction forbade spawning and nothing surfaced that.
+- Paid for by subtraction: `OVERVIEW.md` stopped restating the six steps' goals and tools (canonical
+  in `steps/*/README.md`) and gained the sixth philosophy rule — *one writer, many readers*;
+  `CONVENTIONS.md` rationale passages cut to one phrase each. The always-loaded set holds at
+  **935 lines** against the 1000 ceiling despite ~30 new lines in the loop.
+- `docs/2026-08-08-field-report-response.md` folded into this changelog and deleted — one home for
+  the framework's history, and the reference repo stays lean.
+
 ### One pass, more than one agent
 
 The framework filled the lead agent's context faster than it filled the artifacts, and a full context
@@ -100,9 +134,9 @@ copied from a neighbouring method rather than derived from its own.
 ## [Unreleased] — The local console + one shared read layer
 
 **Wave 1 of the field-report fixes — the tooling now tells the truth.** Three defects that made every
-other check meaningless, shipped together (see
-[`docs/2026-08-08-field-report-response.md`](docs/2026-08-08-field-report-response.md) for the verdict on
-all eleven points the report raised):
+other check meaningless, shipped together. (The report raised eleven points; every verdict —
+including the rejections and their reasons — is recorded across this section and the next, so a
+rejected proposal does not come back in six months as a new one.)
 
 - **The linter finds the instance.** It globbed `examples/*` and `instances/*`, so the canonical vendored
   layout — the instance in `product/` of the host repo — was never checked, and the run still printed
@@ -139,7 +173,9 @@ predicted.
   than a sentence standing nearby; a slice is a node of its own. Rows compare across `basis` and do not
   compare across `population` — the console enforces exactly that, splitting a series by both and
   computing a delta only inside one variant. (A compound `pop:` prefix was rejected: the canon cannot ban
-  compound values on one side and mint them on the other.)
+  compound values on one side and mint them on the other.) **Stated weakness, on record:** this is the one
+  field-report point with no cheap machine check — a linter cannot tell that a `basis` value is really a
+  population; the split rests on discipline.
 - **A valve for enum cells.** `metric-tree.md` gains a `note` column, and `tags` is finally written into
   `REGISTERS.md` for hypotheses and risks — the escape hatch existed only in `CONVENTIONS.md`, so the
   schema file did not know about it. An enum cell holds the bare value; the qualifier goes in `note`, the

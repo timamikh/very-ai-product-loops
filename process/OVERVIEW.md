@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.5.4
-updated: 2026-08-08
+version: 0.6.0
+updated: 2026-08-10
 ---
 
 # very-ai-product-loops
@@ -35,6 +35,10 @@ are swappable and extensible per company, without forking the framework.
    `validated` · `refuted`. Early steps are mostly assumptions; lower steps harden them.
 5. **Help, don't constrain.** Gates are checklists that report what is still open — they
    guide, they do not lock. You can descend with gaps; the framework flags them.
+6. **One writer, many readers.** The **orchestrator** — the agent holding the human's session —
+   is the only agent that writes. Subagents gather, research, draft and verify, and **return
+   text**; a return is accepted against a passport, never on trust. The contract is
+   [`OPERATING-LOOP.md`](OPERATING-LOOP.md) → *Delegation*.
 
 ---
 
@@ -57,10 +61,11 @@ are swappable and extensible per company, without forking the framework.
 
 The **fixed core** above (`steps/` · `registers/` · `statuses/` and the rules in `process/`) is
 opposed by the **pluggable skills** the agent runs, grouped under [`tool-skills/`](../tool-skills/README.md):
-`library/` (product methods, above), `operations/` (runtime skills — e.g. the `handoff`), and
-`adapters/` (the output layer — see §10). Companies swap or extend any tool-skill without forking
-the core — which dial to turn for what, and the two procedures that live nowhere else, are in
-[`EXTENDING.md`](../EXTENDING.md).
+`library/` (product methods, above), `operations/` (runtime skills: `handoff` — state across
+sessions · `metrics-capture` — a source into reproducible register rows · `orchestration` — one
+pass run across subagents), and `adapters/` (the output layer — see §10). Companies swap or extend
+any tool-skill without forking the core — which dial to turn for what, and the two procedures that
+live nowhere else, are in [`EXTENDING.md`](../EXTENDING.md).
 
 Alongside the four planes, an **instance** also carries two supporting mechanisms, defined in
 [`CONVENTIONS.md`](CONVENTIONS.md) and [`OPERATING-LOOP.md`](OPERATING-LOOP.md):
@@ -83,7 +88,8 @@ Alongside the four planes, an **instance** also carries two supporting mechanism
 > Method is swappable; skeleton is stable.
 
 **How a single pass actually runs** — orient (status + step) → focus on a checklist item →
-recommend the fitting tool → check the tool's prerequisites → fill gaps → clarify → act →
+recommend the fitting tool → check prerequisites **and size the pass** (split across subagents,
+or solo — decided aloud) → fill gaps → clarify → act, directly or through briefed subagents →
 update the checklist/registers/change-log → loop. This runtime is
 [`OPERATING-LOOP.md`](OPERATING-LOOP.md); everything below is data it consumes.
 
@@ -131,29 +137,10 @@ Execution (5–6) is organized around **directions**, an editable instance confi
 the product's specifics. (The direction is named `go-to-market`, not `growth`, to avoid colliding
 with the `growth` **status** — a stage of maturity, not a stream of work.)
 
-- **1 · Idea / Concept** — Goal: capture the concept — who it's for, their problems, how the
-  product solves them, and its value/defensibility hypothesis. Seeds the **hypothesis
-  register**. Recommended tools: `concept-formation`, `segmentation`, `segment-pains`,
-  `value-definition`.
-- **2 · Analysis** — Goal: understand market and competition and conclude *where the
-  opportunity/threat is* (analysis without a "so what" is inert). Seeds the **risk register**.
-  Recommended tools: `market-sizing`, `competitor-analysis`, `substitutes`.
-- **3 · Strategy** — Goal (qualitative choices): where to play, how to win, and the bets we
-  make. Seeds strategy bets into the **hypothesis register** and product risks. Recommended
-  tools: `where-to-play-how-to-win`, `uvp-cpv`, `value-definition` (revisited — derivative
-  values surface here, as they need a customer or scale), `channels-expansion`.
-- **4 · Strategic Plan** — Goal (quantitative instruments): make the strategy measurable,
-  financed, and de-risked. Builds the **metric tree**, quantifies hypotheses, adds risk
-  mitigation. Recommended tools: `metric-tree`, `unit-economics`, `financial-model`,
-  `risk-mitigation` (+ refined `architecture-c4` / `product-surface`; the step README is
-  canonical when the two lists drift).
-- **5 · Tactical Plan** — Goal: measurable period goals per direction, and which hypotheses
-  to test. Selects **metric-tree** nodes to move; adds period blockers. The active status
-  sets which goals take priority — e.g. `concept-viability` prioritizes building a testable
-  prototype/MVP over product/growth metrics.
-- **6 · Sprint Plan** — Goal: turn period goals into sprint tasks per direction — a minimal
-  **must** set + a prioritized backlog. Links tasks to metric nodes / hypotheses. Hands off
-  to the team's development process.
+Each step's goal, gate checklist, register touchpoints and recommended tools live in its own
+`steps/N-*/README.md` — **canonical there**, not restated here (a second copy is where the lists
+drift). Which registers are born at which step is §5. One boundary is worth restating because it
+is crossed most often:
 
 > **Boundary 3 ↔ 4:** Step 3 = *choices and direction* (qualitative). Step 4 = *instruments
 > and resources* (quantitative). If it is a choice → Step 3; if it is a number, a model, or a

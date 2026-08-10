@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.10.1
+version: 0.11.0
 updated: 2026-08-10
 ---
 
@@ -50,8 +50,7 @@ Register items have stable IDs:
   declared non-load-bearing for aggregators; never compound it into `type`. (`viability/moat` is
   wrong — write `type: viability`, `tags: moat`.) A hypothesis needing **two verdicts** is split in
   two **at the first attempt to test it** (Step 4, when a metric is attached): the halves name the
-  original, the original closes as `superseded` — not `refuted`, it was divided, not disproved. Half
-  a refuted bet is the half worth keeping: it takes a named bet off the table for good.
+  original, the original closes as `superseded` — not `refuted`, it was divided, not disproved.
 - Risks: `R-001`, … — likewise **exactly one `category`**; extra themes go in `tags`.
 - Metric nodes: `M-northstar`, `M-activation`, …
 
@@ -60,23 +59,18 @@ Reference an item inline in brackets, e.g. "drives `M-activation`" or "tests `H-
 **Cross-artifact links use a relative file path + the target's stable `{#anchor}`** — e.g.
 `2-analysis.md#opportunity`, `3-strategy.md#bets` (from a register or other subdirectory, prefix the
 path: `../2-analysis.md#opportunity`). This is the one canon: standard markdown, clickable without a
-custom resolver, parseable by any tool. **Never** a wiki-style double-bracket link (the removed
-GitMark-lite form). Two rules carry over: point at the stable `{#anchor}`, never a heading's changeable text; and keep anchors
-stable across revisions (rename the heading freely, keep the id). A gate checklist may use the
-shorthand `artifact#section` (e.g. `passport#concept`) to name the section it validates.
+custom resolver, parseable by any tool. **Never** a wiki-style double-bracket link. Point at the
+stable `{#anchor}`, never a heading's changeable text; keep anchors stable across revisions. A gate
+checklist may use the shorthand `artifact#section` (e.g. `passport#concept`) to name the section it
+validates.
 
 ## Artifact filenames
 
 A step's output artifact is named **`<step-number>-<slug>.md`** — `1-passport.md`, `2-analysis.md`,
 `3-strategy.md`, `4-strategic-plan.md`, `5-tactical-plan.md`, `6-sprint-plan.md`. The numeric prefix
-exists for **one reason: a directory listing sorts in step order** (a plain `ls`/Finder view walks
-the pipeline top to bottom instead of scrambling it alphabetically). It is good UX and nothing more.
-
-Because cross-artifact links are **real relative paths** (see "Links" above), the prefix is simply
-part of the path you link to: `3-strategy.md#bets`, `../1-passport.md#concept`. There is no separate
-"logical id" to resolve and no prefix to strip — you link the actual file, and a section is
-identified by its bare `{#anchor}` within it. (Registers and deliverables are not step outputs and
-take no numeric prefix.)
+exists only so a directory listing sorts in step order. Links use the real filename, prefix
+included (`3-strategy.md#bets`, `../1-passport.md#concept`) — there is no logical id to resolve.
+Registers and deliverables are not step outputs and take no prefix.
 
 ## Instance config (`config.yaml`) — the pinned schema
 
@@ -101,9 +95,8 @@ Rules:
   reports them so they don't quietly become de-facto schema).
 - **No alias spellings.** `metric_sources`, `product_scope`, `lang`, `title` are *not* accepted forms —
   fix the key, don't add a reader.
-- **Readers stay tolerant, the linter stays strict.** A reader that meets an off-canon key should still
-  show the data (a product manager must not see an empty screen because of a key name) *and* surface
-  the drift. Tolerance is for the human's benefit; it is never permission.
+- **Readers stay tolerant, the linter stays strict.** A reader that meets an off-canon key still
+  shows the data *and* surfaces the drift. Tolerance is for the human's benefit, never permission.
 
 ## One mechanism, one way
 
@@ -134,16 +127,11 @@ Two consequences worth stating:
 - **A budget on the always-loaded set.** The rule files an agent must read before any work
   (`AGENTS.md` + the four in `process/`) are about **930 lines**; the method library is over twice that
   and costs nothing until used. Keep the first number near **1000**: an addition to `process/` names
-  what it displaces, or why it is neither a check nor a method. *(The ceiling was 900 through v0.8.2.
-  Delegation raised it: the orchestrator↔subagent protocol is the definition of a contract — two
-  independent agent roles must agree on it, and neither a linter check nor a skill file can carry a
-  rule that a fresh subagent has to know **before** it reads anything else. The rest of delegation —
-  decomposition, templates, the passport — went to a skill, which is why the raise was ~50 lines and
-  not ~200.)*
-- **Subtraction is part of the job.** A rule stated in two of these files is two places to drift — and
-  drift is what happened: the overview described a link mechanism for a release and a half after the
-  canon had replaced it. When a change touches a duplicated rule, delete the copy in the same change and
-  leave a pointer.
+  what it displaces, or why it is neither a check nor a method. *(Ceiling 900 → 1000 at delegation:
+  the orchestrator↔subagent protocol is a contract two roles must agree on before reading anything
+  else; the procedure went to a skill.)*
+- **Subtraction is part of the job.** A rule stated in two of these files is two places to drift.
+  When a change touches a duplicated rule, delete the copy in the same change and leave a pointer.
 
 This section governs changes to the framework itself; [`EXTENDING.md`](../EXTENDING.md) says which dial
 to turn for what.
@@ -155,8 +143,6 @@ is (a) consequential — changes strategy, is irreversible or expensive — AND 
 evidence with a confident default. Everything reversible and cheap the agent decides itself,
 marks **⚙️**, and logs with its rationale — it does not ask. An open fork is an unresolved risk:
 close it, or escalate it with an owner — never let `— to clarify —` become standing debt.
-(This raises the bar on agent judgment: confidence tags and logged defaults become mandatory,
-not optional.)
 
 For the forks that survive triage, present **2–4 concrete options with their trade-offs**, then
 a recommendation — never a single option with the alternatives hidden. A lone recommendation
