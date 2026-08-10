@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.6.1
+version: 0.7.0
 updated: 2026-08-10
 ---
 
@@ -42,10 +42,14 @@ Offer the tools tied to that item, **filtered by step and status**:
 - **Rule:** prefer the status's per-step tools when present; otherwise the step default. The
   human may pick any tool.
 
-**3 · Check the tool's prerequisites.**
+**3 · Check the tool's prerequisites — and size the pass.**
 Every tool declares a **prerequisites checklist** — the info / artifacts / access it needs.
 The agent checks what is already available from the source slots (git · metrics · kb ·
-prior artifacts) against that checklist.
+prior artifacts) against that checklist. The volume is now visible — how many sources, how large,
+how many independent parts — so the agent decides **here, aloud**: split this pass across
+subagents or run it alone, and why. The test is the observable volume, never "wider than one
+context" — that one can only be checked after the context is already spent. The contract is
+*Delegation* below; the split work itself happens at step 6.
 
 **4 · Fill gaps.**
 For each missing prerequisite, the agent either **asks the human to provide it**, or **offers
@@ -57,18 +61,34 @@ Once inputs are in, if any **product decisions** are still open, the agent asks 
 questions — each with 2–4 options and a ⚙️ recommended default — and **waits**. Technical /
 implementation gaps are not asked; they are noted as forks in the artifact.
 
-**6 · Act.**
-With no blank spots, the agent follows the tool's `SKILL.md` instructions and fills its
-`template-fragment.md` into the artifact section — tagging every claim with a source and
-confidence per `CONVENTIONS.md`, marking its own proposals ⚙️. Gathering and drafting inside this
-step may be **delegated to subagents** (see *Delegation* below); the writing never is.
+**6 · Act — directly or through subagents.**
+With no blank spots, the agent follows the tool's `SKILL.md` instructions and produces the
+section from its `template-fragment.md` — tagging every claim with a source and confidence per
+`CONVENTIONS.md`, marking its own proposals ⚙️.
+
+If step 3 decided to split, this is where the split runs: one **brief** per part (the task, the
+context and where to find it, the allowed tools, the return shape — procedure in the
+`orchestration` operations skill), subagents spawned, and **every return scored against its
+passport before its content is used** — one remediation round with the defects named, then stop
+and mark the gap `— to clarify —`. Gathering, research, drafting and verification are delegated
+this way; **the writing never is**.
+
+Two obligations to the human before anything lands on disk:
+- **Show reasoning first.** A section that rests mainly on the agent's own reasoning or on the
+  human's spoken answer is shown **in chat, in full, before it is written** — the human reacts to
+  a draft, not to a fait accompli. A section that restates a source needs no preview.
+- **Declare the write perimeter.** In the same message, name the files this pass will touch.
+  What gets written must never be a surprise.
 
 **7 · Update state.**
-The agent then:
+Only after every delegated return is accepted and any preview is answered, the agent writes:
 - **records progress in `product/state.yaml`** — ticks the step's **gate checklist** items now
   satisfied (each keyed by its `artifact#section` target — see the step README's gate checklist) and
   sets `current_step` / `last_pass`. `state.yaml` is rewritten every pass; it is the single home of
-  cycle position and ticks;
+  cycle position and ticks. A tick on a section that rests mainly on the agent's own reasoning is
+  placed only after a `verify` subagent — one that did not write the section — has checked it
+  (the human may waive this explicitly; if the runtime cannot spawn agents, the tick stays `open`
+  and the reason is surfaced);
 - **seeds / updates the registers** (hypotheses, risks, metric nodes) with stable IDs;
 - adds a dated **change-log** entry (from → to · why · trigger);
 - surfaces what remains open (`— to clarify —`).
@@ -124,13 +144,17 @@ Two hard rules, learned from failures:
    data" does not skip Update state. For metric values the procedure is the **`metrics-capture`**
    operations skill (`tool-skills/operations/metrics-capture/`).
 
-## Delegation (orchestrator ↔ subagents)
+## Delegation (orchestrator ↔ subagents) — the contract
 
 One pass may be run by **more than one agent**. The agent holding the human's session is the
-**orchestrator**; every agent it spawns is a **subagent**. The reason for the split is narrow:
-*gathering* fills a context window, and a full context is where an agent starts skipping loop steps.
-Delegation moves the gathering out and keeps the reasoning in. It does **not** save tokens — every
-subagent re-reads what it needs — it buys the orchestrator a context that stays clear enough to think.
+**orchestrator**; every agent it spawns is a **subagent**. This section is the contract both roles
+obey; the moving parts live in the loop itself — the split **decision** at step 3, the briefs and
+return acceptance at step 6, the verify-before-tick rule at step 7.
+
+The reason for the split is narrow: *gathering* fills a context window, and a full context is where
+an agent starts skipping loop steps. Delegation moves the gathering out and keeps the reasoning in.
+It does **not** save tokens — every subagent re-reads what it needs — it buys the orchestrator a
+context that stays clear enough to think.
 
 **The write rule (absolute).** Only the orchestrator writes to the instance. Subagents read, search,
 fetch and reason; they **return text**. The rule is transitive: a subagent may spawn its own
@@ -194,10 +218,13 @@ Active status `2-pmf`, step `1-idea`, section `problems`:
 2. Recommend → status `pmf` says pains come from *product metrics + a few interviews*
    (vs pure interviews at `concept-viability`); tool `segment-pains`.
 3. Prerequisites → `segment-pains` needs: the segment list, access to usage metrics, ≥3
-   recent user conversations.
+   recent user conversations. Sizing, aloud: "three small inputs, one section — running solo."
 4. Gaps → metrics access is missing → agent offers to pull it via the metrics slot or asks
    for an export.
 5. Clarify → "Which pain do we treat as primary for pricing — A or B? ⚙️ A." → waits.
-6. Act → fills `problems` with severity × frequency, each `[sourced: metrics …]` / `[assumption]`.
-7. Update → ticks the `problems` gate item, seeds `H-007` ("pain A blocks payment"), logs the change.
+6. Act → drafts `problems` with severity × frequency, each `[sourced: metrics …]` / `[assumption]`;
+   the ranking is the agent's own reasoning → shows the section in chat first, names the files this
+   pass will touch (`1-passport.md`, `registers/hypotheses.md`, `state.yaml`).
+7. Update → writes the section, seeds `H-007` ("pain A blocks payment"), logs the change; the tick
+   waits for a `verify` subagent's findings on the ranking.
 8. Loop → next section `solution`.

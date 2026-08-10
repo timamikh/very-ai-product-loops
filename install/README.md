@@ -2,8 +2,8 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.4.0
-updated: 2026-08-03
+version: 0.5.0
+updated: 2026-08-10
 ---
 
 # Install
@@ -39,6 +39,14 @@ As part of vendoring, the agent also:
   `AGENTS.md` and `process/`."* This is what makes a plain "continue the strategy" land in the
   disciplined loop instead of an ad-hoc bulk-fill. Two names, one home: the rules are never copied
   into either pointer.
+- adds, next to that pointer in the root `AGENTS.md`, the owner's **standing approval of
+  delegation**: *"The repo owner pre-approves spawning subagents for framework passes (the
+  `loops-*` read-only types) — per the vendored `process/OPERATING-LOOP.md` → Delegation."* The
+  operating loop runs on subagents; without this line, a session whose environment restricts agent
+  spawning would silently fall back to working solo. (It lives in `AGENTS.md`, not `CLAUDE.md` —
+  the pointer files carry nothing normative.)
+- reminds the human at the end: **restart the session once** — agent definitions and skills
+  vendored mid-session are picked up only at the next session start.
 
 ## 2. Set up the product (a separate phase)
 

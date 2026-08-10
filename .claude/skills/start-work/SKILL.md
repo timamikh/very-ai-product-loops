@@ -8,8 +8,8 @@ description: >
   fill. Use at the start of any working session, on resume after a restart/compaction, or when
   picking up an instance someone else set up.
 status: draft
-version: 0.1.1
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-10
 ---
 
 # Start work (begin / resume a session)
@@ -28,6 +28,15 @@ session, or on a tool that auto-loads nothing), the framework's root `AGENTS.md`
 yourself, in order, before touching any artifact:
 `process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` → `REGISTERS.md`. These are the
 authority for everything below — this skill only walks you into them, it does not restate them.
+
+**Check delegation availability, now.** The loop delegates gathering, drafting and verification to
+subagents (`loops-gather` · `loops-research` · `loops-draft` · `loops-verify`). Confirm two things
+before the first pass and tell the human if either fails:
+1. the `loops-*` agent types are visible to this session — definitions vendored mid-session are
+   picked up only on the **next** session start; if absent, ask the human to restart;
+2. spawning agents is permitted — the host repo's root `AGENTS.md` carries the owner's standing
+   approval (written at install); if this session is still restricted, say so: every pass then runs
+   solo and gate ticks that need a `verify` stay `open`. Never work around it silently.
 
 ## Step 1 — Orient (read state, never guess)
 
@@ -49,16 +58,23 @@ and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load t
 
 1. **Focus** — propose the single next section/gate item (the human may redirect).
 2. **Recommend the tool** — from the status `per_step` tools first, else the step default.
-3. **Check prerequisites** — **open that tool's `SKILL.md`** under `tool-skills/library/` and read
-   its prerequisites. Filling from `template.md` without opening the method is the failure this skill
-   exists to prevent.
+3. **Check prerequisites and size the pass** — **open that tool's `SKILL.md`** under
+   `tool-skills/library/` and read its prerequisites. Filling from `template.md` without opening the
+   method is the failure this skill exists to prevent. The volume is now visible — decide **aloud**:
+   split this pass across subagents or run it solo, and why.
 4. **Fill gaps** — for each missing input, ask the human or offer to obtain it; never guess an input.
 5. **Clarify** — only real **product** decisions, each as 2–4 options + a ⚙️ recommendation, then
    **wait**. Technical/implementation gaps are not asked — note them as forks in the artifact.
-6. **Act** — fill the section via the tool's `template-fragment.md`, tagging every claim with a
-   source + confidence per `CONVENTIONS.md`; mark your own proposals ⚙️.
-7. **Update state** — tick the gate item, seed/update registers (`H-…`/`R-…`/`M-…`), add a dated
-   change-log entry, and surface what's still `— to clarify —`.
+6. **Act — directly or through subagents** — produce the section via the tool's
+   `template-fragment.md`, tagging every claim with a source + confidence per `CONVENTIONS.md`;
+   mark your own proposals ⚙️. If step 3 said split: brief each subagent (task · context · tools ·
+   return shape) per the **`orchestration`** operations skill and score every return against its
+   passport before using it. A section built mainly on your own reasoning or the human's spoken
+   answer is **shown in chat before it is written**, together with the list of files this pass will
+   touch.
+7. **Update state** — only now write: the section, registers (`H-…`/`R-…`/`M-…`), a dated
+   change-log entry, what's still `— to clarify —`. A tick on a reasoning-based section waits for
+   a `verify` subagent's findings (the human may waive this).
 8. **Loop or bubble** — propose the next pass; if this pass invalidated a higher/lower artifact,
    raise it as a trigger per the step's cadence/invalidation rules.
 
@@ -66,14 +82,11 @@ and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load t
 barrel through the artifact set in one go. A bulk fill bypasses the method, the prerequisites, and
 the human's decisions all at once (see anti-patterns).
 
-## Step 2b — When the pass is wider than one context
-
-Many sources, many directions, or an artifact that needs checking by someone who did not write it:
-run the pass with subagents per the **`orchestration`** operations skill
-(`tool-skills/operations/orchestration/`). **Only you write** — subagents read, reason and return
-text, they never edit a file, close a fork or tick a gate, and a return that fails its passport is not
-integrated. The rule is canon (`process/OPERATING-LOOP.md` → *Delegation*); the skill is the
-procedure. If the pass fits in one context, don't — delegation costs more tokens, not fewer.
+**Delegation is the loop's default posture, not an exception:** subagents gather, research, draft
+and verify; **only you write** — they never edit a file, close a fork or tick a gate, and a return
+that fails its passport is not integrated. The contract is canon (`process/OPERATING-LOOP.md` →
+*Delegation*); the procedure is `tool-skills/operations/orchestration/`. The one case not to
+delegate: the pass fits comfortably in one context — delegation costs more tokens, not fewer.
 
 ## Step 3 — At a session boundary
 

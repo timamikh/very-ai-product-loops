@@ -9,8 +9,8 @@ description: >
   status with descriptions for the human to pick. Ends by summarizing what's filled vs blank and
   proposing a gap-closing plan in step order — the point where the working loops begin.
 status: draft
-version: 0.4.0
-updated: 2026-07-21
+version: 0.5.0
+updated: 2026-08-10
 ---
 
 # Product Setup (onboarding)
@@ -135,6 +135,13 @@ Now that everything is filled and a status is set, give the human a **product su
   from setup straight into that work; hand the plan over and begin the loop only on the human's go.
 From the next session on, that loop is entered via the **`start-work`** skill (which self-bootstraps
 the rules and runs one pass at a time).
+
+**Before handing over, check delegation.** The loop runs on subagents (`loops-gather` ·
+`loops-research` · `loops-draft` · `loops-verify`), and their definitions — vendored at install —
+are picked up only at **session start**. Tell the human plainly: restart the session once before
+the first `start-work`, or the agent types will not be found. If spawning agents is restricted in
+this environment, say that too — the owner's standing approval line lives in the host repo's root
+`AGENTS.md` (written at install).
 
 ## Instance layout (created in the product's repo)
 

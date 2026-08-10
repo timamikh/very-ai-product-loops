@@ -2,8 +2,8 @@
 node_type: template-fragment
 title: Task brief & return — the two halves of one contract
 status: draft
-version: 0.1.0
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-10
 ---
 
 # Task brief & return
@@ -24,10 +24,10 @@ as a raw capture ([`process/CONVENTIONS.md`](../../../process/CONVENTIONS.md) �
 # Task brief — <gather | research | draft | verify>: <the task in one line>
 
 ## 1 · Read first, in this order
-1. `AGENTS.md` — the rules. You are a subagent; the write rule below is in there too.
-2. <the method you must apply — e.g. `tool-skills/library/competitor-analysis/SKILL.md`>
-3. <the instance context you need — e.g. `product/1-passport.md#segments`, `product/sources/INDEX.md`>
+1. <the method you must apply — e.g. `tool-skills/library/competitor-analysis/SKILL.md`>
+2. <the instance context you need — e.g. `product/1-passport.md#segments`, `product/sources/INDEX.md`>
 Read nothing else from the instance unless this brief names it: what is not here is not your scope.
+You do **not** read the framework canon — §2 below is your complete contract, not a digest of one.
 
 ## 2 · Your role and its limits  ← copy this block verbatim into every brief
 You are a **subagent**. You read, search, fetch and reason. You **return text**.
@@ -129,10 +129,9 @@ the passport itself.>
 # Task brief — gather: weekly active accounts for the last 8 weeks
 
 ## 1 · Read first, in this order
-1. `AGENTS.md`
-2. `tool-skills/operations/metrics-capture/SKILL.md` — the procedure for turning a source into rows
-3. `product/sources/analytics-access.md` — how to reach the source
-4. `product/registers/metric-tree.md` — the node this feeds, and how it is defined today
+1. `tool-skills/operations/metrics-capture/SKILL.md` — the procedure for turning a source into rows
+2. `product/sources/analytics-access.md` — how to reach the source
+3. `product/registers/metric-tree.md` — the node this feeds, and how it is defined today
 
 ## 2 · Your role and its limits
 <the block, verbatim>
