@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.6.0
-updated: 2026-08-09
+version: 0.6.1
+updated: 2026-08-10
 ---
 
 # Operating Loop
@@ -71,10 +71,7 @@ The agent then:
   cycle position and ticks;
 - **seeds / updates the registers** (hypotheses, risks, metric nodes) with stable IDs;
 - adds a dated **change-log** entry (from → to · why · trigger);
-- surfaces what remains open (`— to clarify —`);
-- **reports its own friction** — appends to the instance's `FRICTION.md` wherever the loop, a skill
-  or a rule got in the way this pass. Nothing to report is itself the report: say so. Procedure:
-  the **`friction-log`** operations skill (`tool-skills/operations/friction-log/`).
+- surfaces what remains open (`— to clarify —`).
 
 **8 · Loop or bubble.**
 Move to the next checklist item / section, or the next step. If this pass **invalidated** a

@@ -2,8 +2,8 @@
 node_type: operations-index
 title: Operations — runtime skills for how the agent works
 status: draft
-version: 0.3.0
-updated: 2026-08-09
+version: 0.3.1
+updated: 2026-08-10
 ---
 
 # Operations
@@ -23,7 +23,6 @@ change, a schedule) — the OPERATING-LOOP and each skill's own file define thos
 | [`handoff`](handoff/SKILL.md) | Write/update the instance's `HANDOFF.md` so a fresh agent resumes without re-asking the human | session boundary · environment change needing restart · imminent compaction · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → "Session handoff" |
 | [`metrics-capture`](metrics-capture/SKILL.md) | Turn a source into dated rows in `metrics.csv` plus the living method file that makes them reproducible | a step/gate needs a value the register lacks · a hypothesis enters `testing` · a reading went stale · the source changed · on request | [`process/REGISTERS.md`](../../process/REGISTERS.md) → "Metric register" + [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Raw data & access" |
 | [`orchestration`](orchestration/SKILL.md) | Run one pass with subagents: cut the work, write the brief, score the return against its passport, integrate it | the pass is wider than one context (many sources, many directions) · an artifact needs checking by someone who did not write it · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → "Delegation" |
-| [`friction-log`](friction-log/SKILL.md) | Append what the framework got wrong this pass to the instance's `FRICTION.md` | **every pass**, at step 7 — including the passes where nothing went wrong | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → step 7 |
 
 The list is a starting set. Candidate future operations skills (not yet authored): a metrics
 **collection schedule** (when to pull which metric — `metrics-capture` runs one pass, it does not

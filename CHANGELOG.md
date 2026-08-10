@@ -38,11 +38,8 @@ canon) now lets one pass run across several agents, on terms that keep the golde
   context that stays clear enough to think in. The skill says so in a callout, so nobody adopts it
   expecting a saving.
 
-Two new operations skills: **`orchestration`** (how to cut the work, brief it, score the nine-line
-passport, integrate a return without laundering its confidence tags) and **`friction-log`** (a
-`FRICTION.md` entry at step 7 of *every* pass, including the clean ones — our largest single
-improvement came from one field report a human happened to write, and everything in it had been
-visible to the agent at the time; nothing asked).
+One new operations skill: **`orchestration`** — how to cut the work, brief it, score the nine-line
+passport, and integrate a return without laundering its confidence tags.
 
 `.claude/agents/loops-{gather,research,draft,verify}.md` enforce the write rule **mechanically** on
 Claude Code: no write tools at all, checked by the linter. The remaining hole — those definitions keep
@@ -52,7 +49,7 @@ rather than hidden.
 **The ceiling on the always-loaded rule set moves 900 → 1000 lines**, recorded with its reason: the
 orchestrator↔subagent protocol is the definition of a contract, and a fresh subagent must know it
 *before* it reads anything else. The rest of delegation went to a skill, which is why the raise was
-~50 lines and not ~200. Canon is now 938.
+~50 lines and not ~200. Canon is now 934.
 
 ### Every method states what would make it wrong
 

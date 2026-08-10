@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.10.0
-updated: 2026-08-09
+version: 0.10.1
+updated: 2026-08-10
 ---
 
 # Conventions
@@ -208,7 +208,6 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `source-method` (raw source → register values) | **yes** — on every judgement call (a cut-off, an exclusion) | optional | reference by ID | **yes** | living, never dated evidence: rewritten in place, so a reading stays reproducible |
 | `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
-| `friction` (`FRICTION.md`) | n/a | n/a | reference by ID | **is itself a log** | dated entries, newest first, appended at step 7 of every pass. Records where the *framework* got in the way — never product values, never a substitute for a register |
 | framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
 
 If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.

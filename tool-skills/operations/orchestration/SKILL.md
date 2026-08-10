@@ -13,8 +13,8 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: the writer is single, the readers are many, and a return is accepted against a passport rather than on trust"
 status: draft
-version: 0.1.2
-updated: 2026-08-09
+version: 0.1.3
+updated: 2026-08-10
 ---
 
 # Orchestration — running one pass with subagents
@@ -108,9 +108,9 @@ separable, not that the brief needs to be longer).
 
 6. **Remediate once, then stop.** A failing return goes back with the **named defects** — not "improve
    the sourcing" but "claims 2 and 5 have no source; the URL in claim 4 was never opened". After the
-   second failure, stop: record what is missing as `— to clarify —`, surface it to the human, and note
-   in `FRICTION.md` that the brief did not produce a usable return. A third attempt is nearly always
-   the brief's fault.
+   second failure, stop: record what is missing as `— to clarify —` and surface it to the human,
+   saying that the brief did not produce a usable return. A third attempt is nearly always the
+   brief's fault.
 
 7. **Integrate — and this is the only writing that happens.** Carry every claim across **with its own
    tag**; a subagent's `[assumption]` stays an assumption in your artifact. Never re-tag a return as
@@ -119,8 +119,8 @@ separable, not that the brief needs to be longer).
    named an unresolved fork, it becomes your fork with the human — with the options as returned.
 
 8. **Close the pass normally.** Delegation changes who read the material, not what a pass owes:
-   step 7 of the loop still runs — registers, change log, open items, and a `FRICTION.md` line
-   including anything the delegation itself made awkward.
+   step 7 of the loop still runs — registers, change log, open items — and anything the delegation
+   itself made awkward is surfaced to the human with the rest.
 
 ## The return passport
 
@@ -209,8 +209,8 @@ to the paragraph below rather than rewriting the brief.
 On a runtime with no subagent mechanism — or in a session that has not picked the definitions up yet
 — the same briefs work unchanged against any general-purpose read-only agent, or by hand: paste the
 brief into a second session and paste the return back. The write rule then rests on the brief's rule
-block instead of on the tool list, which is weaker; say so in the pass's `FRICTION.md` entry rather
-than letting the difference go unrecorded. The procedure does not change; only the plumbing does.
+block instead of on the tool list, which is weaker — say so when you report the pass, rather than
+letting the difference go unrecorded. The procedure does not change; only the plumbing does.
 
 ## Output
 

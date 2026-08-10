@@ -58,9 +58,7 @@ and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load t
 6. **Act** — fill the section via the tool's `template-fragment.md`, tagging every claim with a
    source + confidence per `CONVENTIONS.md`; mark your own proposals ⚙️.
 7. **Update state** — tick the gate item, seed/update registers (`H-…`/`R-…`/`M-…`), add a dated
-   change-log entry, surface what's still `— to clarify —`, and append the pass's entry to
-   `FRICTION.md` (`tool-skills/operations/friction-log/`) — including on a pass where nothing went
-   wrong.
+   change-log entry, and surface what's still `— to clarify —`.
 8. **Loop or bubble** — propose the next pass; if this pass invalidated a higher/lower artifact,
    raise it as a trigger per the step's cadence/invalidation rules.
 

@@ -103,7 +103,7 @@ and how each stage prioritizes them are swappable per company, without forking t
 **The pluggable skills** — instruction skills the agent picks up and runs, grouped under [`tool-skills/`](tool-skills/README.md) and swappable per company without forking the core:
 
 - **Library** (`tool-skills/library/`) — product methods as skills: what / when / how / template. See [`tool-skills/library/README.md`](tool-skills/library/README.md).
-- **Operations** (`tool-skills/operations/`) — runtime skills for how the agent works: `handoff` (state across a restart), `metrics-capture` (a source → reproducible register rows), `orchestration` (running one pass with subagents), `friction-log` (what the framework got wrong this pass). See [`tool-skills/operations/README.md`](tool-skills/operations/README.md).
+- **Operations** (`tool-skills/operations/`) — runtime skills for how the agent works: `handoff` (state across a restart), `metrics-capture` (a source → reproducible register rows), `orchestration` (running one pass with subagents). See [`tool-skills/operations/README.md`](tool-skills/operations/README.md).
 - **Adapters** (`tool-skills/adapters/`) — the output layer: `to-table` · `to-document` · `to-deck`. Base adapters ship here (neutral); company-specific formats stay external and specialize them. See [`tool-skills/adapters/README.md`](tool-skills/adapters/README.md).
 
 To find a skill for a task, pick the category by phase (produce a section → `library`; render a deliverable → `adapters`; carry state across a restart, go get a number, or split a pass across agents → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.

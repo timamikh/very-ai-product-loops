@@ -21,7 +21,7 @@ The framework splits into two halves:
 | Category | What it does | When it runs | Index |
 |----------|--------------|--------------|-------|
 | [`library/`](library/README.md) | product methods that fill an artifact **section** (segmentation, pricing, jtbd, …) | *during* a step pass — recommended by the step & status | [`library/README.md`](library/README.md) |
-| [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, metrics capture, delegation to subagents, the friction log; future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
+| [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, metrics capture, delegation to subagents; future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
 | [`adapters/`](adapters/README.md) | render the instance into a **deliverable** (table · document · deck) | *after* the content exists — on a delivery request | [`adapters/README.md`](adapters/README.md) |
 
 ## How the agent finds the right skill (discovery rule)
