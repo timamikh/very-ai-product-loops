@@ -20,13 +20,14 @@ what the files now say. It has **no write path** — not a deferred one, an abse
 python3 tools/ui/serve.py                    # discover the instance from the current folder
 python3 tools/ui/serve.py path/to/product    # or point at one
 python3 tools/ui/serve.py --port 7788 --no-open
+python3 tools/ui/serve.py path/to/product --export    # write the shareable file and exit
 ```
 
 Any folder can be added at runtime from the header field — type a path, and the console reads it. That
 is the contract to hold onto: **an instance written to the canon renders with no configuration.**
 
-**Save as HTML** in the header writes one self-contained file for the product currently open — see
-*Sharing a snapshot* below.
+**Save as HTML** in the header — or `--export` with no server at all — writes one self-contained file
+for the product currently open. See *Sharing a snapshot* below.
 
 Python 3 standard library only, no build step, no npm. The framework's promise is *clone it and it runs
 on plain python3*; a product manager must not need a toolchain to see their own product.
@@ -119,6 +120,20 @@ Three properties are the point, and each is a constraint on how it is built:
 - **It is frozen, and says so.** A black bar across the top names the product and the moment it was
   taken. The live reload, the folder picker and the file viewer are switched off, because a snapshot
   has no folder to follow.
+
+**Two ways to ask for it, one builder.** In the console, the button in the header. Without starting
+the console, one command that writes the file and exits — no port, no browser, nothing left running:
+
+```bash
+python3 tools/ui/serve.py path/to/product --export           # ./<product>-<date>.html
+python3 tools/ui/serve.py path/to/product --export ~/Desktop # into a folder, same name
+python3 tools/ui/serve.py path/to/product --export share.html
+```
+
+Both routes call the same function, so the two files are byte-identical apart from the timestamp. The
+export cannot be built without the read layer that builds the model, which is why there is no way to
+produce it with no Python at all: a browser on its own cannot read the instance folder, and teaching
+it to would mean a second parser that could disagree with the linter.
 
 It is a **copy of the reading, not a deliverable**. A deck or a document for a stakeholder is an
 adapter's job ([`tool-skills/adapters/`](../../tool-skills/adapters/README.md)); this is the console
@@ -238,7 +253,8 @@ and `population`.
 - `--host` defaults to loopback; the console reads nothing outside the instance folder and the
   framework root, and has no write path at all (`POST` answers 405 by design). The HTML export is not
   an exception: the server writes no file, it answers one `GET` with a page, and the browser saves it
-  wherever the human's downloads go.
+  wherever the human's downloads go. `--export` does write a file — where the human named it, never
+  into the instance, and the server is not running at all.
 - The change stream is a 1.5s poll (stdlib, identical on every platform). `?live=0` disables it —
   useful for headless captures and smoke tests.
 - `tools/loops/yamlite.py` reads the small YAML subset the framework uses. Anything richer is out of

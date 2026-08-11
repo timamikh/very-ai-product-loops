@@ -190,14 +190,20 @@ def export_html(inst_path):
         "<span id=\"footrev\"></span></footer>\n"
         "<script>window.__SNAPSHOT__ = %s;</script>\n<script>\n%s\n</script>\n</body>\n</html>\n"
         % (model.get("language") or "en", escape(title), css, blob, js))
-    return page, export_disposition(model)
+    return page, model
+
+
+def export_filename(model):
+    """`<product>-<date>.html` — the name a human recognises, for a file on disk."""
+    raw = (model.get("product") or model.get("name") or "product").strip().replace("/", "-")
+    return "%s-%s.html" % (raw or "product", time.strftime("%Y-%m-%d"))
 
 
 def export_disposition(model):
-    """`<product>-<date>.html` — twice: an ascii fallback, and the real name for browsers that read it.
+    """The same name twice: an ascii fallback, and the real one for browsers that read RFC 5987.
 
     A product named in Cyrillic folds to an empty ascii slug, so the fallback falls back again to the
-    folder name and finally to `product`. RFC 5987's `filename*` carries the name the human recognises.
+    folder name and finally to `product`. `filename*` carries the name the human recognises.
     """
     date = time.strftime("%Y-%m-%d")
     raw = (model.get("product") or model.get("name") or "product").strip()
@@ -205,8 +211,28 @@ def export_disposition(model):
     if not slug:
         slug = re.sub(r"[^a-z0-9]+", "-", (model.get("name") or "").lower()).strip("-")
     ascii_name = "%s-%s.html" % (slug or "product", date)
-    utf8_name = quote("%s-%s.html" % (raw.replace("/", "-"), date), safe="")
-    return "attachment; filename=\"%s\"; filename*=UTF-8''%s" % (ascii_name, utf8_name)
+    return "attachment; filename=\"%s\"; filename*=UTF-8''%s" % (
+        ascii_name, quote(export_filename(model), safe=""))
+
+
+def write_export(inst, out):
+    """`--export`: the same page the console hands over, written straight to disk.
+
+    The server is one way to reach the snapshot, not the only one — the page is built by a function,
+    so a terminal can ask for it as easily as a browser. Nothing else changes: same builder, same
+    file, and the instance is still only read.
+    """
+    page, model = export_html(inst["path"])
+    name = export_filename(model)
+    out = os.path.join(out, name) if (not out or os.path.isdir(out)) else out
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(page)
+    print("very-ai-product-loops · snapshot")
+    print("  instance: %s  (%s)" % (inst["path"], inst["kind"]))
+    print("  wrote:    %s  (%d KB, one file, opens offline)"
+          % (os.path.abspath(out), round(len(page.encode("utf-8")) / 1024)))
+    print("  it carries everything the artifacts say — send it only where they may be read")
+    return 0
 
 
 def safe_path(candidate, roots):
@@ -298,9 +324,9 @@ class Handler(BaseHTTPRequestHandler):
                 p = self._resolve_instance(path)
                 if not p:
                     return self._json({"error": "instance outside the served roots"}, 403)
-                page, disposition = export_html(p)
+                page, model = export_html(p)
                 return self._send(200, page, "text/html; charset=utf-8",
-                                  {"Content-Disposition": disposition})
+                                  {"Content-Disposition": export_disposition(model)})
             if route == "/api/lint":
                 path = q.get("instance", [self.server.instance_path])[0]
                 p = self._resolve_instance(path)
@@ -368,6 +394,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Local console for a very-ai-product-loops instance.")
     ap.add_argument("path", nargs="?", default=os.getcwd(),
                     help="instance folder, or a folder to discover one in (default: current)")
+    ap.add_argument("--export", nargs="?", const="", metavar="FILE_OR_DIR",
+                    help="write the shareable snapshot and exit — no server, no port, no browser "
+                         "(default name: <product>-<date>.html in the current folder)")
     ap.add_argument("--port", type=int, default=7777)
     ap.add_argument("--host", default="127.0.0.1", help="loopback by default — this is a local tool")
     ap.add_argument("--no-open", action="store_true", help="don't open a browser")
@@ -382,6 +411,9 @@ def main(argv=None):
               % os.path.abspath(args.path), file=sys.stderr)
         return 2
     current = candidates[0]
+
+    if args.export is not None:
+        return write_export(current, args.export)
 
     httpd = ThreadingHTTPServer((args.host, args.port), Handler)
     httpd.candidates = candidates

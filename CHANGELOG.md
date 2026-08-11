@@ -45,9 +45,15 @@ could not leave the machine it ran on.
   a deck or a document is still an adapter's job. Same read layer, same renderer: a snapshot cannot
   say something the console does not. The server still writes no file — one `GET`, and the browser
   saves it.
+- **The snapshot without a server**: `python3 tools/ui/serve.py path/to/product --export` writes the
+  file and exits — no port, no browser, nothing left running; give it a folder or a filename, or let
+  it name itself `<product>-<date>.html`. Both routes call the same builder, so the two files are
+  identical apart from the timestamp. There is no route with no Python at all: the page is built from
+  the model, the model is built by the read layer, and a browser cannot read the instance folder on
+  its own — teaching it to would mean a second parser that could disagree with the linter.
 
 Not a change to the canon: the console remains a read-only lens with no write path, and the export is
-not an exception to that.
+not an exception to that — `--export` writes where the human named it, never into the instance.
 
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
