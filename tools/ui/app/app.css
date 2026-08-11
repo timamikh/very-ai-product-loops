@@ -322,7 +322,9 @@ details.acc .accbody { padding:13px 15px 16px }
 .pip { width:6px; height:6px; border-radius:50%; display:inline-block }
 .pip.gap { background:var(--warn) } .pip.gear { background:var(--brand) } .pip.empty { background:var(--line-2) }
 
-.md { font-size:13.5px; line-height:1.62 }
+/* Nothing in a body runs past its edge: a source path, a URL or an id with no space in it breaks
+   rather than pushing the line out of the panel. */
+.md { font-size:13.5px; line-height:1.62; overflow-wrap:break-word }
 .md > *:first-child { margin-top:0 }
 .md h1, .md h2 { font-size:15.5px; margin:16px 0 7px; letter-spacing:-.01em }
 .md h3 { font-size:13.5px; margin:14px 0 5px }
@@ -342,7 +344,14 @@ details.acc .accbody { padding:13px 15px 16px }
 .md blockquote { border-left:2px solid var(--brand); padding:2px 0 2px 12px; color:var(--muted) }
 .md code { font-size:12px; background:var(--sunk); border:1px solid var(--line); padding:0 4px; border-radius:3px }
 .md em { color:var(--muted) }
-.md .conf { font-family:var(--mono); font-size:10.5px; padding:1px 5px; border-radius:4px; white-space:nowrap }
+/* A confidence tag carries its rationale, and a rationale is a sentence: `[sourced: <where, and what
+   was and was not counted>]`. Held on one line it ran off the page and was cut — the one thing the
+   layout forbids. It wraps, and `box-decoration-break` gives every line of it the chip's padding and
+   corners, so a wrapped tag still reads as one mark rather than two. */
+.md .conf {
+  font-family:var(--mono); font-size:10.5px; padding:1px 5px; border-radius:4px;
+  overflow-wrap:break-word; -webkit-box-decoration-break:clone; box-decoration-break:clone;
+}
 .md .conf.assumption { background:var(--warn-soft); color:var(--warn) }
 .md .conf.sourced { background:var(--brand-soft); color:var(--brand-ink) }
 .md .conf.validated { background:var(--ok-soft); color:var(--ok) }

@@ -51,6 +51,10 @@ could not leave the machine it ran on.
   came out one word per line and clipped. They now sit across the top, where a frame belongs, and the
   sections run the full width of the window. A paragraph still stops at ~92 characters, because past
   that the eye loses the start of the next line; tables and evidence take everything.
+- **A confidence tag wraps.** `[sourced: …]` carries its rationale, and a rationale is a sentence;
+  held on one line it ran off the page and was cut. It now wraps, and every line of it keeps the
+  chip's padding and corners, so a wrapped tag still reads as one mark. Long paths and ids in a body
+  break instead of pushing the line out of the panel.
 - **The console opens by double-click** — `tools/ui/console.command` (macOS, Linux) and
   `console.bat` (Windows). The audience is the product manager, and for that reader a terminal is a
   wall: the console is worth nothing to them if reaching it costs a command they have to be taught.
