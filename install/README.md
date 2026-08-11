@@ -65,7 +65,8 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
 
 - **Framework (vendored, read-only, versioned):** `steps/`, `statuses/`, `process/`,
   `tool-skills/` (library · operations · adapters), `AGENTS.md`, `EXTENDING.md`, `.claude/skills/`,
-  `tools/` (the linter and the local console), and a `FRAMEWORK-VERSION` file (pinned tag + SHA).
+  `tools/` (the linter and the local console, including the double-click launchers
+  `tools/ui/console.command` and `console.bat`), and a `FRAMEWORK-VERSION` file (pinned tag + SHA).
   Update by bumping the tag and re-vendoring — your own skills under `product/tool-skills/` survive
   it untouched.
 - **Your product (yours, edited over time):** `product/` — kept **separate from your code** so it

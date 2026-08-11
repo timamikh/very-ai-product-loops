@@ -344,22 +344,38 @@ function lineChart(groups, opts) {
         d: 'M' + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L'),
         fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round',
       }));
-      s.append(svg('path', {
-        d: `M${pts[0].x.toFixed(1)} ${(H - P.b).toFixed(1)} L`
-          + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L')
-          + ` L${pts[pts.length - 1].x.toFixed(1)} ${(H - P.b).toFixed(1)} Z`,
-        fill: color, opacity: 0.1, stroke: 'none',
-      }));
+      // Fill under one line only. Two translucent fills over each other make a third colour that
+      // belongs to neither series, and the reader has to work out which is on top.
+      if (groups.length === 1) {
+        s.append(svg('path', {
+          d: `M${pts[0].x.toFixed(1)} ${(H - P.b).toFixed(1)} L`
+            + pts.map(p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L')
+            + ` L${pts[pts.length - 1].x.toFixed(1)} ${(H - P.b).toFixed(1)} Z`,
+          fill: color, opacity: 0.1, stroke: 'none',
+        }));
+      }
     }
+    // A dot on every reading: the line is drawn between measurements, and which points were actually
+    // measured is the fact the reader needs — a hover that has to be hunted for does not tell them.
+    // The ring is the panel's own colour, so two series crossing stay two dots, not one blob.
+    const gap = xs.length > 1 ? (W - P.l - P.r) / (xs.length - 1) : W;
+    const dotR = gap < 9 ? 2 : gap < 16 ? 2.6 : 3.2;
     const last = pts[pts.length - 1];
-    s.append(svg('circle', { cx: last.x, cy: last.y, r: 4, fill: color,
-      stroke: 'var(--paper)', 'stroke-width': 2 }));
+    pts.forEach(p => {
+      p.baseR = p === last ? Math.max(dotR + 1.2, 4) : dotR;
+      p.dot = svg('circle', { cx: p.x, cy: p.y, r: p.baseR, fill: color,
+        stroke: 'var(--paper)', 'stroke-width': dotR < 2.6 ? 1 : 1.5 });
+      s.append(p.dot);
+    });
+    // The last value, and only the value: the basis it was measured on is named once, in the legend.
+    // A label that carries it too runs off the panel and gets cut — the one thing the layout forbids.
     const lab = svg('text', { x: last.x + 7, y: last.y + 3.5, fill: 'var(--muted)',
       'font-size': 10, 'font-family': 'var(--mono)' });
-    lab.textContent = num(last.r.value) + (groups.length > 1 ? ` ${g.label}` : '');
+    lab.textContent = num(last.r.value);
     s.append(lab);
     pts.forEach(p => {
       const hit = svg('circle', { cx: p.x, cy: p.y, r: 9, fill: 'transparent', style: 'cursor:crosshair' });
+      hit.addEventListener('mouseenter', () => p.dot.setAttribute('r', p.baseR + 2));
       hit.addEventListener('mousemove', ev => showTip(
         `<b>${esc(num(p.r.value))}</b> ${esc(opts.unit || '')}<br>`
         + `<span class="k">${esc(dateOf(p.r))}</span>`
@@ -367,7 +383,7 @@ function lineChart(groups, opts) {
         + (g.label && groups.length > 1 ? `<br><span class="k">basis</span> ${esc(g.label)}` : '')
         + (p.r.source ? `<br><span class="k">source</span> ${esc(p.r.source)}` : '')
         + (p.r.note ? `<br>${esc(p.r.note)}` : ''), ev.clientX, ev.clientY));
-      hit.addEventListener('mouseleave', hideTip);
+      hit.addEventListener('mouseleave', () => { p.dot.setAttribute('r', p.baseR); hideTip(); });
       s.append(hit);
     });
   });

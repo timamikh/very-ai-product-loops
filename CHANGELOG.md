@@ -45,6 +45,18 @@ could not leave the machine it ran on.
   a deck or a document is still an adapter's job. Same read layer, same renderer: a snapshot cannot
   say something the console does not. The server still writes no file — one `GET`, and the browser
   saves it.
+- **The console opens by double-click** — `tools/ui/console.command` (macOS, Linux) and
+  `console.bat` (Windows). The audience is the product manager, and for that reader a terminal is a
+  wall: the console is worth nothing to them if reaching it costs a command they have to be taught.
+  The launcher finds python, says so plainly if it is missing, and prints ASCII only — a box instead
+  of a dash in a console window is the same failure this project refuses in the UI.
+- **A dot on every reading.** The chart drew a line and hid the measurements inside it, so the reader
+  had to hunt along the line for a tooltip to find out where a real number sat. Each reading is now a
+  marked point, ringed in the panel's own colour so two series crossing stay two dots; the point
+  under the cursor grows. Two more chart fixes came with it: the fill under the line is drawn only
+  for a single series (two translucent fills make a third colour that belongs to neither), and the
+  end-of-line label carries the value alone — with the basis appended it ran off the panel and was
+  cut, which is the one thing the layout forbids. The basis is named once, in the legend.
 - **The snapshot without a server**: `python3 tools/ui/serve.py path/to/product --export` writes the
   file and exits — no port, no browser, nothing left running; give it a folder or a filename, or let
   it name itself `<product>-<date>.html`. Both routes call the same builder, so the two files are

@@ -117,7 +117,7 @@ Adapting the framework to your company — a new method, a new stage, different 
 **The tooling** — plain scripts over the same files, no dependencies beyond `python3`:
 
 - **Linter** (`tools/lint.py`) — checks the framework's wiring and every instance's registers against the canon; runs in CI.
-- **Local console** (`tools/ui/serve.py`) — `python3 tools/ui/serve.py` opens a browser view of one instance: where the cycle stands, what each gate still has open, the registers, the metric series, every `— to clarify —`, and the change-log timeline. **Read-only by design** — a viewer, not an interface to the process: the human asks an agent, the agent writes the files, the console shows what they now say. See [`tools/ui/README.md`](tools/ui/README.md).
+- **Local console** (`tools/ui/serve.py`) — double-click `tools/ui/console.command` (macOS, Linux) or `console.bat` (Windows), or run `python3 tools/ui/serve.py`, for a browser view of one instance: where the cycle stands, what each gate still has open, the registers, the metric series, every `— to clarify —`, and the change-log timeline. One button saves it as a single self-contained HTML file to send to someone who does not have the folder. **Read-only by design** — a viewer, not an interface to the process: the human asks an agent, the agent writes the files, the console shows what they now say. See [`tools/ui/README.md`](tools/ui/README.md).
 - Both read through one shared layer (`tools/loops/`), so the linter and the console can never disagree about what the canon says.
 
 ## How the agent reads the repo (for the curious)

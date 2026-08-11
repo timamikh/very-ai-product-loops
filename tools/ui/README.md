@@ -16,6 +16,13 @@ out for a human instead of a text editor.
 human talks to an agent, the agent runs the operating loop and writes the files. The console renders
 what the files now say. It has **no write path** — not a deferred one, an absent one.
 
+**Double-click [`console.command`](console.command) (macOS, Linux) or [`console.bat`](console.bat)
+(Windows).** It opens the browser and stops when the window closes. That is the whole instruction for
+the reader this is built for: a product manager owes nobody a terminal, and the console is worth
+nothing to them if reaching it costs a command they have to be taught.
+
+The same thing, typed, when a terminal is where you already are:
+
 ```bash
 python3 tools/ui/serve.py                    # discover the instance from the current folder
 python3 tools/ui/serve.py path/to/product    # or point at one
@@ -121,8 +128,9 @@ Three properties are the point, and each is a constraint on how it is built:
   taken. The live reload, the folder picker and the file viewer are switched off, because a snapshot
   has no folder to follow.
 
-**Two ways to ask for it, one builder.** In the console, the button in the header. Without starting
-the console, one command that writes the file and exits — no port, no browser, nothing left running:
+**Two ways to ask for it, one builder.** In the console, the button in the header — that is the one
+the product manager uses, and it needs no terminal. Otherwise one command that writes the file and
+exits, with no port, no browser and nothing left running:
 
 ```bash
 python3 tools/ui/serve.py path/to/product --export           # ./<product>-<date>.html
