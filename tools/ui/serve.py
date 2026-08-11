@@ -28,8 +28,9 @@ import sys
 import threading
 import time
 import webbrowser
+from html import escape
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # tools/ui -> root
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -142,6 +143,72 @@ def model_payload(inst_path):
     return m
 
 
+# ---------------------------------------------------------------- export
+
+
+def _js_string_safe(payload):
+    """Make a JSON blob safe to sit inside a <script> element.
+
+    Two sequences would end the script early or open a comment: `</` and `<!--`. Escaping the slash
+    is invisible to JSON.parse and to the JS parser, so the embedded model survives verbatim. The two
+    line separators are legal in JSON strings but not in JS source before ES2019 — escape them too.
+    """
+    return (payload.replace("</", "<\\/").replace("<!--", "<\\!--")
+            .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029"))
+
+
+def export_html(inst_path):
+    """One self-contained page for one product: the app, its stylesheet, and a frozen model.
+
+    Same renderer, same stylesheet, same read layer — the only difference is that the data is baked
+    in instead of fetched, so a shared file cannot drift from what the console shows. Nothing is
+    loaded from the network: no web font, no script, no image. It opens on a machine that has never
+    heard of this framework, offline, and looks identical.
+    """
+    model = model_payload(inst_path)
+    lint = run_lint(inst_path)
+    with open(os.path.join(APP_DIR, "app.css"), encoding="utf-8") as f:
+        css = f.read()
+    with open(os.path.join(APP_DIR, "app.js"), encoding="utf-8") as f:
+        js = f.read()
+    snap = {"model": model, "lint": lint, "generated": time.strftime("%Y-%m-%d %H:%M")}
+    blob = _js_string_safe(json.dumps(snap, ensure_ascii=False))
+    title = "%s — very-ai-product-loops" % (model.get("product") or model.get("name") or "product")
+    page = (
+        "<!doctype html>\n<html lang=\"%s\">\n<head>\n<meta charset=\"utf-8\">\n"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+        "<title>%s</title>\n<style>\n%s\n</style>\n</head>\n<body>\n"
+        "<div id=\"snap\"></div>\n"
+        "<header class=\"top\">\n  <div class=\"brand\">\n    <div class=\"mark\">loops</div>\n"
+        "    <div class=\"who\">\n      <h1 id=\"product\"></h1>\n"
+        "      <div class=\"sub\" id=\"subline\"></div>\n    </div>\n  </div>\n"
+        "  <div class=\"acts\" id=\"acts\"></div>\n</header>\n"
+        "<nav class=\"rail\" id=\"rail\" aria-label=\"steps\"></nav>\n"
+        "<nav class=\"tabs\" id=\"tabs\"></nav>\n"
+        "<main id=\"view\"></main>\n"
+        "<footer class=\"foot\"><span id=\"footpath\"></span><span class=\"dot\">\u00b7</span>"
+        "<span id=\"footrev\"></span></footer>\n"
+        "<script>window.__SNAPSHOT__ = %s;</script>\n<script>\n%s\n</script>\n</body>\n</html>\n"
+        % (model.get("language") or "en", escape(title), css, blob, js))
+    return page, export_disposition(model)
+
+
+def export_disposition(model):
+    """`<product>-<date>.html` — twice: an ascii fallback, and the real name for browsers that read it.
+
+    A product named in Cyrillic folds to an empty ascii slug, so the fallback falls back again to the
+    folder name and finally to `product`. RFC 5987's `filename*` carries the name the human recognises.
+    """
+    date = time.strftime("%Y-%m-%d")
+    raw = (model.get("product") or model.get("name") or "product").strip()
+    slug = re.sub(r"[^a-z0-9]+", "-", raw.lower()).strip("-")
+    if not slug:
+        slug = re.sub(r"[^a-z0-9]+", "-", (model.get("name") or "").lower()).strip("-")
+    ascii_name = "%s-%s.html" % (slug or "product", date)
+    utf8_name = quote("%s-%s.html" % (raw.replace("/", "-"), date), safe="")
+    return "attachment; filename=\"%s\"; filename*=UTF-8''%s" % (ascii_name, utf8_name)
+
+
 def safe_path(candidate, roots):
     """Resolve a requested file, refusing anything outside the instance or the framework."""
     p = os.path.abspath(candidate)
@@ -225,6 +292,15 @@ class Handler(BaseHTTPRequestHandler):
                 if p != self.server.instance_path:
                     self.server.switch(p)
                 return self._json({"rev": self.server.watcher.rev, "model": model_payload(p)})
+            if route == "/api/export":
+                # one product, one file — the instance the human is looking at, and nothing else
+                path = q.get("instance", [self.server.instance_path])[0]
+                p = self._resolve_instance(path)
+                if not p:
+                    return self._json({"error": "instance outside the served roots"}, 403)
+                page, disposition = export_html(p)
+                return self._send(200, page, "text/html; charset=utf-8",
+                                  {"Content-Disposition": disposition})
             if route == "/api/lint":
                 path = q.get("instance", [self.server.instance_path])[0]
                 p = self._resolve_instance(path)

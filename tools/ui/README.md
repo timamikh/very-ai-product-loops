@@ -2,8 +2,8 @@
 node_type: tooling
 title: The local console — a UI for a very-ai-product-loops instance
 status: draft
-version: 0.4.0
-updated: 2026-08-08
+version: 0.5.0
+updated: 2026-08-11
 ---
 
 # The local console
@@ -24,6 +24,9 @@ python3 tools/ui/serve.py --port 7788 --no-open
 
 Any folder can be added at runtime from the header field — type a path, and the console reads it. That
 is the contract to hold onto: **an instance written to the canon renders with no configuration.**
+
+**Save as HTML** in the header writes one self-contained file for the product currently open — see
+*Sharing a snapshot* below.
 
 Python 3 standard library only, no build step, no npm. The framework's promise is *clone it and it runs
 on plain python3*; a product manager must not need a toolchain to see their own product.
@@ -98,11 +101,64 @@ the product's own text appears in whatever language it was written in. There is 
 the UI on purpose: the instance already declares its language, and a second control would be a second
 source of truth.
 
-### Theme
+### Sharing a snapshot
+
+**Save as HTML** produces one file for **the product currently open** — no other instance on the
+machine appears in it. The file carries the same stylesheet, the same renderer and the model as it
+was read at that moment, plus the linter's verdict. Opened by anyone, on any machine, offline, it
+looks the same as the console did.
+
+Three properties are the point, and each is a constraint on how it is built:
+
+- **One renderer, not a second one.** The export is the app with its data baked in, not a report
+  generator. There is no second layout to keep in step, so a snapshot cannot say something the
+  console does not.
+- **Nothing is loaded from the network.** No web font, no script, no image, no stylesheet — the type
+  is the system grotesque, which renders everywhere and never arrives as a row of tofu boxes. That
+  rule is why the canon's ⚙️ marker is drawn as a word in a badge rather than as an emoji.
+- **It is frozen, and says so.** A black bar across the top names the product and the moment it was
+  taken. The live reload, the folder picker and the file viewer are switched off, because a snapshot
+  has no folder to follow.
+
+It is a **copy of the reading, not a deliverable**. A deck or a document for a stakeholder is an
+adapter's job ([`tool-skills/adapters/`](../../tool-skills/adapters/README.md)); this is the console
+itself, handed to someone who does not have the folder. And it is still product material: it carries
+whatever the artifacts carry, so it goes to people who may read them.
+
+### Theme and visual language
+
+The house standard is red_mad_robot: white paper, black ink, one pure red, a grey scale, and the deep
+navy as the single second hue. The red is the only colour with energy — it marks what is active and
+what is next, and appears nowhere decorative. Everything else is carried by type, rule and space.
+
+Three deliberate exceptions, each earning its hue: **status** (open amber, error red — legible without
+reading the label), **registers** (hypotheses navy · risks red · metrics green, so an id keeps one
+colour everywhere), and **chart series**, which come from a validated categorical palette because one
+red and a grey scale cannot separate three lines for a colourblind reader.
+
+Pure `#FF0000` gives 4.0:1 on white — enough for marks, rules and large type, not for body text. So
+one token paints and a darker one writes.
 
 Light / dark / auto, toggled in the header and remembered per browser. `auto` follows the OS; the
 explicit choices win in both directions (`data-theme` on the root element). Chart series colors are
 validated separately for each mode.
+
+### Three rules the layout holds to
+
+The first version of this console was a wall of cards, each showing the first two lines of something.
+The rules that replaced it:
+
+1. **Never a cut sentence.** Prose is shown whole, inside something that opens and closes, or it is
+   not shown at all. The first 84 characters of a definition tell the reader nothing and cost them a
+   line of attention.
+2. **A number, a label, or a link — one job per element.** The overview answers *where are we* in
+   figures and rules; the detail lives one click away, in a table or an accordion.
+3. **No glyph we cannot guarantee.** No web fonts, no emoji, no box-drawing — a snapshot is opened on
+   machines we know nothing about.
+
+The one place with visual energy is the **step rail** under the header: the six steps, always visible,
+each with how far its gate has actually closed. The numbering is not decoration — the steps are a real
+sequence, and the rail is how you move between them (there is no separate "step" tab).
 
 ### The read model
 
@@ -160,26 +216,29 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 
 ## What it shows
 
-| Tab | What it answers |
+| Where | What it answers |
 |---|---|
-| Overview | What this product is, where the cycle stands, which step the next pass belongs to, and how the instance reads against the canon |
-| Step | One step as a **canvas**: a card per section carrying its actual lead line and first bullets, its tick, confidence mix, gaps, ⚙️ proposals and linked register items — plus what the active status asks here and the full gate |
-| Artifacts | Section by section, with confidence tags, gaps and ⚙️ proposals highlighted |
-| Registers | Hypotheses / risks / metric nodes as filterable tables, with non-canon values flagged |
-| Metrics | Latest readings as tiles, one small-multiple chart per node with readings, the raw `metrics.csv` rows, and the nodes defined but never measured |
-| Open questions | Every `— to clarify —`, every gate item still open or unrecorded, every hypothesis in flight |
-| Change log | One timeline across all artifacts and registers — what moved and why |
+| The step rail | Where the cycle stands, and how far each of the six gates has closed. Always visible; click a step to open it |
+| Overview | What this product is, in one thesis line and six figures; the six steps as a table; where the next pass goes; how the instance reads against the canon |
+| Step | The step's sections as **accordions** — each opens to the section's full text, its confidence mix, gaps, proposals and register ids — plus what the active status asks here, and the gate as a table |
+| Artifacts | Section by section, with confidence tags, gaps and proposals highlighted |
+| Registers | Hypotheses / risks / metric nodes as filterable tables, with non-canon values flagged, a per-item trail, and a link to every artifact section that names the id |
+| Metrics | Latest readings as tiles, one chart per node with readings, each node's full definition, the raw `metrics.csv` rows, and the nodes defined but never measured |
+| Open questions | Every `— to clarify —`, every gate item still open or unrecorded, every hypothesis in flight — each with a link to the section it sits in |
+| Sources | The source index, every file in `sources/` with its role and whether the index knows it, the metric source slots, and the session handoff |
+| Skills | Every skill the agent can reach, with its wiring and quality declaration |
+| Change log | One timeline across all artifacts and registers — what moved and why, filterable by file |
 | Checks | The linter's findings plus the reader's `health` list, and an explicit list of what neither checks |
 
-Charts follow the house visual language for chrome, but their **series colors come from a validated
-categorical palette** (checked for colorblind separation against both surfaces) rather than the house
-hues, which fail that check as a set. Deltas compare like with like — a reading is only compared to the
-previous reading on the same `basis`.
+Deltas compare like with like — a reading is only compared to the previous reading on the same `basis`
+and `population`.
 
 ## Notes & limits
 
 - `--host` defaults to loopback; the console reads nothing outside the instance folder and the
-  framework root, and has no write path at all (`POST` answers 405 by design).
+  framework root, and has no write path at all (`POST` answers 405 by design). The HTML export is not
+  an exception: the server writes no file, it answers one `GET` with a page, and the browser saves it
+  wherever the human's downloads go.
 - The change stream is a 1.5s poll (stdlib, identical on every platform). `?live=0` disables it —
   useful for headless captures and smoke tests.
 - `tools/loops/yamlite.py` reads the small YAML subset the framework uses. Anything richer is out of

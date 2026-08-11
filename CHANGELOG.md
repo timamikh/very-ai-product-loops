@@ -10,6 +10,45 @@ All notable changes to very-ai-product-loops are recorded here. The format follo
 
 The version you pin to is the **git tag**; this file is its human-readable story.
 
+## [Unreleased] — The console gets the house standard, and a page you can send
+
+The console read the instance correctly and looked like rubble: a wall of cards, each carrying the
+first two lines of something, most of them cut mid-sentence. The owner's verdict was that a reader
+loses the thread on first glance — there are no accents and no theses, only text. And the reading
+could not leave the machine it ran on.
+
+- **Repainted to the house standard** — a bespoke set: white
+  paper, black ink, one **pure red**, a grey scale, and the deep navy as the single second hue. The
+  red is the only colour with energy; it marks what is active and what is next and appears nowhere
+  decorative. `#FF0000` gives 4.0:1 on white, so one token paints and a darker one writes. Three
+  exceptions keep their hue because they carry meaning: status (open amber · error red), the three
+  registers (an id keeps one colour everywhere), and chart series — one red and a grey scale cannot
+  separate three lines for a colourblind reader, so the plot keeps its validated categorical palette.
+- **Three layout rules, written into the file that implements them.** *Never a cut sentence* — prose
+  is shown whole, inside something that opens and closes, or not at all. *One job per element* — the
+  overview answers "where are we" in figures and rules, and the detail lives one click away. *No glyph
+  we cannot guarantee* — no web fonts, no emoji, no box drawing. The canon's ⚙️ marker is now drawn as
+  a word in a badge, which also ends the tofu-box risk in a shared file.
+- **The step rail replaces the step tab.** The six steps sit under the header on every tab, each
+  showing how far its gate has actually closed. It is the one place with visual energy, and its
+  numbering is not decoration: the steps are a real sequence.
+- **Sections, tables and accordions instead of cards.** A step's sections are accordions that open to
+  the section's **whole** text; the six steps, the gate, the open questions, the readings and the
+  source index are tables. Everything that names a section now offers a link into it, and a register
+  row links to every artifact section that mentions its id.
+- **A new *Sources* tab** — the source index, every file in `sources/` with its role and whether the
+  index knows about it, the metric source slots, and the session handoff.
+- **Save as HTML** writes one self-contained file for the product currently open: the same renderer
+  and stylesheet with the model baked in, plus the linter's verdict. It loads nothing from the
+  network, opens offline on a machine that never heard of the framework, and says across the top that
+  it is a frozen copy. It is the console handed to someone without the folder — **not** a deliverable;
+  a deck or a document is still an adapter's job. Same read layer, same renderer: a snapshot cannot
+  say something the console does not. The server still writes no file — one `GET`, and the browser
+  saves it.
+
+Not a change to the canon: the console remains a read-only lens with no write path, and the export is
+not an exception to that.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself

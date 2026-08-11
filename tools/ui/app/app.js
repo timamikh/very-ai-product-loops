@@ -4,8 +4,23 @@
  * manager runs `python3 tools/ui/serve.py` and sees their product. The canon is never re-interpreted
  * here — everything shown comes from tools/loops/ (one parser), and this file only lays it out.
  *
+ * Three rules this file holds to, because breaking them is what made the earlier version noisy:
+ *
+ *  1. **Never a cut sentence.** Prose is shown whole, inside something that can be opened and
+ *     closed, or it is not shown at all. A card that carries the first 84 characters of a definition
+ *     tells the reader nothing and costs them a line of attention.
+ *  2. **A number, a label, or a link — pick one per element.** The overview answers "where are we"
+ *     in figures and rules; the detail lives one click away, in a table or an accordion.
+ *  3. **No glyph we cannot guarantee.** No web fonts, no emoji, no box-drawing: a shared snapshot is
+ *     opened on machines we know nothing about, and a missing glyph renders as a tofu box. The
+ *     canon's own ⚙️ marker becomes a word in a badge.
+ *
  * Interface language follows the instance: `config.yaml` → `language`. Adding a locale means adding
  * one object to STR below — nothing else in this file knows a language exists.
+ *
+ * The same file renders the exported snapshot: when `window.__SNAPSHOT__` is present the model and
+ * the linter's verdict are already embedded, and every fetch, the live reload and the folder picker
+ * are switched off. One renderer, two ways in.
  */
 'use strict';
 
@@ -13,26 +28,37 @@
 const STR = {
   en: {
     tabs: { overview: 'Overview', step: 'Step', artifacts: 'Artifacts', registers: 'Registers',
-      metrics: 'Metrics', open: 'Open', skills: 'Skills', log: 'Change log', checks: 'Checks' },
-    status: 'status', step: 'step', lastPass: 'last pass',
+      metrics: 'Metrics', open: 'Open questions', sources: 'Sources', skills: 'Skills',
+      log: 'Change log', checks: 'Checks' },
+    status: 'status', step: 'step', of: 'of', lastPass: 'last pass',
     noState: 'not recorded', theme: 'theme', themeauto: 'auto', themelight: 'light', themedark: 'dark',
     addFolder: 'Add a product folder', addHint: 'add a folder…',
-    cascade: 'The cascade', instanceReading: 'How this instance reads', product: 'Product',
-    cadence: 'cadence', artifact: 'artifact', filled: 'written',
-    gate: 'Gate', gateDone: 'closed', gateOpen: 'open', gateNa: 'n/a', gateDeferred: 'deferred',
-    gateUnknown: 'unrecorded', words: 'words', gaps: 'gaps', proposals: 'agent proposals',
-    notWritten: 'not written yet', offSkeleton: 'outside the skeleton',
+    saveHtml: 'Save as HTML',
+    saveHint: 'One self-contained file for this product, frozen at this moment. It carries everything '
+      + 'the artifacts carry, so send it only to people who may read them.',
+    snapshot: 'Snapshot', snapshotNote: 'a frozen copy — it does not follow the product folder',
+    madeOn: 'taken on', readOnlySnap: 'read-only copy',
+    cascade: 'The six steps', instanceReading: 'How this instance reads', product: 'Product',
+    cadence: 'cadence', artifact: 'artifact', filled: 'written', sections: 'sections',
+    sectionsTitle: 'Sections', whatElseCol: 'what it is',
+    colType: 'type', colDefinition: 'definition', colStatement: 'statement',
+    gate: 'The gate', gateItem: 'gate item', gateDone: 'closed', gateOpen: 'open', gateNa: 'n/a',
+    gateDeferred: 'deferred', gateUnknown: 'unrecorded', gateClosed: 'gate closed',
+    words: 'words', gaps: 'gaps', proposals: 'agent proposals', proposalMark: 'proposed',
+    notWritten: 'not written yet', offSkeleton: 'outside the skeleton', validates: 'validates',
     statusAsks: 'What the active status asks here', emphasised: 'emphasised for this stage',
-    fillWith: 'fill through', rows: 'rows',
+    fillWith: 'fill through', rows: 'rows', state: 'state',
     hypotheses: 'Hypotheses', risks: 'Risks', metricNodes: 'Metric nodes', readings: 'readings',
-    withReadings: 'with readings', csvRows: 'csv rows',
-    live: 'live', testing: 'testing',
-    toClarify: 'To clarify', openGates: 'Gate items open', inFlight: 'Hypotheses in flight',
+    withReadings: 'measured', csvRows: 'csv rows', referencedIn: 'referenced in',
+    live: 'live', testing: 'in test', inFlightShort: 'in flight',
+    toClarify: 'To clarify', openGates: 'Gate items still open', inFlight: 'Hypotheses in flight',
     latest: 'Latest readings', series: 'Series', allReadings: 'All readings',
-    trail: 'Trail', trailHint: 'every change-log entry that names this id',
+    trail: 'trail', trailHint: 'every change-log entry that names this id',
     trailEmpty: 'No change-log entry names this id yet.',
     observedNote: 'a rate is read against observed_n, not the whole population',
     definedNotMeasured: 'Defined, never measured', notInTree: 'not defined in metric-tree.md',
+    noReadings: 'No reading has been recorded yet: the nodes are defined, metrics.csv carries no rows. '
+      + 'A metric with no reading cannot move a decision.',
     vsPrev: 'vs previous', basisNote: 'compared within the same basis and population',
     nothingOpen: 'Nothing open here.', nothingYet: 'Nothing here yet.', all: 'all',
     search: 'search…', lintTitle: 'Canon linter', healthTitle: 'Instance reading',
@@ -40,7 +66,8 @@ const STR = {
     notChecked: 'Checked by neither', notCheckedBody: 'Prose quality, whether register values are true '
       + '(only their enums and ids are checked), prerequisite completeness, adapter fidelity — and '
       + 'nothing here judges product decisions. The console reports; the human decides.',
-    changed: 'the folder changed — reloading', readOnly: 'read-only — the agent writes the files, this shows what they say',
+    changed: 'the folder changed — reloading',
+    readOnly: 'read-only — the agent writes the files, this shows what they say',
     subProducts: 'Sub-products', umbrellaNote: 'This folder is an umbrella: the shared config and sources '
       + 'live here, and each product below keeps its own artifacts, state and registers.',
     openIt: 'open', plane: 'plane', vendored: 'framework', local: 'this product',
@@ -49,31 +76,49 @@ const STR = {
     addSkillHint: 'To add or change a skill, ask the agent — it writes the canon’s anatomy into this '
       + 'product’s own tool-skills folder, and a product-local skill wins over a vendored one of the '
       + 'same name. It appears here on the next read. See EXTENDING.md.',
-    handoff: 'handoff', sourcesTab: 'sources', deliverables: 'deliverables',
-    whatElse: 'What else is here', nextPass: 'Where the next pass would go',
+    handoff: 'Session handoff', sourcesTab: 'sources', deliverables: 'Deliverables',
+    whatElse: 'What else is in this folder', nextPass: 'Where the next pass goes',
+    nextPassNone: 'Every gate item is recorded and closed.',
+    goal: 'Goal', scope: 'Scope', audience: 'Audience', directions: 'Directions',
+    openSection: 'open', file: 'file', updated: 'updated', role: 'role', indexed: 'in the index',
+    sourceIndex: 'The source index', sourceFiles: 'Files in sources/',
+    notIndexed: 'not in INDEX.md', changeLog: 'Change log', entries: 'entries',
+    openHypotheses: 'open', of6: 'of 6',
   },
   ru: {
     tabs: { overview: 'Обзор', step: 'Шаг', artifacts: 'Артефакты', registers: 'Реестры',
-      metrics: 'Метрики', open: 'Открытое', skills: 'Скиллы', log: 'Журнал', checks: 'Проверки' },
-    status: 'статус', step: 'шаг', lastPass: 'последний проход',
+      metrics: 'Метрики', open: 'Открытые вопросы', sources: 'Источники', skills: 'Скиллы',
+      log: 'Журнал', checks: 'Проверки' },
+    status: 'статус', step: 'шаг', of: 'из', lastPass: 'последний проход',
     noState: 'не зафиксирован', theme: 'тема', themeauto: 'авто', themelight: 'светлая', themedark: 'тёмная',
     addFolder: 'Добавить папку продукта', addHint: 'добавить папку…',
-    cascade: 'Каскад шагов', instanceReading: 'Как читается инстанс', product: 'Продукт',
-    cadence: 'ритм', artifact: 'артефакт', filled: 'заполнено',
-    gate: 'Гейт', gateDone: 'закрыто', gateOpen: 'открыто', gateNa: 'не применимо',
-    gateDeferred: 'отложено', gateUnknown: 'не зафиксировано', words: 'слов', gaps: 'пробелов',
-    proposals: 'предложения агента', notWritten: 'ещё не написано', offSkeleton: 'вне скелета',
+    saveHtml: 'Скачать HTML',
+    saveHint: 'Один файл по этому продукту, замороженный на этот момент. В нём есть всё, что есть в '
+      + 'артефактах, — отправляйте только тем, кому их можно читать.',
+    snapshot: 'Снимок', snapshotNote: 'замороженная копия — за папкой продукта не следит',
+    madeOn: 'снят', readOnlySnap: 'копия только для чтения',
+    cascade: 'Шесть шагов', instanceReading: 'Как читается инстанс', product: 'Продукт',
+    cadence: 'ритм', artifact: 'артефакт', filled: 'написано', sections: 'секций',
+    sectionsTitle: 'Секции', whatElseCol: 'что это',
+    colType: 'тип', colDefinition: 'определение', colStatement: 'формулировка',
+    gate: 'Гейт', gateItem: 'пункт гейта', gateDone: 'закрыто', gateOpen: 'открыто',
+    gateNa: 'не применимо', gateDeferred: 'отложено', gateUnknown: 'не зафиксировано',
+    gateClosed: 'гейт закрыт',
+    words: 'слов', gaps: 'пробелов', proposals: 'предложения агента', proposalMark: 'предложение',
+    notWritten: 'ещё не написано', offSkeleton: 'вне скелета', validates: 'проверяет',
     statusAsks: 'Что просит активный статус на этом шаге', emphasised: 'выделено для этой стадии',
-    fillWith: 'заполнять через', rows: 'строк',
+    fillWith: 'заполнять через', rows: 'строк', state: 'состояние',
     hypotheses: 'Гипотезы', risks: 'Риски', metricNodes: 'Узлы метрик', readings: 'показаний',
-    withReadings: 'с показаниями', csvRows: 'строк в csv',
-    live: 'в работе', testing: 'на проверке',
+    withReadings: 'измеряется', csvRows: 'строк в csv', referencedIn: 'упоминается в',
+    live: 'в работе', testing: 'на проверке', inFlightShort: 'в работе',
     toClarify: 'На уточнение', openGates: 'Незакрытые пункты гейта', inFlight: 'Гипотезы в работе',
     latest: 'Последние значения', series: 'Ряды', allReadings: 'Все показания',
-    trail: 'След', trailHint: 'все записи журналов, которые называют этот идентификатор',
+    trail: 'след', trailHint: 'все записи журналов, которые называют этот идентификатор',
     trailEmpty: 'Ни одна запись журнала пока не называет этот идентификатор.',
     observedNote: 'доля считается от observed_n, а не от всей популяции',
     definedNotMeasured: 'Определены, но не измеряются', notInTree: 'нет определения в metric-tree.md',
+    noReadings: 'Пока нет ни одного показания: узлы определены, в metrics.csv нет строк. '
+      + 'Метрика без показаний не может ничего решить.',
     vsPrev: 'к предыдущему', basisNote: 'сравнение внутри одного basis и одной population',
     nothingOpen: 'Здесь всё закрыто.', nothingYet: 'Пока пусто.', all: 'все',
     search: 'поиск…', lintTitle: 'Линтер канона', healthTitle: 'Чтение инстанса',
@@ -91,17 +136,23 @@ const STR = {
     addSkillHint: 'Чтобы добавить или изменить скилл, попроси агента — он создаст каноническую '
       + 'анатомию в папке скиллов этого продукта, и локальный скилл побеждает одноимённый '
       + 'вендоренный. Здесь он появится при следующем чтении. См. EXTENDING.md.',
-    handoff: 'хэндовер', sourcesTab: 'источников', deliverables: 'поставляемых',
-    whatElse: 'Что ещё здесь есть', nextPass: 'Куда пойдёт следующий проход',
+    handoff: 'Передача сессии', sourcesTab: 'источников', deliverables: 'Поставляемое',
+    whatElse: 'Что ещё лежит в папке', nextPass: 'Куда идёт следующий проход',
+    nextPassNone: 'Все пункты гейтов зафиксированы и закрыты.',
+    goal: 'Цель', scope: 'Рамки', audience: 'Аудитория', directions: 'Направления',
+    openSection: 'открыть', file: 'файл', updated: 'обновлён', role: 'роль', indexed: 'в индексе',
+    sourceIndex: 'Индекс источников', sourceFiles: 'Файлы в sources/',
+    notIndexed: 'нет в INDEX.md', changeLog: 'Журнал изменений', entries: 'записей',
+    openHypotheses: 'открытых', of6: 'из 6',
   },
 };
 
 /* ---------------------------------------------------------------- state */
 const S = {
-  model: null, lint: null, instances: [], rev: -1,
+  model: null, lint: null, instances: [], rev: -1, snapshot: null,
   tab: 'overview', step: null, artifact: null, section: null,
   reg: 'hypotheses', regFilter: 'all', regSearch: '', regItem: null,
-  skillPlane: 'library', skillPick: null, skillFile: null,
+  skillPlane: 'library', skillPick: null, skillFile: null, logFile: 'all',
 };
 
 const L = () => (S.model && STR[S.model.language]) ? STR[S.model.language] : STR.en;
@@ -123,8 +174,9 @@ function applyTheme(next) {
 const isDark = () => theme() === 'dark'
   || (theme() === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-/* Chart series colors: a validated categorical palette per mode — the house hues fail the
- * colorblind-separation and chroma checks as a categorical set, so they stay in the chrome. */
+/* Chart series colors: a validated categorical palette per mode. The house hues (one pure red and a
+ * grey scale) cannot separate three series for a colourblind reader, so they stay in the chrome and
+ * the plot borrows a set that passes the checks against both surfaces. */
 const SERIES = () => isDark() ? ['#3987e5', '#d95926', '#199e70'] : ['#2a78d6', '#eb6834', '#1baf7a'];
 
 /* ---------------------------------------------------------------- DOM helpers */
@@ -161,15 +213,17 @@ const shortTitle = s => String(s || '').replace(/^Step \d+ — /, '');
 function inline(src) {
   const code = [];
   let s = esc(src);
-  s = s.replace(/`([^`]+)`/g, (_, c) => { code.push(c); return `\u0000${code.length - 1}\u0000`; });
+  s = s.replace(/`([^`]+)`/g, (_, c) => { code.push(c); return ` ${code.length - 1} `; });
   s = s.replace(/\[([^\]]+)\]\((#?[^)\s]+)\)/g, (_, x, u) => `<a href="${u}" target="_blank" rel="noopener">${x}</a>`);
   s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(^|[\s(])\*([^*]+)\*/g, '$1<em>$2</em>');
   s = s.replace(/(^|[\s(])_([^_]+)_(?=$|[\s.,;:)])/g, '$1<em>$2</em>');
   s = s.replace(/\[(assumption|sourced|validated|refuted)((?::)([^\]]*))?\]/g,
     (_, kind, __, rest) => `<span class="conf ${kind}">${kind}${rest ? ': ' + rest.trim() : ''}</span>`);
   s = s.replace(/—\s*(to clarify|уточнить)\s*—/g, '<span class="gapmark">— $1 —</span>');
-  s = s.replace(/⚙️/g, '<span class="gear">⚙️</span>');
-  s = s.replace(/\u0000(\d+)\u0000/g, (_, i) => {
+  // the canon's agent-proposal marker, rendered as a word: an emoji is a font gamble, and this page
+  // is also read as an exported file on a machine whose fonts we know nothing about
+  s = s.replace(/⚙️?\s*/g, `<span class="gear">${esc(t('proposalMark'))}</span> `);
+  s = s.replace(/ (\d+) /g, (_, i) => {
     const c = code[+i];
     const cls = /^H-\d/.test(c) ? 'hyp' : /^R-\d/.test(c) ? 'risk' : /^M-[a-z]/.test(c) ? 'met' : '';
     return cls ? `<code class="rid ${cls}">${c}</code>` : `<code>${c}</code>`;
@@ -320,20 +374,6 @@ function lineChart(groups, opts) {
   return s;
 }
 
-function ring(done, total) {
-  const pct = total ? done / total : 0, R = 22, C = 2 * Math.PI * R;
-  const s = svg('svg', { viewBox: '0 0 52 52', class: 'ringsvg' });
-  s.append(svg('circle', { cx: 26, cy: 26, r: R, fill: 'none', stroke: 'var(--grid)', 'stroke-width': 5 }));
-  s.append(svg('circle', { cx: 26, cy: 26, r: R, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 5,
-    'stroke-linecap': 'round', 'stroke-dasharray': `${(C * pct).toFixed(1)} ${C.toFixed(1)}`,
-    transform: 'rotate(-90 26 26)' }));
-  const txt = svg('text', { x: 26, y: 30, 'text-anchor': 'middle', 'font-size': 14,
-    'font-family': 'var(--mono)', fill: 'var(--ink)' });
-  txt.textContent = Math.round(pct * 100) + '%';
-  s.append(txt);
-  return s;
-}
-
 /* ---------------------------------------------------------------- shared bits */
 const TICK_ORDER = ['done', 'open', 'unknown', 'deferred', 'n/a'];
 function gateBar(counts) {
@@ -346,25 +386,91 @@ function gateBar(counts) {
 const tickLabel = v => ({ done: t('gateDone'), open: t('gateOpen'), deferred: t('gateDeferred'),
   'n/a': t('gateNa'), unknown: t('gateUnknown') }[v] || v);
 const tickTag = v => h('span', { class: 'tag ' + (v === 'n/a' ? 'na' : v) }, tickLabel(v));
-
-function gateSummary(step) {
-  const c = step.gate_counts || {};
-  const parts = [`${c.done || 0}/${step.gate.length} ${t('gateDone')}`];
-  if (c.unknown) parts.push(`${c.unknown} ${t('gateUnknown')}`);
-  if (c.deferred) parts.push(`${c.deferred} ${t('gateDeferred')}`);
-  return parts.join(' · ');
-}
+const gateSummary = s => `${(s.gate_counts || {}).done || 0}/${s.gate.length} ${t('gateDone')}`;
 const confChips = conf => Object.entries(conf || {}).map(([k, n]) =>
   h('span', { class: 'tag ' + k }, `${k} ×${n}`));
-const ridChips = ids => (ids || []).slice(0, 6).map(x => h('span', {
-  class: 'tag ' + (/^H-/.test(x) ? 'hyp' : /^R-/.test(x) ? 'risk' : 'met'),
-}, x));
+const ridClass = x => /^H-/.test(x) ? 'hyp' : /^R-/.test(x) ? 'risk' : 'met';
+const ridChips = ids => (ids || []).map(x => h('span', { class: 'tag ' + ridClass(x) }, x));
 
-function statTile(label, value, sub, onclick) {
-  return h(onclick ? 'button' : 'div', { class: 'stat' + (onclick ? ' clickable' : ''), onclick },
+/* A section heading — an eyebrow number, a title, and one line of context on the right. Every block
+ * on every tab wears one, so a page reads as a document with parts rather than a wall of cards. */
+function secHead(title, opts) {
+  const o = opts || {};
+  return h('div', { class: 'sechead' },
+    h('h2', {}, title),
+    o.n ? h('span', { class: 'n' }, o.n) : null,
+    o.right ? h('div', { class: 'right' }, o.right) : null);
+}
+const sec = (title, opts, ...body) => h('section', { class: 'sec' }, secHead(title, opts), ...body);
+
+/* The console's main verb: go and read the thing itself. Every place that names a section offers it. */
+function goSection(file, id, label) {
+  return h('button', {
+    class: 'golink', title: `${file}#${id}`,
+    onclick: e => { e.stopPropagation(); S.tab = 'artifacts'; S.artifact = file; S.section = id; render(); },
+  }, label || t('openSection'));
+}
+function goStep(n, label) {
+  return h('button', {
+    class: 'golink',
+    onclick: e => { e.stopPropagation(); S.tab = 'step'; S.step = n; render(); },
+  }, label || `${t('step')} ${n}`);
+}
+
+/* A table, built once and used everywhere: cols is [label, …], rows is [[cell, …], …]. */
+function table(cols, rows, opts) {
+  const o = opts || {};
+  return h('div', { class: 'tablewrap' }, h('table', {},
+    h('thead', {}, h('tr', {}, cols.map((c, i) => h('th', { title: (o.titles || [])[i] || null }, c)))),
+    h('tbody', {}, rows.length ? rows
+      : [h('tr', {}, h('td', { colspan: cols.length, class: 'faint' }, o.empty || t('nothingYet')))])));
+}
+/* An accordion: whole text, closed by default. The alternative — a card showing the first two lines
+ * of it — is what made the old console read as rubble. */
+function acc(summaryKids, bodyKids, open) {
+  return h('details', { class: 'acc', open: !!open },
+    h('summary', {}, ...summaryKids),
+    h('div', { class: 'accbody' }, ...bodyKids));
+}
+const figures = tiles => h('div', { class: 'figs' }, tiles.filter(Boolean));
+function fig(label, value, sub, onclick, alert) {
+  return h(onclick ? 'button' : 'div', { class: 'fig' + (alert ? ' alert' : ''), onclick },
     h('div', { class: 'l' }, label),
     h('div', { class: 'v' }, value),
-    sub ? h('div', { class: 's' }, String(sub).slice(0, 90)) : null);
+    sub ? h('div', { class: 's' }, sub) : null);
+}
+
+/* Which artifact section actually holds this step section's text (the step model carries counts, the
+ * artifact carries the body — and the body is what a reader wants when they open a row). */
+function artSection(file, id) {
+  const a = (S.model.artifacts || []).find(x => x.file === file);
+  return a ? (a.sections || []).find(x => x.id === id) : null;
+}
+/* A `— to clarify —` found inside a table comes back as the whole markdown row, pipes and all. Read
+ * as prose it is noise; the cells joined by a separator say the same thing and can be read. */
+const gapText = line => (/^\s*\|/.test(line)
+  ? line.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()).filter(Boolean).join(' · ')
+  : line);
+/* `1#concept` — the step number plus the anchor. Short enough for a table cell, and unambiguous:
+ * four artifacts have a section called `hypotheses`, and a bare `#hypotheses` names none of them. */
+const refLabel = x => `${(x.file.match(/^\d+/) || [''])[0]}#${x.id}`;
+/* Every artifact section that names a register id, assembled from the markers the reader already
+ * collected — so a hypothesis row can point at the places it is actually argued. */
+function refIndex() {
+  if (S.model._refs) return S.model._refs;
+  const out = {};
+  (S.model.artifacts || []).forEach(a => (a.sections || []).forEach(s => {
+    const mk = s.markers || {};
+    [].concat(mk.hypotheses || [], mk.risks || [], mk.metrics || []).forEach(id => {
+      (out[id] = out[id] || []).push({ file: a.file, id: s.id, title: s.title || s.id });
+    });
+  }));
+  Object.keys(out).forEach(k => {
+    const seen = new Set();
+    out[k] = out[k].filter(x => !seen.has(x.file + x.id) && seen.add(x.file + x.id));
+  });
+  S.model._refs = out;
+  return out;
 }
 
 /* ---------------------------------------------------------------- overview */
@@ -372,6 +478,8 @@ function viewOverview() {
   const m = S.model;
   if (m.umbrella) return viewUmbrella();
   const reg = m.registers;
+  const gateAll = m.steps.reduce((a, s) => a + s.gate.length, 0);
+  const gateDone = m.steps.reduce((a, s) => a + (s.gate_counts.done || 0), 0);
   const openGates = m.steps.reduce((a, s) =>
     a + s.gate.filter(g => g.tick === 'open' || g.tick === 'unknown').length, 0);
   const hStatus = k => reg.hypotheses.rows.filter(r =>
@@ -380,184 +488,185 @@ function viewOverview() {
     /open|mitigat|открыт|митиг/i.test(stripMd(cell(r, 'status', 'статус')))).length;
   const measured = Object.keys(m.metrics.series).length;
   const nextStep = m.steps.find(s => (s.gate_counts.open || 0) + (s.gate_counts.unknown || 0) > 0);
+  const nextItem = nextStep && nextStep.gate.find(g => g.tick === 'open' || g.tick === 'unknown');
 
-  const hero = h('div', { class: 'hero' },
-    h('div', { style: 'min-width:0' },
-      h('div', { class: 'kick' }, t('product')),
-      h('h2', { class: 'heroname' }, m.product),
-      m.goal ? h('div', { class: 'herogoal' }, m.goal) : null,
-      m.scope_note ? h('div', { class: 'small muted clamp3', style: 'margin-top:8px' }, m.scope_note) : null),
-    h('div', { class: 'herostats' },
-      statTile(t('status'), m.active_status || '—', ''),
-      statTile(t('step'), m.current_step ? String(m.current_step) : '—',
-        m.last_pass ? `${t('lastPass')} ${m.last_pass}` : t('noState')),
-      statTile(t('hypotheses'), String(reg.hypotheses.rows.length),
-        `${hStatus('open')} ${t('gateOpen')} · ${hStatus('testing')} ${t('testing')}`,
+  // The thesis: what this product is and where the cycle stands, in whole sentences.
+  const thesis = h('div', { class: 'sec' },
+    h('div', { class: 'kick' }, `${t('product')} · ${m.active_status || '—'}`),
+    h('h2', { style: 'font-size:29px;letter-spacing:-.03em;line-height:1.15' }, m.product),
+    m.goal ? h('p', { class: 'lead', style: 'margin-top:10px' }, m.goal) : null,
+    h('div', { class: 'figs', style: 'margin-top:18px' },
+      fig(t('step'), m.current_step ? String(m.current_step) : '—',
+        m.current_step ? `${t('of6')}${m.last_pass ? ' · ' + t('lastPass') + ' ' + m.last_pass : ''}`
+          : t('noState'),
+        m.current_step ? () => { S.tab = 'step'; S.step = m.current_step; render(); } : null),
+      fig(t('gateClosed'), `${gateDone}`, `${t('of')} ${gateAll}`),
+      fig(t('toClarify'), String(m.gaps.length),
+        openGates ? `${openGates} ${t('openGates').toLowerCase()}` : '',
+        () => { S.tab = 'open'; render(); }, m.gaps.length > 0),
+      fig(t('hypotheses'), String(reg.hypotheses.rows.length),
+        `${hStatus('open')} ${t('openHypotheses')} · ${hStatus('testing')} ${t('testing')}`,
         () => { S.tab = 'registers'; S.reg = 'hypotheses'; render(); }),
-      statTile(t('risks'), String(reg.risks.rows.length), `${risksLive} ${t('live')}`,
+      fig(t('risks'), String(reg.risks.rows.length), `${risksLive} ${t('live')}`,
         () => { S.tab = 'registers'; S.reg = 'risks'; render(); }),
-      statTile(t('metricNodes'), String(reg.metric_tree.rows.length),
-        `${measured} ${t('withReadings')} · ${m.metrics.rows} ${t('csvRows')}`,
-        () => { S.tab = 'metrics'; render(); }),
-      statTile(t('toClarify'), String(m.gaps.length),
-        `${openGates} ${t('openGates').toLowerCase()}`, () => { S.tab = 'open'; render(); })));
+      fig(t('metricNodes'), String(reg.metric_tree.rows.length),
+        `${measured} ${t('withReadings')}`, () => { S.tab = 'metrics'; render(); })));
 
-  const ladder = h('div', { class: 'ladder' }, m.steps.map(s => {
-    const written = s.sections.filter(x => x.present).length;
-    return h('button', {
-      class: 'step' + (m.current_step === s.step ? ' here' : '') + (s.artifact_file ? '' : ' pending'),
-      onclick: () => { S.tab = 'step'; S.step = s.step; render(); },
-    },
-      h('div', { class: 'no' }, s.step),
-      h('div', { class: 'stepbody' },
-        h('div', { class: 'nm' }, shortTitle(s.title || s.name)),
-        h('div', { class: 'meta clamp2' }, s.goal || s.cadence)),
-      h('div', { class: 'gate' },
-        h('div', { class: 'nums' }, `${written}/${s.sections.length} ${t('filled')}`),
-        gateBar(s.gate_counts),
-        h('div', { class: 'nums' }, gateSummary(s))));
-  }));
+  const next = h('div', { class: 'panel' },
+    h('div', { class: 'kick' }, t('nextPass')),
+    nextStep ? h('div', {},
+      h('div', { class: 'row', style: 'align-items:baseline' },
+        h('span', { style: 'font-family:var(--mono);font-size:30px;font-weight:700;color:var(--brand-ink)' },
+          nextStep.step),
+        h('b', { style: 'font-size:14px' }, shortTitle(nextStep.title || ''))),
+      nextItem ? h('p', { class: 'small muted', style: 'margin-top:8px' }, nextItem.label) : null,
+      h('div', { class: 'row', style: 'margin-top:10px' }, goStep(nextStep.step)))
+      : h('p', { class: 'small muted' }, t('nextPassNone')));
 
-  const health = m.health.length ? h('div', { class: 'notes' },
-    m.health.slice(0, 3).map(x => h('div', { class: 'note ' + x.level },
-      h('span', { class: 'who' }, x.level), h('div', {}, x.message))),
-    m.health.length > 3 ? h('button', { class: 'tag', onclick: () => { S.tab = 'checks'; render(); } },
-      `+${m.health.length - 3} → ${t('tabs.checks')}`) : null)
+  const health = m.health.length
+    ? h('div', { class: 'notes' }, m.health.slice(0, 4).map(x => h('div', { class: 'note ' + x.level },
+      h('span', { class: 'who' }, x.level), h('div', {}, x.message))))
     : h('div', { class: 'note ok' }, h('span', { class: 'who' }, 'ok'), h('div', {}, t('healthClean')));
 
+  const cascade = table(
+    ['#', t('tabs.step'), t('artifact'), t('sections'), t('gate'), ''],
+    m.steps.map(s => {
+      const written = s.sections.filter(x => x.present).length;
+      const here = m.current_step === s.step;
+      return h('tr', {},
+        h('td', { class: 'id' }, h('b', { style: here ? 'color:var(--brand-ink)' : null }, s.step)),
+        h('td', {}, h('div', { style: 'font-weight:650' }, shortTitle(s.title || s.name)),
+          h('div', { class: 'tiny muted' }, s.cadence || '')),
+        h('td', { class: 'id' }, s.artifact_file
+          ? h('code', {}, s.artifact_file)
+          : h('span', { class: 'faint' }, s.output || '—')),
+        h('td', { class: 'num' }, `${written}/${s.sections.length}`),
+        h('td', { style: 'min-width:150px' }, gateBar(s.gate_counts),
+          h('div', { class: 'tiny muted', style: 'margin-top:4px' }, gateSummary(s))),
+        h('td', { class: 'act' }, goStep(s.step, t('openSection'))));
+    }));
+
+  const elseRows = [];
+  if (m.handoff.present) {
+    elseRows.push(h('tr', {}, h('td', { class: 'id' }, h('code', {}, 'HANDOFF.md')),
+      h('td', {}, t('handoff')), h('td', { class: 'id faint' }, m.handoff.updated || '—')));
+  }
+  elseRows.push(h('tr', {}, h('td', { class: 'id' }, h('code', {}, 'sources/')),
+    h('td', {}, `${m.sources.files.length} ${t('sourcesTab')}`),
+    h('td', { class: 'act' }, h('button', { class: 'golink',
+      onclick: () => { S.tab = 'sources'; render(); } }, t('openSection')))));
+  if (m.deliverables.length) {
+    elseRows.push(h('tr', {}, h('td', { class: 'id' }, h('code', {}, 'deliverables/')),
+      h('td', {}, m.deliverables.join(' · ')), h('td', {})));
+  }
+  if (m.directions.length) {
+    elseRows.push(h('tr', {}, h('td', { class: 'id' }, h('code', {}, 'directions')),
+      h('td', {}, m.directions.join(' · ')), h('td', {})));
+  }
+
   return h('div', {},
-    hero,
-    h('div', { class: 'grid cols-2', style: 'margin-top:18px' },
-      h('div', {}, h('div', { class: 'kick' }, t('cascade')), ladder),
-      h('div', { class: 'grid', style: 'align-content:start' },
-        nextStep ? h('button', { class: 'card accent nextcard',
-          onclick: () => { S.tab = 'step'; S.step = nextStep.step; render(); } },
-          h('div', { class: 'kick' }, t('nextPass')),
-          h('div', { class: 'row', style: 'align-items:center' },
-            h('span', { class: 'bignum' }, nextStep.step),
-            h('div', { style: 'min-width:0;text-align:left' },
-              h('b', {}, shortTitle(nextStep.title || '')),
-              h('div', { class: 'small muted clamp2' },
-                (nextStep.gate.find(g => g.tick === 'open' || g.tick === 'unknown') || {}).label || '')))) : null,
-        h('div', { class: 'card' }, h('div', { class: 'kick' }, t('instanceReading')), health),
-        h('div', { class: 'card' },
-          h('div', { class: 'kick' }, t('whatElse')),
-          h('div', { class: 'items' },
-            m.handoff.present ? h('div', { class: 'item' },
-              h('span', { class: 'tag' }, t('handoff')),
-              h('div', { class: 'txt small' }, 'HANDOFF.md ', m.handoff.updated || '')) : null,
-            h('div', { class: 'item' }, h('span', { class: 'tag' }, t('sourcesTab')),
-              h('div', { class: 'txt small' }, `${m.sources.files.length} ${t('sourcesTab')}`)),
-            m.deliverables.length ? h('div', { class: 'item' },
-              h('span', { class: 'tag' }, t('deliverables')),
-              h('div', { class: 'txt small' }, m.deliverables.join(' · '))) : null)))));
+    thesis,
+    h('div', { class: 'grid cols-2' },
+      sec(t('cascade'), { right: `${gateDone}/${gateAll} ${t('gateDone')}` }, cascade),
+      h('div', { style: 'align-self:start' },
+        h('div', { class: 'sec' }, next),
+        sec(t('instanceReading'), {}, health))),
+    m.scope_note ? sec(t('scope'), {}, h('div', { class: 'panel md', html: md(m.scope_note) })) : null,
+    sec(t('whatElse'), {}, table([t('file'), t('whatElseCol'), ''], elseRows)));
 }
 
 function viewUmbrella() {
   const m = S.model;
   return h('div', {},
-    h('div', { class: 'hero' },
-      h('div', { style: 'min-width:0' },
-        h('div', { class: 'kick' }, t('product')),
-        h('h2', { class: 'heroname' }, m.product),
-        h('div', { class: 'herogoal' }, t('umbrellaNote')),
-        m.scope_note ? h('div', { class: 'small muted clamp3', style: 'margin-top:8px' }, m.scope_note) : null),
-      h('div', { class: 'herostats' },
-        statTile(t('status'), m.active_status || '—', ''),
-        statTile(t('subProducts'), String(m.children.length), m.children.join(' · ')),
-        statTile(t('sourcesTab'), String(m.sources.files.length), ''))),
-    h('div', { class: 'kick', style: 'margin-top:18px' }, t('subProducts')),
-    h('div', { class: 'grid cols-3' }, m.children.map(name => {
-      const cand = S.instances.find(i => i.name === name && i.path.startsWith(m.path));
-      return h('button', { class: 'card pick', onclick: () => cand && load(cand.path) },
-        h('h3', {}, name),
-        h('div', { class: 'small muted mono', style: 'margin-top:4px' }, name + '/'),
-        h('div', { class: 'btn', style: 'margin-top:10px' }, t('openIt')));
-    })));
+    h('div', { class: 'sec' },
+      h('div', { class: 'kick' }, t('product')),
+      h('h2', { style: 'font-size:29px;letter-spacing:-.03em' }, m.product),
+      h('p', { class: 'lead', style: 'margin-top:10px' }, t('umbrellaNote')),
+      m.scope_note ? h('p', { class: 'small muted', style: 'margin-top:10px' }, m.scope_note) : null),
+    sec(t('subProducts'), { right: `${m.children.length}` },
+      table([t('product'), ''], m.children.map(name => {
+        const cand = S.instances.find(i => i.name === name && i.path.startsWith(m.path));
+        return h('tr', {}, h('td', {}, h('b', {}, name)),
+          h('td', { class: 'act' }, cand ? h('button', { class: 'golink', onclick: () => load(cand.path) },
+            t('openIt')) : null));
+      }))));
 }
 
-/* ---------------------------------------------------------------- the step canvas */
+/* ---------------------------------------------------------------- the step */
 function viewStep() {
   const m = S.model;
-  if (!m.steps.length || !m.artifacts.length && m.umbrella) return h('div', { class: 'empty' }, t('nothingYet'));
+  if (!m.steps.length) return h('div', { class: 'empty' }, t('nothingYet'));
   const s = m.steps.find(x => x.step === S.step) || m.steps[0];
   S.step = s.step;
   const perStep = (m.status && m.status.per_step && m.status.per_step[String(s.step)]) || null;
   const emph = new Set((perStep && perStep.tools) || []);
   const written = s.sections.filter(x => x.present).length;
-  const gapsHere = s.sections.flatMap(x => (x.gap_lines || []).map(line => ({ line, id: x.id })));
+  const gaps = s.sections.reduce((a, x) => a + (x.gaps || 0), 0);
+  const proposals = s.sections.reduce((a, x) => a + (x.proposals || 0), 0);
 
-  const picker = h('div', { class: 'steppick' }, m.steps.map(x => h('button', {
-    class: x.step === s.step ? 'on' : '', onclick: () => { S.step = x.step; render(); },
-  }, h('b', {}, x.step), h('span', {}, shortTitle(x.title || x.name)),
-    h('i', { class: 'dot ' + ((x.gate_counts.open || x.gate_counts.unknown) ? 'open' : 'done') }))));
+  const head = h('div', { class: 'sec' },
+    h('div', { class: 'kick' }, `${t('step')} ${s.step} ${t('of6')} · ${s.cadence || ''}`),
+    h('h2', { style: 'font-size:25px;letter-spacing:-.025em' }, shortTitle(s.title || s.name)),
+    s.goal ? h('p', { class: 'lead', style: 'margin-top:9px' }, s.goal) : null,
+    h('div', { class: 'figs', style: 'margin-top:16px' },
+      fig(t('filled'), `${written}`, `${t('of')} ${s.sections.length} ${t('sections')}`),
+      fig(t('gateClosed'), `${(s.gate_counts.done || 0)}`, `${t('of')} ${s.gate.length}`),
+      fig(t('toClarify'), String(gaps), gaps ? t('gaps') : '', null, gaps > 0),
+      fig(t('proposals'), String(proposals), ''),
+      s.artifact_file ? fig(t('artifact'), h('span', { style: 'font-size:14px;font-family:var(--mono)' },
+        s.artifact_file), s.artifact_updated || '') : null));
 
-  const head = h('div', { class: 'stephead' },
-    h('div', { class: 'no big' }, s.step),
-    h('div', { style: 'min-width:0' },
-      h('h2', {}, shortTitle(s.title || s.name)),
-      s.goal ? h('div', { class: 'goal' }, s.goal) : null,
-      h('div', { class: 'row tiny faint', style: 'margin-top:7px' },
-        h('span', {}, t('artifact'), ': ', h('code', {}, s.artifact_file || s.output)),
-        h('span', {}, t('cadence'), ': ', s.cadence),
-        s.artifact_updated ? h('span', {}, s.artifact_updated) : null)),
-    h('div', { class: 'stepprog' },
-      ring(written, s.sections.length),
-      h('div', { style: 'min-width:120px' },
-        h('div', { class: 'tiny mono muted' }, `${written}/${s.sections.length} ${t('filled')}`),
-        h('div', { class: 'tiny mono muted', style: 'margin:5px 0 5px' }, gateSummary(s)),
-        gateBar(s.gate_counts))));
-
-  const canvas = h('div', { class: 'canvas' }, s.sections.map(x => {
+  const sections = h('div', {}, s.sections.map(x => {
     const gate = s.gate.find(g => (g.sections || []).includes(x.id));
-    return h('button', {
-      class: 'scard' + (x.present ? '' : ' ghost') + (x.gaps ? ' hasgaps' : ''),
-      onclick: () => { S.tab = 'artifacts'; S.artifact = s.artifact_file; S.section = x.id; render(); },
-    },
-      h('div', { class: 'sctop' },
-        h('div', { class: 'scname' }, x.title || x.id),
-        gate ? tickTag(gate.tick) : (x.off_skeleton ? h('span', { class: 'tag' }, t('offSkeleton')) : null)),
-      h('code', { class: 'scid' }, '#' + x.id),
-      x.present
-        ? h('div', { class: 'scbody' },
-          x.lead ? h('div', { class: 'sclead clamp3' }, x.lead) : null,
-          (x.bullets || []).length ? h('ul', { class: 'scbul' },
-            x.bullets.slice(0, 2).map(b => h('li', { class: 'clamp2' }, b))) : null,
-          x.table_rows ? h('div', { class: 'tiny faint' }, `${x.table_rows} ${t('rows')}`) : null)
-        : h('div', { class: 'scbody' },
-          h('div', { class: 'sclead faint clamp3' }, x.what || t('notWritten')),
-          x.tools.length ? h('div', { class: 'tiny faint', style: 'margin-top:6px' },
-            `${t('fillWith')}: ${x.tools.join(' · ')}`) : null),
-      h('div', { class: 'scfoot' },
-        x.present ? h('span', { class: 'tag' }, `${x.words} ${t('words')}`) : null,
-        confChips(x.confidence),
+    const body = x.present ? artSection(s.artifact_file, x.id) : null;
+    return acc([
+      h('span', { class: 'sumtitle' }, x.title || x.id),
+      h('code', { class: 'tag' }, '#' + x.id),
+      h('span', { class: 'summeta' },
+        x.off_skeleton ? h('span', { class: 'tag' }, t('offSkeleton')) : null,
+        x.present ? h('span', { class: 'tag' }, `${x.words} ${t('words')}`)
+          : h('span', { class: 'tag unknown' }, t('notWritten')),
         x.gaps ? h('span', { class: 'tag open' }, `${x.gaps} ${t('gaps')}`) : null,
-        x.proposals ? h('span', { class: 'tag gear' }, `⚙️ ×${x.proposals}`) : null,
-        ridChips(x.ids),
-        x.tools.length ? h('span', { class: 'tool' + (x.tools.some(y => emph.has(y)) ? ' emph' : '') },
-          x.tools[0]) : null));
+        x.proposals ? h('span', { class: 'gear' }, `${t('proposalMark')} ×${x.proposals}`) : null,
+        gate ? tickTag(gate.tick) : null,
+        x.present && s.artifact_file ? goSection(s.artifact_file, x.id) : null),
+    ], [
+      x.present && body
+        ? h('div', {},
+          h('div', { class: 'row', style: 'margin-bottom:10px' }, confChips(x.confidence), ridChips(x.ids)),
+          h('div', { class: 'md', html: md(body.body) }))
+        : h('div', {},
+          h('p', { class: 'small muted' }, x.what || t('notWritten')),
+          x.tools.length ? h('div', { class: 'row', style: 'margin-top:9px' },
+            h('span', { class: 'tiny faint mono' }, t('fillWith') + ':'),
+            x.tools.map(y => h('span', { class: 'tag' + (emph.has(y) ? ' strong' : '') }, y))) : null),
+    ]);
   }));
 
-  const rail = h('div', { class: 'grid', style: 'align-content:start' },
-    perStep ? h('div', { class: 'card' },
-      h('div', { class: 'kick' }, `${t('statusAsks')} · ${m.active_status}`),
-      h('ul', { class: 'goals' }, (perStep.goals || []).map(g => h('li', {}, g))),
-      (perStep.tools || []).length ? h('div', { class: 'tools', style: 'margin-top:9px' },
-        perStep.tools.map(x => h('span', { class: 'tool emph', title: t('emphasised') }, x))) : null) : null,
-    gapsHere.length ? h('div', { class: 'card' },
-      h('div', { class: 'kick' }, `${t('toClarify')} · ${gapsHere.length}`),
-      h('div', { class: 'items' }, gapsHere.slice(0, 8).map(g => h('div', { class: 'item' },
-        h('code', { class: 'tag' }, '#' + g.id),
-        h('div', { class: 'txt small', html: inline(g.line) }))))) : null,
-    h('div', { class: 'card' },
-      h('div', { class: 'kick' }, t('gate')),
-      h('div', { class: 'items' }, s.gate.map(g => h('div', { class: 'item' },
-        tickTag(g.tick),
-        h('div', { class: 'txt' }, h('div', { class: 'small' }, g.label),
-          h('div', { class: 'why mono tiny' }, (g.targets || []).join(' + ')
-            + (g.register ? ` → ${g.register}` : ''))))))));
+  // The gate's `targets` are the same sections the links point at, so the link *is* the column: one
+  // less column of mono text broken across five lines in a narrow rail.
+  const gateTable = table([t('state'), t('gateItem'), t('validates')],
+    s.gate.map(g => h('tr', {},
+      h('td', {}, tickTag(g.tick)),
+      h('td', { class: 'prose', html: inline(g.label) }),
+      h('td', { class: 'refs' },
+        s.artifact_file ? (g.sections || []).map(id => goSection(s.artifact_file, id, '#' + id)) : null,
+        g.register ? h('span', { class: 'tag met' }, g.register) : null))));
 
-  return h('div', {}, picker, head, h('div', { class: 'grid cols-canvas' }, canvas, rail));
+  const rail = h('div', { style: 'align-self:start' },
+    perStep ? h('div', { class: 'sec' }, h('div', { class: 'panel' },
+      h('div', { class: 'kick' }, `${t('statusAsks')} · ${m.active_status}`),
+      h('ul', { style: 'padding-left:18px;font-size:12.5px' },
+        (perStep.goals || []).map(g => h('li', { style: 'margin:5px 0' }, g))),
+      (perStep.tools || []).length ? h('div', { class: 'row', style: 'margin-top:10px' },
+        (perStep.tools || []).map(x => h('span', { class: 'tag strong', title: t('emphasised') }, x))) : null))
+      : null,
+    sec(t('gate'), { right: gateSummary(s) }, gateTable));
+
+  return h('div', {}, head,
+    h('div', { class: 'grid cols-2' },
+      sec(t('sectionsTitle'), { right: `${written}/${s.sections.length} ${t('filled')}` }, sections),
+      rail));
 }
 
 /* ---------------------------------------------------------------- artifacts */
@@ -566,12 +675,12 @@ function viewArtifacts() {
   if (!m.artifacts.length) return h('div', { class: 'empty' }, t('nothingYet'));
   const art = m.artifacts.find(a => a.file === S.artifact) || m.artifacts[0];
   S.artifact = art.file;
-  const sec = art.sections.find(x => x.id === S.section) || art.sections[0];
+  const section = art.sections.find(x => x.id === S.section) || art.sections[0];
 
   const toc = h('div', { class: 'toc' }, m.artifacts.map(a => [
     h('div', { class: 'file' }, a.file),
     a.sections.map(x => h('button', {
-      'aria-current': a.file === art.file && sec && x.id === sec.id,
+      'aria-current': a.file === art.file && section && x.id === section.id,
       onclick: () => { S.artifact = a.file; S.section = x.id; render(); },
     }, h('span', {}, x.title || x.id), h('span', { class: 'dotcol' },
       x.gaps.length ? h('i', { class: 'pip gap', title: `${x.gaps.length} ${t('gaps')}` }) : null,
@@ -579,19 +688,23 @@ function viewArtifacts() {
       !x.words ? h('i', { class: 'pip empty' }) : null))),
   ]));
 
-  const ids = sec ? [].concat(sec.markers.hypotheses, sec.markers.risks, sec.markers.metrics) : [];
-  const body = sec ? h('div', {},
-    h('div', { class: 'spread' },
-      h('h2', {}, sec.title || sec.id),
-      h('span', { class: 'row' },
-        h('code', { class: 'mono tiny' }, `${art.file}#${sec.id}`),
-        confChips(sec.markers.confidence),
-        sec.markers.proposals ? h('span', { class: 'tag gear' }, `⚙️ ×${sec.markers.proposals}`) : null)),
-    ids.length ? h('div', { class: 'row', style: 'margin:8px 0 2px' }, ridChips(ids)) : null,
+  const ids = section ? [].concat(section.markers.hypotheses, section.markers.risks, section.markers.metrics) : [];
+  const stepOf = m.steps.find(x => x.artifact_file === art.file);
+  const body = section ? h('div', {},
+    h('div', { class: 'kick' }, `${art.file} · ${art.updated || ''}`),
+    h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, section.title || section.id),
+    h('div', { class: 'row', style: 'margin:9px 0 2px' },
+      h('code', { class: 'tag' }, '#' + section.id),
+      confChips(section.markers.confidence),
+      section.markers.proposals ? h('span', { class: 'gear' },
+        `${t('proposalMark')} ×${section.markers.proposals}`) : null,
+      ridChips([...new Set(ids)]),
+      stepOf ? goStep(stepOf.step) : null),
     h('hr'),
-    h('div', { class: 'md', html: md(sec.body) })) : h('div', { class: 'empty' }, t('nothingYet'));
+    h('div', { class: 'md', html: md(section.body) }))
+    : h('div', { class: 'empty' }, t('nothingYet'));
 
-  return h('div', { class: 'reader' }, toc, h('div', { class: 'card' }, body));
+  return h('div', { class: 'reader' }, toc, h('div', { class: 'panel' }, body));
 }
 
 /* ---------------------------------------------------------------- registers */
@@ -617,6 +730,7 @@ function viewRegisters() {
     : which === 'risks' ? enums['risk category'] : enums['metric kind'];
   const statusCols = ['status', 'статус'];
   const facets = [...new Set(reg.rows.map(r => stripMd(cell(r, ...enumCol))).filter(Boolean))];
+  const refs = refIndex();
 
   const filters = h('div', { class: 'filters' },
     h('button', { 'aria-pressed': S.regFilter === 'all', onclick: () => { S.regFilter = 'all'; render(); } }, t('all')),
@@ -628,10 +742,26 @@ function viewRegisters() {
   // second store, and no journal column anyone has to keep in step (CONVENTIONS → Change logs).
   const history = S.model.history || {};
 
-  function trail(id) {
-    const es = history[id] || [];
-    return h('tr', { class: 'trailrow' }, h('td', { colspan: reg.columns.length },
-      h('div', { class: 'kick' }, `${t('trail')} · ${id}`),
+  // A register is wide — ten columns for a hypothesis — and showing all of them at once produced a
+  // table that scrolled sideways and grew rows ten lines tall. So the table carries what a reader
+  // scans by (the id, the statement, its type, its state, where it is argued) and the row opens to
+  // the rest: every remaining column in full, then the item's trail.
+  const mainCol = reg.columns[1] || reg.columns[0];
+  const shownCols = new Set(['id', mainCol].concat(enumCol, statusCols));
+
+  function detail(r, rid, span) {
+    const es = history[rid] || [];
+    const rest = reg.columns.filter(c => !shownCols.has(c) && String(r[c] || '').trim());
+    return h('tr', { class: 'trailrow' }, h('td', { colspan: span },
+      rest.length ? h('div', { class: 'wiring', style: 'margin-top:0;border-top:0' },
+        rest.map(c => h('div', { class: 'wrow' },
+          h('div', { class: 'wk' }, c), h('div', { class: 'wv', html: inline(r[c]) })))) : null,
+      (refs[rid] || []).length ? h('div', {},
+        h('div', { class: 'kick', style: 'margin-top:14px' },
+          `${t('referencedIn')} · ${(refs[rid] || []).length}`),
+        h('div', { class: 'row' }, (refs[rid] || []).map(x =>
+          goSection(x.file, x.id, refLabel(x))))) : null,
+      h('div', { class: 'kick', style: 'margin-top:14px' }, `${t('trail')} · ${rid}`),
       es.length ? h('div', { class: 'tl' }, es.map(e => h('div', { class: 'e' },
         h('div', {}, h('div', { class: 'd' }, e.date), h('div', { class: 'tiny faint mono' }, e.file)),
         h('div', {}, h('div', { class: 's', html: inline(e.summary) })))))
@@ -639,38 +769,38 @@ function viewRegisters() {
   }
 
   function regTable() {
-    const cols = reg.columns;
+    const cols = ['id', mainCol, enumCol[0], statusCols[0]];
+    const heads = [reg.columns.find(c => c === 'id') || 'id', mainCol,
+      reg.columns.find(c => enumCol.includes(c)) || enumCol[0],
+      reg.columns.find(c => statusCols.includes(c)) || statusCols[0]];
     const rows = reg.rows.filter(r => {
       if (S.regFilter !== 'all' && stripMd(cell(r, ...enumCol)) !== S.regFilter) return false;
       if (S.regSearch && !Object.values(r).join(' ').toLowerCase().includes(S.regSearch.toLowerCase())) return false;
       return true;
     });
+    const span = cols.length + 1;
     return h('div', { class: 'tablewrap' }, h('table', {},
-      h('thead', {}, h('tr', {}, cols.map(c => h('th', {}, c)))),
+      h('thead', {}, h('tr', {}, heads.map(c => h('th', {}, c)), h('th', {}, t('referencedIn')))),
       h('tbody', {}, rows.flatMap(r => {
         const val = stripMd(cell(r, ...enumCol));
         const bad = allowed && val && !allowed.includes(val);
         const rid = stripMd(cell(r, 'id'));
-        const main = h('tr', { class: bad ? 'flagged' : '' }, cols.map(c => {
-          const v = r[c] || '';
-          if (c === 'id') {
-            const n = (history[rid] || []).length;
-            return h('td', { class: 'id' }, h('code', {}, stripMd(v)),
-              h('button', {
-                class: 'trailbtn', 'aria-pressed': S.regItem === rid, title: t('trailHint'),
-                onclick: () => { S.regItem = S.regItem === rid ? null : rid; render(); },
-              }, `⟲ ${n}`));
-          }
-          if (statusCols.includes(c)) {
-            return h('td', {}, h('span', { class: 'tag ' + stripMd(v).split(/[\s·]/)[0] }, stripMd(v) || '—'));
-          }
-          if (enumCol.includes(c)) {
-            return h('td', {}, h('span', { class: 'tag ' + (bad ? 'err' : '') }, stripMd(v) || '—'),
-              bad ? h('div', { class: 'tiny faint' }, allowed.join(' · ')) : null);
-          }
-          return h('td', { html: inline(v) });
-        }));
-        return S.regItem === rid ? [main, trail(rid)] : [main];
+        const open = S.regItem === rid;
+        const toggle = () => { S.regItem = open ? null : rid; render(); };
+        const main = h('tr', { class: bad ? 'flagged' : '' },
+          h('td', { class: 'id' }, h('code', { class: 'rid ' + ridClass(rid) }, rid),
+            h('button', { class: 'trailbtn', 'aria-pressed': open, title: t('trailHint'), onclick: toggle },
+              open ? '–' : '+')),
+          h('td', { class: 'prose', html: inline(r[mainCol] || '') }),
+          h('td', {}, h('span', { class: 'tag ' + (bad ? 'err' : '') }, val || '—'),
+            bad ? h('div', { class: 'tiny faint' }, allowed.join(' · ')) : null),
+          h('td', {}, h('span', { class: 'tag ' + stripMd(cell(r, ...statusCols)).split(/[\s·]/)[0] },
+            stripMd(cell(r, ...statusCols)) || '—')),
+          h('td', { class: 'refs' }, (refs[rid] || []).slice(0, 2).map(x =>
+            goSection(x.file, x.id, refLabel(x))),
+          (refs[rid] || []).length > 2 ? h('button', { class: 'trailbtn', onclick: toggle },
+            `+${(refs[rid] || []).length - 2}`) : null));
+        return open ? [main, detail(r, rid, span)] : [main];
       }))));
   }
 
@@ -705,16 +835,16 @@ function viewMetrics() {
     const prev = same.length > 1 ? same[same.length - 2] : null;
     const d = prev && prev.value ? (last.value - prev.value) / Math.abs(prev.value) * 100 : null;
     const def = defOf(id);
-    const long = String(num(last.value)).length > 11;
+    const long = String(num(last.value)).length > 10;
     return h('div', { class: 'kpi' },
-      h('div', { class: 'lab clamp3' }, stripMd(cell(def, 'definition', 'определение')).slice(0, 84) || id),
-      undefinedIds.has(id) ? h('div', { class: 'tag err' }, t('notInTree')) : null,
-      h('div', { class: 'val', style: long ? 'font-size:19px' : null }, num(last.value),
-        h('span', { class: 'mono faint', style: 'font-size:12px;margin-left:4px' }, stripMd(cell(def, 'unit')))),
+      h('div', { class: 'lab' }, id),
+      undefinedIds.has(id) ? h('div', { class: 'tag err', style: 'margin-top:4px' }, t('notInTree')) : null,
+      h('div', { class: 'val', style: long ? 'font-size:20px' : null }, num(last.value),
+        h('small', {}, stripMd(cell(def, 'unit')))),
       d === null ? h('div', { class: 'delta flat' }, '—')
         : h('div', { class: 'delta ' + (d > 0.5 ? 'up' : d < -0.5 ? 'down' : 'flat'), title: t('basisNote') },
           `${d > 0 ? '+' : ''}${d.toFixed(1)}% ${t('vsPrev')}`),
-      h('div', { class: 'when' }, `${id} · ${dateOf(last)}${variant(last) ? ' · ' + variant(last) : ''}`
+      h('div', { class: 'when' }, `${dateOf(last)}${variant(last) ? ' · ' + variant(last) : ''}`
         + `${last.observed_n ? ` · n=${last.observed_n}` : ''}`));
   }));
 
@@ -735,10 +865,24 @@ function viewMetrics() {
         h('span', {}, h('i', { style: `background:${g.color}` }), g.label))) : null);
   }));
 
-  const table = h('div', { class: 'tablewrap' }, h('table', {},
-    h('thead', {}, h('tr', {}, ['id', 'period', 'measured_at', 'value', 'observed_n', 'population',
-      'basis', 'source', 'note'].map(c => h('th', { title: c === 'observed_n' ? t('observedNote') : null }, c)))),
-    h('tbody', {}, withReadings.flatMap(id => series[id].map(r => h('tr', {},
+  // The definition of every measured node, whole — an accordion, because a definition is a sentence
+  // and half a sentence is worse than none.
+  const defs = h('div', {}, withReadings.map(id => {
+    const def = defOf(id);
+    const text = stripMd(cell(def, 'definition', 'определение'));
+    if (!text) return null;
+    return acc([h('code', { class: 'tag met' }, id),
+      h('span', { class: 'sumtitle' }, stripMd(cell(def, 'name', 'название')) || ''),
+      h('span', { class: 'summeta' }, h('span', { class: 'tag' }, stripMd(cell(def, 'unit')) || '—'),
+        h('span', { class: 'tag' }, stripMd(cell(def, 'kind', 'вид')) || '—'))],
+    [h('div', { class: 'md', html: md(text) }),
+      h('div', { class: 'tiny faint mono', style: 'margin-top:8px' },
+        stripMd(cell(def, 'instrumentation', 'инструментирование')) || '—')]);
+  }));
+
+  const readings = table(
+    ['id', 'period', 'measured_at', 'value', 'observed_n', 'population', 'basis', 'source', 'note'],
+    withReadings.flatMap(id => series[id].map(r => h('tr', {},
       h('td', { class: 'id' }, h('code', {}, id)),
       h('td', { class: 'mono tiny' }, r.period_start ? `${r.period_start} → ${r.period_end}` : '—'),
       h('td', { class: 'mono tiny' }, r.measured_at),
@@ -748,61 +892,94 @@ function viewMetrics() {
       h('td', { class: 'mono tiny' }, r.population || '—'),
       h('td', { class: 'mono tiny' }, r.basis || '—'),
       h('td', { class: 'mono tiny' }, r.source || '—'),
-      h('td', { class: 'tiny muted' }, r.note || '')))))));
+      h('td', { class: 'tiny muted' }, r.note || '')))),
+    { titles: [null, null, null, null, t('observedNote')] });
 
   return h('div', {},
-    withReadings.length ? [h('div', { class: 'kick' }, t('latest')), kpis,
-      h('div', { style: 'height:18px' }), h('div', { class: 'kick' }, t('series')), charts,
-      h('div', { style: 'height:18px' }), h('div', { class: 'kick' }, t('allReadings')), table]
-      : h('div', { class: 'note warn' }, h('span', { class: 'who' }, '—'), h('div', {}, t('nothingYet'))),
-    without.length ? [h('div', { style: 'height:18px' }),
-      h('div', { class: 'kick' }, `${t('definedNotMeasured')} · ${without.length}`),
-      h('div', { class: 'card' }, h('div', { class: 'items' }, without.map(id => {
+    withReadings.length ? h('div', {},
+      sec(t('latest'), { right: `${withReadings.length} ${t('metricNodes').toLowerCase()}` }, kpis),
+      sec(t('series'), {}, charts),
+      sec(t('metricNodes'), {}, defs),
+      sec(t('allReadings'), { right: `${m.metrics.rows} ${t('csvRows')}` }, readings))
+      : sec(t('latest'), {}, h('div', { class: 'note warn' },
+        h('span', { class: 'who' }, t('readings')), h('div', {}, t('noReadings')))),
+    without.length ? sec(t('definedNotMeasured'), { right: String(without.length) },
+      table(['id', t('colDefinition'), 'instrumentation'], without.map(id => {
         const def = defOf(id);
-        return h('div', { class: 'item' }, h('code', { class: 'tag met' }, id),
-          h('div', { class: 'txt' },
-            h('div', { class: 'small', html: inline(stripMd(cell(def, 'definition', 'определение')).slice(0, 200)) }),
-            h('div', { class: 'why' }, stripMd(cell(def, 'instrumentation', 'инструментирование')) || '—')));
-      })))] : null);
+        return h('tr', {}, h('td', { class: 'id' }, h('code', { class: 'rid met' }, id)),
+          h('td', { html: inline(stripMd(cell(def, 'definition', 'определение'))) }),
+          h('td', { class: 'mono tiny' }, stripMd(cell(def, 'instrumentation', 'инструментирование')) || '—'));
+      }))) : null);
 }
 
 /* ---------------------------------------------------------------- open questions */
 function viewOpen() {
   const m = S.model;
-  const byFile = {};
-  m.gaps.forEach(g => { (byFile[g.file] = byFile[g.file] || []).push(g); });
   const openGate = m.steps.flatMap(s => s.gate.filter(g => g.tick === 'open' || g.tick === 'unknown')
     .map(g => ({ step: s, g })));
   const hyp = m.registers.hypotheses.rows.filter(r =>
     /open|testing/i.test(stripMd(cell(r, 'status', 'статус'))));
 
-  return h('div', { class: 'grid cols-2' },
-    h('div', {},
-      h('div', { class: 'kick' }, `${t('toClarify')} · ${m.gaps.length}`),
-      Object.keys(byFile).length ? Object.entries(byFile).map(([file, gs]) =>
-        h('div', { class: 'card', style: 'margin-bottom:12px' },
-          h('div', { class: 'spread' }, h('h3', {}, file), h('span', { class: 'tag' }, gs.length)),
-          h('div', { class: 'items' }, gs.map(g => h('div', { class: 'item' },
-            h('button', { class: 'tag', style: 'cursor:pointer',
-              onclick: () => { S.tab = 'artifacts'; S.artifact = file; S.section = g.section; render(); } },
-              '#' + g.section),
-            h('div', { class: 'txt md small', html: inline(g.line) }))))))
-        : h('div', { class: 'empty' }, t('nothingOpen')),
-      h('div', { class: 'kick', style: 'margin-top:14px' }, `${t('inFlight')} · ${hyp.length}`),
-      h('div', { class: 'card' }, h('div', { class: 'items' }, hyp.map(r => h('div', { class: 'item' },
-        h('code', { class: 'tag hyp' }, stripMd(cell(r, 'id'))),
-        h('div', { class: 'txt' },
-          h('div', { class: 'small', html: inline(stripMd(cell(r, 'hypothesis', 'гипотеза')).slice(0, 240)) }),
-          h('div', { class: 'why' }, `${stripMd(cell(r, 'type', 'тип'))} · ${stripMd(cell(r, 'status', 'статус'))}`))))))),
-    h('div', {},
-      h('div', { class: 'kick' }, `${t('openGates')} · ${openGate.length}`),
-      h('div', { class: 'card' }, h('div', { class: 'items' }, openGate.map(({ step, g }) =>
-        h('div', { class: 'item' },
-          h('button', { class: 'tag', style: 'cursor:pointer',
-            onclick: () => { S.tab = 'step'; S.step = step.step; render(); } }, step.step),
-          tickTag(g.tick),
-          h('div', { class: 'txt' }, h('div', { class: 'small' }, g.label),
-            h('div', { class: 'why mono tiny' }, (g.targets || []).join(' + ')))))))));
+  const gapsTable = table([t('artifact'), t('toClarify'), ''], m.gaps.map(g => h('tr', {},
+    h('td', { class: 'id' }, h('code', {}, g.file.replace(/\.md$/, '') + '#' + g.section)),
+    h('td', { class: 'prose', html: inline(gapText(g.line)) }),
+    h('td', { class: 'act' }, goSection(g.file, g.section)))), { empty: t('nothingOpen') });
+
+  const gateTable = table(['#', t('state'), t('gateItem'), ''], openGate.map(({ step, g }) => h('tr', {},
+    h('td', { class: 'id' }, h('b', {}, step.step)),
+    h('td', {}, tickTag(g.tick)),
+    h('td', { class: 'prose' }, h('div', { html: inline(g.label) }),
+      h('div', { class: 'tiny faint mono wrapid' }, (g.targets || []).join(' + '))),
+    h('td', { class: 'act' }, goStep(step.step)))), { empty: t('nothingOpen') });
+
+  const refs = refIndex();
+  const hypTable = table(['id', t('colStatement'), t('colType'), t('state'), ''], hyp.map(r => {
+    const rid = stripMd(cell(r, 'id'));
+    return h('tr', {},
+      h('td', { class: 'id' }, h('code', { class: 'rid hyp' }, rid)),
+      h('td', { class: 'prose', html: inline(stripMd(cell(r, 'hypothesis', 'гипотеза'))) }),
+      h('td', { class: 'tiny' }, h('span', { class: 'tag' }, stripMd(cell(r, 'type', 'тип')) || '—')),
+      h('td', { class: 'tiny' }, h('span', { class: 'tag ' + stripMd(cell(r, 'status', 'статус')).split(/[\s·]/)[0] },
+        stripMd(cell(r, 'status', 'статус')) || '—')),
+      h('td', { class: 'refs' }, (refs[rid] || []).slice(0, 3).map(x =>
+        goSection(x.file, x.id, refLabel(x)))));
+  }), { empty: t('nothingOpen') });
+
+  return h('div', {},
+    sec(t('toClarify'), { right: String(m.gaps.length) }, gapsTable),
+    sec(t('openGates'), { right: String(openGate.length) }, gateTable),
+    sec(t('inFlight'), { right: String(hyp.length) }, hypTable));
+}
+
+/* ---------------------------------------------------------------- sources */
+function viewSources() {
+  const m = S.model, src = m.sources;
+  const idx = src.index || [];
+  const cols = src.index_columns || [];
+  const indexTable = cols.length
+    ? table(cols, idx.map(r => h('tr', {}, cols.map(c => h('td', { html: inline(r.cells[c] || '') })))))
+    : h('div', { class: 'empty' }, t('nothingYet'));
+
+  const files = table([t('file'), t('role'), t('updated'), t('indexed')], (src.files || []).map(f =>
+    h('tr', {},
+      h('td', { class: 'id' }, h('code', {}, f.file)),
+      h('td', { class: 'tiny' }, h('span', { class: 'tag' }, f.node_type || '—')),
+      h('td', { class: 'id faint' }, f.updated || '—'),
+      h('td', {}, f.indexed ? h('span', { class: 'tag done' }, 'INDEX.md')
+        : h('span', { class: 'tag open' }, t('notIndexed'))))));
+
+  const slots = Object.entries(m.metric_source_slots || {});
+  return h('div', {},
+    sec(t('sourceIndex'), { right: src.index_present ? 'INDEX.md' : t('nothingYet') }, indexTable),
+    sec(t('sourceFiles'), { right: String((src.files || []).length) }, files),
+    slots.length ? sec('metric_source_slots', {},
+      table(['', ''], slots.map(([k, v]) => h('tr', {},
+        h('td', { class: 'id' }, h('code', {}, k)),
+        h('td', { class: 'small' }, typeof v === 'string' ? v : JSON.stringify(v)))))) : null,
+    m.handoff.present ? sec(t('handoff'), { right: m.handoff.updated || '' },
+      h('div', {}, (m.handoff.sections || []).map(x => acc(
+        [h('span', { class: 'sumtitle' }, x.title || x.id), h('code', { class: 'tag' }, '#' + x.id)],
+        [h('div', { class: 'md', html: md(x.body) })])))) : null);
 }
 
 /* ---------------------------------------------------------------- skills */
@@ -819,28 +996,25 @@ function viewSkills() {
       `${p} · ${skills.filter(x => x.plane === p).length}`)));
 
   const grid = h('div', { class: 'skillgrid' }, shown.map(x => h('button', {
-    class: 'card pick' + (picked && picked.name === x.name ? ' on' : ''),
+    class: 'skillcard' + (picked && picked.name === x.name ? ' on' : ''),
     onclick: () => { S.skillPick = x.name; S.skillFile = null; render(); },
   },
     h('div', { class: 'spread' },
       h('h3', {}, x.name),
       h('span', { class: 'tag ' + (x.origin === 'local' ? 'done' : '') },
         x.origin === 'local' ? t('local') : t('vendored'))),
-    h('div', { class: 'small muted clamp3', style: 'margin-top:5px' },
-      (x.summary || '').replace(/^#+\s*[^\s]*\s*/, '')),
-    h('div', { class: 'row tiny', style: 'margin-top:8px' },
+    h('div', { class: 'row tiny', style: 'margin-top:9px' },
       x.kind ? h('span', { class: 'tag' }, x.kind) : null,
       x.used_by_steps.length ? h('span', { class: 'tag' }, `${t('usedBy')} ${x.used_by_steps.join(',')}`) : null,
-      x.produces.length && x.plane === 'library' ? h('code', { class: 'tag met' }, x.produces[0].slice(0, 26)) : null,
       x.homeless.length ? h('span', { class: 'tag err' }, 'homeless') : null))));
 
-  const detail = picked ? h('div', { class: 'card' },
+  const detail = picked ? h('div', { class: 'panel' },
     h('div', { class: 'spread' }, h('h2', {}, picked.name),
       h('span', { class: 'row' },
         h('span', { class: 'tag' }, picked.plane),
         h('span', { class: 'tag' }, picked.origin === 'local' ? t('local') : t('vendored')),
         picked.version ? h('span', { class: 'tag' }, 'v' + picked.version) : null)),
-    picked.summary ? h('div', { class: 'small muted', style: 'margin-top:6px' },
+    picked.summary ? h('p', { class: 'small muted', style: 'margin-top:8px' },
       picked.summary.replace(/^#+\s*[^\s]*\s*/, '')) : null,
     h('div', { class: 'wiring' }, [
       [t('produces'), picked.produces.join(' · ')],
@@ -856,7 +1030,7 @@ function viewSkills() {
       ['shows rejects', picked.rejects_shown === 'required' ? 'required' : ''],
     ].filter(([, v]) => v).map(([k, v]) => h('div', { class: 'wrow' },
       h('div', { class: 'wk' }, k), h('div', { class: 'wv' }, v)))),
-    h('div', { class: 'row', style: 'margin-top:11px' },
+    S.snapshot ? null : h('div', { class: 'row', style: 'margin-top:12px' },
       h('button', { class: 'btn small',
         onclick: () => openSkillFile(picked, picked.plane === 'adapters' ? 'ADAPTER.md' : 'SKILL.md') },
         picked.plane === 'adapters' ? 'ADAPTER.md' : 'SKILL.md'),
@@ -867,11 +1041,11 @@ function viewSkills() {
     S.skillFile ? h('div', { class: 'filebox' },
       h('div', { class: 'spread' }, h('code', { class: 'tiny' }, S.skillFile.name),
         h('button', { class: 'tag', style: 'cursor:pointer',
-          onclick: () => { S.skillFile = null; render(); } }, '×')),
+          onclick: () => { S.skillFile = null; render(); } }, 'x')),
       h('pre', {}, S.skillFile.text)) : null) : null;
 
   return h('div', {}, tabs,
-    h('div', { class: 'small muted', style: 'margin:0 0 12px' }, t('addSkillHint')),
+    h('p', { class: 'small muted', style: 'margin:0 0 14px;max-width:80ch' }, t('addSkillHint')),
     detail ? h('div', { class: 'grid cols-2' }, grid, detail) : grid);
 }
 
@@ -887,9 +1061,20 @@ function viewLog() {
   if (!m.timeline.length) {
     return h('div', { class: 'note warn' }, h('span', { class: 'who' }, '—'), h('div', {}, t('nothingYet')));
   }
-  return h('div', { class: 'card' }, h('div', { class: 'tl' }, m.timeline.map(e => h('div', { class: 'e' },
-    h('div', {}, h('div', { class: 'd' }, e.date), h('div', { class: 'tiny faint mono' }, e.file)),
-    h('div', {}, h('div', { class: 's' }, e.summary), h('div', { class: 'b md', html: md(e.body) }))))));
+  const files = [...new Set(m.timeline.map(e => e.file))];
+  const shown = m.timeline.filter(e => S.logFile === 'all' || e.file === S.logFile);
+  const filters = h('div', { class: 'filters' },
+    h('button', { 'aria-pressed': S.logFile === 'all', onclick: () => { S.logFile = 'all'; render(); } },
+      `${t('all')} · ${m.timeline.length}`),
+    files.map(f => h('button', { 'aria-pressed': S.logFile === f, onclick: () => { S.logFile = f; render(); } },
+      `${f} · ${m.timeline.filter(e => e.file === f).length}`)));
+
+  return h('div', {}, filters,
+    sec(t('changeLog'), { right: `${shown.length} ${t('entries')}` },
+      h('div', { class: 'panel' }, h('div', { class: 'tl' }, shown.map(e => h('div', { class: 'e' },
+        h('div', {}, h('div', { class: 'd' }, e.date), h('div', { class: 'tiny faint mono' }, e.file)),
+        h('div', {}, h('div', { class: 's' }, e.summary),
+          h('div', { class: 'b md', html: md(e.body) }))))))));
 }
 
 function viewChecks() {
@@ -903,22 +1088,21 @@ function viewChecks() {
         : h('div', { class: 'note ok' }, h('span', { class: 'who' }, 'ok'), h('div', {}, t('lintClean')));
 
   return h('div', { class: 'grid cols-2' },
-    h('div', {},
-      h('div', { class: 'kick' }, `${t('healthTitle')} · `
-        + `${m.health.filter(x => x.level === 'error').length} error · `
-        + `${m.health.filter(x => x.level === 'warn').length} warn`),
+    sec(t('healthTitle'), { right: `${m.health.filter(x => x.level === 'error').length} error · `
+      + `${m.health.filter(x => x.level === 'warn').length} warn` },
       m.health.length ? h('div', { class: 'notes' }, m.health.map(x => h('div', { class: 'note ' + x.level },
         h('span', { class: 'who' }, x.level), h('div', {}, x.message))))
         : h('div', { class: 'note ok' }, h('span', { class: 'who' }, 'ok'), h('div', {}, t('healthClean')))),
     h('div', {},
-      h('div', { class: 'kick' }, t('lintTitle')), lintBox,
-      h('div', { style: 'height:14px' }),
-      h('div', { class: 'card' }, h('div', { class: 'kick' }, t('notChecked')),
-        h('div', { class: 'small muted' }, t('notCheckedBody')))));
+      sec(t('lintTitle'), {}, lintBox),
+      sec(t('notChecked'), {}, h('p', { class: 'small muted' }, t('notCheckedBody')))));
 }
 
 const VIEWS = { overview: viewOverview, step: viewStep, artifacts: viewArtifacts, registers: viewRegisters,
-  metrics: viewMetrics, open: viewOpen, skills: viewSkills, log: viewLog, checks: viewChecks };
+  metrics: viewMetrics, open: viewOpen, sources: viewSources, skills: viewSkills, log: viewLog,
+  checks: viewChecks };
+const TAB_ORDER = ['overview', 'artifacts', 'registers', 'metrics', 'open',
+  null, 'sources', 'skills', 'log', 'checks'];
 
 /* ---------------------------------------------------------------- shell */
 function renderInto(sel, node) {
@@ -941,6 +1125,7 @@ function counts() {
       + m.registers.metric_tree.rows.length,
     metrics: Object.keys(m.metrics.series).length || null,
     open: m.gaps.length + openGates || null,
+    sources: (m.sources.files || []).length || null,
     skills: (m.framework.skills || []).length || null,
     log: m.timeline.length || null,
     checks: (m.health.filter(x => x.level === 'error').length + lintN) || null,
@@ -966,34 +1151,55 @@ function readHash() {
   if (S.tab === 'skills') { if (p[1]) S.skillPlane = p[1]; if (p[2]) S.skillPick = p[2]; }
 }
 
+function renderRail() {
+  const m = S.model;
+  renderKids('#rail', (m.steps || []).map(s => {
+    const c = s.gate_counts || {};
+    const total = s.gate.length || 1;
+    const done = c.done || 0;
+    return h('button', {
+      class: (S.tab === 'step' && S.step === s.step ? 'on ' : '') + (m.current_step === s.step ? 'here' : ''),
+      onclick: () => { S.tab = 'step'; S.step = s.step; render(); },
+      title: `${s.title || s.name} — ${gateSummary(s)}`,
+    },
+      h('div', { class: 'rn' }, `${s.step}${m.current_step === s.step ? ' ·' : ''}`),
+      h('div', { class: 'rt' }, shortTitle(s.title || s.name)),
+      h('div', { class: 'rp' },
+        h('i', { style: `width:${(done / total * 100).toFixed(1)}%` }),
+        h('i', { class: 'dim', style: `width:${((total - done) / total * 100).toFixed(1)}%` })));
+  }));
+}
+
 function render() {
   const m = S.model;
   if (!m) return;
   writeHash();
   document.documentElement.lang = m.language || 'en';
   document.getElementById('product').textContent = m.product;
-  document.getElementById('subline').textContent = m.name + ' · ' + m.path;
+  document.getElementById('subline').textContent = S.snapshot
+    ? `${m.name} · ${t('readOnlySnap')}` : `${m.name} · ${m.path}`;
 
-  const c = counts();
-  renderKids('#chips', [
-    h('div', { class: 'chip' }, h('b', {}, t('status')), h('div', { class: 'v' }, m.active_status || '—')),
-    h('div', { class: 'chip' }, h('b', {}, t('step')),
-      h('div', { class: 'v' }, m.current_step ? `${m.current_step} / 6` : t('noState'))),
-    h('div', { class: 'chip pick' },
-      h('select', { onchange: e => load(e.target.value) },
-        S.instances.map(i => h('option', { value: i.path, selected: i.path === m.path },
-          `${i.name} · ${i.kind}`)))),
-    h('input', { class: 'pathin', placeholder: t('addHint'), title: t('addFolder'),
+  renderKids('#acts', [
+    h('span', { class: 'tag strong' }, `${t('status')} ${m.active_status || '—'}`),
+    S.snapshot ? null : h('a', { class: 'btn solid', title: t('saveHint'),
+      href: '/api/export?instance=' + encodeURIComponent(m.path) }, t('saveHtml')),
+    S.snapshot || S.instances.length < 2 ? null : h('select', {
+      class: 'pick', onchange: e => load(e.target.value),
+    }, S.instances.map(i => h('option', { value: i.path, selected: i.path === m.path },
+      `${i.name} · ${i.kind}`))),
+    S.snapshot ? null : h('input', { class: 'pathin', placeholder: t('addHint'), title: t('addFolder'),
       onkeydown: e => { if (e.key === 'Enter') addFolder(e.target.value); } }),
-    h('button', { class: 'themebtn', title: t('theme'),
+    h('button', { class: 'btn', title: t('theme'),
       onclick: () => { applyTheme(THEMES[(THEMES.indexOf(theme()) + 1) % 3]); render(); } },
-      h('span', { class: 'ico' }, theme() === 'auto' ? '◐' : theme() === 'light' ? '☀' : '☾'),
-      t('theme' + theme())),
+      t('theme') + ': ' + t('theme' + theme())),
   ]);
 
-  renderKids('#tabs', Object.keys(VIEWS).map(k => h('button', {
-    'aria-current': S.tab === k, onclick: () => { S.tab = k; render(); },
-  }, t('tabs.' + k), c[k] ? h('span', { class: 'count' }, c[k]) : null)));
+  renderRail();
+
+  const c = counts();
+  renderKids('#tabs', TAB_ORDER.map(k => k === null ? h('span', { class: 'sep' })
+    : h('button', { 'aria-current': S.tab === k, onclick: () => { S.tab = k; render(); } },
+      t('tabs.' + k), c[k] ? h('span', { class: 'count' }, c[k]) : null)));
 
   try {
     renderInto('#view', VIEWS[S.tab]());
@@ -1002,8 +1208,9 @@ function render() {
       h('div', {}, `${e.name}: ${e.message}`)));
     throw e;
   }
-  document.getElementById('footpath').innerHTML = `<b>${esc(m.path)}</b>`;
-  document.getElementById('footrev').textContent = t('readOnly');
+  document.getElementById('footpath').innerHTML = S.snapshot
+    ? `<b>${esc(m.product)}</b>` : `<b>${esc(m.path)}</b>`;
+  document.getElementById('footrev').textContent = S.snapshot ? t('snapshotNote') : t('readOnly');
 }
 
 async function addFolder(raw) {
@@ -1039,11 +1246,28 @@ async function load(instancePath) {
     .then(x => x.json()).then(l => { S.lint = l; render(); }).catch(() => {});
 }
 
+/* The exported snapshot: same renderer, frozen data, nothing to fetch. */
+function bootSnapshot(snap) {
+  S.snapshot = snap;
+  S.model = snap.model;
+  S.lint = snap.lint || null;
+  S.instances = [];
+  // readHash() ran first: a deep link into a step must survive the boot
+  if (!S.step) S.step = S.model.current_step || (S.model.steps[0] || {}).step || 1;
+  renderInto('#snap', h('div', { class: 'snapbar' },
+    h('span', { class: 'sd' }, t('snapshot').toUpperCase()),
+    h('b', {}, S.model.product),
+    h('span', {}, `${t('madeOn')} ${snap.generated}`),
+    h('span', { style: 'margin-left:auto' }, t('snapshotNote'))));
+  render();
+}
+
 async function boot() {
   applyTheme();
   readHash();                       // before the first render: writeHash() would overwrite the deep link
   window.addEventListener('hashchange', () => { readHash(); render(); });
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
+  if (window.__SNAPSHOT__) return bootSnapshot(window.__SNAPSHOT__);
   const inst = await (await fetch('/api/instances')).json();
   S.instances = inst.instances || [];
   await load();
