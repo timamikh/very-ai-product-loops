@@ -178,6 +178,11 @@ The rules that replaced it:
    figures and rules; the detail lives one click away, in a table or an accordion.
 3. **No glyph we cannot guarantee.** No web fonts, no emoji, no box-drawing — a snapshot is opened on
    machines we know nothing about.
+4. **The text gets the width; the frame goes above it.** What is short and the same for every section
+   — the gate, what the status asks — sits across the top, not in a column beside the reading. Half a
+   page of prose next to half a page of checkboxes turns a six-column table into one word per line. A
+   paragraph still stops at about ninety characters, because past that the eye loses the next line;
+   tables, evidence and code take the whole window.
 
 The one place with visual energy is the **step rail** under the header: the six steps, always visible,
 each with how far its gate has actually closed. The numbering is not decoration — the steps are a real
@@ -243,10 +248,10 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 |---|---|
 | The step rail | Where the cycle stands, and how far each of the six gates has closed. Always visible; click a step to open it |
 | Overview | What this product is, in one thesis line and six figures; the six steps as a table; where the next pass goes; how the instance reads against the canon |
-| Step | The step's sections as **accordions** — each opens to the section's full text, its confidence mix, gaps, proposals and register ids — plus what the active status asks here, and the gate as a table |
+| Step | The gate and what the active status asks, across the top; below them, full width, the step's sections as **accordions** — each opens to the section's full text, its confidence mix, gaps, proposals and register ids |
 | Artifacts | Section by section, with confidence tags, gaps and proposals highlighted |
 | Registers | Hypotheses / risks / metric nodes as filterable tables, with non-canon values flagged, a per-item trail, and a link to every artifact section that names the id |
-| Metrics | Latest readings as tiles, one chart per node with readings, each node's full definition, the raw `metrics.csv` rows, and the nodes defined but never measured |
+| Metrics | Latest readings as tiles, one chart per node with a dot on every reading, each node's full definition, the raw `metrics.csv` rows, and the nodes defined but never measured |
 | Open questions | Every `— to clarify —`, every gate item still open or unrecorded, every hypothesis in flight — each with a link to the section it sits in |
 | Sources | The source index, every file in `sources/` with its role and whether the index knows it, the metric source slots, and the session handoff |
 | Skills | Every skill the agent can reach, with its wiring and quality declaration |

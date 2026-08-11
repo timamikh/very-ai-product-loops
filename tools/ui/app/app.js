@@ -669,20 +669,25 @@ function viewStep() {
         s.artifact_file ? (g.sections || []).map(id => goSection(s.artifact_file, id, '#' + id)) : null,
         g.register ? h('span', { class: 'tag met' }, g.register) : null))));
 
-  const rail = h('div', { style: 'align-self:start' },
-    perStep ? h('div', { class: 'sec' }, h('div', { class: 'panel' },
-      h('div', { class: 'kick' }, `${t('statusAsks')} · ${m.active_status}`),
-      h('ul', { style: 'padding-left:18px;font-size:12.5px' },
-        (perStep.goals || []).map(g => h('li', { style: 'margin:5px 0' }, g))),
-      (perStep.tools || []).length ? h('div', { class: 'row', style: 'margin-top:10px' },
-        (perStep.tools || []).map(x => h('span', { class: 'tag strong', title: t('emphasised') }, x))) : null))
-      : null,
-    sec(t('gate'), { right: gateSummary(s) }, gateTable));
+  const asks = perStep ? h('div', { class: 'panel' },
+    h('div', { class: 'kick' }, `${t('statusAsks')} · ${m.active_status}`),
+    h('ul', { style: 'padding-left:18px;font-size:12.5px' },
+      (perStep.goals || []).map(g => h('li', { style: 'margin:5px 0' }, g))),
+    (perStep.tools || []).length ? h('div', { class: 'row', style: 'margin-top:10px' },
+      (perStep.tools || []).map(x => h('span', { class: 'tag strong', title: t('emphasised') }, x))) : null)
+    : null;
 
-  return h('div', {}, head,
-    h('div', { class: 'grid cols-2' },
-      sec(t('sectionsTitle'), { right: `${written}/${s.sections.length} ${t('filled')}` }, sections),
-      rail));
+  // The gate and what the status asks are the frame around the reading, not a companion to it: they
+  // are short, they are the same for every section, and standing in a column beside the text they
+  // took half the page and left the artifact — sentences, tables, evidence — in a gutter. So they sit
+  // across the top, where a frame belongs, and the text below runs the full width of the window.
+  const frame = asks
+    ? h('div', { class: 'grid cols-2' }, sec(t('gate'), { right: gateSummary(s) }, gateTable),
+      h('div', { class: 'sec', style: 'align-self:start' }, asks))
+    : sec(t('gate'), { right: gateSummary(s) }, gateTable);
+
+  return h('div', {}, head, frame,
+    sec(t('sectionsTitle'), { right: `${written}/${s.sections.length} ${t('filled')}` }, sections));
 }
 
 /* ---------------------------------------------------------------- artifacts */

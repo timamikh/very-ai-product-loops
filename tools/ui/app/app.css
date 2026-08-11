@@ -330,6 +330,15 @@ details.acc .accbody { padding:13px 15px 16px }
 .md p, .md ul, .md ol, .md blockquote, .md .tablewrap { margin:9px 0 }
 .md ul, .md ol { padding-left:20px }
 .md li { margin:3px 0 }
+/* The block runs the full width of the window; a line of prose does not. Past roughly ninety
+   characters the eye loses the start of the next line, so the paragraph stops there and the wide
+   things — tables, evidence, code — keep the whole width for themselves. */
+.md p, .md li, .md blockquote { max-width:92ch }
+/* A table in an artifact body fills the block and wraps inside its cells — at full width there is
+   room for that. The floor is what stops the old failure: with a narrow container the browser
+   squeezed columns until each word sat on its own line, so below this width the wrapper scrolls
+   sideways instead, which is the honest trade. */
+.md td, .md th { min-width:11ch }
 .md blockquote { border-left:2px solid var(--brand); padding:2px 0 2px 12px; color:var(--muted) }
 .md code { font-size:12px; background:var(--sunk); border:1px solid var(--line); padding:0 4px; border-radius:3px }
 .md em { color:var(--muted) }

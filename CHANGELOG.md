@@ -45,6 +45,12 @@ could not leave the machine it ran on.
   a deck or a document is still an adapter's job. Same read layer, same renderer: a snapshot cannot
   say something the console does not. The server still writes no file — one `GET`, and the browser
   saves it.
+- **The reading gets the whole width.** On a step, the gate and what the status asks stood in a
+  column beside the text: they are short and identical for every section, and they were taking half
+  the page, leaving the artifact — sentences, tables, evidence — in a gutter where a six-column table
+  came out one word per line and clipped. They now sit across the top, where a frame belongs, and the
+  sections run the full width of the window. A paragraph still stops at ~92 characters, because past
+  that the eye loses the start of the next line; tables and evidence take everything.
 - **The console opens by double-click** — `tools/ui/console.command` (macOS, Linux) and
   `console.bat` (Windows). The audience is the product manager, and for that reader a terminal is a
   wall: the console is worth nothing to them if reaching it costs a command they have to be taught.
