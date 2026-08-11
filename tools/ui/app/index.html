@@ -25,8 +25,12 @@
   <div class="acts" id="acts"></div>
 </header>
 
-<nav class="rail" id="rail" aria-label="steps"></nav>
-<nav class="tabs" id="tabs"></nav>
+<!-- The rail and the tabs are the navigation; they stay pinned to the top so a long artifact can be
+     read without scrolling back up to change step or tab. -->
+<div class="navwrap">
+  <nav class="rail" id="rail" aria-label="steps"></nav>
+  <nav class="tabs" id="tabs"></nav>
+</div>
 
 <main id="view"><div class="loading">reading the product folder…</div></main>
 

@@ -84,6 +84,7 @@ const STR = {
     sourceIndex: 'The source index', sourceFiles: 'Files in sources/',
     notIndexed: 'not in INDEX.md', changeLog: 'Change log', entries: 'entries',
     openHypotheses: 'open', of6: 'of 6',
+    colName: 'skill', colKind: 'kind', origin: 'origin',
   },
   ru: {
     tabs: { overview: 'Обзор', step: 'Шаг', artifacts: 'Артефакты', registers: 'Реестры',
@@ -144,6 +145,7 @@ const STR = {
     sourceIndex: 'Индекс источников', sourceFiles: 'Файлы в sources/',
     notIndexed: 'нет в INDEX.md', changeLog: 'Журнал изменений', entries: 'записей',
     openHypotheses: 'открытых', of6: 'из 6',
+    colName: 'скилл', colKind: 'вид', origin: 'происхождение',
   },
 };
 
@@ -420,9 +422,11 @@ function secHead(title, opts) {
 const sec = (title, opts, ...body) => h('section', { class: 'sec' }, secHead(title, opts), ...body);
 
 /* The console's main verb: go and read the thing itself. Every place that names a section offers it. */
-function goSection(file, id, label) {
+function goSection(file, id, label, title) {
+  // The chip reads `1#concept`; the tooltip spells out the human section name, so a reader who does
+  // not decode the step-number shorthand still learns where the link goes without following it.
   return h('button', {
-    class: 'golink', title: `${file}#${id}`,
+    class: 'golink', title: title ? `${title} — ${file}#${id}` : `${file}#${id}`,
     onclick: e => { e.stopPropagation(); S.tab = 'artifacts'; S.artifact = file; S.section = id; render(); },
   }, label || t('openSection'));
 }
@@ -781,7 +785,7 @@ function viewRegisters() {
         h('div', { class: 'kick', style: 'margin-top:14px' },
           `${t('referencedIn')} · ${(refs[rid] || []).length}`),
         h('div', { class: 'row' }, (refs[rid] || []).map(x =>
-          goSection(x.file, x.id, refLabel(x))))) : null,
+          goSection(x.file, x.id, refLabel(x), x.title)))) : null,
       h('div', { class: 'kick', style: 'margin-top:14px' }, `${t('trail')} · ${rid}`),
       es.length ? h('div', { class: 'tl' }, es.map(e => h('div', { class: 'e' },
         h('div', {}, h('div', { class: 'd' }, e.date), h('div', { class: 'tiny faint mono' }, e.file)),
@@ -818,7 +822,7 @@ function viewRegisters() {
           h('td', {}, h('span', { class: 'tag ' + stripMd(cell(r, ...statusCols)).split(/[\s·]/)[0] },
             stripMd(cell(r, ...statusCols)) || '—')),
           h('td', { class: 'refs' }, (refs[rid] || []).slice(0, 2).map(x =>
-            goSection(x.file, x.id, refLabel(x))),
+            goSection(x.file, x.id, refLabel(x), x.title)),
           (refs[rid] || []).length > 2 ? h('button', { class: 'trailbtn', onclick: toggle },
             `+${(refs[rid] || []).length - 2}`) : null));
         return open ? [main, detail(r, rid, span)] : [main];
@@ -963,13 +967,16 @@ function viewOpen() {
       h('td', { class: 'tiny' }, h('span', { class: 'tag ' + stripMd(cell(r, 'status', 'статус')).split(/[\s·]/)[0] },
         stripMd(cell(r, 'status', 'статус')) || '—')),
       h('td', { class: 'refs' }, (refs[rid] || []).slice(0, 3).map(x =>
-        goSection(x.file, x.id, refLabel(x)))));
+        goSection(x.file, x.id, refLabel(x), x.title))));
   }), { empty: t('nothingOpen') });
 
+  // An empty section is good news here — nothing to clarify, no gate open. A full table with a
+  // header and a "nothing here" cell dresses that up as content; one quiet line states it and moves on.
+  const clear = () => h('div', { class: 'clear' }, t('nothingOpen'));
   return h('div', {},
-    sec(t('toClarify'), { right: String(m.gaps.length) }, gapsTable),
-    sec(t('openGates'), { right: String(openGate.length) }, gateTable),
-    sec(t('inFlight'), { right: String(hyp.length) }, hypTable));
+    sec(t('toClarify'), { right: String(m.gaps.length) }, m.gaps.length ? gapsTable : clear()),
+    sec(t('openGates'), { right: String(openGate.length) }, openGate.length ? gateTable : clear()),
+    sec(t('inFlight'), { right: String(hyp.length) }, hyp.length ? hypTable : clear()));
 }
 
 /* ---------------------------------------------------------------- sources */
@@ -1016,18 +1023,29 @@ function viewSkills() {
       onclick: () => { S.skillPlane = p; S.skillPick = null; S.skillFile = null; render(); } },
       `${p} · ${skills.filter(x => x.plane === p).length}`)));
 
-  const grid = h('div', { class: 'skillgrid' }, shown.map(x => h('button', {
-    class: 'skillcard' + (picked && picked.name === x.name ? ' on' : ''),
-    onclick: () => { S.skillPick = x.name; S.skillFile = null; render(); },
-  },
-    h('div', { class: 'spread' },
-      h('h3', {}, x.name),
-      h('span', { class: 'tag ' + (x.origin === 'local' ? 'done' : '') },
-        x.origin === 'local' ? t('local') : t('vendored'))),
-    h('div', { class: 'row tiny', style: 'margin-top:9px' },
-      x.kind ? h('span', { class: 'tag' }, x.kind) : null,
-      x.used_by_steps.length ? h('span', { class: 'tag' }, `${t('usedBy')} ${x.used_by_steps.join(',')}`) : null,
-      x.homeless.length ? h('span', { class: 'tag err' }, 'homeless') : null))));
+  // A plane holds up to ~30 near-identical skills. A grid of cards for that is the wall this console
+  // was built to avoid — so the roster is a compact, searchable table: one line each, the row is the
+  // link to its detail. The search filters within the open plane and repaints only the table.
+  const search = h('input', { class: 'pathin', type: 'search', placeholder: t('search'),
+    value: S.skillSearch || '', oninput: e => { S.skillSearch = e.target.value; renderInto('#skilltable', skillTable()); } });
+
+  function skillTable() {
+    const q = (S.skillSearch || '').trim().toLowerCase();
+    const rows = shown.filter(x => !q
+      || `${x.name} ${x.kind || ''} ${x.used_by_steps.join(',')}`.toLowerCase().includes(q));
+    return table([t('colName'), t('colKind'), t('usedBy'), t('origin')],
+      rows.map(x => h('tr', {
+        class: 'rowlink' + (picked && picked.name === x.name ? ' on' : ''),
+        onclick: () => { S.skillPick = x.name; S.skillFile = null; render(); },
+      },
+        h('td', {}, h('b', {}, x.name),
+          x.homeless.length ? h('span', { class: 'tag err', style: 'margin-left:7px' }, 'homeless') : null),
+        h('td', {}, x.kind ? h('span', { class: 'tag' }, x.kind) : h('span', { class: 'faint' }, '—')),
+        h('td', { class: 'tiny mono' }, x.used_by_steps.length ? x.used_by_steps.join(', ') : '—'),
+        h('td', {}, h('span', { class: 'tag ' + (x.origin === 'local' ? 'done' : '') },
+          x.origin === 'local' ? t('local') : t('vendored'))))),
+      { empty: t('nothingYet') });
+  }
 
   const detail = picked ? h('div', { class: 'panel' },
     h('div', { class: 'spread' }, h('h2', {}, picked.name),
@@ -1066,8 +1084,10 @@ function viewSkills() {
       h('pre', {}, S.skillFile.text)) : null) : null;
 
   return h('div', {}, tabs,
-    h('p', { class: 'small muted', style: 'margin:0 0 14px;max-width:80ch' }, t('addSkillHint')),
-    detail ? h('div', { class: 'grid cols-2' }, grid, detail) : grid);
+    h('p', { class: 'small muted', style: 'margin:0 0 12px;max-width:80ch' }, t('addSkillHint')),
+    h('div', { class: 'filters', style: 'margin-bottom:10px' }, search),
+    h('div', { id: 'skilltable' }, skillTable()),
+    detail ? h('div', { style: 'margin-top:16px' }, detail) : null);
 }
 
 async function openSkillFile(skill, name) {
@@ -1098,6 +1118,33 @@ function viewLog() {
           h('div', { class: 'b md', html: md(e.body) }))))))));
 }
 
+// The read layer emits one finding per file, so a rule every artifact breaks the same way — a missing
+// change log — arrives as six identical sentences. That is the wall of repeated text the console is
+// meant to kill, not print. Findings that share a level, a code and the same wording once their
+// subject (the leading filename or id) is removed collapse into one note that lists the subjects.
+function groupHealth(items) {
+  const groups = [];
+  const byKey = {};
+  for (const x of items) {
+    const subject = (x.message.match(/^(\S+)\s+/) || [])[1] || '';
+    const tail = subject ? x.message.slice(subject.length).trim() : x.message;
+    const key = `${x.level}|${x.code || ''}|${tail}`;
+    if (!byKey[key]) { byKey[key] = { level: x.level, code: x.code || '', tail, subjects: [], sample: x.message }; groups.push(byKey[key]); }
+    byKey[key].subjects.push(subject);
+  }
+  return groups;
+}
+
+function healthNote(g) {
+  const many = g.subjects.filter(Boolean).length > 1;
+  return h('div', { class: 'note ' + g.level },
+    h('span', { class: 'who' }, `${g.level}${g.code ? ' ' + g.code : ''}${many ? ' ×' + g.subjects.length : ''}`),
+    many
+      ? h('div', {}, h('div', { class: 'mono tiny', style: 'margin-bottom:4px' }, g.subjects.join(' · ')),
+        h('div', {}, g.tail))
+      : h('div', {}, g.sample));
+}
+
 function viewChecks() {
   const m = S.model, lint = S.lint;
   const lintBox = !lint ? h('div', { class: 'empty' }, '…')
@@ -1111,8 +1158,7 @@ function viewChecks() {
   return h('div', { class: 'grid cols-2' },
     sec(t('healthTitle'), { right: `${m.health.filter(x => x.level === 'error').length} error · `
       + `${m.health.filter(x => x.level === 'warn').length} warn` },
-      m.health.length ? h('div', { class: 'notes' }, m.health.map(x => h('div', { class: 'note ' + x.level },
-        h('span', { class: 'who' }, x.level), h('div', {}, x.message))))
+      m.health.length ? h('div', { class: 'notes' }, groupHealth(m.health).map(healthNote))
         : h('div', { class: 'note ok' }, h('span', { class: 'who' }, 'ok'), h('div', {}, t('healthClean')))),
     h('div', {},
       sec(t('lintTitle'), {}, lintBox),

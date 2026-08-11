@@ -246,7 +246,7 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 
 | Where | What it answers |
 |---|---|
-| The step rail | Where the cycle stands, and how far each of the six gates has closed. Always visible; click a step to open it |
+| The step rail | Where the cycle stands, and how far each of the six gates has closed. Pinned to the top with the tabs, so step and tab stay reachable however far you scroll; click a step to open it |
 | Overview | What this product is, in one thesis line and six figures; the six steps as a table; where the next pass goes; how the instance reads against the canon |
 | Step | The gate and what the active status asks, across the top; below them, full width, the step's sections as **accordions** — each opens to the section's full text, its confidence mix, gaps, proposals and register ids |
 | Artifacts | Section by section, with confidence tags, gaps and proposals highlighted |
@@ -254,9 +254,9 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 | Metrics | Latest readings as tiles, one chart per node with a dot on every reading, each node's full definition, the raw `metrics.csv` rows, and the nodes defined but never measured |
 | Open questions | Every `— to clarify —`, every gate item still open or unrecorded, every hypothesis in flight — each with a link to the section it sits in |
 | Sources | The source index, every file in `sources/` with its role and whether the index knows it, the metric source slots, and the session handoff |
-| Skills | Every skill the agent can reach, with its wiring and quality declaration |
+| Skills | Every skill the agent can reach as a searchable table (one line each — kind, steps, origin); a row opens its full wiring and quality declaration below |
 | Change log | One timeline across all artifacts and registers — what moved and why, filterable by file |
-| Checks | The linter's findings plus the reader's `health` list, and an explicit list of what neither checks |
+| Checks | The linter's findings plus the reader's `health` list — findings that differ only by which file they name collapse into one line — and an explicit list of what neither checks |
 
 Deltas compare like with like — a reading is only compared to the previous reading on the same `basis`
 and `population`.

@@ -55,6 +55,18 @@ could not leave the machine it ran on.
   held on one line it ran off the page and was cut. It now wraps, and every line of it keeps the
   chip's padding and corners, so a wrapped tag still reads as one mark. Long paths and ids in a body
   break instead of pushing the line out of the panel.
+- **A second pass on the reading experience**, five smaller fixes:
+  - *Checks* no longer prints the same warning once per file. Findings that differ only by which file
+    they name — six artifacts with no change log — collapse into one line that lists the files. The
+    error/warn counts still count every finding.
+  - *Skills* was the last wall of cards: ~30 near-identical tiles per plane. It is a searchable table
+    now, one line each (kind · steps · origin); a row opens its full wiring below.
+  - The rail and tabs **stay pinned to the top** on scroll, so step and tab are reachable however far
+    down a long artifact you are — the title bar still scrolls away.
+  - An empty section in *Open questions* — nothing to clarify, no gate open — is one quiet line, not
+    a full table dressed up as content.
+  - A section link (`1#concept`) carries a **tooltip with the human section name**, for a reader who
+    does not decode the step-number shorthand.
 - **The console opens by double-click** — `tools/ui/console.command` (macOS, Linux) and
   `console.bat` (Windows). The audience is the product manager, and for that reader a terminal is a
   wall: the console is worth nothing to them if reaching it costs a command they have to be taught.
