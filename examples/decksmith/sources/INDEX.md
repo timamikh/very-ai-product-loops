@@ -1,7 +1,7 @@
 ---
 node_type: sources-index
 product: "Decksmith (fictional sample)"
-updated: 2026-07-20
+updated: 2026-08-13
 ---
 
 # Source navigation — Decksmith
@@ -14,6 +14,16 @@ updated: 2026-07-20
 |------|----------|----------|--------------|-------------|------------|
 | `founder-brief.md` | The raw idea, the founder's observations of the sales/marketing crowd, an honest have/can-build inventory, and the early bets (lead segment, riskiest = feasibility, pricing deferred) | Concept, lead segment, the pains to test, the value/moat inventory | Pricing (deferred to Step 3), collaboration/co-editing, non-slide formats | 1 | [sourced: founder brief 2026-07-16] |
 | `market-research.md` | Triangulated desk-research digest (real, public): market size/dynamics, players (Gamma, Copilot, Canva, Beautiful.ai, Pitch, Tome), pricing, trends, barriers; the Gamma `.pptx` export-fidelity gap | Sizing inputs, competitor game/pricing/dynamics, substitutes, niche risks | Anything about Decksmith's own (fictional) metrics — none exist | 2, 3, 4 | [sourced] primary press for funding; secondary for pricing/export |
+
+## Dispatched into worklogs
+
+Where each source's evidence was routed by `source-intake` (the artifacts cite these worklogs, never
+the source directly — see `../../../process/CONVENTIONS.md` → *Step folders & worklogs*):
+
+- `market-research.md` → `2-analysis/market-sizing.md`, `2-analysis/competitor-analysis.md`,
+  `2-analysis/substitutes.md`, `2-analysis/synthesis.md` (Step 2 fully absorbed).
+- `founder-brief.md` → Step 1 worklogs — **not yet dispatched** (Step 1 not migrated to the worklog
+  layer). Still read directly for now.
 
 ## Open sources (not yet obtained)
 

@@ -130,6 +130,16 @@ This aligns the runtime with what `CONVENTIONS.md` → *Step folders & worklogs*
 was behind it. Backward compatible: `check P` is presence-gated, so a step with no worklog folder stays
 silent.
 
+**A skill that routes sources into worklogs — `source-intake`.** The worklog layer needs one thing kept
+true: an external source is never cited by an artifact directly, only dispatched into the step worklog
+that absorbs it. That dispatch is now a named operations skill. It runs at product setup (legacy sources)
+and whenever a file lands in `sources/`: it reads the source, routes each fact to the worklog whose method
+works from it (`<step-folder>/<tool>.md`, matched to the artifact's `<!-- tool: X -->` marker), cites the
+raw file from the worklog, and records the routing in `sources/INDEX.md` — never touching an artifact and
+never minting a worklog for a tool the step does not declare. Authority is `CONVENTIONS.md` → *Raw data &
+access* + *Step folders & worklogs*; the skill carries the form. The `decksmith` sample records the
+dispatch: its source index now names which Step-2 worklogs absorbed `market-research.md`.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself
