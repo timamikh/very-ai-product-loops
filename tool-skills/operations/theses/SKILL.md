@@ -12,7 +12,7 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Human sign-off as the semantic gate: the agent presents the section's thesis in plain language, the human confirms THIS version, and the confirmation is stamped on the section and dropped when the section changes"
 status: draft
-version: 0.1.0
+version: 0.2.0
 updated: 2026-08-13
 ---
 
@@ -66,16 +66,23 @@ sentence (no bare `H-006` / `R-001`). Group them so the human signs a step in on
 **3 · Take the human's verdict, per section.**
 
 - **Confirm** → stamp `<!-- confirmed: <today> -->` right after the section's `<!-- tool: … -->` /
-  `<!-- synthesis -->` marker.
+  `<!-- synthesis -->` marker. Add ` by:<who>` when the product records an operator identity — read it,
+  never invent it; if none is recorded, ask once and reuse it, or omit it.
 - **Edit** → the human changes the conclusion. That is an *Act* re-projection (fix the worklog, re-project
   the section); only then stamp the confirmation on the new version.
-- **Reject** → the section goes back to *Act*; it stays pending and the reason is recorded, not the marker.
+- **Send back** → the human reviewed it and wants it reworked. Stamp `<!-- contested: <today> -->` (in
+  place of a confirmation) and record the reason in the change log. This is distinct from *pending*: it
+  says a person looked and pushed back, not that nobody has read it yet. When *Act* re-projects the
+  fixed section, it drops the `contested` marker just as it would a `confirmed` one, and the section
+  comes back through this pass.
 
-Never self-confirm, never confirm on silence — absence of a marker is the honest state.
+Never self-confirm, never confirm on silence — absence of a marker is the honest state. `confirmed` and
+`contested` are mutually exclusive: a section carries at most one (the linter's check R holds it).
 
-**4 · Record it.** A dated **change-log** entry in the artifact naming the sections confirmed (and any
-sent back), then **`python3 tools/lint.py <instance>` reports 0 errors** — check Q catches a marker whose
-date is malformed (which would silently read as pending) and a schema that shipped a marker at all.
+**4 · Record it.** A dated **change-log** entry in the artifact naming the sections confirmed and any
+sent back (with the reason for the send-back), then **`python3 tools/lint.py <instance>` reports 0
+errors** — check Q catches a malformed date (which would silently read as pending) and a schema that
+shipped a marker at all; check R catches a section left both confirmed and contested.
 
 Then tell the human what now stands confirmed and what is still pending, in the same plain language.
 
@@ -95,6 +102,7 @@ Then tell the human what now stands confirmed and what is still pending, in the 
 
 ## Output
 
-- `<!-- confirmed: <date> -->` markers on the sections the human signed, in the artifact.
-- A dated change-log entry naming what was confirmed and what was sent back.
+- `<!-- confirmed: <date> -->` (optionally ` by:<who>`) markers on the sections the human signed, and
+  `<!-- contested: <date> -->` on the ones sent back for rework — in the artifact.
+- A dated change-log entry naming what was confirmed and what was sent back (with the reason).
 - No new content and no register write — this pass records a decision, it does not make one.

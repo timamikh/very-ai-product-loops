@@ -33,9 +33,10 @@ Checks (ERROR fails CI · WARN never does):
      the fragment that fills a section declare the same keys for it
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
      sections use; adoption is per-step (a step with no folder is pre-migration, not an error)
-  Q  section confirmation: no schema (template/fragment) ships a `confirmed:` marker, and an
-     artifact's `confirmed:` marker parses as a YYYY-MM-DD date (WARN) else it silently means pending
-  R  an `<!-- open -->` section (inbox: to-clarify/open-questions/blockers) carries no `confirmed:` marker
+  Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
+     an artifact's `confirmed:` marker parses as a YYYY-MM-DD date (WARN) else it silently means pending
+  R  confirmation consistency: an `<!-- open -->` section (inbox) carries no `confirmed:`, and no
+     section is both `confirmed:` and `contested:` (a verdict is one or the other)
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -549,47 +550,61 @@ def _section_keys_as(path, text):
 
 
 CONFIRM_LOOSE_RE = re.compile(r"<!--\s*confirmed:\s*(.*?)\s*-->")
+CONTEST_LOOSE_RE = re.compile(r"<!--\s*contested:\s*(.*?)\s*-->")
 
 
 def check_schema_not_confirmed():
-    """Q (schema) — a template or fragment must never ship a `confirmed` marker.
+    """Q (schema) — a template or fragment must never ship a `confirmed`/`contested` marker.
 
-    A confirmation records a human signing off one instance's result (CONVENTIONS → Section
-    confirmation). Baked into the schema every instance copies, it would pre-confirm work nobody
-    reviewed — the exact inversion of what the marker is for.
+    Both record a human's verdict on one instance's result (CONVENTIONS → Section confirmation). Baked
+    into the schema every instance copies, they would pre-decide work nobody reviewed — the exact
+    inversion of what the markers are for.
     """
     for pattern in SCHEMA_FILES:
         for path in sorted(glob.glob(os.path.join(ROOT, pattern))):
-            # A fragment documents the marker inside a ``` example (that is its job); only a LIVE marker
-            # in the schema body — outside any fence — would actually pre-confirm an instance.
+            # A fragment documents the markers inside a ``` example (that is its job); only a LIVE
+            # marker in the schema body — outside any fence — would actually pre-decide an instance.
             live = re.sub(r"```.*?```", "", read(path), flags=re.S)
-            if CONFIRM_LOOSE_RE.search(live):
-                err("Q %s: ships a live `confirmed:` marker — a schema must not pre-confirm an "
-                    "instance's result (CONVENTIONS → Section confirmation)" % rel(path))
+            for rx, word in ((CONFIRM_LOOSE_RE, "confirmed"), (CONTEST_LOOSE_RE, "contested")):
+                if rx.search(live):
+                    err("Q %s: ships a live `%s:` marker — a schema must not pre-decide an "
+                        "instance's result (CONVENTIONS → Section confirmation)" % (rel(path), word))
+
+
+def _confirm_date(raw):
+    """The date token of a `confirmed:` payload, dropping an optional `by:<who>` suffix."""
+    return raw.split()[0] if raw.split() else raw
 
 
 def check_confirm_dates(inst):
     """Q (instance) — an artifact's `confirmed:` marker parses as a date, else it silently means pending."""
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         for raw in CONFIRM_LOOSE_RE.findall(read(art)):
-            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", _confirm_date(raw)):
                 warn("Q [%s] %s: `confirmed: %s` is not a YYYY-MM-DD date, so it reads as *pending* — "
                      "a typo silently un-confirms the section (CONVENTIONS → Section confirmation)"
                      % (rel(inst), os.path.basename(art), raw))
 
 
 def check_open_not_confirmed(inst):
-    """R (instance) — an `<!-- open -->` section must never carry a `confirmed:` marker.
+    """R (instance) — confirmation markers are used consistently on a section:
 
-    An open section is an agent→human inbox (to-clarify, open-questions, blockers), resolved by
-    removing items, never by signing off a result (CONVENTIONS → Section confirmation). A confirmation
-    on it is a category error: it would count toward "N of M confirmed" a section that has no thesis.
+    - an `<!-- open -->` section (inbox: to-clarify/open-questions/blockers) carries no `confirmed:` —
+      an open inbox is resolved by removing items, not by signing a result;
+    - a section is never both `confirmed:` and `contested:` — a verdict is one or the other.
     """
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         for sec in T.sections(read(art)):
-            if sec["id"] and T.is_open(sec["body"]) and T.confirmed(sec["body"]):
+            if not sec["id"]:
+                continue
+            body = sec["body"]
+            if T.is_open(body) and T.confirmed(body):
                 err("R [%s] %s#%s: an `<!-- open -->` section carries a `confirmed:` marker — an open "
                     "inbox has no result to sign (CONVENTIONS → Section confirmation)"
+                    % (rel(inst), os.path.basename(art), sec["id"]))
+            if T.confirmed(body) and T.contested(body):
+                err("R [%s] %s#%s: a section is both `confirmed:` and `contested:` — a human's verdict "
+                    "is one or the other (CONVENTIONS → Section confirmation)"
                     % (rel(inst), os.path.basename(art), sec["id"]))
 
 

@@ -100,6 +100,7 @@ const STR = {
     worklogMissing: 'worklog not found',
     confirmed: 'confirmed', pending: 'to confirm', confirmedOn: 'confirmed by a human on',
     pendingTip: 'result not yet confirmed by a human', sectionsShort: 'sections',
+    contested: 'returned', contestedTip: 'a human reviewed this and sent it back for rework',
     navBack: 'back', navFwd: 'forward', toTop: 'back to top',
     boardStrategy: 'Strategy canvas', boardStratPlan: 'Metrics & economics',
     boardTactical: 'Goals & guardrails', boardSprint: 'Sprint board',
@@ -186,6 +187,7 @@ const STR = {
     worklogMissing: 'worklog не найден',
     confirmed: 'подтверждён', pending: 'на подтверждение', confirmedOn: 'подтверждён человеком',
     pendingTip: 'результат ещё не подтверждён человеком', sectionsShort: 'секций',
+    contested: 'возвращён', contestedTip: 'человек посмотрел и вернул на доработку',
     navBack: 'назад', navFwd: 'вперёд', toTop: 'наверх',
     boardStrategy: 'Канвас стратегии', boardStratPlan: 'Метрики и экономика',
     boardTactical: 'Цели и гардрейлы', boardSprint: 'Доска спринта',
@@ -484,10 +486,13 @@ const ridChips = ids => (ids || []).map(x => h('span', { class: 'tag ' + ridClas
    nothing — there is no result to confirm yet. Words, not a glyph, per the house rule. */
 const confTag = m => {
   if (!m || !m.present || m.open) return null;   // an open section (inbox) has no result to sign
-  return m.confirmed
-    ? h('span', { class: 'tag confirmed', title: t('confirmedOn') + ' ' + m.confirmed },
-        t('confirmed') + ' ' + m.confirmed)
-    : h('span', { class: 'tag pending', title: t('pendingTip') }, t('pending'));
+  if (m.confirmed)
+    return h('span', { class: 'tag confirmed',
+        title: t('confirmedOn') + ' ' + m.confirmed + (m.confirmed_by ? ' · ' + m.confirmed_by : '') },
+      t('confirmed') + ' ' + m.confirmed);
+  if (m.contested)   // a human looked and sent it back — distinct from never-reviewed pending
+    return h('span', { class: 'tag contested', title: t('contestedTip') }, t('contested'));
+  return h('span', { class: 'tag pending', title: t('pendingTip') }, t('pending'));
 };
 const confCounts = s => {
   const live = (s.sections || []).filter(x => x.present && !x.open);
@@ -1320,7 +1325,8 @@ function viewArtifacts() {
     h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, section.title || section.id),
     h('div', { class: 'row', style: 'margin:9px 0 2px' },
       h('code', { class: 'tag' }, '#' + section.id),
-      confTag({ present: true, confirmed: section.confirmed, open: section.open }),
+      confTag({ present: true, confirmed: section.confirmed, confirmed_by: section.confirmed_by,
+        contested: section.contested, open: section.open }),
       confChips(section.markers.confidence),
       section.markers.proposals ? h('span', { class: 'gear' },
         `${t('proposalMark')} ×${section.markers.proposals}`) : null,

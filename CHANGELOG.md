@@ -167,6 +167,17 @@ new linter **check R** rejects a `confirmed:` marker on an open section (a categ
 is still counted (and shows as pending until signed). Marked across the step templates (1–5) and the
 `decksmith` Step-2 sample; `CONVENTIONS.md` 0.14.0 → 0.15.0 (*Section confirmation* → result vs open).
 
+**Sent-back is not the same as unseen — `contested`, plus who signed.** *Pending* meant two different
+things wearing one face: "nobody has looked" and "a human looked and pushed back". A reviewed-and-returned
+section now carries its own marker, `<!-- contested: YYYY-MM-DD -->`, and the console shows it as *returned*
+(red) apart from *to confirm* (faint) — so contested work is visible as work-in-progress, not lost in the
+pending pile. The reason lives in the change log; a section is confirmed **or** contested, never both. The
+confirmation marker also takes an optional `by:<who>` (`<!-- confirmed: 2026-08-13 by:tm -->`) so a
+team's sign-off is attributed — read from the recorded operator, never guessed, omitted on a
+single-operator product. The `theses` skill (0.1.0 → 0.2.0) stamps `contested` on a send-back verdict and
+fills `by:`; linter **check R** now also rejects a section left both confirmed and contested, and **check Q**
+guards a schema shipping either marker; `CONVENTIONS.md` 0.15.0 → 0.16.0.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself

@@ -185,7 +185,7 @@ def column_keys(headers):
     return [column_key(h) for h in headers]
 
 
-CONFIRMED_RE = re.compile(r"<!--\s*confirmed:\s*(\d{4}-\d{2}-\d{2})\s*-->")
+CONFIRMED_RE = re.compile(r"<!--\s*confirmed:\s*(\d{4}-\d{2}-\d{2})(?:\s+by:\s*([\w.@-]+))?\s*-->")
 
 
 def confirmed(body):
@@ -197,6 +197,32 @@ def confirmed(body):
     survive the conclusion it approved. Absence = pending (⚙️).
     """
     m = CONFIRMED_RE.search(body)
+    return m.group(1) if m else None
+
+
+def confirmed_by(body):
+    """Who signed the confirmation (`<!-- confirmed: <date> by:<who> -->`), or None.
+
+    Optional attribution: on a team "a human signed off" is meaningless without a name; single-operator
+    products simply omit it. Read, never guessed — the `theses` skill fills it from the recorded
+    operator identity (CONVENTIONS → Section confirmation).
+    """
+    m = CONFIRMED_RE.search(body)
+    return m.group(2) if m else None
+
+
+CONTESTED_RE = re.compile(r"<!--\s*contested:\s*(\d{4}-\d{2}-\d{2})\s*-->")
+
+
+def contested(body):
+    """The date a human sent this section's result BACK for rework (`<!-- contested: YYYY-MM-DD -->`).
+
+    Distinct from pending (never reviewed): here the human *looked* and pushed back, so the board can
+    show contested work apart from work nobody has signed yet. The reason lives in the change log.
+    Mutually exclusive with `confirmed` — the linter's check R holds that (CONVENTIONS → Section
+    confirmation).
+    """
+    m = CONTESTED_RE.search(body)
     return m.group(1) if m else None
 
 

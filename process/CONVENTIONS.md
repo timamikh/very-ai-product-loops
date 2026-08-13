@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.15.0
+version: 0.16.0
 updated: 2026-08-13
 ---
 
@@ -135,6 +135,15 @@ off. That sign-off is a marker on the section:
   and the `theses` operations skill (OPERATING-LOOP step 7) is what walks the human through a step's
   sections and writes the markers. It is the semantic twin of the section `{#anchor}`: invisible in a
   rendered reader, authoritative to a tool.
+- **Who signed (optional).** A team needs the sign-off attributed; a single-operator product does not.
+  The marker takes an optional `by:` — `<!-- confirmed: 2026-08-13 by:tm -->`. The `theses` skill fills
+  it from the recorded operator identity (never guessed); omitted, the confirmation still stands.
+
+**Sent back — `contested`.** A human who reviewed a section and pushed it back records that as its own
+marker: `<!-- contested: YYYY-MM-DD -->`. It is distinct from *pending* (nobody has looked yet) — the
+board can show contested work apart from unseen work — and the reason for the send-back goes in the
+change log. A section is **confirmed or contested, never both** (the linter's check R holds it); the
+`theses` skill stamps `contested` on a send-back verdict and never self-issues either marker.
 
 **Result vs open sections.** Not every section is a thesis to sign. An **open** section is an
 agent→human inbox — `to-clarify`, `open-questions`, `blockers` — resolved by *removing* an item, never

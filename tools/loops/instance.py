@@ -234,6 +234,8 @@ def _artifacts(path, health):
                 "gaps": T.to_clarify_lines(body),
                 "card": T.card_line(body),
                 "confirmed": T.confirmed(body),
+                "confirmed_by": T.confirmed_by(body),
+                "contested": T.contested(body),
                 "open": T.is_open(body),
                 "body": body,
             }, **T.digest(body)))
@@ -472,6 +474,8 @@ def _merge_steps(steps, artifacts, state, health):
                 "table_rows": sec["table_rows"] if sec else 0,
                 "title": sec["title"] if sec else "",
                 "confirmed": sec["confirmed"] if sec else None,
+                "confirmed_by": sec["confirmed_by"] if sec else None,
+                "contested": sec["contested"] if sec else None,
                 "open": bool(sec["open"]) if sec else False,
             })
         for sec in (art or {}).get("sections", []):
@@ -486,6 +490,8 @@ def _merge_steps(steps, artifacts, state, health):
                                  "lead": sec["lead"], "bullets": sec["bullets"],
                                  "table_rows": sec["table_rows"], "title": sec["title"],
                                  "confirmed": sec["confirmed"],
+                                 "confirmed_by": sec["confirmed_by"],
+                                 "contested": sec["contested"],
                                  "open": bool(sec["open"]),
                                  "off_skeleton": True})
         out.append(dict(s, artifact_file=(art or {}).get("file"), artifact_updated=(art or {}).get("updated", ""),
