@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.7.0
-updated: 2026-08-10
+version: 0.8.0
+updated: 2026-08-13
 ---
 
 # Operating Loop
@@ -62,9 +62,13 @@ questions — each with 2–4 options and a ⚙️ recommended default — and *
 implementation gaps are not asked; they are noted as forks in the artifact.
 
 **6 · Act — directly or through subagents.**
-With no blank spots, the agent follows the tool's `SKILL.md` instructions and produces the
-section from its `template-fragment.md` — tagging every claim with a source and confidence per
-`CONVENTIONS.md`, marking its own proposals ⚙️.
+With no blank spots, the agent follows the tool's `SKILL.md` and does the working in the tool's
+**worklog** — `<step-folder>/<tool>.md` (e.g. `2-analysis/market-sizing.md`): the inputs it reached,
+the reasoning, the numbers, the open items. This worklog is the **source of truth** for the method.
+The **artifact section** is a **projection** of it into the fixed schema of its `template-fragment.md`
+— the conclusion in shape, not the working; it never holds anything the worklog does not. Every claim
+in both carries a source and confidence per `CONVENTIONS.md`, with the agent's own proposals ⚙️.
+(One method → one worklog → one section; the mechanism is `CONVENTIONS.md` → *Step folders & worklogs*.)
 
 If step 3 decided to split, this is where the split runs: one **brief** per part (the task, the
 context and where to find it, the allowed tools, the return shape — procedure in the
@@ -77,8 +81,9 @@ Two obligations to the human before anything lands on disk:
 - **Show reasoning first.** A section that rests mainly on the agent's own reasoning or on the
   human's spoken answer is shown **in chat, in full, before it is written** — the human reacts to
   a draft, not to a fait accompli. A section that restates a source needs no preview.
-- **Declare the write perimeter.** In the same message, name the files this pass will touch.
-  What gets written must never be a surprise.
+- **Declare the write perimeter.** In the same message, name the files this pass will touch — now
+  the step's **worklog** as well as the artifact, the registers and `state.yaml`. What gets written
+  must never be a surprise.
 
 **7 · Update state.**
 Only after every delegated return is accepted and any preview is answered, the agent writes:
@@ -222,9 +227,10 @@ Active status `2-pmf`, step `1-idea`, section `problems`:
 4. Gaps → metrics access is missing → agent offers to pull it via the metrics slot or asks
    for an export.
 5. Clarify → "Which pain do we treat as primary for pricing — A or B? ⚙️ A." → waits.
-6. Act → drafts `problems` with severity × frequency, each `[sourced: metrics …]` / `[assumption]`;
-   the ranking is the agent's own reasoning → shows the section in chat first, names the files this
-   pass will touch (`1-passport.md`, `registers/hypotheses.md`, `state.yaml`).
+6. Act → works the method in the worklog `1-passport/segment-pains.md` (severity × frequency, each
+   `[sourced: metrics …]` / `[assumption]`) and projects the `problems` section from it; the ranking
+   is the agent's own reasoning → shows the section in chat first, names the files this pass will
+   touch (`1-passport/segment-pains.md`, `1-passport.md`, `registers/hypotheses.md`, `state.yaml`).
 7. Update → writes the section, seeds `H-007` ("pain A blocks payment"), logs the change; the tick
    waits for a `verify` subagent's findings on the ranking.
 8. Loop → next section `solution`.

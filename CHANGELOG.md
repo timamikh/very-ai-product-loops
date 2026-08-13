@@ -121,6 +121,15 @@ migrated as the first proof: four worklogs (`market-sizing`, `competitor-analysi
 `synthesis`), every `sources/` citation moved off the artifact and onto them. (Transition A of the
 artifact-structure-as-contract rework; see `DESIGN-console-rework.md`.)
 
+**The operating loop names the working.** Step 6 (*Act*) of `process/OPERATING-LOOP.md` (0.7.0 → 0.8.0)
+previously said the agent "produces the section from its `template-fragment.md`" — with no home for the
+working that reached it. It now says the agent does the working in the tool's **worklog** (the source
+of truth) and the artifact section is a **projection** of it; the write-perimeter a pass declares now
+includes that worklog, and the worked micro-example projects `problems` from `1-passport/segment-pains.md`.
+This aligns the runtime with what `CONVENTIONS.md` → *Step folders & worklogs* already stated — the loop
+was behind it. Backward compatible: `check P` is presence-gated, so a step with no worklog folder stays
+silent.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself
