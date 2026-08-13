@@ -232,6 +232,7 @@ def _artifacts(path, health):
                 "words": len(body.split()),
                 "markers": T.markers(body),
                 "gaps": T.to_clarify_lines(body),
+                "card": T.card_line(body),
                 "body": body,
             }, **T.digest(body)))
         if not re.match(r"^\d+-", base):
@@ -489,6 +490,40 @@ def _merge_steps(steps, artifacts, state, health):
 # ---------------------------------------------------------------- the model
 
 
+def _worklogs(path):
+    """Step-folder worklogs, keyed by step-stem then tool id (CONVENTIONS → Step folders & worklogs).
+
+    A worklog `<step-folder>/<tool>.md` is the source of truth a section projects from; the console
+    lets a board block drill into it. Only `node_type: worklog` files are taken — a stray file in the
+    folder is not silently shown as one (the linter's check P flags it instead).
+    """
+    out = {}
+    for art in sorted(glob.glob(os.path.join(path, "[1-6]-*.md"))):
+        stem = os.path.basename(art)[:-3]
+        folder = os.path.join(path, stem)
+        if not os.path.isdir(folder):
+            continue
+        logs = {}
+        for wl in sorted(glob.glob(os.path.join(folder, "*.md"))):
+            fm, raw = T.frontmatter(wl)
+            if fm.get("node_type") != "worklog":
+                continue
+            tool = os.path.basename(wl)[:-3]
+            body = T.body_after_frontmatter(raw)
+            logs[tool] = {
+                "tool": tool,
+                "file": "%s/%s" % (stem, os.path.basename(wl)),
+                "title": fm.get("title", "") or tool,
+                "updated": fm.get("updated", ""),
+                "words": len(body.split()),
+                "markers": T.markers(body),
+                "body": body,
+            }
+        if logs:
+            out[stem] = logs
+    return out
+
+
 def load(path, framework_root=F.ROOT):
     """Read one instance into a single JSON-serialisable structure."""
     path = os.path.abspath(path)
@@ -578,6 +613,7 @@ def load(path, framework_root=F.ROOT):
         "registers": {"hypotheses": hypotheses, "risks": risks, "metric_tree": metric_tree},
         "metrics": metrics,
         "sources": shared,
+        "worklogs": _worklogs(path),
         "handoff": _handoff(path),
         "deliverables": deliverables,
         "gaps": gaps,

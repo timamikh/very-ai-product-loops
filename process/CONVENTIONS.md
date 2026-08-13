@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.11.0
-updated: 2026-08-10
+version: 0.13.0
+updated: 2026-08-13
 ---
 
 # Conventions
@@ -39,6 +39,28 @@ Every artifact section carries a stable ID so tools can fill it and links can ta
 
 IDs are kebab-case and stable across revisions — rename the heading text freely, keep the ID.
 
+## Column keys
+
+A table column is addressed by a **stable key**, never by its header text — the column-level twin of
+a section `{#anchor}`, the same "mark, don't guess" rule one level down. The key rides in a hidden
+comment in the header cell:
+
+```markdown
+| Layer <!--c:layer--> | Value <!--c:value--> | Confidence <!--c:conf--> |
+```
+
+The comment is invisible in every reader (rendered markdown, the console, `plain()`), so the header
+prose stays whatever the instance's language makes it (`Уровень`, `Nivel`) while a tool still finds
+the column. Keys are kebab-case, unique within their table, and stable across revisions **and
+translations** — translate or reorder the header freely, keep the key. A table is **all-keyed or
+none**: a half-keyed header is the very ambiguity the key removes, so the linter rejects it (check O).
+The same key names the same column wherever that section is declared — a step template and the
+library fragment that fills it must agree (also check O).
+
+This exists because matching a column by header prose breaks the moment the instance is written in
+another language or its columns are reordered — the failure the section `{#anchor}` already prevents
+for whole sections.
+
 ## Links & register item IDs
 
 Register items have stable IDs:
@@ -71,6 +93,26 @@ A step's output artifact is named **`<step-number>-<slug>.md`** — `1-passport.
 exists only so a directory listing sorts in step order. Links use the real filename, prefix
 included (`3-strategy.md#bets`, `../1-passport.md#concept`) — there is no logical id to resolve.
 Registers and deliverables are not step outputs and take no prefix.
+
+## Step folders & worklogs
+
+The artifact `<step-number>-<slug>.md` is a **projection**; the working documents it is assembled from
+live in a sibling folder of the same stem — `2-analysis/` beside `2-analysis.md` (file and folder
+coexist; the artifact is **not** moved inside). The folder holds one **worklog** per method that fills
+a section: `<step-folder>/<tool>.md`, where `<tool>` is the id in the section's `<!-- tool: <tool> -->`
+marker. `<!-- synthesis -->` sections — no method, the orchestrator's own reasoning — share the
+reserved `<step-folder>/synthesis.md`.
+
+**One id threads the chain.** The same `<tool>` names the section's marker, the skill folder
+(`tool-skills/.../<tool>/`), and the worklog file — so a reader resolves a section's worklog with no
+guessing and no per-instance link. The flow runs along it: subagents gather into `<tool>.md`, then the
+skill `<tool>` **projects** the artifact section from it. The **worklog is the source of truth; the
+artifact section is its projection** — which is also why that step's change-log history lives in the
+worklog, not the artifact. A method that fills several sections keeps **one** worklog; every one of its
+markers points at it.
+
+Raw external inputs are **not** worked here directly: they live in `sources/` and are dispatched into
+these worklogs by the `source-intake` skill (see *Raw data & access*).
 
 ## Instance config (`config.yaml`) — the pinned schema
 
@@ -163,12 +205,19 @@ where the register is one click away.
 ## Raw data & access
 
 - **`sources/` holds three roles**, kept apart because they age differently — all indexed in
-  `sources/INDEX.md`, pointed at by artifacts and handoffs, never duplicated by them:
+  `sources/INDEX.md`, pointed at by the step **worklogs** that absorb them and by handoffs, never by an
+  artifact directly (see *Step folders & worklogs*), never duplicated by them:
   **access** (`node_type: source`, living — what the source is, how to connect, verify, recover),
   **method** (`node_type: source-method`, living — how its raw rows become register values: who is
   excluded, how keys fold to one person, which window; this is what makes a reading *reproducible*),
   and **evidence** (`node_type: source`, dated and immutable — a capture). Put the method inside
   dated evidence and the next capture forks it into two authoritative versions.
+- **Dispatched into steps, not linked from artifacts.** `sources/` is external, inherited input; its
+  material is worked into the relevant `<step-folder>/<tool>.md` worklogs by the **`source-intake`**
+  skill — run at instance setup and whenever new source files are added. The raw files stay in
+  `sources/` as the archive; a worklog cites a source (`../sources/<file>.md`), while an artifact or
+  board links only a **worklog**. In the console `sources/` is reachable solely through its own index
+  view, never as a drill target from a step.
 - **Captured values** go straight to the registers (dated rows); the source file records the
   capture context.
 - **Raw captures** (page snapshots, exports) are **never committed** and are **deleted once their
@@ -188,7 +237,8 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 
 | `node_type` | Confidence tags | Section IDs | Register/item IDs | Change log | Notes |
 |-------------|-----------------|-------------|-------------------|------------|-------|
-| `artifact` (step outputs) | **yes** — on every non-trivial claim | **yes** | reference by ID | **yes** | the full convention set |
+| `artifact` (step outputs) | **yes** — on every non-trivial claim | **yes** | reference by ID | **yes** | the full convention set; a **projection** of its worklogs (see "Step folders & worklogs") |
+| `worklog` (a method's working doc in a step folder) | **yes** — on every non-trivial claim | optional | reference by ID | **yes** — the step's history lives here | source of truth the artifact section projects from; one per `<tool>`, named `<step-folder>/<tool>.md` |
 | `register` (hypotheses/risks/metric-tree) | **no** in prose — `confidence` is a table column instead | n/a | **defines** the IDs | **yes** | values obey the metric-register split (see REGISTERS.md) |
 | `source` (external-data notes) | **yes** — tag each captured fact | optional | reference by ID | **yes** | secrets/raw-data rules apply (see "Raw data & access") |
 | `source-method` (raw source → register values) | **yes** — on every judgement call (a cut-off, an exclusion) | optional | reference by ID | **yes** | living, never dated evidence: rewritten in place, so a reading stays reproducible |

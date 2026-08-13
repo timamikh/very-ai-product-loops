@@ -89,6 +89,38 @@ could not leave the machine it ran on.
 Not a change to the canon: the console remains a read-only lens with no write path, and the export is
 not an exception to that — `--export` writes where the human named it, never into the instance.
 
+**Column keys — a table column carries a stable id, like a section does.** A reader used to find a
+table column by matching its header text against an English word, so a Russian or Spanish instance —
+header reading `Цена`, not `Price` — collapsed the whole column to a dash while the data sat right
+there. Columns now carry a hidden `<!--c:price-->` key in the header cell, the column-level twin of a
+section `{#anchor}`: the same "mark, don't guess" rule one level down, invisible in every reader, so
+the header prose stays in the instance's own language while a tool still finds the column. Documented
+in `process/CONVENTIONS.md` → *Column keys*; the step-2 template and the `competitor-analysis`
+fragment carry the keys. New linter **check O** holds the schema honest: a keyed table is all-keyed
+with unique keys, and a template and the fragment that fills a section declare the same keys for it —
+one section, one schema. (First slice of the artifact-structure-as-contract rework; see
+`DESIGN-console-rework.md`.)
+
+**Worklogs — a section says where it was worked out, and the console drills into it.** An artifact
+section is a projection: it shows the conclusion in a fixed shape, not the working that reached it.
+That working now has a home. Each step artifact gets a sibling folder — `2-analysis/` beside
+`2-analysis.md` — holding one worklog per method, named for the tool that produced it
+(`2-analysis/market-sizing.md`), with `<!-- synthesis -->` sections sharing `synthesis.md`. One id
+threads the chain: the section's `<!-- tool: X -->` marker **is** the skill folder **is** the worklog
+filename, so the console derives the drill link from the marker already in the artifact — nothing is
+authored per instance. The worklog is the **source of truth**; the artifact section is its projection.
+Raw `sources/` files are dispatched **into** the step's worklogs and cited there, never linked from an
+artifact directly — the artifact points at the worklog, the worklog points at the source (reachable in
+the console only under *Sources*). A new skill `source-intake` (named here, landing next) does that
+dispatch at setup and on new files. New linter **check P** holds it: presence-gated per step folder so
+a not-yet-migrated step stays silent, then once the folder exists it enforces `node_type: worklog`,
+flags an orphan or a missing worklog, and warns when an artifact still links `sources/` directly. In
+the console, a board zone or a card footer now carries a *workings* link into the worklog it was worked
+out in, with a back link to the artifact it projects into. The `decksmith` sample's Step 2 is fully
+migrated as the first proof: four worklogs (`market-sizing`, `competitor-analysis`, `substitutes`,
+`synthesis`), every `sources/` citation moved off the artifact and onto them. (Transition A of the
+artifact-structure-as-contract rework; see `DESIGN-console-rework.md`.)
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself

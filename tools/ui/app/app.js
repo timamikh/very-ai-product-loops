@@ -85,6 +85,29 @@ const STR = {
     notIndexed: 'not in INDEX.md', changeLog: 'Change log', entries: 'entries',
     openHypotheses: 'open', of6: 'of 6',
     colName: 'skill', colKind: 'kind', origin: 'origin',
+    read: 'open', more: 'details', cName: 'competitor',
+    boardIdea: 'Product canvas', boardAnalysis: 'Market analysis',
+    zCustomer: 'Customer', zProduct: 'Product', zValidation: 'Validation',
+    dMarket: 'Market sizing', dCompetitors: 'Competitors', dSubstitutes: 'Substitutes',
+    dOpportunity: 'Opportunity', dRisks: 'Niche risks',
+    mTam: 'total addressable', mSam: 'serviceable — load-bearing', mSom: 'obtainable ~3 yr', mCagr: 'growth / yr',
+    cType: 'type', cPlay: 'how they play', cMoat: 'moat vs us', cPrice: 'price', cDyn: 'dynamics',
+    rForce: 'force', rLik: 'likelihood', rImp: 'impact',
+    assembledFrom: 'Assembled from the competitor sections below — a dash is “no match”, not zero.',
+    gapDash: '— to clarify —',
+    expand: 'show the whole excerpt', collapse: 'collapse',
+    worklog: 'workings', worklogTip: 'open the worklog this section was worked out in',
+    worklogMissing: 'worklog not found',
+    navBack: 'back', navFwd: 'forward', toTop: 'back to top',
+    boardStrategy: 'Strategy canvas', boardStratPlan: 'Metrics & economics',
+    boardTactical: 'Goals & guardrails', boardSprint: 'Sprint board',
+    z3Cascade: 'Strategy cascade', z3Commercial: 'Commercial', z3Product: 'Product',
+    z3Bets: 'Bets & risks', z3Open: 'Open',
+    z4North: 'North Star & metric tree', z4Econ: 'Economics',
+    z4Instr: 'Instrumentation & risk', z4Hyp: 'Hypotheses',
+    z5Goals: 'Goals & targets', z5Guard: 'Guardrails', z5Res: 'Resources & market',
+    z5Test: 'Tests & blockers',
+    z6Commit: 'Committed vs backlog', z6Handoff: 'Handoff',
   },
   ru: {
     tabs: { overview: 'Обзор', step: 'Шаг', artifacts: 'Артефакты', registers: 'Реестры',
@@ -146,15 +169,39 @@ const STR = {
     notIndexed: 'нет в INDEX.md', changeLog: 'Журнал изменений', entries: 'записей',
     openHypotheses: 'открытых', of6: 'из 6',
     colName: 'скилл', colKind: 'вид', origin: 'происхождение',
+    read: 'открыть', more: 'подробнее', cName: 'конкурент',
+    boardIdea: 'Канвас продукта', boardAnalysis: 'Анализ рынка',
+    zCustomer: 'Клиент', zProduct: 'Продукт', zValidation: 'Проверка',
+    dMarket: 'Объём рынка', dCompetitors: 'Конкуренты', dSubstitutes: 'Субституты',
+    dOpportunity: 'Возможность', dRisks: 'Риски ниши',
+    mTam: 'весь рынок', mSam: 'доступный — несущий', mSom: 'достижимый ~3 г', mCagr: 'рост / год',
+    cType: 'тип', cPlay: 'как играют', cMoat: 'ров против нас', cPrice: 'цена', cDyn: 'динамика',
+    rForce: 'сила', rLik: 'вероятность', rImp: 'влияние',
+    assembledFrom: 'Собрано из секций конкурентов ниже — прочерк значит «нет совпадения», а не ноль.',
+    gapDash: '— уточнить —',
+    expand: 'показать выдержку целиком', collapse: 'свернуть',
+    worklog: 'расчёт', worklogTip: 'открыть worklog, где это прорабатывалось',
+    worklogMissing: 'worklog не найден',
+    navBack: 'назад', navFwd: 'вперёд', toTop: 'наверх',
+    boardStrategy: 'Канвас стратегии', boardStratPlan: 'Метрики и экономика',
+    boardTactical: 'Цели и гардрейлы', boardSprint: 'Доска спринта',
+    z3Cascade: 'Каскад стратегии', z3Commercial: 'Коммерция', z3Product: 'Продукт',
+    z3Bets: 'Ставки и риски', z3Open: 'Открытые вопросы',
+    z4North: 'Полярная звезда и дерево метрик', z4Econ: 'Экономика',
+    z4Instr: 'Инструментовка и риски', z4Hyp: 'Гипотезы',
+    z5Goals: 'Цели и таргеты', z5Guard: 'Гардрейлы', z5Res: 'Ресурсы и рынок',
+    z5Test: 'Проверки и блокеры',
+    z6Commit: 'Обязательное и бэклог', z6Handoff: 'Передача',
   },
 };
 
 /* ---------------------------------------------------------------- state */
 const S = {
   model: null, lint: null, instances: [], rev: -1, snapshot: null,
-  tab: 'overview', step: null, artifact: null, section: null,
+  tab: 'overview', step: null, artifact: null, section: null, worklog: null,
   reg: 'hypotheses', regFilter: 'all', regSearch: '', regItem: null,
   skillPlane: 'library', skillPick: null, skillFile: null, logFile: 'all',
+  hist: [], histIdx: -1, navigating: false,
 };
 
 const L = () => (S.model && STR[S.model.language]) ? STR[S.model.language] : STR.en;
@@ -214,7 +261,9 @@ const shortTitle = s => String(s || '').replace(/^Step \d+ — /, '');
 /* ---------------------------------------------------------------- markdown (small, canon-aware) */
 function inline(src) {
   const code = [];
-  let s = esc(src);
+  // A `<!-- comment -->` inside a line (e.g. a trailing card mark) is not content — drop it before
+  // escaping, or it would print literally as `&lt;!-- … --&gt;`.
+  let s = esc(String(src === null || src === undefined ? '' : src).replace(/<!--[\s\S]*?-->/g, ''));
   s = s.replace(/`([^`]+)`/g, (_, c) => { code.push(c); return ` ${code.length - 1} `; });
   s = s.replace(/\[([^\]]+)\]\((#?[^)\s]+)\)/g, (_, x, u) => `<a href="${u}" target="_blank" rel="noopener">${x}</a>`);
   s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(^|[\s(])\*([^*]+)\*/g, '$1<em>$2</em>');
@@ -232,11 +281,27 @@ function inline(src) {
   });
   return s;
 }
+/* Inline markdown, but honour a hard-break newline (a `\n` that card_line / md kept from a markdown
+   hard break) as a <br>. Each visual line is inlined on its own: a hard break separates distinct
+   items, so an inline span (bold, a link) never straddles one. */
+const inlineBr = s => String(s === null || s === undefined ? '' : s).split('\n').map(inline).join('<br>');
 function md(src) {
   const lines = String(src || '').split('\n');
   const out = [];
   let i = 0, para = [];
-  const flush = () => { if (para.length) { out.push(`<p>${inline(para.join(' '))}</p>`); para = []; } };
+  // A paragraph line ending in `\` or two spaces is a markdown hard break — kept as its own line;
+  // an ordinary wrap joins with a space. Same rule card_line uses, so a card and its opened section agree.
+  const flush = () => {
+    if (!para.length) return;
+    let s = '';
+    para.forEach((raw, k) => {
+      const hard = /(?:\\|\s{2,})$/.test(raw);
+      const t = raw.trim().replace(/\s*\\$/, '');
+      s += t + (k < para.length - 1 ? (hard ? '\n' : ' ') : '');
+    });
+    out.push(`<p>${inlineBr(s)}</p>`);
+    para = [];
+  };
   const isDiv = l => /^\s*\|?[\s:|-]+\|?\s*$/.test(l);
   while (i < lines.length) {
     const l = lines[i];
@@ -276,7 +341,7 @@ function md(src) {
       continue;
     }
     if (/^\s*<!--/.test(l)) { flush(); while (i < lines.length && !/-->/.test(lines[i])) i++; i++; continue; }
-    para.push(l.trim());
+    para.push(l);  // raw, so flush() can see a trailing hard break (`\` or two spaces)
     i++;
   }
   flush();
@@ -435,6 +500,24 @@ function goStep(n, label) {
     class: 'golink',
     onclick: e => { e.stopPropagation(); S.tab = 'step'; S.step = n; render(); },
   }, label || `${t('step')} ${n}`);
+}
+/* A drill-through from a board block to the worklog it was worked out in. The section names its method
+   with `<!-- tool: X -->`, and the worklog is `<step-folder>/X.md` (CONVENTIONS → Step folders &
+   worklogs) — the link is derived from that marker, never authored per instance. */
+function goWorklog(stem, tool, label) {
+  return h('button', {
+    class: 'golink wl', title: t('worklogTip'),
+    onclick: e => { e.stopPropagation(); S.tab = 'worklog'; S.worklog = stem + '/' + tool; render(); },
+  }, label || t('worklog'));
+}
+/* The worklog a section drills into, resolved from its `<!-- tool: X -->` / `<!-- synthesis -->`
+   marker — returned only if the model actually carries that worklog for this step, else null. */
+function worklogTool(stem, body) {
+  const logs = (S.model.worklogs || {})[stem];
+  if (!logs || !body) return null;
+  const m = body.match(/<!--\s*tool:\s*([a-z0-9-]+)\s*-->/);
+  const tool = m ? m[1] : (/<!--\s*synthesis/.test(body) ? 'synthesis' : null);
+  return tool && logs[tool] ? tool : null;
 }
 
 /* A table, built once and used everywhere: cols is [label, …], rows is [[cell, …], …]. */
@@ -612,6 +695,501 @@ function viewUmbrella() {
       }))));
 }
 
+/* ---------------------------------------------------------------- step canvas (per-step visuals)
+ * A step's gate is nine or ten section targets — which is to say a canvas of the product. So instead
+ * of one gate table repeated for every step, each step can draw its own board: the sections laid out
+ * the way that step thinks (a product canvas, a market dashboard, a strategy cascade). The gate tick
+ * rides on each card as a badge. Everything here reads the same model the accordions below read, so
+ * nothing is invented: a section absent from the instance shows a `— to clarify —`, never filler, and
+ * any section the board does not place still appears in full in the Sections list underneath. */
+
+/* Plain text out of a markdown fragment: drop emphasis, links (keep their text), confidence tags. */
+const plain = s => stripMd(String(s || '')
+  .replace(/\[(assumption|sourced|validated|refuted)(?::[^\]]*)?\]/g, '')
+  .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .replace(/(^|[\s(])_([^_]+)_(?=$|[\s.,;:)])/g, '$1$2')
+  .replace(/⚙️?/g, ''))
+  .replace(/\s+/g, ' ').trim();
+
+/* A section body split into ordered blocks — paragraph, list, table — so a card can show the first
+   real content rather than the first line. Headings and comments are dropped. */
+function mdBlocks(body) {
+  const lines = String(body || '').split('\n');
+  const blocks = [];
+  let i = 0;
+  while (i < lines.length) {
+    const l = lines[i];
+    if (!l.trim()) { i++; continue; }
+    if (/^\s*<!--/.test(l)) { while (i < lines.length && !/-->/.test(lines[i])) i++; i++; continue; }
+    if (/^#{1,6}\s/.test(l.trim())) { i++; continue; }
+    const nx = (lines[i + 1] || '').trim();
+    if (l.trim().startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
+      const head = l.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const rows = [];
+      i += 2;
+      while (i < lines.length && lines[i].trim().startsWith('|')) {
+        rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim())); i++;
+      }
+      blocks.push({ type: 'table', head, rows });
+      continue;
+    }
+    if (/^\s*([-*+]|\d+\.)\s+/.test(l)) {
+      const items = [];
+      while (i < lines.length && (/^\s*([-*+]|\d+\.)\s+/.test(lines[i]) || (/^\s{2,}\S/.test(lines[i]) && items.length))) {
+        if (/^\s*([-*+]|\d+\.)\s+/.test(lines[i])) items.push(lines[i].replace(/^\s*([-*+]|\d+\.)\s+/, ''));
+        else items[items.length - 1] += ' ' + lines[i].trim();
+        i++;
+      }
+      blocks.push({ type: 'list', items });
+      continue;
+    }
+    const p = [];
+    while (i < lines.length && lines[i].trim() && !lines[i].trim().startsWith('|')
+      && !/^\s*([-*+]|\d+\.)\s+/.test(lines[i]) && !/^#{1,6}\s/.test(lines[i].trim())) {
+      p.push(lines[i].replace(/^\s*>\s?/, '').trim()); i++;
+    }
+    blocks.push({ type: 'para', text: p.join(' ') });
+  }
+  return blocks;
+}
+/* A leading process/method note — "Секция пройдена методом …", "written by method X" — is provenance,
+   not content, and a prose-only card skips it. Keyed on the method wording, not on a date: a date
+   appears in every `[sourced: … 2026-07-16]` tag, so a date alone is no signal. */
+const isProvenance = b => b.type === 'para'
+  && /(пройден\w*\s+методом|\bметодом\b|\bmethod\b|\bпроведён\b|\bпроведен\b|generated\s+by|tool:)/i.test(b.text);
+/* Which column of a table names its items: the first that is not a rank/score/enum column (Priority,
+   Rank, H/M/L, yes/no). For a segments table that is the Segment column, not the Priority column. */
+function nameCol(tbl) {
+  const cols = Math.min((tbl.head || []).length, 6);
+  let best = 0, bestScore = -1;
+  for (let c = 0; c < cols; c++) {
+    const cells = tbl.rows.map(r => plain(r[c] || '')).filter(Boolean);
+    if (!cells.length) continue;
+    // A rank/score/enum cell (1, H/M/L, yes/no) or a bare identifier (H-001, P1, R-02) is a label,
+    // not the item's words: skip a column that is mostly those so a name column wins (Hypothesis
+    // statement over its ID, Segment over Priority).
+    const ranky = cells.filter(x => /^[*_ ]*(\d|[—–-]$|[HML]$|н\/п$|n\/a$|да$|нет$|yes$|no$)/i.test(x)
+      || /^[*_ ]*[A-Z]{1,3}-?\d{1,4}[*_ ]*$/.test(x)).length;
+    if (ranky > cells.length / 2) continue;
+    // Among what's left, the most *identifying* column names the rows: the one with the most distinct
+    // values (the Item column, not a Direction that repeats). Ties keep the earliest, so Segment wins
+    // over an equally-distinct "Why it matters" beside it.
+    const distinct = new Set(cells.map(x => x.toLowerCase())).size / cells.length;
+    if (distinct > bestScore) { bestScore = distinct; best = c; }
+  }
+  return best;
+}
+/* The card face. A canvas card wants the section's items at a glance, so an enumeration wins: the
+   first list (its item heads) or the first table (its name column — segment names, not the priority
+   number). This also steps over any leading process note for free. Only a section with no enumeration
+   falls back to prose, and there a leading provenance note is skipped. Best-effort: the artifact marks
+   no "headline" block, so the reader opens the section for the whole of it. */
+function cardFace(body) {
+  const blocks = mdBlocks(body);
+  const struct = blocks.find(b => b.type === 'list' || b.type === 'table');
+  let items = null;
+  if (struct && struct.type === 'list') {
+    items = struct.items.map(x => plain(x).split(/\s+[—–-]\s+|:\s+/)[0]).filter(Boolean);
+  } else if (struct && struct.type === 'table') {
+    const c = nameCol(struct);
+    items = struct.rows.map(r => plain(r[c] || '')).filter(Boolean);
+  }
+  // A structured section shows its items one per line — the enumeration is the face. Full items are
+  // kept; the collapsed card clips to a few and the expand arrow reveals the rest.
+  if (items && items.length) return { kind: 'list', items: items.slice(0, 12) };
+  let bi = 0;
+  while (bi < blocks.length && bi < 2 && isProvenance(blocks[bi])) bi++;
+  const b = blocks[bi] || blocks[0];
+  const s = b ? plain(b.type === 'para' ? b.text : (b.items || []).join(' ')) : '';
+  return { kind: 'prose', text: s };
+}
+const CONF_TAG_RE = /\s*\[(assumption|sourced|validated|refuted)(?::[^\]]*)?\]/g;
+const cap = (s, n) => s.length > n ? s.slice(0, n).replace(/\s+\S*$/, '') + '…' : s;
+/* Turn a face — a showcase-marked line, a structured enumeration, or a prose gist — into the card's
+   excerpt element. The collapsed card clips overflow (measureCanvas adds the expand arrow); where a
+   line is clipped, `title` carries the whole of it on hover. An empty section reads muted when it is
+   n/a/deferred (nothing owed) and amber "to clarify" otherwise (a gap still owed). */
+function cvExcerpt(fd, tick) {
+  const empty = !fd
+    || (fd.kind === 'prose' && !fd.text)
+    || (fd.kind === 'marked' && !fd.text)
+    || (fd.kind === 'list' && !fd.items.length);
+  if (empty) {
+    return (tick === 'n/a' || tick === 'deferred')
+      ? h('p', { class: 'cvex cv-muted' }, '—')
+      : h('p', { class: 'cvex cv-clar' }, t('gapDash'));
+  }
+  if (fd.kind === 'marked') {
+    const full = fd.text.replace(CONF_TAG_RE, '').trim();
+    // A marked face laid across hard breaks is an enumeration: the first line leads, each line below is
+    // an item, so give every continuation line a bullet where it has none — the tile reads as a list.
+    const parts = full.split('\n');
+    const html = parts
+      .map((ln, k) => inline(k > 0 && !/^\s*[-*•·–—]\s/.test(ln) ? '• ' + ln : ln))
+      .join('<br>');
+    return h('p', { class: 'cvex', title: full.length > 120 ? plain(full) : null, html });
+  }
+  if (fd.kind === 'list') {
+    return h('ul', { class: 'cvex cvlist' }, ...fd.items.map(x => {
+      const short = cap(x, 76);
+      return h('li', { title: short !== x ? x : null, html: inline(short) });
+    }));
+  }
+  return h('p', { class: 'cvex', title: fd.text.length > 120 ? fd.text : null }, fd.text);
+}
+const stripHead = b => String(b || '').replace(/^\s*#{1,6}\s.*\n?/, '');
+
+/* The first markdown table in a body → { head:[…], rows:[[…]] }, or null. */
+/* A hidden column key on a header cell — `Price <!--c:price-->` — names what the column *means*, so a
+   board can read the column across any language and any reordering instead of guessing from the prose.
+   It is the same "mark, don't guess" idea a heading's `{#anchor}` already applies to sections. */
+const COL_KEY_RE = /<!--\s*c(?:ol)?:\s*([\w-]+)\s*-->/i;
+function firstTable(body) {
+  const lines = String(body || '').split('\n');
+  let i = 0;
+  while (i < lines.length) {
+    const l = lines[i].trim(), nx = (lines[i + 1] || '').trim();
+    if (l.startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
+      const cells = l.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const keys = cells.map(c => (c.match(COL_KEY_RE) || [])[1] || null);   // one per column, null if unmarked
+      const head = cells.map(c => c.replace(COL_KEY_RE, '').trim());          // display text, the mark stripped
+      const rows = [];
+      i += 2;
+      while (i < lines.length && lines[i].trim().startsWith('|')) {
+        rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()));
+        i++;
+      }
+      return { head, keys, rows };
+    }
+    i++;
+  }
+  return null;
+}
+/* Index of the first column whose header contains any of the given needles (case-insensitive). */
+const colIdx = (head, ...names) => {
+  for (const n of names) { const i = (head || []).findIndex(x => x.toLowerCase().includes(n)); if (i >= 0) return i; }
+  return -1;
+};
+/* The template's column order per section id — the positional fallback for any table that carries no
+   explicit column keys (every artifact written before the keys existed, and in any language). Keyed by
+   section because that is how the boards fetch a table; the key words are shared with the <!--c:…--> marks. */
+const COL_SCHEMA = {
+  'market-sizing':       ['layer', 'value', 'method', 'assumptions', 'source', 'conf'],
+  'competitors':         ['name', 'type', 'offer', 'conf'],
+  'competitor-strategy': ['name', 'game', 'play', 'moat', 'conf'],
+  'competitor-pricing':  ['name', 'plan', 'price', 'source', 'conf'],
+  'competitor-dynamics': ['name', 'metric', 'trend', 'source', 'conf'],
+  'niche-risks':         ['risk', 'force', 'likelihood', 'impact', 'register', 'conf'],
+};
+/* The index of a column by its stable key, most-trusted source first: an explicit <!--c:key--> mark on
+   the header (survives translation and reordering), else the template column order for section `sec`,
+   else a case-insensitive match on the header prose (English template words, or legacy). -1 if none holds. */
+const colKey = (tbl, sec, key, ...needles) => {
+  if (!tbl) return -1;
+  const byMark = (tbl.keys || []).indexOf(key);
+  if (byMark >= 0) return byMark;
+  const schema = COL_SCHEMA[sec];
+  if (schema) { const p = schema.indexOf(key); if (p >= 0 && p < (tbl.head || []).length) return p; }
+  return colIdx(tbl.head, key, ...needles);
+};
+/* A competitor's join key across the four competitor tables: first significant word, lowercased. */
+const compKey = s => (plain(s).toLowerCase().split(/[\s(/,]+/).filter(Boolean)[0] || '');
+/* An H / M / L cell that carries its own colour, so likelihood and impact read without the header. */
+const hlBadge = v => {
+  const s = String(v || '').trim();
+  const k = /^h/i.test(s) ? 'err' : /^m/i.test(s) ? 'open' : /^l/i.test(s) ? 'done' : 'na';
+  return h('span', { class: 'tag ' + k }, s || '—');
+};
+
+/* The info dot by a step heading: the block the active status asks, folded into a hover/tap tooltip. */
+function tipBelow(html, el) {
+  tip.innerHTML = html;
+  tip.classList.add('on');
+  const w = tip.getBoundingClientRect().width, r = el.getBoundingClientRect();
+  tip.style.left = Math.min(window.innerWidth - w - 10, Math.max(8, r.left)) + 'px';
+  tip.style.top = (r.bottom + 8) + 'px';
+}
+function infoDot(html) {
+  const b = h('span', { class: 'idot', tabindex: '0', role: 'button', 'aria-label': t('statusAsks') }, 'i');
+  const show = () => tipBelow(html, b);
+  b.addEventListener('mouseenter', show);
+  b.addEventListener('focus', show);
+  b.addEventListener('mouseleave', hideTip);
+  b.addEventListener('blur', hideTip);
+  b.addEventListener('click', e => { e.stopPropagation(); tip.classList.contains('on') ? hideTip() : show(); });
+  return b;
+}
+function asksTip(perStep, m) {
+  const goals = (perStep.goals || []).map(g => `<li>${esc(g)}</li>`).join('');
+  const tools = (perStep.tools || []).map(x => `<b>${esc(x)}</b>`).join(' ');
+  return `<div class="k">${esc(t('statusAsks'))} · ${esc(m.active_status || '')}</div>`
+    + (goals ? `<ul>${goals}</ul>` : '')
+    + (tools ? `<div class="asktools"><span class="k">${esc(t('emphasised'))}:</span> ${tools}</div>` : '');
+}
+
+/* One canvas card: a section's title, its gate tick, a short excerpt, the verb to open it. A section
+   present in the model but empty shows a gap mark; a section the instance does not define is skipped
+   (the slot is not invented). The whole card navigates to the section it stands for. */
+function cvCard(s, id, opts) {
+  const o = opts || {};
+  const meta = s.sections.find(x => x.id === id);
+  if (!meta) return null;
+  const gate = s.gate.find(g => (g.sections || []).includes(id));
+  const tick = gate ? gate.tick : null;
+  const live = meta.present && s.artifact_file;
+  const art = live ? artSection(s.artifact_file, id) : null;
+  // The showcase mark wins: a `<!-- card -->` in the artifact names the line the author chose as this
+  // section's headline, and it is shown verbatim (markdown kept). No mark → the console's own gist.
+  const marked = art ? art.card : null;
+  const fd = art
+    ? (marked ? { kind: 'marked', text: marked } : cardFace(art.body))
+    : null;
+  const face = cvExcerpt(fd, tick);
+  // Interaction: the tile itself expands in place (a light, reversible look); the "details" link is the
+  // one thing that leaves for the full artifact section. The chevron is a state hint, hidden until
+  // measureCanvas finds the excerpt actually overflows (see .can-expand); it rotates when expanded.
+  const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
+  const wlTool = live && art ? worklogTool(stem, art.body) : null;
+  const xpand = h('span', { class: 'cvxpand', 'aria-hidden': 'true' });
+  const card = h('div', { class: 'cvcard' + (o.hero ? ' cv-hero' : '') + (o.warn ? ' cv-warn' : '') + (live ? ' cv-link' : ' cv-gap') },
+    h('div', { class: 'cvtop' },
+      h('span', { class: 'cvttl' }, meta.title || id),
+      tick ? tickTag(tick) : null),
+    face,
+    live ? h('div', { class: 'cvfoot' },
+      goSection(s.artifact_file, id, t('more'), meta.title || id),
+      wlTool ? goWorklog(stem, wlTool) : null, xpand) : null);
+  if (live) {
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-expanded', 'false');
+    card.title = t('expand');
+    const toggle = () => card.setAttribute('aria-expanded', card.classList.toggle('expanded') ? 'true' : 'false');
+    // A click anywhere on the tile expands/collapses it — except on the "details" link, which navigates.
+    card.addEventListener('click', e => { if (!e.target.closest('.golink')) toggle(); });
+    card.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.golink')) { e.preventDefault(); toggle(); }
+    });
+  }
+  return card;
+}
+/* After the canvas is in the DOM, show the expand arrow only on cards whose excerpt is actually
+   clipped — measured, so it is right at any tile width and for any instance's content. Kept on a
+   card once expanded so it can collapse again. */
+function measureCanvas() {
+  document.querySelectorAll('.cvcard').forEach(card => {
+    const ex = card.querySelector('.cvex');
+    if (!ex) return;
+    const over = ex.scrollHeight > ex.clientHeight + 2;
+    card.classList.toggle('can-expand', over || card.classList.contains('expanded'));
+  });
+}
+const cvZone = label => h('div', { class: 'cvzone' }, label);
+const bodyOf = (s, id) => {
+  const m = s.sections.find(x => x.id === id);
+  return m && m.present && s.artifact_file ? artSection(s.artifact_file, id) : null;
+};
+
+/* A labelled zone of section cards — the workhorse of every step canvas. Absent sections drop out; an
+   empty zone (no card at all) is skipped so a step draws only the zones it actually has. */
+function cardZone(s, label, ids) {
+  const cards = ids.map(id => cvCard(s, id)).filter(Boolean);
+  return cards.length ? [cvZone(label), h('div', { class: 'cvrow' }, cards)] : null;
+}
+/* A row of cards read as a sequence, with an arrow between each — the Playing-to-Win cascade. */
+function cascade(s, ids) {
+  const cards = ids.map(id => cvCard(s, id)).filter(Boolean);
+  if (!cards.length) return null;
+  const row = [];
+  cards.forEach((c, i) => {
+    if (i) row.push(h('div', { class: 'casc-arrow', 'aria-hidden': 'true' }, '→'));
+    row.push(c);
+  });
+  return h('div', { class: 'cascade' }, row);
+}
+/* Two sections side by side — the sprint's committed set against its backlog. */
+function board2(s, leftId, rightId) {
+  const cards = [cvCard(s, leftId), cvCard(s, rightId)].filter(Boolean);
+  return cards.length ? h('div', { class: 'board2' }, cards) : null;
+}
+
+/* Step 1 — the passport as a product canvas: the concept on top, then the customer, product and
+   validation zones. Each card is one gate section. */
+function canvasIdea(s) {
+  const kids = [
+    cvCard(s, 'concept', { hero: true }),
+    cardZone(s, t('zCustomer'), ['segments', 'jtbd', 'problems', 'cjm']),
+    cardZone(s, t('zProduct'), ['solution', 'value-defensibility']),
+    cardZone(s, t('zValidation'), ['hypotheses', 'to-clarify']),
+  ].filter(Boolean).flat();
+  return kids.length ? h('div', { class: 'canvas' }, kids) : null;
+}
+/* Step 3 — the strategy as a Playing-to-Win canvas: the aspiration→where→how cascade on top, then the
+   commercial, product and bets zones. */
+function canvasStrategy(s) {
+  const parts = [];
+  const casc = cascade(s, ['winning-aspiration', 'where-to-play', 'how-to-win']);
+  if (casc) parts.push(cvZone(t('z3Cascade')), casc);
+  [[t('z3Commercial'), ['uvp-cpv', 'pricing', 'channels-expansion']],
+   [t('z3Product'), ['product-surface', 'architecture']],
+   [t('z3Bets'), ['bets', 'product-risks']],
+   [t('z3Open'), ['to-clarify']]].forEach(([lab, ids]) => {
+    const z = cardZone(s, lab, ids); if (z) parts.push(...z);
+  });
+  return parts.length ? h('div', { class: 'canvas' }, parts) : null;
+}
+/* Step 4 — the strategic plan around its metric tree: the North Star hero on top, then economics,
+   instrumentation & risk, and the quantified hypotheses. */
+function canvasStrategicPlan(s) {
+  const parts = [];
+  const hero = cvCard(s, 'metric-tree', { hero: true });
+  if (hero) parts.push(cvZone(t('z4North')), hero);
+  [[t('z4Econ'), ['unit-economics', 'financial-model', 'retention']],
+   [t('z4Instr'), ['architecture-instrumentation', 'risk-mitigation']],
+   [t('z4Hyp'), ['global-hypotheses', 'open-questions']]].forEach(([lab, ids]) => {
+    const z = cardZone(s, lab, ids); if (z) parts.push(...z);
+  });
+  return parts.length ? h('div', { class: 'canvas' }, parts) : null;
+}
+/* Step 5 — the tactical plan: goals & targets on top, the guardrails as a red-lined band of their own
+   (what must not break), then resources & market, tests & blockers. */
+function canvasTacticalPlan(s) {
+  const parts = [];
+  const goals = cardZone(s, t('z5Goals'), ['period-goals', 'goal-targets']);
+  if (goals) parts.push(...goals);
+  const guard = cvCard(s, 'guardrails', { hero: true, warn: true });
+  if (guard) parts.push(cvZone(t('z5Guard')), guard);
+  [[t('z5Res'), ['resources', 'market-bundles']],
+   [t('z5Test'), ['hypotheses-to-test', 'blockers', 'to-clarify']]].forEach(([lab, ids]) => {
+    const z = cardZone(s, lab, ids); if (z) parts.push(...z);
+  });
+  return parts.length ? h('div', { class: 'canvas' }, parts) : null;
+}
+/* Step 6 — the sprint board: the committed 'must' set beside the backlog, and the handoff as a
+   callout — where each item goes and how its result loops back. */
+function canvasSprintPlan(s) {
+  const parts = [];
+  const b2 = board2(s, 'must', 'backlog');
+  if (b2) parts.push(cvZone(t('z6Commit')), b2);
+  const ho = mdBlock(s, 'handoff', 'callout');
+  if (ho) parts.push(cvZone(t('z6Handoff')), ho);
+  return parts.length ? h('div', { class: 'canvas' }, parts) : null;
+}
+
+/* Step 2 — the analysis as a market dashboard: sizing tiles, one competitor table assembled from the
+   four competitor sections, substitutes on their own, the opportunity as a callout, risks compact. */
+function marketBoard(s) {
+  const a = bodyOf(s, 'market-sizing');
+  const tbl = a ? firstTable(a.body) : null;
+  const money = c => (String(c).match(/[$€£]\s?[\d.,]+(?:\s*[–—-]\s*[$€£]?[\d.,]+)?\s*(?:[KMB]|bn|trn|млрд|млн)?/i) || [])[0];
+  const est = key => {
+    if (!tbl) return null;
+    const i = colKey(tbl, 'market-sizing', 'value', 'estimate');
+    const row = tbl.rows.find(r => new RegExp('^' + key, 'i').test(plain(r[0])));
+    if (!row) return null;
+    const cell = row[i >= 0 ? i : 1] || '';
+    const bold = (cell.match(/\*\*([^*]+)\*\*/) || [])[1];
+    let v = plain(bold || '') || money(cell) || plain(cell);
+    if (v.length > 22) v = v.slice(0, 22).replace(/\s+\S*$/, '') + '…';
+    return v || null;
+  };
+  const cagr = a ? (a.body.match(/CAGR[^0-9]*([0-9][0-9.,]*(?:\s*[–—-]\s*[0-9.,]+)?\s*%)/i) || [])[1] : null;
+  const tile = (lab, key, sub, key2) => {
+    const v = est(key);
+    return h('div', { class: 'mtile' + (key2 ? ' mtile-key' : '') + (v ? '' : ' cv-gap') },
+      h('div', { class: 'ml' }, lab),
+      h('div', { class: 'mv' }, v || t('gapDash')),
+      h('div', { class: 'ms' }, sub));
+  };
+  const tiles = [
+    tile('TAM', 'TAM', t('mTam')),
+    tile('SAM', 'SAM', t('mSam'), true),
+    tile('SOM', 'SOM', t('mSom')),
+    cagr ? h('div', { class: 'mtile' }, h('div', { class: 'ml' }, 'CAGR'),
+      h('div', { class: 'mv' }, cagr), h('div', { class: 'ms' }, t('mCagr'))) : null,
+  ].filter(Boolean);
+  return tiles.length ? h('div', { class: 'mboard' }, tiles) : null;
+}
+function competitorTable(s) {
+  const tbl = id => { const a = bodyOf(s, id); return a ? firstTable(a.body) : null; };
+  const base = tbl('competitors');
+  if (!base) return null;
+  // Each column is read by its stable key (colKey): a <!--c:key--> mark if present, else the template's
+  // column order for the section, else the English header prose. So the join holds in any language.
+  const mapBy = (t2, sec, key, ...needles) => {
+    const map = {};
+    if (t2) { const ci = colKey(t2, sec, key, ...needles); if (ci >= 0) t2.rows.forEach(r => { const k = compKey(r[0]); if (k && !(k in map)) map[k] = r[ci]; }); }
+    return map;
+  };
+  const strat = tbl('competitor-strategy'), price = tbl('competitor-pricing'), dyn = tbl('competitor-dynamics');
+  const play = mapBy(strat, 'competitor-strategy', 'play', 'play', 'game'),
+    moat = mapBy(strat, 'competitor-strategy', 'moat', 'moat'),
+    pr = mapBy(price, 'competitor-pricing', 'price', 'price'),
+    dy = mapBy(dyn, 'competitor-dynamics', 'trend', 'trend', 'period');
+  const ti = colKey(base, 'competitors', 'type', 'direct', 'type'),
+    oi = colKey(base, 'competitors', 'offer', 'offer', 'what');
+  const dash = x => (x && x.trim()) ? inline(x) : '—';
+  const rows = base.rows.map(r => {
+    const k = compKey(r[0]);
+    return h('tr', {},
+      h('td', { html: inline(r[0]) }),
+      h('td', { html: dash(ti >= 0 ? r[ti] : '') }),
+      h('td', { class: 'prose', html: dash(play[k] || (oi >= 0 ? r[oi] : '')) }),
+      h('td', { class: 'prose', html: dash(moat[k]) }),
+      h('td', { html: dash(pr[k]) }),
+      h('td', { class: 'prose', html: dash(dy[k]) }));
+  });
+  return h('div', {},
+    table([t('cName'), t('cType'), t('cPlay'), t('cMoat'), t('cPrice'), t('cDyn')], rows),
+    h('p', { class: 'small faint', style: 'margin-top:7px' }, t('assembledFrom')));
+}
+function mdBlock(s, id, cls) {
+  const a = bodyOf(s, id);
+  return a ? h('div', { class: cls || '' }, h('div', { class: 'md', html: md(stripHead(a.body)) })) : null;
+}
+function riskBoard(s) {
+  const a = bodyOf(s, 'niche-risks');
+  const tbl = a ? firstTable(a.body) : null;
+  if (!tbl) return null;
+  const ri = colKey(tbl, 'niche-risks', 'risk', 'risk'), fi = colKey(tbl, 'niche-risks', 'force', 'force'),
+    li = colKey(tbl, 'niche-risks', 'likelihood', 'likelihood', 'like'), ii = colKey(tbl, 'niche-risks', 'impact', 'impact'),
+    idi = colKey(tbl, 'niche-risks', 'register', '→', 'register', 'r-');
+  const rows = tbl.rows.map(r => h('tr', {},
+    h('td', { class: 'prose', html: inline(r[ri >= 0 ? ri : 0]) }),
+    h('td', { html: inline(fi >= 0 ? r[fi] : '') }),
+    h('td', {}, hlBadge(li >= 0 ? plain(r[li]) : '')),
+    h('td', {}, hlBadge(ii >= 0 ? plain(r[ii]) : '')),
+    h('td', { html: idi >= 0 ? inline(r[idi]) : '' })));
+  return table([t('risks'), t('rForce'), t('rLik'), t('rImp'), 'R-…'], rows);
+}
+function canvasAnalysis(s) {
+  const parts = [];
+  const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
+  // step 2's custom boards don't go through cvCard, so the worklog drill-through is hung on the zone
+  // header here: the primary section `id` behind the board names its method, and goWorklog opens it.
+  const push = (label, node, id) => {
+    if (!node) return;
+    const a = id ? bodyOf(s, id) : null;
+    const tool = a ? worklogTool(stem, a.body) : null;
+    parts.push(h('div', { class: 'cvzone' }, label, tool ? goWorklog(stem, tool) : null), node);
+  };
+  push(t('dMarket'), marketBoard(s), 'market-sizing');
+  push(t('dCompetitors'), competitorTable(s), 'competitors');
+  push(t('dSubstitutes'), mdBlock(s, 'substitutes'), 'substitutes');
+  push(t('dOpportunity'), mdBlock(s, 'opportunity', 'callout'), 'opportunity');
+  push(t('dRisks'), riskBoard(s), 'niche-risks');
+  return parts.length ? h('div', { class: 'canvas' }, parts) : null;
+}
+const STEP_CANVAS = {
+  1: { fn: canvasIdea, title: 'boardIdea' },
+  2: { fn: canvasAnalysis, title: 'boardAnalysis' },
+  3: { fn: canvasStrategy, title: 'boardStrategy' },
+  4: { fn: canvasStrategicPlan, title: 'boardStratPlan' },
+  5: { fn: canvasTacticalPlan, title: 'boardTactical' },
+  6: { fn: canvasSprintPlan, title: 'boardSprint' },
+};
+
 /* ---------------------------------------------------------------- the step */
 function viewStep() {
   const m = S.model;
@@ -624,9 +1202,15 @@ function viewStep() {
   const gaps = s.sections.reduce((a, x) => a + (x.gaps || 0), 0);
   const proposals = s.sections.reduce((a, x) => a + (x.proposals || 0), 0);
 
+  // The active status rides next to the step title as a badge, and the block it used to occupy — what
+  // the status asks at this step — folds into an info dot beside it: reference, on demand, not a column.
+  const asksHtml = perStep ? asksTip(perStep, m) : null;
   const head = h('div', { class: 'sec' },
     h('div', { class: 'kick' }, `${t('step')} ${s.step} ${t('of6')} · ${s.cadence || ''}`),
-    h('h2', { style: 'font-size:25px;letter-spacing:-.025em' }, shortTitle(s.title || s.name)),
+    h('div', { class: 'titlerow' },
+      h('h2', { style: 'font-size:25px;letter-spacing:-.025em' }, shortTitle(s.title || s.name)),
+      m.active_status ? h('span', { class: 'tag stagebadge', title: t('status') }, m.active_status) : null,
+      asksHtml ? infoDot(asksHtml) : null),
     s.goal ? h('p', { class: 'lead', style: 'margin-top:9px' }, s.goal) : null,
     h('div', { class: 'figs', style: 'margin-top:16px' },
       fig(t('filled'), `${written}`, `${t('of')} ${s.sections.length} ${t('sections')}`),
@@ -673,21 +1257,13 @@ function viewStep() {
         s.artifact_file ? (g.sections || []).map(id => goSection(s.artifact_file, id, '#' + id)) : null,
         g.register ? h('span', { class: 'tag met' }, g.register) : null))));
 
-  const asks = perStep ? h('div', { class: 'panel' },
-    h('div', { class: 'kick' }, `${t('statusAsks')} · ${m.active_status}`),
-    h('ul', { style: 'padding-left:18px;font-size:12.5px' },
-      (perStep.goals || []).map(g => h('li', { style: 'margin:5px 0' }, g))),
-    (perStep.tools || []).length ? h('div', { class: 'row', style: 'margin-top:10px' },
-      (perStep.tools || []).map(x => h('span', { class: 'tag strong', title: t('emphasised') }, x))) : null)
-    : null;
-
-  // The gate and what the status asks are the frame around the reading, not a companion to it: they
-  // are short, they are the same for every section, and standing in a column beside the text they
-  // took half the page and left the artifact — sentences, tables, evidence — in a gutter. So they sit
-  // across the top, where a frame belongs, and the text below runs the full width of the window.
-  const frame = asks
-    ? h('div', { class: 'grid cols-2' }, sec(t('gate'), { right: gateSummary(s) }, gateTable),
-      h('div', { class: 'sec', style: 'align-self:start' }, asks))
+  // The board is the frame around the reading. Where a step has a canvas of its own — the passport as
+  // a product canvas, the analysis as a market dashboard — it draws that, with each gate tick riding
+  // on its card; otherwise it falls back to the plain gate table. The full text runs below either way.
+  const cv = STEP_CANVAS[s.step];
+  const board = cv ? cv.fn(s) : null;
+  const frame = board
+    ? sec(t(cv.title), { right: gateSummary(s) }, board)
     : sec(t('gate'), { right: gateSummary(s) }, gateTable);
 
   return h('div', {}, head, frame,
@@ -1165,9 +1741,38 @@ function viewChecks() {
       sec(t('notChecked'), {}, h('p', { class: 'small muted' }, t('notCheckedBody')))));
 }
 
+/* The worklog reader — the file a board block drilled into (CONVENTIONS → Step folders & worklogs).
+   Same md renderer as any section; a back link returns to the artifact it is projected into. Reached
+   only by a link, never a tab, so it is absent from TAB_ORDER. */
+function viewWorklog() {
+  const m = S.model;
+  const key = S.worklog || '';
+  const cut = key.indexOf('/');
+  const stem = cut < 0 ? key : key.slice(0, cut);
+  const tool = cut < 0 ? '' : key.slice(cut + 1);
+  const wl = ((m.worklogs || {})[stem] || {})[tool];
+  if (!wl) return h('div', { class: 'empty' }, t('worklogMissing'));
+  const artFile = stem + '.md';
+  const back = h('button', {
+    class: 'golink', title: artFile,
+    onclick: e => { e.stopPropagation(); S.tab = 'artifacts'; S.artifact = artFile; S.section = null; render(); },
+  }, '‹ ' + artFile);
+  const aside = h('div', { class: 'wlnav' },
+    back,
+    h('div', { class: 'row', style: 'margin:12px 0 2px;flex-wrap:wrap' },
+      h('code', { class: 'tag' }, 'worklog'),
+      confChips(wl.markers.confidence)));
+  const doc = h('div', { class: 'panel' }, h('div', {},
+    h('div', { class: 'kick' }, `${wl.file} · ${wl.updated || ''}`),
+    h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, wl.title),
+    h('hr'),
+    h('div', { class: 'md', html: md(wl.body) })));
+  return h('div', { class: 'reader' }, aside, doc);
+}
+
 const VIEWS = { overview: viewOverview, step: viewStep, artifacts: viewArtifacts, registers: viewRegisters,
   metrics: viewMetrics, open: viewOpen, sources: viewSources, skills: viewSkills, log: viewLog,
-  checks: viewChecks };
+  checks: viewChecks, worklog: viewWorklog };
 const TAB_ORDER = ['overview', 'artifacts', 'registers', 'metrics', 'open',
   null, 'sources', 'skills', 'log', 'checks'];
 
@@ -1203,6 +1808,7 @@ function writeHash() {
   const parts = [S.tab];
   if (S.tab === 'step' && S.step) parts.push(S.step);
   if (S.tab === 'artifacts' && S.artifact) parts.push(S.artifact, S.section || '');
+  if (S.tab === 'worklog' && S.worklog) parts.push(S.worklog);
   if (S.tab === 'registers') parts.push(S.reg);
   if (S.tab === 'skills') parts.push(S.skillPlane, S.skillPick || '');
   const want = '#' + parts.filter(x => x !== '' && x !== null && x !== undefined).join('/');
@@ -1214,8 +1820,43 @@ function readHash() {
   S.tab = p[0];
   if (S.tab === 'step' && p[1]) S.step = +p[1];
   if (S.tab === 'artifacts' && p[1]) { S.artifact = p[1]; S.section = p[2] || null; }
+  if (S.tab === 'worklog' && p[1]) S.worklog = p.slice(1).join('/');
   if (S.tab === 'registers' && p[1]) S.reg = p[1];
   if (S.tab === 'skills') { if (p[1]) S.skillPlane = p[1]; if (p[2]) S.skillPick = p[2]; }
+}
+
+/* In-app history. The page is one hash-routed document, so the browser's own back/forward would leave
+   the site; these buttons walk a stack the app keeps itself, so navigation stays inside the console.
+   A location is only the "where", not the theme — toggling theme re-renders but adds no history step. */
+const LOC_KEYS = ['tab', 'step', 'artifact', 'section', 'worklog', 'reg', 'skillPlane', 'skillPick'];
+const locSnap = () => LOC_KEYS.reduce((o, k) => (o[k] = S[k], o), {});
+const locKey = () => JSON.stringify(LOC_KEYS.map(k => S[k]));
+function pushHistory() {
+  const key = locKey();
+  const top = S.hist[S.histIdx];
+  if (top && top.key === key) return;          // same place (e.g. a theme re-render) — not a step
+  S.hist = S.hist.slice(0, S.histIdx + 1);      // a new move discards any forward tail
+  S.hist.push({ key, loc: locSnap() });
+  S.histIdx = S.hist.length - 1;
+}
+function navGo(delta) {
+  const i = S.histIdx + delta;
+  if (i < 0 || i >= S.hist.length) return;
+  S.histIdx = i;
+  Object.assign(S, S.hist[i].loc);
+  S.navigating = true;                          // restore, don't record
+  render();
+  S.navigating = false;
+  window.scrollTo({ top: 0 });
+}
+function navBtns() {
+  const b = (delta, disabled, key, glyph) => h('button', {
+    class: 'navbtn', title: t(key), 'aria-label': t(key), disabled,
+    onclick: () => navGo(delta),
+  }, glyph);
+  return h('div', { class: 'navpair' },
+    b(-1, S.histIdx <= 0, 'navBack', '‹'),
+    b(1, S.histIdx >= S.hist.length - 1, 'navFwd', '›'));
 }
 
 function renderRail() {
@@ -1240,12 +1881,14 @@ function renderRail() {
 function render() {
   const m = S.model;
   if (!m) return;
+  if (!S.navigating) pushHistory();
   writeHash();
   document.documentElement.lang = m.language || 'en';
   document.getElementById('product').textContent = m.product;
   document.getElementById('subline').textContent = S.snapshot
     ? `${m.name} · ${t('readOnlySnap')}` : `${m.name} · ${m.path}`;
 
+  renderInto('#hnav', navBtns());
   renderKids('#acts', [
     h('span', { class: 'tag strong' }, `${t('status')} ${m.active_status || '—'}`),
     S.snapshot ? null : h('a', { class: 'btn solid', title: t('saveHint'),
@@ -1278,6 +1921,9 @@ function render() {
   document.getElementById('footpath').innerHTML = S.snapshot
     ? `<b>${esc(m.product)}</b>` : `<b>${esc(m.path)}</b>`;
   document.getElementById('footrev').textContent = S.snapshot ? t('snapshotNote') : t('readOnly');
+  const tt = document.getElementById('totop');
+  if (tt) { tt.title = t('toTop'); tt.setAttribute('aria-label', t('toTop')); }
+  if (typeof requestAnimationFrame === 'function') requestAnimationFrame(measureCanvas);
 }
 
 async function addFolder(raw) {
@@ -1329,8 +1975,42 @@ function bootSnapshot(snap) {
   render();
 }
 
+/* Build the header chrome and the back-to-top button, creating any piece the page skeleton lacks.
+   serve.py renders the skeleton once in its own process, so a server started before these pieces
+   existed would ship without them; making them here means the chrome is right whether the skeleton is
+   current or stale, and the same in the offline export. Idempotent — an up-to-date skeleton is left be. */
+function setupChrome() {
+  const header = document.querySelector('header.top');
+  if (header) {
+    const brand = header.querySelector('.brand') || header;
+    if (!document.getElementById('hnav')) {
+      const hn = document.createElement('div');
+      hn.id = 'hnav'; hn.className = 'hnav';
+      brand.insertBefore(hn, brand.firstChild);
+    }
+    const mark = header.querySelector('.mark');
+    if (mark) mark.remove();                        // the old top-left wordmark → now the right corner
+    if (!document.querySelector('.wordmark')) {
+      const wm = document.createElement('div');
+      wm.className = 'wordmark'; wm.textContent = 'very-ai-product-loops';
+      header.appendChild(wm);
+    }
+  }
+  let tt = document.getElementById('totop');
+  if (!tt) {
+    tt = document.createElement('button');
+    tt.id = 'totop'; tt.className = 'totop'; tt.type = 'button'; tt.textContent = '↑';
+    document.body.appendChild(tt);
+  }
+  tt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  const onScroll = () => tt.classList.toggle('on', window.scrollY > 300);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
 async function boot() {
   applyTheme();
+  setupChrome();
   readHash();                       // before the first render: writeHash() would overwrite the deep link
   window.addEventListener('hashchange', () => { readHash(); render(); });
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());

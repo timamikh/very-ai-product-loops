@@ -112,6 +112,35 @@ def main():
     check(all(e["date"] >= f["date"] for e, f in zip(hist["H-001"], hist["H-001"][1:])),
           "a trail reads newest first")
 
+    # -- a `<!-- card -->` mark names a section's showcase headline. Above-the-line collects the whole
+    #    paragraph; trailing on a bullet returns the WHOLE bullet even when it wraps (a real instance
+    #    wraps its bullets, and the cut fragment was showing up as the card face); trailing on prose
+    #    still points at just its line.
+    above = "<!-- card -->\nA statement wrapped\nacross two lines.\n\n- next\n"
+    check(T.card_line(above) == "A statement wrapped across two lines.", "above-line card collects the paragraph")
+    oneline = "- A single-line headline. <!-- card -->\n"
+    check(T.card_line(oneline) == "A single-line headline.", "trailing card on a one-line bullet drops the marker")
+    wrapped = "- A headline that runs on past the <!-- card -->\n  edge of the first line.\n\n- other\n"
+    check(T.card_line(wrapped) == "A headline that runs on past the edge of the first line.",
+          "trailing card on a wrapped bullet returns the whole bullet, not the cut line")
+    wrapped_tail = "- A headline that runs on past the\n  edge of the first line. <!-- card -->\n\n- other\n"
+    check(T.card_line(wrapped_tail) == "A headline that runs on past the edge of the first line.",
+          "the mark on the wrapped bullet's last line still returns the whole bullet")
+    adjacent = ("- Prior item that itself wraps onto\n  a second line.\n"
+                "- The marked item runs past the <!-- card -->\n  first line too.\n")
+    check(T.card_line(adjacent) == "The marked item runs past the first line too.",
+          "a mark on a bullet abutting a wrapped prior bullet returns its own bullet, not the prior one")
+    prose = "First sentence. <!-- card -->\nSecond, separate sentence.\n"
+    check(T.card_line(prose) == "First sentence.", "trailing card on a prose line points at just that line")
+    check(T.card_line("no mark here at all\n") is None, "no mark yields no card")
+    # a hard break (trailing backslash) lays an enumeration one-item-per-line; soft wraps still join
+    enum = "<!-- card -->\nFive doors: \\\nagent (A) \\\npipeline (B) \\\nwallet (C)\n"
+    check(T.card_line(enum) == "Five doors:\nagent (A)\npipeline (B)\nwallet (C)",
+          "a backslash hard break becomes a newline; the last line has none")
+    softwrap = "<!-- card -->\nOne sentence that merely wraps\nfor file width, no break.\n"
+    check(T.card_line(softwrap) == "One sentence that merely wraps for file width, no break.",
+          "a soft wrap (no hard break) still joins with a space")
+
     # -- an instance OUTSIDE the framework repo is found by marker, not by folder name. This is the
     #    normal vendored layout, and the linter reported "clean" on it for weeks by checking nothing.
     tmp = tempfile.mkdtemp(prefix="loops-selftest-")

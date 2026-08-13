@@ -5,7 +5,7 @@ product: Decksmith (fictional sample)
 step: 2
 status_stage: concept-viability
 owner: sample
-updated: 2026-07-21
+updated: 2026-08-13
 version: 0.1.0
 ---
 
@@ -13,8 +13,9 @@ version: 0.1.0
 
 > Status: `concept-viability` · Owner: sample · Last review: 2026-07-21
 > Feeds: `3-strategy.md` · seeds the risk register (`registers/risks.md`).
-> Fictional product; **the market and competitors are real, public information** (dated). Evidence:
-> `sources/market-research.md`. At concept stage, sizing leans on a bottom-up SAM with wide error bars.
+> Fictional product; **the market and competitors are real, public information** (dated). Evidence
+> lives in the step worklogs (`2-analysis/`), which cite the raw sources. At concept stage, sizing
+> leans on a bottom-up SAM with wide error bars.
 
 ## Market sizing {#market-sizing}
 <!-- tool: market-sizing -->
@@ -24,9 +25,9 @@ marketers who make decks often, in English-first paying markets (job: see `1-pas
 
 **TAM / SAM / SOM**
 
-| Level | Estimate | How it was calculated | Source | Confidence |
+| Level <!--c:layer--> | Estimate <!--c:value--> | How it was calculated <!--c:method--> | Source <!--c:source--> | Confidence <!--c:conf--> |
 |-------|----------|-----------------------|--------|------------|
-| TAM (total addressable) | AI presentation-generation segment ~$2.8–4.7B (2026), inside a ~$8.6B broad presentation-software market; segment CAGR ~23–26% | top-down, published reports (range, not a point) | `sources/market-research.md` | [sourced] (reports diverge 2–3× — used as a range) |
+| TAM (total addressable) | AI presentation-generation segment ~$2.8–4.7B (2026), inside a ~$8.6B broad presentation-software market; segment CAGR ~23–26% | top-down, published reports (range, not a point) | worked in `market-sizing` | [sourced] (reports diverge 2–3× — used as a range) |
 | SAM (serviceable addressable) | **≈ $750M/yr** | **bottom-up: ~5M reachable frequent deck-making sales/marketing pros in paying English-first markets × ~$150/yr** | bottom-up (inputs illustrative) | [assumption] |
 | SOM (serviceable obtainable) | **≈ $4M ARR in ~3 yr** | ~0.5% of SAM captured early, given Gamma's dominance + incumbent entry | reasoned share | [assumption] |
 
@@ -35,7 +36,7 @@ cross-check (per `market-sizing` — do not average conflicting reports)._
 
 **Key assumptions (traced)**
 
-| Assumption | Value | Source | Confidence | → register |
+| Assumption <!--c:assumption--> | Value <!--c:value--> | Source <!--c:source--> | Confidence <!--c:conf--> | → register <!--c:register--> |
 |------------|-------|--------|------------|------------|
 | Reachable frequent deck-makers (lead segment, paying markets) | ~5M | illustrative | [assumption] | `H-006` (viability) |
 | Price per user / year | ~$150 (≈ incumbent paid tiers) | competitor pricing (below) | [sourced: market-research] → [assumption] for us | `H-006` |
@@ -44,7 +45,7 @@ cross-check (per `market-sizing` — do not average conflicting reports)._
 ## Competitors {#competitors}
 <!-- tool: competitor-analysis -->
 
-| Competitor | Direct/Indirect | What they offer | Confidence |
+| Competitor <!--c:name--> | Direct/Indirect <!--c:type--> | What they offer <!--c:offer--> | Confidence <!--c:conf--> |
 |------------|-----------------|-----------------|------------|
 | **Gamma** | direct | Web-first AI generator; fast, polished decks/sites/docs (category leader) | [sourced: market-research] |
 | **Microsoft Copilot in PowerPoint** | direct (incumbent) | Agentic AI that generates and edits **native PPT** in place | [sourced: market-research] |
@@ -57,7 +58,7 @@ cross-check (per `market-sizing` — do not average conflicting reports)._
 ## Competitor strategy {#competitor-strategy}
 <!-- tool: competitor-analysis -->
 
-| Competitor | Game | How they play it | Their moats vs ours | Confidence |
+| Competitor <!--c:name--> | Game <!--c:game--> | How they play it <!--c:play--> | Their moats vs ours <!--c:moat--> | Confidence <!--c:conf--> |
 |------------|------|------------------|---------------------|------------|
 | Gamma | Growth + share (profitably) | Web-first speed, agentic design, own platform/format; $100M ARR | Brand + distribution + design-corpus data (strong). **Weak on native `.pptx`/`.key` fidelity** — our wedge | [sourced: market-research] |
 | Microsoft Copilot | Ecosystem lock-in | Bundle Copilot into M365; agentic edits in the *native* format everyone already uses | Owns the native format + distribution (very strong). Design taste / audience narrative generic | [sourced: market-research] |
@@ -72,20 +73,20 @@ engine. Gamma is weak exactly there; Copilot is strong on native but weak on des
 <!-- tool: competitor-analysis -->
 _Input to our own pricing (Step 3) and the Step-4 model — not our price._
 
-| Competitor | Plan / model | Price | Source | Confidence |
+| Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
 |------------|--------------|-------|--------|------------|
-| Gamma | Pro | ~$20 / mo | `sources/market-research.md` (deckary) | [sourced] |
-| Canva | Pro / Business | ~$15 / mo · ~$25 / user | `sources/market-research.md` | [sourced] |
-| Beautiful.ai | Pro / Team | $12/mo annual ($45 monthly) · $40/user (Team) | `sources/market-research.md` | [sourced] |
-| Pitch | Entry | from ~$13 / mo | `sources/market-research.md` | [sourced] |
-| Microsoft Copilot | Bundled (M365 / Copilot Pro) | ~$20–30 / user/mo | `sources/market-research.md` | [sourced] |
+| Gamma | Pro | ~$20 / mo | worked in `competitor-analysis` | [sourced] |
+| Canva | Pro / Business | ~$15 / mo · ~$25 / user | worked in `competitor-analysis` | [sourced] |
+| Beautiful.ai | Pro / Team | $12/mo annual ($45 monthly) · $40/user (Team) | worked in `competitor-analysis` | [sourced] |
+| Pitch | Entry | from ~$13 / mo | worked in `competitor-analysis` | [sourced] |
+| Microsoft Copilot | Bundled (M365 / Copilot Pro) | ~$20–30 / user/mo | worked in `competitor-analysis` | [sourced] |
 
 ## Competitor dynamics {#competitor-dynamics}
 <!-- tool: competitor-analysis -->
 _Trend over time — whose strategy is working. Source: public financials / press / registries
 appropriate to the company's jurisdiction._
 
-| Competitor | Metric | Trend + period | Source (+ date) | Confidence |
+| Competitor <!--c:name--> | Metric <!--c:metric--> | Trend + period <!--c:trend--> | Source (+ date) <!--c:source--> | Confidence <!--c:conf--> |
 |------------|--------|----------------|-----------------|------------|
 | Gamma | ARR / users / valuation | $0 → **$100M ARR in ~3 yr**; 70M users; **$2.1B** valuation (Series B) — profitable 2+ yrs | BusinessWire / TechCrunch, 2025-11-10 | [sourced] |
 | Tome | Product line | **Shut its Slides product, Apr 2025**, after an $81M raise — pivoted away | market coverage, 2025 | [sourced] |
@@ -113,7 +114,7 @@ plus habit — the barrier our native-fidelity + design quality has to clearly b
 ## Niche risks {#niche-risks}
 <!-- synthesis: light Five Forces -->
 
-| Risk | Force | Likelihood | Impact | → `R-…` | Confidence |
+| Risk <!--c:risk--> | Force <!--c:force--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | → `R-…` <!--c:register--> | Confidence <!--c:conf--> |
 |------|-------|------------|--------|---------|------------|
 | Gamma is a dominant, profitable leader — head-on displacement is hard | rivalry | H | H | `R-001` | [sourced: market-research] |
 | Incumbents (Copilot in PPT, Canva) bundle native-editable AI generation with distribution | substitution | H | H | `R-002` | [sourced: market-research] |
@@ -138,7 +139,7 @@ plus habit — the barrier our native-fidelity + design quality has to clearly b
 
 ## Seeded hypotheses {#hypotheses}
 
-| ID | Hypothesis | Type | From section | Confidence |
+| ID <!--c:id--> | Hypothesis <!--c:hypothesis--> | Type <!--c:type--> | From section <!--c:from--> | Confidence <!--c:conf--> |
 |----|------------|------|--------------|------------|
 | H-005 | A native, high-fidelity editable-and-designed deck is a real unmet need the lead segment values over web-format generation (Gamma's export gap) | desirability/viability | opportunity/substitutes | [assumption] |
 | H-006 | The obtainable market is large enough to build a business on (bottom-up SAM ~$750M; realistic SOM) | viability | market-sizing | [assumption] |

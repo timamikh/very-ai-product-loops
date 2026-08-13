@@ -166,6 +166,25 @@ def tables(text):
     return out
 
 
+COL_KEY_RE = re.compile(r"<!--\s*c(?:ol)?:\s*([\w-]+)\s*-->", re.I)
+
+
+def column_key(cell):
+    """The stable column key a header cell carries (`<!--c:key-->`), or None (CONVENTIONS → Column keys).
+
+    The column-level twin of a section `{#anchor}`: a reader addresses the column by this key, never
+    by the (translatable, reorderable) header prose. Lives in one place so the linter and the console
+    can never disagree about what a header declares.
+    """
+    m = COL_KEY_RE.search(cell)
+    return m.group(1) if m else None
+
+
+def column_keys(headers):
+    """Per-header column keys, aligned to `headers` — None where a header carries no key."""
+    return [column_key(h) for h in headers]
+
+
 def table_column(text, colname):
     """Values under `colname` across EVERY table in the file that carries it (case-insensitive).
 
@@ -257,6 +276,95 @@ def _plain(line):
 def plain(line):
     """Public alias of the readable-sentence reducer (used for skill summaries and card leads)."""
     return _plain(line)
+
+
+CARD_RE = re.compile(r"<!--\s*card\s*-->")
+_BULLET_RE = re.compile(r"^([-*+]|\d+\.)\s")
+_HARD_BREAK_RE = re.compile(r"(?:\\|\s{2,})$")
+
+
+def _join_card(raws):
+    """Join the lines a `<!-- card -->` mark collected into one card lead. A line that ends in a
+    markdown hard break — a trailing backslash `\\` or two-plus spaces — starts a NEW line in the card
+    (returned as a `\\n`); an ordinary soft wrap joins with a space, so a sentence wrapped for file
+    width is never shown broken. The break marker itself is dropped, and a leading blockquote `>` is
+    stripped per line. This is how an enumeration laid one-item-per-line in the artifact reaches the
+    card as separate lines instead of one run."""
+    parts, seps = [], []
+    for raw in raws:
+        hard = bool(_HARD_BREAK_RE.search(raw))
+        t = re.sub(r"^>\s?", "", raw.strip())
+        t = re.sub(r"\s*\\$", "", t).rstrip()  # drop a trailing backslash break marker
+        parts.append(t)
+        seps.append("\n" if hard else " ")
+    out = ""
+    for k, t in enumerate(parts):
+        out += t + (seps[k] if k < len(parts) - 1 else "")
+    return out
+
+
+def _card_clean(s):
+    """Drop a leading block marker (blockquote `>`, bullet, number) from a card lead, keeping the
+    inline markdown (`**bold**`, `code`, links) the interface renders."""
+    return re.sub(r"^\s*(?:[>\-*+]\s+|\d+\.\s+)+", "", s).strip()
+
+
+def card_line(body):
+    """The paragraph a `<!-- card -->` mark designates as a section's showcase lead — returned
+    verbatim, its markdown kept, so the interface shows the artifact's own words exactly.
+
+    Two forms are read: the mark alone on a line points at the paragraph below it (collected whole, so
+    a sentence wrapped across lines is never returned cut); the mark at the end of a line points at
+    that line — and when that line is (or sits within) a bullet, the **whole** bullet is returned, so a
+    bullet headline wrapped across physical lines is not cut off either. Within the collected lead, a
+    markdown hard break (a line ending in `\\` or two spaces) is kept as a `\\n`, so an enumeration the
+    author laid one-item-per-line reaches the card as separate lines; ordinary soft wraps still join
+    with a space. The `showcase` operations skill places the mark (agent judgement of what a section's
+    headline is); nothing is generated or summarised here, so a card can neither drift from the text nor
+    invent past it. No mark → None, and the interface falls back to its own gist of the section.
+    """
+    lines = body.splitlines()
+    for i, raw in enumerate(lines):
+        if not CARD_RE.search(raw):
+            continue
+        before = CARD_RE.sub("", raw).strip()
+        if before:
+            # Trailing form. Walk back over any continuation lines to the block's start; if that block
+            # is a bullet, return the whole (possibly wrapped) bullet — else the mark points at its own
+            # prose line, as before.
+            top = i
+            while top > 0 and lines[top].strip() and not _BULLET_RE.match(lines[top].strip()):
+                t = lines[top - 1].strip()
+                if not t or t[:1] in ("|", "#") or _BULLET_RE.match(t):
+                    break
+                top -= 1
+            in_bullet = bool(_BULLET_RE.match(lines[top].strip())) or (
+                top > 0 and bool(_BULLET_RE.match(lines[top - 1].strip())))
+            if top > 0 and _BULLET_RE.match(lines[top - 1].strip()):
+                top -= 1  # the bullet's own line sits one above the first continuation
+            if not in_bullet:
+                return _card_clean(before) or None
+            raws = []
+            for nxt in lines[top:]:
+                clean = CARD_RE.sub("", nxt)
+                t = clean.strip()
+                if raws and (not t or t[:1] in ("|", "#") or _BULLET_RE.match(t)):
+                    break  # one bullet only — stop at the next blank/list/table/heading
+                if t:
+                    raws.append(clean)
+            return _card_clean(_join_card(raws)) or None
+        raws = []
+        for nxt in lines[i + 1:]:
+            t = nxt.strip()
+            if not t:
+                if raws:
+                    break
+                continue
+            if t[:1] in ("|", "#") or _BULLET_RE.match(t):
+                break  # a table/list/heading is not a card lead — leave the section to its fallback
+            raws.append(nxt)
+        return _card_clean(_join_card(raws)) or None
+    return None
 
 
 def digest(body, max_bullets=3, width=190):

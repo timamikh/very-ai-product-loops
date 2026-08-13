@@ -4,8 +4,8 @@ artifact: analysis
 step: 2
 title: "Market & Competitive Analysis — <Product>"
 status: template
-version: 0.2.2
-updated: 2026-07-21
+version: 0.3.0
+updated: 2026-08-13
 ---
 
 <!--
@@ -31,7 +31,7 @@ updated: 2026-07-21
 <!-- tool: market-sizing -->
 _TAM / SAM / SOM with an explicit method and named assumptions (bottom-up preferred)._
 
-| Layer | Value | Method | Key assumptions | Source | Confidence |
+| Layer <!--c:layer--> | Value <!--c:value--> | Method <!--c:method--> | Key assumptions <!--c:assumptions--> | Source <!--c:source--> | Confidence <!--c:conf--> |
 |-------|-------|--------|-----------------|--------|------------|
 | TAM | … | bottom-up / top-down | … | … | [assumption] |
 | SAM | … | … | … | … | [assumption] |
@@ -41,7 +41,7 @@ _TAM / SAM / SOM with an explicit method and named assumptions (bottom-up prefer
 <!-- tool: competitor-analysis -->
 _Direct & indirect competitors (substitutes are separate, below)._
 
-| Competitor | Direct/Indirect | What they offer | Confidence |
+| Competitor <!--c:name--> | Direct/Indirect <!--c:type--> | What they offer <!--c:offer--> | Confidence <!--c:conf--> |
 |------------|-----------------|-----------------|------------|
 | … | direct | … | [sourced: …] |
 
@@ -49,7 +49,7 @@ _Direct & indirect competitors (substitutes are separate, below)._
 <!-- tool: competitor-analysis -->
 _What game each plays (revenue / profit / share / social capital — and how), vs our moats._
 
-| Competitor | Game | How they play it | Their moats vs ours | Confidence |
+| Competitor <!--c:name--> | Game <!--c:game--> | How they play it <!--c:play--> | Their moats vs ours <!--c:moat--> | Confidence <!--c:conf--> |
 |------------|------|------------------|---------------------|------------|
 | … | … | … | … | [assumption] |
 
@@ -57,7 +57,7 @@ _What game each plays (revenue / profit / share / social capital — and how), v
 <!-- tool: competitor-analysis -->
 _Input to our own pricing (Step 3 `pricing`) and the financial model — not our price._
 
-| Competitor | Plan / model | Price | Source | Confidence |
+| Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
 |------------|--------------|-------|--------|------------|
 | … | … | … | site / search | [sourced: …] |
 
@@ -67,7 +67,7 @@ _Trend over time — to compare whose strategy is working. Source per firm: publ
 / filings / public company registries appropriate to the jurisdiction. (Region-specific registry
 lookups are a regional/company adapter concern, not the base.)_
 
-| Competitor | Metric (revenue / headcount / …) | Trend + period | Source (+ date) | Confidence |
+| Competitor <!--c:name--> | Metric (revenue / headcount / …) <!--c:metric--> | Trend + period <!--c:trend--> | Source (+ date) <!--c:source--> | Confidence <!--c:conf--> |
 |------------|----------------------------------|----------------|-----------------|------------|
 | … | revenue | … | public financials / registry | [sourced: …] |
 
@@ -75,7 +75,7 @@ lookups are a regional/company adapter concern, not the base.)_
 <!-- tool: substitutes -->
 _Non-obvious competition incl. "do nothing / do it manually / self-build"._
 
-| Substitute | How it does the job today | Why a customer would stay with it | Confidence |
+| Substitute <!--c:substitute--> | How it does the job today <!--c:job--> | Why a customer would stay with it <!--c:why--> | Confidence <!--c:conf--> |
 |------------|---------------------------|-----------------------------------|------------|
 | do-nothing | … | … | [assumption] |
 
@@ -83,7 +83,7 @@ _Non-obvious competition incl. "do nothing / do it manually / self-build"._
 <!-- synthesis: light Five Forces -->
 _Structural risks of the niche (light Five Forces): supplier/buyer power, entry barriers, rivalry, substitution._
 
-| Risk | Force | Likelihood | Impact | → `R-…` | Confidence |
+| Risk <!--c:risk--> | Force <!--c:force--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | → `R-…` <!--c:register--> | Confidence <!--c:conf--> |
 |------|-------|------------|--------|---------|------------|
 | … | rivalry / substitution / … | H/M/L | H/M/L | R-… | [assumption] |
 
@@ -97,7 +97,7 @@ _The "so what" — where the white space or the threat is. This is the point of 
 ## Seeded hypotheses {#hypotheses}
 _Market/sizing assumptions carried into the hypothesis register._
 
-| ID | Hypothesis | Type | From section | Confidence |
+| ID <!--c:id--> | Hypothesis <!--c:hypothesis--> | Type <!--c:type--> | From section <!--c:from--> | Confidence <!--c:conf--> |
 |----|------------|------|--------------|------------|
 | H-… | … | viability | market-sizing | [assumption] |
 

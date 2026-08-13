@@ -29,6 +29,10 @@ Checks (ERROR fails CI · WARN never does):
      status · version), has the template-fragment its `produces` implies, and matches the
      operations index row for row
   N  a shipped subagent definition (.claude/agents/loops-*.md) carries no write-capable tool
+  O  column-key schema is well-formed (a keyed table is all-keyed, keys unique) and a template and
+     the fragment that fills a section declare the same keys for it
+  P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
+     sections use; adoption is per-step (a step with no folder is pre-migration, not an error)
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -313,6 +317,52 @@ def check_instance(inst):
                     "definition cell (a row defines exactly one id)" % (name, cid))
 
 
+TOOL_MARK_RE = re.compile(r"<!--\s*tool:\s*([a-z0-9-]+)\s*-->")
+SYNTH_MARK_RE = re.compile(r"<!--\s*synthesis")
+SOURCES_LINK_RE = re.compile(r"sources/[A-Za-z0-9._/-]+\.md")
+
+
+def check_worklogs(inst):
+    """P — a step's worklogs live in a folder named for the step and named for the tools it uses.
+
+    A worklog `<step-folder>/<tool>.md` is the source of truth a section projects from (CONVENTIONS ->
+    Step folders & worklogs). One id `<tool>` threads the section's `<!-- tool: X -->` marker, the
+    skill folder, and this file — so a reader resolves a section's worklog with no guess. Adoption is
+    per step: a step with no folder yet is pre-migration and is left silent (a standing warning on
+    every legacy step would only teach the reader to ignore warnings — cf. check N). Once the folder
+    exists, its contents are held to the contract; a section still missing its worklog, or an artifact
+    still citing `sources/` directly instead of through a worklog, is a WARN while that step's
+    migration finishes.
+    """
+    name = rel(inst)
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        stem = os.path.basename(art)[:-3]                 # "2-analysis"
+        folder = os.path.join(inst, stem)
+        if not os.path.isdir(folder):
+            continue                                      # step has not adopted worklogs yet
+        text = read(art)
+        expected = set(TOOL_MARK_RE.findall(text))
+        if SYNTH_MARK_RE.search(text):
+            expected.add("synthesis")
+        present = set()
+        for wl in sorted(glob.glob(os.path.join(folder, "*.md"))):
+            base = os.path.basename(wl)
+            present.add(base[:-3])
+            fm, _ = T.frontmatter(wl)
+            if fm.get("node_type") != "worklog":
+                err("P [%s] %s/%s is not `node_type: worklog` — a step folder holds only worklogs"
+                    % (name, stem, base))
+            if base[:-3] not in expected:
+                warn("P [%s] %s/%s is an orphan — no section uses tool `%s`"
+                     % (name, stem, base, base[:-3]))
+        for miss in sorted(expected - present):
+            warn("P [%s] %s uses tool `%s` but %s/%s.md is missing (step migration unfinished)"
+                 % (name, stem, miss, stem, miss))
+        if SOURCES_LINK_RE.search(text):
+            warn("P [%s] %s links sources/ directly — a migrated step routes a source citation "
+                 "through its worklog, never the artifact (see source-intake)" % (name, stem))
+
+
 def check_register_tables(inst):
     """J — a register's table is one table, not one split by a stray blank line.
 
@@ -426,6 +476,75 @@ def check_links():
                     % (rel(p), len(hits), ", ".join(sorted(set(hits))[:5])))
 
 
+def _file_keyed_tables(text):
+    """(headers, keys) for every table in `text` that carries at least one column key."""
+    out = []
+    for t in T.tables(text):
+        keys = T.column_keys(t["headers"])
+        if any(keys):
+            out.append((t["headers"], keys))
+    return out
+
+
+def _section_keys(text):
+    """{section_id: [keys]} — keys of the first keyed table found in each identified section."""
+    out = {}
+    for sec in T.sections(text):
+        if not sec["id"]:
+            continue
+        for t in T.tables(sec["body"]):
+            keys = T.column_keys(t["headers"])
+            if any(keys):
+                out[sec["id"]] = [k for k in keys if k]
+                break
+    return out
+
+
+SCHEMA_FILES = ("steps/*/template.md",
+                "tool-skills/library/*/template-fragment.md",
+                "tool-skills/operations/*/template-fragment.md")
+
+
+def check_column_keys():
+    """O — the column-key schema is well-formed and agrees across its two homes.
+
+    Column keys (CONVENTIONS → Column keys) are what lets a reader find a table column without
+    matching its (translatable, reorderable) header prose — the fix for the "every cell is a dash"
+    failure on a non-English instance. The keys are only trustworthy if their *declaration* is: a
+    half-keyed header is ambiguous, and a template and the fragment that fills a section declaring
+    different keys for it is two schemas wearing one id. Both are shapes a machine checks once per run
+    (CONVENTIONS → "Where a new rule goes": a check, not a paragraph on every pass).
+    """
+    templ, frag = {}, {}   # section id -> (file, keys), from step templates / from fragments
+    for pattern in SCHEMA_FILES:
+        for path in sorted(glob.glob(os.path.join(ROOT, pattern))):
+            text = read(path)
+            for headers, keys in _file_keyed_tables(text):
+                unkeyed = [h for h, k in zip(headers, keys) if not k]
+                if unkeyed:
+                    err("O %s: a column-keyed table leaves %d header(s) unkeyed (%s) — a table is "
+                        "all-keyed or none (CONVENTIONS → Column keys)"
+                        % (rel(path), len(unkeyed), ", ".join(T.plain(h) or "∅" for h in unkeyed)))
+                present = [k for k in keys if k]
+                dupes = sorted({k for k in present if present.count(k) > 1})
+                if dupes:
+                    err("O %s: column key(s) %s repeat in one table — keys are unique within a table"
+                        % (rel(path), ", ".join("`%s`" % d for d in dupes)))
+            target = templ if path.endswith(os.sep + "template.md") else frag
+            target.update(_section_keys_as(path, text))
+    for sid in sorted(set(templ) & set(frag)):
+        tf, tk = templ[sid]
+        ff, fk = frag[sid]
+        if tk != fk:
+            err("O section `%s` declares different column keys in its template and its fragment — "
+                "one section, one schema (%s: %s vs %s: %s)" % (sid, tf, tk, ff, fk))
+
+
+def _section_keys_as(path, text):
+    """`_section_keys`, each value tagged with the file it came from — for the O2 agreement report."""
+    return {sid: (rel(path), keys) for sid, keys in _section_keys(text).items()}
+
+
 def check_gates(homed):
     for readme in glob.glob(ROOT + "/steps/*/README.md"):
         for mm in re.finditer(r"[→>]\s*`?[a-z0-9-]+#([a-z0-9-]+)`?", read(readme)):
@@ -470,12 +589,14 @@ def main(argv=()):
     check_quality(tools)
     check_operations()
     check_subagent_defs()
+    check_column_keys()
     check_index(tools)
     checked = instances(list(argv))
     for inst in checked:
         check_instance(inst)
         check_config(inst)
         check_local_skills(inst)
+        check_worklogs(inst)
         check_register_tables(inst)
         check_register_ids(inst)
     check_links()
