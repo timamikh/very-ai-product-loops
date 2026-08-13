@@ -33,6 +33,8 @@ Checks (ERROR fails CI · WARN never does):
      the fragment that fills a section declare the same keys for it
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
      sections use; adoption is per-step (a step with no folder is pre-migration, not an error)
+  Q  section confirmation: no schema (template/fragment) ships a `confirmed:` marker, and an
+     artifact's `confirmed:` marker parses as a YYYY-MM-DD date (WARN) else it silently means pending
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -545,6 +547,36 @@ def _section_keys_as(path, text):
     return {sid: (rel(path), keys) for sid, keys in _section_keys(text).items()}
 
 
+CONFIRM_LOOSE_RE = re.compile(r"<!--\s*confirmed:\s*(.*?)\s*-->")
+
+
+def check_schema_not_confirmed():
+    """Q (schema) — a template or fragment must never ship a `confirmed` marker.
+
+    A confirmation records a human signing off one instance's result (CONVENTIONS → Section
+    confirmation). Baked into the schema every instance copies, it would pre-confirm work nobody
+    reviewed — the exact inversion of what the marker is for.
+    """
+    for pattern in SCHEMA_FILES:
+        for path in sorted(glob.glob(os.path.join(ROOT, pattern))):
+            # A fragment documents the marker inside a ``` example (that is its job); only a LIVE marker
+            # in the schema body — outside any fence — would actually pre-confirm an instance.
+            live = re.sub(r"```.*?```", "", read(path), flags=re.S)
+            if CONFIRM_LOOSE_RE.search(live):
+                err("Q %s: ships a live `confirmed:` marker — a schema must not pre-confirm an "
+                    "instance's result (CONVENTIONS → Section confirmation)" % rel(path))
+
+
+def check_confirm_dates(inst):
+    """Q (instance) — an artifact's `confirmed:` marker parses as a date, else it silently means pending."""
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        for raw in CONFIRM_LOOSE_RE.findall(read(art)):
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+                warn("Q [%s] %s: `confirmed: %s` is not a YYYY-MM-DD date, so it reads as *pending* — "
+                     "a typo silently un-confirms the section (CONVENTIONS → Section confirmation)"
+                     % (rel(inst), os.path.basename(art), raw))
+
+
 def check_gates(homed):
     for readme in glob.glob(ROOT + "/steps/*/README.md"):
         for mm in re.finditer(r"[→>]\s*`?[a-z0-9-]+#([a-z0-9-]+)`?", read(readme)):
@@ -590,6 +622,7 @@ def main(argv=()):
     check_operations()
     check_subagent_defs()
     check_column_keys()
+    check_schema_not_confirmed()
     check_index(tools)
     checked = instances(list(argv))
     for inst in checked:
@@ -597,6 +630,7 @@ def main(argv=()):
         check_config(inst)
         check_local_skills(inst)
         check_worklogs(inst)
+        check_confirm_dates(inst)
         check_register_tables(inst)
         check_register_ids(inst)
     check_links()

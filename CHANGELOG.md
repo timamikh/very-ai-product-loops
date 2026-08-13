@@ -140,6 +140,23 @@ never minting a worklog for a tool the step does not declare. Authority is `CONV
 access* + *Step folders & worklogs*; the skill carries the form. The `decksmith` sample records the
 dispatch: its source index now names which Step-2 worklogs absorbed `market-research.md`.
 
+**A section is a thesis the human signs — confirmation, the semantic half of the check.** The linter
+holds a section's *structure*; nothing held its *meaning* — "the tables are full" quietly passed for
+"the conclusion is right", and the golden rule (the agent prepares, the human decides) lapsed at the
+last step. A section now carries a `<!-- confirmed: YYYY-MM-DD -->` marker: a human signed off *this*
+version. Absence is pending (the console shows *to confirm*); a re-projection that changes the section
+**drops** the marker, so a sign-off can never outlive the thesis it approved. It is stamped by a new
+operations skill, `theses`, at operating-loop **step 7**: it walks the human through each written
+section's conclusion in plain language, takes confirm / edit / send-back per section, and never
+self-issues a marker. The console reads the marker everywhere a section shows — a chip on each board
+card and section (*confirmed 2026-08-13* / *to confirm*) and a `confirmed N of M` figure on the step
+header — so a glance says how much of a step a person has actually signed. New linter **check Q** keeps
+it honest: no template or fragment may ship a marker (that would pre-confirm every instance), and an
+artifact's marker must parse as a date or it silently means pending. `OPERATING-LOOP.md` 0.8.0 → 0.9.0,
+`CONVENTIONS.md` 0.13.0 → 0.14.0 (*Section confirmation*). The `decksmith` sample proves it: Step 2's
+eight result sections are confirmed, its two open-item sections (seeded hypotheses, to-clarify) left
+pending — a result gets signed, an open question does not.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself

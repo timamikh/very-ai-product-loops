@@ -19,6 +19,7 @@ version: 0.1.0
 
 ## Market sizing {#market-sizing}
 <!-- tool: market-sizing -->
+<!-- confirmed: 2026-08-13 -->
 
 **Arena / segment sized:** AI-generated client-facing decks for the lead segment — salespeople &
 marketers who make decks often, in English-first paying markets (job: see `1-passport.md#jtbd`).
@@ -44,6 +45,7 @@ cross-check (per `market-sizing` — do not average conflicting reports)._
 
 ## Competitors {#competitors}
 <!-- tool: competitor-analysis -->
+<!-- confirmed: 2026-08-13 -->
 
 | Competitor <!--c:name--> | Direct/Indirect <!--c:type--> | What they offer <!--c:offer--> | Confidence <!--c:conf--> |
 |------------|-----------------|-----------------|------------|
@@ -57,6 +59,7 @@ cross-check (per `market-sizing` — do not average conflicting reports)._
 
 ## Competitor strategy {#competitor-strategy}
 <!-- tool: competitor-analysis -->
+<!-- confirmed: 2026-08-13 -->
 
 | Competitor <!--c:name--> | Game <!--c:game--> | How they play it <!--c:play--> | Their moats vs ours <!--c:moat--> | Confidence <!--c:conf--> |
 |------------|------|------------------|---------------------|------------|
@@ -71,6 +74,7 @@ engine. Gamma is weak exactly there; Copilot is strong on native but weak on des
 
 ## Competitor pricing {#competitor-pricing}
 <!-- tool: competitor-analysis -->
+<!-- confirmed: 2026-08-13 -->
 _Input to our own pricing (Step 3) and the Step-4 model — not our price._
 
 | Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
@@ -83,6 +87,7 @@ _Input to our own pricing (Step 3) and the Step-4 model — not our price._
 
 ## Competitor dynamics {#competitor-dynamics}
 <!-- tool: competitor-analysis -->
+<!-- confirmed: 2026-08-13 -->
 _Trend over time — whose strategy is working. Source: public financials / press / registries
 appropriate to the company's jurisdiction._
 
@@ -94,6 +99,7 @@ appropriate to the company's jurisdiction._
 
 ## Substitutes {#substitutes}
 <!-- tool: substitutes -->
+<!-- confirmed: 2026-08-13 -->
 _Competition scored against the customer's **job** (`passport#jtbd`: a credible client deck fast,
 without redoing it by hand), not our category. The baseline three are always listed._
 
@@ -113,6 +119,7 @@ plus habit — the barrier our native-fidelity + design quality has to clearly b
 
 ## Niche risks {#niche-risks}
 <!-- synthesis: light Five Forces -->
+<!-- confirmed: 2026-08-13 -->
 
 | Risk <!--c:risk--> | Force <!--c:force--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | → `R-…` <!--c:register--> | Confidence <!--c:conf--> |
 |------|-------|------------|--------|---------|------------|
@@ -124,6 +131,7 @@ plus habit — the barrier our native-fidelity + design quality has to clearly b
 
 ## Opportunity {#opportunity}
 <!-- synthesis -->
+<!-- confirmed: 2026-08-13 -->
 
 - **Opportunity (the white space): native, high-fidelity editable `.pptx`/`.key` that also look
   designed.** The category leader (Gamma) is web-first and its PowerPoint export **flattens 30–40%

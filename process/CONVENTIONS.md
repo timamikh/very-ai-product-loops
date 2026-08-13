@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.13.0
+version: 0.14.0
 updated: 2026-08-13
 ---
 
@@ -113,6 +113,28 @@ markers points at it.
 
 Raw external inputs are **not** worked here directly: they live in `sources/` and are dispatched into
 these worklogs by the `source-intake` skill (see *Raw data & access*).
+
+## Section confirmation
+
+An artifact section is a **thesis** — the step's conclusion in the reader's language, projected from
+the worklog. The linter holds its *structure*; a **human** holds its *meaning*, by signing the section
+off. That sign-off is a marker on the section:
+
+```markdown
+## Market sizing {#market-sizing}
+<!-- tool: market-sizing -->
+<!-- confirmed: 2026-08-13 -->
+```
+
+- **Absence = pending.** No marker means the result is not yet confirmed (the console shows *to confirm*).
+  A section with nothing written yet is not pending — there is no result to sign.
+- **It records approval of *this* version.** When *Act* re-projects the section from a changed worklog,
+  the marker is **dropped** — a conclusion that moved must be re-confirmed, so a stale sign-off can never
+  outlive the thesis it approved.
+- **One mechanism.** The date is the confirmation's home; the console reads it (never a second store),
+  and the `theses` operations skill (OPERATING-LOOP step 7) is what walks the human through a step's
+  sections and writes the markers. It is the semantic twin of the section `{#anchor}`: invisible in a
+  rendered reader, authoritative to a tool.
 
 ## Instance config (`config.yaml`) — the pinned schema
 

@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.8.0
+version: 0.9.0
 updated: 2026-08-13
 ---
 
@@ -95,6 +95,12 @@ Only after every delegated return is accepted and any preview is answered, the a
   (the human may waive this explicitly; if the runtime cannot spawn agents, the tick stays `open`
   and the reason is surfaced);
 - **seeds / updates the registers** (hypotheses, risks, metric nodes) with stable IDs;
+- **confirms the step's results with the human** — a section is a *thesis*, and the
+  [`theses`](../tool-skills/operations/theses/SKILL.md) skill walks the human through each written
+  section's conclusion for sign-off, stamping `<!-- confirmed: <date> -->` (CONVENTIONS → *Section
+  confirmation*). This is the **semantic** half of the two-layer check — the linter holds a section's
+  structure, the human holds its meaning — and it is never self-issued. A section re-projected later
+  drops its marker and is re-confirmed;
 - adds a dated **change-log** entry (from → to · why · trigger);
 - surfaces what remains open (`— to clarify —`).
 
@@ -232,5 +238,6 @@ Active status `2-pmf`, step `1-idea`, section `problems`:
    is the agent's own reasoning → shows the section in chat first, names the files this pass will
    touch (`1-passport/segment-pains.md`, `1-passport.md`, `registers/hypotheses.md`, `state.yaml`).
 7. Update → writes the section, seeds `H-007` ("pain A blocks payment"), logs the change; the tick
-   waits for a `verify` subagent's findings on the ranking.
+   waits for a `verify` subagent's findings on the ranking, and the human signs off the `problems`
+   thesis (`theses` skill) → `<!-- confirmed: … -->` on the section.
 8. Loop → next section `solution`.

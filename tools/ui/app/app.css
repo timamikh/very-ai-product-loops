@@ -202,6 +202,11 @@ hr { border:0; border-top:1px solid var(--line); margin:14px 0 }
 .tag.risk { color:var(--risk); border-color:currentColor; background:var(--risk-soft) }
 .tag.met { color:var(--met); border-color:currentColor; background:var(--met-soft) }
 .tag.strong { border-color:var(--ink); color:var(--ink) }
+/* Human sign-off on a section's result (the semantic layer). Confirmed wears the sanctioned second
+   hue — navy, distinct from the gate's green and the red that marks "active/next"; pending is faint
+   and dashed, the quiet default until a human signs it. */
+.tag.confirmed { color:var(--navy); border-color:currentColor; font-weight:600 }
+.tag.pending { color:var(--faint); border-style:dashed }
 button.tag { cursor:pointer; font:inherit; font-family:var(--mono); font-size:10px }
 button.tag:hover { border-color:var(--brand); color:var(--brand-ink) }
 

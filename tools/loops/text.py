@@ -185,6 +185,21 @@ def column_keys(headers):
     return [column_key(h) for h in headers]
 
 
+CONFIRMED_RE = re.compile(r"<!--\s*confirmed:\s*(\d{4}-\d{2}-\d{2})\s*-->")
+
+
+def confirmed(body):
+    """The date a human confirmed this section's result (`<!-- confirmed: YYYY-MM-DD -->`), or None.
+
+    The semantic-layer twin of the linter's structural checks (CONVENTIONS → Section confirmation): a
+    section is a *thesis* the human signs off, and this marker records that they signed off THIS
+    version. A re-projection that changes the section drops the marker, so a stale sign-off can never
+    survive the conclusion it approved. Absence = pending (⚙️).
+    """
+    m = CONFIRMED_RE.search(body)
+    return m.group(1) if m else None
+
+
 def table_column(text, colname):
     """Values under `colname` across EVERY table in the file that carries it (case-insensitive).
 

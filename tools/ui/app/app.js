@@ -98,6 +98,8 @@ const STR = {
     expand: 'show the whole excerpt', collapse: 'collapse',
     worklog: 'workings', worklogTip: 'open the worklog this section was worked out in',
     worklogMissing: 'worklog not found',
+    confirmed: 'confirmed', pending: 'to confirm', confirmedOn: 'confirmed by a human on',
+    pendingTip: 'result not yet confirmed by a human', sectionsShort: 'sections',
     navBack: 'back', navFwd: 'forward', toTop: 'back to top',
     boardStrategy: 'Strategy canvas', boardStratPlan: 'Metrics & economics',
     boardTactical: 'Goals & guardrails', boardSprint: 'Sprint board',
@@ -182,6 +184,8 @@ const STR = {
     expand: 'показать выдержку целиком', collapse: 'свернуть',
     worklog: 'расчёт', worklogTip: 'открыть worklog, где это прорабатывалось',
     worklogMissing: 'worklog не найден',
+    confirmed: 'подтверждён', pending: 'на подтверждение', confirmedOn: 'подтверждён человеком',
+    pendingTip: 'результат ещё не подтверждён человеком', sectionsShort: 'секций',
     navBack: 'назад', navFwd: 'вперёд', toTop: 'наверх',
     boardStrategy: 'Канвас стратегии', boardStratPlan: 'Метрики и экономика',
     boardTactical: 'Цели и гардрейлы', boardSprint: 'Доска спринта',
@@ -474,6 +478,21 @@ const confChips = conf => Object.entries(conf || {}).map(([k, n]) =>
   h('span', { class: 'tag ' + k }, `${k} ×${n}`));
 const ridClass = x => /^H-/.test(x) ? 'hyp' : /^R-/.test(x) ? 'risk' : 'met';
 const ridChips = ids => (ids || []).map(x => h('span', { class: 'tag ' + ridClass(x) }, x));
+
+/* A section is a thesis the human signs off (CONVENTIONS → Section confirmation). `confirmed` carries
+   the date they approved THIS version; absence = pending (⚙️). A gap section (nothing written) shows
+   nothing — there is no result to confirm yet. Words, not a glyph, per the house rule. */
+const confTag = m => {
+  if (!m || !m.present) return null;
+  return m.confirmed
+    ? h('span', { class: 'tag confirmed', title: t('confirmedOn') + ' ' + m.confirmed },
+        t('confirmed') + ' ' + m.confirmed)
+    : h('span', { class: 'tag pending', title: t('pendingTip') }, t('pending'));
+};
+const confCounts = s => {
+  const live = (s.sections || []).filter(x => x.present && x.id !== 'change-log');
+  return { done: live.filter(x => x.confirmed).length, total: live.length };
+};
 
 /* A section heading — an eyebrow number, a title, and one line of context on the right. Every block
  * on every tab wears one, so a page reads as a document with parts rather than a wall of cards. */
@@ -955,6 +974,7 @@ function cvCard(s, id, opts) {
   const card = h('div', { class: 'cvcard' + (o.hero ? ' cv-hero' : '') + (o.warn ? ' cv-warn' : '') + (live ? ' cv-link' : ' cv-gap') },
     h('div', { class: 'cvtop' },
       h('span', { class: 'cvttl' }, meta.title || id),
+      confTag(meta),
       tick ? tickTag(tick) : null),
     face,
     live ? h('div', { class: 'cvfoot' },
@@ -1172,7 +1192,8 @@ function canvasAnalysis(s) {
     if (!node) return;
     const a = id ? bodyOf(s, id) : null;
     const tool = a ? worklogTool(stem, a.body) : null;
-    parts.push(h('div', { class: 'cvzone' }, label, tool ? goWorklog(stem, tool) : null), node);
+    const meta = id ? s.sections.find(x => x.id === id) : null;
+    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta), tool ? goWorklog(stem, tool) : null), node);
   };
   push(t('dMarket'), marketBoard(s), 'market-sizing');
   push(t('dCompetitors'), competitorTable(s), 'competitors');
@@ -1215,6 +1236,8 @@ function viewStep() {
     h('div', { class: 'figs', style: 'margin-top:16px' },
       fig(t('filled'), `${written}`, `${t('of')} ${s.sections.length} ${t('sections')}`),
       fig(t('gateClosed'), `${(s.gate_counts.done || 0)}`, `${t('of')} ${s.gate.length}`),
+      (cc => fig(t('confirmed'), `${cc.done}`, `${t('of')} ${cc.total} ${t('sectionsShort')}`,
+        null, cc.total > 0 && cc.done < cc.total))(confCounts(s)),
       fig(t('toClarify'), String(gaps), gaps ? t('gaps') : '', null, gaps > 0),
       fig(t('proposals'), String(proposals), ''),
       s.artifact_file ? fig(t('artifact'), h('span', { style: 'font-size:14px;font-family:var(--mono)' },
@@ -1230,6 +1253,7 @@ function viewStep() {
         x.off_skeleton ? h('span', { class: 'tag' }, t('offSkeleton')) : null,
         x.present ? h('span', { class: 'tag' }, `${x.words} ${t('words')}`)
           : h('span', { class: 'tag unknown' }, t('notWritten')),
+        confTag(x),
         x.gaps ? h('span', { class: 'tag open' }, `${x.gaps} ${t('gaps')}`) : null,
         x.proposals ? h('span', { class: 'gear' }, `${t('proposalMark')} ×${x.proposals}`) : null,
         gate ? tickTag(gate.tick) : null,
@@ -1296,6 +1320,7 @@ function viewArtifacts() {
     h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, section.title || section.id),
     h('div', { class: 'row', style: 'margin:9px 0 2px' },
       h('code', { class: 'tag' }, '#' + section.id),
+      confTag({ present: true, confirmed: section.confirmed }),
       confChips(section.markers.confidence),
       section.markers.proposals ? h('span', { class: 'gear' },
         `${t('proposalMark')} ×${section.markers.proposals}`) : null,

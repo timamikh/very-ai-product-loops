@@ -233,6 +233,7 @@ def _artifacts(path, health):
                 "markers": T.markers(body),
                 "gaps": T.to_clarify_lines(body),
                 "card": T.card_line(body),
+                "confirmed": T.confirmed(body),
                 "body": body,
             }, **T.digest(body)))
         if not re.match(r"^\d+-", base):
@@ -469,6 +470,7 @@ def _merge_steps(steps, artifacts, state, health):
                 "bullets": sec["bullets"] if sec else [],
                 "table_rows": sec["table_rows"] if sec else 0,
                 "title": sec["title"] if sec else "",
+                "confirmed": sec["confirmed"] if sec else None,
             })
         for sec in (art or {}).get("sections", []):
             if sec["id"] not in {x["id"] for x in sections} and sec["id"] != "change-log":
@@ -481,6 +483,7 @@ def _merge_steps(steps, artifacts, state, health):
                                          + sec["markers"]["metrics"]),
                                  "lead": sec["lead"], "bullets": sec["bullets"],
                                  "table_rows": sec["table_rows"], "title": sec["title"],
+                                 "confirmed": sec["confirmed"],
                                  "off_skeleton": True})
         out.append(dict(s, artifact_file=(art or {}).get("file"), artifact_updated=(art or {}).get("updated", ""),
                         gate=gate, gate_counts=counts, sections=sections))
