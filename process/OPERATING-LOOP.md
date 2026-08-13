@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.9.0
-updated: 2026-08-13
+version: 0.9.1
+updated: 2026-08-14
 ---
 
 # Operating Loop
@@ -100,7 +100,9 @@ Only after every delegated return is accepted and any preview is answered, the a
   section's conclusion for sign-off, stamping `<!-- confirmed: <date> -->` (CONVENTIONS → *Section
   confirmation*). This is the **semantic** half of the two-layer check — the linter holds a section's
   structure, the human holds its meaning — and it is never self-issued. A section re-projected later
-  drops its marker and is re-confirmed;
+  drops its marker and is re-confirmed. This step-7 sign-off runs at `scope: step`; a **big**
+  re-projection or a **step change** calls the same skill at `scope: instance`, which additionally
+  clears cross-step *rests-on* debt (a confirmed thesis standing on an unsigned foundation);
 - adds a dated **change-log** entry (from → to · why · trigger);
 - surfaces what remains open (`— to clarify —`).
 

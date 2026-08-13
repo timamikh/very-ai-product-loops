@@ -204,6 +204,16 @@ the other. The post-test grades are **enforced-if-present** (linter **check D**)
 once it has been read. No new skills, and no instance migration yet — the vocabulary lands in the
 canon; wiring it through every step and the console is a later pass.
 
+**Confirmation gets a scope — one step, or the whole instance.** The `theses` skill (0.2.0 → 0.3.0)
+now runs at `scope: step` (the step-7 sign-off that closes a step, unchanged) or `scope: instance` (a
+standing review that walks every step's sections at once). Instance scope earns its keep by reading the
+**rests-on provenance across steps**: a section confirmed while a section it rests on is not shows as
+*foundation unconfirmed*, and this is the pass that clears it — a per-step sign-off can't, because the
+unsigned foundation lives in a different step. It is called after a **big re-projection** (many markers
+dropped across steps) and **before a step change** (don't build the next step on unsigned ground). This
+is the ex-`review` idea landing as a scope, not a new skill. `OPERATING-LOOP.md` 0.9.0 → 0.9.1 and the
+operations index (0.3.3 → 0.3.4) point at both scopes; no schema, checker, or console change.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself

@@ -10,10 +10,10 @@ prerequisites:
   - the human is present — a confirmation is theirs to give and is never delegated or self-issued
 used_by_steps: [any]
 opinionated: true
-method_basis: "Human sign-off as the semantic gate: the agent presents the section's thesis in plain language, the human confirms THIS version, and the confirmation is stamped on the section and dropped when the section changes"
+method_basis: "Human sign-off as the semantic gate: the agent presents the section's thesis in plain language, the human confirms THIS version, and the confirmation is stamped on the section and dropped when the section changes. Runs at scope step (one step) or instance (every step, plus cross-step rests-on provenance)"
 status: draft
-version: 0.2.0
-updated: 2026-08-13
+version: 0.3.0
+updated: 2026-08-14
 ---
 
 # Theses — walk the human through a step's results and record the sign-off
@@ -36,13 +36,33 @@ no human actually read. The linter holds a section's *structure*; only a person 
 Without a recorded sign-off, "the tables are full" silently passes for "the conclusion is right", and
 the framework's golden rule — the agent prepares, the human decides — quietly lapses at the last step.
 
+## Scope — one step, or the whole instance
+
+The same pass runs at one of two scopes; the mechanics of a sign-off are identical, only the set of
+sections walked differs.
+
+- **`scope: step` (default).** Sign off the sections of the *current* step — the step-7 pass that
+  closes a step. This is the common case and the one referenced by the operating loop.
+- **`scope: instance`.** Walk **every** step's sections in one sitting — a standing review of what the
+  whole instance has signed. It does everything the step pass does, and additionally reads the
+  **rests-on provenance across steps**: a section confirmed while a section it rests on is **not** shows
+  as *foundation unconfirmed* (CONVENTIONS → *Rests-on*). This pass is where that cross-step debt is
+  cleared — re-confirm the foundation, or send the dependent thesis back. A per-step pass cannot see it,
+  because the unsigned foundation lives in a different step.
+
 ## When to apply
 
-1. **At step 7, after a step's sections are worked** — the agent has projected the sections from their
-   worklogs; now the human signs off the results before the step is treated as closed.
-2. **After a section is re-projected** — *Act* dropped its `confirmed` marker because the conclusion
-   changed; the changed thesis is re-confirmed, never assumed still-good.
-3. **On request** — the human asks to review and sign off what stands.
+1. **At step 7, after a step's sections are worked** (`scope: step`) — the agent has projected the
+   sections from their worklogs; now the human signs off the results before the step is treated as closed.
+2. **After a section is re-projected** (`scope: step`) — *Act* dropped its `confirmed` marker because the
+   conclusion changed; the changed thesis is re-confirmed, never assumed still-good.
+3. **After a *big* re-projection** (`scope: instance`) — *Act* re-worked many sections across steps and
+   dropped their markers; a step-by-step pass would miss the cross-step staleness a foundation change
+   spreads downward.
+4. **Before a step change** (`scope: instance`) — moving to the next step should not build on unsigned
+   ground; confirm the foundation the next step will rest on first.
+5. **On request** (either scope) — the human asks to review and sign off what stands, for one step or
+   the whole instance.
 
 ## Prerequisites
 
@@ -53,9 +73,12 @@ the framework's golden rule — the agent prepares, the human decides — quietl
 
 ## How to do it
 
-**1 · Read the step's confirmation state.** List the written sections and which already carry a
-`<!-- confirmed: <date> -->` marker. The pending ones (and any whose worklog changed since the marker)
-are the work of this pass.
+**1 · Read the confirmation state.** List the written sections and which already carry a
+`<!-- confirmed: <date> -->` marker — for one step (`scope: step`) or across every step
+(`scope: instance`). The pending ones (and any whose worklog changed since the marker) are the work of
+this pass. In instance scope, also flag every section that is **confirmed but rests on an unconfirmed
+foundation** (the console's *foundation unconfirmed*, linter check S) — those are the cross-step debt
+this pass exists to clear.
 
 **2 · Present each thesis, in plain language.** For each pending section, show its conclusion in chat —
 the section already *is* the thesis, so lead with its headline claim, not the whole table. Reuse the
@@ -99,6 +122,9 @@ Then tell the human what now stands confirmed and what is still pending, in the 
 - **Confirmation in a second place.** Recording the sign-off anywhere but the section marker — a note in
   the worklog, a field in `state.yaml`. The date on the section is its one home; the console reads only
   that.
+- **A step change on unsigned ground.** Advancing to the next step while a section it will rest on is
+  still pending or contested. That is the *foundation unconfirmed* flag an `scope: instance` pass exists
+  to catch — confirm the foundation, or move forward knowing the debt, but never by not looking.
 
 ## Output
 
