@@ -4,7 +4,7 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.3.0
+version: 0.3.1
 updated: 2026-08-08
 ---
 
@@ -108,6 +108,7 @@ _Strategy bets, now quantified & tied to metric nodes (threshold set here; test 
 | H-… | … | M-… | ≥ … | < … | [assumption] |
 
 ## Open questions {#open-questions}
+<!-- open -->
 _What's still unknown, explicitly — not hidden._
 
 - …

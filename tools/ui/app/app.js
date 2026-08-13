@@ -483,14 +483,14 @@ const ridChips = ids => (ids || []).map(x => h('span', { class: 'tag ' + ridClas
    the date they approved THIS version; absence = pending (⚙️). A gap section (nothing written) shows
    nothing — there is no result to confirm yet. Words, not a glyph, per the house rule. */
 const confTag = m => {
-  if (!m || !m.present) return null;
+  if (!m || !m.present || m.open) return null;   // an open section (inbox) has no result to sign
   return m.confirmed
     ? h('span', { class: 'tag confirmed', title: t('confirmedOn') + ' ' + m.confirmed },
         t('confirmed') + ' ' + m.confirmed)
     : h('span', { class: 'tag pending', title: t('pendingTip') }, t('pending'));
 };
 const confCounts = s => {
-  const live = (s.sections || []).filter(x => x.present && x.id !== 'change-log');
+  const live = (s.sections || []).filter(x => x.present && !x.open);
   return { done: live.filter(x => x.confirmed).length, total: live.length };
 };
 
@@ -1320,7 +1320,7 @@ function viewArtifacts() {
     h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, section.title || section.id),
     h('div', { class: 'row', style: 'margin:9px 0 2px' },
       h('code', { class: 'tag' }, '#' + section.id),
-      confTag({ present: true, confirmed: section.confirmed }),
+      confTag({ present: true, confirmed: section.confirmed, open: section.open }),
       confChips(section.markers.confidence),
       section.markers.proposals ? h('span', { class: 'gear' },
         `${t('proposalMark')} ×${section.markers.proposals}`) : null,

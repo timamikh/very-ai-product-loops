@@ -4,7 +4,7 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — <Product> · <period>"
 status: template
-version: 0.2.0
+version: 0.2.1
 updated: 2026-07-20
 ---
 
@@ -82,6 +82,7 @@ _One row per `H-…` tested this period: a pre-registered read — metric · thr
 | H-… | M-… | ≥ … | < … | n = … / … wk | ≥ success → validated; < failure → refuted; between → <next> | [assumption] |
 
 ## Blockers {#blockers}
+<!-- open -->
 _Dependencies / blockers with an owner (link back to `R-…`)._
 
 | Blocker | Owner | Links (`R-…`) | Status | Confidence |
@@ -89,6 +90,7 @@ _Dependencies / blockers with an owner (link back to `R-…`)._
 | … | … | R-… | open | [assumption] |
 
 ## To clarify {#to-clarify}
+<!-- open -->
 - …
 
 ## Change log

@@ -4,7 +4,7 @@ artifact: analysis
 step: 2
 title: "Market & Competitive Analysis — <Product>"
 status: template
-version: 0.3.0
+version: 0.3.1
 updated: 2026-08-13
 ---
 
@@ -102,6 +102,7 @@ _Market/sizing assumptions carried into the hypothesis register._
 | H-… | … | viability | market-sizing | [assumption] |
 
 ## To clarify {#to-clarify}
+<!-- open -->
 _Open items surfaced by the agent for the human to resolve._
 
 - …

@@ -35,6 +35,7 @@ Checks (ERROR fails CI · WARN never does):
      sections use; adoption is per-step (a step with no folder is pre-migration, not an error)
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:` marker, and an
      artifact's `confirmed:` marker parses as a YYYY-MM-DD date (WARN) else it silently means pending
+  R  an `<!-- open -->` section (inbox: to-clarify/open-questions/blockers) carries no `confirmed:` marker
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -577,6 +578,21 @@ def check_confirm_dates(inst):
                      % (rel(inst), os.path.basename(art), raw))
 
 
+def check_open_not_confirmed(inst):
+    """R (instance) — an `<!-- open -->` section must never carry a `confirmed:` marker.
+
+    An open section is an agent→human inbox (to-clarify, open-questions, blockers), resolved by
+    removing items, never by signing off a result (CONVENTIONS → Section confirmation). A confirmation
+    on it is a category error: it would count toward "N of M confirmed" a section that has no thesis.
+    """
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        for sec in T.sections(read(art)):
+            if sec["id"] and T.is_open(sec["body"]) and T.confirmed(sec["body"]):
+                err("R [%s] %s#%s: an `<!-- open -->` section carries a `confirmed:` marker — an open "
+                    "inbox has no result to sign (CONVENTIONS → Section confirmation)"
+                    % (rel(inst), os.path.basename(art), sec["id"]))
+
+
 def check_gates(homed):
     for readme in glob.glob(ROOT + "/steps/*/README.md"):
         for mm in re.finditer(r"[→>]\s*`?[a-z0-9-]+#([a-z0-9-]+)`?", read(readme)):
@@ -631,6 +647,7 @@ def main(argv=()):
         check_local_skills(inst)
         check_worklogs(inst)
         check_confirm_dates(inst)
+        check_open_not_confirmed(inst)
         check_register_tables(inst)
         check_register_ids(inst)
     check_links()

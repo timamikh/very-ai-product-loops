@@ -4,7 +4,7 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.2.1
+version: 0.2.2
 updated: 2026-07-21
 ---
 
@@ -108,6 +108,7 @@ _Risks specific to this strategy (mitigations owned at Step 4)._
 | R-… | … | market / product / execution / … | H/M/L | H/M/L | [assumption] |
 
 ## To clarify {#to-clarify}
+<!-- open -->
 _Open items surfaced for the human to resolve._
 
 - …

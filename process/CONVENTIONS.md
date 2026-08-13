@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.14.0
+version: 0.15.0
 updated: 2026-08-13
 ---
 
@@ -135,6 +135,20 @@ off. That sign-off is a marker on the section:
   and the `theses` operations skill (OPERATING-LOOP step 7) is what walks the human through a step's
   sections and writes the markers. It is the semantic twin of the section `{#anchor}`: invisible in a
   rendered reader, authoritative to a tool.
+
+**Result vs open sections.** Not every section is a thesis to sign. An **open** section is an
+agent→human inbox — `to-clarify`, `open-questions`, `blockers` — resolved by *removing* an item, never
+by confirming it. The schema marks such a section with `<!-- open -->` under its heading:
+
+```markdown
+## To clarify {#to-clarify}
+<!-- open -->
+```
+
+- An open section is **left out of the step's "N of M confirmed" count** — it has no result to sign, so
+  counting it would peg the figure below full forever. Everything without the marker is a **result**.
+- An open section **must never carry a `confirmed:` marker** (the linter's check R rejects it); the
+  console shows no confirmation chip on it.
 
 ## Instance config (`config.yaml`) — the pinned schema
 

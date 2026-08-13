@@ -200,6 +200,19 @@ def confirmed(body):
     return m.group(1) if m else None
 
 
+OPEN_RE = re.compile(r"<!--\s*open\s*-->")
+
+
+def is_open(body):
+    """True when a section is declared structurally OPEN (`<!-- open -->`) — an agent→human inbox
+    (to-clarify, open-questions, blockers), never a signed result (CONVENTIONS → Section confirmation).
+
+    Kept out of a step's "N of M confirmed" count: an open section has no result to sign, so counting
+    it would peg the figure below full forever. Such a section must never carry a `confirmed:` marker.
+    """
+    return bool(OPEN_RE.search(body))
+
+
 def table_column(text, colname):
     """Values under `colname` across EVERY table in the file that carries it (case-insensitive).
 

@@ -4,7 +4,7 @@ artifact: passport
 step: 1
 title: "Product Passport — <Product>"
 status: template
-version: 0.3.2
+version: 0.3.3
 updated: 2026-07-21
 ---
 
@@ -95,6 +95,7 @@ _Everything above starts as an assumption. List the ones to carry into the hypot
 | H-001 | … | desirability / feasibility / viability / usability | segments | [assumption] |
 
 ## To clarify {#to-clarify}
+<!-- open -->
 _Open items surfaced by the agent for the human to resolve._
 
 - …

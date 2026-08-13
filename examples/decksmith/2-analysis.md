@@ -157,6 +157,7 @@ moat must be the fidelity engine, not the app (noted in the register); `H-001` (
 even more central — native fidelity is precisely where the leader fails._
 
 ## To clarify {#to-clarify}
+<!-- open -->
 
 - **Beachhead within the lead segment** and **first format** (`.pptx` vs `.key` vs both) — a Step 3 (Strategy) choice.
 - **Willingness to pay vs bundled incumbents** (Copilot/Canva at ~$15–30 already bundled) — Step 3 pricing.

@@ -157,6 +157,16 @@ artifact's marker must parse as a date or it silently means pending. `OPERATING-
 eight result sections are confirmed, its two open-item sections (seeded hypotheses, to-clarify) left
 pending — a result gets signed, an open question does not.
 
+**Open sections stop pegging the confirmed count.** The `confirmed N of M` figure counted every written
+section, including the agent→human **inboxes** — `to-clarify`, `open-questions`, `blockers` — that are
+resolved by *removing* an item, never by signing one. So M could never be reached and the figure read as
+permanent debt. A section that is one of those inboxes now declares it in the schema with an `<!-- open -->`
+marker under its heading; the console leaves it out of the count and shows no confirmation chip on it, and
+new linter **check R** rejects a `confirmed:` marker on an open section (a category error). Seeded
+`hypotheses` stays a **result**: the human signs the selected set as the step's deliberate output, so it
+is still counted (and shows as pending until signed). Marked across the step templates (1–5) and the
+`decksmith` Step-2 sample; `CONVENTIONS.md` 0.14.0 → 0.15.0 (*Section confirmation* → result vs open).
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself
