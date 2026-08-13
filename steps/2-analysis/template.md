@@ -4,7 +4,7 @@ artifact: analysis
 step: 2
 title: "Market & Competitive Analysis — <Product>"
 status: template
-version: 0.3.1
+version: 0.3.2
 updated: 2026-08-13
 ---
 
@@ -73,6 +73,7 @@ lookups are a regional/company adapter concern, not the base.)_
 
 ## Substitutes {#substitutes}
 <!-- tool: substitutes -->
+<!-- rests-on: 1#jtbd -->
 _Non-obvious competition incl. "do nothing / do it manually / self-build"._
 
 | Substitute <!--c:substitute--> | How it does the job today <!--c:job--> | Why a customer would stay with it <!--c:why--> | Confidence <!--c:conf--> |

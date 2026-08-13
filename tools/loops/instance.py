@@ -236,6 +236,7 @@ def _artifacts(path, health):
                 "confirmed": T.confirmed(body),
                 "confirmed_by": T.confirmed_by(body),
                 "contested": T.contested(body),
+                "rests_on": T.rests_on(body),
                 "open": T.is_open(body),
                 "body": body,
             }, **T.digest(body)))
@@ -476,6 +477,7 @@ def _merge_steps(steps, artifacts, state, health):
                 "confirmed": sec["confirmed"] if sec else None,
                 "confirmed_by": sec["confirmed_by"] if sec else None,
                 "contested": sec["contested"] if sec else None,
+                "rests_on": sec["rests_on"] if sec else [],
                 "open": bool(sec["open"]) if sec else False,
             })
         for sec in (art or {}).get("sections", []):
@@ -492,6 +494,7 @@ def _merge_steps(steps, artifacts, state, health):
                                  "confirmed": sec["confirmed"],
                                  "confirmed_by": sec["confirmed_by"],
                                  "contested": sec["contested"],
+                                 "rests_on": sec["rests_on"],
                                  "open": bool(sec["open"]),
                                  "off_skeleton": True})
         out.append(dict(s, artifact_file=(art or {}).get("file"), artifact_updated=(art or {}).get("updated", ""),
@@ -557,6 +560,23 @@ def load(path, framework_root=F.ROOT):
     metrics = _metrics(path, metric_tree["rows"], health)
 
     steps = _merge_steps(F.steps(framework_root), artifacts, state, health)
+
+    # rests-on provenance: a confirmed thesis whose foundation section is not itself confirmed is a
+    # silent staleness (CONVENTIONS → Section confirmation) — the ground under it moved or was never
+    # signed. Resolve each `<step>#<section>` target across artifacts; an absent target counts as
+    # unconfirmed too. Annotate both the step view and the artifact view so either can flag it.
+    sec_confirmed = {"%d#%s" % (a["step"], s["id"]): bool(s["confirmed"])
+                     for a in artifacts for s in a["sections"] if s["id"]}
+
+    def _unconfirmed(sec):
+        return [tgt for tgt in sec.get("rests_on", []) if not sec_confirmed.get(tgt)]
+
+    for a in artifacts:
+        for s in a["sections"]:
+            s["rests_on_unconfirmed"] = _unconfirmed(s)
+    for st in steps:
+        for sec in st["sections"]:
+            sec["rests_on_unconfirmed"] = _unconfirmed(sec)
 
     gaps = []
     for a in artifacts:

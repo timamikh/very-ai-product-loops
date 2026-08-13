@@ -37,6 +37,8 @@ Checks (ERROR fails CI · WARN never does):
      an artifact's `confirmed:` marker parses as a YYYY-MM-DD date (WARN) else it silently means pending
   R  confirmation consistency: an `<!-- open -->` section (inbox) carries no `confirmed:`, and no
      section is both `confirmed:` and `contested:` (a verdict is one or the other)
+  S  rests-on provenance: a `rests-on: <step>#<id>` target resolves to a real section, and a confirmed
+     section resting on an unconfirmed foundation is surfaced  (WARN)
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -608,6 +610,42 @@ def check_open_not_confirmed(inst):
                     % (rel(inst), os.path.basename(art), sec["id"]))
 
 
+def check_rests_on(homed):
+    """S (schema) — a `rests-on: <step>#<id>` target names a real section (a step template `{#id}`)."""
+    for tpl in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+        for sec in T.sections(read(tpl)):
+            for tgt in T.rests_on(sec["body"]):
+                sid = tgt.split("#", 1)[1]
+                if sid not in homed:
+                    err("S %s#%s: rests-on target `%s` names no known section (CONVENTIONS → Section "
+                        "confirmation)" % (rel(tpl), sec["id"], tgt))
+
+
+def check_rests_confirmed(inst):
+    """S (instance) — a confirmed section that rests on an unconfirmed foundation (WARN).
+
+    Not an error: the foundation may simply be a step not reached yet. But a signed thesis standing on
+    unsigned ground is exactly the silent staleness the marker exists to surface, so it is said out loud.
+    """
+    parsed, conf = [], {}
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        mm = re.match(r"^(\d+)-", os.path.basename(art))
+        step = mm.group(1) if mm else "?"
+        secs = T.sections(read(art))
+        parsed.append((art, secs))
+        for sec in secs:
+            if sec["id"]:
+                conf["%s#%s" % (step, sec["id"])] = bool(T.confirmed(sec["body"]))
+    for art, secs in parsed:
+        for sec in secs:
+            if sec["id"] and T.confirmed(sec["body"]):
+                missing = [tgt for tgt in T.rests_on(sec["body"]) if not conf.get(tgt)]
+                if missing:
+                    warn("S [%s] %s#%s: confirmed, but rests on unconfirmed %s — re-confirm once the "
+                         "foundation is signed (CONVENTIONS → Section confirmation)"
+                         % (rel(inst), os.path.basename(art), sec["id"], ", ".join(missing)))
+
+
 def check_gates(homed):
     for readme in glob.glob(ROOT + "/steps/*/README.md"):
         for mm in re.finditer(r"[→>]\s*`?[a-z0-9-]+#([a-z0-9-]+)`?", read(readme)):
@@ -663,10 +701,12 @@ def main(argv=()):
         check_worklogs(inst)
         check_confirm_dates(inst)
         check_open_not_confirmed(inst)
+        check_rests_confirmed(inst)
         check_register_tables(inst)
         check_register_ids(inst)
     check_links()
     check_gates(homed)
+    check_rests_on(homed)
 
     print("very-ai-product-loops linter — %d tool(s), canon: relative links + strict enums" % len(tools))
     # Say what was covered: "0 instances" must read as a problem, not as a clean run.

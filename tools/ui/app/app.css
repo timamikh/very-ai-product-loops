@@ -208,6 +208,7 @@ hr { border:0; border-top:1px solid var(--line); margin:14px 0 }
 .tag.confirmed { color:var(--navy); border-color:currentColor; font-weight:600 }
 .tag.pending { color:var(--faint); border-style:dashed }
 .tag.contested { color:var(--err); border-color:currentColor; font-weight:600 }
+.tag.restwarn { color:var(--warn); border-color:currentColor; background:var(--warn-soft) }
 button.tag { cursor:pointer; font:inherit; font-family:var(--mono); font-size:10px }
 button.tag:hover { border-color:var(--brand); color:var(--brand-ink) }
 

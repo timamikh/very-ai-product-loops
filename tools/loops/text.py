@@ -226,6 +226,23 @@ def contested(body):
     return m.group(1) if m else None
 
 
+RESTS_ON_RE = re.compile(r"<!--\s*rests-on:\s*(.*?)\s*-->")
+_REST_TARGET_RE = re.compile(r"(\d+)#([a-z0-9][a-z0-9-]*)")
+
+
+def rests_on(body):
+    """Upstream sections this section's thesis rests on (`<!-- rests-on: 1#segments, 2#opportunity -->`).
+
+    Returns normalized `"<step>#<section-id>"` refs (empty if no marker). A confirmed thesis whose
+    foundation is not itself confirmed is a silent staleness the console surfaces (CONVENTIONS → Section
+    confirmation); the linter checks each ref resolves to a real section.
+    """
+    m = RESTS_ON_RE.search(body)
+    if not m:
+        return []
+    return ["%s#%s" % (s, sid) for s, sid in _REST_TARGET_RE.findall(m.group(1))]
+
+
 OPEN_RE = re.compile(r"<!--\s*open\s*-->")
 
 

@@ -27,6 +27,7 @@ version: 0.1.0
 
 ## Where to play {#where-to-play}
 <!-- tool: where-to-play-how-to-win -->
+<!-- rests-on: 1#segments, 2#opportunity -->
 
 | Dimension | We play in | We deliberately exclude | Confidence |
 |-----------|------------|-------------------------|------------|

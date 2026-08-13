@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.16.0
+version: 0.17.0
 updated: 2026-08-13
 ---
 
@@ -144,6 +144,14 @@ marker: `<!-- contested: YYYY-MM-DD -->`. It is distinct from *pending* (nobody 
 board can show contested work apart from unseen work — and the reason for the send-back goes in the
 change log. A section is **confirmed or contested, never both** (the linter's check R holds it); the
 `theses` skill stamps `contested` on a send-back verdict and never self-issues either marker.
+
+**Rests-on — a thesis names its foundation.** A section whose conclusion depends on upstream sections
+declares them with `<!-- rests-on: 1#segments, 2#opportunity -->` (each target `<step>#<section-id>`).
+It is a **schema** marker — the dependency is a property of the method, so it lives in the step
+template. Its payoff is provenance: when a section is confirmed but a section it rests on is **not**, the
+console flags it (*foundation unconfirmed*) and the linter warns — a signed thesis standing on unsigned
+ground is a silent staleness this makes loud. The linter's check S also holds every target to a real
+section id. It does not auto-drop a confirmation; it surfaces the gap for the human to re-confirm.
 
 **Result vs open sections.** Not every section is a thesis to sign. An **open** section is an
 agent→human inbox — `to-clarify`, `open-questions`, `blockers` — resolved by *removing* an item, never

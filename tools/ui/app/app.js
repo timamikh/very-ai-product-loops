@@ -101,6 +101,7 @@ const STR = {
     confirmed: 'confirmed', pending: 'to confirm', confirmedOn: 'confirmed by a human on',
     pendingTip: 'result not yet confirmed by a human', sectionsShort: 'sections',
     contested: 'returned', contestedTip: 'a human reviewed this and sent it back for rework',
+    restsOn: 'foundation unconfirmed', restsTip: 'confirmed, but rests on sections not yet confirmed:',
     navBack: 'back', navFwd: 'forward', toTop: 'back to top',
     boardStrategy: 'Strategy canvas', boardStratPlan: 'Metrics & economics',
     boardTactical: 'Goals & guardrails', boardSprint: 'Sprint board',
@@ -188,6 +189,7 @@ const STR = {
     confirmed: 'подтверждён', pending: 'на подтверждение', confirmedOn: 'подтверждён человеком',
     pendingTip: 'результат ещё не подтверждён человеком', sectionsShort: 'секций',
     contested: 'возвращён', contestedTip: 'человек посмотрел и вернул на доработку',
+    restsOn: 'опора не подтверждена', restsTip: 'подтверждено, но опирается на неподтверждённые секции:',
     navBack: 'назад', navFwd: 'вперёд', toTop: 'наверх',
     boardStrategy: 'Канвас стратегии', boardStratPlan: 'Метрики и экономика',
     boardTactical: 'Цели и гардрейлы', boardSprint: 'Доска спринта',
@@ -497,6 +499,14 @@ const confTag = m => {
 const confCounts = s => {
   const live = (s.sections || []).filter(x => x.present && !x.open);
   return { done: live.filter(x => x.confirmed).length, total: live.length };
+};
+/* A confirmed thesis that rests on a foundation section not itself confirmed is a quiet staleness
+   (CONVENTIONS → Section confirmation): the ground under it moved or was never signed. Shown only on a
+   confirmed section — an unconfirmed one resting on unconfirmed is just not-done-yet, not a risk. */
+const restTag = s => {
+  if (!s || !s.confirmed || !(s.rests_on_unconfirmed || []).length) return null;
+  return h('span', { class: 'tag restwarn', title: t('restsTip') + ' ' + s.rests_on_unconfirmed.join(', ') },
+    t('restsOn'));
 };
 
 /* A section heading — an eyebrow number, a title, and one line of context on the right. Every block
@@ -1259,6 +1269,7 @@ function viewStep() {
         x.present ? h('span', { class: 'tag' }, `${x.words} ${t('words')}`)
           : h('span', { class: 'tag unknown' }, t('notWritten')),
         confTag(x),
+        restTag(x),
         x.gaps ? h('span', { class: 'tag open' }, `${x.gaps} ${t('gaps')}`) : null,
         x.proposals ? h('span', { class: 'gear' }, `${t('proposalMark')} ×${x.proposals}`) : null,
         gate ? tickTag(gate.tick) : null,
@@ -1327,6 +1338,7 @@ function viewArtifacts() {
       h('code', { class: 'tag' }, '#' + section.id),
       confTag({ present: true, confirmed: section.confirmed, confirmed_by: section.confirmed_by,
         contested: section.contested, open: section.open }),
+      restTag(section),
       confChips(section.markers.confidence),
       section.markers.proposals ? h('span', { class: 'gear' },
         `${t('proposalMark')} ×${section.markers.proposals}`) : null,

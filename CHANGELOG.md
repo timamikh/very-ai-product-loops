@@ -178,6 +178,17 @@ single-operator product. The `theses` skill (0.1.0 → 0.2.0) stamps `contested`
 fills `by:`; linter **check R** now also rejects a section left both confirmed and contested, and **check Q**
 guards a schema shipping either marker; `CONVENTIONS.md` 0.15.0 → 0.16.0.
 
+**A thesis names its foundation — `rests-on`, and provenance across steps.** A confirmed conclusion can
+quietly go stale when a section it was built on changes or was never signed — nothing connected the two.
+A section now declares its upstreams in the schema with `<!-- rests-on: 1#segments, 2#opportunity -->`
+(each target `<step>#<section>`). When a section is confirmed but a section it rests on is **not**, the
+console flags it (*foundation unconfirmed*, amber) and linter **check S** warns; check S also holds every
+target to a real section id. It does not auto-drop the sign-off — it surfaces the gap for a human to
+re-confirm. Seeded on two real dependencies (`2#substitutes` → `1#jtbd`; `3#where-to-play` →
+`1#segments`, `2#opportunity`); the `decksmith` sample now shows it live — its Step-2 substitutes is
+signed while the Step-1 job it rests on is not, so the warning fires exactly where the debt is.
+`CONVENTIONS.md` 0.16.0 → 0.17.0.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself

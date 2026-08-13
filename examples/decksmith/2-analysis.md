@@ -99,6 +99,7 @@ appropriate to the company's jurisdiction._
 
 ## Substitutes {#substitutes}
 <!-- tool: substitutes -->
+<!-- rests-on: 1#jtbd -->
 <!-- confirmed: 2026-08-13 -->
 _Competition scored against the customer's **job** (`passport#jtbd`: a credible client deck fast,
 without redoing it by hand), not our category. The baseline three are always listed._

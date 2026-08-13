@@ -4,7 +4,7 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.2.2
+version: 0.2.3
 updated: 2026-07-21
 ---
 
@@ -34,6 +34,7 @@ _What winning looks like this horizon._
 
 ## Where to play {#where-to-play}
 <!-- tool: where-to-play-how-to-win -->
+<!-- rests-on: 1#segments, 2#opportunity -->
 _Segments / markets / arena chosen — and what's explicitly excluded._
 
 | Chosen arena | Why | Excluded (and why) | Confidence |
