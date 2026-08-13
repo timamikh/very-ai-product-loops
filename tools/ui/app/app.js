@@ -1372,6 +1372,11 @@ function viewRegisters() {
     : which === 'risks' ? ['category', 'категория'] : ['kind', 'вид'];
   const allowed = which === 'hypotheses' ? enums['hypothesis type']
     : which === 'risks' ? enums['risk category'] : enums['metric kind'];
+  // Status is a state machine (REGISTERS → the four-sign test), so it earns the same enum guard as
+  // the category axis — a stale or mistyped status would otherwise render silently. Metrics carry no
+  // status enum, so it is only checked for hypotheses and risks.
+  const statusAllowed = which === 'hypotheses' ? enums['hypothesis status']
+    : which === 'risks' ? enums['risk status'] : null;
   const statusCols = ['status', 'статус'];
   const facets = [...new Set(reg.rows.map(r => stripMd(cell(r, ...enumCol))).filter(Boolean))];
   const refs = refIndex();
@@ -1438,8 +1443,12 @@ function viewRegisters() {
           h('td', { class: 'prose', html: inline(r[mainCol] || '') }),
           h('td', {}, h('span', { class: 'tag ' + (bad ? 'err' : '') }, val || '—'),
             bad ? h('div', { class: 'tiny faint' }, allowed.join(' · ')) : null),
-          h('td', {}, h('span', { class: 'tag ' + stripMd(cell(r, ...statusCols)).split(/[\s·]/)[0] },
-            stripMd(cell(r, ...statusCols)) || '—')),
+          (() => {
+            const sval = stripMd(cell(r, ...statusCols));
+            const sbad = statusAllowed && sval && !statusAllowed.includes(sval.split(/[\s·]/)[0]);
+            return h('td', {}, h('span', { class: 'tag ' + (sbad ? 'err' : sval.split(/[\s·]/)[0]) }, sval || '—'),
+              sbad ? h('div', { class: 'tiny faint' }, statusAllowed.join(' · ')) : null);
+          })(),
           h('td', { class: 'refs' }, (refs[rid] || []).slice(0, 2).map(x =>
             goSection(x.file, x.id, refLabel(x), x.title)),
           (refs[rid] || []).length > 2 ? h('button', { class: 'trailbtn', onclick: toggle },

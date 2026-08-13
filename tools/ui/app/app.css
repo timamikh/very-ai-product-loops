@@ -209,6 +209,21 @@ hr { border:0; border-top:1px solid var(--line); margin:14px 0 }
 .tag.pending { color:var(--faint); border-style:dashed }
 .tag.contested { color:var(--err); border-color:currentColor; font-weight:600 }
 .tag.restwarn { color:var(--warn); border-color:currentColor; background:var(--warn-soft) }
+/* Register gradations (the ordinal axis, distinct from the confirmation marker above). Colour by
+   meaning on the house tokens, not by register: a live-but-held risk and an in-progress mitigation
+   read amber; a fired risk reads red; a "go" decision reads green; a "back to discovery" decision
+   wears the navy second hue. Unexercised until a post-data instance carries the values. */
+.tag.mitigating { color:var(--warn); border-color:currentColor; background:var(--warn-soft) }
+.tag.contained { color:var(--warn); border-color:currentColor; border-style:dashed }
+.tag.realized { color:var(--err); border-color:currentColor; background:var(--err-soft) }
+.tag.closed { color:var(--muted) }
+.tag.accepted { color:var(--muted); border-style:dashed }
+.tag.scale { color:var(--ok); border-color:currentColor; background:var(--ok-soft) }
+.tag.iterate { color:var(--warn); border-color:currentColor; background:var(--warn-soft) }
+.tag.reject { color:var(--err); border-color:currentColor; background:var(--err-soft) }
+.tag.research { color:var(--navy); border-color:currentColor }
+.tag.weak { color:var(--faint) }
+.tag.medium { color:var(--warn); border-color:currentColor }
 button.tag { cursor:pointer; font:inherit; font-family:var(--mono); font-size:10px }
 button.tag:hover { border-color:var(--brand); color:var(--brand-ink) }
 
