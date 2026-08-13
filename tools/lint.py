@@ -14,8 +14,8 @@ Checks (ERROR fails CI · WARN never does):
   A2 tool `questions.yaml` `produces` matches its SKILL `produces`
   B  every section-form `produces` is homed in some step's artifact (a step template `{#id}`)
   C  library index rows <-> tool folders, and index "Steps" <-> SKILL `used_by_steps`
-  D  register enums per instance (hypothesis type/status/confidence · risk category/status ·
-     metric kind/instrumentation)
+  D  register enums per instance (hypothesis type/status/confidence · post-test signal/decision ·
+     risk category/status · metric kind/instrumentation; signal/decision enforced-if-present)
   E  metrics.csv ids are a subset of metric-tree.md ids
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
@@ -109,6 +109,10 @@ def check_tools(tools, homed):
 EVIDENCE_STANDARDS = {"external-sources", "primary-research", "internal-data", "derived", "decision"}
 REJECTS_SHOWN = {"required", "n/a"}
 QUALITY_KEYS = ("evidence_standard", "volume_rule", "selection_rule", "rejects_shown")
+
+# Register enum columns filled only after a test readout — validated when present, never
+# flagged as missing (check D). The gradation lives in the row; not every row has been read yet.
+OPTIONAL_ENUM_LABELS = {"hypothesis signal", "hypothesis decision"}
 
 
 def _blank(v):
@@ -277,6 +281,8 @@ def check_instance(inst):
         "hypothesis type": os.path.join(reg, "hypotheses.md"),
         "hypothesis status": os.path.join(reg, "hypotheses.md"),
         "hypothesis confidence": os.path.join(reg, "hypotheses.md"),
+        "hypothesis signal": os.path.join(reg, "hypotheses.md"),
+        "hypothesis decision": os.path.join(reg, "hypotheses.md"),
         "risk category": os.path.join(reg, "risks.md"),
         "risk status": os.path.join(reg, "risks.md"),
         "metric kind": os.path.join(reg, "metric-tree.md"),
@@ -294,7 +300,10 @@ def check_instance(inst):
                 col = alias
                 break
         if vals is None:
-            warn("D [%s] %s: no `%s` column found to check" % (name, os.path.basename(path), aliases[0]))
+            # A post-test grade (signal/decision) is filled only once a readout exists, so its
+            # absence is normal, not a gap to flag. Required columns still warn when missing.
+            if label not in OPTIONAL_ENUM_LABELS:
+                warn("D [%s] %s: no `%s` column found to check" % (name, os.path.basename(path), aliases[0]))
             continue
         for v in vals:
             cv = T.enum_value(v)

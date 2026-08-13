@@ -189,6 +189,21 @@ re-confirm. Seeded on two real dependencies (`2#substitutes` → `1#jtbd`; `3#wh
 signed while the Step-1 job it rests on is not, so the warning fires exactly where the debt is.
 `CONVENTIONS.md` 0.16.0 → 0.17.0.
 
+**Gradations — a second axis, distinct from a sign-off.** Confirmation says *has a human signed this?*
+(one bit); it never said *how good the thing is*. That is now a separate, named axis. A hypothesis
+carries `signal` (`weak`/`medium`/`strong` — a click is channel diagnostics, not a result) and
+`decision` (`scale`/`iterate`/`reject`/`research`), and enters a test by a 1/3/5 priority score behind
+a 6-filter readiness gate; a risk ranks by likelihood × impact on a 5/3/1 backing and moves through a
+lifecycle `open`→`mitigating`→`contained`→`realized`→`closed` (with `accepted` off-cycle). The scales
+are defined once — enums in `REGISTERS.md` (0.6.0 → 0.7.0), the selection/readout method in
+`hypothesis-test-design` (0.1.1 → 0.2.0) and `risk-mitigation` (0.2.3 → 0.3.0) — and a new
+`CONVENTIONS.md` rule (0.17.0 → 0.18.0) holds the two axes apart: a high grade is not a sign-off, and
+confirming a section does not raise its grade, so a console that shows both must never fold one into
+the other. The post-test grades are **enforced-if-present** (linter **check D**): a register validates
+`signal`/`decision` when a row carries them and never flags their absence, since a bet is graded only
+once it has been read. No new skills, and no instance migration yet — the vocabulary lands in the
+canon; wiring it through every step and the console is a later pass.
+
 ## [Unreleased] — Delegation, and a quality declaration on every method
 
 ### The first field test moved delegation into the loop itself

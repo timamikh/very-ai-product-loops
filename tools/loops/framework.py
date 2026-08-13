@@ -274,9 +274,20 @@ ENUMS = {
     "hypothesis status": ({"open", "testing", "validated", "refuted", "superseded"},
                           ("status", "статус")),
     "hypothesis confidence": (set(CONFIDENCE), ("confidence", "уверенность")),
+    # Post-test grades (filled only after a readout, so enforced-if-present, not required —
+    # see OPTIONAL_ENUM_LABELS in tools/lint.py). `signal` grades the observed market response;
+    # `decision` is the call it drives — a `reject`/`research` triggers an upward revisit like a
+    # refuted bet. Both are gradations, orthogonal to the confirmation marker (CONVENTIONS).
+    "hypothesis signal": ({"weak", "medium", "strong"},
+                          ("signal", "сигнал")),
+    "hypothesis decision": ({"scale", "iterate", "reject", "research"},
+                            ("decision", "решение")),
     "risk category": ({"market", "product", "execution", "legal", "financial", "dependency"},
                       ("category", "категория")),
-    "risk status": ({"open", "mitigating", "closed", "accepted"},
+    # Lifecycle superset: `contained` (mitigated but still live) and `realized` (the risk fired)
+    # extend the old open/mitigating/closed; `accepted` stays the off-cycle disposition (carried
+    # un-mitigated on purpose).
+    "risk status": ({"open", "mitigating", "contained", "realized", "closed", "accepted"},
                     ("status", "статус")),
     "metric kind": ({"measured", "derived"},
                     ("kind", "вид")),

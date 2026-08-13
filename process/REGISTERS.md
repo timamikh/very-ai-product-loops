@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.6.0
-updated: 2026-08-08
+version: 0.7.0
+updated: 2026-08-13
 ---
 
 # Registers
@@ -66,8 +66,16 @@ Every bet/assumption becomes an entry. Fields:
 | `source` | where it came from |
 | `test` | link to the test design (Step 5) / experiment (Step 6) |
 | `confidence` | `assumption` · `sourced` · `validated` · `refuted` |
+| `signal` | *post-test* — the observed market response, graded: `weak` (click · like · page-view — channel diagnostics, not a result) · `medium` (lead · sign-up · reply · details request) · `strong` (meeting with a real DM · trial access · price talk · pilot · pre-pay · sale). Empty until read. |
+| `decision` | *post-test* — the call the readout drives: `scale` · `iterate` · `reject` · `research` (return to discovery). Distinct from `status`: a bet can be `validated`/`scale` or `refuted`/`reject` or partially-true/`iterate`. Empty until read. |
 
-A **refuted** hypothesis is a signal: it can trigger an upward revisit (see step cadence/invalidation).
+`signal` and `decision` are **gradations** (ordinal, in the row), orthogonal to the confirmation
+marker a human signs — see [`CONVENTIONS.md`](CONVENTIONS.md) *Gradation vs confirmation*. A
+**refuted** bet, or a `reject`/`research` decision, is a signal: it can trigger an upward revisit
+(see step cadence/invalidation). Which bets enter a test is a **priority score** (1/3/5 on pain
+acuteness · segment reach · product fit · pay potential · test speed) — a selection scale owned by
+[`hypothesis-test-design`](../tool-skills/library/hypothesis-test-design/SKILL.md), not a register
+column.
 
 ## Risk register (`risks.md`)
 
@@ -77,12 +85,17 @@ A **refuted** hypothesis is a signal: it can trigger an upward revisit (see step
 | `description` | the risk |
 | `category` | market · product · execution · legal · financial · dependency |
 | `tags` | free cross-cutting themes — same rule as hypotheses: never compounded into `category` |
-| `likelihood` | H/M/L |
-| `impact` | H/M/L |
+| `likelihood` | H/M/L — tiers backed by 5/3/1 for ranking (H=5 · M=3 · L=1) |
+| `impact` | H/M/L — same 5/3/1 backing |
 | `mitigation` | the plan (added Step 4) |
 | `owner` / `due` | who, by when (added Step 4/5) |
-| `status` | `open` · `mitigating` · `closed` · `accepted` |
+| `status` | `open` · `mitigating` · `contained` (mitigated but still live) · `realized` (it fired) · `closed` · `accepted` (carried un-mitigated on purpose) |
 | `source` | where it surfaced |
+
+Carried risks are **ranked by likelihood × impact** on the 5/3/1 tiers — the numeric backing is
+what makes the product a real ordering rather than a pile of "high"s. The scale and the pre-mortem
+that feeds it are owned by
+[`risk-mitigation`](../tool-skills/library/risk-mitigation/SKILL.md).
 
 ## Metric register (`metric-tree.md` + `metrics.csv`)
 

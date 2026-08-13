@@ -14,8 +14,8 @@ volume_rule: "≥8 named failure modes from the pre-mortem before any triage"
 selection_rule: "probability × impact; carried · parked · dropped, each with the reason"
 rejects_shown: required
 status: draft
-version: 0.2.3
-updated: 2026-08-09
+version: 0.3.0
+updated: 2026-08-13
 ---
 
 # Risk & Mitigation
@@ -53,6 +53,19 @@ mitigation + owner + trigger for each risk worth carrying.
    owns it, and the *trigger* (the observable signal that says "act now"). A risk with no owner or
    trigger is not managed.
 5. **Write to the register.** Upsert each into R- with score, mitigation, owner, trigger, status.
+
+## Scales — the shared gradations
+
+Two ordinal scales travel with a risk. They are **gradations**, orthogonal to the confirmation marker
+a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*).
+
+- **Likelihood × impact — H/M/L, backed 5/3/1.** The tiers stay human-readable (`H`/`M`/`L`), but the
+  triage ranks by the **product on the 5/3/1 backing** (H=5 · M=3 · L=1): five "high"s with no numbers
+  behind them is not an ordering. Rank the carried set by likelihood × impact, top-product first.
+- **Lifecycle — `open` → `mitigating` → `contained` → `realized` → `closed`, plus `accepted`.**
+  `contained` = a live risk whose mitigation is in place; `realized` = it fired (the mitigation and the
+  fallout are now the story); `closed` = no longer credible. `accepted` is **off-cycle** — a decision
+  to carry the risk un-mitigated on purpose, not a stage. Written back to the register's `status`.
 
 ## Anti-patterns
 - **No owner / no trigger.** A risk logged but unassigned, with nothing that says when to act.

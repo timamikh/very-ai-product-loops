@@ -17,9 +17,9 @@ not only external ones. Pull existing risks from the R- register before inventin
 
 | ID | Score (P×I) | Mitigation | Owner | Trigger (act-now signal) | Status |
 |----|-------------|------------|-------|--------------------------|--------|
-| R-… | … | … | … | … | open / mitigating / … |
+| R-… | … | … | … | … | open / mitigating / contained / realized / closed / accepted |
 
-_Ranked by P×I. At Step 4 every carried risk gets an owner and a trigger, or it isn't managed.
+_Ranked by P×I on the 5/3/1 backing (H=5·M=3·L=1). At Step 4 every carried risk gets an owner and a trigger, or it isn't managed.
 Upsert each into the R- register (one row per risk — the Step-4 columns fill in the same register entry)._
 
 **Disposition of every risk surfaced** — including the ones not carried. A risk that simply fails to

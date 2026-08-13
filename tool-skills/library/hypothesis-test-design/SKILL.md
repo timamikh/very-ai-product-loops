@@ -14,8 +14,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.1
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-13
 ---
 
 # Hypothesis Test Design
@@ -62,9 +62,48 @@ says *how we'll find out cheaply, and what verdict each outcome triggers*.
    this design, and record the metric node, threshold, and rule so the result later flips
    `confidence` to `validated` / `refuted` on its own.
 
+## Scales — the shared gradations
+
+Four ordinal scales travel with a hypothesis. They are **gradations**, orthogonal to the confirmation
+marker a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*). This method is
+their canonical home; the deferred `hypothesis-scoring` / `experiment-readout` skills (Steps 5–6) will
+*operate* them at sprint scale, but the definitions live here so there is one of each.
+
+- **Readiness gate (before a test) — 6 filters, pass/fail.** A hypothesis is test-ready only if each
+  filter has a concrete answer, not a hand-wave:
+
+  | Filter | Question it must answer | Fails on |
+  |--------|-------------------------|----------|
+  | Find | Where exactly do we reach this segment? | "somewhere in small business" |
+  | Recognize | Would the person recognize themselves in it? | "everyone who wants AI" |
+  | Pain | Is there a cost of inaction? | "would be nice" |
+  | Alternative | How do they solve it today? | "no idea / they don't" |
+  | CVP | Do we promise a concrete result? | "gets more efficient" |
+  | Action | What signal will we get? | "interest / reactions" |
+
+  A hypothesis missing a channel, a priced pain, a current alternative, or a target action is **not
+  ready to test** — fix it before designing the test, don't run it.
+
+- **Priority score (selecting what to test) — 1 / 3 / 5 on five criteria:** pain acuteness
+  (`interesting` / `blocks work` / `already costs money`) · segment reach (`unclear where` / `channels
+  exist` / `bases, communities, partners`) · product fit (`needs work` / `partial` / `sellable now`) ·
+  pay potential (`likes` / `leads` / `willing to pay, pilot`) · test speed (`>2 weeks` / `1 week` /
+  `1–2 days`). Rank by the sum; the top few enter the test.
+
+- **Signal strength (the result) — `weak` / `medium` / `strong`.** `weak` (click · like · page-view) is
+  **channel diagnostics, not a result**; `medium` (lead · sign-up · reply · details request); `strong`
+  (meeting with a real DM · trial access · price talk · pilot · pre-pay · sale). Success means a
+  qualified action, so the decision rule reads against the signal grade, not raw clicks.
+
+- **Decision (after the readout) — `scale` / `iterate` / `reject` / `research`.** The call the result
+  drives, written back to the hypothesis register's `decision`. A test with no decision recorded is not
+  finished.
+
 ## Anti-patterns
 - **No threshold set in advance.** Running a test with no pre-declared bar — any result can be
   spun as a win.
+- **A test that skips the readiness gate.** Designing a threshold for a bet with no channel, no priced
+  pain, or no target action — the gate is what makes the test answerable at all.
 - **"Let's look at the data."** A test with no decision rule; the verdict gets negotiated after the
   numbers land, so belief never actually moves.
 - **Test costs more than the answer.** Elaborate experiment to settle a cheap or reversible bet —

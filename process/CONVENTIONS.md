@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.17.0
+version: 0.18.0
 updated: 2026-08-13
 ---
 
@@ -166,6 +166,26 @@ by confirming it. The schema marks such a section with `<!-- open -->` under its
   counting it would peg the figure below full forever. Everything without the marker is a **result**.
 - An open section **must never carry a `confirmed:` marker** (the linter's check R rejects it); the
   console shows no confirmation chip on it.
+
+## Gradation vs confirmation — two orthogonal axes
+
+Confirmation answers *has a human signed this?* — a **binary marker** on the section (above). It says
+nothing about *how good* the thing is. That second question is a **gradation**: an ordinal scale
+written **inside the row**, not a marker.
+
+- **Confirmation** is one bit, set by the `theses` skill, dropped on re-projection.
+- **Gradation** is a scale carried in the content: a hypothesis's `signal` (`weak`/`medium`/`strong`)
+  and `decision` (`scale`/`iterate`/`reject`/`research`), its priority score (1/3/5), a risk's
+  likelihood × impact (H/M/L, backed 5/3/1) and lifecycle (`open`→`mitigating`→`contained`→
+  `realized`→`closed`). The scales are defined once — enums in [`REGISTERS.md`](REGISTERS.md),
+  the selection/readout method in the owning library skill — and never redefined per step.
+
+The axes are **independent**: a section can be confirmed at a low grade (a human signs off on a weak
+signal that says *reject*) or unconfirmed at a high one (a strong signal nobody has reviewed yet). So
+a high grade is **not** a sign-off, and confirming a section does **not** raise its grade — a console
+that renders both must show two chips, never fold one into the other. Collapsing them would relabel
+"nobody checked" as "checked and weak", which is exactly the confusion the confirmation marker exists
+to prevent.
 
 ## Instance config (`config.yaml`) — the pinned schema
 
