@@ -36,7 +36,7 @@ Checks (ERROR fails CI · WARN never does):
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
      sections use; adoption is per-step (a step with no folder is pre-migration, not an error)
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
-     an artifact's `confirmed:` marker parses as a YYYY-MM-DD date (WARN) else it silently means pending
+     an artifact's `confirmed:` marker parses as a YYYY-MM-DD date (ERROR) else it silently means pending
   R  confirmation consistency: an `<!-- open -->` section (inbox) carries no `confirmed:`, and no
      section is both `confirmed:` and `contested:` (a verdict is one or the other)
   S  rests-on provenance: a `rests-on: <step>#<id>` target resolves to a real section, and a confirmed
@@ -633,13 +633,17 @@ def _confirm_date(raw):
 
 
 def check_confirm_dates(inst):
-    """Q (instance) — an artifact's `confirmed:` marker parses as a date, else it silently means pending."""
+    """Q (instance) — an artifact's `confirmed:` marker parses as a date, else it silently means pending.
+
+    A malformed date is not a soft nit: the section reads as *pending* while its author believes it is
+    signed, so the mismatch is silent and one-directional. Cheap and unambiguous to catch — an ERROR.
+    """
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         for raw in CONFIRM_LOOSE_RE.findall(read(art)):
             if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", _confirm_date(raw)):
-                warn("Q [%s] %s: `confirmed: %s` is not a YYYY-MM-DD date, so it reads as *pending* — "
-                     "a typo silently un-confirms the section (CONVENTIONS → Section confirmation)"
-                     % (rel(inst), os.path.basename(art), raw))
+                err("Q [%s] %s: `confirmed: %s` is not a YYYY-MM-DD date, so it reads as *pending* — "
+                    "a typo silently un-confirms the section (CONVENTIONS → Section confirmation)"
+                    % (rel(inst), os.path.basename(art), raw))
 
 
 def check_open_not_confirmed(inst):
