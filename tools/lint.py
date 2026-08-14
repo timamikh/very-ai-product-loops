@@ -337,7 +337,9 @@ def check_instance(inst):
                     "definition cell (a row defines exactly one id)" % (name, cid))
 
 
-TOOL_MARK_RE = re.compile(r"<!--\s*tool:\s*([a-z0-9-]+)\s*-->")
+# a section may name several methods (`<!-- tool: A, B -->`); the first is the primary that owns
+# the worklog (CONVENTIONS -> primary-tool). Capture the whole list; the caller takes the first.
+TOOL_MARK_RE = re.compile(r"<!--\s*tool:\s*([a-z0-9-]+(?:\s*,\s*[a-z0-9-]+)*)\s*-->")
 SYNTH_MARK_RE = re.compile(r"<!--\s*synthesis")
 SOURCES_LINK_RE = re.compile(r"sources/[A-Za-z0-9._/-]+\.md")
 
@@ -361,7 +363,7 @@ def check_worklogs(inst):
         if not os.path.isdir(folder):
             continue                                      # step has not adopted worklogs yet
         text = read(art)
-        expected = set(TOOL_MARK_RE.findall(text))
+        expected = {m.split(",")[0].strip() for m in TOOL_MARK_RE.findall(text)}
         if SYNTH_MARK_RE.search(text):
             expected.add("synthesis")
         present = set()
@@ -490,7 +492,10 @@ def check_links():
         for p in paths:
             if "/.git/" in p:
                 continue
-            hits = T.LINK_RE.findall(read(p))
+            # a `[[...]]` inside a fenced block is not a wiki-link — a Mermaid subroutine node
+            # is written `SYS[[label]]`. Strip fences first (cf. check_schema_not_confirmed).
+            live = re.sub(r"```.*?```", "", read(p), flags=re.S)
+            hits = T.LINK_RE.findall(live)
             if hits:
                 err("F %s: %d GitMark-lite [[...]] link(s) — canon is relative path + {#anchor}: %s"
                     % (rel(p), len(hits), ", ".join(sorted(set(hits))[:5])))
