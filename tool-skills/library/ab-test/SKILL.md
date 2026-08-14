@@ -84,8 +84,21 @@ test selection, it executes one kind of test.
 - **A/B where you can't randomize.** A confounded pseudo-experiment; use a labeled before/after or holdout.
 - **Ignoring SRM.** Unequal arms signal a broken assignment; the result is void, not "close enough".
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/ab-test.md` (`node_type: worklog`,
+e.g. `5-tactical-plan/ab-test.md`): the OEC and its guardrail metrics, the randomization unit and
+arms with the allocation split, the MDE-driven sample and run-length sizing with the stated
+population, the pre-registered stopping rule, the pitfall checks (SRM, novelty, cross-arm
+contamination), and the verdict with the measured effect. That worklog is the **source of truth**;
+the artifact section `{#hypotheses-to-test}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#hypotheses-to-test}` (the experiment design + read) via
-[`template-fragment.md`](template-fragment.md); inputs via [`questions.yaml`](questions.yaml). It
-**specializes** `hypothesis-test-design` for the online-experiment case; the result writes back to
-the hypotheses register (`confidence`) and the metric register (measured effect).
+Projects `{#hypotheses-to-test}` (the experiment design + read) via
+[`template-fragment.md`](template-fragment.md) from the worklog; inputs via
+[`questions.yaml`](questions.yaml). It **specializes** `hypothesis-test-design` for the
+online-experiment case; the result writes back to the hypotheses register (`confidence`) and the
+metric register (measured effect).

@@ -59,6 +59,17 @@ gains), and customer-perceived value (what the customer believes they get, not w
 - **Our words, not theirs.** Value framed in internal language the customer wouldn't use.
 - **One UVP for everyone.** A generic proposition that fits no segment sharply.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/uvp-cpv.md` (`node_type: worklog`,
+e.g. `3-strategy/uvp-cpv.md`): the best-fit customer, the named alternative, the value stated against
+their top jobs/pains via the Value Proposition Canvas, the customer-perceived value in the customer's
+own words with the signal behind it (money beats words), and the positioning one-liner. That worklog is
+the **source of truth**; the artifact section `{#uvp-cpv}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#uvp-cpv}` via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#uvp-cpv}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml).

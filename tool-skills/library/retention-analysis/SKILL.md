@@ -100,7 +100,19 @@ metric that judges a monthly product on daily use lies), and paired with the **e
 - **Recomputing LTV here.** LTV/contribution live in `unit-economics`; this tool supplies the
   retention input, it doesn't own the economics.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/retention-analysis.md`
+(`node_type: worklog`, e.g. `4-strategic-plan/retention-analysis.md`): the "active" definition and the
+product's natural frequency, the cohort retention curve and its shape (does it flatten above zero?),
+the censoring / `observed_n` accounting, the curves split by segment, the engagement-loop map
+(trigger → action → reward → investment), and the drop-off and resurrection points. That worklog is
+the **source of truth**; the artifact section `{#retention}` is its **projection** into the fixed
+shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and
+the step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#retention}` via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#retention}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml). Writes retention/churn readings to `metrics.csv` and hands the
 curve to `unit-economics` + `financial-model`; unproven drivers seed `H-…`.

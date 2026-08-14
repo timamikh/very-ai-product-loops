@@ -113,7 +113,18 @@ their canonical home; the deferred `hypothesis-scoring` / `experiment-readout` s
 - **Metric invented for the test.** Reading against a one-off number instead of a defined `M-…` node,
   so the result can't be compared or trusted.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/hypothesis-test-design.md` (`node_type:
+worklog`, e.g. `5-tactical-plan/hypothesis-test-design.md`): the named `H-…` and its riskiest
+assumption, the bound `M-…` metric node, the success and failure thresholds, the smallest-sufficient
+test sizing (sample / duration), and the pre-registered decision rule. That worklog is the **source of
+truth**; the artifact section `{#hypotheses-to-test}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#hypotheses-to-test}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml). On Step 4 the same method quantifies `{#global-hypotheses}`
+Projects `{#hypotheses-to-test}` via [`template-fragment.md`](template-fragment.md) from the worklog;
+inputs via [`questions.yaml`](questions.yaml). On Step 4 the same method quantifies `{#global-hypotheses}`
 (threshold + `M-…` link) before the Step 5 test design.

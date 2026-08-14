@@ -72,6 +72,18 @@ our price and adoption regardless of how few "direct" rivals exist.
 - **Listing without the "when it wins."** A substitute with no stated winning condition can't be
   compared, defended against, or triaged into the risk register.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/substitutes.md` (`node_type: worklog`,
+e.g. `2-analysis/substitutes.md`): the job framed by JTBD, the three baseline substitutes (do nothing ·
+do it manually · build/host it themselves) plus the ≥2 adjacent ones, each with its *why the customer
+chooses it* and *when it wins*, the self-build threshold, the switching friction, and which strong
+substitutes were promoted to the risk register. That worklog is the **source of truth**; the artifact
+section `{#substitutes}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#substitutes}` via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#substitutes}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml).

@@ -68,6 +68,21 @@ players in that arena — not a list of things we'd like to be good at.
 - **Aspiration as slogan.** A mission statement standing in for a definition of winning.
 - **Disconnected cascade.** A winning logic that doesn't actually win in the chosen arena.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/where-to-play-how-to-win.md`
+(`node_type: worklog`, e.g. `3-strategy/where-to-play-how-to-win.md`): the winning aspiration, the ≥3
+distinct candidate cascades with why the losers lose, the chosen where-to-play with its explicit
+exclusions, the how-to-win logic naming the moats it leverages, and the integration check across the
+three choices. This method keeps **one** worklog, and all three sections `{#winning-aspiration}`,
+`{#where-to-play}`, `{#how-to-win}` are its **projections** into the fixed shape of
+[`template-fragment.md`](template-fragment.md); it is the **primary** tool of the multi-tool marker
+`tool: where-to-play-how-to-win, value-definition` on `{#how-to-win}`, so it **owns** that worklog. The
+worklog is the **source of truth**, the sections hold nothing it does not, and the step's change-log
+history lives in the worklog, not the sections (`process/CONVENTIONS.md` → *Step folders & worklogs*).
+External figures arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never
+linked from the artifact.
+
 ## Output
-Fills the three sections via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#winning-aspiration}`, `{#where-to-play}`, `{#how-to-win}` via
+[`template-fragment.md`](template-fragment.md) from the single worklog; inputs via
 [`questions.yaml`](questions.yaml).

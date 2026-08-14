@@ -259,40 +259,35 @@ def homed_sections(root=ROOT):
 
 # ---------------------------------------------------------------- canon enums
 
-# label -> (allowed values, column-name aliases)
+# label -> (allowed values, canonical column key)
 #
-# The *values* are canon and never translated. The *column header* is written in the instance's own
-# language (`config.yaml` → language), so each check carries the aliases it accepts — otherwise a
-# non-English register silently escapes validation entirely.
+# The *values* are canon and never translated. A register's *column header* is written in the
+# instance's own language (`config.yaml` → language), so it is found by its language-independent
+# **column key** (`<!--c:key-->` on the header) — the register twin of a section `{#anchor}`. There is
+# no by-name fallback: a register the console reads must carry its keys (CONVENTIONS → Column keys). The
+# old EN/RU header-alias lists are gone — a per-language list is exactly the maintenance trap a key
+# removes, and a language it never listed escaped validation silently.
 CONFIDENCE = ["assumption", "sourced", "validated", "refuted"]   # ordered for display
 
 ENUMS = {
-    "hypothesis type": ({"desirability", "feasibility", "viability", "usability"},
-                        ("type", "тип")),
+    "hypothesis type": ({"desirability", "feasibility", "viability", "usability"}, "type"),
     # `superseded`: the hypothesis was split in two, not disproved — closing it as `refuted` would
     # record a falsehood (CONVENTIONS → Links & register item IDs).
-    "hypothesis status": ({"open", "testing", "validated", "refuted", "superseded"},
-                          ("status", "статус")),
-    "hypothesis confidence": (set(CONFIDENCE), ("confidence", "уверенность")),
+    "hypothesis status": ({"open", "testing", "validated", "refuted", "superseded"}, "status"),
+    "hypothesis confidence": (set(CONFIDENCE), "confidence"),
     # Post-test grades (filled only after a readout, so enforced-if-present, not required —
     # see OPTIONAL_ENUM_LABELS in tools/lint.py). `signal` grades the observed market response;
     # `decision` is the call it drives — a `reject`/`research` triggers an upward revisit like a
     # refuted bet. Both are gradations, orthogonal to the confirmation marker (CONVENTIONS).
-    "hypothesis signal": ({"weak", "medium", "strong"},
-                          ("signal", "сигнал")),
-    "hypothesis decision": ({"scale", "iterate", "reject", "research"},
-                            ("decision", "решение")),
-    "risk category": ({"market", "product", "execution", "legal", "financial", "dependency"},
-                      ("category", "категория")),
+    "hypothesis signal": ({"weak", "medium", "strong"}, "signal"),
+    "hypothesis decision": ({"scale", "iterate", "reject", "research"}, "decision"),
+    "risk category": ({"market", "product", "execution", "legal", "financial", "dependency"}, "category"),
     # Lifecycle superset: `contained` (mitigated but still live) and `realized` (the risk fired)
     # extend the old open/mitigating/closed; `accepted` stays the off-cycle disposition (carried
     # un-mitigated on purpose).
-    "risk status": ({"open", "mitigating", "contained", "realized", "closed", "accepted"},
-                    ("status", "статус")),
-    "metric kind": ({"measured", "derived"},
-                    ("kind", "вид")),
-    "metric instrumentation": ({"instrumented", "proxy", "not-instrumented"},
-                               ("instrumentation", "инструментирование")),
+    "risk status": ({"open", "mitigating", "contained", "realized", "closed", "accepted"}, "status"),
+    "metric kind": ({"measured", "derived"}, "kind"),
+    "metric instrumentation": ({"instrumented", "proxy", "not-instrumented"}, "instrumentation"),
 }
 
 TICK_VALUES = ["done", "open", "n/a", "deferred"]

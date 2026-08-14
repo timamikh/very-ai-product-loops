@@ -77,6 +77,22 @@ the available capacity from `resource-check`, not by wishful scope.
 - **Score for score's sake.** Ranking by RICE/ICE number with no tie back to the gate.
 - **Orphan items.** Items with no `M-…` / `H-…` link — they move nothing and test nothing.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/prioritization.md` (`node_type: worklog`):
+the period gate stated first, the full candidate list **with N recorded**, the RICE/ICE scores, the
+re-rank by gate contribution, the must-set drawn at the capacity line, and every **cut item with its
+reason**. That worklog is the **source of truth**; the artifact section `{#period-goals}` (Step 5) is
+its **projection** into the fixed shape of [`template-fragment.md`](template-fragment.md), holding
+nothing the worklog does not, with the change-log history in the worklog
+(`process/CONVENTIONS.md` → *Step folders & worklogs*).
+
+On Step 6, `{#must}` / `{#backlog}` are filled per-subsection by `feature-spec` (features) and
+`activity-spec` (activities), each the **primary** of its subsection marker. `prioritization` is the
+**ranking** method contributing there: its ordering and cut rationale land in those primaries' worklogs,
+not a file of its own — the first tool in a `<!-- tool: A, B -->` marker owns the section's worklog
+(`process/CONVENTIONS.md` → *Several methods → one section: the first is primary*).
+
 ## Output
-Fills `{#period-goals}` (Step 5) and `{#must}` / `{#backlog}` (Step 6) via
-[`template-fragment.md`](template-fragment.md); inputs via [`questions.yaml`](questions.yaml).
+Projects `{#period-goals}` (Step 5) via [`template-fragment.md`](template-fragment.md) from its worklog;
+on Step 6 contributes the ranking of `{#must}` / `{#backlog}` through the `feature-spec` / `activity-spec`
+worklogs. Inputs via [`questions.yaml`](questions.yaml).

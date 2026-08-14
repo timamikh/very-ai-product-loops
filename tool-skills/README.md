@@ -75,8 +75,10 @@ harness as slash-skills. `tool-skills/` holds **framework skills** — markdown 
 *reads and applies* as part of the workflow. Different mechanism, different home.
 
 `.claude/agents/` is the same distinction one step further: the `loops-*` subagent definitions there
-are **runtime enforcement** of a rule that is written in markdown — they give a delegated agent no
-write tools, so the canon's "only the orchestrator writes" cannot be forgotten. The rule lives in
+are **runtime enforcement** of a rule that is written in markdown. The write rule is a split — a
+`draft` subagent writes exactly one file (its method's worklog), and `gather`/`research`/`verify`
+write nothing — so three of the four definitions ship with no write tools at all, and `loops-draft`
+carries `Write` and only `Write`. The rule lives in
 [`process/OPERATING-LOOP.md`](../process/OPERATING-LOOP.md) → *Delegation* and the procedure in
 [`operations/orchestration/`](operations/orchestration/SKILL.md); the definitions are how one
 particular runtime happens to enforce it, and the framework runs without them.

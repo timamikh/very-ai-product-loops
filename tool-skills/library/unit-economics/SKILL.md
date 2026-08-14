@@ -67,6 +67,18 @@ compute a single basis and say so.
 - LTV from an invented churn constant.
 - Ignoring free-tier burn because "they don't pay".
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/unit-economics.md`
+(`node_type: worklog`, e.g. `4-strategic-plan/unit-economics.md`): the stated reading window, revenue
+per paying account (blended and by tariff), COGS per account in both bases (operational / honest) with
+the inference-allocation rule, the contribution margin, CAC and payback per channel, and the LTV
+scenarios. That worklog is the **source of truth**; the artifact section `{#unit-economics}` is its
+**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds
+nothing the worklog does not, and the step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#unit-economics}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#unit-economics}` via [`template-fragment.md`](template-fragment.md) from the worklog;
+inputs via [`questions.yaml`](questions.yaml); unit metrics become `M-…` nodes (ARPPU, contribution,
+CAC) with a basis column in `metrics.csv`.

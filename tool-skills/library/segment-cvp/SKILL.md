@@ -157,8 +157,20 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
 - **A 3 for "I don't know".** The middle of a 1/3/5 scale is a judgement, not a shrug — an unknown is
   `— to clarify —`, and a bundle scored mostly on shrugs should not be staged.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/segment-cvp.md` (`node_type: worklog`,
+e.g. `5-tactical-plan/segment-cvp.md`): every bundle composed (segment · situation · pain · CVP ·
+offer · channel · signal), its verdict on the 6-filter readiness gate with the reason, the 1·3·5
+scores on the five criteria for the ready ones, the top 3–5 staged, and every not-ready or
+lost-on-score bundle kept with the filter it failed or its score. That worklog is the **source of
+truth**; the artifact section `{#market-bundles}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-At Step 5, fills `{#market-bundles}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml). At Steps 1 and 3 it produces no artifact section — it acts as a
-lens: at Step 1 it seeds the hypothesis register (desirability bets) and informs `segments`/`problems`;
-at Step 3 it sharpens `{#bets}` into concrete, testable market-entry shapes.
+At Step 5, projects `{#market-bundles}` via [`template-fragment.md`](template-fragment.md) from the
+worklog; inputs via [`questions.yaml`](questions.yaml). At Steps 1 and 3 it produces no artifact
+section — it acts as a lens: at Step 1 it seeds the hypothesis register (desirability bets) and informs
+`segments`/`problems`; at Step 3 it sharpens `{#bets}` into concrete, testable market-entry shapes.

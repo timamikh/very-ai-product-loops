@@ -38,7 +38,7 @@ they judge success by. States the job; the pains inside it are scored in #proble
 
 **Job statement.** _When_ <circumstance>, _I want to_ <make this progress>, _so that_ <outcome>.  [assumption]
 
-| Force | Direction | For this job | Confidence |
+| Force <!--c:force--> | Direction <!--c:dir--> | For this job <!--c:forjob--> | Confidence <!--c:conf--> |
 |-------|-----------|--------------|------------|
 | Push | away from status quo | … | [assumption] |
 | Pull | toward this product | … | [assumption] |
@@ -49,7 +49,7 @@ they judge success by. States the job; the pains inside it are scored in #proble
 <!-- tool: segmentation -->
 _Who it's for and how segments are cut._
 
-| Priority | Segment | How it's cut | Why it matters | Where to reach them | Confidence |
+| Priority <!--c:priority--> | Segment <!--c:segment--> | How it's cut <!--c:cut--> | Why it matters <!--c:why--> | Where to reach them <!--c:reach--> | Confidence <!--c:conf--> |
 |----------|---------|--------------|----------------|---------------------|------------|
 | 1 (lead) | … | … | … | … | [assumption] |
 
@@ -57,7 +57,7 @@ _Who it's for and how segments are cut._
 <!-- tool: segment-pains -->
 _Each segment's problems, scored by severity × frequency._
 
-| Problem | Severity | Frequency | Class | Confidence |
+| Problem <!--c:problem--> | Severity <!--c:severity--> | Frequency <!--c:frequency--> | Class <!--c:class--> | Confidence <!--c:conf--> |
 |---------|----------|-----------|-------|------------|
 | … | H/M/L | H/M/L | differentiator / table-stakes | [assumption] |
 
@@ -68,7 +68,7 @@ breaks. Fill when a flat pain list isn't enough (e.g. an unexplained drop-off). 
 `#problems`; its touchpoints feed Step-3 `#product-surface`. Omit it if not needed — it is not a
 required passport section._
 
-| Stage | Actions | Touchpoints | Thoughts / emotions | Pains | Emotion (▲/▼) | Confidence |
+| Stage <!--c:stage--> | Actions <!--c:actions--> | Touchpoints <!--c:touchpoints--> | Thoughts / emotions <!--c:thoughts--> | Pains <!--c:pains--> | Emotion (▲/▼) <!--c:emotion--> | Confidence <!--c:conf--> |
 |-------|---------|-------------|---------------------|-------|---------------|------------|
 | … | … | … | … | … | ▼ | [assumption] |
 
@@ -76,7 +76,7 @@ required passport section._
 <!-- tool: concept-formation -->
 _How the product solves each problem above. No orphan features._
 
-| Problem | How the product solves it | Confidence |
+| Problem <!--c:problem--> | How the product solves it <!--c:solution--> | Confidence <!--c:conf--> |
 |---------|---------------------------|------------|
 | … | … | [assumption] |
 
@@ -90,7 +90,7 @@ _The value and the moat(s). See the tool for the base/derivative taxonomy._
 ## Seeded hypotheses {#hypotheses}
 _Everything above starts as an assumption. List the ones to carry into the hypothesis register._
 
-| ID | Hypothesis | Type | From section | Confidence |
+| ID <!--c:id--> | Hypothesis <!--c:hypothesis--> | Type <!--c:type--> | From section <!--c:from--> | Confidence <!--c:conf--> |
 |----|------------|------|--------------|------------|
 | H-001 | … | desirability / feasibility / viability / usability | segments | [assumption] |
 

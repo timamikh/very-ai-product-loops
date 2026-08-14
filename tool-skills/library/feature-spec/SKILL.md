@@ -47,6 +47,19 @@ Each feature has exactly these fields (keep them tight):
 - **Orphan feature.** No link to a goal, metric, or hypothesis — a candidate to cut.
 - **Value-free.** Missing business or user value.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/feature-spec.md` (`node_type: worklog`,
+e.g. `6-sprint-plan/feature-spec.md`): for each development item, its Description, Scope, Business
+value (the `M-…` it moves / `H-…` it tests), User value, and User stories. That worklog is the
+**source of truth** for this method's rows; the Features subsections of `{#must}` / `{#backlog}`
+(`### … Features <!-- tool: feature-spec, prioritization -->`) are its **projection** into the fixed
+shape of [`template-fragment.md`](template-fragment.md) — those sections are co-filled (the ranking
+comes from `prioritization`), but this method owns its worklog for its own feature rows. The
+projection holds nothing the worklog does not, and the step's change-log history lives in the worklog,
+not the section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
+dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-One block per feature via [`template-fragment.md`](template-fragment.md); inputs via
+Projects one block per feature into the Features subsections of `{#must}` / `{#backlog}` via
+[`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml). Hands off to the team's development process.

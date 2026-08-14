@@ -269,33 +269,41 @@ def _artifacts(path, health):
 def _register(path, filename, id_prefix, health, enum_checks=()):
     """One register file → rows + enum validation.
 
-    `enum_checks` items are (column-aliases, allowed values, label). Aliases exist because an
-    instance's registers are written in the product's own language (`config.yaml` → language), so the
-    same canonical column is `Type` in one instance and `Тип` in another — the *values* stay canon.
+    `enum_checks` items are (allowed values, label, key). A register's columns are addressed by a stable
+    **column key** (`<!--c:key-->` on the header) — language-independent, so the console and the linter
+    find `Type`/`Тип`/`Tipo` the same way, with no per-language header-alias list to maintain. Each row
+    is keyed by *both* its header prose and its column key, so a reader can ask for either; the *values*
+    under a column are always canon.
     """
     f = os.path.join(path, "registers", filename)
     if not os.path.exists(f):
-        return {"present": False, "file": filename, "columns": [], "rows": []}
+        return {"present": False, "file": filename, "columns": [], "col_keys": [], "rows": []}
     raw = T.read(f)
-    headers, rows = None, []
+    headers, col_keys, rows = None, [], []
     for t in T.tables(raw):
-        hs = [h.lower() for h in t["headers"]]
-        if "id" in hs:
-            headers = hs
+        keys = T.column_keys(t["headers"])
+        hs = [T.header_name(h).lower() for h in t["headers"]]
+        if "id" in hs or "id" in keys:          # the id column, by header prose or by its <!--c:id--> key
+            headers, col_keys = hs, keys
             for r in t["rows"]:
-                row = {hs[i]: (r[i] if i < len(r) else "") for i in range(len(hs))}
+                row = {}
+                for i in range(len(hs)):
+                    v = r[i] if i < len(r) else ""
+                    row[hs[i]] = v
+                    if keys[i]:
+                        row[keys[i]] = v          # also addressable by its stable column key
                 if T.clean_cell(row.get("id", "")).startswith(id_prefix):
                     rows.append(row)
             break
-    for aliases, allowed, label in enum_checks:
-        col = next((a for a in aliases if headers and a in headers), None)
-        if col is None:
+    for allowed, label, key in enum_checks:
+        if key not in col_keys:
             health.append({"level": "warn", "code": "register-column",
-                           "message": "%s has no `%s` column — %s cannot be validated"
-                                      % (filename, aliases[0], label)})
+                           "message": "%s has no column keyed `<!--c:%s-->` — %s cannot be validated "
+                                      "(a register the console reads must key its columns)"
+                                      % (filename, key, label)})
             continue
         for r in rows:
-            v = T.enum_value(r.get(col, ""))
+            v = T.enum_value(r.get(key, ""))
             if not v:
                 continue
             if v not in allowed:
@@ -303,9 +311,9 @@ def _register(path, filename, id_prefix, health, enum_checks=()):
                                "message": "%s · %s: %s = `%s` is not one of %s (a qualifier belongs "
                                           "in `note`, a cross-cutting theme in `tags` — never "
                                           "compounded into the value)"
-                                          % (filename, T.clean_cell(r.get("id", "?")), col, v,
+                                          % (filename, T.clean_cell(r.get("id", "?")), key, v,
                                              ", ".join(sorted(allowed)))})
-    return {"present": True, "file": filename, "columns": headers or [], "rows": rows}
+    return {"present": True, "file": filename, "columns": headers or [], "col_keys": col_keys, "rows": rows}
 
 
 def _metrics(path, tree_rows, health):
@@ -548,8 +556,8 @@ def load(path, framework_root=F.ROOT):
     artifacts = _artifacts(path, health)
 
     def check(label):
-        allowed, aliases = F.ENUMS[label]
-        return (aliases, allowed, label)
+        allowed, key = F.ENUMS[label]
+        return (allowed, label, key)
 
     hypotheses = _register(path, "hypotheses.md", "H-", health,
                            [check("hypothesis type"), check("hypothesis status"),

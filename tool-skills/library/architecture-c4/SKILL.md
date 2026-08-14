@@ -49,6 +49,17 @@ Express as a simple list or a Mermaid diagram — keep it Context-level.
 - **Over-designing.** Dropping into Container/Component detail — that's engineering's job, later.
 - **Hiding dependencies.** Omitting the external systems that carry cost and risk.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/architecture-c4.md`
+(`node_type: worklog`): the C4 Context sketch — the system box, the actors mapped to segments, the
+external systems it integrates with or depends on, the relationships between them, and the downstream
+feeds (external LLM/infra → Step-4 COGS, critical dependencies → `R-…` risks, exclusive integrations
+→ a moat). That worklog is the **source of truth**; the artifact section `{#architecture}` is its
+**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds
+nothing the worklog does not, and the step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#architecture}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#architecture}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs
+via [`questions.yaml`](questions.yaml); critical dependencies seed `R-…` risks.

@@ -32,7 +32,7 @@ updated: 2026-08-08
 <!-- tool: architecture-c4, product-surface -->
 _Refined C4 architecture + instrumentation from Step 3 — where metric data comes from, and what drives infra cost._
 
-| Surface / component | Instrumentation (instrumented / proxy / not) | Data it produces | Infra cost driver | Confidence |
+| Surface / component <!--c:surface--> | Instrumentation (instrumented / proxy / not) <!--c:instrumentation--> | Data it produces <!--c:data--> | Infra cost driver <!--c:cost--> | Confidence <!--c:conf--> |
 |---------------------|----------------------------------------------|------------------|-------------------|------------|
 | … | … | … | … | [assumption] |
 
@@ -44,7 +44,7 @@ _North Star → drivers → input metrics. Node **definitions** live in `registe
 **North Star:** `M-…` — <definition/formula> · [decision: ⚙️ / approved <who, when>]
 _Why this one: leading · value-repeating · strategy-encoding (one line each)._
 
-| Driver | Node | Inputs (nodes) | Instrumentation |
+| Driver <!--c:driver--> | Node <!--c:node--> | Inputs (nodes) <!--c:inputs--> | Instrumentation <!--c:instrumentation--> |
 |--------|------|----------------|-----------------|
 | acquisition / activation | `M-…` | `M-…` | instrumented / proxy / not |
 | conversion | … | … | … |
@@ -59,7 +59,7 @@ Readings land in `registers/metrics.csv` against their `M-…`. Each cell is rea
 (`n`) — members whose window has not elapsed are censored, not counted as churned; `—` = not
 observable yet._
 
-| Cohort (join period) | P1 | P3 | P6 | P12 | Flattens at | Shape read | Confidence |
+| Cohort (join period) <!--c:cohort--> | P1 <!--c:p1--> | P3 <!--c:p3--> | P6 <!--c:p6--> | P12 <!--c:p12--> | Flattens at <!--c:flattens--> | Shape read <!--c:shape--> | Confidence <!--c:conf--> |
 |----------------------|----|----|----|-----|-------------|------------|------------|
 | … | …% (n=…) | …% (n=…) | — | — | …% floor / decays to 0 | flattening / decaying | [sourced: metrics …] |
 
@@ -71,7 +71,7 @@ observable yet._
 _Contribution margin; LLM inference as an explicit COGS line. The "honest" basis is **optional —
 own-compute (own-GPU) products only**; on third-party/API compute the bases collapse to one._
 
-| Metric | Operational | Honest (+depreciation / market compute) — own-compute only | Assumptions |
+| Metric <!--c:metric--> | Operational <!--c:operational--> | Honest (+depreciation / market compute) — own-compute only <!--c:honest--> | Assumptions <!--c:assumptions--> |
 |--------|-------------|------------------------------------------------------------|-------------|
 | Revenue per payer ($/mo) | … | … | … |
 | COGS per payer ($/mo) | … | … | [assumption: allocation rule] |
@@ -84,7 +84,7 @@ own-compute (own-GPU) products only**; on third-party/API compute the bases coll
 <!-- tool: financial-model -->
 _A simple projection tied to the metric-tree drivers; churn as a scenario axis; capacity caps as a first-class ceiling._
 
-| Driver | Base | Assumption | Confidence |
+| Driver <!--c:driver--> | Base <!--c:base--> | Assumption <!--c:assumption--> | Confidence <!--c:conf--> |
 |--------|------|------------|------------|
 | … | … | … | [assumption] |
 
@@ -95,7 +95,7 @@ _A simple projection tied to the metric-tree drivers; churn as a scenario axis; 
 <!-- tool: risk-mitigation -->
 _Each key risk → an owned mitigation (pre-mortem)._
 
-| `R-…` | Risk | Likelihood | Impact | Mitigation | Owner | Due | Status |
+| `R-…` <!--c:register--> | Risk <!--c:risk--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Mitigation <!--c:mitigation--> | Owner <!--c:owner--> | Due <!--c:due--> | Status <!--c:status--> |
 |-------|------|------------|--------|------------|-------|-----|--------|
 | R-… | … | H/M/L | H/M/L | … | … | … | open / mitigating |
 
@@ -103,7 +103,7 @@ _Each key risk → an owned mitigation (pre-mortem)._
 <!-- tool: hypothesis-test-design -->
 _Strategy bets, now quantified & tied to metric nodes (threshold set here; test design at Step 5)._
 
-| `H-…` | Bet | Metric node (`M-…`) | Success threshold | Failure threshold | Confidence |
+| `H-…` <!--c:register--> | Bet <!--c:bet--> | Metric node (`M-…`) <!--c:node--> | Success threshold <!--c:success--> | Failure threshold <!--c:failure--> | Confidence <!--c:conf--> |
 |-------|-----|---------------------|-------------------|-------------------|------------|
 | H-… | … | M-… | ≥ … | < … | [assumption] |
 
@@ -117,7 +117,7 @@ _What's still unknown, explicitly — not hidden._
 down it stops the next cycle from re-running it, unwritten it is re-run forever. Name what moved —
 a hypothesis split into halves closes as `superseded`, not `refuted` (`process/CONVENTIONS.md`).
 
-| What we checked | What the data said | Why it is not a verdict | Moved |
+| What we checked <!--c:checked--> | What the data said <!--c:said--> | Why it is not a verdict <!--c:why--> | Moved <!--c:moved--> |
 |-----------------|--------------------|-------------------------|-------|
 | … | … | … | `H-…` / `M-…` / — |
 

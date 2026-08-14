@@ -67,7 +67,19 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
 - **Table-stakes as the pitch.** Leading on a pain everyone already solves.
 - **Guessed severity.** Numbers with no source, tagged as fact.
 
+## Worklog & projection
+
+The working is done in the step's **worklog** `<step-folder>/segment-pains.md` (`node_type: worklog`,
+e.g. `1-passport/segment-pains.md`): the stated job, the ≥5 candidate pains per segment each scored
+**severity × frequency** and classified **differentiator vs table-stakes**, and the ranking — the top
+3 carried forward, the rest kept in the table with their rank. That worklog is the **source of
+truth**; the artifact section `{#problems}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
 
-Fills `{#problems}` via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#problems}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml).

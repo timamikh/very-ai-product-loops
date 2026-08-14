@@ -64,6 +64,16 @@ answer. Every input is a **named assumption** traced to its source; sizing assum
 - **Averaging away divergence.** Splitting the difference between bottom-up and top-down instead of
   reconciling why they disagree.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/market-sizing.md` (`node_type: worklog`,
+e.g. `2-analysis/market-sizing.md`): the arena sized, the **bottom-up arithmetic** (units × price), the
+top-down cross-check, every named assumption with its source tag, and the open items. That worklog is
+the **source of truth**; the artifact section `{#market-sizing}` is its **projection** into the fixed
+shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
+step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#market-sizing}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#market-sizing}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs
+via [`questions.yaml`](questions.yaml); each load-bearing sizing assumption seeds `H-…` (`type: viability`).

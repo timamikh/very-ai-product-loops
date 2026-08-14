@@ -47,6 +47,21 @@ collection point can't exist.
 - **Channels without instrumentation.** Listing where users come from with no way to measure it.
 - **Orphan metrics.** Wanting a metric with no collection point defined.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/product-surface.md` (`node_type: worklog`):
+the full list of surfaces the user touches (channels, landing pages, mailings, in-product UI, admin,
+integrations), the instrumentation points, the surface→metric links with their gaps (`— to clarify —`),
+and the infra implications for Step 4's cost lines. That worklog is the **source of truth**; the
+artifact section `{#product-surface}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, with the
+change-log history in the worklog (`process/CONVENTIONS.md` → *Step folders & worklogs*).
+
+Where `product-surface` **contributes** to the Step-4 `{#architecture}` section (primary
+`architecture-c4`), its working for that section lands in `architecture-c4`'s worklog, not a file of its
+own — the first tool in a `<!-- tool: A, B -->` marker owns the section's worklog
+(`process/CONVENTIONS.md` → *Several methods → one section: the first is primary*).
+
 ## Output
-Fills `{#product-surface}` via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#product-surface}` via [`template-fragment.md`](template-fragment.md) from its worklog;
+contributes to `{#architecture}` through `architecture-c4`'s worklog. Inputs via
 [`questions.yaml`](questions.yaml).

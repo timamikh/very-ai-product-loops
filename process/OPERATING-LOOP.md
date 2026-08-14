@@ -74,8 +74,11 @@ If step 3 decided to split, this is where the split runs: one **brief** per part
 context and where to find it, the allowed tools, the return shape — procedure in the
 `orchestration` operations skill), subagents spawned, and **every return scored against its
 passport before its content is used** — one remediation round with the defects named, then stop
-and mark the gap `— to clarify —`. Gathering, research, drafting and verification are delegated
-this way; **the writing never is**.
+and mark the gap `— to clarify —`. A `draft` subagent does the method's working and **writes its own
+worklog**; `gather`, `research` and `verify` are delegated as return-only. What is **never** delegated
+is the writing the orchestrator owns: the **projection** of the worklog into the artifact section, the
+**registers**, `state.yaml`, the gate ticks and the change log. (If `config.yaml` sets `delegation:
+off`, the orchestrator runs the pass itself and writes the worklog directly — no subagents.)
 
 Two obligations to the human before anything lands on disk:
 - **Show reasoning first.** A section that rests mainly on the agent's own reasoning or on the
@@ -169,11 +172,20 @@ an agent starts skipping loop steps. Delegation moves the gathering out and keep
 It does **not** save tokens — every subagent re-reads what it needs — it buys the orchestrator a
 context that stays clear enough to think.
 
-**The write rule (absolute).** Only the orchestrator writes to the instance. Subagents read, search,
-fetch and reason; they **return text**. The rule is transitive: a subagent may spawn its own
-subagents, and none of them writes either. This is what removes the two failure modes delegation
-would otherwise add — concurrent register writes colliding over id allocation, and a gate ticked by
-an agent that never read the gate.
+**The write rule.** The instance is split into what a subagent may write and what only the orchestrator
+may. A **`draft` subagent writes exactly one file — its method's worklog** `<step-folder>/<method>.md`
+(the draft where the method's working lives), and nothing else. `gather`, `research` and `verify`
+subagents write nothing at all; they read, search, fetch, reason, and **return text**. Everything that
+is not a draft's own worklog stays the orchestrator's alone: the **artifact** (the chistovik the human
+signs), the **registers**, the **projection** of each worklog into its section, `state.yaml`, the gate
+ticks and the change log. The rule is transitive: a subagent may spawn its own subagents, and the only
+file anything below the orchestrator may write is a `draft`'s own worklog.
+
+This split is what keeps the two failure modes delegation would otherwise add from returning. A worklog
+**allocates no register id** — a draft that implies a hypothesis describes it in words, and the
+orchestrator mints the id when it writes the register row and projects the section — so concurrent
+subagents never collide over id allocation. And no subagent touches `state.yaml`, so a gate is never
+ticked by an agent that did not read it.
 
 **Never delegated**, however busy the orchestrator is:
 
@@ -189,14 +201,15 @@ an agent that never read the gate.
 |------|-----------------------|------------|
 | `gather` | one source + the question the number/fact must answer | dated tagged values + what it could not reach |
 | `research` | one question + its scope and stop condition | a sourced digest, every claim tagged |
-| `draft` | one library method + the inputs it needs | proposed section text, ⚙️-marked, written nowhere |
+| `draft` | one library method + the inputs it needs | its method's **worklog** (the draft), written by the subagent; ⚙️-marked — plus a summary + passport for the orchestrator to check before projecting |
 | `verify` | one artifact/section + the checklist to hold it against | findings: file · anchor · what fails · why |
 
 **A brief is a scoped handoff.** Same problem as a session handoff — give a fresh agent enough state
 without giving it your context — so it is the same mechanism, narrowed: reading order first, then
 scope, inputs, the return contract, and the **non-negotiables block** the subagent works under. A
-subagent that is read-only does not need the whole canon (registers, change logs, gate ticks are not
-its to touch), but it does need the rules that make its output usable: never invent, tag every claim,
+subagent does not need the whole canon (registers, change logs and gate ticks are never its to touch —
+a `draft` writes only its worklog, and the worklog conventions it needs come with the method's
+`SKILL.md`), but it does need the rules that make its output usable: never invent, tag every claim,
 mark proposals ⚙️, no secrets or PII, `— to clarify —` for a gap, and never close a fork.
 
 **The return gate is hard.** Unlike this framework's step gates, which are soft ticks for a human,

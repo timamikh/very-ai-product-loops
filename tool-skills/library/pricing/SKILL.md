@@ -90,7 +90,18 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
 - **Deciding price in `unit-economics`.** The margin check validates the price; it isn't where the
   price is chosen.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/pricing.md` (`node_type: worklog`): the
+chosen value metric, the packaging and tiers with their fences (good-better-best), the anchoring of
+each segment's price to its next-best alternative, the willingness-to-pay evidence (van Westendorp
+bands / direct WTP) with its `[sourced: …]`/`[assumption]` tags, and the price points and pricing
+model. That worklog is the **source of truth**; the artifact section `{#pricing}` is its
+**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds
+nothing the worklog does not, and the step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#pricing}` via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#pricing}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml). Price points feed `unit-economics` and `financial-model` at
 Step 4; unproven choices seed `H-…` (`type: viability`).

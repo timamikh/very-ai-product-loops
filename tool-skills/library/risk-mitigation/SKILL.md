@@ -74,6 +74,17 @@ a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*).
 - **Severity theatre.** Scoring everything high so nothing is prioritized.
 - **Register drift.** Risks captured here but never written back to R-.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/risk-mitigation.md` (`node_type: worklog`,
+e.g. `3-strategy/risk-mitigation.md`): the pre-mortem's ≥8 named failure modes, the likelihood × impact
+triage with every surfaced risk's disposition (carried · parked · dropped) and reason, the ranked
+carried set, and each carried risk's mitigation, owner, and trigger. That worklog is the **source of
+truth**; the artifact section `{#product-risks}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#product-risks}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#product-risks}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs
+via [`questions.yaml`](questions.yaml).

@@ -30,7 +30,7 @@ _Source of truth for `<n>-<slug>.md#<section>`; that section is the projection o
 _Routed here by `source-intake` from `../sources/`. Each row is a fact the method works from; the
 analysis and conclusions are worked below and projected into the artifact section — never here._
 
-| From source <!--c:source--> | What it gives this method <!--c:gives--> | Value / claim <!--c:claim--> | Captured <!--c:captured--> | Confidence <!--c:conf--> |
+| From source | What it gives this method | Value / claim | Captured | Confidence |
 |-----------------------------|------------------------------------------|------------------------------|---------------------------|--------------------------|
 | `../sources/<file>.md` | <why this method needs it> | <the fact, as the source states it> | <YYYY-MM-DD> | [sourced: <slug>] |
 | `../sources/<file>.md` | <…> | <…> | <YYYY-MM-DD> | [sourced: <slug>] |

@@ -57,6 +57,17 @@ cost-per-usage), never a hand-drawn revenue curve. At pmf the model is 10 lines,
 - Precision theatre (kopecks in a model whose churn axis spans 3×).
 - A model detached from the tree's node IDs.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/financial-model.md` (`node_type: worklog`,
+e.g. `4-strategic-plan/financial-model.md`): the driver values pulled from `metrics.csv`, the churn
+scenario axis, the compounded 12-month projection across 2–4 scenarios, where each capacity cap binds,
+both cost bases carried to breakeven, and the invalidation triggers. That worklog is the **source of
+truth**; the artifact section `{#financial-model}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#financial-model}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#financial-model}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs
+via [`questions.yaml`](questions.yaml).

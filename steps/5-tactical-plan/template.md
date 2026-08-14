@@ -30,7 +30,7 @@ updated: 2026-07-20
 <!-- tool: prioritization -->
 _Measurable goals for the period, grouped by direction._
 
-| Direction | Goal (measurable) | Why now | Confidence |
+| Direction <!--c:direction--> | Goal (measurable) <!--c:goal--> | Why now <!--c:why--> | Confidence <!--c:conf--> |
 |-----------|-------------------|---------|------------|
 | development | … | … | [assumption] |
 | go-to-market | … | … | [assumption] |
@@ -40,7 +40,7 @@ _Measurable goals for the period, grouped by direction._
 <!-- tool: metric-tree -->
 _What each goal maps to: go-to-market → a metric node (`M-…`); technical & back-office → a Definition of Done._
 
-| Goal | Direction | Target: `M-…` or DoD | Baseline → target | Confidence |
+| Goal <!--c:goal--> | Direction <!--c:direction--> | Target: `M-…` or DoD <!--c:target--> | Baseline → target <!--c:baseline--> | Confidence <!--c:conf--> |
 |------|-----------|----------------------|-------------------|------------|
 | … | go-to-market | `M-…` | … → … | [assumption] |
 | … | back-office | DoD: … | — | [assumption] |
@@ -49,7 +49,7 @@ _What each goal maps to: go-to-market → a metric node (`M-…`); technical & b
 <!-- tool: guardrails -->
 _What must **not** drop while hitting the goals — protected metrics / red lines._
 
-| Guardrail (`M-…`) | Must stay | Red line | Why | Confidence |
+| Guardrail (`M-…`) <!--c:guardrail--> | Must stay <!--c:muststay--> | Red line <!--c:redline--> | Why <!--c:why--> | Confidence <!--c:conf--> |
 |-------------------|-----------|----------|-----|------------|
 | `M-…` | ≥ … | … | … | [assumption] |
 
@@ -57,7 +57,7 @@ _What must **not** drop while hitting the goals — protected metrics / red line
 <!-- tool: resource-check -->
 _Resources available this period (people, budget, time) — via survey._
 
-| Resource | Available this period | Constraint | Confidence |
+| Resource <!--c:resource--> | Available this period <!--c:available--> | Constraint <!--c:constraint--> | Confidence <!--c:conf--> |
 |----------|-----------------------|------------|------------|
 | people | … | … | [sourced: …] |
 | budget | … | … | [sourced: …] |
@@ -67,7 +67,7 @@ _Resources available this period (people, budget, time) — via survey._
 _Candidate go-to-market entries, gated on test-readiness (6 filters + three-things test).
 Top 3–5 by `prioritization` are staged; `hypothesis-test-design` designs the chosen ones._
 
-| ID | Segment | Situation | Pain | CVP | Offer | Channel | Signal · tier | Readiness | `H-…` | Confidence |
+| ID <!--c:id--> | Segment <!--c:segment--> | Situation <!--c:situation--> | Pain <!--c:pain--> | CVP <!--c:cvp--> | Offer <!--c:offer--> | Channel <!--c:channel--> | Signal · tier <!--c:signal--> | Readiness <!--c:readiness--> | `H-…` <!--c:register--> | Confidence <!--c:conf--> |
 |----|---------|-----------|------|-----|-------|---------|---------------|-----------|-------|------------|
 | B-01 | … | … | … | … | demo / diagnostic / trial | named community / partner | trial · **strong** | ready / `not-ready: <filter>` | H-… | [assumption] |
 
@@ -77,7 +77,7 @@ Top 3–5 by `prioritization` are staged; `hypothesis-test-design` designs the c
 <!-- tool: hypothesis-test-design (ab-test for split-traffic) -->
 _One row per `H-…` tested this period: a pre-registered read — metric · threshold · sample · decision rule fixed before running._
 
-| `H-…` | Metric node (`M-…`) | Success | Failure | Sample / duration | Decision rule | Confidence |
+| `H-…` <!--c:register--> | Metric node (`M-…`) <!--c:node--> | Success <!--c:success--> | Failure <!--c:failure--> | Sample / duration <!--c:sample--> | Decision rule <!--c:decision--> | Confidence <!--c:conf--> |
 |-------|---------------------|---------|---------|-------------------|---------------|------------|
 | H-… | M-… | ≥ … | < … | n = … / … wk | ≥ success → validated; < failure → refuted; between → <next> | [assumption] |
 
@@ -85,7 +85,7 @@ _One row per `H-…` tested this period: a pre-registered read — metric · thr
 <!-- open -->
 _Dependencies / blockers with an owner (link back to `R-…`)._
 
-| Blocker | Owner | Links (`R-…`) | Status | Confidence |
+| Blocker <!--c:blocker--> | Owner <!--c:owner--> | Links (`R-…`) <!--c:links--> | Status <!--c:status--> | Confidence <!--c:conf--> |
 |---------|-------|---------------|--------|------------|
 | … | … | R-… | open | [assumption] |
 

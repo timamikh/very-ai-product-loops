@@ -620,9 +620,9 @@ function viewOverview() {
   const openGates = m.steps.reduce((a, s) =>
     a + s.gate.filter(g => g.tick === 'open' || g.tick === 'unknown').length, 0);
   const hStatus = k => reg.hypotheses.rows.filter(r =>
-    stripMd(cell(r, 'status', 'статус')).toLowerCase().startsWith(k)).length;
+    stripMd(cell(r, 'status')).toLowerCase().startsWith(k)).length;
   const risksLive = reg.risks.rows.filter(r =>
-    /open|mitigat|открыт|митиг/i.test(stripMd(cell(r, 'status', 'статус')))).length;
+    /open|mitigat|открыт|митиг/i.test(stripMd(cell(r, 'status')))).length;
   const measured = Object.keys(m.metrics.series).length;
   const nextStep = m.steps.find(s => (s.gate_counts.open || 0) + (s.gate_counts.unknown || 0) > 0);
   const nextItem = nextStep && nextStep.gate.find(g => g.tick === 'open' || g.tick === 'unknown');
@@ -900,11 +900,6 @@ function firstTable(body) {
   }
   return null;
 }
-/* Index of the first column whose header contains any of the given needles (case-insensitive). */
-const colIdx = (head, ...names) => {
-  for (const n of names) { const i = (head || []).findIndex(x => x.toLowerCase().includes(n)); if (i >= 0) return i; }
-  return -1;
-};
 /* The template's column order per section id — the positional fallback for any table that carries no
    explicit column keys (every artifact written before the keys existed, and in any language). Keyed by
    section because that is how the boards fetch a table; the key words are shared with the <!--c:…--> marks. */
@@ -916,16 +911,18 @@ const COL_SCHEMA = {
   'competitor-dynamics': ['name', 'metric', 'trend', 'source', 'conf'],
   'niche-risks':         ['risk', 'force', 'likelihood', 'impact', 'register', 'conf'],
 };
-/* The index of a column by its stable key, most-trusted source first: an explicit <!--c:key--> mark on
-   the header (survives translation and reordering), else the template column order for section `sec`,
-   else a case-insensitive match on the header prose (English template words, or legacy). -1 if none holds. */
-const colKey = (tbl, sec, key, ...needles) => {
+/* The index of a column by its stable key: an explicit <!--c:key--> mark on the header (survives
+   translation and reordering), else the template column order for section `sec` (COL_SCHEMA, positional
+   and language-independent). No header-prose alias list — a per-language list of header words is the
+   maintenance trap the key removes. -1 if neither holds. Once instance artifacts carry their template's
+   keys, the positional fallback is dead too and this is a pure mark lookup. */
+const colKey = (tbl, sec, key) => {
   if (!tbl) return -1;
   const byMark = (tbl.keys || []).indexOf(key);
   if (byMark >= 0) return byMark;
   const schema = COL_SCHEMA[sec];
   if (schema) { const p = schema.indexOf(key); if (p >= 0 && p < (tbl.head || []).length) return p; }
-  return colIdx(tbl.head, key, ...needles);
+  return -1;
 };
 /* A competitor's join key across the four competitor tables: first significant word, lowercased. */
 const compKey = s => (plain(s).toLowerCase().split(/[\s(/,]+/).filter(Boolean)[0] || '');
@@ -1120,7 +1117,7 @@ function marketBoard(s) {
   const money = c => (String(c).match(/[$€£]\s?[\d.,]+(?:\s*[–—-]\s*[$€£]?[\d.,]+)?\s*(?:[KMB]|bn|trn|млрд|млн)?/i) || [])[0];
   const est = key => {
     if (!tbl) return null;
-    const i = colKey(tbl, 'market-sizing', 'value', 'estimate');
+    const i = colKey(tbl, 'market-sizing', 'value');
     const row = tbl.rows.find(r => new RegExp('^' + key, 'i').test(plain(r[0])));
     if (!row) return null;
     const cell = row[i >= 0 ? i : 1] || '';
@@ -1151,19 +1148,19 @@ function competitorTable(s) {
   const base = tbl('competitors');
   if (!base) return null;
   // Each column is read by its stable key (colKey): a <!--c:key--> mark if present, else the template's
-  // column order for the section, else the English header prose. So the join holds in any language.
-  const mapBy = (t2, sec, key, ...needles) => {
+  // column order for the section (COL_SCHEMA). No header-prose alias list — the join holds in any language.
+  const mapBy = (t2, sec, key) => {
     const map = {};
-    if (t2) { const ci = colKey(t2, sec, key, ...needles); if (ci >= 0) t2.rows.forEach(r => { const k = compKey(r[0]); if (k && !(k in map)) map[k] = r[ci]; }); }
+    if (t2) { const ci = colKey(t2, sec, key); if (ci >= 0) t2.rows.forEach(r => { const k = compKey(r[0]); if (k && !(k in map)) map[k] = r[ci]; }); }
     return map;
   };
   const strat = tbl('competitor-strategy'), price = tbl('competitor-pricing'), dyn = tbl('competitor-dynamics');
-  const play = mapBy(strat, 'competitor-strategy', 'play', 'play', 'game'),
-    moat = mapBy(strat, 'competitor-strategy', 'moat', 'moat'),
-    pr = mapBy(price, 'competitor-pricing', 'price', 'price'),
-    dy = mapBy(dyn, 'competitor-dynamics', 'trend', 'trend', 'period');
-  const ti = colKey(base, 'competitors', 'type', 'direct', 'type'),
-    oi = colKey(base, 'competitors', 'offer', 'offer', 'what');
+  const play = mapBy(strat, 'competitor-strategy', 'play'),
+    moat = mapBy(strat, 'competitor-strategy', 'moat'),
+    pr = mapBy(price, 'competitor-pricing', 'price'),
+    dy = mapBy(dyn, 'competitor-dynamics', 'trend');
+  const ti = colKey(base, 'competitors', 'type'),
+    oi = colKey(base, 'competitors', 'offer');
   const dash = x => (x && x.trim()) ? inline(x) : '—';
   const rows = base.rows.map(r => {
     const k = compKey(r[0]);
@@ -1187,9 +1184,9 @@ function riskBoard(s) {
   const a = bodyOf(s, 'niche-risks');
   const tbl = a ? firstTable(a.body) : null;
   if (!tbl) return null;
-  const ri = colKey(tbl, 'niche-risks', 'risk', 'risk'), fi = colKey(tbl, 'niche-risks', 'force', 'force'),
-    li = colKey(tbl, 'niche-risks', 'likelihood', 'likelihood', 'like'), ii = colKey(tbl, 'niche-risks', 'impact', 'impact'),
-    idi = colKey(tbl, 'niche-risks', 'register', '→', 'register', 'r-');
+  const ri = colKey(tbl, 'niche-risks', 'risk'), fi = colKey(tbl, 'niche-risks', 'force'),
+    li = colKey(tbl, 'niche-risks', 'likelihood'), ii = colKey(tbl, 'niche-risks', 'impact'),
+    idi = colKey(tbl, 'niche-risks', 'register');
   const rows = tbl.rows.map(r => h('tr', {},
     h('td', { class: 'prose', html: inline(r[ri >= 0 ? ri : 0]) }),
     h('td', { html: inline(fi >= 0 ? r[fi] : '') }),
@@ -1368,8 +1365,17 @@ function viewRegisters() {
   if (!reg.present) return h('div', {}, tabs, h('div', { class: 'empty' }, `${reg.file} — ${t('nothingYet')}`));
 
   const enums = m.framework.enums;
-  const enumCol = which === 'hypotheses' ? ['type', 'тип']
-    : which === 'risks' ? ['category', 'категория'] : ['kind', 'вид'];
+  // Each register column is addressed by its stable key (`reg.col_keys`, from the header `<!--c:key-->`
+  // marks), so the console finds Type / Тип / Tipo the same way — the register version of the
+  // section `{#anchor}`. A not-yet-keyed register falls back to the language aliases. `byKey` maps a
+  // canonical key to the header prose it actually carries; `colOf` resolves key → header, alias last.
+  const byKey = {};
+  (reg.col_keys || []).forEach((k, i) => { if (k && reg.columns[i]) byKey[k] = reg.columns[i]; });
+  const colOf = key => byKey[key] || key;   // key → the header prose it carries; no header-name fallback
+  const idHeader = colOf('id');
+  const enumHeader = which === 'hypotheses' ? colOf('type')
+    : which === 'risks' ? colOf('category') : colOf('kind');
+  const statusHeader = colOf('status');
   const allowed = which === 'hypotheses' ? enums['hypothesis type']
     : which === 'risks' ? enums['risk category'] : enums['metric kind'];
   // Status is a state machine (REGISTERS → the four-sign test), so it earns the same enum guard as
@@ -1377,8 +1383,7 @@ function viewRegisters() {
   // status enum, so it is only checked for hypotheses and risks.
   const statusAllowed = which === 'hypotheses' ? enums['hypothesis status']
     : which === 'risks' ? enums['risk status'] : null;
-  const statusCols = ['status', 'статус'];
-  const facets = [...new Set(reg.rows.map(r => stripMd(cell(r, ...enumCol))).filter(Boolean))];
+  const facets = [...new Set(reg.rows.map(r => stripMd(cell(r, enumHeader))).filter(Boolean))];
   const refs = refIndex();
 
   const filters = h('div', { class: 'filters' },
@@ -1396,7 +1401,7 @@ function viewRegisters() {
   // scans by (the id, the statement, its type, its state, where it is argued) and the row opens to
   // the rest: every remaining column in full, then the item's trail.
   const mainCol = reg.columns[1] || reg.columns[0];
-  const shownCols = new Set(['id', mainCol].concat(enumCol, statusCols));
+  const shownCols = new Set([idHeader, mainCol, enumHeader, statusHeader]);
 
   function detail(r, rid, span) {
     const es = history[rid] || [];
@@ -1418,22 +1423,19 @@ function viewRegisters() {
   }
 
   function regTable() {
-    const cols = ['id', mainCol, enumCol[0], statusCols[0]];
-    const heads = [reg.columns.find(c => c === 'id') || 'id', mainCol,
-      reg.columns.find(c => enumCol.includes(c)) || enumCol[0],
-      reg.columns.find(c => statusCols.includes(c)) || statusCols[0]];
+    const heads = [idHeader, mainCol, enumHeader, statusHeader];
     const rows = reg.rows.filter(r => {
-      if (S.regFilter !== 'all' && stripMd(cell(r, ...enumCol)) !== S.regFilter) return false;
+      if (S.regFilter !== 'all' && stripMd(cell(r, enumHeader)) !== S.regFilter) return false;
       if (S.regSearch && !Object.values(r).join(' ').toLowerCase().includes(S.regSearch.toLowerCase())) return false;
       return true;
     });
-    const span = cols.length + 1;
+    const span = heads.length + 1;
     return h('div', { class: 'tablewrap' }, h('table', {},
       h('thead', {}, h('tr', {}, heads.map(c => h('th', {}, c)), h('th', {}, t('referencedIn')))),
       h('tbody', {}, rows.flatMap(r => {
-        const val = stripMd(cell(r, ...enumCol));
+        const val = stripMd(cell(r, enumHeader));
         const bad = allowed && val && !allowed.includes(val);
-        const rid = stripMd(cell(r, 'id'));
+        const rid = stripMd(cell(r, idHeader));
         const open = S.regItem === rid;
         const toggle = () => { S.regItem = open ? null : rid; render(); };
         const main = h('tr', { class: bad ? 'flagged' : '' },
@@ -1444,7 +1446,7 @@ function viewRegisters() {
           h('td', {}, h('span', { class: 'tag ' + (bad ? 'err' : '') }, val || '—'),
             bad ? h('div', { class: 'tiny faint' }, allowed.join(' · ')) : null),
           (() => {
-            const sval = stripMd(cell(r, ...statusCols));
+            const sval = stripMd(cell(r, statusHeader));
             const sbad = statusAllowed && sval && !statusAllowed.includes(sval.split(/[\s·]/)[0]);
             return h('td', {}, h('span', { class: 'tag ' + (sbad ? 'err' : sval.split(/[\s·]/)[0]) }, sval || '—'),
               sbad ? h('div', { class: 'tiny faint' }, statusAllowed.join(' · ')) : null);
@@ -1512,7 +1514,7 @@ function viewMetrics() {
       h('div', { class: 'head' },
         h('div', { class: 't' }, id),
         h('div', { class: 'u' }, `${stripMd(cell(def, 'unit')) || '—'} · ${rows.length} ${t('readings')}`
-          + ` · ${stripMd(cell(def, 'instrumentation', 'инструментирование')) || '—'}`)),
+          + ` · ${stripMd(cell(def, 'instrumentation')) || '—'}`)),
       chart || h('div', { class: 'empty' }, '—'),
       groups.length > 1 ? h('div', { class: 'legend' }, groups.map(g =>
         h('span', {}, h('i', { style: `background:${g.color}` }), g.label))) : null);
@@ -1522,15 +1524,15 @@ function viewMetrics() {
   // and half a sentence is worse than none.
   const defs = h('div', {}, withReadings.map(id => {
     const def = defOf(id);
-    const text = stripMd(cell(def, 'definition', 'определение'));
+    const text = stripMd(cell(def, 'definition'));
     if (!text) return null;
     return acc([h('code', { class: 'tag met' }, id),
-      h('span', { class: 'sumtitle' }, stripMd(cell(def, 'name', 'название')) || ''),
+      h('span', { class: 'sumtitle' }, stripMd(cell(def, 'name')) || ''),
       h('span', { class: 'summeta' }, h('span', { class: 'tag' }, stripMd(cell(def, 'unit')) || '—'),
-        h('span', { class: 'tag' }, stripMd(cell(def, 'kind', 'вид')) || '—'))],
+        h('span', { class: 'tag' }, stripMd(cell(def, 'kind')) || '—'))],
     [h('div', { class: 'md', html: md(text) }),
       h('div', { class: 'tiny faint mono', style: 'margin-top:8px' },
-        stripMd(cell(def, 'instrumentation', 'инструментирование')) || '—')]);
+        stripMd(cell(def, 'instrumentation')) || '—')]);
   }));
 
   const readings = table(
@@ -1560,8 +1562,8 @@ function viewMetrics() {
       table(['id', t('colDefinition'), 'instrumentation'], without.map(id => {
         const def = defOf(id);
         return h('tr', {}, h('td', { class: 'id' }, h('code', { class: 'rid met' }, id)),
-          h('td', { html: inline(stripMd(cell(def, 'definition', 'определение'))) }),
-          h('td', { class: 'mono tiny' }, stripMd(cell(def, 'instrumentation', 'инструментирование')) || '—'));
+          h('td', { html: inline(stripMd(cell(def, 'definition'))) }),
+          h('td', { class: 'mono tiny' }, stripMd(cell(def, 'instrumentation')) || '—'));
       }))) : null);
 }
 
@@ -1571,7 +1573,7 @@ function viewOpen() {
   const openGate = m.steps.flatMap(s => s.gate.filter(g => g.tick === 'open' || g.tick === 'unknown')
     .map(g => ({ step: s, g })));
   const hyp = m.registers.hypotheses.rows.filter(r =>
-    /open|testing/i.test(stripMd(cell(r, 'status', 'статус'))));
+    /open|testing/i.test(stripMd(cell(r, 'status'))));
 
   const gapsTable = table([t('artifact'), t('toClarify'), ''], m.gaps.map(g => h('tr', {},
     h('td', { class: 'id' }, h('code', {}, g.file.replace(/\.md$/, '') + '#' + g.section)),
@@ -1590,10 +1592,10 @@ function viewOpen() {
     const rid = stripMd(cell(r, 'id'));
     return h('tr', {},
       h('td', { class: 'id' }, h('code', { class: 'rid hyp' }, rid)),
-      h('td', { class: 'prose', html: inline(stripMd(cell(r, 'hypothesis', 'гипотеза'))) }),
-      h('td', { class: 'tiny' }, h('span', { class: 'tag' }, stripMd(cell(r, 'type', 'тип')) || '—')),
-      h('td', { class: 'tiny' }, h('span', { class: 'tag ' + stripMd(cell(r, 'status', 'статус')).split(/[\s·]/)[0] },
-        stripMd(cell(r, 'status', 'статус')) || '—')),
+      h('td', { class: 'prose', html: inline(stripMd(cell(r, 'hypothesis'))) }),
+      h('td', { class: 'tiny' }, h('span', { class: 'tag' }, stripMd(cell(r, 'type')) || '—')),
+      h('td', { class: 'tiny' }, h('span', { class: 'tag ' + stripMd(cell(r, 'status')).split(/[\s·]/)[0] },
+        stripMd(cell(r, 'status')) || '—')),
       h('td', { class: 'refs' }, (refs[rid] || []).slice(0, 3).map(x =>
         goSection(x.file, x.id, refLabel(x), x.title))));
   }), { empty: t('nothingOpen') });

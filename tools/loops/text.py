@@ -185,6 +185,34 @@ def column_keys(headers):
     return [column_key(h) for h in headers]
 
 
+def header_name(cell):
+    """A header cell's display prose, with any `<!--c:key-->` mark removed.
+
+    The header's identity for a human (and for a by-name match) is its text; the key is metadata that
+    rides alongside it. Reading the two apart lets a by-name reader keep matching a keyed header, and
+    the console show the header without the comment leaking into the page.
+    """
+    return COL_KEY_RE.sub("", cell).strip()
+
+
+def column_key_values(text, key):
+    """Values under the column keyed `<!--c:key-->`, across EVERY table that carries it, or None.
+
+    The column-key twin of `table_column`: a reader addresses the column by its stable key instead of
+    its (translatable, reorderable) header prose — the same "mark, don't guess" the section `{#anchor}`
+    already gives a heading. None when no table carries that key, so the caller can fall back to a
+    by-name match for a not-yet-keyed instance.
+    """
+    found, vals = False, []
+    for t in tables(text):
+        keys = column_keys(t["headers"])
+        if key in keys:
+            found = True
+            idx = keys.index(key)
+            vals.extend(r[idx] for r in t["rows"] if len(r) > idx)
+    return vals if found else None
+
+
 CONFIRMED_RE = re.compile(r"<!--\s*confirmed:\s*(\d{4}-\d{2}-\d{2})(?:\s+by:\s*([\w.@-]+))?\s*-->")
 
 
@@ -269,7 +297,7 @@ def table_column(text, colname):
     target = colname.lower()
     found, vals = False, []
     for t in tables(text):
-        headers = [h.lower() for h in t["headers"]]
+        headers = [header_name(h).lower() for h in t["headers"]]
         if target not in headers:
             continue
         found = True
@@ -287,7 +315,7 @@ def table_rows(text, *required_headers):
     want = [h.lower() for h in required_headers]
     first, rows = None, []
     for t in tables(text):
-        headers = [h.lower() for h in t["headers"]]
+        headers = [header_name(h).lower() for h in t["headers"]]
         if not all(w in headers for w in want):
             continue
         if first is None:

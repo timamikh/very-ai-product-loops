@@ -135,7 +135,7 @@ def model_payload(inst_path):
         "library": F.tool_cards(ROOT),
         "skills": F.skills(ROOT, inst_path),
         "statuses": F.statuses(ROOT),
-        "enums": {label: sorted(vals) for label, (vals, _) in F.ENUMS.items()},
+        "enums": {label: sorted(vals) for label, (vals, _key) in F.ENUMS.items()},
         "tick_values": F.TICK_VALUES,
         "confidence": F.CONFIDENCE,
         "homed_sections": sorted(F.homed_sections(ROOT)),

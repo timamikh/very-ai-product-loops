@@ -11,7 +11,7 @@ prerequisites:
   - the orchestrator has the human's session (a subagent must never be the one holding it)
 used_by_steps: [any]
 opinionated: true
-method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: the writer is single, the readers are many, and a return is accepted against a passport rather than on trust"
+method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
 version: 0.1.3
 updated: 2026-08-10
@@ -98,8 +98,9 @@ separable, not that the brief needs to be longer).
 
 4. **Launch.** Parallel where the parts are independent; sequential where one part's output is
    another's input (and then ask whether it is really two tasks). A subagent may spawn its own
-   subagents — the write rule is transitive, so nothing below you writes either. Keep the fan-out to
-   what you can actually read back: *n* returns you skim is worse than *n/2* you check.
+   subagents — the write rule is transitive: the only file anything below you may write is a `draft`'s
+   own worklog, never a register, an artifact section or `state.yaml`. Keep the fan-out to what you can
+   actually read back: *n* returns you skim is worse than *n/2* you check.
 
 5. **Check every return against the passport, before reading it for content.** In that order — a
    return that fails the passport is not evidence, and reading it for content first is how its
@@ -112,11 +113,16 @@ separable, not that the brief needs to be longer).
    saying that the brief did not produce a usable return. A third attempt is nearly always the
    brief's fault.
 
-7. **Integrate — and this is the only writing that happens.** Carry every claim across **with its own
-   tag**; a subagent's `[assumption]` stays an assumption in your artifact. Never re-tag a return as
-   `[sourced: subagent]` — the source is what the subagent opened, named in your text. You mint the
-   register ids, you write the rows, you tick the gate, you write the change log. Where the return
-   named an unresolved fork, it becomes your fork with the human — with the options as returned.
+7. **Check the worklog, then project — this is the writing the orchestrator owns.** A `draft` return
+   points at a **worklog the subagent wrote**; read it against the passport, then **project** it into
+   the artifact section (the chistovik the human signs) — the worklog is the source of truth, the
+   section is its fixed shape. Carry every claim across **with its own tag**; a subagent's
+   `[assumption]` stays an assumption. Never re-tag a return as `[sourced: subagent]` — the source is
+   what the subagent opened, named in your text. You **mint the register ids** the worklog described in
+   words, you write the rows, you tick the gate (after a `verify`), you write the change log — none of
+   that is ever the subagent's. A `gather`/`research` return is **not** a worklog: you file its values
+   where they belong (the method's worklog, a source, a register row) yourself. Where a return named an
+   unresolved fork, it becomes your fork with the human — with the options as returned.
 
 8. **Close the pass normally.** Delegation changes who read the material, not what a pass owes:
    step 7 of the loop still runs — registers, change log, open items — and anything the delegation
@@ -171,8 +177,10 @@ lines 3 and 9 are where a loud failure is supposed to land.
   before you read for content.
 - **Laundering a tag.** A subagent's assumption arriving in your artifact as `[sourced: research]`.
   One step, and a guess has become a fact with a citation.
-- **Letting a subagent write.** Even "just the register row". Two agents allocating `H-0xx` at the
-  same time is a corrupted register, and the fix costs more than the delegation saved.
+- **A subagent writing past its worklog.** A `draft` writes its own worklog and nothing else; the
+  moment it also writes a register row or the artifact section, two agents can allocate `H-0xx` at once
+  and the register is corrupt — the fix costs more than the delegation saved. `gather` / `research` /
+  `verify` write nothing at all.
 - **Fan-out you cannot read back.** Twelve returns skimmed is worse than five checked, and the
   passport is unenforceable at volume.
 - **Delegating to avoid the context limit at the wrong moment.** If the pass is nearly done, finish it
@@ -184,12 +192,17 @@ lines 3 and 9 are where a loud failure is supposed to land.
 ## On the runtime (Claude Code and others)
 
 The rules above are **markdown and hold on any agent runtime** — that is the framework's promise. On
-a runtime that supports typed subagents with restricted tools, enforce the write rule *mechanically*
-rather than by instruction: give the subagent a definition with **no write tools at all**. This
-framework ships one definition per task kind for Claude Code in
-[`.claude/agents/`](../../../.claude/agents/) — `loops-gather` · `loops-research` · `loops-draft` ·
-`loops-verify` — each limited to reading, searching and fetching. A rule a machine enforces cannot be
-forgotten by an agent with a full context, which is exactly the population this rule exists for.
+a runtime that supports typed subagents with restricted tools, enforce as much of the write rule
+*mechanically* as the split allows. This framework ships one definition per task kind for Claude Code
+in [`.claude/agents/`](../../../.claude/agents/) — `loops-gather` · `loops-research` · `loops-draft` ·
+`loops-verify`. Three of them (`gather`, `research`, `verify`) carry **no write tools at all** — they
+cannot write even if a full context forgets they should not, which is exactly the population that
+forgets. `loops-draft` is the deliberate exception: it carries `Write`, because its job *is* to write
+its method's worklog. That one write is scoped **by instruction** — the definition says the only file
+it may write is its own `<step-folder>/<method>.md` — because a tool list can grant `Write` but cannot
+pin it to a single path. So the draft's worklog is the one seam where the machine guarantee stops and
+the passport check takes over: the orchestrator reads the worklog before projecting it, and a draft
+that wrote anything but its own worklog fails there.
 
 > **Stated weakness — the one hole in the mechanical enforcement.** Those definitions keep the
 > ability to spawn further subagents, because fan-out below the first level is often the point. That
@@ -207,14 +220,19 @@ your own definition, **restart before delegating**; and when a restart is not on
 to the paragraph below rather than rewriting the brief.
 
 On a runtime with no subagent mechanism — or in a session that has not picked the definitions up yet
-— the same briefs work unchanged against any general-purpose read-only agent, or by hand: paste the
-brief into a second session and paste the return back. The write rule then rests on the brief's rule
-block instead of on the tool list, which is weaker — say so when you report the pass, rather than
-letting the difference go unrecorded. The procedure does not change; only the plumbing does.
+— the same briefs work against any general-purpose read-only agent, or by hand: paste the brief into a
+second session and paste the return back. One thing does change: a read-only fallback agent cannot
+write, so a `draft` brief there **returns its worklog as text** and the orchestrator writes the file
+itself — the write rule then rests on the brief's rule block instead of on the tool list, which is
+weaker. Say so when you report the pass, rather than letting the difference go unrecorded. The
+procedure is otherwise the same; only the plumbing changes.
 
 ## Output
 
 No artifact section of its own. It produces **briefs** (ephemeral — handed to a subagent, and if
 written down at all, written outside the repository like any raw capture) and it produces the
-**integration**: the returns land in whatever artifact, register or source file the delegated task was
-serving, written by the orchestrator alone.
+**integration**: a `draft` subagent has already written its method's worklog, and the orchestrator
+**projects** that worklog into the artifact section and writes the registers, the gate ticks and the
+change log around it. A `gather`/`research`/`verify` return carries no worklog — the orchestrator files
+its values into whatever worklog, register or source they serve. The one writing that is never a
+subagent's: the artifact, the registers and `state.yaml`.

@@ -28,9 +28,11 @@ Checks (ERROR fails CI · WARN never does):
   M  every vendored operations skill declares its wiring (name · kind · produces · used_by_steps ·
      status · version), has the template-fragment its `produces` implies, and matches the
      operations index row for row
-  N  a shipped subagent definition (.claude/agents/loops-*.md) carries no write-capable tool
-  O  column-key schema is well-formed (a keyed table is all-keyed, keys unique) and a template and
-     the fragment that fills a section declare the same keys for it
+  N  a shipped subagent definition (.claude/agents/loops-*.md) carries only its kind's allowed write tool (loops-draft: Write; others: none)
+  O  column keys live only on the step template (form of record) and are well-formed there
+     (all-keyed-or-none, unique); a key in a method template is an error — the draft is matched by meaning
+  O2 an instance artifact section carries its template's column keys (the projection contract;
+     enforced-if-present until instances are migrated)
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
      sections use; adoption is per-step (a step with no folder is pre-migration, not an error)
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
@@ -222,14 +224,20 @@ WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Bash"}
 
 
 def check_subagent_defs():
-    """N — a shipped subagent definition may not carry a write tool.
+    """N — a shipped subagent definition may carry only the write tool its kind is entitled to.
 
-    "Only the orchestrator writes" is canon (OPERATING-LOOP -> Delegation), and on a runtime with
-    typed subagents the framework enforces it *mechanically* by shipping definitions with no write
-    tools. That claim is only true while it stays true: a tool name added to one of those frontmatter
-    lists silently converts a machine-enforced rule back into a hope. Which tools a definition lists
-    is a shape, and a shape belongs in the linter (CONVENTIONS -> "Where a new rule goes").
+    The write rule (OPERATING-LOOP -> Delegation) is a split, not a blanket ban: a `draft` subagent
+    writes exactly one thing — its method's worklog — so `loops-draft` ships with `Write` and only
+    `Write`. The other three kinds (`gather`, `research`, `verify`) write nothing, and the framework
+    enforces that *mechanically* by shipping their definitions with no write tools. Both halves of the
+    split are only true while they stay true: a `Write` slipping into `loops-verify`, or an `Edit`/
+    `Bash` into `loops-draft`, silently converts a machine-enforced rule back into a hope. Which tools
+    a definition lists is a shape, and a shape belongs in the linter (CONVENTIONS -> "Where a new rule
+    goes").
     """
+    # loops-draft writes its worklog and nothing else: `Write` is permitted, but no path-unrestricted
+    # editor/shell (Edit/MultiEdit/NotebookEdit/Bash) that could reach a register or the artifact.
+    ALLOWED = {"loops-draft.md": {"Write"}}
     for path in sorted(glob.glob(os.path.join(ROOT, ".claude", "agents", "loops-*.md"))):
         name = os.path.basename(path)
         fm, _ = T.frontmatter(path)
@@ -240,10 +248,10 @@ def check_subagent_defs():
             continue
         items = raw if isinstance(raw, list) else str(raw).split(",")
         listed = {str(t).strip() for t in items if str(t).strip()}
-        bad = sorted(listed & WRITE_TOOLS)
+        bad = sorted((listed & WRITE_TOOLS) - ALLOWED.get(name, set()))
         if bad:
-            err("N [%s] lists write-capable tool(s) %s — a delegated subagent never writes, and this "
-                "list is what enforces it" % (name, ", ".join(bad)))
+            err("N [%s] lists write-capable tool(s) %s — this kind may not write them (a `draft` may "
+                "carry only `Write`, for its own worklog; the others write nothing)" % (name, ", ".join(bad)))
 
 
 def check_index(tools):
@@ -288,22 +296,19 @@ def check_instance(inst):
         "metric kind": os.path.join(reg, "metric-tree.md"),
         "metric instrumentation": os.path.join(reg, "metric-tree.md"),
     }
-    for label, (allowed, aliases) in F.ENUMS.items():
+    for label, (allowed, key) in F.ENUMS.items():
         path = files[label]
         if not os.path.exists(path):
             continue
         text = read(path)
-        vals, col = None, None
-        for alias in aliases:  # the column header follows the instance's language; values never do
-            vals = T.table_column(text, alias)
-            if vals is not None:
-                col = alias
-                break
+        # a register column is found by its language-independent `<!--c:key-->`, never by header prose
+        vals = T.column_key_values(text, key)
         if vals is None:
             # A post-test grade (signal/decision) is filled only once a readout exists, so its
             # absence is normal, not a gap to flag. Required columns still warn when missing.
             if label not in OPTIONAL_ENUM_LABELS:
-                warn("D [%s] %s: no `%s` column found to check" % (name, os.path.basename(path), aliases[0]))
+                warn("D [%s] %s: no column keyed `<!--c:%s-->` to check %s (a register the console reads "
+                     "must key its columns)" % (name, os.path.basename(path), key, label))
             continue
         for v in vals:
             cv = T.enum_value(v)
@@ -312,7 +317,7 @@ def check_instance(inst):
             if cv not in allowed:
                 err("D [%s] %s: `%s` = %r not in enum %s (a qualifier belongs in `note`, a "
                     "cross-cutting theme in `tags` — never compounded into the value)"
-                    % (name, os.path.basename(path), col, cv, sorted(allowed)))
+                    % (name, os.path.basename(path), key, cv, sorted(allowed)))
     # E — metrics.csv ids subset of metric-tree.md ids
     csv = os.path.join(reg, "metrics.csv")
     mt = os.path.join(reg, "metric-tree.md")
@@ -418,7 +423,7 @@ def check_register_ids(inst):
 
 
 CONFIG_REQUIRED = ("product", "language", "active_status", "directions")
-CONFIG_OPTIONAL = ("scope_note", "metric_source_slots", "sources", "products")
+CONFIG_OPTIONAL = ("scope_note", "metric_source_slots", "sources", "products", "delegation")
 CONFIG_BANNED = {"metric_sources": "metric_source_slots", "metric_slots": "metric_source_slots",
                  "product_scope": "scope_note", "scope": "scope_note", "lang": "language",
                  "title": "product", "name": "product", "status": "active_status",
@@ -521,43 +526,78 @@ SCHEMA_FILES = ("steps/*/template.md",
 
 
 def check_column_keys():
-    """O — the column-key schema is well-formed and agrees across its two homes.
+    """O — column keys live only on the step template (the form of record), and are well-formed there.
 
     Column keys (CONVENTIONS → Column keys) are what lets a reader find a table column without
     matching its (translatable, reorderable) header prose — the fix for the "every cell is a dash"
-    failure on a non-English instance. The keys are only trustworthy if their *declaration* is: a
-    half-keyed header is ambiguous, and a template and the fragment that fills a section declaring
-    different keys for it is two schemas wearing one id. Both are shapes a machine checks once per run
-    (CONVENTIONS → "Where a new rule goes": a check, not a paragraph on every pass).
+    failure on a non-English instance. They have exactly **three homes**: the **step template** (the
+    chistovik's form of record, = the interface 1:1), the **instance** section that carries it (check
+    O2), and the instance **registers** (read by the console). A method's template (`template-fragment.md`)
+    is the *draft's* shape — it may be wider than the chistovik and is adapted into the fixed form by
+    the orchestrator, which matches columns by meaning, not by key. So a key in a method template is
+    dead weight and a live break risk (every new skill would have to keep it in sync with nothing
+    consuming it) — it is therefore an **error**, not a schema to maintain.
+
+    On the step templates this holds the shape a key needs to be trustworthy: a table is all-keyed or
+    none (a half-keyed header is the ambiguity the key removes), and keys are unique within a table.
     """
-    templ, frag = {}, {}   # section id -> (file, keys), from step templates / from fragments
-    for pattern in SCHEMA_FILES:
+    # Home 1 — step templates: well-formed keyed tables.
+    for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+        text = read(path)
+        for headers, keys in _file_keyed_tables(text):
+            unkeyed = [h for h, k in zip(headers, keys) if not k]
+            if unkeyed:
+                err("O %s: a column-keyed table leaves %d header(s) unkeyed (%s) — a table is "
+                    "all-keyed or none (CONVENTIONS → Column keys)"
+                    % (rel(path), len(unkeyed), ", ".join(T.plain(h) or "∅" for h in unkeyed)))
+            present = [k for k in keys if k]
+            dupes = sorted({k for k in present if present.count(k) > 1})
+            if dupes:
+                err("O %s: column key(s) %s repeat in one table — keys are unique within a table"
+                    % (rel(path), ", ".join("`%s`" % d for d in dupes)))
+    # Not a home — method templates: a key here is a maintenance trap with no consumer.
+    for pattern in ("tool-skills/library/*/template-fragment.md",
+                    "tool-skills/operations/*/template-fragment.md"):
         for path in sorted(glob.glob(os.path.join(ROOT, pattern))):
-            text = read(path)
-            for headers, keys in _file_keyed_tables(text):
-                unkeyed = [h for h, k in zip(headers, keys) if not k]
-                if unkeyed:
-                    err("O %s: a column-keyed table leaves %d header(s) unkeyed (%s) — a table is "
-                        "all-keyed or none (CONVENTIONS → Column keys)"
-                        % (rel(path), len(unkeyed), ", ".join(T.plain(h) or "∅" for h in unkeyed)))
-                present = [k for k in keys if k]
-                dupes = sorted({k for k in present if present.count(k) > 1})
-                if dupes:
-                    err("O %s: column key(s) %s repeat in one table — keys are unique within a table"
-                        % (rel(path), ", ".join("`%s`" % d for d in dupes)))
-            target = templ if path.endswith(os.sep + "template.md") else frag
-            target.update(_section_keys_as(path, text))
-    for sid in sorted(set(templ) & set(frag)):
-        tf, tk = templ[sid]
-        ff, fk = frag[sid]
-        if tk != fk:
-            err("O section `%s` declares different column keys in its template and its fragment — "
-                "one section, one schema (%s: %s vs %s: %s)" % (sid, tf, tk, ff, fk))
+            if any(_file_keyed_tables(read(path))):
+                err("O %s: a method template carries a column key — keys live on the step template "
+                    "(the chistovik's form of record), never here; the draft is matched by meaning "
+                    "(CONVENTIONS → Column keys)" % rel(path))
 
 
-def _section_keys_as(path, text):
-    """`_section_keys`, each value tagged with the file it came from — for the O2 agreement report."""
-    return {sid: (rel(path), keys) for sid, keys in _section_keys(text).items()}
+def _template_section_keys():
+    """{section_id: [keys]} — the column keys each step template declares, the form of record.
+
+    A section id is homed in exactly one step template (CONVENTIONS → section anchors), so a flat map
+    across all templates has no collisions.
+    """
+    out = {}
+    for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+        out.update(_section_keys(read(path)))
+    return out
+
+
+def check_instance_conformance(inst):
+    """O2 — an instance's artifact section carries its template's column keys (the projection contract).
+
+    The chistovik (an instance artifact section) and the interface that renders it are one form, and
+    that form is the **step template's** (CONVENTIONS → Column keys). So a keyed instance table must
+    declare exactly the keys its template does — no more, no less: the draft may be wider, the chistovik
+    may not. **Enforced-if-present**: a section whose instance table carries *no* keys is not flagged
+    here (it is a not-yet-migrated instance, a separate concern), but the moment it is keyed, the keys
+    must match the form. This is what makes the console's key-addressed read trustworthy in any
+    language.
+    """
+    tkeys = _template_section_keys()
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        inst_keys = _section_keys(read(art))   # {sid: [keys]} for keyed instance tables only
+        for sid, iks in inst_keys.items():
+            if sid not in tkeys:
+                continue
+            if set(iks) != set(tkeys[sid]):
+                err("O2 %s#%s: instance table keys %s do not match the template's form %s — the "
+                    "chistovik must carry its template's keys (CONVENTIONS → Column keys)"
+                    % (rel(art), sid, sorted(iks), sorted(tkeys[sid])))
 
 
 CONFIRM_LOOSE_RE = re.compile(r"<!--\s*confirmed:\s*(.*?)\s*-->")
@@ -708,6 +748,7 @@ def main(argv=()):
         check_config(inst)
         check_local_skills(inst)
         check_worklogs(inst)
+        check_instance_conformance(inst)
         check_confirm_dates(inst)
         check_open_not_confirmed(inst)
         check_rests_confirmed(inst)

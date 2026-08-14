@@ -114,6 +114,18 @@ human confirms or overrides. Record the choice in `product/config.yaml` as `acti
 > `config.yaml` and move on. They are an instance config power users edit later when they tailor the
 > framework — keep first-run setup to as few forks as possible.
 
+### 5b. Ask the delegation toggle
+The loop can fan a heavy pass out to **subagents** (a `draft` subagent writes its method's worklog;
+`gather`/`research`/`verify` return text) — but only where the environment allows spawning them, and
+only if the human wants it. Ask one question: *may this instance use subagents?* Recommend `allowed`
+(⚙️) — it is the framework's normal mode and the orchestrator still falls back to running a pass
+itself whenever a pass fits one context. Choose `off` when spawning agents is restricted here, or the
+human prefers no fan-out; then the orchestrator runs every pass itself and writes every worklog
+directly. Record the answer in `product/config.yaml` as `delegation:` (`allowed` · `off`) —
+CONVENTIONS → *Instance config*. This is separate from the session-restart caveat in Phase 2 step 7:
+that is about the agent definitions being *available*; this is about whether they are *permitted* at
+all.
+
 ### 6. Scaffold the working area
 Create `product/` from templates (see layout below), in the chosen language, pre-filled per
 step 4. Write an initial **`state.yaml`** (`current_step: 1`, gate ticks empty) — the cycle's
@@ -136,18 +148,19 @@ Now that everything is filled and a status is set, give the human a **product su
 From the next session on, that loop is entered via the **`start-work`** skill (which self-bootstraps
 the rules and runs one pass at a time).
 
-**Before handing over, check delegation.** The loop runs on subagents (`loops-gather` ·
-`loops-research` · `loops-draft` · `loops-verify`), and their definitions — vendored at install —
-are picked up only at **session start**. Tell the human plainly: restart the session once before
-the first `start-work`, or the agent types will not be found. If spawning agents is restricted in
-this environment, say that too — the owner's standing approval line lives in the host repo's root
-`AGENTS.md` (written at install).
+**Before handing over, check delegation.** Only if `config.yaml` set `delegation: allowed` in step 5b
+— if it is `off`, the loop runs without subagents and there is nothing to check here. When allowed: the
+loop runs on subagents (`loops-gather` · `loops-research` · `loops-draft` · `loops-verify`), and their
+definitions — vendored at install — are picked up only at **session start**. Tell the human plainly:
+restart the session once before the first `start-work`, or the agent types will not be found. If
+spawning agents is restricted in this environment, say that too — the owner's standing approval line
+lives in the host repo's root `AGENTS.md` (written at install).
 
 ## Instance layout (created in the product's repo)
 
 ```
 product/
-  config.yaml            # HUMAN-authored: language · active status · directions · metric source slots
+  config.yaml            # HUMAN-authored: language · active status · directions · delegation · metric source slots
   state.yaml             # AGENT-written each pass: current_step · last_pass · gate ticks (cycle position)
   HANDOFF.md             # session-to-session: environment/access checks + open forks (see operations/handoff)
   sources/               # converted copies of the user's existing materials (source of record)

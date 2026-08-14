@@ -57,7 +57,19 @@ versus the current alternative, not by its features) + explicit problem→soluti
 - **No alternative.** Describing the product without naming what it replaces — no shift, no edge.
 - **Hiding the bet.** Not stating the riskiest assumption, so it never gets tested.
 
+## Worklog & projection
+
+The working is done in the step's **worklog** `<step-folder>/concept-formation.md`
+(`node_type: worklog`, e.g. `1-passport/concept-formation.md`): the one-line concept sentence, the
+**shift** it names versus the current alternative, the riskiest assumption the concept depends on,
+and the solution stub. That worklog is the **source of truth**; this method keeps **one** worklog, and
+the artifact sections `{#concept}` and `{#solution}` are both its **projections** into the fixed shape of
+[`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the sections
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
 
-Fills `{#concept}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#concept}` and `{#solution}` via [`template-fragment.md`](template-fragment.md) from the
+worklog; inputs via [`questions.yaml`](questions.yaml).

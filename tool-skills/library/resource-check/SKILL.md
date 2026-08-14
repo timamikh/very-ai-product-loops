@@ -46,7 +46,17 @@ planning is a future integration; don't fake precision we don't have.
 - **Fake precision.** Inventing capacity numbers instead of asking.
 - **Ignoring the constraint.** Planning goals the resources can't support.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/resource-check.md` (`node_type: worklog`,
+e.g. `5-tactical-plan/resource-check.md`): the people/budget/time survey per direction, who confirmed
+each figure and when, the declined alternative behind each number, and the flagged binding constraint.
+That worklog is the **source of truth**; the artifact section `{#resources}` is its **projection** into
+the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does
+not, and the step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#resources}` via [`template-fragment.md`](template-fragment.md) — a short capacity
-summary (people per direction · budget · time · the binding constraint) — with inputs from
+Projects `{#resources}` via [`template-fragment.md`](template-fragment.md) from the worklog — a short
+capacity summary (people per direction · budget · time · the binding constraint) — with inputs from
 [`questions.yaml`](questions.yaml).

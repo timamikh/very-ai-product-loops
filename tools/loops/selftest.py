@@ -69,6 +69,15 @@ def main():
     check(len(m["registers"]["risks"]["rows"]) >= 8, "the risk register is read")
     check(len(m["registers"]["metric_tree"]["rows"]) >= 5, "the metric tree is read")
 
+    # a register's columns are addressed by their stable <!--c:key--> keys, not by header prose — the
+    # register twin of a section {#anchor}, so the console and linter find the enum column the same way
+    # in any language. The example's registers carry keys, so a row is reachable by canonical key.
+    hyp = m["registers"]["hypotheses"]
+    check("type" in hyp["col_keys"] and "status" in hyp["col_keys"],
+          "the example's hypothesis register declares its column keys")
+    check(all("type" in r for r in hyp["rows"]),
+          "a register row is addressable by its column key, not only its header prose")
+
     # gate ticks must key onto the step gate items — the whole gate view depends on this
     ticks = 0
     for s in m["steps"]:
@@ -105,6 +114,33 @@ def main():
     check(T.enum_value("— to clarify —") == "", "a gap is not checked against the enum")
     check("superseded" in F.ENUMS["hypothesis status"][0],
           "a split hypothesis has a status to close as (`superseded`)")
+
+    # -- a register in a language the code never enumerated is still read by column key: the enum
+    #    column is found by its <!--c:key--> mark, not a hardcoded header alias, so a bad value is
+    #    caught and a Russian header raises no false "column missing". This is the register half of the
+    #    "every cell is a dash" fix — the console reads the same column the linter validates.
+    ru_tmp = tempfile.mkdtemp(prefix="loops-selftest-ru-")
+    try:
+        inst = os.path.join(ru_tmp, "product")
+        os.makedirs(os.path.join(inst, "registers"))
+        io.open(os.path.join(inst, "config.yaml"), "w", encoding="utf-8").write(
+            'product: "На русском"\nlanguage: ru\nactive_status: pmf\ndirections: [development]\n')
+        io.open(os.path.join(inst, "registers", "hypotheses.md"), "w", encoding="utf-8").write(
+            "| ИД <!--c:id--> | Гипотеза | Тип <!--c:type--> | Статус <!--c:status--> |\n"
+            "|----|----------|-----|--------|\n"
+            "| H-001 | first | viability | open |\n"
+            "| H-002 | second | nonsense | open |\n")
+        ru = I.load(inst, ROOT)
+        codes = [(hh["code"], hh["message"]) for hh in ru["health"]]
+        check(any(c == "enum" and "H-002" in msg for c, msg in codes),
+              "a keyed non-English register still catches a bad enum value (found by key, not alias)")
+        check(not any(c == "register-column" and ("hypothesis type" in msg or "hypothesis status" in msg)
+                      for c, msg in codes),
+              "type/status are found by their key despite Russian headers (no false 'column missing')")
+        check(ru["registers"]["hypotheses"]["rows"][0].get("type") == "viability",
+              "a non-English register row reads by its canonical column key")
+    finally:
+        shutil.rmtree(ru_tmp, ignore_errors=True)
 
     # -- the trail of one item is assembled from the change logs that name its id — no second store
     hist = m["history"]

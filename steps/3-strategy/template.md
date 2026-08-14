@@ -37,7 +37,7 @@ _What winning looks like this horizon._
 <!-- rests-on: 1#segments, 2#opportunity -->
 _Segments / markets / arena chosen — and what's explicitly excluded._
 
-| Chosen arena | Why | Excluded (and why) | Confidence |
+| Chosen arena <!--c:arena--> | Why <!--c:why--> | Excluded (and why) <!--c:excluded--> | Confidence <!--c:conf--> |
 |--------------|-----|--------------------|------------|
 | … | … | … | [assumption] |
 
@@ -52,7 +52,7 @@ _The winning logic + which moats we leverage._
 <!-- tool: uvp-cpv -->
 _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], because [why us]._
 
-| Best-fit customer | Job / pain | Value (outcome) | vs alternative | Customer-perceived value | Confidence |
+| Best-fit customer <!--c:customer--> | Job / pain <!--c:job--> | Value (outcome) <!--c:value--> | vs alternative <!--c:alt--> | Customer-perceived value <!--c:cpv--> | Confidence <!--c:conf--> |
 |-------------------|------------|-----------------|----------------|--------------------------|------------|
 | … | … | … | … | … | [assumption] |
 
@@ -62,7 +62,7 @@ _What we charge and how we package it — anchored to value vs the alternative. 
 
 - **Value metric:** … (what we meter on, and why it scales with value) [assumption]
 
-| Tier | For which segment | Included | Fence (why they pick it) | Price point | Model | Confidence |
+| Tier <!--c:tier--> | For which segment <!--c:segment--> | Included <!--c:included--> | Fence (why they pick it) <!--c:fence--> | Price point <!--c:price--> | Model <!--c:model--> | Confidence <!--c:conf--> |
 |------|-------------------|----------|--------------------------|-------------|-------|------------|
 | good | … | … | … | … | subscription / usage / hybrid | [assumption] |
 | better | … | … | … | … | … | [assumption] |
@@ -72,7 +72,7 @@ _What we charge and how we package it — anchored to value vs the alternative. 
 <!-- tool: channels-expansion -->
 _Acquisition/comms channels (Bullseye) + expansion paths._
 
-| Channel | Stage (traction / scale) | Why it fits the segment | Confidence |
+| Channel <!--c:channel--> | Stage (traction / scale) <!--c:stage--> | Why it fits the segment <!--c:fit--> | Confidence <!--c:conf--> |
 |---------|--------------------------|-------------------------|------------|
 | … | … | … | [assumption] |
 
@@ -82,7 +82,7 @@ _Acquisition/comms channels (Bullseye) + expansion paths._
 <!-- tool: product-surface -->
 _Every user-interaction surface + instrumentation (sketched here, refined at Step 4)._
 
-| Surface | Purpose | Instrumentation (what/where data comes from) | Confidence |
+| Surface <!--c:surface--> | Purpose <!--c:purpose--> | Instrumentation (what/where data comes from) <!--c:instrumentation--> | Confidence <!--c:conf--> |
 |---------|---------|----------------------------------------------|------------|
 | … | … | … | [assumption] |
 
@@ -96,7 +96,7 @@ _System architecture at C4 **Context** level (product, its users, external syste
 <!-- tool: jtbd, value-definition -->
 _The strategic hypotheses we're wagering on (framed on the customer's job + forces)._
 
-| ID | Bet | Type | Job / circumstance | Why it wins (pull > anxiety + habit) | Outcome it moves | Confidence |
+| ID <!--c:id--> | Bet <!--c:bet--> | Type <!--c:type--> | Job / circumstance <!--c:job--> | Why it wins (pull > anxiety + habit) <!--c:whywins--> | Outcome it moves <!--c:outcome--> | Confidence <!--c:conf--> |
 |----|-----|------|--------------------|--------------------------------------|------------------|------------|
 | H-… | … | desirability / viability / … | … | … | … | [assumption] |
 
@@ -104,7 +104,7 @@ _The strategic hypotheses we're wagering on (framed on the customer's job + forc
 <!-- tool: risk-mitigation -->
 _Risks specific to this strategy (mitigations owned at Step 4)._
 
-| ID | Risk | Category | Likelihood | Impact | Confidence |
+| ID <!--c:id--> | Risk <!--c:risk--> | Category <!--c:category--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Confidence <!--c:conf--> |
 |----|------|----------|------------|--------|------------|
 | R-… | … | market / product / execution / … | H/M/L | H/M/L | [assumption] |
 

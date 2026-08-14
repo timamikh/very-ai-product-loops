@@ -40,10 +40,13 @@ Non-negotiables (details live in the files above; on conflict, those files win):
   pick by task phase; see [`tool-skills/README.md`](tool-skills/README.md).)
 - **One mechanism, one way.** Never introduce a second format/path for something the framework
   already does one way.
-- **Only the orchestrator writes.** The **orchestrator** is the agent holding the human's session;
-  every agent it spawns is a **subagent**. If you were spawned with a brief, you are a subagent:
-  read, search, reason, **return text** — never edit a file, never close a fork, never tick a gate.
-  The rule is transitive to any subagent you spawn. See OPERATING-LOOP → *Delegation*.
+- **The write rule is a split.** The **orchestrator** (the agent holding the human's session) owns
+  the artifact, the registers and `state.yaml` — it alone projects worklogs into sections, mints
+  register ids, ticks gates. If you were spawned with a brief, you are a **subagent**: a `draft`
+  writes **exactly one file, its method's worklog**, and returns a summary; a `gather`/`research`/
+  `verify` writes nothing and **returns text**. Never close a fork, never tick a gate, never mint a
+  register id. The rule is transitive: the only file anything you spawn may write is a `draft`'s own
+  worklog. See OPERATING-LOOP → *Delegation*.
 - **Confidence tags on every claim**; agent proposals marked ⚙️. Never blanket-source your own
   derived conclusions.
 - **No secrets or PII** in artifacts, handoffs, or chat. Raw captures are **never committed** and

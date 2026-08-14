@@ -54,8 +54,31 @@ prose stays whatever the instance's language makes it (`Уровень`, `Nivel`
 the column. Keys are kebab-case, unique within their table, and stable across revisions **and
 translations** — translate or reorder the header freely, keep the key. A table is **all-keyed or
 none**: a half-keyed header is the very ambiguity the key removes, so the linter rejects it (check O).
-The same key names the same column wherever that section is declared — a step template and the
-library fragment that fills it must agree (also check O).
+
+**The three homes of a key — and the one place it must never be.** The **chistovik** (an instance's
+artifact section) and the **interface** that renders it are the *same form*, one to one, and that form
+is defined by the **step template**. So a column key has exactly three homes:
+
+1. the **step template** (`steps/*/template.md`) — the form of record, where a section's keys are declared;
+2. the **instance** section that carries that form — so the console can read it in any language;
+3. the instance **registers** — on every column a tool reads: the `id`, the statement (`hypothesis`),
+   the enum columns (`type` / `status` / `category` / `kind` / `instrumentation` / `confidence`) the
+   console and the linter (check D) validate, and the metric descriptors the metrics view shows
+   (`definition` / `unit`). There is **no header-name fallback** — a register the console reads must key
+   these columns, and a language-alias list is exactly the maintenance trap the key removes. A purely
+   descriptive column nothing reads by key (tags, source, notes) carries none — the same "no consumer,
+   no key" rule that keeps a key out of a method template.
+
+A key is **never** put in a method's template (`template-fragment.md`). That file is the *draft's*
+shape — by default it matches the section's theses, but a method may work a wider table, more tables,
+or more detail than the chistovik shows, and data may arrive from `sources/` or a method the product
+altered. When it does, the **orchestrator adapts the draft's data into the chistovik's fixed form**,
+matching columns **by meaning**, not by any machine key — so a key in a method template is consumed by
+nothing and only creates a sync burden every new skill would have to carry. The linter therefore treats
+a key in a method template as an **error** (check O), and enforces on the step templates the shape a key
+needs to be trustworthy: a table is **all-keyed or none** (a half-keyed header is the very ambiguity the
+key removes), keys are kebab-case and unique within their table. The projection contract — an instance
+section carrying its template's keys — is check O2 (instance-conformance).
 
 This exists because matching a column by header prose breaks the moment the instance is written in
 another language or its columns are reordered — the failure the section `{#anchor}` already prevents
@@ -108,8 +131,22 @@ reserved `<step-folder>/synthesis.md`.
 guessing and no per-instance link. The flow runs along it: subagents gather into `<tool>.md`, then the
 skill `<tool>` **projects** the artifact section from it. The **worklog is the source of truth; the
 artifact section is its projection** — which is also why that step's change-log history lives in the
-worklog, not the artifact. A method that fills several sections keeps **one** worklog; every one of its
-markers points at it.
+worklog, not the artifact. Every section that a method fills has a worklog; this is not optional —
+a projected section with no worklog behind it is the source of truth gone missing (the linter's
+check P holds it).
+
+**One method → several sections: one worklog.** A method that fills several sections keeps **one**
+worklog; every one of its markers points at it (e.g. `competitor-analysis` fills four sections, all
+projected from `2-analysis/competitor-analysis.md`).
+
+**Several methods → one section: the first is primary.** When a section's marker lists more than one
+tool (`<!-- tool: where-to-play-how-to-win, value-definition -->`), the **first** tool is the section's
+**primary**: its worklog `<step-folder>/<first-tool>.md` backs the section, carries the id-thread, and
+is what the section projects from. The others are **contributing methods** — their working for *this*
+section lands in the primary's worklog, not a file of their own (a contributing method still owns its
+own worklog for any section where *it* is primary). So every section resolves to exactly one worklog,
+whether its marker names one method or several — the rule a reader and the linter both apply is *the
+first tool in the marker owns the section's worklog*.
 
 Raw external inputs are **not** worked here directly: they live in `sources/` and are dispatched into
 these worklogs by the `source-intake` skill (see *Raw data & access*).
@@ -199,6 +236,7 @@ a place two readers diverge, so the linter enforces this table.
 | `language` | **yes** | `ru` · `en` · … | the documentation language; tools also read it for their own UI |
 | `active_status` | **yes** | a status name from `statuses/` | the stage the loops are parameterized by |
 | `directions` | **yes** | list | execution streams for Steps 5–6 (default: `development` · `go-to-market` · `back-office`) |
+| `delegation` | no | `allowed` · `off` | may the orchestrator spawn subagents this instance? Absent = `allowed` (the framework's normal mode). `off` = the orchestrator runs every pass itself and writes every worklog directly — for restricted environments, or when the human wants no fan-out. Set at setup (`product-setup`), changeable any time |
 | `scope_note` | no | text (block scalar) | what is in and out of this instance's scope, in prose |
 | `metric_source_slots` | no | map | where metric data comes from — *where* it lives and how to reach it, **never a secret value** |
 | `sources` | no | list of paths | the origin documents this instance was built from |

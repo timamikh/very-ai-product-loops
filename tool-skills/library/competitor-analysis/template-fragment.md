@@ -4,18 +4,18 @@
 -->
 
 ## Competitors {#competitors}
-| Competitor <!--c:name--> | Direct/Indirect <!--c:type--> | What they offer <!--c:offer--> | Confidence <!--c:conf--> |
+| Competitor | Direct/Indirect | What they offer | Confidence |
 |------------|-----------------|-----------------|------------|
 | … | direct | … | [sourced: …] |
 
 ## Competitor strategy {#competitor-strategy}
-| Competitor <!--c:name--> | Game (revenue/profit/share/social capital) <!--c:game--> | How they play it <!--c:play--> | Their moats vs ours <!--c:moat--> | Confidence <!--c:conf--> |
+| Competitor | Game (revenue/profit/share/social capital) | How they play it | Their moats vs ours | Confidence |
 |------------|--------------------------------------------|------------------|---------------------|------------|
 | … | … | … | … | [assumption] |
 
 ## Competitor pricing {#competitor-pricing}
 _Input to our own pricing (Step 3 `pricing` tool) — not our price._
-| Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
+| Competitor | Plan / model | Price | Source | Confidence |
 |------------|--------------|-------|--------|------------|
 | … | … | … | site / search | [sourced: …] |
 
@@ -23,7 +23,7 @@ _Input to our own pricing (Step 3 `pricing` tool) — not our price._
 _Trend over time — to compare whose strategy is working. Source per firm: public financials / press
 / filings / public company registries appropriate to the jurisdiction. (Region-specific registry
 lookups are provided by a regional/company adapter, not the base.)_
-| Competitor <!--c:name--> | Metric (revenue / headcount / …) <!--c:metric--> | Trend + period <!--c:trend--> | Source (+ date) <!--c:source--> | Confidence <!--c:conf--> |
+| Competitor | Metric (revenue / headcount / …) | Trend + period | Source (+ date) | Confidence |
 |------------|----------------------------------|----------------|-----------------|------------|
 | … | revenue | … | public financials / registry | [sourced: …] |
 

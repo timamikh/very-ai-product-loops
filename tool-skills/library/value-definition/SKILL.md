@@ -109,7 +109,24 @@ missing, the agent asks for it or offers to help produce it — it does not gues
 - **One-lens dogma.** Presenting this taxonomy as the only way to think about value. Say it's a
   lens; allow substitution.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/value-definition.md` (`node_type: worklog`):
+the base value(s) named, each tested against the post-AI premise **with the killed candidates and their
+reasons** (the step's most valuable output), any derivative moats and their dependencies, the
+defensibility/confidence ratings, and the seeded hypotheses. That worklog is the **source of truth**;
+the artifact section `{#value-defensibility}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, with the
+change-log history in the worklog (`process/CONVENTIONS.md` → *Step folders & worklogs*).
+
+Where `value-definition` **contributes** to a section another method owns — `{#how-to-win}` (primary
+`where-to-play-how-to-win`) and `{#bets}` (primary `jtbd`) — its working for that section lands in the
+**primary's** worklog (`where-to-play-how-to-win.md` / `jtbd.md`), not a file of its own: the first
+tool in a `<!-- tool: A, B -->` marker owns the section's worklog
+(`process/CONVENTIONS.md` → *Several methods → one section: the first is primary*).
+
 ## Output
 
-Fills `value-defensibility` using [`template-fragment.md`](template-fragment.md). Inputs
-gathered via [`questions.yaml`](questions.yaml). Deeper notes: [`references/moat-taxonomy.md`](references/moat-taxonomy.md).
+Projects `{#value-defensibility}` via [`template-fragment.md`](template-fragment.md) from its worklog;
+contributes to `{#how-to-win}` / `{#bets}` through their primary methods' worklogs. Inputs gathered via
+[`questions.yaml`](questions.yaml); each unproven moat seeds `H-…`. Deeper notes:
+[`references/moat-taxonomy.md`](references/moat-taxonomy.md).

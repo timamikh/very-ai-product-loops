@@ -57,7 +57,7 @@ _Minimal mandatory items — without which the period goal is unreachable. Group
 ## Backlog {#backlog}
 _The rest, prioritized (not a flat list), grouped by direction. Same item formats as above._
 
-| Rank | Direction | Item | Format | Links (`H-…`/`M-…`) | Est. | Confidence |
+| Rank <!--c:rank--> | Direction <!--c:direction--> | Item <!--c:item--> | Format <!--c:format--> | Links (`H-…`/`M-…`) <!--c:links--> | Est. <!--c:est--> | Confidence <!--c:conf--> |
 |------|-----------|------|--------|---------------------|------|------------|
 | 1 | development | … | Feature | H-… / M-… | … | [assumption] |
 | 2 | go-to-market | … | Activity | H-… / M-… | … | [assumption] |

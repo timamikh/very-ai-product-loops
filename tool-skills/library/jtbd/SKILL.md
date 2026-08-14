@@ -90,9 +90,22 @@ habit.
 - **Segment as demographics.** Cutting the customer by age/role/industry instead of by the job and
   circumstance. Same demographic, different job → different product.
 
+## Worklog & projection
+
+The working is done in the step's **worklog** `<step-folder>/jtbd.md` (`node_type: worklog`, e.g.
+`1-passport/jtbd.md`): the job statement (`when… I want… so that…`), the four forces (push · pull ·
+anxiety · habit), and the measurable desired outcomes — and at Step 3 the strategic bets framed on
+that job. That worklog is the **source of truth**; the artifact section it projects — `{#jtbd}` at
+Step 1, and `{#bets}` at Step 3, where jtbd is the primary of the `tool: jtbd, value-definition`
+marker and so owns the worklog — is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
 
-At Step 1, fills `{#jtbd}`; at Step 3, fills `{#bets}` — both via
-[`template-fragment.md`](template-fragment.md); inputs via [`questions.yaml`](questions.yaml). The
-Step-1 job statement anchors `{#segments}`/`{#problems}` and is the input `substitutes` (Step 2)
-frames indirect competition against.
+Projects `{#jtbd}` (Step 1) and `{#bets}` (Step 3) via [`template-fragment.md`](template-fragment.md)
+from the step's worklog; inputs via [`questions.yaml`](questions.yaml). The Step-1 job statement
+anchors `{#segments}`/`{#problems}` and is the input `substitutes` (Step 2) frames indirect
+competition against.

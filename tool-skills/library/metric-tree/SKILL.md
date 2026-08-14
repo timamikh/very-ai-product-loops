@@ -66,6 +66,19 @@ Thin, in order:
 - Picking the measurable-but-wrong metric over the right-but-uninstrumented one.
 - A tree that would fit any SaaS (it must smell of this product's strategy).
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/metric-tree.md` (`node_type: worklog`):
+the 2–4 candidate North Stars each run through the three filters (leading / value-repeating /
+strategy-encoding), the losing candidates and which filter each failed, the chosen North Star, the
+3–5 drivers and their inputs, the guardrails, and each node's instrumentation status
+(instrumented / proxy / not-instrumented). That worklog is the **source of truth**; the artifact
+section `{#metric-tree}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
+step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `strategic-plan#metric-tree` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#metric-tree}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs
+via [`questions.yaml`](questions.yaml); new nodes get IDs, parents and targets in the metric register
+(`metrics.csv`).

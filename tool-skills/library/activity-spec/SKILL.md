@@ -45,6 +45,20 @@ directions read the same way and plug into the same must/backlog.
 - **Channel-first, value-last.** Running a channel with no reason the audience benefits.
 - **No measurement step.** An activity with no way to tell if it worked (attribution first).
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/activity-spec.md` (`node_type: worklog`,
+e.g. `6-sprint-plan/activity-spec.md`): for each go-to-market item, its Description, Scope, Business
+value (the `M-…` it moves / `H-…` it tests), Audience value, and Links (the `H-…` tested / `M-…`
+moved and the surface it runs on). That worklog is the **source of truth** for this method's rows; the
+Activities subsections of `{#must}` / `{#backlog}`
+(`### … Activities <!-- tool: activity-spec, prioritization -->`) are its **projection** into the
+fixed shape of [`template-fragment.md`](template-fragment.md) — those sections are co-filled (the
+ranking comes from `prioritization`), but this method owns its worklog for its own activity rows. The
+projection holds nothing the worklog does not, and the step's change-log history lives in the worklog,
+not the section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
+dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-One block per activity via [`template-fragment.md`](template-fragment.md); inputs via
+Projects one block per activity into the Activities subsections of `{#must}` / `{#backlog}` via
+[`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml).

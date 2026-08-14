@@ -71,7 +71,18 @@ touchpoints feed step-3 `product-surface`. Don't restate those — link to them.
 - **Reinventing `product-surface`.** Listing static touchpoints without the timeline and the
   feeling — if that's all you need, use `product-surface`.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/cjm.md` (`node_type: worklog`, e.g.
+`1-passport/cjm.md`): the scoped journey (one segment, one job, defined start and end), the real
+stages each filled with actions · touchpoints · thoughts/emotions · pains, the emotional curve and
+the moments that matter, and the conversion of pains into opportunities and drop-offs into risks.
+That worklog is the **source of truth**; the artifact section `{#cjm}` is its **projection** into the
+fixed shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not,
+and the step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#cjm}` via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#cjm}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via
 [`questions.yaml`](questions.yaml). Its pains feed step-1 `problems`; its touchpoints feed step-3
 `product-surface`; seeds the hypotheses and risk registers.

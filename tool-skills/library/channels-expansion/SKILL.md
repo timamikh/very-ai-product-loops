@@ -64,6 +64,18 @@ expansion-path thinking: sequence the segments/markets we grow into once the fir
 - **Channel = message.** Confusing the medium with the value proposition it carries.
 - **Expansion with no trigger.** A wish-list of markets with nothing gating the next step.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/channels-expansion.md`
+(`node_type: worklog`, e.g. `3-strategy/channels-expansion.md`): the full brainstorm (≥8 candidates
+across ≥3 channel-type categories), the 1·3·5 reach × cost-to-test × testability scores ranked into
+outer / middle / inner rings with every loser kept and its reason, the measurable test (metric, cost,
+threshold) per inner-ring channel, and the sequenced expansion path with the trigger gating each step.
+That worklog is the **source of truth**; the artifact section `{#channels-expansion}` is its
+**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds nothing
+the worklog does not, and the step's change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#channels-expansion}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#channels-expansion}` via [`template-fragment.md`](template-fragment.md) from the worklog;
+inputs via [`questions.yaml`](questions.yaml).

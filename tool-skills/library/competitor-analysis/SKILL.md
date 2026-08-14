@@ -68,6 +68,20 @@ dynamics** over time.
 - **No dynamics.** A static snapshot with no trend — can't judge whose strategy is working.
 - **Guessed pricing/financials.** Numbers with no source, stated as fact.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/competitor-analysis.md`
+(`node_type: worklog`, e.g. `2-analysis/competitor-analysis.md`): the competitor list (≥5 named,
+including one the team did not name first), the excluded players each with its reason, each player's
+*game* and moat comparison, the dated pricing scan, the development-dynamics with source + `as_of`,
+and the white-space / threat conclusion. This method keeps **one** worklog, and all four sections
+`{#competitors}`, `{#competitor-strategy}`, `{#competitor-pricing}`, `{#competitor-dynamics}` are its
+**projections** into the fixed shape of [`template-fragment.md`](template-fragment.md) — the worklog is
+the **source of truth**, the sections hold nothing it does not, and the step's change-log history lives
+in the worklog, not the sections (`process/CONVENTIONS.md` → *Step folders & worklogs*). External
+figures arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never linked
+from the artifact.
+
 ## Output
-Fills the four sections via [`template-fragment.md`](template-fragment.md); inputs via
+Projects `{#competitors}`, `{#competitor-strategy}`, `{#competitor-pricing}`, `{#competitor-dynamics}`
+via [`template-fragment.md`](template-fragment.md) from the single worklog; inputs via
 [`questions.yaml`](questions.yaml).

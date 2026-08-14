@@ -54,6 +54,18 @@ reconciliation: each cycle names the gate it moves *and* the things it protects.
 - **Unmeasurable guardrail.** "Don't hurt the brand" with no metric or check behind it.
 - **Threshold-free.** A protected metric named but no floor/ceiling to breach.
 
+## Worklog & projection
+The working is done in the step's **worklog** `<step-folder>/guardrails.md` (`node_type: worklog`,
+e.g. `5-tactical-plan/guardrails.md`): the seven break-categories checked against each period goal
+(including the ones cleared), the picked guardrail `M-…` metrics with their floors/ceilings, the
+qualitative red lines, the monitoring assignments, and the categories logged as considered-not-
+guardrailed with the reason. That worklog is the **source of truth**; the artifact section
+`{#guardrails}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
+change-log history lives in the worklog, not the section
+(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
+`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+
 ## Output
-Fills `{#guardrails}` via [`template-fragment.md`](template-fragment.md); inputs via
-[`questions.yaml`](questions.yaml).
+Projects `{#guardrails}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs
+via [`questions.yaml`](questions.yaml).

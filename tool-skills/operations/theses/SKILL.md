@@ -69,7 +69,8 @@ sections walked differs.
 - **A worked section to sign.** An empty or gap section has no result to confirm — it is skipped, not
   stamped. Confirmation is about a conclusion, not a placeholder.
 - **The human in the loop.** A confirmation is the human's decision. The agent **never** stamps a marker
-  on its own reasoning unprompted, and a subagent never stamps one at all (only the orchestrator writes).
+  on its own reasoning unprompted, and a subagent never stamps one at all — the marker lives on the
+  artifact, and the artifact is the orchestrator's to write, never a subagent's.
 
 ## How to do it
 

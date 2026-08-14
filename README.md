@@ -108,7 +108,7 @@ and how each stage prioritizes them are swappable per company, without forking t
 
 To find a skill for a task, pick the category by phase (produce a section → `library`; render a deliverable → `adapters`; carry state across a restart, go get a number, or split a pass across agents → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.
 
-**Running a pass with subagents.** When a pass is wider than one context, the lead agent becomes an *orchestrator*: it cuts the work into briefs, and subagents read, search and reason but **never write** — they return text, and a return that fails its acceptance passport is not integrated. The rule is canon ([`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) → *Delegation*), the procedure is [`tool-skills/operations/orchestration/`](tool-skills/operations/orchestration/SKILL.md), and on Claude Code the write rule is enforced mechanically by the read-only agent definitions in `.claude/agents/`.
+**Running a pass with subagents.** When a pass is wider than one context, the lead agent becomes an *orchestrator*: it cuts the work into briefs and checks every return against an acceptance passport before using it. The write rule is a **split**: a `draft` subagent writes exactly one file — its method's worklog (the draft) — while `gather`, `research` and `verify` subagents write nothing and return text. The orchestrator keeps the rest to itself: it **projects** each worklog into the artifact section the human signs, and owns the registers, `state.yaml` and the change log. The rule is canon ([`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) → *Delegation*), the procedure is [`tool-skills/operations/orchestration/`](tool-skills/operations/orchestration/SKILL.md), and on Claude Code it is enforced mechanically by the agent definitions in `.claude/agents/` — three carry no write tools, `loops-draft` carries `Write` for its worklog and nothing more. A `delegation: off` in `config.yaml` turns fan-out off entirely; the orchestrator then runs each pass itself.
 
 **What a method claims about its own evidence.** Every library method declares an `evidence_standard`, how much it must generate before it cuts, how it cuts, and whether it must show what it rejected — checked by the linter, so a method cannot quietly stop saying what would make its output wrong. The source-quality rules those declarations point at are in [`tool-skills/library/references/evidence-standards.md`](tool-skills/library/references/evidence-standards.md).
 
@@ -119,6 +119,36 @@ Adapting the framework to your company — a new method, a new stage, different 
 - **Linter** (`tools/lint.py`) — checks the framework's wiring and every instance's registers against the canon; runs in CI.
 - **Local console** (`tools/ui/serve.py`) — double-click `tools/ui/console.command` (macOS, Linux) or `console.bat` (Windows), or run `python3 tools/ui/serve.py`, for a browser view of one instance: where the cycle stands, what each gate still has open, the registers, the metric series, every `— to clarify —`, and the change-log timeline. One button saves it as a single self-contained HTML file to send to someone who does not have the folder. **Read-only by design** — a viewer, not an interface to the process: the human asks an agent, the agent writes the files, the console shows what they now say. See [`tools/ui/README.md`](tools/ui/README.md).
 - Both read through one shared layer (`tools/loops/`), so the linter and the console can never disagree about what the canon says.
+
+## How data flows
+
+One rule sits under everything: **data lands in a draft first; the polished artifact is a projection of that draft.**
+
+**The documents**
+- **Sources** (`sources/`) — raw external material (a founder brief, an export, a report). An archive; never rewritten.
+- **Worklog (draft)** — the working document for one method on one step, in the step's folder (e.g. `2-analysis/market-sizing.md`). All the working lives here: the numbers, the reasoning, the rejected options, the open questions. **The source of truth.**
+- **Artifact (clean copy)** — the step's output file (e.g. `2-analysis.md`). A **projection** of its worklogs — the conclusion in a fixed, readable shape, holding nothing the worklogs do not. It has two jobs: plain language the human signs off, and a template the console can render.
+- **Registers** — the three cross-step tables (hypotheses, risks, metric tree). The home of the IDs everything else references.
+- **State** (`state.yaml`) — where the cycle stands, and what the human has signed.
+
+**Who acts**
+- **Orchestrator** — the agent holding the human's session. Writes the **artifact, the registers, and state**.
+- **Subagent** — a scoped, read-mostly helper the orchestrator briefs. It does the working and writes **its own draft (worklog)** — nothing else: never a register, an artifact, or state, and it never talks to the human.
+- **Human** (the product owner) — answers the forks and **signs the artifacts**.
+
+**The three ways data enters**
+
+1. **External material → drafts.** A file is dropped in `sources/` and indexed; the `source-intake` skill then dispatches its facts into the step worklogs that need them (a measured number goes to the metric register, not into prose). A source is cited *in the worklog*, never linked from the artifact.
+
+2. **Method working → draft → artifact.** For a section, the orchestrator either does the working itself or briefs a subagent. Whoever works it writes the **draft (worklog)**; the orchestrator then checks it against the acceptance passport, **projects** the artifact section from the draft (template-shaped, so the console renders it), and shows it to the human. On sign-off the section is committed and the registers, change log and state are updated.
+
+3. **Human in chat.** Where a method has a gap or a fork, the orchestrator asks the human (2–4 options + a recommended default). Nothing lands on disk as a surprise — a section built on reasoning is shown in chat first. At the close of a step the human **signs the artifact sections** (the `theses` skill): the one place "a human approved this version" is recorded.
+
+**Where the linter and the console sit** — across the flow, not inside it:
+- **Linter** checks **structure, not meaning**: sections in place, IDs unique, links valid, every method-section backed by a draft, a confirmation marker that is a real date. Meaning is the human's half — the sign-off.
+- **Console** is a **read-only window**: it renders the artifacts and registers, and lets you drill from a board into the draft behind a section, and from the draft to its source. There is no write path back.
+
+The links run one way: **board → artifact section → its worklog → (sometimes) a source.** Sources are leaves.
 
 ## How the agent reads the repo (for the curious)
 

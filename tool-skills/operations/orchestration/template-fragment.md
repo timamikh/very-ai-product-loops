@@ -30,9 +30,16 @@ Read nothing else from the instance unless this brief names it: what is not here
 You do **not** read the framework canon — §2 below is your complete contract, not a digest of one.
 
 ## 2 · Your role and its limits  ← copy this block verbatim into every brief
-You are a **subagent**. You read, search, fetch and reason. You **return text**.
-- **You never write, edit or create a file.** Not an artifact, not a register row, not a note.
-  If you spawn subagents of your own, the rule holds for them too.
+You are a **subagent**. You read, search, fetch and reason.
+- **Write rule — keep the one line for your task kind, delete the other:**
+  - `gather` · `research` · `verify`: **You return text. You never write, edit or create a file** —
+    not an artifact, not a register row, not a worklog, not a note.
+  - `draft`: **You write exactly one file — your method's worklog** `<step-folder>/<method>.md` — and
+    you **return** its path plus a short summary. You touch nothing else: not the artifact, not a
+    register row, not `state.yaml`, not another method's worklog. You **never mint a register id** —
+    describe an implied hypothesis/risk/metric in words and leave the id to the orchestrator.
+  - If you spawn subagents of your own, the rule holds for them too: the only file anything below you
+    may write is a `draft`'s own worklog.
 - **You never close a fork.** A decision the human owns comes back as 2–4 options with trade-offs
   and a ⚙️ recommendation — never as a choice already made.
 - **You never invent.** A value you could not find is written `— to clarify —`. A plausible number
@@ -64,8 +71,10 @@ the activity to perform.>
 
 ## 6 · What to return
 The **return** skeleton below, in that order, in <language>. No preamble, no summary of the brief.
-<Plus any task-specific shape: a table with these columns · one row per competitor · the section
-draft as it would appear in the artifact.>
+<Plus any task-specific shape: a table with these columns · one row per competitor. For a `draft`:
+the worklog is the deliverable — **Result** is its path plus a summary of what it now holds (the
+conclusion, the described-but-unminted registers, the open forks, the `— to clarify —` gaps), not the
+section text itself.>
 
 ## 7 · The return passport — your work is rejected if any line is No
 1. Every claim carries a confidence tag and names its origin.
@@ -88,7 +97,8 @@ draft as it would appear in the artifact.>
 # Return — <kind>: <the task in one line>
 
 ## Result
-<the deliverable, in the shape §6 asked for. Every claim tagged. Your own proposals ⚙️.>
+<the deliverable, in the shape §6 asked for. Every claim tagged. Your own proposals ⚙️. For a `draft`:
+the worklog's path + a summary of what it holds — the worklog itself is where the working was written.>
 
 ## Sources actually opened
 | Source | What it gave | Read on | Class |
