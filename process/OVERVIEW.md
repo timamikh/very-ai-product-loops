@@ -2,7 +2,7 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.7.0
+version: 0.7.1
 updated: 2026-08-15
 ---
 
@@ -35,9 +35,11 @@ are swappable and extensible per company, without forking the framework.
    `validated` · `refuted`. Early steps are mostly assumptions; lower steps harden them.
 5. **Help, don't constrain.** Gates are checklists that report what is still open — they
    guide, they do not lock. You can descend with gaps; the framework flags them.
-6. **One writer, many readers.** The **orchestrator** — the agent holding the human's session —
-   is the only agent that writes. Subagents gather, research, draft and verify, and **return
-   text**; a return is accepted against a passport, never on trust. The contract is
+6. **One writer of the canon, many readers.** The **orchestrator** — the agent holding the human's
+   session — is the only agent that writes the **shared canon**: the artifact sections, the registers,
+   `state.yaml`, the gate ticks and the change log. Subagents **return text** and are accepted against
+   a passport, never on trust; the one exception is a `draft` subagent, which writes **only its own
+   worklog** (the draft the orchestrator then projects). The contract is
    [`OPERATING-LOOP.md`](OPERATING-LOOP.md) → *Delegation*.
 
 ---
