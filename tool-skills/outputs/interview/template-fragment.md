@@ -1,5 +1,6 @@
 <!--
-  template-fragment: interview → fills {#interview-guide} (lives in product-loops/sources/)
+  template-fragment: interview → the shape of the exported file product-loops/export-files/<slug>-interview-guide.md
+  (node_type: deliverable — an authored document, not an artifact section)
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval. No PII in the committed file.
 -->
 

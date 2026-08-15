@@ -23,7 +23,7 @@ and onboard the product later.
 > https://github.com/timamikh/very-ai-product-loops for this project."
 
 The agent **vendors** the framework (read-only) into the repo, pinned to a version tag:
-`steps/` · `statuses/` · `process/` · `tool-skills/` (library · operations · adapters) · `AGENTS.md`
+`steps/` · `statuses/` · `process/` · `tool-skills/` (library · operations · outputs) · `AGENTS.md`
 (the rules) · `EXTENDING.md` · the `product-setup` and `start-work` skills. That's it — the framework is present and configured; **no
 product is set up yet.**
 
@@ -64,7 +64,7 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
 ## What lands in your repo
 
 - **Framework (vendored, read-only, versioned):** `steps/`, `statuses/`, `process/`,
-  `tool-skills/` (library · operations · adapters), `AGENTS.md`, `EXTENDING.md`, `.claude/skills/`,
+  `tool-skills/` (library · operations · outputs), `AGENTS.md`, `EXTENDING.md`, `.claude/skills/`,
   `tools/` (the linter and the local console, including the double-click launchers
   `tools/ui/console.command` and `console.bat`), and a `FRAMEWORK-VERSION` file (pinned tag + SHA).
   Update by bumping the tag and re-vendoring — your own skills under `product-loops/tool-skills/` survive

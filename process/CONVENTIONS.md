@@ -2,14 +2,14 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.21.0
-updated: 2026-08-15
+version: 0.22.0
+updated: 2026-08-16
 ---
 
 # Conventions
 
 Shared notation used by every step template and library tool. Keeps artifacts machine-readable
-(for aggregators, adapters, and the GitMark graph) while staying human-readable.
+(for aggregators, output renderers, and the GitMark graph) while staying human-readable.
 
 ## Confidence tags
 
@@ -207,13 +207,20 @@ where the register is one click away.
 
 ## Raw data & access
 
-`sources/` holds **three roles**, kept apart because they age differently, all indexed in
-`sources/INDEX.md`: **access** (`node_type: source`, living — what it is, how to connect/verify/recover),
-**method** (`node_type: source-method`, living — how raw rows become register values, so a reading is
-reproducible), and **evidence** (`node_type: source`, dated, immutable — a capture). A source is
-**dispatched into worklogs, never linked from an artifact** (a worklog cites `../sources/<file>`, an
-artifact links only the worklog). **Captured values** go to the registers as dated rows; the source
-records the context.
+**A source is what comes from outside** — material the user (or the world) brings in; **no skill
+produces a source from inside the framework**. Agent reasoning is a worklog; a file produced for use
+outside is an export file (`export-files/`, the mirror of `sources/`: in ↔ out). When something fits
+none of the entities, the *skill* is recut along these seams — a new entity or a hybrid home is never
+minted.
+
+`sources/` holds **two roles**, kept apart because they age differently, both indexed in
+`sources/INDEX.md`: **access** (`node_type: source`, living — what an external source is, how to
+connect/verify/recover) and **evidence** (`node_type: source`, dated, immutable — a capture, a
+report, returned interview notes). How raw rows become register values is agent reasoning and lives
+in a **worklog** (`metrics-capture`), citing the access file. A source is **dispatched into
+worklogs, never linked from an artifact** (a worklog cites `../sources/<file>`, an artifact links
+only the worklog). **Captured values** go to the registers as dated rows; the source records the
+context.
 
 The hard rules (also in [`AGENTS.md`](../AGENTS.md)): **raw captures are never committed** and are
 deleted once their values land; where the instance's `origin` may be public, raw data and its analysis

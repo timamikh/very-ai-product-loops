@@ -163,9 +163,8 @@ product-loops/
   config.yaml            # HUMAN-authored: language · active status · directions · delegation · metric source slots
   state.yaml             # AGENT-written each pass: current_step · last_pass · gate ticks (cycle position)
   HANDOFF.md             # session-to-session: environment/access checks + open forks (see operations/handoff)
-  sources/               # converted copies of the user's existing materials (source of record)
+  sources/               # what comes from OUTSIDE — the user's existing materials (source of record)
     INDEX.md             # navigation map: per-source what/in-scope/out-of-scope/feeds-steps
-  briefs/                # standalone briefs from the `brief` tool (<slug>.md)
   1-concept.md            # Step 1 artifact
   2-analysis.md            # Step 2
   3-strategy.md            # Step 3
@@ -177,7 +176,7 @@ product-loops/
     risks.md             # R-… (single-value category + optional tags)
     metric-tree.md       # M-… node definitions (id/unit/kind/parent/instrumentation/target)
     metrics.csv          # append-only dated readings (id,period_start,period_end,measured_at,value,basis,source,note)
-  deliverables/          # adapter outputs (decks/docs/tables) — regeneratable views, not source
+  export-files/          # what goes OUTSIDE — rendered views (decks/docs/tables, regeneratable) + authored deliverables (briefs, interview guides — signed source)
 ```
 
 Kept **separate from code** (its own top-level `product-loops/`), so it never interferes with the

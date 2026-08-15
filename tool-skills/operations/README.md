@@ -2,15 +2,15 @@
 node_type: operations-index
 title: Operations — runtime skills for how the agent works
 status: draft
-version: 0.3.4
-updated: 2026-08-14
+version: 0.4.0
+updated: 2026-08-16
 ---
 
 # Operations
 
 Operations are **runtime skills**: they are about *how the agent runs the process*, not about the
-product's content. Unlike `library/` tools (which fill a section of a step artifact) or `adapters/`
-(which render deliverables), an operations skill acts on the **session and the instance's
+product's content. Unlike `library/` tools (which fill a section of a step artifact) or `outputs/`
+(which produce the files that leave the framework), an operations skill acts on the **session and the instance's
 operational state** — continuity across restarts, cadence, automation.
 
 They are not tied to a step. They are triggered by **events** (a session boundary, an environment

@@ -1,6 +1,6 @@
 # interview — interview (intake to build the guide)
 tool: interview
-produces: product-loops/sources/<slug>-interview-guide.md
+produces: product-loops/export-files/<slug>-interview-guide.md
 questions:
   - id: goal
     ask: "What one decision or hypothesis (H-…) must this interview inform?"

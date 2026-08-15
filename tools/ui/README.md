@@ -144,7 +144,7 @@ produce it with no Python at all: a browser on its own cannot read the instance 
 it to would mean a second parser that could disagree with the linter.
 
 It is a **copy of the reading, not a deliverable**. A deck or a document for a stakeholder is an
-adapter's job ([`tool-skills/adapters/`](../../tool-skills/adapters/README.md)); this is the console
+outputs skill's job ([`tool-skills/outputs/`](../../tool-skills/outputs/README.md)); this is the console
 itself, handed to someone who does not have the folder. And it is still product material: it carries
 whatever the artifacts carry, so it goes to people who may read them.
 
@@ -218,7 +218,7 @@ Two rules hold there:
 ### Skills
 
 The *Skills* tab shows every skill the agent can reach — the vendored `library` · `operations` ·
-`adapters`, plus the product's own local skills — with its wiring (produces · steps · prerequisites ·
+`outputs`, plus the product's own local skills — with its wiring (produces · steps · prerequisites ·
 registers · inputs), its files, and a `homeless` flag when a declared section has no home in any step
 artifact (the linter's check B, surfaced before it fails).
 

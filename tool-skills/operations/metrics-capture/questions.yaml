@@ -2,7 +2,7 @@
 # Everything computable from the source is computed, not asked. These are the judgement calls
 # and the environment facts; each one, guessed, silently corrupts the series.
 tool: metrics-capture
-produces: product-loops/sources/<source>-method.md
+produces: product-loops/<step-folder>/metrics-capture.md
 questions:
   - id: question-served
     ask: "Which metric node or hypothesis is waiting on this number, and what decision changes depending on the answer?"

@@ -5,7 +5,7 @@ produces: market-sizing
 prerequisites: [arena/segment defined]
 reads_registers: []
 writes_registers: [hypotheses]
-inputs: [analytics-search, kb]
+inputs: [research, kb]
 used_by_steps: [2]
 opinionated: false
 method_basis: "TAM/SAM/SOM — bottom-up preferred, top-down cross-check, named assumptions"

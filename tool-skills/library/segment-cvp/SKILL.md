@@ -5,7 +5,7 @@ produces: market-bundles
 prerequisites: [segments, segment-pains]
 reads_registers: [hypotheses]
 writes_registers: [hypotheses]
-inputs: [interview, kb, analytics-search]
+inputs: [interview, kb, research]
 used_by_steps: [1, 3, 5]
 opinionated: true
 method_basis: "Market-entry bundle (segment · situation · pain · CVP · offer · first action · channel · signal) with a 6-filter readiness gate and a qualified-action signal scale; one bundle = one testable go-to-market hypothesis"
@@ -126,7 +126,7 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
    (`type: desirability`) whose statement carries the whole bundle. Bundles are the register's
    go-to-market entries; a validated bundle is a proven positioning, a refuted one is a guard.
 7. **Fix the decision commitment.** A bundle is not "tested" until it has a recorded decision:
-   **scale · iterate · reject · back-to-research**. Note the intended decision rule; the actual
+   **scale · iterate · reject · research**. Note the intended decision rule; the actual
    test design is handed to `hypothesis-test-design`.
 8. **Show what you cut, and why.** Every bundle that failed a filter, and every ready bundle that
    lost on score, stays in the output with the filter it failed or its score. A cut bundle is the

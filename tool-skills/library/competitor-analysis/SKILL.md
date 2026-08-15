@@ -4,7 +4,7 @@ kind: method
 produces: [competitors, competitor-strategy, competitor-pricing, competitor-dynamics]
 reads_registers: []
 writes_registers: [risks, hypotheses]
-inputs: [analytics-search, kb, interview]
+inputs: [research, kb, interview]
 prerequisites: [product-concept, competitor-list-seed]
 used_by_steps: [2]
 opinionated: false
@@ -33,7 +33,10 @@ dynamics** over time.
 
 ## Prerequisites
 - **Product concept** — to judge relevance and moat overlap. *Missing → run `concept-formation`.*
-- **Competitor list seed** — at least a few names to start. *Missing → derive from analytics-search.*
+- **Competitor list seed** — at least a few names to start. *Missing → gather it yourself: a scoped
+  desk-research pass (a `loops-research` brief), discipline per
+  [`../references/evidence-standards.md`](../references/evidence-standards.md), findings landing in
+  this method's worklog.*
 
 ## How to do it
 1. **List** direct + indirect competitors (substitutes are a separate tool). **At least 5 named

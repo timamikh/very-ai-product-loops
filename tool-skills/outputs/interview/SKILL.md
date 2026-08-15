@@ -1,10 +1,10 @@
 ---
 name: interview
-kind: research
-produces: product-loops/sources/<slug>-interview-guide.md
+kind: deliverable
+produces: product-loops/export-files/<slug>-interview-guide.md
 prerequisites: [the decision or hypothesis the interview must inform, a candidate segment/persona to talk to]
 reads_registers: [hypotheses]
-writes_registers: [hypotheses]
+writes_registers: []
 inputs: []
 used_by_steps: [1, 2]
 opinionated: false
@@ -14,8 +14,8 @@ volume_rule: n/a
 selection_rule: "screen-in/screen-out criteria tied to the target behaviour — never availability or convenience"
 rejects_shown: required
 status: draft
-version: 0.1.3
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-16
 ---
 
 # Interview (prep)
@@ -23,17 +23,19 @@ updated: 2026-08-09
 Prepare an interview that actually produces learning: name the **goal** (which decision or
 hypothesis it must inform), draw the **interviewee portrait** (who to recruit and how to screen
 them), write **non-leading questions**, and hand the interviewer a short **guide** for running it.
-Produced as a **standalone file** in `product-loops/sources/` (indexed in `sources/INDEX.md`), not an
-artifact section.
+The guide is an **authored deliverable** — `product-loops/export-files/<slug>-interview-guide.md`
+(`node_type: deliverable`), a file the product person takes and uses **outside the framework**. The
+interviews themselves happen out there; what comes **back** — the notes — is external material the
+user adds to `sources/`, and it enters the framework the one standard way (see *Output*).
 
 **Method basis.** Torres' continuous discovery + Fitzpatrick's *The Mom Test*: ask about the
 person's **life and past behaviour**, not your idea; specifics ("tell me about the last time…"),
 not hypotheticals ("would you…"); never pitch — the moment you sell, you stop learning.
 
-**Relation to neighbours.** This tool **prepares and gathers**; the *analysis* of what comes back
-lands downstream — `segment-pains`, `jtbd`, `cjm`, `segmentation`. It fills the `interview`
-**input slot** those tools consume. Don't draw conclusions here; produce the instrument and the
-raw notes.
+**Relation to neighbours.** This tool **prepares the instrument**; the *analysis* of what comes back
+lands downstream — `segment-pains`, `jtbd`, `cjm`, `segmentation` consume the returned notes through
+their `interview` **input slot**. Don't draw conclusions here; produce the instrument, and let the
+notes travel the standard source path.
 
 ## When to apply
 - **Step 1**, the primary discovery method when there's little or no usage data yet.
@@ -63,8 +65,10 @@ raw notes.
    ("all inbound users, so nobody who evaluated us and left"). A conclusion drawn from five people is
    a conclusion about five people until the sample is stated — and the people who were screened *out*
    are the cheapest thing to lose and the most expensive to notice missing.
-7. **Seed the register.** Each assumption the interview is testing → `H-…`, so the notes can flip
-   its confidence later.
+7. **Name the register entries it informs.** The guide lists the `H-…` each question block is built
+   to move, so the notes can flip its confidence later. An assumption with no `H-…` yet is seeded
+   **before** the guide is finalised — by the method that surfaced the bet, ids minted by the
+   orchestrator; this skill writes no register itself.
 
 ## Anti-patterns
 - **No goal.** A friendly conversation that changes no decision.
@@ -74,7 +78,13 @@ raw notes.
 - **Recruiting for convenience.** Talking to the wrong people, confidently.
 
 ## Output
-Produced from [`template-fragment.md`](template-fragment.md) as a file in `product-loops/sources/`; inputs
-via [`questions.yaml`](questions.yaml). The guide and raw notes live in `product-loops/sources/` (indexed in
-`sources/INDEX.md`) and feed `segment-pains`, `jtbd`, `cjm`, `segmentation`. Raw notes are deleted
-once their signal lands in the registers (CONVENTIONS: no PII in artifacts).
+Produced from [`template-fragment.md`](template-fragment.md) as
+`product-loops/export-files/<slug>-interview-guide.md` (`node_type: deliverable`); inputs via
+[`questions.yaml`](questions.yaml).
+
+**The return path is the standard source path, not this skill.** The conducted interviews' notes are
+external material: the user adds them to `sources/` (indexed in `sources/INDEX.md`, citing the guide
+they were run against), `source-intake` dispatches them into the worklogs of the consuming methods
+(`segment-pains`, `jtbd`, `cjm`, `segmentation`), and the orchestrator writes any register change
+during those methods' passes. Raw notes are deleted once their signal lands in the worklogs and
+registers (CONVENTIONS: no PII in artifacts).

@@ -104,9 +104,9 @@ and how each stage prioritizes them are swappable per company, without forking t
 
 - **Library** (`tool-skills/library/`) — product methods as skills: what / when / how / template. See [`tool-skills/library/README.md`](tool-skills/library/README.md).
 - **Operations** (`tool-skills/operations/`) — runtime skills for how the agent works: `handoff` (state across a restart), `metrics-capture` (a source → reproducible register rows), `orchestration` (running one pass with subagents). See [`tool-skills/operations/README.md`](tool-skills/operations/README.md).
-- **Adapters** (`tool-skills/adapters/`) — the output layer: `to-table` · `to-document` · `to-deck`. Base adapters ship here (neutral); company-specific formats stay external and specialize them. See [`tool-skills/adapters/README.md`](tool-skills/adapters/README.md).
+- **Outputs** (`tool-skills/outputs/`) — the output layer: renderers `to-table` · `to-document` · `to-deck` plus authored deliverables (`brief`, `interview`); everything they produce lands in the instance's `export-files/`. Base outputs ship here (neutral); company-specific formats stay external and specialize them. See [`tool-skills/outputs/README.md`](tool-skills/outputs/README.md).
 
-To find a skill for a task, pick the category by phase (produce a section → `library`; render a deliverable → `adapters`; carry state across a restart, go get a number, or split a pass across agents → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.
+To find a skill for a task, pick the category by phase (produce a section → `library`; produce a file for use outside the framework → `outputs`; carry state across a restart, go get a number, or split a pass across agents → `operations`); [`tool-skills/README.md`](tool-skills/README.md) has the discovery rule.
 
 **Running a pass with subagents.** When a pass is wider than one context, the lead agent becomes an *orchestrator*: it cuts the work into briefs and checks every return against an acceptance passport before using it. The write rule is a **split**: a `draft` subagent writes exactly one file — its method's worklog (the draft) — while `gather`, `research` and `verify` subagents write nothing and return text. The orchestrator keeps the rest to itself: it **projects** each worklog into the artifact section the human signs, and owns the registers, `state.yaml` and the change log. The rule is canon ([`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) → *Delegation*), the procedure is [`tool-skills/operations/orchestration/`](tool-skills/operations/orchestration/SKILL.md), and on Claude Code it is enforced mechanically by the agent definitions in `.claude/agents/` — three carry no write tools, `loops-draft` carries `Write` for its worklog and nothing more. A `delegation: off` in `config.yaml` turns fan-out off entirely; the orchestrator then runs each pass itself.
 
@@ -175,7 +175,7 @@ Released as **v0.8.0** under the MIT license — usable and open for others to v
 - **Phase 2 — Steps 2–6 skeletons + [register schemas](process/REGISTERS.md) + artifact templates + library fully authored** _(templates + full library done; run-hardening continues)_
 - **Onboarding — [`product-setup`](.claude/skills/product-setup/SKILL.md) + [install](install/README.md)** _(merged)_
 - **Phase 3 — Agent rules ([AGENTS.md](AGENTS.md)), examples, contribution + versioned branching** _(merged; [contributing](CONTRIBUTING.md) + git tags shipped)_
-- **Phase 4 — base [adapters](tool-skills/adapters/README.md) (shipped) · aggregators, automation** _(base adapters done; aggregators/automation later)_
+- **Phase 4 — base [outputs](tool-skills/outputs/README.md) (shipped) · aggregators, automation** _(base renderers done; aggregators/automation later)_
 
 ## License
 

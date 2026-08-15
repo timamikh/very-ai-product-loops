@@ -15,6 +15,33 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### The entity law — a source only comes from outside
+
+- **The law** (CONVENTIONS → *Raw data & access*): `sources/` = what the user (or the world) brings
+  **in**; **no skill produces a source from inside**. Agent reasoning is a **worklog**; a file made
+  for use outside is an **export file**. A skill that fits no entity is **recut along the seams** —
+  a new entity or hybrid home is never minted.
+- **`tool-skills/adapters/` → `tool-skills/outputs/`** — the plane now holds two kinds: renderers
+  (`ADAPTER.md`, read → regeneratable view) and authored deliverables (`SKILL.md`, author → signed
+  document). `brief` and `interview` moved in from `library/` — neither fills a section.
+- **`product-loops/export-files/`** — one instance home for everything that leaves the framework
+  (the mirror of `sources/`); replaces `briefs/` and the double-named `deliverables/`/`outputs/`.
+- **`interview` recut**: produces the guide (a deliverable); the conducted interviews' notes come
+  **back** as a *source* the user adds → `source-intake` → consumers' worklogs; `writes_registers`
+  emptied (the orchestrator writes registers during the methods' passes).
+- **`analytics-search` dismantled** — it authored a "digest" into `sources/` (an agent file posing
+  as a source). Desk research is now each consumer's own gathering: the `research` input slot,
+  `loops-research` briefs, discipline per `references/evidence-standards.md`, findings in the
+  consumer's worklog. Removed from statuses' tool lists and step inputs.
+- **`metrics-capture` recut**: the derivation moves from `sources/<source>-method.md`
+  (`node_type: source-method`, now gone) to the triggering step's worklog
+  `<step-folder>/metrics-capture.md`; the csv `source` column cites the worklog, the worklog cites
+  the access file. Check **P** knows the reserved name (event-driven worklog needs no marker).
+- **Skill-audit fixes (pre-law)**: shared-enum drift killed (`back-to-research`→`research`,
+  `not`→`not-instrumented`), stale `passport` refs, `hypothesis-test-design` declares both sections
+  it fills, and Step 6 gains the `{#excluded}` slot so `prioritization`'s cut candidates have a home
+  (gate tick `rejects-shown`).
+
 ### Delegation — one pass across many agents
 
 - **Only the orchestrator writes.** Subagents `gather` · `research` · `draft` · `verify` return text

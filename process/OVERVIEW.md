@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.8.0
-updated: 2026-08-15
+version: 0.9.0
+updated: 2026-08-16
 ---
 
 # very-ai-product-loops
@@ -58,7 +58,7 @@ are swappable and extensible per company, without forking the framework.
 The **fixed core** (`steps/` · `registers/` · `statuses/` and the rules in `process/`) is opposed by the
 **pluggable skills** under [`tool-skills/`](../tool-skills/README.md), in three planes: `library/`
 (product methods), `operations/` (runtime skills — `handoff`, `metrics-capture`, `source-intake`,
-`orchestration`, `theses`), and `adapters/` (the output layer, §10). Companies swap or extend any
+`orchestration`, `theses`), and `outputs/` (the output layer, §10). Companies swap or extend any
 tool-skill without forking the core; which dial to turn is [`EXTENDING.md`](../EXTENDING.md).
 
 **How the planes interlock — softly (per rule 5):** a **step** says "produce sections A, B, C and pass
@@ -213,10 +213,12 @@ The base artifacts are kept structured (stable IDs, column keys, source slots, t
 reason: **structure is the contract**, so anything that reads a folder can be a consumer without
 per-instance wiring.
 
-- **Adapters** ([`tool-skills/adapters/`](../tool-skills/adapters/README.md)) are the **output layer** —
-  they read the structured instance and render **deliverables** (`to-table` · `to-document` · `to-deck`).
-  Company adapters stay **outside** the base and re-skin a base adapter into a house format; they don't
-  fork it. Deliverables regenerate from source instead of being hand-maintained.
+- **Outputs** ([`tool-skills/outputs/`](../tool-skills/outputs/README.md)) are the **output layer** —
+  renderers read the structured instance and render views (`to-table` · `to-document` · `to-deck`);
+  authored deliverables (`brief`, `interview`) write documents for use outside. Everything lands in the
+  instance's `export-files/` — the mirror of `sources/` (in ↔ out). Company outputs stay **outside** the
+  base and re-skin a base one into a house format; they don't fork it. Rendered views regenerate from
+  source instead of being hand-maintained; authored documents are themselves the signed source.
 - **The local console** ([`tools/ui/`](../tools/ui/README.md)) renders one instance as an interactive
   local view (cycle position, gate ticks, registers, metric series, open `— to clarify —`, change-log
   timeline). It is a **lens, not a home for values and not an interface to the process** — no write path.

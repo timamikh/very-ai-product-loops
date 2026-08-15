@@ -5,7 +5,7 @@ produces: pricing
 prerequisites: [uvp-cpv, segments, competitor pricing scan]
 reads_registers: [hypotheses, metrics]
 writes_registers: [hypotheses]
-inputs: [interview, kb, analytics-search, metrics]
+inputs: [interview, kb, research, metrics]
 used_by_steps: [3, 4]
 opinionated: true
 method_basis: "Value-based pricing & packaging — value metric selection, tiering/fences (good-better-best), willingness-to-pay (van Westendorp / direct WTP), price relative to the next-best alternative; price is a strategic choice, cost is a floor not the method"

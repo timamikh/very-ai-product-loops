@@ -15,7 +15,7 @@ per_step:
     goals:
       - Refresh the market read with LIVE data — prices and competitors move; a stale read misleads pricing
       - State the sharpest threat to repeatable monetization (commoditization, a direct competitor) as the "so what"
-    tools: [analytics-search, competitor-analysis, market-sizing, substitutes]
+    tools: [competitor-analysis, market-sizing, substitutes]
   "3":  # Strategy
     goals:
       - Sharpen how-to-win around what actually RETAINS paying users, not just what attracts them

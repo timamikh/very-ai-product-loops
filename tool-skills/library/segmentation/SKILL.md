@@ -21,7 +21,7 @@ updated: 2026-08-09
 # Segmentation
 
 Define **who the product is for** and how the audience is cut into segments. Fills the
-`segments` section of the passport (Step 1). Good segments are the foundation for problems
+`segments` section of the concept (Step 1). Good segments are the foundation for problems
 (`segment-pains`), positioning, and channels — get them wrong and everything downstream drifts.
 
 ## When to apply
@@ -46,7 +46,8 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 
 - **Concept** — what the product is (from `{#idea}`). *Missing → run `concept-formation` first.*
 - **Audience knowledge or analytics** — any existing sense of who uses/buys it: interviews,
-  usage data, market notes. *Missing → offer `interview` or `analytics-search`; at
+  usage data, market notes. *Missing → offer `interview` (prep the guide) or a scoped
+  desk-research pass (`loops-research` brief per `references/evidence-standards.md`); at
   `concept-viability` this is expected to be thin, so cuts stay `[assumption]`.*
 
 ## How to do it

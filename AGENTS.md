@@ -2,8 +2,8 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.7.1
-updated: 2026-08-15
+version: 0.7.2
+updated: 2026-08-16
 ---
 
 # Agent rules — very-ai-product-loops
@@ -40,7 +40,7 @@ Non-negotiables (details live in the files above; on conflict, those files win):
   and artifacts; run its environment checks before relying on them.
 - **Read the tool before filling.** Open `tool-skills/library/<tool>/SKILL.md` before writing its
   section. Missing prerequisites → ask or help obtain; never proceed on a guess. (Pluggable skills
-  live under `tool-skills/`: `library/` methods · `operations/` runtime skills · `adapters/` output —
+  live under `tool-skills/`: `library/` methods · `operations/` runtime skills · `outputs/` output —
   pick by task phase; see [`tool-skills/README.md`](tool-skills/README.md).)
 - **One mechanism, one way.** Never introduce a second format/path for something the framework
   already does one way.

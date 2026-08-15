@@ -1,9 +1,10 @@
 <!--
-  template-fragment: brief → fills {#brief}
+  template-fragment: brief → the shape of the exported file product-loops/export-files/<slug>-brief.md
+  (node_type: deliverable — an authored document, not an artifact section; no {#anchor}).
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval. Keep to one page.
 -->
 
-## Brief — <initiative name> {#brief}
+## Brief — <initiative name>
 
 - **Problem / opportunity:** <the change this exists to make> · links: `H-…` / `R-…`
 - **Who it's for:** <segment / team / stakeholder>

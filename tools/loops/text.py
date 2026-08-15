@@ -512,7 +512,7 @@ def digest(body, max_bullets=3, width=190):
 
 
 def is_file_produces(p):
-    """A `produces` that names a file (brief -> product-loops/briefs/<slug>.md, handoff -> HANDOFF.md),
+    """A `produces` that names a file (brief -> product-loops/export-files/<slug>-brief.md, handoff -> HANDOFF.md),
     not an artifact section id."""
     return "/" in p or p.endswith(".md") or p.isupper() or p in ("HANDOFF.md",)
 

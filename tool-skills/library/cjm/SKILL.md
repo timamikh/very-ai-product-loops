@@ -5,7 +5,7 @@ produces: cjm
 prerequisites: [the segment/persona whose journey this is, the job they are doing]
 reads_registers: [hypotheses]
 writes_registers: [hypotheses, risks]
-inputs: [interview, analytics-search]
+inputs: [interview, research]
 used_by_steps: [1, 3]
 opinionated: false
 method_basis: "Journey mapping — stages · actions · touchpoints · thoughts/emotions · pains → opportunities; moments that matter"

@@ -17,7 +17,7 @@ per_step:
       - Size the prize roughly (bottom-up, few sources, wide error bars OK) — just enough to know it's worth chasing
       - Map who already solves this pain (competitors + substitutes incl. do-nothing) to find the white space
       - State ONE sharpest opportunity/threat as the "so what" — a conclusion, not a survey
-    tools: [analytics-search, market-sizing, competitor-analysis, substitutes]
+    tools: [market-sizing, competitor-analysis, substitutes]
   "3":  # Strategy
     goals:
       - Choose ONE beachhead arena to win first (resist "for everyone")

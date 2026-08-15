@@ -1,0 +1,56 @@
+current_step: 6
+last_pass: 2026-08-14
+gates:
+  1-idea:
+    passport#concept: done
+    passport#jtbd: done
+    passport#segments: done
+    passport#problems: done
+    passport#cjm: n/a
+    passport#solution: done
+    passport#value-defensibility: done
+    passport#to-clarify: done
+    passport#hypotheses: done
+  2-analysis:
+    analysis#market-sizing: done
+    analysis#competitors: done
+    analysis#competitor-strategy: done
+    analysis#competitor-pricing: done
+    analysis#competitor-dynamics: done
+    analysis#substitutes: done
+    analysis#niche-risks: done
+    analysis#opportunity: done
+  3-strategy:
+    strategy#winning-aspiration: done
+    strategy#where-to-play: done
+    strategy#how-to-win: done
+    strategy#uvp-cpv: done
+    strategy#pricing: done
+    strategy#channels-expansion: done
+    strategy#product-surface: done
+    strategy#architecture: done
+    strategy#bets: done
+    strategy#product-risks: done
+  4-strategic-plan:
+    strategic-plan#architecture-instrumentation: done
+    strategic-plan#metric-tree: done
+    strategic-plan#retention: n/a
+    strategic-plan#unit-economics: done
+    strategic-plan#financial-model: done
+    strategic-plan#risk-mitigation: done
+    strategic-plan#global-hypotheses: done
+    strategic-plan#open-questions: done
+  5-tactical-plan:
+    tactical-plan#period-goals: done
+    tactical-plan#goal-targets: done
+    tactical-plan#guardrails: done
+    tactical-plan#resources: done
+    tactical-plan#market-bundles: done
+    tactical-plan#hypotheses-to-test: done
+    tactical-plan#blockers: done
+  6-sprint-plan:
+    sprint-plan#must: done
+    sprint-plan#backlog: done
+    item-format: done
+    item-links: done
+    sprint-plan#handoff: done

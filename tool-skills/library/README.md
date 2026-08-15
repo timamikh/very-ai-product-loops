@@ -2,8 +2,8 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.3.1
-updated: 2026-07-19
+version: 0.4.0
+updated: 2026-08-16
 ---
 
 # Library
@@ -18,7 +18,9 @@ framework.
 
 - A **step** recommends tools for the sections of its artifact.
 - A **status** re-prioritizes and highlights the tools relevant to the current product stage.
-- A **hypothesis** that needs testing pulls a testing tool (e.g. `ab-test`, `interview`).
+- A **hypothesis** that needs testing pulls a testing tool (e.g. `ab-test`; an interview is
+  prepared by the `interview` **outputs** skill — its guide leaves the framework, the notes
+  come back as a source).
 - The **human** can call any tool directly, or override the recommendation.
 
 All of this is soft: recommendations, not requirements.
@@ -50,12 +52,15 @@ can find and compose it:
 ```yaml
 ---
 name: <tool>
-kind: method | template | research   # research = gathers inputs (interviews, data search)
+kind: method | template | research   # research = gathers inputs the agent can't observe (a survey)
 produces: <section-id | product-loops/path/file.md>  # a section it fills, OR a standalone file it creates
 prerequisites: [<info/artifact/access it needs>]  # checked first; asked for or helped-with if missing
 reads_registers: [metrics, hypotheses] # registers it consumes
 writes_registers: [hypotheses]         # registers it updates
-inputs: [interview, metrics, git, kb]  # source slots it needs
+inputs: [interview, metrics, research, kb]  # source slots it needs — `interview` = returned interview
+                                       # notes (arrive via sources/); `research` = a scoped desk-research
+                                       # pass the method runs itself (`loops-research` briefs, discipline
+                                       # per references/evidence-standards.md); `metrics` = register readings
 used_by_steps: [1, 3]                  # soft, informational
 # --- the quality declaration (all four required; the linter checks them) ---
 evidence_standard: external-sources    # what class of evidence carries this method's claims
@@ -125,8 +130,6 @@ don't turn a tool into a literature review.
 
 | Tool | Purpose | Method basis | Steps | Status |
 |------|---------|--------------|-------|--------|
-| `interview` | Prep an interview (goal · interviewee portrait · questions · interviewer guide) that yields learning | Continuous discovery (Torres) + *The Mom Test* — non-leading, past behaviour | 1, 2 | draft |
-| `analytics-search` | Desk research → sourced market digest (size · dynamics · trends · barriers · risks/drivers · players) | Triangulated desk research — ≥2 independent sources per claim | 1, 2, 4 | draft |
 | `concept-formation` | Shape the concept from a raw idea | Dunford positioning ('the shift') | 1 | draft |
 | `segmentation` | Define & cut segments | JTBD / needs-based, priority-tiered | 1 | draft |
 | `segment-pains` | Surface problems in the job | JTBD + Value Proposition Canvas; severity × frequency; differentiator vs table-stakes | 1 | draft |
@@ -152,7 +155,6 @@ don't turn a tool into a literature review.
 | `cjm` | Customer journey map | Journey mapping — stages · touchpoints · emotion curve · pains → opportunities | 1, 3 | draft |
 | `jtbd` | Jobs-to-be-Done framing | JTBD — Christensen 'progress' + Ulwick ODI (job statement · forces · desired outcomes) | 1, 3 | draft |
 | `segment-cvp` | Compose a testable go-to-market entry bundle | Market-entry bundle (segment · situation · pain · CVP · offer · channel · signal) + 6-filter readiness gate + qualified-action signal scale | 1, 3, 5 | draft |
-| `brief` | Product/feature brief | Structured brief — problem · goal · target metric · scope in/out · owner | any | draft |
 | `prioritization` | Rank must vs backlog | RICE / ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line | 5, 6 | draft |
 | `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
 | `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |

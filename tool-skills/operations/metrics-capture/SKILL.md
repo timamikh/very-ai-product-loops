@@ -1,7 +1,7 @@
 ---
 name: metrics-capture
 kind: research
-produces: product-loops/sources/<source>-method.md
+produces: product-loops/<step-folder>/metrics-capture.md
 reads_registers: [metrics, hypotheses]
 writes_registers: [metrics]
 inputs: [metrics, kb]
@@ -13,15 +13,18 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Reproducible measurement: a declared population, a declared observation window, a written derivation, and an independent recount before the value is trusted"
 status: draft
-version: 0.1.1
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-16
 ---
 
 # Metrics capture — from a source to a register row
 
 **What it is.** The pass that turns a **source** (a database, an analytics tool, an admin panel, a
-billing export, a hand count) into **dated rows in `registers/metrics.csv`** and a **living method
-file** in `sources/` that says how those rows were derived. Every other tool in the framework starts
+billing export, a hand count) into **dated rows in `registers/metrics.csv`** and a **derivation
+worklog** — `<step-folder>/metrics-capture.md` in the folder of the step whose need triggered the
+capture (`node_type: worklog`) — that says how those rows were derived. The worklog is agent
+reasoning, so it lives with the worklogs; `sources/` holds only what comes from outside — the
+source's **access file** stays there, and the worklog cites it. Every other tool in the framework starts
 after this one: the metric tree wants "the register seeded with captured readings", retention wants
 "usage data with a per-user timestamp", unit economics wants a real churn rate rather than an assumed
 one. This is the skill that produces what they consume.
@@ -115,9 +118,11 @@ and it is far cheaper to learn it now than from a stakeholder.
 - **Rows** appended to `metrics.csv` — `id`, the period the value describes, `measured_at`, `value`,
   `observed_n`, `population`, `basis` (how it was computed, and nothing else), `source`, `note`. One row
   per population and per basis; two populations are two rows, never one blended number.
-- **The method file** in `sources/` (`node_type: source-method`) — living, rewritten in place, indexed in
-  `sources/INDEX.md`, naming the ids it feeds. This is what makes the reading reproducible, which is the
-  first question anyone asks about it.
+- **The derivation worklog** `<step-folder>/metrics-capture.md` (`node_type: worklog`) — one per step
+  folder, a dated block per capture pass, naming the ids it feeds and citing the source's access file
+  in `sources/`; the csv row's `source` column points at this worklog. This is what makes the reading
+  reproducible, which is the first question anyone asks about it. (An event-driven worklog needs no
+  section marker — the linter's check P knows the name.)
 - **`metric-tree.md` updated** where the pass taught you something about the node: `instrumentation`, the
   default `population`, a `note` for a qualifier the enum cannot hold.
 - **A change-log entry naming the ids** it moved, with the *why* — this is what makes the item's history
@@ -144,14 +149,16 @@ Then tell the human what landed, decoding each id in the same sentence, and name
   it describes — every trailing-window metric then lies to trend readers.
 - **The raw export that stays "just for now."** It gets committed, and personal data is now in git
   history.
-- **`sourced` without a method file.** A confidence tag claiming evidence for a derivation nobody can
-  repeat; until it is written down, the reading is an assumption.
+- **`sourced` without a derivation worklog.** A confidence tag claiming evidence for a derivation nobody
+  can repeat; until it is written down, the reading is an assumption.
 - **A capture that skips Update state.** Values in a file somewhere, registers untouched, no change-log
   entry — the pass did not happen as far as the next agent is concerned.
 
 ## Output
 
 - Dated rows in `registers/metrics.csv` (the home of every value).
-- A living method file in `product-loops/sources/<source>-method.md` via
-  [`template-fragment.md`](template-fragment.md), indexed in `sources/INDEX.md`.
+- A derivation worklog `product-loops/<step-folder>/metrics-capture.md` (`node_type: worklog`) via
+  [`template-fragment.md`](template-fragment.md), citing the source's access file in `sources/`.
+- No new file in `sources/` — that folder holds what comes from outside (the access file, a raw
+  export the user keeps), never the agent's derivation.
 - Inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).

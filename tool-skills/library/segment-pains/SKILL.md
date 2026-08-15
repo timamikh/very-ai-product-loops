@@ -37,7 +37,8 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
 - **Segments** — from `{#segments}`. *Missing → run `segmentation` first.*
 - **Evidence source** — interviews (early stages) and/or product metrics (later stages). At
   `concept-viability` these are thin, so pains stay `[assumption]`; the status tells you which
-  source to lean on. *Missing → offer `interview` / `analytics-search`.*
+  source to lean on. *Missing → offer `interview` (prep the guide) or a scoped desk-research pass
+  (`loops-research` brief per `references/evidence-standards.md`).*
 
 ## How to do it
 

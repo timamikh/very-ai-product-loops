@@ -379,7 +379,9 @@ def check_worklogs(inst):
             if fm.get("node_type") != "worklog":
                 err("P [%s] %s/%s is not `node_type: worklog` — a step folder holds only worklogs"
                     % (name, stem, base))
-            if base[:-3] not in expected:
+            if base[:-3] not in expected and base[:-3] != "metrics-capture":
+                # `metrics-capture` is event-driven (an operations skill): its derivation worklog may
+                # appear in any step folder without a section marker — the csv row cites it.
                 warn("P [%s] %s/%s is an orphan — no section uses tool `%s`"
                      % (name, stem, base, base[:-3]))
         for miss in sorted(expected - present):

@@ -1,31 +1,33 @@
 <!--
-  template-fragment: metrics-capture → writes a whole file, product-loops/sources/<source>-method.md
-  (node_type: source-method), plus the csv rows it justifies.
+  template-fragment: metrics-capture → writes the derivation worklog
+  product-loops/<step-folder>/metrics-capture.md (node_type: worklog), plus the csv rows it justifies.
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
-  The file is LIVING: rewritten in place when the derivation changes, never dated evidence.
-  One method file per (source × derivation), not one per capture.
+  One worklog per step folder; one dated block per (source × derivation). The worklog is agent
+  reasoning — it never lives in sources/; it CITES the source's access file there.
 -->
 
-# Source-method template (`product-loops/sources/<source>-method.md`)
+# Derivation-worklog template (`product-loops/<step-folder>/metrics-capture.md`)
 
 ```markdown
 ---
-node_type: source-method
-title: "<source> → <what it yields> — derivation"
-source: <relative path to the access file, e.g. ./analytics-access.md>
-feeds: [M-activation, M-retention-30d]
-status: living
+node_type: worklog
+tool: metrics-capture
+step: <n>-<slug>
+title: "Metric captures — <step>"
 updated: <YYYY-MM-DD>
+version: 0.1.0
 ---
 
-# <source> → register values
+# Metric captures
+
+## <source> → <what it yields> (feeds: M-…, M-…)
 
 **Question it answers.** <which node / hypothesis waits on these numbers, and what decision moves>
 
 **Source & access.** <one line — what the source is>; access, verification and recovery live in
-[`<access-file>.md`](./<access-file>.md) and are not repeated here.
+[`../sources/<access-file>.md`](../sources/<access-file>.md) and are not repeated here.
 
-## Population
+### Population
 
 | | Rule | Why | Confidence |
 |---|---|---|---|
@@ -36,13 +38,13 @@ updated: <YYYY-MM-DD>
 <Every line above is a judgement call. A material exclusion was confirmed by the human — record
 which, and when.>
 
-## Window & observability
+### Window & observability
 
 - **Observation window:** <e.g. 30 days from signup — the outcome is countable only once it elapses>
 - **`observed_n`:** <how it is computed — the members whose window has elapsed as of `measured_at`>
 - **Not-yet-observable periods** are written as rows with an empty `value`, never as `0`.
 
-## Derivation
+### Derivation
 
 - **Where it lives:** <path OUTSIDE the repository if the instance sits in a repo with an external
   origin — only this reference goes inside>
@@ -50,7 +52,7 @@ which, and when.>
 - **What it emits:** <the columns, and how they map to metrics.csv fields>
 - **`basis`:** <how the value is computed — and nothing about who was counted>
 
-## Verification
+### Verification
 
 | Check | Method | Result | Date |
 |---|---|---|---|
@@ -58,7 +60,7 @@ which, and when.>
 
 <A reading nobody verified carries [assumption], however precise it looks.>
 
-## Known limits
+### Known limits
 
 - <what this derivation cannot see — an event not instrumented before a date, a segment missing
   from the source, a known double-count>
@@ -74,13 +76,13 @@ which, and when.>
 ## The rows it justifies
 
 Appended to `registers/metrics.csv` — never edited, never deleted; one row per population and per
-basis:
+basis; the `source` column points at this worklog:
 
 ```csv
 id,period_start,period_end,measured_at,value,observed_n,population,basis,source,note
-M-retention-30d,2026-05-01,2026-05-31,2026-07-02,0.41,318,all_accounts,fact,analytics-method,
-M-retention-30d,2026-05-01,2026-05-31,2026-07-02,0.57,96,paying,fact,analytics-method,
-M-retention-30d,2026-06-01,2026-06-30,2026-07-02,,0,all_accounts,fact,analytics-method,window not elapsed
+M-retention-30d,2026-05-01,2026-05-31,2026-07-02,0.41,318,all_accounts,fact,4-strategic-plan/metrics-capture.md,
+M-retention-30d,2026-05-01,2026-05-31,2026-07-02,0.57,96,paying,fact,4-strategic-plan/metrics-capture.md,
+M-retention-30d,2026-06-01,2026-06-30,2026-07-02,,0,all_accounts,fact,4-strategic-plan/metrics-capture.md,window not elapsed
 ```
 
 Read the third row as: the outcome for the June cohort was **not observable** at capture time — an
@@ -88,5 +90,6 @@ empty `value`, not a zero. The first two are the same period and the same basis 
 which is why they are two rows.
 
 **Then:** update the node in `metric-tree.md` where the pass taught you something (`instrumentation`,
-default `population`, a `note`), add the file to `sources/INDEX.md`, write a change-log entry naming
-the ids it moved, delete the raw capture, and run `python3 tools/lint.py <instance>` to 0 errors.
+default `population`, a `note`), write a change-log entry in the worklog naming the ids it moved,
+delete the raw capture, and run `python3 tools/lint.py <instance>` to 0 errors. No new file lands in
+`sources/` — the access file already there is cited, not duplicated.

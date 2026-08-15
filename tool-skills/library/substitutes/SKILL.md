@@ -5,7 +5,7 @@ produces: substitutes
 prerequisites: [the job/segment]
 reads_registers: []
 writes_registers: [risks]
-inputs: [interview, kb, analytics-search]
+inputs: [interview, kb, research]
 used_by_steps: [2]
 opinionated: false
 method_basis: "JTBD-competition — alternatives incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes"
@@ -52,7 +52,7 @@ our price and adoption regardless of how few "direct" rivals exist.
 4. **For each substitute, answer two questions.** *Why does the customer choose it?* and *When does
    it win against us?* — the specific segment, price point, or trigger where the substitute is the
    rational pick. Both answers are claims about the outside world: tag each `[sourced: interview …]` /
-   `[sourced: analytics-search …, as_of …]` / `[assumption]`, judged per fact type against
+   `[sourced: <named source>, as_of …]` / `[assumption]`, judged per fact type against
    [`../references/evidence-standards.md`](../references/evidence-standards.md). "Everyone just uses
    spreadsheets" with nothing behind it is an assumption, and usually a comforting one.
 5. **Find the self-build threshold.** Name the point where "just build it ourselves" beats buying

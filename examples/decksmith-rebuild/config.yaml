@@ -1,0 +1,18 @@
+# Decksmith (fictional sample) · REBUILD instance config
+# Independent walk of the framework from the founder brief, done autonomously by the agent on 2026-08-14.
+# Kept beside the curated examples/decksmith/ so the two can be compared; sources are reused (they are the
+# captured inputs — the "brief" — not outputs). See WEAKNESSES.md for the process critique this walk produced.
+product: "Decksmith (fictional sample) — rebuild"
+language: en
+active_status: concept-viability   # no product/market data yet — hypotheses are the center of gravity
+directions: [development, go-to-market, back-office]   # execution streams for Steps 5–6 (framework default set)
+delegation: allowed   # orchestrator may fan out to subagents; a `draft` subagent writes its method's worklog
+scope_note: >
+  Fictional walkthrough of the framework — no real product or company data. Decksmith is an AI generator of
+  native, editable AND well-designed .pptx/.key decks. Rebuilt from sources/founder-brief.md (+ the reused
+  desk-research capture sources/market-research.md) with no human present to sign off, so NO section carries a
+  confirmation marker and every gate tick is `open` (drafted, pending verify + human sign-off) by design.
+sources:
+  - sources/founder-brief.md        # the raw idea + founder decisions (origin of the concept)
+  - sources/market-research.md      # reused desk-research capture (feeds Steps 2–4)
+metric_source_slots: {}             # none yet — no product in market at concept stage

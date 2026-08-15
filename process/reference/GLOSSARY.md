@@ -2,8 +2,8 @@
 node_type: reference
 title: Glossary — the entities of very-ai-product-loops
 status: draft
-version: 0.2.0
-updated: 2026-08-15
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 # Glossary
@@ -38,7 +38,7 @@ Alongside the library sit two more `tool-skills/` planes:
 | Entity | Where | What it is |
 |--------|-------|------------|
 | **Operations** | `tool-skills/operations/` | Runtime skills, not product methods: `handoff`, `metrics-capture`, `orchestration`, `source-intake`, `theses`. |
-| **Adapters** | `tool-skills/adapters/` | The **output layer**: read the structured instance and render deliverables (`to-table`, `to-document`, `to-deck`). |
+| **Outputs** | `tool-skills/outputs/` | The **output layer** — skills that produce the files leaving the framework, landing in the instance's `export-files/`. Two kinds: **renderers** (`ADAPTER.md` — read the instance, render a regeneratable view: `to-table`, `to-document`, `to-deck`) and **authored deliverables** (`SKILL.md` — author a signed document: `brief`, `interview`). |
 
 ---
 
@@ -98,9 +98,9 @@ folder, and the worklog file.
 | **`config.yaml`** | instance root | Human-authored, rarely changes: `product` (the product's **name**), `language`, `active_status`, `directions`, `delegation`, metric source slots. |
 | **`state.yaml`** | instance root | Agent-written each pass: `current_step`, `last_pass`, and the **gate ticks** (`artifact#section: done`). The single home of cycle position. |
 | **Worklog** | `<step-folder>/<tool>.md` | The **source of truth** for a method: inputs, reasoning, numbers, open items. Free-form (`node_type: worklog`); the artifact section is its projection. One per method that fills a section. |
-| **`sources/`** | instance | Converted copies of the product's materials + `INDEX.md`; access notes and dated evidence. Raw captures and secrets never go under version control. |
+| **`sources/`** | instance | **What comes from outside** — material the user (or the world) brings in, + `INDEX.md`: access notes and dated evidence. **No skill produces a source from inside**; agent reasoning is a worklog. Raw captures and secrets never go under version control. |
 | **`HANDOFF.md`** | instance | Session-to-session state transfer, written by the `handoff` operations skill. |
-| **`deliverables/`** / **`outputs/`** | instance | Adapter render outputs — regeneratable views, not source. |
+| **`export-files/`** | instance | **What goes outside** — the mirror of `sources/` (in ↔ out). Rendered views (regeneratable, re-run the renderer) and authored deliverables (`node_type: deliverable` — a brief, an interview guide; themselves the signed source). |
 
 **The three document layers** (do not confuse them): the **worklog** is where the work is done; the
 **registers** are the canon for the `H-`/`R-`/`M-` ids; the **artifact** is the projection
@@ -118,6 +118,20 @@ a human signs. A value lives in exactly one home.
 | **Direction** | An execution stream in Steps 5–6 (default `development` · `go-to-market` · `back-office`), editable per instance. Named `go-to-market`, not `growth`, to avoid colliding with the `growth` **status**. |
 
 ---
+
+## Renames (2026-08-16)
+
+The entity law behind these: **a source only comes from outside; a skill that fits no entity is
+recut along the existing seams — a new entity or hybrid home is never minted** (CONVENTIONS →
+*Raw data & access*).
+
+| Old | New | Why |
+|-----|-----|-----|
+| `tool-skills/adapters/` | `tool-skills/outputs/` | The plane holds two kinds now: renderers (adapters) **and** authored deliverables (`brief`, `interview`) — "outputs" names the mechanic (produce what leaves), not one kind. |
+| `brief`, `interview` in `library/` | `tool-skills/outputs/` | Neither fills an artifact section; both author a file the product person uses outside — that is the outputs mechanic. |
+| `analytics-search` (library skill) | dismantled | It authored a "digest" into `sources/` — an agent-written file posing as a source. Desk research is now each consumer method's own gathering (`research` input slot; `loops-research` briefs per `references/evidence-standards.md`), landing in that method's worklog. |
+| `product-loops/briefs/` · `deliverables/`/`outputs/` (two names, one type) | `product-loops/export-files/` | One home for everything that leaves the framework — the mirror of `sources/`. |
+| `sources/<source>-method.md` (`node_type: source-method`) | `<step-folder>/metrics-capture.md` (`node_type: worklog`) | A derivation is agent reasoning, not a source; the csv row cites the worklog, the worklog cites the access file. |
 
 ## Renames (2026-08-15)
 

@@ -14,7 +14,7 @@ questions:
     type: text
     why: "Units × price is the load-bearing SAM number."
   - id: topdown_source
-    ask: "Top-down cross-check — which published market figure or analog can we derive the same SAM from? (⚙️ agent pulls via analytics-search)"
+    ask: "Top-down cross-check — which published market figure or analog can we derive the same SAM from? (⚙️ agent pulls via its desk-research gathering)"
     type: text
     why: "Top-down is a cross-check, not the answer; divergence must be reconciled, not averaged."
   - id: assumptions

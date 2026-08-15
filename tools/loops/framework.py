@@ -192,7 +192,7 @@ def skill_card(path, plane, origin, root=ROOT):
                        T.plain(intro.replace("\n", " ")), flags=re.I)
     return {
         "name": fm.get("name", os.path.basename(d)),
-        "plane": plane,                                  # library · operations · adapters
+        "plane": plane,                                  # library · operations · outputs
         "origin": origin,                                # vendored (framework) · local (product)
         "kind": fm.get("kind", ""),
         "produces": T.as_list(fm.get("produces")),
@@ -226,25 +226,28 @@ def skills(root=ROOT, instance=None):
     one library with the origin of each entry marked.
     """
     out = []
-    planes = (("library", os.path.join(root, "tool-skills", "library", "*", "SKILL.md")),
-              ("operations", os.path.join(root, "tool-skills", "operations", "*", "SKILL.md")),
-              ("adapters", os.path.join(root, "tool-skills", "adapters", "*", "ADAPTER.md")))
-    for plane, pattern in planes:
-        for f in sorted(glob.glob(pattern)):
-            out.append(skill_card(f, plane, "vendored", root))
+    # the outputs plane holds two kinds: renderers (ADAPTER.md — read, never author) and
+    # authored deliverables (SKILL.md — e.g. `brief`, `interview`); both are discovered here
+    planes = (("library", ("SKILL.md",)),
+              ("operations", ("SKILL.md",)),
+              ("outputs", ("SKILL.md", "ADAPTER.md")))
+    for plane, names in planes:
+        for name in names:
+            for f in sorted(glob.glob(os.path.join(root, "tool-skills", plane, "*", name))):
+                out.append(skill_card(f, plane, "vendored", root))
     if instance:
-        for plane in ("library", "operations", "adapters"):
+        for plane in ("library", "operations", "outputs"):
             for name in ("SKILL.md", "ADAPTER.md"):
                 for f in sorted(glob.glob(os.path.join(instance, "tool-skills", plane, "*", name))):
                     out.append(skill_card(f, plane, "local", root))
     homed = homed_sections(root)
     for c in out:
-        # only library methods declare a section id; an adapter's `produces` is prose about a
-        # deliverable, so "is it homed in a step artifact" does not apply to it
+        # only library methods declare a section id; an outputs skill's `produces` is a file or
+        # prose about a deliverable, so "is it homed in a step artifact" does not apply to it
         secs = ([p for p in c["produces"] if not T.is_file_produces(p)]
                 if c["plane"] == "library" else [])
         c["homeless"] = [p for p in secs if p not in homed]
-        if c["plane"] == "adapters":
+        if c["plane"] == "outputs":
             c["produces"] = [T.plain(p)[:200] for p in c["produces"]]
     return out
 

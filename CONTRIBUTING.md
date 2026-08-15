@@ -7,10 +7,10 @@ new methods, fixes, sharper wording — are welcome.
 
 - **Fixed core** — `process/` · `steps/` · `statuses/` · the registers schema. This is
   jurisdiction-neutral and changes rarely. Region- or company-specific concretes belong in
-  adapters, not here.
+  outputs (or a company plugin), not here.
 - **Pluggable `tool-skills/`** — `library/` (product methods, one per folder),
-  `operations/` (runtime capabilities like handoff), `adapters/` (render the working area
-  into deliverables). Most contributions land here.
+  `operations/` (runtime capabilities like handoff), `outputs/` (produce the files that leave
+  the framework — renderers and authored deliverables). Most contributions land here.
 
 Read `process/OVERVIEW.md` and `process/CONVENTIONS.md` first — they define the wiring rules
 the linter enforces. If you are adapting the framework for **your own company** rather than

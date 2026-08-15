@@ -16,7 +16,7 @@ per_step:
       - Re-read the market for expansion arenas and emerging threats (new entrants, commoditization, platform shifts)
       - Track competitor dynamics from live data — who's gaining, whose strategy is working
       - Name the sharpest threat to DURABLE growth (moat erosion) as the "so what"
-    tools: [analytics-search, competitor-analysis, market-sizing, substitutes]
+    tools: [competitor-analysis, market-sizing, substitutes]
   "3":  # Strategy
     goals:
       - Sharpen how-to-win around DEFENDING the moats that make growth durable, plus the next expansion segment/market

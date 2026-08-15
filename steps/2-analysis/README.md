@@ -17,7 +17,7 @@ updated: 2026-07-18
 opportunity (or threat) is**. Analysis without a "so what" is inert — the conclusion is the point.
 
 ## Inputs (source slots)
-`analytics-search` · `kb` · `interview` · the passport (`1-concept.md`).
+`research` (scoped desk research the methods run themselves) · `kb` · `interview` · the concept (`1-concept.md`).
 
 ## Output
 `2-analysis.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).

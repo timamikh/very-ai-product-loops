@@ -4,7 +4,7 @@ kind: method
 produces: channels-expansion
 reads_registers: []
 writes_registers: [hypotheses, risks]
-inputs: [interview, kb, analytics-search]
+inputs: [interview, kb, research]
 prerequisites: [segments, uvp]
 used_by_steps: [3]
 opinionated: false
