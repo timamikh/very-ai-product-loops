@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.7.0
-updated: 2026-08-13
+version: 0.8.0
+updated: 2026-08-15
 ---
 
 # Registers
@@ -20,36 +20,11 @@ Follow [`CONVENTIONS.md`](CONVENTIONS.md) for IDs, confidence, and dated change 
 
 ## What earns a register — the four-sign test
 
-Three is not a magic number, but a fourth register is a change to the load-bearing core (it appears in
-the overview, the README, the diagram and every tool), so a candidate is tested rather than argued. All
-four signs, not three:
-
-1. **A stable id other artifacts reference** — `H-001`, `R-001`, `M-activation` are cited from prose
-   across steps.
-2. **An enumerable lifecycle** — a `status` column. A register is a state machine, not a filing cabinet.
-3. **A life outlasting the step that bore it** — born at one step, *refined by others* (the table above).
-4. **State that flows both ways** — a result below revises a decision above (a refuted hypothesis
-   triggers an upward revisit).
-
-**Fail one sign and the home is a step artifact section**, whose change log already carries the
-reasoning. Worked examples: *competitors* are a snapshot re-run when the market moves — no lifecycle,
-few referrers → a section. *Value-for-the-customer* is an attribute of a segment, with no identity of its
-own → a section keyed to the segment.
-
-Two guards on this test:
-
-- **A register of "workings" fails by construction.** Registers hold **state**; artifacts hold the
-  **reasoning** that produced it. A register that stored analyses would be a second home for artifact
-  content — see CONVENTIONS *One mechanism, one way*.
-- **No halves.** An id plus a status inside an artifact *is* a register, hidden where nobody looks.
-  Either it earns a register, or it stays prose in a section.
-
-**Open candidate (not adopted): segments.** They pass all four — cited by pains, value proposition,
-pricing, channels, retention (read *by segment* is a method requirement), guardrails; and they have a
-real cycle (candidate → chosen → deprioritized → dropped). They are deliberately left as a Step 2
-section until one of two triggers: a second instance reporting the same friction, or a method that must
-reference a segment by id and cannot. Naming the candidate is how it gets decided on evidence instead of
-being re-argued every time it itches.
+A fourth register is a change to the load-bearing core, so a candidate is **tested, not argued**, on
+all four signs: a stable cross-step id · an enumerable lifecycle (`status`) · a life outlasting the step
+that bore it · state that flows both ways. Fail one and the home is a step artifact section instead. The
+full test, its two guards, and the open `segments` candidate are in [`EXTENDING.md`](../EXTENDING.md) →
+*What earns a register*.
 
 ## Hypothesis register (`hypotheses.md`)
 
@@ -68,6 +43,15 @@ Every bet/assumption becomes an entry. Fields:
 | `confidence` | `assumption` · `sourced` · `validated` · `refuted` |
 | `signal` | *post-test* — the observed market response, graded: `weak` (click · like · page-view — channel diagnostics, not a result) · `medium` (lead · sign-up · reply · details request) · `strong` (meeting with a real DM · trial access · price talk · pilot · pre-pay · sale). Empty until read. |
 | `decision` | *post-test* — the call the readout drives: `scale` · `iterate` · `reject` · `research` (return to discovery). Distinct from `status`: a bet can be `validated`/`scale` or `refuted`/`reject` or partially-true/`iterate`. Empty until read. |
+
+**One `type` per hypothesis** (`desirability` · `feasibility` · `viability` · `usability` — the classic
+product-risk taxonomy). A cross-cutting theme (*moat*, *pricing*) is **not** a fifth type — it goes in
+the free `tags` column, never compounded into `type` (`viability/moat` is wrong — write `type:
+viability`, `tags: moat`). A hypothesis needing **two verdicts** is **split in two at the first attempt
+to test it** (Step 4, when a metric is attached): the halves name the original, and the original closes
+as `superseded` — not `refuted`; it was divided, not disproved. Risks follow the same shape below:
+**exactly one `category`**, extra themes in `tags`. This id/type taxonomy is defined **here**;
+`CONVENTIONS.md` only carries the link form that references it.
 
 `signal` and `decision` are **gradations** (ordinal, in the row), orthogonal to the confirmation
 marker a human signs — see [`CONVENTIONS.md`](CONVENTIONS.md) *Gradation vs confirmation*. A

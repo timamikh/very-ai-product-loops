@@ -2,7 +2,7 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.4.1
+version: 0.5.0
 updated: 2026-08-15
 ---
 
@@ -46,7 +46,7 @@ a local skill of the same name wins.
 
 **Directions** are the execution streams that Steps 5–6 are organized around. The default is
 `development` · `go-to-market` · `back-office`; the count and the names are an instance decision, not
-a framework constant (see [`process/OVERVIEW.md`](process/OVERVIEW.md) §4, where directions are called
+a framework constant (see [`process/OVERVIEW.md`](process/OVERVIEW.md) §5, where directions are called
 out as an editable instance config).
 
 What depends on them, so you know what a change touches:
@@ -138,11 +138,11 @@ affected methods, fix the links, run the linter to zero, bump the version and re
   the framework already does one way, it is the wrong change — see
   [`process/CONVENTIONS.md`](process/CONVENTIONS.md).
 - **Classify before you write it.** A rule that a machine can verify belongs in the linter; a procedure
-  belongs in a skill; only a contract two readers must agree on belongs in `process/` — see CONVENTIONS
-  → *Where a new rule goes*. This is what keeps the always-loaded rule set from thickening with every
+  belongs in a skill; only a contract two readers must agree on belongs in `process/` — see
+  *Where a new rule goes* below. This is what keeps the always-loaded rule set from thickening with every
   lesson learned.
-- **A fourth register is a core change**, decided by the four-sign test in
-  [`process/REGISTERS.md`](process/REGISTERS.md) — not by how much the need itches.
+- **A fourth register is a core change**, decided by the *four-sign test* below — not by how much the
+  need itches.
 - **The agent never invents the method.** If you have not said what a new method *does*, its content
   lines stay `— to clarify —`. A plausible-looking method nobody chose is worse than a blank one.
 - **The linter is the gate.** `python3 tools/lint.py <instance>` reports 0 errors before a change is
@@ -151,3 +151,65 @@ affected methods, fix the links, run the linter to zero, bump the version and re
   your method is any good.
 - **History is recorded where the file lives:** instance files (artifacts, registers, sources, handoff)
   carry a dated change log; framework files carry a `version` bump and a line in `CHANGELOG.md`.
+
+## Where a new rule goes — contract · method · check
+
+The framework accretes: every real failure tempts a paragraph that would have prevented it, and
+paragraphs land in the files an agent reads on **every** pass. So a proposed rule is first *classified*,
+and only one of the three classes is allowed to grow the always-loaded canon.
+
+| Class | Home | What it costs | Use it for |
+|-------|------|---------------|------------|
+| **Check** | [`tools/lint.py`](tools/lint.py) | **nothing at read time**; catches the case every run | anything a machine can verify: shapes, ids, enum membership, cross-file agreement |
+| **Method** | a skill under `tool-skills/` | read only when that skill is used | procedure, technique, judgement — *how* to do the thing well |
+| **Contract** | `process/` (the always-loaded canon) | paid on every pass, by every agent | only what two independent readers must agree on: field names, enum values, id shapes, file roles (`node_type`), path/link form |
+
+**Try the classes in that order.** A check costs no context and does not depend on the agent
+remembering; a sentence in the canon costs context forever and does. "The linter is the gate" is not
+just enforcement — it is where a rule belongs when it *can* live there.
+
+Two consequences worth stating:
+
+- **A budget on the always-loaded set.** The rule files an agent must read before any work
+  (`AGENTS.md` + the four in `process/`) are meant to stay near **1000 lines**; the method library is
+  over twice that and costs nothing until used. An addition to `process/` names what it displaces, or
+  why it is neither a check nor a method. A reference that only one task needs goes to
+  [`process/reference/`](process/reference/README.md), pointed at from a one-line stub — not into the core.
+- **Subtraction is part of the job.** A rule stated in two of these files is two places to drift.
+  When a change touches a duplicated rule, delete the copy in the same change and leave a pointer.
+
+This governs changes to the framework itself; the dials table above says which dial to turn for what.
+
+## What earns a register — the four-sign test
+
+Three is not a magic number, but a fourth register is a change to the load-bearing core (it appears in
+the overview, the README, the diagram and every tool), so a candidate is tested rather than argued. All
+four signs, not three:
+
+1. **A stable id other artifacts reference** — `H-001`, `R-001`, `M-activation` are cited from prose
+   across steps.
+2. **An enumerable lifecycle** — a `status` column. A register is a state machine, not a filing cabinet.
+3. **A life outlasting the step that bore it** — born at one step, *refined by others* (the table in
+   [`process/REGISTERS.md`](process/REGISTERS.md)).
+4. **State that flows both ways** — a result below revises a decision above (a refuted hypothesis
+   triggers an upward revisit).
+
+**Fail one sign and the home is a step artifact section**, whose change log already carries the
+reasoning. Worked examples: *competitors* are a snapshot re-run when the market moves — no lifecycle,
+few referrers → a section. *Value-for-the-customer* is an attribute of a segment, with no identity of its
+own → a section keyed to the segment.
+
+Two guards on this test:
+
+- **A register of "workings" fails by construction.** Registers hold **state**; artifacts hold the
+  **reasoning** that produced it. A register that stored analyses would be a second home for artifact
+  content — see CONVENTIONS *One mechanism, one way*.
+- **No halves.** An id plus a status inside an artifact *is* a register, hidden where nobody looks.
+  Either it earns a register, or it stays prose in a section.
+
+**Open candidate (not adopted): segments.** They pass all four — cited by pains, value proposition,
+pricing, channels, retention (read *by segment* is a method requirement), guardrails; and they have a
+real cycle (candidate → chosen → deprioritized → dropped). They are deliberately left as a Step 2
+section until one of two triggers: a second instance reporting the same friction, or a method that must
+reference a segment by id and cannot. Naming the candidate is how it gets decided on evidence instead of
+being re-argued every time it itches.

@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.20.0
+version: 0.21.0
 updated: 2026-08-15
 ---
 
@@ -41,64 +41,28 @@ IDs are kebab-case and stable across revisions — rename the heading text freel
 
 ## Column keys
 
-A table column is addressed by a **stable key**, never by its header text — the column-level twin of
-a section `{#anchor}`, the same "mark, don't guess" rule one level down. The key rides in a hidden
-comment in the header cell:
+A table column is addressed by a **stable key** in a hidden header comment, never by its header text —
+the column-level twin of a section `{#anchor}`, the same "mark, don't guess" rule one level down:
 
 ```markdown
 | Layer <!--c:layer--> | Value <!--c:value--> | Confidence <!--c:conf--> |
 ```
 
-The comment is invisible in every reader (rendered markdown, the console, `plain()`), so the header
-prose stays whatever the instance's language makes it (`Уровень`, `Nivel`) while a tool still finds
-the column. Keys are kebab-case, unique within their table, and stable across revisions **and
-translations** — translate or reorder the header freely, keep the key. A table is **all-keyed or
-none**: a half-keyed header is the very ambiguity the key removes, so the linter rejects it (check O).
+The comment is invisible in every reader, so the header prose stays whatever the instance's language
+makes it (`Уровень`, `Nivel`) while a tool still finds the column. Keys are kebab-case, unique within
+their table, stable across revisions and translations. A table is **all-keyed or none** (linter check
+O); a filled instance section carries its template's keys (check O2). A column nothing reads by key
+carries none — "no consumer, no key".
 
-**The three homes of a key — and the one place it must never be.** The **chistovik** (an instance's
-artifact section) and the **interface** that renders it are the *same form*, one to one, and that form
-is defined by the **step template**. So a column key has exactly three homes:
-
-1. the **step template** (`steps/*/template.md`) — the form of record, where a section's keys are declared;
-2. the **instance** section that carries that form — so the console can read it in any language;
-3. the instance **registers** — on every column a tool reads: the `id`, the statement (`hypothesis`),
-   the enum columns (`type` / `status` / `category` / `kind` / `instrumentation` / `confidence`) the
-   console and the linter (check D) validate, and the metric descriptors the metrics view shows
-   (`definition` / `unit`). There is **no header-name fallback** — a register the console reads must key
-   these columns, and a language-alias list is exactly the maintenance trap the key removes. A purely
-   descriptive column nothing reads by key (tags, source, notes) carries none — the same "no consumer,
-   no key" rule that keeps a key out of a method template.
-
-A key is **never** put in a method's template (`template-fragment.md`). That file is the *draft's*
-shape — by default it matches the section's theses, but a method may work a wider table, more tables,
-or more detail than the chistovik shows, and data may arrive from `sources/` or a method the product
-altered. When it does, the **orchestrator adapts the draft's data into the chistovik's fixed form**,
-matching columns **by meaning**, not by any machine key — so a key in a method template is consumed by
-nothing and only creates a sync burden every new skill would have to carry. The linter therefore treats
-a key in a method template as an **error** (check O), and enforces on the step templates the shape a key
-needs to be trustworthy: a table is **all-keyed or none** (a half-keyed header is the very ambiguity the
-key removes), keys are kebab-case and unique within their table. The projection contract — an instance
-section carrying its template's keys — is check O2 (instance-conformance).
-
-This exists because matching a column by header prose breaks the moment the instance is written in
-another language or its columns are reordered — the failure the section `{#anchor}` already prevents
-for whole sections.
+**The authoring rule — the three homes of a key, and the one place it must never be (a method
+template) — is** [`reference/column-keys.md`](reference/column-keys.md). Read it when editing a step
+template or a register.
 
 ## Links & register item IDs
 
-Register items have stable IDs:
-
-- Hypotheses: `H-001`, `H-002`, … — each carries **exactly one `type`**: `desirability` (do they
-  want it) · `feasibility` (can we build it) · `viability` (does it work for the business) ·
-  `usability` (can they use it). (The classic product-risk taxonomy.) A cross-cutting theme
-  (e.g. *moat*, *pricing*) is **not** a fifth type — it goes in a separate, free **`tags`** column,
-  declared non-load-bearing for aggregators; never compound it into `type`. (`viability/moat` is
-  wrong — write `type: viability`, `tags: moat`.) A hypothesis needing **two verdicts** is split in
-  two **at the first attempt to test it** (Step 4, when a metric is attached): the halves name the
-  original, the original closes as `superseded` — not `refuted`, it was divided, not disproved.
-- Risks: `R-001`, … — likewise **exactly one `category`**; extra themes go in `tags`.
-- Metric nodes: `M-northstar`, `M-activation`, …
-
+Register items have stable IDs — hypotheses `H-001`, risks `R-001`, metric nodes `M-northstar`,
+`M-activation`. Their **type/category taxonomy, the one-type rule, and the split-in-two lifecycle are
+defined in** [`REGISTERS.md`](REGISTERS.md); this file carries only the link form that references them.
 Reference an item inline in brackets, e.g. "drives `M-activation`" or "tests `H-003`".
 
 **Cross-artifact links use a relative file path + the target's stable `{#anchor}`** — e.g.
@@ -155,9 +119,8 @@ these worklogs by the `source-intake` skill (see *Raw data & access*).
 
 ## Section confirmation
 
-An artifact section is a **thesis** — the step's conclusion in the reader's language, projected from
-the worklog. The linter holds its *structure*; a **human** holds its *meaning*, by signing the section
-off. That sign-off is a marker on the section:
+An artifact section is a **thesis** — the step's conclusion projected from the worklog. The linter holds
+its *structure*; a **human** holds its *meaning* by signing it off with a marker:
 
 ```markdown
 ## Market sizing {#market-sizing}
@@ -165,93 +128,41 @@ off. That sign-off is a marker on the section:
 <!-- confirmed: 2026-08-13 -->
 ```
 
-- **Absence = pending.** No marker means the result is not yet confirmed (the console shows *to confirm*).
-  A section with nothing written yet is not pending — there is no result to sign.
-- **It records approval of *this* version.** When *Act* re-projects the section from a changed worklog,
-  the marker is **dropped** — a conclusion that moved must be re-confirmed, so a stale sign-off can never
-  outlive the thesis it approved.
-- **One mechanism.** The date is the confirmation's home; the console reads it (never a second store),
-  and the `theses` operations skill (OPERATING-LOOP step 7) is what walks the human through a step's
-  sections and writes the markers. It is the semantic twin of the section `{#anchor}`: invisible in a
-  rendered reader, authoritative to a tool.
-- **Who signed (optional).** A team needs the sign-off attributed; a single-operator product does not.
-  The marker takes an optional `by:` — `<!-- confirmed: 2026-08-13 by:tm -->`. The `theses` skill fills
-  it from the recorded operator identity (never guessed); omitted, the confirmation still stands.
+The marker syntax is the contract (the console and linter read it); the **procedure** — walking the
+human through each thesis and stamping the marker, never self-issued — is the
+[`theses`](../tool-skills/operations/theses/SKILL.md) operations skill (OPERATING-LOOP step 7).
 
-**Sent back — `contested`.** A human who reviewed a section and pushed it back records that as its own
-marker: `<!-- contested: YYYY-MM-DD -->`. It is distinct from *pending* (nobody has looked yet) — the
-board can show contested work apart from unseen work — and the reason for the send-back goes in the
-change log. A section is **confirmed or contested, never both** (the linter's check R holds it); the
-`theses` skill stamps `contested` on a send-back verdict and never self-issues either marker.
-
-**Rests-on — a thesis names its foundation.** A section whose conclusion depends on upstream sections
-declares them with `<!-- rests-on: 1#segments, 2#opportunity -->` (each target `<step>#<section-id>`).
-It is a **schema** marker — the dependency is a property of the method, so it lives in the step
-template. Its payoff is provenance: when a section is confirmed but a section it rests on is **not**, the
-console flags it (*foundation unconfirmed*) and the linter warns — a signed thesis standing on unsigned
-ground is a silent staleness this makes loud. The linter's check S also holds every target to a real
-section id. It does not auto-drop a confirmation; it surfaces the gap for the human to re-confirm.
-
-**Result vs open sections.** Not every section is a thesis to sign. An **open** section is an
-agent→human inbox — `to-clarify`, `open-questions`, `blockers` — resolved by *removing* an item, never
-by confirming it. The schema marks such a section with `<!-- open -->` under its heading:
-
-```markdown
-## To clarify {#to-clarify}
-<!-- open -->
-```
-
-- An open section is **left out of the step's "N of M confirmed" count** — it has no result to sign, so
-  counting it would peg the figure below full forever. Everything without the marker is a **result**.
-- An open section **must never carry a `confirmed:` marker** (the linter's check R rejects it); the
-  console shows no confirmation chip on it.
+- **`confirmed: YYYY-MM-DD`** — approval of *this* version. **Absence = pending** (a section with nothing
+  written is not pending — there is no result to sign). Re-projection from a changed worklog **drops** the
+  marker, so a stale sign-off never outlives its thesis. Optional `by:<who>` attributes it.
+- **`contested: YYYY-MM-DD`** — a human reviewed the section and pushed it back (distinct from *pending*:
+  someone looked). **Confirmed or contested, never both** (check R); the reason goes in the change log.
+- **`rests-on: <step>#<section-id>, …`** — a **schema** marker (lives in the step template): the upstream
+  sections a conclusion depends on. A section confirmed while a foundation it rests on is not shows as
+  *foundation unconfirmed* (console) and warns (check S); every target must be a real section id.
+- **`open`** — marks an agent→human inbox (`to-clarify`, `open-questions`, `blockers`), resolved by
+  *removing* an item, never confirming it. **Left out** of the step's "N of M confirmed" count, and it
+  **must never carry a `confirmed:` marker** (check R).
 
 ## Gradation vs confirmation — two orthogonal axes
 
-Confirmation answers *has a human signed this?* — a **binary marker** on the section (above). It says
-nothing about *how good* the thing is. That second question is a **gradation**: an ordinal scale
-written **inside the row**, not a marker.
+**Confirmation** answers *has a human signed this?* — a binary marker (above), set by `theses`, dropped
+on re-projection. **Gradation** answers *how good is it?* — an ordinal scale carried **inside the row**:
+a hypothesis's `signal`/`decision` and priority score, a risk's likelihood × impact and lifecycle. The
+scales are defined once (enums in [`REGISTERS.md`](REGISTERS.md), the readout in the owning library
+skill), never per step.
 
-- **Confirmation** is one bit, set by the `theses` skill, dropped on re-projection.
-- **Gradation** is a scale carried in the content: a hypothesis's `signal` (`weak`/`medium`/`strong`)
-  and `decision` (`scale`/`iterate`/`reject`/`research`), its priority score (1/3/5), a risk's
-  likelihood × impact (H/M/L, backed 5/3/1) and lifecycle (`open`→`mitigating`→`contained`→
-  `realized`→`closed`). The scales are defined once — enums in [`REGISTERS.md`](REGISTERS.md),
-  the selection/readout method in the owning library skill — and never redefined per step.
+The axes are **independent** — a section can be confirmed at a low grade, or unconfirmed at a high one.
+A high grade is **not** a sign-off, and confirming does not raise a grade; a console renders **two
+chips**, never folding one into the other (that would relabel "nobody checked" as "checked and weak").
 
-The axes are **independent**: a section can be confirmed at a low grade (a human signs off on a weak
-signal that says *reject*) or unconfirmed at a high one (a strong signal nobody has reviewed yet). So
-a high grade is **not** a sign-off, and confirming a section does **not** raise its grade — a console
-that renders both must show two chips, never fold one into the other. Collapsing them would relabel
-"nobody checked" as "checked and weak", which is exactly the confusion the confirmation marker exists
-to prevent.
+## Instance config (`config.yaml`)
 
-## Instance config (`config.yaml`) — the pinned schema
-
-`config.yaml` is the **human's decisions** about the instance (the cycle's position lives in
-`state.yaml` — see OPERATING-LOOP). Its keys are canon, spelled exactly one way. A second spelling is
-a place two readers diverge, so the linter enforces this table.
-
-| Key | Required | Shape | What it is |
-|-----|----------|-------|------------|
-| `product` | **yes** | text | the product's name as a human says it (never inferred from the folder) |
-| `language` | **yes** | `ru` · `en` · … | the documentation language; tools also read it for their own UI |
-| `active_status` | **yes** | a status name from `statuses/` | the stage the loops are parameterized by |
-| `directions` | **yes** | list | execution streams for Steps 5–6 (default: `development` · `go-to-market` · `back-office`) |
-| `delegation` | no | `allowed` · `off` | may the orchestrator spawn subagents this instance? Absent = `allowed` (the framework's normal mode). `off` = the orchestrator runs every pass itself and writes every worklog directly — for restricted environments, or when the human wants no fan-out. Set at setup (`product-setup`), changeable any time |
-| `scope_note` | no | text (block scalar) | what is in and out of this instance's scope, in prose |
-| `metric_source_slots` | no | map | where metric data comes from — *where* it lives and how to reach it, **never a secret value** |
-| `sources` | no | list of paths | the origin documents this instance was built from |
-| `products` | no | map | **multi-product instance only**: `<name>: { path, title, goal, users, active_status }`, one sub-folder per product, each with its own artifacts, `state.yaml` and `registers/`; the sub-products inherit everything above from this file |
-
-Rules:
-
-- **Nothing else is load-bearing.** Extra keys are allowed but no tool may depend on them (the linter
-  reports them so they don't quietly become de-facto schema).
-- **No alias spellings.** `metric_sources`, `product_scope`, `lang`, `title` are *not* accepted forms —
-  fix the key, don't add a reader.
-- **Readers stay tolerant, the linter stays strict.** A reader that meets an off-canon key still
-  shows the data *and* surfaces the drift. Tolerance is for the human's benefit, never permission.
+`config.yaml` is the **human's decisions** about the instance; the cycle's position lives in
+`state.yaml` (see OPERATING-LOOP). Its keys are canon, spelled exactly one way — a second spelling is a
+place two readers diverge, so the linter enforces the schema (check **H**). The **pinned schema — every
+key, its shape, and the no-alias rule — is** [`reference/config-schema.md`](reference/config-schema.md);
+read it when writing or validating a `config.yaml`.
 
 ## One mechanism, one way
 
@@ -263,33 +174,12 @@ diverge and break. If two ways exist, pick one and eliminate the other in the sa
 
 ## Where a new rule goes — contract · method · check
 
-The framework accretes: every real failure tempts a paragraph that would have prevented it, and
-paragraphs land in the files an agent reads on **every** pass. So a proposed rule is first *classified*,
-and only one of the three classes is allowed to grow the canon.
-
-| Class | Home | What it costs | Use it for |
-|-------|------|---------------|------------|
-| **Check** | [`tools/lint.py`](../tools/lint.py) | **nothing at read time**; catches the case every run | anything a machine can verify: shapes, ids, enum membership, cross-file agreement |
-| **Method** | a skill under `tool-skills/` | read only when that skill is used | procedure, technique, judgement — *how* to do the thing well |
-| **Contract** | `process/` (this canon) | paid on every pass, by every agent | only what two independent readers must agree on: field names, enum values, id shapes, file roles (`node_type`), path/link form |
-
-**Try the classes in that order.** A check costs no context and does not depend on the agent
-remembering; a sentence in the canon costs context forever and does. "The linter is the gate" is not
-just enforcement — it is where a rule belongs when it *can* live there.
-
-Two consequences worth stating:
-
-- **A budget on the always-loaded set.** The rule files an agent must read before any work
-  (`AGENTS.md` + the four in `process/`) are about **930 lines**; the method library is over twice that
-  and costs nothing until used. Keep the first number near **1000**: an addition to `process/` names
-  what it displaces, or why it is neither a check nor a method. *(Ceiling 900 → 1000 at delegation:
-  the orchestrator↔subagent protocol is a contract two roles must agree on before reading anything
-  else; the procedure went to a skill.)*
-- **Subtraction is part of the job.** A rule stated in two of these files is two places to drift.
-  When a change touches a duplicated rule, delete the copy in the same change and leave a pointer.
-
-This section governs changes to the framework itself; [`EXTENDING.md`](../EXTENDING.md) says which dial
-to turn for what.
+Before adding a rule to this canon, classify it: a **check** (the linter) costs nothing at read time; a
+**method** (a skill) is read only when used; a **contract** (`process/`) is paid on every pass, by every
+agent. Only a contract two independent readers must agree on — field names, enum values, id shapes,
+file roles, path/link form — earns a place here; try the cheaper classes first. The full test, the
+always-loaded budget, and the subtraction rule are in [`EXTENDING.md`](../EXTENDING.md) → *Where a new
+rule goes*.
 
 ## Forks & options
 
@@ -317,50 +207,28 @@ where the register is one click away.
 
 ## Raw data & access
 
-- **`sources/` holds three roles**, kept apart because they age differently — all indexed in
-  `sources/INDEX.md`, pointed at by the step **worklogs** that absorb them and by handoffs, never by an
-  artifact directly (see *Step folders & worklogs*), never duplicated by them:
-  **access** (`node_type: source`, living — what the source is, how to connect, verify, recover),
-  **method** (`node_type: source-method`, living — how its raw rows become register values: who is
-  excluded, how keys fold to one person, which window; this is what makes a reading *reproducible*),
-  and **evidence** (`node_type: source`, dated and immutable — a capture). Put the method inside
-  dated evidence and the next capture forks it into two authoritative versions.
-- **Dispatched into steps, not linked from artifacts.** `sources/` is external, inherited input; its
-  material is worked into the relevant `<step-folder>/<tool>.md` worklogs by the **`source-intake`**
-  skill — run at instance setup and whenever new source files are added. The raw files stay in
-  `sources/` as the archive; a worklog cites a source (`../sources/<file>.md`), while an artifact or
-  board links only a **worklog**. In the console `sources/` is reachable solely through its own index
-  view, never as a drill target from a step.
-- **Captured values** go straight to the registers (dated rows); the source file records the
-  capture context.
-- **Raw captures** (page snapshots, exports) are **never committed** and are **deleted once their
-  values land** in the registers/sources. The instance folder is not automatically a safe place:
-  vendored, it sits in a repo whose `origin` may be public — where that is so, the working folder for
-  raw data and the analysis code that reads it live **outside** the repository, and only a reference
-  goes inside (a change-log entry names the script that produced a reading).
-- **Secret values** (tokens, passwords) are never written into artifacts, handoffs, or chat —
-  only *where* they live and how to rotate them.
+`sources/` holds **three roles**, kept apart because they age differently, all indexed in
+`sources/INDEX.md`: **access** (`node_type: source`, living — what it is, how to connect/verify/recover),
+**method** (`node_type: source-method`, living — how raw rows become register values, so a reading is
+reproducible), and **evidence** (`node_type: source`, dated, immutable — a capture). A source is
+**dispatched into worklogs, never linked from an artifact** (a worklog cites `../sources/<file>`, an
+artifact links only the worklog). **Captured values** go to the registers as dated rows; the source
+records the context.
+
+The hard rules (also in [`AGENTS.md`](../AGENTS.md)): **raw captures are never committed** and are
+deleted once their values land; where the instance's `origin` may be public, raw data and its analysis
+code live **outside** the repo, only a reference goes in. **Secrets** are never written anywhere — only
+*where* they live and how to rotate them. The routing procedure is the
+[`source-intake`](../tool-skills/operations/source-intake/SKILL.md) operations skill.
 
 ## Which conventions apply where
 
-Conventions are **not** uniform across file types — applying all of them everywhere creates the
-same on-the-fly ambiguity "one mechanism, one way" is meant to kill (does a source file need a
-change log? does a register need inline confidence tags when confidence is already a column?).
-The matrix below is authoritative; a file's `node_type` (frontmatter) selects its row.
-
-| `node_type` | Confidence tags | Section IDs | Register/item IDs | Change log | Notes |
-|-------------|-----------------|-------------|-------------------|------------|-------|
-| `artifact` (step outputs) | **yes** — on every non-trivial claim | **yes** | reference by ID | **yes** | the full convention set; a **projection** of its worklogs (see "Step folders & worklogs") |
-| `worklog` (a method's working doc in a step folder) | **yes** — on every non-trivial claim | optional | reference by ID | **yes** — the step's history lives here | source of truth the artifact section projects from; one per `<tool>`, named `<step-folder>/<tool>.md` |
-| `register` (hypotheses/risks/metric-tree) | **no** in prose — `confidence` is a table column instead | n/a | **defines** the IDs | **yes** | values obey the metric-register split (see REGISTERS.md) |
-| `source` (external-data notes) | **yes** — tag each captured fact | optional | reference by ID | **yes** | secrets/raw-data rules apply (see "Raw data & access") |
-| `source-method` (raw source → register values) | **yes** — on every judgement call (a cut-off, an exclusion) | optional | reference by ID | **yes** | living, never dated evidence: rewritten in place, so a reading stays reproducible |
-| `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
-| `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
-| framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
-
-If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.
-A convention not listed here (e.g. "Talking to the human") is behavioral and applies always.
+Conventions are **not** uniform across file types — a file's `node_type` selects which apply (an
+artifact carries the full set; a register uses a `confidence` column instead of inline tags; a source
+obeys the raw-data rules). The authoritative by-`node_type` matrix is
+[`reference/node-type-matrix.md`](reference/node-type-matrix.md); consult it when in doubt. Omitting a
+convention the matrix marks n/a is **correct**, not a lapse. A convention not in the matrix
+(e.g. "Talking to the human") is behavioral and applies always.
 
 ## Change logs
 

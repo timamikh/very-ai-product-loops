@@ -2,7 +2,7 @@
 node_type: reference
 title: Glossary — the entities of very-ai-product-loops
 status: draft
-version: 0.1.0
+version: 0.2.0
 updated: 2026-08-15
 ---
 
@@ -12,6 +12,12 @@ One shared vocabulary for the framework, so a person and an agent name the same 
 A desynced name is a latent bug — the console, the linter, and the step templates all key off these
 names, so this file is the reference they are held against. Where a name was recently changed, the
 old one is listed too, under **Renames** at the end.
+
+**This is a map, not a home for definitions.** Each entity's authority lives where the framework
+already keeps it — the step templates, [`CONVENTIONS.md`](../CONVENTIONS.md),
+[`REGISTERS.md`](../REGISTERS.md). The glossary points there and keeps the *names* aligned; it is never
+a second place a rule is defined (that would be the very "one mechanism, one way" it exists to protect).
+Read it on demand — when a term is unclear or onboarding — not on every pass.
 
 The framework separates **mechanism** (a thin, fixed core) from **content** (pluggable methods and
 product stages). Most entities below belong to one side or the other; a few are the seams between them.
@@ -66,7 +72,7 @@ stem for **every** step.
 
 **The three homes of a column key:** the **step template**, the **instance section** that carries it,
 and the **registers**. Never a method's `template-fragment.md` (no consumer, no key). See
-`process/CONVENTIONS.md` → *Column keys*.
+[`column-keys.md`](column-keys.md).
 
 ---
 

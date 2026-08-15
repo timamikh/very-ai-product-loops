@@ -121,8 +121,28 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   `CONVENTIONS.md` 0.19.0 → 0.20.0 drops the obsolete step-folder special case.
 - **Instance folder `product/` → `product-loops/`** (collides with product repos' own `product/`);
   legacy `product/` still recognised, discovery is by marker.
-- New **`docs/GLOSSARY.md`** — the entity vocabulary + a renames table. Only framework files are
-  renamed; `examples/` are left to the from-scratch rebuild, so the linter stays red on them by design.
+- New **`GLOSSARY`** (now `process/reference/GLOSSARY.md`) — the entity vocabulary + a renames table.
+  Only framework files are renamed; `examples/` are left to the from-scratch rebuild, so the linter stays
+  red on them by design.
+
+### Always-loaded canon slimmed — contract stays, procedure moves out
+
+- The four `process/` files an agent reads **every pass** are down from ~1150 to ~920 lines (`CONVENTIONS`
+  385→253, `OVERVIEW` 293→238, `OPERATING-LOOP` 258→235, `REGISTERS` +id-taxonomy / −four-sign). Only a
+  contract two readers must agree on stays in the core; procedure and extension-time rules move to their
+  owner.
+- New **`process/reference/`** — canon read **on demand**, not in the reading order: `column-keys`,
+  `config-schema`, `node-type-matrix`, `worked-example`, `late-hypothesis`, and the **`GLOSSARY`** (moved
+  from `docs/`, reframed as a *map* of names, not a second definition home). Each is reached from a
+  one-line stub in the core file that needs it.
+- *Where a new rule goes* and the *four-sign test* moved to **`EXTENDING.md`** (they govern changing the
+  framework, not a pass); the confirmation procedure and raw-data routing point to the `theses` /
+  `source-intake` skills that already own them; the `H-`/`R-`/`M-` id taxonomy is now owned solely by
+  `REGISTERS.md`, with `CONVENTIONS` keeping only the link form.
+- **OVERVIEW** rewritten: adds the **three-homes document model** (worklog = source of truth · registers =
+  shared ids · artifact = projection of the worklog, *not* grown from the registers), names the worklog /
+  column-key / confirmation-gradation machinery, drops stale "Phase 1" vocabulary, and points at the
+  console and linter as consumers of the one structure.
 
 ## [0.8.2] — 2026-07-22 — One-page overview in the README
 

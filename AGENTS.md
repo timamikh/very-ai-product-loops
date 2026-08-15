@@ -2,8 +2,8 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.7.0
-updated: 2026-08-10
+version: 0.7.1
+updated: 2026-08-15
 ---
 
 # Agent rules — very-ai-product-loops
@@ -20,6 +20,10 @@ Read BEFORE any work, in this order (normative, not optional):
 3. `process/CONVENTIONS.md` — notation: confidence tags, IDs, forks, change logs
 4. `process/REGISTERS.md` — register schemas
 5. The instance: its `HANDOFF.md` → `sources/INDEX.md` → only the artifacts the task needs
+
+`process/reference/` is **not** in this order — it is canon read **on demand** (the config schema, the
+node_type matrix, column-key authoring, the glossary, worked examples), each pointed at from the core
+file that needs it, so the always-loaded set stays lean.
 
 **Never trust auto-load.** When work begins via a skill, from another session, or on a tool that loads
 nothing, this file was not read for you — read the order above yourself. The `start-work` skill (or
