@@ -213,6 +213,16 @@ unsigned foundation lives in a different step. It is called after a **big re-pro
 dropped across steps) and **before a step change** (don't build the next step on unsigned ground). This
 is the ex-`review` idea landing as a scope, not a new skill. `OPERATING-LOOP.md` 0.9.0 → 0.9.1 and the
 operations index (0.3.3 → 0.3.4) point at both scopes; no schema, checker, or console change.
+- **`EXTENDING.md` 0.3.0 → 0.4.0 gains the section dial.** A run surfaced that the map of dials had a
+  route for a whole step but none for the commoner change — reshaping a *section* or keying a column.
+  Added: a dials row and a *"Changing a section or its columns"* recipe that routes to
+  `CONVENTIONS → Column keys`, names the three marks a section is (`{#anchor}`, `<!-- tool: X -->`,
+  `<!--c:key-->`), and lists what the change drags (gate id derived from the anchor, checks O/O2/P, the
+  console following the keys on its own, a bespoke board being opt-in). It restates nothing — it points.
+- **Two linter false-positives from the Tolmach run, fixed.** check F no longer reads a `[[…]]` inside a
+  fenced block as a wiki-link (a Mermaid subroutine node stopped reddening a passed step); check P's
+  tool marker now parses the canonical multi-tool form `<!-- tool: A, B -->`, first method primary. And
+  a malformed `confirmed:` date is now an ERROR, not a WARN — a typo silently un-confirms a section.
 
 ## [Unreleased] — Delegation, and a quality declaration on every method
 

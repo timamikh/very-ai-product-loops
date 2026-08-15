@@ -2,8 +2,8 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.3.0
-updated: 2026-08-09
+version: 0.4.0
+updated: 2026-08-15
 ---
 
 # Extending the framework
@@ -34,6 +34,7 @@ that fills a method is the failure this framework exists to prevent).
 | **change the work directions** (execution streams in Steps 5–6) | `product/config.yaml` → `directions` | your product | *below* |
 | **change the documentation language** | `product/config.yaml` → `language` | your product | edit the key; artifacts already written stay in their language until rewritten |
 | **contribute a method to the framework itself** | `tool-skills/library/<name>/` upstream | upstream | [`tool-skills/library/README.md`](tool-skills/library/README.md) → *How to add a tool* + [`CONTRIBUTING.md`](CONTRIBUTING.md) |
+| **change a section or its columns in a step artifact** (add a field, key a column, reshape a table) | `steps/<n>/template.md` — the schema *is* the template | upstream / your fork | *below — "Changing a section or its columns"* |
 | **add, remove or reorder a step** | `steps/` — the fixed core | **almost never** | *below — read it before trying* |
 | **the register schemas** (hypotheses / risks / metric tree) | `process/REGISTERS.md` | canon | not a dial: the schemas are the contract every tool reads. What an instance may use instead: `tags` for a cross-cutting theme, `note` for a qualifier an enum cell cannot hold |
 
@@ -67,6 +68,40 @@ The procedure, run by the agent as one pass of the loop:
    moves, nothing is invented, anything with no home becomes `— to clarify —`.
 5. Dated change-log entry in each artifact touched — with the *why*, not just the diff — then
    `python3 tools/lint.py` must report **0 errors**.
+
+## Changing a section or its columns
+
+A step artifact's shape is a contract, and its one home is the step template `steps/<n>/template.md`:
+the chistovik an instance fills and the console that renders it are the *same form*, read from there.
+So changing a section means changing that schema — everything else follows it, nothing is a second edit.
+
+A section is three marks (the column half is specified in
+[`process/CONVENTIONS.md`](process/CONVENTIONS.md) → *Column keys*):
+
+- `## Title {#anchor}` — the section's stable handle; the language of the prose is free, the anchor is not;
+- `<!-- tool: X -->` — the method that fills it. The same `X` names the skill folder
+  `tool-skills/library/X/` and the worklog `<step-folder>/X.md` — one id threads method, worklog and section;
+- on a table, `<!--c:key-->` on each column a consumer reads — a column is addressed by its key, never
+  by header prose. A column nothing reads by key carries none ("no consumer, no key").
+
+What a section change drags with it:
+
+- the **gate item is derived, not maintained** — every `{#anchor}` becomes `artifact#section` in
+  `state.yaml` on its own (`tools/loops/framework.py`), so a renamed anchor renames its gate id and
+  orphans its ticks; keep anchors stable;
+- the **linter holds the shape**: check **O** (keys well-formed on the template — all-keyed-or-none,
+  unique; a key in a *method* template is an error), check **O2** (a filled instance section carries its
+  template's keys), check **P** (the `<!-- tool: X -->` has its worklog);
+- the **console follows the keys by itself** — it reads by anchor + key, so a new or reshaped section
+  renders generically with **no console edit**; a *bespoke* board for it is opt-in (`COL_SCHEMA` + a
+  renderer in [`tools/ui/app/app.js`](tools/ui/app/app.js));
+- **cross-section references go by words, not row codes** — a code like `P1` that lives only in a
+  worklog does not survive into another section's prose (a reader-not-in-the-room can't resolve it).
+
+The guard, and the one failure mode: **change the shape = change the keys, then run the linter.**
+Editing the template's prose while leaving the keys is the one bypass the console cannot see; checks
+O/O2 are what catch it. Then `python3 tools/lint.py <instance>` to zero, bump the template `version`,
+and record it in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Adding, removing or reordering a step
 
