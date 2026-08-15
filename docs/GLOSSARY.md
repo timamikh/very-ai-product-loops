@@ -57,7 +57,7 @@ stem for **every** step.
 
 | Entity | Notation | What it is |
 |--------|----------|------------|
-| **Artifact** (a.k.a. *chistovik* / clean copy) | `<n>-<slug>.md` | The step's output: a **projection** of the worklogs into the template's fixed shape — the form a human reviews and signs. Its template is `steps/<n>-<slug>/template.md` (`node_type: artifact-template`). |
+| **Artifact** (clean copy) | `<n>-<slug>.md` | The step's output: a **projection** of the worklogs into the template's fixed shape — the form a human reviews and signs. Its template is `steps/<n>-<slug>/template.md` (`node_type: artifact-template`). |
 | **Section** | `## Title {#anchor}` | One unit of an artifact. The `{#anchor}` is its **stable identity** — rename the heading text freely, keep the anchor. |
 | **Gate item** | `artifact#section` | A soft checklist entry that validates one section, e.g. `concept#idea`. Gates report what's open; they never block descent. |
 | **Tool marker** | `<!-- tool: X -->` | Names the library method that fills a section (and the drill-through target: skill folder + worklog). Multi-tool form `<!-- tool: A, B -->`, first is primary. |
@@ -97,7 +97,7 @@ folder, and the worklog file.
 | **`deliverables/`** / **`outputs/`** | instance | Adapter render outputs — regeneratable views, not source. |
 
 **The three document layers** (do not confuse them): the **worklog** is where the work is done; the
-**registers** are the canon for the `H-`/`R-`/`M-` ids; the **artifact** (chistovik) is the projection
+**registers** are the canon for the `H-`/`R-`/`M-` ids; the **artifact** is the projection
 a human signs. A value lives in exactly one home.
 
 ---
@@ -106,8 +106,8 @@ a human signs. A value lives in exactly one home.
 
 | Entity | What it is |
 |--------|------------|
-| **Orchestrator** | The agent holding the human's session — the **only** agent that writes. It owns the projection, the registers, `state.yaml`, and the change log. |
-| **Subagent** | A spawned worker. `loops-gather` / `loops-research` / `loops-verify` return text and write nothing; `loops-draft` writes exactly one worklog and nothing else. |
+| **Orchestrator** | The agent holding the human's session. It owns every **shared** write — the projection (artifact sections), the registers, `state.yaml`, the gate ticks, and the change log. The only subagent that writes at all is `loops-draft`, and only its own worklog. |
+| **Subagent** | A spawned worker with a narrow write rule. `loops-draft` **writes exactly one file** — its method's worklog (the draft) — and nothing else; `loops-gather` / `loops-research` / `loops-verify` **write nothing** and return text. Enforced on Claude Code: only `loops-draft` carries a `Write` tool (linter check N). |
 | **Acceptance passport** (a.k.a. *return passport*) | The numbered checklist a subagent's return is scored against **before** its content is used. A return that fails its passport is not integrated. (This is the **only** meaning of "passport" in the framework — see Renames.) |
 | **Direction** | An execution stream in Steps 5–6 (default `development` · `go-to-market` · `back-office`), editable per instance. Named `go-to-market`, not `growth`, to avoid colliding with the `growth` **status**. |
 
