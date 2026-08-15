@@ -31,6 +31,7 @@ prove repeatable value and monetization; `growth` favors scale-and-defend items.
 |--------------|------|------------------|
 | `must` | Minimal mandatory items, grouped by direction, each in its per-direction format | `prioritization`, `feature-spec`, `activity-spec` |
 | `backlog` | The rest, prioritized, grouped by direction | `prioritization`, `feature-spec`, `activity-spec` |
+| `excluded` | Candidates that entered the ranking but were cut before backlog, each with why | `prioritization` |
 | `handoff` | What goes to the development process, and how | — |
 
 ## Item formats by direction
@@ -64,6 +65,7 @@ sub-tasks. Each direction describes its items in its own format:
 - [ ] the rest is prioritized, not a flat list → `sprint-plan#backlog`
 - [ ] dev items follow the **Feature** format; go-to-market items the **Activity** format; back-office items have a **DoD** → `sprint-plan#must` + `#backlog` · tick-id `item-format`
 - [ ] every item links to a metric node or a hypothesis → `sprint-plan#must` + `#backlog` · tick-id `item-links`
+- [ ] cut candidates are shown with a reason, not silently dropped → `sprint-plan#excluded` · tick-id `rejects-shown`
 - [ ] handoff to the dev process is explicit → `sprint-plan#handoff`
 
 ## Cadence & invalidation

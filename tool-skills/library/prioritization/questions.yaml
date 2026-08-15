@@ -1,6 +1,6 @@
 # prioritization — interview
 tool: prioritization
-produces: [period-goals, must, backlog]
+produces: [period-goals, must, backlog, excluded]
 questions:
   - id: gate
     ask: "What's the goal/gate of this period — the metric node to move (M-…) or the Definition of Done every item is ranked against?"

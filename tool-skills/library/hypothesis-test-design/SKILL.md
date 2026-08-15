@@ -1,7 +1,7 @@
 ---
 name: hypothesis-test-design
 kind: method
-produces: hypotheses-to-test
+produces: [global-hypotheses, hypotheses-to-test]
 prerequisites: [a hypothesis with a threshold, its metric node]
 reads_registers: [hypotheses, metrics]
 writes_registers: [hypotheses]

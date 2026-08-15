@@ -36,6 +36,6 @@ questions:
     type: per_item
     why: "A bundle failing any filter is kept for reference but not staged for test."
   - id: decision_rule
-    ask: "What decision will each outcome trigger — scale / iterate / reject / back-to-research?"
+    ask: "What decision will each outcome trigger — scale / iterate / reject / research?"
     type: free_text
     why: "A bundle isn't tested until a decision is recorded."

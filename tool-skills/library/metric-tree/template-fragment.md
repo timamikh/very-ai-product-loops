@@ -13,7 +13,7 @@ _Why this one: leading · value-repeating · strategy-encoding (one line each)._
 
 | Driver | Node | Inputs (nodes) | Instrumentation |
 |--------|------|----------------|-----------------|
-| acquisition / activation | `M-…` | `M-…` | instrumented / proxy / not |
+| acquisition / activation | `M-…` | `M-…` | instrumented / proxy / not-instrumented |
 | conversion | … | … | … |
 | deepening (strategy axis) | … | … | … |
 | retention | `M-…` | … | … |

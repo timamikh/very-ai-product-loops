@@ -1,5 +1,5 @@
 <!--
-  template-fragment: prioritization → fills {#period-goals} (Step 5) and {#must} / {#backlog} (Step 6)
+  template-fragment: prioritization → fills {#period-goals} (Step 5) and {#must} / {#backlog} / {#excluded} (Step 6)
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
 -->
 
@@ -38,9 +38,11 @@ _Step 6 — the rest, prioritized (not a flat list), grouped by direction._
 
 **Links:** each item references the `M-…` it moves or the `H-…` it tests → registers.
 
-**Excluded outright** — candidates that entered the ranking (N = …) and left it entirely, as opposed
-to landing in backlog. Backlog is the visible reject of the must-set; an item cut before that has
-nowhere else to be seen.
+## Excluded {#excluded}
+
+_Step 6 — candidates that entered the ranking (N = …) and left it entirely, as opposed to landing in
+backlog. Backlog is the visible reject of the must-set; an item cut before that has nowhere else to be
+seen._
 
 | Item | Direction | Why excluded |
 |------|-----------|--------------|

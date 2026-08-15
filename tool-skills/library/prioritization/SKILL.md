@@ -1,7 +1,7 @@
 ---
 name: prioritization
 kind: method
-produces: [period-goals, must, backlog]
+produces: [period-goals, must, backlog, excluded]
 prerequisites: [candidate items, the period gate/goal, available resources]
 reads_registers: [metrics, hypotheses]
 writes_registers: []

@@ -63,6 +63,14 @@ _The rest, prioritized (not a flat list), grouped by direction. Same item format
 | 2 | go-to-market | … | Activity | H-… / M-… | … | [assumption] |
 | 3 | back-office | … | Task+DoD | M-… / R-… | … | [assumption] |
 
+## Excluded {#excluded}
+<!-- tool: prioritization -->
+_Candidates that entered the ranking (N = …) but left it entirely — cut before backlog, shown with why (a rejected item is not silently dropped). Backlog is the visible reject of the must-set; this is the reject of the ranking itself._
+
+| Item <!--c:item--> | Direction <!--c:direction--> | Why excluded <!--c:why--> |
+|------|-----------|--------------|
+| … | … | no `M-…`/`H-…` link · out of period scope · superseded by <item> |
+
 ## Handoff {#handoff}
 _What goes to the development process, and how (the framework ends here; work proceeds in the team's own flow)._
 

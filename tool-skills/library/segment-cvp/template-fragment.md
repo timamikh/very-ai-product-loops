@@ -50,4 +50,4 @@ they fit the period's capacity and does not re-score them; test designed by
 
 **Seeded registers:** each `ready` bundle → hypothesis register (`H-…`, `type: desirability`,
 statement = the whole bundle). Decision after test is one of **scale · iterate · reject ·
-back-to-research** — a bundle without a recorded decision is not tested.
+research** — a bundle without a recorded decision is not tested.

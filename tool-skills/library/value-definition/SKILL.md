@@ -21,7 +21,7 @@ updated: 2026-08-09
 # Value & Defensibility
 
 Define **why the product is valuable and why that value is defensible** — the moat. Fills the
-`value-defensibility` section of the passport (Step 1) and is revisited at Strategy (Step 3),
+`value-defensibility` section of the concept (Step 1) and is revisited at Strategy (Step 3),
 where *derivative* values become relevant.
 
 > **This is an opinionated method** (a post-AI view of defensibility). It lives in the library,
