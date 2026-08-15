@@ -2,7 +2,7 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.5.0
+version: 0.5.1
 updated: 2026-08-15
 ---
 
@@ -92,9 +92,9 @@ What a section change drags with it:
 - the **linter holds the shape**: check **O** (keys well-formed on the template — all-keyed-or-none,
   unique; a key in a *method* template is an error), check **O2** (a filled instance section carries its
   template's keys), check **P** (the `<!-- tool: X -->` has its worklog);
-- the **console follows the keys by itself** — it reads by anchor + key, so a new or reshaped section
-  renders generically with **no console edit**; a *bespoke* board for it is opt-in (`COL_SCHEMA` + a
-  renderer in [`tools/ui/app/app.js`](tools/ui/app/app.js));
+- the **console follows the keys by itself** — it reads every section by anchor + key, so a new or
+  reshaped section renders generically with **no console edit** and **no per-section widget to author**
+  (columns are read by key only; the old positional `COL_SCHEMA` is gone);
 - **cross-section references go by words, not row codes** — a code like `P1` that lives only in a
   worklog does not survive into another section's prose (a reader-not-in-the-room can't resolve it).
 
