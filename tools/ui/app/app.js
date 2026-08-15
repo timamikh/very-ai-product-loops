@@ -900,30 +900,11 @@ function firstTable(body) {
   }
   return null;
 }
-/* The template's column order per section id — the positional fallback for any table that carries no
-   explicit column keys (every artifact written before the keys existed, and in any language). Keyed by
-   section because that is how the boards fetch a table; the key words are shared with the <!--c:…--> marks. */
-const COL_SCHEMA = {
-  'market-sizing':       ['layer', 'value', 'method', 'assumptions', 'source', 'conf'],
-  'competitors':         ['name', 'type', 'offer', 'conf'],
-  'competitor-strategy': ['name', 'game', 'play', 'moat', 'conf'],
-  'competitor-pricing':  ['name', 'plan', 'price', 'source', 'conf'],
-  'competitor-dynamics': ['name', 'metric', 'trend', 'source', 'conf'],
-  'niche-risks':         ['risk', 'force', 'likelihood', 'impact', 'register', 'conf'],
-};
-/* The index of a column by its stable key: an explicit <!--c:key--> mark on the header (survives
-   translation and reordering), else the template column order for section `sec` (COL_SCHEMA, positional
-   and language-independent). No header-prose alias list — a per-language list of header words is the
-   maintenance trap the key removes. -1 if neither holds. Once instance artifacts carry their template's
-   keys, the positional fallback is dead too and this is a pure mark lookup. */
-const colKey = (tbl, sec, key) => {
-  if (!tbl) return -1;
-  const byMark = (tbl.keys || []).indexOf(key);
-  if (byMark >= 0) return byMark;
-  const schema = COL_SCHEMA[sec];
-  if (schema) { const p = schema.indexOf(key); if (p >= 0 && p < (tbl.head || []).length) return p; }
-  return -1;
-};
+/* The index of a column by its stable <!--c:key--> mark on the header (survives translation and
+   reordering), or -1 if the table does not carry it. The mark is the only join — no positional
+   fallback and no header-prose alias, both being the language traps the key removes — so an instance
+   the console reads must key its columns (enforced by linter check O2). */
+const colKey = (tbl, key) => (tbl ? (tbl.keys || []).indexOf(key) : -1);
 /* A competitor's join key across the four competitor tables: first significant word, lowercased. */
 const compKey = s => (plain(s).toLowerCase().split(/[\s(/,]+/).filter(Boolean)[0] || '');
 /* An H / M / L cell that carries its own colour, so likelihood and impact read without the header. */
@@ -1117,7 +1098,7 @@ function marketBoard(s) {
   const money = c => (String(c).match(/[$€£]\s?[\d.,]+(?:\s*[–—-]\s*[$€£]?[\d.,]+)?\s*(?:[KMB]|bn|trn|млрд|млн)?/i) || [])[0];
   const est = key => {
     if (!tbl) return null;
-    const i = colKey(tbl, 'market-sizing', 'value');
+    const i = colKey(tbl, 'value');
     const row = tbl.rows.find(r => new RegExp('^' + key, 'i').test(plain(r[0])));
     if (!row) return null;
     const cell = row[i >= 0 ? i : 1] || '';
@@ -1147,20 +1128,20 @@ function competitorTable(s) {
   const tbl = id => { const a = bodyOf(s, id); return a ? firstTable(a.body) : null; };
   const base = tbl('competitors');
   if (!base) return null;
-  // Each column is read by its stable key (colKey): a <!--c:key--> mark if present, else the template's
-  // column order for the section (COL_SCHEMA). No header-prose alias list — the join holds in any language.
-  const mapBy = (t2, sec, key) => {
+  // Each column is read by its stable <!--c:key--> mark (colKey) — no header-prose alias, no positional
+  // fallback; the mark is the only join, so it holds in any language.
+  const mapBy = (t2, key) => {
     const map = {};
-    if (t2) { const ci = colKey(t2, sec, key); if (ci >= 0) t2.rows.forEach(r => { const k = compKey(r[0]); if (k && !(k in map)) map[k] = r[ci]; }); }
+    if (t2) { const ci = colKey(t2, key); if (ci >= 0) t2.rows.forEach(r => { const k = compKey(r[0]); if (k && !(k in map)) map[k] = r[ci]; }); }
     return map;
   };
   const strat = tbl('competitor-strategy'), price = tbl('competitor-pricing'), dyn = tbl('competitor-dynamics');
-  const play = mapBy(strat, 'competitor-strategy', 'play'),
-    moat = mapBy(strat, 'competitor-strategy', 'moat'),
-    pr = mapBy(price, 'competitor-pricing', 'price'),
-    dy = mapBy(dyn, 'competitor-dynamics', 'trend');
-  const ti = colKey(base, 'competitors', 'type'),
-    oi = colKey(base, 'competitors', 'offer');
+  const play = mapBy(strat, 'play'),
+    moat = mapBy(strat, 'moat'),
+    pr = mapBy(price, 'price'),
+    dy = mapBy(dyn, 'trend');
+  const ti = colKey(base, 'type'),
+    oi = colKey(base, 'offer');
   const dash = x => (x && x.trim()) ? inline(x) : '—';
   const rows = base.rows.map(r => {
     const k = compKey(r[0]);
@@ -1184,9 +1165,9 @@ function riskBoard(s) {
   const a = bodyOf(s, 'niche-risks');
   const tbl = a ? firstTable(a.body) : null;
   if (!tbl) return null;
-  const ri = colKey(tbl, 'niche-risks', 'risk'), fi = colKey(tbl, 'niche-risks', 'force'),
-    li = colKey(tbl, 'niche-risks', 'likelihood'), ii = colKey(tbl, 'niche-risks', 'impact'),
-    idi = colKey(tbl, 'niche-risks', 'register');
+  const ri = colKey(tbl, 'risk'), fi = colKey(tbl, 'force'),
+    li = colKey(tbl, 'likelihood'), ii = colKey(tbl, 'impact'),
+    idi = colKey(tbl, 'register');
   const rows = tbl.rows.map(r => h('tr', {},
     h('td', { class: 'prose', html: inline(r[ri >= 0 ? ri : 0]) }),
     h('td', { html: inline(fi >= 0 ? r[fi] : '') }),
