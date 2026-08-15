@@ -32,9 +32,9 @@ Checks (ERROR fails CI · WARN never does):
   O  column keys live only on the step template (form of record) and are well-formed there
      (all-keyed-or-none, unique); a key in a method template is an error — the draft is matched by meaning
   O2 an instance artifact section carries its template's column keys (the projection contract;
-     enforced-if-present until instances are migrated)
+     enforced — a template-keyed section left un-keyed in the instance is an error)
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
-     sections use; adoption is per-step (a step with no folder is pre-migration, not an error)
+     sections use; required — every artifact section that names a method (or synthesis) has its worklog
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
      an artifact's `confirmed:` marker parses as a YYYY-MM-DD date (ERROR) else it silently means pending
   R  confirmation consistency: an `<!-- open -->` section (inbox) carries no `confirmed:`, and no
@@ -349,23 +349,28 @@ def check_worklogs(inst):
 
     A worklog `<step-folder>/<tool>.md` is the source of truth a section projects from (CONVENTIONS ->
     Step folders & worklogs). One id `<tool>` threads the section's `<!-- tool: X -->` marker, the
-    skill folder, and this file — so a reader resolves a section's worklog with no guess. Adoption is
-    per step: a step with no folder yet is pre-migration and is left silent (a standing warning on
-    every legacy step would only teach the reader to ignore warnings — cf. check N). Once the folder
-    exists, its contents are held to the contract; a section still missing its worklog, or an artifact
-    still citing `sources/` directly instead of through a worklog, is a WARN while that step's
-    migration finishes.
+    skill folder, and this file — so a reader resolves a section's worklog with no guess. **Required**:
+    every artifact section that names a method (or `<!-- synthesis -->`) must have its worklog — a
+    projection with no source of truth is the drift this layer exists to stop. A step the instance has
+    not reached (no artifact file) is simply not iterated; a step whose artifact names no method needs
+    no folder. An artifact still citing `sources/` directly (a source belongs in a worklog, cited
+    there) is a WARN.
     """
     name = rel(inst)
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         stem = os.path.basename(art)[:-3]                 # "2-analysis"
         folder = os.path.join(inst, stem)
-        if not os.path.isdir(folder):
-            continue                                      # step has not adopted worklogs yet
         text = read(art)
         expected = {m.split(",")[0].strip() for m in TOOL_MARK_RE.findall(text)}
         if SYNTH_MARK_RE.search(text):
             expected.add("synthesis")
+        if not expected:
+            continue                                      # no method sections → no worklogs owed
+        if not os.path.isdir(folder):
+            err("P [%s] %s has method sections but no `%s/` worklog folder — every filled section "
+                "projects from a worklog (CONVENTIONS -> Step folders & worklogs)"
+                % (name, os.path.basename(art), stem))
+            continue
         present = set()
         for wl in sorted(glob.glob(os.path.join(folder, "*.md"))):
             base = os.path.basename(wl)
@@ -378,11 +383,11 @@ def check_worklogs(inst):
                 warn("P [%s] %s/%s is an orphan — no section uses tool `%s`"
                      % (name, stem, base, base[:-3]))
         for miss in sorted(expected - present):
-            warn("P [%s] %s uses tool `%s` but %s/%s.md is missing (step migration unfinished)"
-                 % (name, stem, miss, stem, miss))
+            err("P [%s] %s uses tool `%s` but %s/%s.md is missing — the section has no source of truth "
+                "to project from (CONVENTIONS -> Step folders & worklogs)" % (name, stem, miss, stem, miss))
         if SOURCES_LINK_RE.search(text):
-            warn("P [%s] %s links sources/ directly — a migrated step routes a source citation "
-                 "through its worklog, never the artifact (see source-intake)" % (name, stem))
+            warn("P [%s] %s links sources/ directly — a source citation routes through the worklog, "
+                 "never the artifact (see source-intake)" % (name, stem))
 
 
 def check_register_tables(inst):
@@ -586,23 +591,29 @@ def check_instance_conformance(inst):
     """O2 — an instance's artifact section carries its template's column keys (the projection contract).
 
     The chistovik (an instance artifact section) and the interface that renders it are one form, and
-    that form is the **step template's** (CONVENTIONS → Column keys). So a keyed instance table must
-    declare exactly the keys its template does — no more, no less: the draft may be wider, the chistovik
-    may not. **Enforced-if-present**: a section whose instance table carries *no* keys is not flagged
-    here (it is a not-yet-migrated instance, a separate concern), but the moment it is keyed, the keys
-    must match the form. This is what makes the console's key-addressed read trustworthy in any
-    language.
+    that form is the **step template's** (CONVENTIONS → Column keys). So a section the template keys
+    must, in the instance, be present and carry exactly those keys — no more, no less: the draft may be
+    wider, the chistovik may not. **Enforced**: a template-keyed section that the instance leaves
+    un-keyed is flagged, because the console reads by key and cannot render an un-keyed table in any
+    language. A step the instance has not reached (no artifact file) is simply not iterated.
     """
     tkeys = _template_section_keys()
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
-        inst_keys = _section_keys(read(art))   # {sid: [keys]} for keyed instance tables only
-        for sid, iks in inst_keys.items():
-            if sid not in tkeys:
-                continue
-            if set(iks) != set(tkeys[sid]):
+        text = read(art)
+        present = {sec["id"] for sec in T.sections(text) if sec["id"]}
+        inst_keys = _section_keys(text)   # {sid: [keys]} for keyed instance tables only
+        for sid, tks in tkeys.items():
+            if sid not in present:
+                continue                  # section not in this artifact (or step not reached)
+            iks = inst_keys.get(sid)
+            if iks is None:
+                err("O2 %s#%s: the template keys this section but the instance carries no column keys — "
+                    "the chistovik must carry its template's form so the console reads it by key "
+                    "(CONVENTIONS → Column keys)" % (rel(art), sid))
+            elif set(iks) != set(tks):
                 err("O2 %s#%s: instance table keys %s do not match the template's form %s — the "
                     "chistovik must carry its template's keys (CONVENTIONS → Column keys)"
-                    % (rel(art), sid, sorted(iks), sorted(tkeys[sid])))
+                    % (rel(art), sid, sorted(iks), sorted(tks)))
 
 
 CONFIRM_LOOSE_RE = re.compile(r"<!--\s*confirmed:\s*(.*?)\s*-->")

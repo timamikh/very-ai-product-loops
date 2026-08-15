@@ -223,6 +223,16 @@ operations index (0.3.3 → 0.3.4) point at both scopes; no schema, checker, or 
   fenced block as a wiki-link (a Mermaid subroutine node stopped reddening a passed step); check P's
   tool marker now parses the canonical multi-tool form `<!-- tool: A, B -->`, first method primary. And
   a malformed `confirmed:` date is now an ERROR, not a WARN — a typo silently un-confirms a section.
+- **The worklog-and-keys contract goes from lenient to enforced.** The console now reads a table column
+  only by its `<!--c:key-->` mark — the positional `COL_SCHEMA` fallback is gone, `colKey` is a pure
+  mark lookup. To match, two checks stop being adoption-gated and enforce what the canon already
+  declared: **check O2** flags a template-keyed section that an instance leaves un-keyed (not only a
+  mismatch), and **check P** makes a worklog *required* for every artifact section that names a method —
+  a missing folder or worklog is now an ERROR, not a silent skip or a WARN. This reddens any
+  un-migrated instance on purpose (the vendored `examples/decksmith` included, until it is rebuilt from
+  scratch). `CONVENTIONS.md` 0.18.0 → 0.19.0 adds the one clarification the change surfaced: a step
+  folder takes the **artifact** stem, so Step 1's is `1-passport/`, not `1-idea/` — the only step where
+  the two names differ, and the trap that hid a run's step-1 worklogs from the console.
 
 ## [Unreleased] — Delegation, and a quality declaration on every method
 

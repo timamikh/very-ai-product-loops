@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.18.0
-updated: 2026-08-13
+version: 0.19.0
+updated: 2026-08-15
 ---
 
 # Conventions
@@ -121,7 +121,9 @@ Registers and deliverables are not step outputs and take no prefix.
 
 The artifact `<step-number>-<slug>.md` is a **projection**; the working documents it is assembled from
 live in a sibling folder of the same stem — `2-analysis/` beside `2-analysis.md` (file and folder
-coexist; the artifact is **not** moved inside). The folder holds one **worklog** per method that fills
+coexist; the artifact is **not** moved inside). The stem is the **artifact's**, which at Step 1 means
+`1-passport/` — the artifact — **not** `1-idea/`, the step directory (the one step where the two names
+differ; the console and check P both resolve the folder from the artifact stem). The folder holds one **worklog** per method that fills
 a section: `<step-folder>/<tool>.md`, where `<tool>` is the id in the section's `<!-- tool: <tool> -->`
 marker. `<!-- synthesis -->` sections — no method, the orchestrator's own reasoning — share the
 reserved `<step-folder>/synthesis.md`.
