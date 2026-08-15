@@ -230,9 +230,30 @@ operations index (0.3.3 → 0.3.4) point at both scopes; no schema, checker, or 
   mismatch), and **check P** makes a worklog *required* for every artifact section that names a method —
   a missing folder or worklog is now an ERROR, not a silent skip or a WARN. This reddens any
   un-migrated instance on purpose (the vendored `examples/decksmith` included, until it is rebuilt from
-  scratch). `CONVENTIONS.md` 0.18.0 → 0.19.0 adds the one clarification the change surfaced: a step
-  folder takes the **artifact** stem, so Step 1's is `1-passport/`, not `1-idea/` — the only step where
-  the two names differ, and the trap that hid a run's step-1 worklogs from the console.
+  scratch). `CONVENTIONS.md` 0.18.0 → 0.19.0 first documented the trap the change surfaced: a step
+  folder takes the **artifact** stem, so Step 1's was `1-passport/` while its step directory was
+  `1-idea/` — the only step where the two names differed, the trap that hid a run's step-1 worklogs
+  from the console. The next entry **removes** the trap instead of documenting it.
+- **The step-1 names are brought into line, and the instance folder is renamed.** Two naming
+  desyncs — each a latent bug — are closed:
+  - **Step 1 is now `concept`, end to end.** The step directory (`steps/1-concept/`), its artifact
+    (`1-concept.md`), and the worklog folder (`1-concept/`) now share one stem, like every other
+    step — so the `1-passport/`-vs-`1-idea/` trap above simply cannot recur. The step reads better
+    too: *Concept* says what the step is about. The freed word *idea* moves down to name the
+    artifact's opening section (`{#idea}` — "the idea in a few lines", still filled by
+    `concept-formation`), which also clears the `concept#concept` gate-key clash the rename would
+    otherwise create. Gate ids are now `concept#idea`, `concept#jtbd`, … As a side effect the word
+    **passport** now means exactly one thing in the framework — the delegation *acceptance passport*
+    — instead of also naming the Step-1 artifact. `CONVENTIONS.md` 0.19.0 → 0.20.0 drops the
+    now-obsolete step-folder special case.
+  - **The instance folder is `product-loops/`, not `product/`.** A vendored install put the working
+    area in `product/`, which collides with a folder many product repos already have. New installs
+    use `product-loops/`; the reader still recognises a legacy `product/` (and discovery is by
+    marker — `config.yaml`/`state.yaml`/`registers/` — so an existing instance is found under either
+    name). Docs, skills and the `product-setup` scaffold now teach `product-loops/`.
+  - A **glossary** of the framework's entities lands in `docs/GLOSSARY.md` — one shared vocabulary,
+    and the record of which names were changed and why. Only framework files are renamed here; the
+    `examples/` are left to the from-scratch rebuild, so the linter stays red on them by design.
 
 ## [Unreleased] — Delegation, and a quality declaration on every method
 

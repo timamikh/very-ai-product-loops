@@ -62,7 +62,7 @@ hypothesis, a changed segment), that signal bubbles back up. That's the "loops" 
 
 | # | Step | Horizon (~) | You end up with |
 |---|------|-------------|-----------------|
-| 1 | Idea / Concept | product lifetime | `1-passport.md` — what it is, for whom, why it wins |
+| 1 | Concept | product lifetime | `1-concept.md` — what it is, for whom, why it wins |
 | 2 | Analysis | ~6–12 mo | `2-analysis.md` — market, competitors, substitutes, sizing |
 | 3 | Strategy | ~3–12 mo | `3-strategy.md` — where to play, how to win, pricing, channels |
 | 4 | Strategic Plan | ~3–12 mo | `4-strategic-plan.md` — metric tree, unit economics, risks |
@@ -85,7 +85,7 @@ Cursor, a chat window with the repo attached — see
 
 See [`install/README.md`](install/README.md) for both phases.
 
-Your product docs live in `product/`, kept **separate from your code** so they never interfere with
+Your product docs live in `product-loops/`, kept **separate from your code** so they never interfere with
 development. The framework files stay read-only and are updated by bumping the version.
 
 ## Architecture — a fixed core + pluggable tool-skills

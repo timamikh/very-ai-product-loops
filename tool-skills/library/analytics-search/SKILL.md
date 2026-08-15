@@ -1,7 +1,7 @@
 ---
 name: analytics-search
 kind: research
-produces: product/sources/<topic>-research.md
+produces: product-loops/sources/<topic>-research.md
 prerequisites: [the market/arena to research, the questions the research must answer]
 reads_registers: []
 writes_registers: [hypotheses, risks]
@@ -23,7 +23,7 @@ updated: 2026-08-09
 Run a **desk-research pass** and distil a **sourced market digest**: pull analyst reviews,
 articles, official indicators, and named-expert opinion, and turn them into a dated, sourced read
 of **market size · dynamics · trends · barriers · risks & drivers · main players**. Produced as a
-dated, sourced **digest file** in `product/sources/` (indexed in `sources/INDEX.md`), not an
+dated, sourced **digest file** in `product-loops/sources/` (indexed in `sources/INDEX.md`), not an
 artifact section.
 
 **Method basis.** Triangulated desk research: every claim rests on **multiple independent
@@ -75,7 +75,7 @@ consume. It fills the `analytics-search` **input slot** those tools list.
    silently dropped.
 7. **Hand off and seed registers.** Size signals → `market-sizing`; players → `competitor-analysis`;
    barriers/risks/drivers → risk register (`R-…`) and hypotheses (`H-…`). The digest lives in
-   `product/sources/`, indexed in `sources/INDEX.md`.
+   `product-loops/sources/`, indexed in `sources/INDEX.md`.
 
 ## Anti-patterns
 - **One source stated as fact.** No triangulation, so one stale or biased number drives strategy.
@@ -86,7 +86,7 @@ consume. It fills the `analytics-search` **input slot** those tools list.
 - **"Research the market" with no question.** A pile of links that answers nothing.
 
 ## Output
-Produced from [`template-fragment.md`](template-fragment.md) as a digest file in `product/sources/`;
-inputs via [`questions.yaml`](questions.yaml). The digest lives in `product/sources/` (indexed in
+Produced from [`template-fragment.md`](template-fragment.md) as a digest file in `product-loops/sources/`;
+inputs via [`questions.yaml`](questions.yaml). The digest lives in `product-loops/sources/` (indexed in
 `sources/INDEX.md`) and feeds `market-sizing`, `competitor-analysis`, `substitutes`,
 `risk-mitigation`; seeds the hypotheses and risk registers.

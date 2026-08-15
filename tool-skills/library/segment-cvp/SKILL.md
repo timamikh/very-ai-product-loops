@@ -48,9 +48,9 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
 >   re-scored downstream (see step 5).
 
 ## When to apply
-- **Step 1 — as a lens (no passport section).** Once segments and pains exist, turn them into a
+- **Step 1 — as a lens (no concept section).** Once segments and pains exist, turn them into a
   first set of market-entry bundles to seed the hypothesis register with **desirability** bets.
-  It sharpens which entries are even worth carrying forward; it does not own a passport section.
+  It sharpens which entries are even worth carrying forward; it does not own a concept section.
 - **Step 3 — as a lens (no strategy section).** Sharpen each strategic `{#bets}` entry into a
   concrete, testable market-entry shape (segment + situation + pain + CVP + offer + channel +
   signal) so the bet is specific enough to test. It informs `{#bets}`; the full bundle table +

@@ -6,7 +6,7 @@ gate_emphasis: >
   Weigh whether the concept is testable and the demand signal is real over completeness of
   metrics or financials. Do not block on product data that cannot exist yet.
 per_step:
-  "1":  # Idea / Concept
+  "1":  # Concept
     goals:
       - Name the riskiest assumption the concept rests on
       - Frame segments and pains as testable hypotheses, not facts

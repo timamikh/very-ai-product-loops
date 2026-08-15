@@ -1,5 +1,5 @@
 <!--
-  template-fragment: analytics-search → fills {#market-research} (lives in product/sources/)
+  template-fragment: analytics-search → fills {#market-research} (lives in product-loops/sources/)
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval. Every claim: source + date.
 -->
 

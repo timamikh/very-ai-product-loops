@@ -44,7 +44,7 @@ Base = a real, neutral deck you can already present; company = the brand skin.
     the segment-CVP weekly report: hypothesis · launch · signal · quality · conclusion · next step)
   - **concept-pitch** — the full story across the instance: the job/problem → market white space →
     what the product is → market & threat → beachhead / how-to-win → the metric that proves it →
-    the bet & the test → status. (from `1-passport.md` + `2-analysis.md` + `3-strategy.md` +
+    the bet & the test → status. (from `1-concept.md` + `2-analysis.md` + `3-strategy.md` +
     `4-strategic-plan.md` + `5-tactical-plan.md` + `6-sprint-plan.md`)
 - The **audience** and the **doc language** (from the instance config).
 

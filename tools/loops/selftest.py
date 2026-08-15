@@ -43,8 +43,8 @@ def main():
         check(not skipped, "%s parses with no unsupported lines" % name)
 
     # -- markdown primitives
-    tpl = T.read(os.path.join(ROOT, "steps", "1-idea", "template.md"))
-    check("concept" in T.section_ids(tpl), "step-1 template exposes the {#concept} anchor")
+    tpl = T.read(os.path.join(ROOT, "steps", "1-concept", "template.md"))
+    check("idea" in T.section_ids(tpl), "step-1 template exposes the {#idea} anchor")
     secs = [s for s in T.sections(tpl) if s["id"]]
     check(len(secs) >= 7, "step-1 template splits into its sections (got %d)" % len(secs))
 

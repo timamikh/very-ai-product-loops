@@ -95,7 +95,7 @@ silently:
 |---|---|
 | `config.yaml` never names the product | falls back to the folder name and says so in *Checks* |
 | non-canon key spellings (`metric_sources`, `product_scope`) | reads them via aliases, flags the drift |
-| a **multi-product** instance: `product/config.yaml` with `products:` + one folder per product | treats the parent as an umbrella, lists the sub-products, and lets each inherit language / status / directions / title from the parent |
+| a **multi-product** instance: `product-loops/config.yaml` with `products:` + one folder per product | treats the parent as an umbrella, lists the sub-products, and lets each inherit language / status / directions / title from the parent |
 
 The first two are the canon's own gap — `config.yaml`'s schema was never pinned the way the registers'
 was. Pinning it (and linting it) is the proposal that follows from this work.

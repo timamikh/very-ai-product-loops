@@ -10,7 +10,7 @@ updated: 2026-08-08
 > **Born at Step 2 (Analysis).** Refined downward: product risks (Step 3) → mitigation + owner/due
 > (Step 4) → period blockers (Step 5). Mitigation/owner/due are added at Step 4 — `—` until then.
 
-| ID | Risk | Category | Tags | Likelihood | Impact | Mitigation | Owner / Due | Status | Source |
+| ID <!--c:id--> | Risk | Category <!--c:category--> | Tags | Likelihood | Impact | Mitigation | Owner / Due | Status <!--c:status--> | Source |
 |----|------|----------|------|------------|--------|------------|-------------|--------|--------|
 | R-001 | Gamma is a dominant, profitable leader ($100M ARR, 70M users) — head-on displacement is hard | market | monitored | H | H | Don't fight head-on — compete on the native-fidelity gap; monitor | ⚙️ founder | accepted | Step 2 (`../2-analysis.md#niche-risks`) |
 | R-002 | Incumbents (Microsoft Copilot in PPT, Canva AI 2.0) bundle native-editable AI generation with distribution — closes our wedge | market | — | H | H | Move fast on the fidelity gap; position sharply on "actually editable"; track their releases | ⚙️ founder · ongoing | mitigating | Step 2 (`../2-analysis.md#substitutes`) |

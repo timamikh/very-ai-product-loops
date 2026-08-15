@@ -15,7 +15,7 @@ updated: 2026-08-08
 > the right metric is named even though it isn't measured yet). Kept light per the status: the ONE
 > concept-proving metric is `M-edit-fidelity`.
 
-| ID | Definition | Unit | Kind | Parent | Instrumentation | Target | Source |
+| ID <!--c:id--> | Definition <!--c:definition--> | Unit <!--c:unit--> | Kind <!--c:kind--> | Parent | Instrumentation <!--c:instrumentation--> | Target | Source |
 |----|------------|------|------|--------|-----------------|--------|--------|
 | M-ns-kept-decks-wk | **North Star (⚙️ candidate).** Decks generated → exported → **kept and edited** (used as the real deliverable, not rebuilt by hand) per active deck-maker per week. A redo = the value failed, so this encodes "editable **and** designed". | count | measured | — (top) | **not-instrumented** | ⚙️ grow | product events (future) |
 | M-edit-fidelity | **THE concept-proving metric.** Share of exported slide objects that are **natively editable** (real shapes/text, not flattened images) — the anti-Gamma metric; proxy for "I don't have to redo it". | % | measured | M-ns-kept-decks-wk | **not-instrumented** | ⚙️ ≥ 90% | export pipeline (future) |

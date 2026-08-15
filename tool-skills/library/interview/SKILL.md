@@ -1,7 +1,7 @@
 ---
 name: interview
 kind: research
-produces: product/sources/<slug>-interview-guide.md
+produces: product-loops/sources/<slug>-interview-guide.md
 prerequisites: [the decision or hypothesis the interview must inform, a candidate segment/persona to talk to]
 reads_registers: [hypotheses]
 writes_registers: [hypotheses]
@@ -23,7 +23,7 @@ updated: 2026-08-09
 Prepare an interview that actually produces learning: name the **goal** (which decision or
 hypothesis it must inform), draw the **interviewee portrait** (who to recruit and how to screen
 them), write **non-leading questions**, and hand the interviewer a short **guide** for running it.
-Produced as a **standalone file** in `product/sources/` (indexed in `sources/INDEX.md`), not an
+Produced as a **standalone file** in `product-loops/sources/` (indexed in `sources/INDEX.md`), not an
 artifact section.
 
 **Method basis.** Torres' continuous discovery + Fitzpatrick's *The Mom Test*: ask about the
@@ -74,7 +74,7 @@ raw notes.
 - **Recruiting for convenience.** Talking to the wrong people, confidently.
 
 ## Output
-Produced from [`template-fragment.md`](template-fragment.md) as a file in `product/sources/`; inputs
-via [`questions.yaml`](questions.yaml). The guide and raw notes live in `product/sources/` (indexed in
+Produced from [`template-fragment.md`](template-fragment.md) as a file in `product-loops/sources/`; inputs
+via [`questions.yaml`](questions.yaml). The guide and raw notes live in `product-loops/sources/` (indexed in
 `sources/INDEX.md`) and feed `segment-pains`, `jtbd`, `cjm`, `segmentation`. Raw notes are deleted
 once their signal lands in the registers (CONVENTIONS: no PII in artifacts).

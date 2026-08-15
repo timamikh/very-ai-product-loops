@@ -6,7 +6,7 @@ gate_emphasis: >
   Weigh evidence of repeatable value and a credible path to profit over breadth of growth
   activity. Guard against scaling spend before the economics work.
 per_step:
-  "1":  # Idea / Concept
+  "1":  # Concept
     goals:
       - Sharpen segments/pains with real usage evidence, not just interviews
       - Confirm the value bet against how first clients actually behave

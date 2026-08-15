@@ -9,7 +9,7 @@ updated: 2026-08-13
 # Registers
 
 Three living, vertical objects, shared across all steps. Born once, refined downward, results
-flowing back up — **not re-authored per step**. In an instance they live in `product/registers/`.
+flowing back up — **not re-authored per step**. In an instance they live in `product-loops/registers/`.
 Follow [`CONVENTIONS.md`](CONVENTIONS.md) for IDs, confidence, and dated change logs.
 
 | Register | Born at | Refined at |

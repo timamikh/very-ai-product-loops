@@ -1,17 +1,17 @@
 ---
 node_type: step
 step: 1
-name: idea
-title: "Step 1 — Idea / Concept"
-output: 1-passport.md
+name: concept
+title: "Step 1 — Concept"
+output: 1-concept.md
 cadence: "~ product lifetime; revisit on pivot or major learning"
 method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
-version: 0.4.0
-updated: 2026-07-21
+version: 0.5.0
+updated: 2026-08-15
 ---
 
-# Step 1 — Idea / Concept
+# Step 1 — Concept
 
 **Goal.** Capture the product concept: who it's for, the problems they have, how the product
 solves them, and its value/defensibility hypothesis. This is the long-lived source of truth
@@ -28,7 +28,7 @@ emphasis is set by the active [status](../../statuses/README.md).
 
 ## Output
 
-`1-passport.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
+`1-concept.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
 
 ## Artifact skeleton
 
@@ -37,7 +37,7 @@ swap or add tools per product (see [library](../../tool-skills/library/README.md
 
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
-| `concept` | The idea in a few lines: what it is, the shift it makes | `concept-formation` |
+| `idea` | The idea in a few lines: what it is, the shift it makes | `concept-formation` |
 | `jtbd` | The job + the four forces that gate switching (anchors segments/pains; feeds Step 2 substitutes) | `jtbd` |
 | `segments` | Who it's for — segments and how they're cut | `segmentation` |
 | `problems` | Each segment's problems (severity × frequency) | `segment-pains` |
@@ -57,15 +57,15 @@ Reports what's open; does not block descent. **Each item validates a specific ar
 section** (the rule for every step: a checklist item always names the section/artifact it
 checks, so "done" is verifiable, not vibes).
 
-- [ ] states what the product is and the shift it makes → `passport#concept`
-- [ ] the customer's job stated with its four forces (push/pull/anxiety/habit) → `passport#jtbd`
-- [ ] at least one segment named, with its cut rationale → `passport#segments`
-- [ ] each named segment has ≥1 problem with severity × frequency → `passport#problems`
-- [ ] (optional) journey mapped where a drop-off needs explaining → `passport#cjm`
-- [ ] solution maps to the stated problems, no orphan features → `passport#solution`
-- [ ] intended moat(s) named, each with a confidence tag → `passport#value-defensibility`
-- [ ] every claim carries a confidence tag; unknowns are `— to clarify —` → `passport#to-clarify`
-- [ ] seeded hypotheses have IDs and are listed → `passport#hypotheses` → hypothesis register
+- [ ] states what the product is and the shift it makes → `concept#idea`
+- [ ] the customer's job stated with its four forces (push/pull/anxiety/habit) → `concept#jtbd`
+- [ ] at least one segment named, with its cut rationale → `concept#segments`
+- [ ] each named segment has ≥1 problem with severity × frequency → `concept#problems`
+- [ ] (optional) journey mapped where a drop-off needs explaining → `concept#cjm`
+- [ ] solution maps to the stated problems, no orphan features → `concept#solution`
+- [ ] intended moat(s) named, each with a confidence tag → `concept#value-defensibility`
+- [ ] every claim carries a confidence tag; unknowns are `— to clarify —` → `concept#to-clarify`
+- [ ] seeded hypotheses have IDs and are listed → `concept#hypotheses` → hypothesis register
 
 ## Cadence & invalidation
 

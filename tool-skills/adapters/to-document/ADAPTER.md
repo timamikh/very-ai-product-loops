@@ -32,8 +32,8 @@ layered on top. Base = a real, neutral document; company = the house template.
 
 ## What it consumes
 - A **document profile** — which sections, in what order. Base profiles:
-  - **one-pager** — `passport#concept` + `passport#problems` + `strategy#uvp-cpv` +
-    `strategy#pricing` + top `hypotheses` + one headline metric. (For a `brief`, render the brief file `product/briefs/<slug>.md`.)
+  - **one-pager** — `concept#idea` + `concept#problems` + `strategy#uvp-cpv` +
+    `strategy#pricing` + top `hypotheses` + one headline metric. (For a `brief`, render the brief file `product-loops/briefs/<slug>.md`.)
   - **full-doc** — a whole step artifact (e.g. all of `3-strategy.md`) cleaned for reading.
   - **report** — the weekly/period test readout: bundles tested → signals → decision (mirrors the
     `to-deck` report mapping, as a document).
@@ -80,8 +80,8 @@ The content model (before formatting) reads like:
 # <Product> — One-pager
 _Status: pmf · rendered 2026-07-18 from instance @ <rev>_
 
-**The problem.** <from passport#problems, plain language> [validated]
-**Who it's for.** <lead segment from passport#segments>
+**The problem.** <from concept#problems, plain language> [validated]
+**Who it's for.** <lead segment from concept#segments>
 **Our promise.** <strategy#uvp-cpv one-liner> — priced as <strategy#pricing headline>.
 **How we'll know it's working.** <headline metric + target> · testing: <top hypothesis, decoded>.
 

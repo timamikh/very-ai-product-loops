@@ -2,8 +2,8 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.5.0
-updated: 2026-08-10
+version: 0.6.0
+updated: 2026-08-15
 ---
 
 # Install
@@ -52,7 +52,7 @@ As part of vendoring, the agent also:
 
 When ready, ask the agent to set up the product. It runs the
 [`product-setup`](../.claude/skills/product-setup/SKILL.md) skill: asks your documentation language
-and for all existing materials / links / accesses, converts and files them under `product/sources/`,
+and for all existing materials / links / accesses, converts and files them under `product-loops/sources/`,
 distributes their content across the step artifacts (⚙️ drafts with sources; gaps `— to clarify —`),
 then **proposes a status** for you to pick. It finishes by summarizing what's filled vs still open
 and proposing where to start — which is the first turn of the working loop. See
@@ -67,9 +67,9 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
   `tool-skills/` (library · operations · adapters), `AGENTS.md`, `EXTENDING.md`, `.claude/skills/`,
   `tools/` (the linter and the local console, including the double-click launchers
   `tools/ui/console.command` and `console.bat`), and a `FRAMEWORK-VERSION` file (pinned tag + SHA).
-  Update by bumping the tag and re-vendoring — your own skills under `product/tool-skills/` survive
+  Update by bumping the tag and re-vendoring — your own skills under `product-loops/tool-skills/` survive
   it untouched.
-- **Your product (yours, edited over time):** `product/` — kept **separate from your code** so it
+- **Your product (yours, edited over time):** `product-loops/` — kept **separate from your code** so it
   never interferes with development.
 
 ## Requirements

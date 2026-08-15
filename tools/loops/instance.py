@@ -36,7 +36,7 @@ def has_artifacts(path):
 def sub_instances(path):
     """Sub-product folders of a multi-product instance (`products:` in the parent config.yaml).
 
-    A real layout in the wild: `product/config.yaml` declares three products, each with its own
+    A real layout in the wild: `product-loops/config.yaml` declares three products, each with its own
     numbered artifacts, `state.yaml` and `registers/` in a subfolder, and one shared `sources/`.
     """
     out = []
@@ -77,7 +77,8 @@ def describe(path):
 def discover(start, framework_root=F.ROOT):
     """Candidate instances, most canonical first.
 
-    Canon: the instance lives in `product/` of the host repo the framework was installed into.
+    Canon: the instance lives in `product-loops/` of the host repo the framework was installed into
+    (the legacy name `product/` is still recognised).
     A framework dev-repo also carries `instances/<name>/` (private live data) and `examples/<name>/`.
     Each candidate is reported with the rule that matched; a multi-product instance also contributes
     its sub-products, since those are where the artifacts actually live.
@@ -98,12 +99,14 @@ def discover(start, framework_root=F.ROOT):
 
     start = os.path.abspath(start)
     add(start, "explicit")
-    add(os.path.join(start, "product"), "product")
+    add(os.path.join(start, "product-loops"), "product-loops")
+    add(os.path.join(start, "product"), "product")   # legacy name, still recognised
     for p in sorted(glob.glob(os.path.join(start, "instances", "*"))):
         add(p, "instance")
     for p in sorted(glob.glob(os.path.join(framework_root, "instances", "*"))):
         add(p, "instance")
-    add(os.path.join(framework_root, "product"), "product")
+    add(os.path.join(framework_root, "product-loops"), "product-loops")
+    add(os.path.join(framework_root, "product"), "product")   # legacy name, still recognised
     for p in sorted(glob.glob(os.path.join(framework_root, "examples", "*"))):
         add(p, "example")
     return found
@@ -430,7 +433,7 @@ def _handoff(path):
 
 
 def _tick_map(state):
-    """Flatten `state.yaml` gates into {tick_id: value}, accepting `1-idea` or `1` as the step key."""
+    """Flatten `state.yaml` gates into {tick_id: value}, accepting `1-concept` or `1` as the step key."""
     gates = (state or {}).get("gates") or {}
     flat = {}
     per_step = {}

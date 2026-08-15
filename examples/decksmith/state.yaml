@@ -15,15 +15,15 @@ last_pass: 2026-07-21
 # market yet — see config.yaml scope_note).
 gates:
   1-idea:
-    passport#concept: done
-    passport#jtbd: done
-    passport#segments: done
-    passport#problems: done
-    passport#cjm: n/a                     # optional — no drop-off needed explaining at concept stage
-    passport#solution: done
-    passport#value-defensibility: done
-    passport#to-clarify: done
-    passport#hypotheses: done
+    concept#idea: done
+    concept#jtbd: done
+    concept#segments: done
+    concept#problems: done
+    concept#cjm: n/a                     # optional — no drop-off needed explaining at concept stage
+    concept#solution: done
+    concept#value-defensibility: done
+    concept#to-clarify: done
+    concept#hypotheses: done
   2-analysis:
     analysis#market-sizing: done
     analysis#competitors: done

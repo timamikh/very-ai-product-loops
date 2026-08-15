@@ -6,7 +6,7 @@ reads_registers: [hypotheses, risks, metrics]
 writes_registers: []
 inputs: [kb]
 prerequisites:
-  - the instance exists (product/ or instances/<name>/ working area)
+  - the instance exists (product-loops/ or instances/<name>/ working area)
   - current position in the process is known (step, section, open gate items)
   - open forks and pending human decisions are known
 used_by_steps: [any]
@@ -44,7 +44,7 @@ know is stale.
 
 ## Prerequisites
 
-- **The instance exists** — a working area (e.g. `product/`) to write `HANDOFF.md` into.
+- **The instance exists** — a working area (e.g. `product-loops/`) to write `HANDOFF.md` into.
 - **Cycle position is recorded in `state.yaml`** — current step and gate ticks (the handoff points at
   it, it does not duplicate it).
 - **Open forks and pending human decisions are known.**

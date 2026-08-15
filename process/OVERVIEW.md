@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.6.0
-updated: 2026-08-10
+version: 0.7.0
+updated: 2026-08-15
 ---
 
 # very-ai-product-loops
@@ -101,7 +101,7 @@ Not a waterfall — nested loops that refresh at different cadences. The lower t
 more often it runs and the more it leans on aggregated data (git, metrics, KB) over interview.
 
 ```
-Idea / Analysis (1–2)      revisited on pivot / market shift      — rarely
+Concept / Analysis (1–2)   revisited on pivot / market shift      — rarely
   └ Strategy (3–4)         ~3–12 mo horizon, reviewed ~quarterly
       └ Tactics (5)        ~1–3 mo, stage-gate ~monthly
           └ Sprint (6)     ~1–2 wk, every sprint
@@ -124,7 +124,7 @@ tool emphasis are set by the active [status](../statuses/README.md).
 
 | # | Step | Horizon (~) | Cadence (~) | Output |
 |---|------|-------------|-------------|--------|
-| 1 | **Idea / Concept** | product lifetime | on pivot / major learning | `1-passport.md` |
+| 1 | **Concept** | product lifetime | on pivot / major learning | `1-concept.md` |
 | 2 | **Analysis** | ~6–12 mo view | ~quarterly / on market shift | `2-analysis.md` |
 | 3 | **Strategy** | ~3–12 mo | reviewed ~quarterly | `3-strategy.md` |
 | 4 | **Strategic Plan** | ~3–12 mo | with strategy / on shift | `4-strategic-plan.md` |

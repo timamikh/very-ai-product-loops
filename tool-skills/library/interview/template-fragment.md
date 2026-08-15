@@ -1,5 +1,5 @@
 <!--
-  template-fragment: interview → fills {#interview-guide} (lives in product/sources/)
+  template-fragment: interview → fills {#interview-guide} (lives in product-loops/sources/)
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval. No PII in the committed file.
 -->
 

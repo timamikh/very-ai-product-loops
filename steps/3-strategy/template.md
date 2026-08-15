@@ -18,7 +18,7 @@ updated: 2026-07-21
 # Strategy — <Product>
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Last review: <date>
-> Inputs: `1-passport.md` · `2-analysis.md`. Feeds: `4-strategic-plan.md`.
+> Inputs: `1-concept.md` · `2-analysis.md`. Feeds: `4-strategic-plan.md`.
 
 > ⚠️ **Fill each section through its method — not from this shell.** Every `{#section}` names its
 > library method in a `<!-- tool: … -->` note: open that method's `SKILL.md` under

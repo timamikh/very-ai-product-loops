@@ -26,11 +26,11 @@ marketers who make decks often, in English-first paying markets (job: see `1-pas
 
 **TAM / SAM / SOM**
 
-| Level <!--c:layer--> | Estimate <!--c:value--> | How it was calculated <!--c:method--> | Source <!--c:source--> | Confidence <!--c:conf--> |
-|-------|----------|-----------------------|--------|------------|
-| TAM (total addressable) | AI presentation-generation segment ~$2.8–4.7B (2026), inside a ~$8.6B broad presentation-software market; segment CAGR ~23–26% | top-down, published reports (range, not a point) | worked in `market-sizing` | [sourced] (reports diverge 2–3× — used as a range) |
-| SAM (serviceable addressable) | **≈ $750M/yr** | **bottom-up: ~5M reachable frequent deck-making sales/marketing pros in paying English-first markets × ~$150/yr** | bottom-up (inputs illustrative) | [assumption] |
-| SOM (serviceable obtainable) | **≈ $4M ARR in ~3 yr** | ~0.5% of SAM captured early, given Gamma's dominance + incumbent entry | reasoned share | [assumption] |
+| Level <!--c:layer--> | Estimate <!--c:value--> | How it was calculated <!--c:method--> | Key assumptions <!--c:assumptions--> | Source <!--c:source--> | Confidence <!--c:conf--> |
+|-------|----------|-----------------------|-----------------|--------|------------|
+| TAM (total addressable) | AI presentation-generation segment ~$2.8–4.7B (2026), inside a ~$8.6B broad presentation-software market; segment CAGR ~23–26% | top-down, published reports (range, not a point) | reports name the same segment; ranges reconciled, not averaged (see assumptions table) | worked in `market-sizing` | [sourced] (reports diverge 2–3× — used as a range) |
+| SAM (serviceable addressable) | **≈ $750M/yr** | **bottom-up: ~5M reachable frequent deck-making sales/marketing pros in paying English-first markets × ~$150/yr** | ~5M reachable pros · ~$150/yr willingness (see assumptions table) | bottom-up (inputs illustrative) | [assumption] |
+| SOM (serviceable obtainable) | **≈ $4M ARR in ~3 yr** | ~0.5% of SAM captured early, given Gamma's dominance + incumbent entry | ~0.5% early capture vs an entrenched leader (see assumptions table) | reasoned share | [assumption] |
 
 _SAM is the load-bearing number and is bottom-up; the divergent published TAM figures are only a
 cross-check (per `market-sizing` — do not average conflicting reports)._

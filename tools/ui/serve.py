@@ -408,7 +408,7 @@ def main(argv=None):
     candidates = I.discover(args.path, ROOT)
     if not candidates:
         print("No instance found in %s.\n"
-              "An instance is a folder with config.yaml (canon: `product/` of the repo the framework\n"
+              "An instance is a folder with config.yaml (canon: `product-loops/` of the repo the framework\n"
               "was installed into). Point at one directly: python3 tools/ui/serve.py path/to/product"
               % os.path.abspath(args.path), file=sys.stderr)
         return 2

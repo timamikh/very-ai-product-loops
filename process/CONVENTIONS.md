@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.19.0
+version: 0.20.0
 updated: 2026-08-15
 ---
 
@@ -106,24 +106,24 @@ Reference an item inline in brackets, e.g. "drives `M-activation`" or "tests `H-
 path: `../2-analysis.md#opportunity`). This is the one canon: standard markdown, clickable without a
 custom resolver, parseable by any tool. **Never** a wiki-style double-bracket link. Point at the
 stable `{#anchor}`, never a heading's changeable text; keep anchors stable across revisions. A gate
-checklist may use the shorthand `artifact#section` (e.g. `passport#concept`) to name the section it
+checklist may use the shorthand `artifact#section` (e.g. `concept#idea`) to name the section it
 validates.
 
 ## Artifact filenames
 
-A step's output artifact is named **`<step-number>-<slug>.md`** — `1-passport.md`, `2-analysis.md`,
+A step's output artifact is named **`<step-number>-<slug>.md`** — `1-concept.md`, `2-analysis.md`,
 `3-strategy.md`, `4-strategic-plan.md`, `5-tactical-plan.md`, `6-sprint-plan.md`. The numeric prefix
 exists only so a directory listing sorts in step order. Links use the real filename, prefix
-included (`3-strategy.md#bets`, `../1-passport.md#concept`) — there is no logical id to resolve.
+included (`3-strategy.md#bets`, `../1-concept.md#idea`) — there is no logical id to resolve.
 Registers and deliverables are not step outputs and take no prefix.
 
 ## Step folders & worklogs
 
 The artifact `<step-number>-<slug>.md` is a **projection**; the working documents it is assembled from
 live in a sibling folder of the same stem — `2-analysis/` beside `2-analysis.md` (file and folder
-coexist; the artifact is **not** moved inside). The stem is the **artifact's**, which at Step 1 means
-`1-passport/` — the artifact — **not** `1-idea/`, the step directory (the one step where the two names
-differ; the console and check P both resolve the folder from the artifact stem). The folder holds one **worklog** per method that fills
+coexist; the artifact is **not** moved inside). The stem is the **artifact's** (`<step-number>-<slug>`),
+which matches the step directory `steps/<step-number>-<slug>/` for every step — the console and check P
+both resolve the worklog folder from the artifact stem. The folder holds one **worklog** per method that fills
 a section: `<step-folder>/<tool>.md`, where `<tool>` is the id in the section's `<!-- tool: <tool> -->`
 marker. `<!-- synthesis -->` sections — no method, the orchestrator's own reasoning — share the
 reserved `<step-folder>/synthesis.md`.

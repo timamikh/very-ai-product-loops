@@ -6,7 +6,7 @@ gate_emphasis: >
   Weigh sustainable, guardrailed scaling over one-off spikes. Check that growth does not erode
   retention, unit economics, or defensibility.
 per_step:
-  "1":  # Idea / Concept
+  "1":  # Concept
     goals:
       - Keep the passport true to what metrics now show; revise stale assumptions
       - Watch for a segment/pain shift that signals a new opportunity or a pivot

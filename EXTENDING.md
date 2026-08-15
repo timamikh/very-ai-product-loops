@@ -2,7 +2,7 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.4.0
+version: 0.4.1
 updated: 2026-08-15
 ---
 
@@ -24,22 +24,22 @@ that fills a method is the failure this framework exists to prevent).
 
 | You want to change | It lives in | Owner | Procedure |
 |---|---|---|---|
-| **add a product method** (segmentation, pricing, your own framework) | `product/tool-skills/library/<name>/` | your product | [`tool-skills/README.md`](tool-skills/README.md) → *Where a product's OWN skills live* |
-| **change a shipped method** to how you work | `product/tool-skills/library/<same-name>/` — a local skill wins over the vendored one | your product | same as above; copy the vendored skill as the starting point |
-| **add a runtime skill** (how the agent works across sessions) | `product/tool-skills/operations/<name>/` | your product | same as above |
+| **add a product method** (segmentation, pricing, your own framework) | `product-loops/tool-skills/library/<name>/` | your product | [`tool-skills/README.md`](tool-skills/README.md) → *Where a product's OWN skills live* |
+| **change a shipped method** to how you work | `product-loops/tool-skills/library/<same-name>/` — a local skill wins over the vendored one | your product | same as above; copy the vendored skill as the starting point |
+| **add a runtime skill** (how the agent works across sessions) | `product-loops/tool-skills/operations/<name>/` | your product | same as above |
 | **add a deliverable format** (a branded deck, a board card) | an adapter | your product or upstream | [`tool-skills/adapters/README.md`](tool-skills/adapters/README.md) → *How to add an adapter* |
 | **change what a delegated subagent may do** (its tools, its instructions) | `.claude/agents/loops-*.md` on Claude Code; the brief itself on any other runtime | your fork / your setup | [`tool-skills/operations/orchestration/SKILL.md`](tool-skills/operations/orchestration/SKILL.md) → *On the runtime*. The **rule** is canon and not a dial: only the orchestrator writes ([`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) → *Delegation*) |
 | **add or rename a product stage** | `statuses/<order>-<name>.md` | upstream / your fork of the core | [`statuses/README.md`](statuses/README.md) → *Add or change a status* |
 | **change what a stage asks per step** (its goals and recommended tools) | the active status file, `per_step` | upstream / your fork | [`statuses/README.md`](statuses/README.md) → *Anatomy of a status* |
-| **change the work directions** (execution streams in Steps 5–6) | `product/config.yaml` → `directions` | your product | *below* |
-| **change the documentation language** | `product/config.yaml` → `language` | your product | edit the key; artifacts already written stay in their language until rewritten |
+| **change the work directions** (execution streams in Steps 5–6) | `product-loops/config.yaml` → `directions` | your product | *below* |
+| **change the documentation language** | `product-loops/config.yaml` → `language` | your product | edit the key; artifacts already written stay in their language until rewritten |
 | **contribute a method to the framework itself** | `tool-skills/library/<name>/` upstream | upstream | [`tool-skills/library/README.md`](tool-skills/library/README.md) → *How to add a tool* + [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | **change a section or its columns in a step artifact** (add a field, key a column, reshape a table) | `steps/<n>/template.md` — the schema *is* the template | upstream / your fork | *below — "Changing a section or its columns"* |
 | **add, remove or reorder a step** | `steps/` — the fixed core | **almost never** | *below — read it before trying* |
 | **the register schemas** (hypotheses / risks / metric tree) | `process/REGISTERS.md` | canon | not a dial: the schemas are the contract every tool reads. What an instance may use instead: `tags` for a cross-cutting theme, `note` for a qualifier an enum cell cannot hold |
 
 Everything in the vendored framework is **read-only**: updating means re-vendoring at a newer tag,
-which overwrites it. That is why your own skills live under `product/` — they survive the update, and
+which overwrites it. That is why your own skills live under `product-loops/` — they survive the update, and
 a local skill of the same name wins.
 
 ## Changing the work directions
@@ -61,7 +61,7 @@ The procedure, run by the agent as one pass of the loop:
 
 1. Decide the streams from how the work is actually divided — a direction is a stream someone owns,
    not a category of thought. Fewer and real beats many and tidy.
-2. Edit `directions` in `product/config.yaml`.
+2. Edit `directions` in `product-loops/config.yaml`.
 3. Re-read the active status's `per_step` goals for Steps 5–6. If they are split by direction, the
    agent proposes goals for a new stream (marked ⚙️) and flags orphaned ones for a removed stream.
 4. Re-organize the existing Step 5–6 artifacts to the new streams. This is a normal pass: content

@@ -3,7 +3,7 @@ name: product-setup
 description: >
   Set up a PRODUCT on the very-ai-product-loops framework. Runs AFTER the framework is installed
   (this skill does not vendor the framework). Use when the framework is present but there is no
-  product/ working area yet, or the user asks to set up / onboard a product. Asks the documentation
+  product-loops/ working area yet, or the user asks to set up / onboard a product. Asks the documentation
   language and for all existing materials, links and accesses; converts and files them; distributes
   their content across the steps (human confirms, agent never invents); then PROPOSES a product
   status with descriptions for the human to pick. Ends by summarizing what's filled vs blank and
@@ -16,7 +16,7 @@ updated: 2026-08-10
 # Product Setup (onboarding)
 
 The first-run experience. Its job: get from "framework installed + a pile of existing materials" to
-"a scaffolded `product/` working area, pre-populated from those materials with gaps clearly marked,
+"a scaffolded `product-loops/` working area, pre-populated from those materials with gaps clearly marked,
 a chosen status, and a plan for what to work on first." Good onboarding is the difference between
 the framework feeling alive on day one and feeling like blank templates.
 
@@ -46,9 +46,9 @@ single most common failure — see anti-patterns.
 ## Phase 1 — Setup
 
 ### 1. Ask the documentation language
-Ask which language to keep the **product's documentation** in (the instance artifacts — passport,
+Ask which language to keep the **product's documentation** in (the instance artifacts — concept,
 analysis, plans). Default to the user's preference; offer their language and English. Record it in
-`product/config.yaml` as `language:`.
+`product-loops/config.yaml` as `language:`.
 
 > The **framework core** (steps, tools, statuses) stays English; only the **instance's product
 > artifacts** are authored in the chosen language. Templates are translated on fill, not forked.
@@ -63,11 +63,11 @@ where they live and how to check/recover them).
 
 ### 3. Convert and file them
 For each material: convert to a convenient, diff-able format (markdown; tabular data → csv),
-preserving the original reference. Put the converted copies in **`product/sources/`**, one file
+preserving the original reference. Put the converted copies in **`product-loops/sources/`**, one file
 per original, with a short header noting the original filename/date. Do not edit the originals.
 
 ### 3b. Write the sources index (navigation file)
-Create **`product/sources/INDEX.md`** — a navigation map the agent reads *first* on every future
+Create **`product-loops/sources/INDEX.md`** — a navigation map the agent reads *first* on every future
 task, so it opens only the files relevant to the task at hand instead of re-reading everything
 (saves context and prevents lost nuance). For each converted source, the agent **proposes** a row
 and the human corrects it:
@@ -76,7 +76,7 @@ and the human corrects it:
 |--------|------------------|
 | File | `sources/<name>.md` |
 | What it contains | 1–2 lines: the document's actual content |
-| In scope | Which parts apply to **this** product/instance |
+| In scope | Which parts apply to **this** product-loops/instance |
 | Out of scope | Which parts explicitly do **not** apply (e.g. "only the SaaS part; the infrastructure/GPU section is a different product") |
 | Feeds steps | Which process steps draw on it (1–6) |
 | Confidence / freshness | source date, staleness, `[assumption]` where the split is inferred |
@@ -108,7 +108,7 @@ Do **not** ask "what status?" cold — the human may not know the options. **Pre
 read [`statuses/README.md`](../../../statuses/README.md) → "Choosing a status" and surface each
 available status with its short description (you're here when · what it optimizes for · main
 evidence), then **recommend one** (⚙️) inferred from the materials, with a one-line reason. The
-human confirms or overrides. Record the choice in `product/config.yaml` as `active_status`.
+human confirms or overrides. Record the choice in `product-loops/config.yaml` as `active_status`.
 
 > **Directions are not asked in v1.** Default them to `development · go-to-market · back-office` in
 > `config.yaml` and move on. They are an instance config power users edit later when they tailor the
@@ -121,13 +121,13 @@ only if the human wants it. Ask one question: *may this instance use subagents?*
 (⚙️) — it is the framework's normal mode and the orchestrator still falls back to running a pass
 itself whenever a pass fits one context. Choose `off` when spawning agents is restricted here, or the
 human prefers no fan-out; then the orchestrator runs every pass itself and writes every worklog
-directly. Record the answer in `product/config.yaml` as `delegation:` (`allowed` · `off`) —
+directly. Record the answer in `product-loops/config.yaml` as `delegation:` (`allowed` · `off`) —
 CONVENTIONS → *Instance config*. This is separate from the session-restart caveat in Phase 2 step 7:
 that is about the agent definitions being *available*; this is about whether they are *permitted* at
 all.
 
 ### 6. Scaffold the working area
-Create `product/` from templates (see layout below), in the chosen language, pre-filled per
+Create `product-loops/` from templates (see layout below), in the chosen language, pre-filled per
 step 4. Write an initial **`state.yaml`** (`current_step: 1`, gate ticks empty) — the cycle's
 position home, distinct from the human-authored `config.yaml`. Produce the **placement report**:
 what went where, what conflicts were found, what's still open. This closes Phase 1 — the product is set up.
@@ -159,14 +159,14 @@ lives in the host repo's root `AGENTS.md` (written at install).
 ## Instance layout (created in the product's repo)
 
 ```
-product/
+product-loops/
   config.yaml            # HUMAN-authored: language · active status · directions · delegation · metric source slots
   state.yaml             # AGENT-written each pass: current_step · last_pass · gate ticks (cycle position)
   HANDOFF.md             # session-to-session: environment/access checks + open forks (see operations/handoff)
   sources/               # converted copies of the user's existing materials (source of record)
     INDEX.md             # navigation map: per-source what/in-scope/out-of-scope/feeds-steps
   briefs/                # standalone briefs from the `brief` tool (<slug>.md)
-  1-passport.md            # Step 1 artifact
+  1-concept.md            # Step 1 artifact
   2-analysis.md            # Step 2
   3-strategy.md            # Step 3
   4-strategic-plan.md      # Step 4
@@ -180,7 +180,7 @@ product/
   deliverables/          # adapter outputs (decks/docs/tables) — regeneratable views, not source
 ```
 
-Kept **separate from code** (its own top-level `product/`), so it never interferes with the
+Kept **separate from code** (its own top-level `product-loops/`), so it never interferes with the
 repo's source. The framework itself (`steps/`, `statuses/`, `process/`, `tool-skills/`) is vendored
 read-only into the repo at install and pinned to a version tag.
 
@@ -188,8 +188,8 @@ read-only into the repo at install and pinned to a version tag.
 
 - **Inventing to fill.** Populating a section with plausible content the materials don't support.
 - **Silent conflicts.** Merging contradictory materials without flagging.
-- **Editing originals.** Converted copies live in `product/sources/`; originals are untouched.
-- **Framework in the code tree.** Product docs must sit in `product/`, away from `src/`.
+- **Editing originals.** Converted copies live in `product-loops/sources/`; originals are untouched.
+- **Framework in the code tree.** Product docs must sit in `product-loops/`, away from `src/`.
 - **Reading everything, every time.** With `sources/INDEX.md` present, consult it first and open
   only the files a task needs — don't re-ingest the whole `sources/` folder each turn.
 - **Losing scope boundaries.** A source that only partly applies (e.g. a deck covering two products)

@@ -20,7 +20,7 @@ Checks (ERROR fails CI · WARN never does):
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
   H  instance config.yaml follows the pinned schema (required keys, one spelling, no aliases)
-  I  a product's own skills (product/tool-skills/…) obey the same wiring rules as vendored ones
+  I  a product's own skills (product-loops/tool-skills/…) obey the same wiring rules as vendored ones
   J  a register table is not split by a blank line  (WARN)
   K  a register `id` cell names exactly one item (one row = one id)
   L  every library tool carries the quality declaration (evidence_standard · volume_rule ·
@@ -464,7 +464,7 @@ def check_config(inst):
 
 
 def check_local_skills(inst):
-    """I — a product's own skills (product/tool-skills/…) obey the same wiring rules as vendored ones."""
+    """I — a product's own skills (product-loops/tool-skills/…) obey the same wiring rules as vendored ones."""
     name = rel(inst)
     homed = F.homed_sections(ROOT)
     for plane in ("library", "operations"):
@@ -730,7 +730,7 @@ def instances(argv):
     """The instances to check: the paths given, else every instance discoverable from here.
 
     Discovery is by **marker** (`config.yaml` / `state.yaml` / `registers/` / artifacts), never by a
-    parent folder's name — the canon puts a vendored framework's instance in `product/`, so a linter
+    parent folder's name — the canon puts a vendored framework's instance in `product-loops/`, so a linter
     that only globbed `examples/*` and `instances/*` checked nothing at all in the normal install and
     still reported success. `loops.instance.discover` is the same finder the console uses, so the two
     can never disagree about what an instance is.

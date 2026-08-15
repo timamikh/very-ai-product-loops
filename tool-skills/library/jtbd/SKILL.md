@@ -93,7 +93,7 @@ habit.
 ## Worklog & projection
 
 The working is done in the step's **worklog** `<step-folder>/jtbd.md` (`node_type: worklog`, e.g.
-`1-passport/jtbd.md`): the job statement (`when… I want… so that…`), the four forces (push · pull ·
+`1-concept/jtbd.md`): the job statement (`when… I want… so that…`), the four forces (push · pull ·
 anxiety · habit), and the measurable desired outcomes — and at Step 3 the strategic bets framed on
 that job. That worklog is the **source of truth**; the artifact section it projects — `{#jtbd}` at
 Step 1, and `{#bets}` at Step 3, where jtbd is the primary of the `tool: jtbd, value-definition`

@@ -25,7 +25,7 @@ as a raw capture ([`process/CONVENTIONS.md`](../../../process/CONVENTIONS.md) �
 
 ## 1 · Read first, in this order
 1. <the method you must apply — e.g. `tool-skills/library/competitor-analysis/SKILL.md`>
-2. <the instance context you need — e.g. `product/1-passport.md#segments`, `product/sources/INDEX.md`>
+2. <the instance context you need — e.g. `product-loops/1-concept.md#segments`, `product-loops/sources/INDEX.md`>
 Read nothing else from the instance unless this brief names it: what is not here is not your scope.
 You do **not** read the framework canon — §2 below is your complete contract, not a digest of one.
 
@@ -140,8 +140,8 @@ the passport itself.>
 
 ## 1 · Read first, in this order
 1. `tool-skills/operations/metrics-capture/SKILL.md` — the procedure for turning a source into rows
-2. `product/sources/analytics-access.md` — how to reach the source
-3. `product/registers/metric-tree.md` — the node this feeds, and how it is defined today
+2. `product-loops/sources/analytics-access.md` — how to reach the source
+3. `product-loops/registers/metric-tree.md` — the node this feeds, and how it is defined today
 
 ## 2 · Your role and its limits
 <the block, verbatim>

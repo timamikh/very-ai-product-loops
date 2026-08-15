@@ -51,7 +51,7 @@ can find and compose it:
 ---
 name: <tool>
 kind: method | template | research   # research = gathers inputs (interviews, data search)
-produces: <section-id | product/path/file.md>  # a section it fills, OR a standalone file it creates
+produces: <section-id | product-loops/path/file.md>  # a section it fills, OR a standalone file it creates
 prerequisites: [<info/artifact/access it needs>]  # checked first; asked for or helped-with if missing
 reads_registers: [metrics, hypotheses] # registers it consumes
 writes_registers: [hypotheses]         # registers it updates

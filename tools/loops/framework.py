@@ -88,7 +88,7 @@ def steps(root=ROOT):
     for readme in sorted(glob.glob(os.path.join(root, "steps", "*", "README.md"))):
         fm, body = T.frontmatter(readme)
         output = fm.get("output", "")
-        # `1-passport.md` -> artifact slug `passport` (the gate shorthand drops the number prefix)
+        # `1-concept.md` -> artifact slug `concept` (the gate shorthand drops the number prefix)
         slug = re.sub(r"^\d+-", "", output).replace(".md", "")
         out.append({
             "goal": _goal(body),

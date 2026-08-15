@@ -73,7 +73,7 @@ touchpoints feed step-3 `product-surface`. Don't restate those — link to them.
 
 ## Worklog & projection
 The working is done in the step's **worklog** `<step-folder>/cjm.md` (`node_type: worklog`, e.g.
-`1-passport/cjm.md`): the scoped journey (one segment, one job, defined start and end), the real
+`1-concept/cjm.md`): the scoped journey (one segment, one job, defined start and end), the real
 stages each filled with actions · touchpoints · thoughts/emotions · pains, the emotional curve and
 the moments that matter, and the conversion of pains into opportunities and drop-offs into risks.
 That worklog is the **source of truth**; the artifact section `{#cjm}` is its **projection** into the

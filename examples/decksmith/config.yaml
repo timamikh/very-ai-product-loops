@@ -3,6 +3,7 @@ product: "Decksmith (fictional sample)"
 language: en
 active_status: concept-viability   # no product/market data yet — hypotheses are the center of gravity (see registers/)
 directions: [development, go-to-market, back-office]   # execution streams for Steps 5–6 (framework default set)
+delegation: allowed   # orchestrator may fan out to subagents; a `draft` subagent writes its method's worklog
 scope_note: >
   Fictional walkthrough of the framework — no real product or company data. Decksmith is an AI
   generator of native, editable AND well-designed .pptx/.key decks. At concept-viability there is

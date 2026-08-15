@@ -1,21 +1,21 @@
 ---
 node_type: artifact-template
-artifact: passport
+artifact: concept
 step: 1
-title: "Product Passport — <Product>"
+title: "Product Concept — <Product>"
 status: template
-version: 0.3.3
-updated: 2026-07-21
+version: 0.4.0
+updated: 2026-08-15
 ---
 
 <!--
-  Passport assembly shell. Each section is filled by its recommended library tool
-  (see steps/1-idea/README.md). Keep section IDs stable. Follow process/CONVENTIONS.md
+  Concept assembly shell. Each section is filled by its recommended library tool
+  (see steps/1-concept/README.md). Keep section IDs stable. Follow process/CONVENTIONS.md
   for confidence tags, sources, IDs, links, and the change log.
   ⚙️ marks agent-proposed defaults awaiting human approval.
 -->
 
-# Product Passport — <Product>
+# Product Concept — <Product>
 
 > Status: <concept-viability | pmf | growth> · Owner: <name> · Last review: <date>
 
@@ -25,7 +25,7 @@ updated: 2026-07-21
 > straight from this template bypasses the method (see the repo's agent rules `AGENTS.md` → "Read the tool before filling").
 > The shell is for structure and stable IDs only.
 
-## Concept {#concept}
+## Idea {#idea}
 <!-- tool: concept-formation -->
 _What it is, and the shift it makes, in a few lines._
 
@@ -66,7 +66,7 @@ _Each segment's problems, scored by severity × frequency._
 _Optional. One segment's end-to-end journey doing the job over time — the stages and where it
 breaks. Fill when a flat pain list isn't enough (e.g. an unexplained drop-off). Its pains feed
 `#problems`; its touchpoints feed Step-3 `#product-surface`. Omit it if not needed — it is not a
-required passport section._
+required concept section._
 
 | Stage <!--c:stage--> | Actions <!--c:actions--> | Touchpoints <!--c:touchpoints--> | Thoughts / emotions <!--c:thoughts--> | Pains <!--c:pains--> | Emotion (▲/▼) <!--c:emotion--> | Confidence <!--c:conf--> |
 |-------|---------|-------------|---------------------|-------|---------------|------------|
@@ -103,6 +103,6 @@ _Open items surfaced by the agent for the human to resolve._
 ## Change log
 
 ### <date> — created
-- **From → To:** — → initial passport draft
+- **From → To:** — → initial concept draft
 - **Why:** …
 - **Trigger:** …

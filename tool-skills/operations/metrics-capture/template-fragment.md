@@ -1,12 +1,12 @@
 <!--
-  template-fragment: metrics-capture → writes a whole file, product/sources/<source>-method.md
+  template-fragment: metrics-capture → writes a whole file, product-loops/sources/<source>-method.md
   (node_type: source-method), plus the csv rows it justifies.
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
   The file is LIVING: rewritten in place when the derivation changes, never dated evidence.
   One method file per (source × derivation), not one per capture.
 -->
 
-# Source-method template (`product/sources/<source>-method.md`)
+# Source-method template (`product-loops/sources/<source>-method.md`)
 
 ```markdown
 ---

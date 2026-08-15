@@ -15,7 +15,7 @@ new methods, fixes, sharper wording — are welcome.
 Read `process/OVERVIEW.md` and `process/CONVENTIONS.md` first — they define the wiring rules
 the linter enforces. If you are adapting the framework for **your own company** rather than
 contributing upstream, most of it needs no fork at all: `EXTENDING.md` maps each dial to its
-procedure, and a company's own methods live in its `product/tool-skills/`.
+procedure, and a company's own methods live in its `product-loops/tool-skills/`.
 
 ## Proposing a change
 

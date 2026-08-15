@@ -44,7 +44,7 @@ Define **who the product is for** and how the audience is cut into segments. Fil
 
 Checked before the tool runs. If missing, the agent asks or offers to help obtain it.
 
-- **Concept** — what the product is (from `{#concept}`). *Missing → run `concept-formation` first.*
+- **Concept** — what the product is (from `{#idea}`). *Missing → run `concept-formation` first.*
 - **Audience knowledge or analytics** — any existing sense of who uses/buys it: interviews,
   usage data, market notes. *Missing → offer `interview` or `analytics-search`; at
   `concept-viability` this is expected to be thin, so cuts stay `[assumption]`.*
@@ -82,7 +82,7 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 ## Worklog & projection
 
 The working is done in the step's **worklog** `<step-folder>/segmentation.md` (`node_type: worklog`,
-e.g. `1-passport/segmentation.md`): the ≥3 candidate cuts on different bases with the ones **rejected
+e.g. `1-concept/segmentation.md`): the ≥3 candidate cuts on different bases with the ones **rejected
 and why**, the 1–3 named segments with their reachability, and the priority-tier ranking with the
 ground (need-difference · reachability · fit with the moat) that decided each placement. That worklog
 is the **source of truth**; the artifact section `{#segments}` is its **projection** into the fixed

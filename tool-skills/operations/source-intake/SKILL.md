@@ -1,7 +1,7 @@
 ---
 name: source-intake
 kind: template
-produces: product/<step-folder>/<tool>.md
+produces: product-loops/<step-folder>/<tool>.md
 reads_registers: []
 writes_registers: []
 inputs: [kb]
@@ -128,7 +128,7 @@ decoding each id and file in the same sentence, and name any source left unroute
 
 ## Output
 
-- Dated intake rows in the step worklogs (`product/<step-folder>/<tool>.md`) via
+- Dated intake rows in the step worklogs (`product-loops/<step-folder>/<tool>.md`) via
   [`template-fragment.md`](template-fragment.md), each citing its `../sources/` file.
 - A `sources/INDEX.md` that records, per source, which worklog(s) absorbed it.
 - No artifact edit and no register write — those are the *Act* pass and `metrics-capture`, respectively.

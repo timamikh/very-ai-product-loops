@@ -1,7 +1,7 @@
 ---
 name: metrics-capture
 kind: research
-produces: product/sources/<source>-method.md
+produces: product-loops/sources/<source>-method.md
 reads_registers: [metrics, hypotheses]
 writes_registers: [metrics]
 inputs: [metrics, kb]
@@ -152,6 +152,6 @@ Then tell the human what landed, decoding each id in the same sentence, and name
 ## Output
 
 - Dated rows in `registers/metrics.csv` (the home of every value).
-- A living method file in `product/sources/<source>-method.md` via
+- A living method file in `product-loops/sources/<source>-method.md` via
   [`template-fragment.md`](template-fragment.md), indexed in `sources/INDEX.md`.
 - Inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).

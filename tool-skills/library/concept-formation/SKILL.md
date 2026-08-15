@@ -1,7 +1,7 @@
 ---
 name: concept-formation
 kind: method
-produces: [concept, solution]
+produces: [idea, solution]
 reads_registers: []
 writes_registers: [hypotheses]
 inputs: [interview, kb]
@@ -14,13 +14,13 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
-updated: 2026-08-09
+version: 0.2.3
+updated: 2026-08-15
 ---
 
 # Concept Formation
 
-Turn a raw idea into a crisp product **concept** and the **shift** it makes. Fills `{#concept}`
+Turn a raw idea into a crisp product **concept** and the **shift** it makes. Fills `{#idea}`
 (and seeds `{#solution}`). A good concept is a sentence a stranger repeats correctly — not a
 feature list.
 
@@ -60,10 +60,10 @@ versus the current alternative, not by its features) + explicit problem→soluti
 ## Worklog & projection
 
 The working is done in the step's **worklog** `<step-folder>/concept-formation.md`
-(`node_type: worklog`, e.g. `1-passport/concept-formation.md`): the one-line concept sentence, the
+(`node_type: worklog`, e.g. `1-concept/concept-formation.md`): the one-line concept sentence, the
 **shift** it names versus the current alternative, the riskiest assumption the concept depends on,
 and the solution stub. That worklog is the **source of truth**; this method keeps **one** worklog, and
-the artifact sections `{#concept}` and `{#solution}` are both its **projections** into the fixed shape of
+the artifact sections `{#idea}` and `{#solution}` are both its **projections** into the fixed shape of
 [`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, and the step's
 change-log history lives in the worklog, not the sections
 (`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
@@ -71,5 +71,5 @@ change-log history lives in the worklog, not the sections
 
 ## Output
 
-Projects `{#concept}` and `{#solution}` via [`template-fragment.md`](template-fragment.md) from the
+Projects `{#idea}` and `{#solution}` via [`template-fragment.md`](template-fragment.md) from the
 worklog; inputs via [`questions.yaml`](questions.yaml).

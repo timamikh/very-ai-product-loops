@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.9.1
-updated: 2026-08-14
+version: 0.9.2
+updated: 2026-08-15
 ---
 
 # Operating Loop
@@ -18,8 +18,8 @@ part of one step's artifact. The agent repeats the loop, item by item, step by s
 ## The loop, step by step
 
 **0 · Orient.**
-Read the **active status** from `product/config.yaml` and the **current step** + **gate ticks** from
-`product/state.yaml` (e.g. `current_step: 3`). Both are **read, not guessed** — `state.yaml` is the
+Read the **active status** from `product-loops/config.yaml` and the **current step** + **gate ticks** from
+`product-loops/state.yaml` (e.g. `current_step: 3`). Both are **read, not guessed** — `state.yaml` is the
 home of the cycle's position, so a fresh session resumes without asking. If `state.yaml` is missing,
 reconstruct it from the artifacts and confirm with the human.
 
@@ -90,7 +90,7 @@ Two obligations to the human before anything lands on disk:
 
 **7 · Update state.**
 Only after every delegated return is accepted and any preview is answered, the agent writes:
-- **records progress in `product/state.yaml`** — ticks the step's **gate checklist** items now
+- **records progress in `product-loops/state.yaml`** — ticks the step's **gate checklist** items now
   satisfied (each keyed by its `artifact#section` target — see the step README's gate checklist) and
   sets `current_step` / `last_pass`. `state.yaml` is rewritten every pass; it is the single home of
   cycle position and ticks. A tick on a section that rests mainly on the agent's own reasoning is
@@ -239,7 +239,7 @@ kept, not deleted — it becomes a `[refuted: …]` note and a guard against re-
 
 ## A worked micro-example
 
-Active status `2-pmf`, step `1-idea`, section `problems`:
+Active status `2-pmf`, step `1-concept`, section `problems`:
 1. Focus → "update `problems` for the lead segment" (a gate item).
 2. Recommend → status `pmf` says pains come from *product metrics + a few interviews*
    (vs pure interviews at `concept-viability`); tool `segment-pains`.
@@ -248,10 +248,10 @@ Active status `2-pmf`, step `1-idea`, section `problems`:
 4. Gaps → metrics access is missing → agent offers to pull it via the metrics slot or asks
    for an export.
 5. Clarify → "Which pain do we treat as primary for pricing — A or B? ⚙️ A." → waits.
-6. Act → works the method in the worklog `1-passport/segment-pains.md` (severity × frequency, each
+6. Act → works the method in the worklog `1-concept/segment-pains.md` (severity × frequency, each
    `[sourced: metrics …]` / `[assumption]`) and projects the `problems` section from it; the ranking
    is the agent's own reasoning → shows the section in chat first, names the files this pass will
-   touch (`1-passport/segment-pains.md`, `1-passport.md`, `registers/hypotheses.md`, `state.yaml`).
+   touch (`1-concept/segment-pains.md`, `1-concept.md`, `registers/hypotheses.md`, `state.yaml`).
 7. Update → writes the section, seeds `H-007` ("pain A blocks payment"), logs the change; the tick
    waits for a `verify` subagent's findings on the ranking, and the human signs off the `problems`
    thesis (`theses` skill) → `<!-- confirmed: … -->` on the section.

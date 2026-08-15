@@ -1,6 +1,6 @@
 # brief — interview
 tool: brief
-produces: product/briefs/<slug>.md
+produces: product-loops/briefs/<slug>.md
 questions:
   - id: problem
     ask: "What problem or opportunity does this frame — the change in the world it exists to make? Link an H-… / R-… if one exists."

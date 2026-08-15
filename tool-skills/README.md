@@ -51,8 +51,8 @@ overwrites `tool-skills/`. So a company's or a product's own methods do **not** 
 canonical home is inside the product's working area, mirroring this layout:
 
 ```
-product/tool-skills/library/<name>/      # a product's own method
-product/tool-skills/operations/<name>/   # a product's own runtime skill
+product-loops/tool-skills/library/<name>/      # a product's own method
+product-loops/tool-skills/operations/<name>/   # a product's own runtime skill
 ```
 
 Three rules, and no other variant:
@@ -62,7 +62,7 @@ Three rules, and no other variant:
   local method cannot quietly produce a homeless section.
 - **Local wins.** If a local skill and a vendored one share a name, the local one is the method the
   agent runs. That is how a company specializes a base method without forking the framework.
-- **Survives updates.** Because it sits under `product/`, re-vendoring the framework never touches it.
+- **Survives updates.** Because it sits under `product-loops/`, re-vendoring the framework never touches it.
 
 The **agent** writes it, asked for in words — describe the method, or point at an existing skill to adapt.
 The procedure is in [`EXTENDING.md`](../EXTENDING.md); the local console

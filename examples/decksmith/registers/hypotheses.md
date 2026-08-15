@@ -11,7 +11,7 @@ updated: 2026-08-08
 > Refuted hypotheses are never deleted — they flip to `refuted` and become a trigger to revisit above.
 > Confidence is a column here (not inline prose) — see `process/CONVENTIONS.md` matrix.
 
-| ID | Hypothesis | Type | Tags | Status | Born | Source | Test | Confidence |
+| ID <!--c:id--> | Hypothesis <!--c:hypothesis--> | Type <!--c:type--> | Tags | Status <!--c:status--> | Born | Source | Test | Confidence <!--c:confidence--> |
 |----|------------|------|------|--------|------|--------|------|------------|
 | H-001 | The engine can reliably produce native files that are both genuinely editable **and** genuinely well-designed, at scale | feasibility | — | **testing** | Step 1 | concept (`../1-passport.md#concept`) | **Step 4:** `M-edit-fidelity` ≥ 90% (fail < 70%) · **Step 5:** 20 test decks, decision rule set (`../5-tactical-plan.md#hypotheses-to-test`) · **Step 6:** `F-1`+`T-1` produce first read (`../6-sprint-plan.md#must`) | [assumption] |
 | H-002 | Salespeople & marketers are a reachable segment who feel "AI decks look templated" (P1) strongly enough to switch | desirability | — | open | Step 1 | segments/problems (`../1-passport.md#problems`) | discovery interviews + a demand test (Step 5) | [assumption] |

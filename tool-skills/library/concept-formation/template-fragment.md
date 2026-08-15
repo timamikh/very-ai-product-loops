@@ -1,9 +1,9 @@
 <!--
-  template-fragment: concept-formation → fills {#concept} (and stubs {#solution})
+  template-fragment: concept-formation → fills {#idea} (and stubs {#solution})
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
 -->
 
-## Concept {#concept}
+## Idea {#idea}
 
 _<Product> is a <category> that <core thing> for <who>._  [sourced: … | assumption]
 
