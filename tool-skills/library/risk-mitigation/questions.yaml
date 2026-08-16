@@ -1,18 +1,19 @@
 # risk-mitigation — interview
 tool: risk-mitigation
-produces: product-risks
+produces: [risk-mitigation]
 questions:
-  - id: premortem
-    ask: "It's 12 months from now and the strategy failed — why? (concrete failure stories; include execution & key-person risks, not just external ones)"
+  - id: carried_risks
+    ask: "Which R-… are marked carried in the register? (⚙️ agent pulls them — surfacing/triage happened in pre-mortem / niche-risks, not here)"
     type: list
-    why: "Pre-mortem surfaces risks before they bite."
-  - id: existing_risks
-    ask: "Any risks already in the R- register to fold in? (⚙️ agent pulls them)"
-    type: list
-  - id: triage
-    ask: "For each risk — probability and impact (L/M/H each)?"
-    type: per_item
   - id: mitigation
-    ask: "For each carried risk — what's the mitigation, who owns it, and what trigger says 'act now'?"
+    ask: "For each carried risk — what will we actually do about it? (an action, not 'monitor closely')"
     type: per_item
-    why: "A risk with no owner or trigger is not managed."
+    why: "A mitigation with no action is theatre."
+  - id: owner
+    ask: "For each carried risk — who is the one person that acts when the trigger fires?"
+    type: per_item
+    why: "A committee is not an owner; a risk with no owner is not managed."
+  - id: trigger_due
+    ask: "For each carried risk — what observable signal says 'act now' (trigger), and on what date is the mitigation reviewed even if the trigger never fires (due)?"
+    type: per_item
+    why: "A trigger without a review date rots silently; a date without a trigger acts too late."

@@ -1,90 +1,101 @@
 ---
 name: risk-mitigation
 kind: method
-produces: [product-risks]
+produces: [risk-mitigation]
 reads_registers: [risks]
 writes_registers: [risks]
 inputs: [interview, kb]
-prerequisites: [strategy-choices]
-used_by_steps: [3, 4]
+prerequisites: [carried risks in the R- register]
+used_by_steps: [4]
 opinionated: false
-method_basis: "Pre-mortem (Klein) + risk register triage (prob × impact) + mitigation/owner"
+method_basis: "Risk-register upkeep: mitigation + owner + observable trigger + review date per carried risk; lifecycle status written back"
 evidence_standard: decision
-volume_rule: "≥8 named failure modes from the pre-mortem before any triage"
-selection_rule: "probability × impact; carried · parked · dropped, each with the reason"
-rejects_shown: required
+volume_rule: n/a
+selection_rule: n/a
+rejects_shown: n/a
 status: draft
-version: 0.3.0
-updated: 2026-08-13
+version: 0.4.0
+updated: 2026-08-16
 ---
 
-# Risk & Mitigation
+# Risk Mitigation
 
-Surface the risks to the strategy via a **pre-mortem**, triage them into the R- register, and
-give each a **mitigation, owner, and trigger**. Fills `{#product-risks}` at Step 3, and is reused
-at Step 4 to attach mitigations to the plan.
+Make every carried risk **managed**: each `R-…` gets a **mitigation**, an **owner**, an
+**observable trigger**, and a **status** — written back into the R- register, never into a copy of
+it. Fills `{#risk-mitigation}` at Step 4.
 
-**Method basis.** Klein's pre-mortem ("it's 12 months from now and the strategy failed — why?")
-to elicit risks before they bite, then risk-register triage by probability × impact, and a named
-mitigation + owner + trigger for each risk worth carrying.
+**Method basis.** Risk-register upkeep. Surfacing and triage happen upstream (see the boundary
+below); this method takes the carried set and attaches what makes a risk actionable: what we'll do,
+who acts, what signal says "act now", and when the plan is next reviewed.
+
+> **Upstream boundary (one mechanism, one way).** Carried `R-…` arrive from `pre-mortem` at Step 3
+> and from `niche-risks` at Step 2. Those methods surface and triage (probability × impact,
+> carried · parked · dropped); this one does neither — it never re-runs the pre-mortem or re-scores
+> the set. A new risk surfacing at Step 4 goes back through the register with a triage note, not
+> around it.
 
 ## When to apply
-- Step 3, after the strategy choices are made — before betting on them.
-- Step 4, to add mitigations and owners to the plan's risks.
-- Whenever a new risk surfaces or a live risk changes probability/impact.
+- **Step 4**, once the plan's numbers exist — attach a mitigation, owner, trigger, and review date
+  to every carried risk before the plan is signed.
+- When a live risk changes (trigger fired, mitigation landed, risk no longer credible): update the
+  same register row's status — don't open a new one.
 
 ## Prerequisites
-- **Strategy choices** — the where-to-play / how-to-win / channels we're pressure-testing.
-  *Missing → run `where-to-play-how-to-win` (and related Step-3 tools) first.*
+- **Carried risks in the R- register** — the triaged set marked `carried`, with their P×I scores.
+  *Missing → run `pre-mortem` (Step 3); niche-level risks arrive from `niche-risks` (Step 2).*
 
 ## How to do it
-1. **Run the pre-mortem — to at least 8 named failure modes.** Assume it's 12 months out and the
-   strategy failed. Ask *why* — force concrete failure stories, not abstract worries. Cover execution
-   and key-person risks, not just external/market ones. Stopping at three is the pre-mortem's
-   characteristic failure: the first three are always the ones already being discussed, and the risk
-   that kills the plan is rarely among them.
-2. **Pull existing risks.** Read the R- register for risks already logged (e.g. seeded by earlier
-   tools); don't re-invent them.
-3. **Triage — and record the disposition of every risk you surfaced.** Score each on probability ×
-   impact, then mark it **carried · parked · dropped**, each with a one-line reason. Rank the carried
-   set by the product. A risk that simply fails to reappear in the next table is indistinguishable
-   from one nobody raised, and the pre-mortem's whole value is that somebody did raise it.
-4. **Assign mitigation + owner + trigger.** For each carried risk: what we'll do about it, *who*
-   owns it, and the *trigger* (the observable signal that says "act now"). A risk with no owner or
-   trigger is not managed.
-5. **Write to the register.** Upsert each into R- with score, mitigation, owner, trigger, status.
+1. **Pull the carried set.** Read the R- register for every risk marked carried; don't re-invent or
+   re-score them — the P×I score travels with the row from triage.
+2. **Assign a mitigation.** What we will actually do about the risk — an action, not a hope
+   ("monitor closely" is not a mitigation unless the monitoring has a trigger and a response).
+3. **Name the owner.** One person who acts when the trigger fires. A committee is not an owner.
+4. **Set the observable trigger and the due date.** Two different columns, two different things:
+   the **Trigger** is the observable signal that says "act now" (a metric crossing a line, an event
+   occurring); the **Due** is the date the mitigation is *reviewed* — the moment somebody checks
+   whether it still holds, even if the trigger never fired. A risk with a trigger but no review date
+   rots silently; one with a date but no trigger gets acted on too late.
+5. **Set the status and upsert the register.** Write mitigation, owner, trigger, due, and lifecycle
+   status into the **same** R- row — one row per risk, upserted, never forked into a step-local
+   copy. The register is the single home; this section projects it.
 
 ## Scales — the shared gradations
 
-Two ordinal scales travel with a risk. They are **gradations**, orthogonal to the confirmation marker
-a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*).
+One ordinal scale travels with a risk here. It is a **gradation**, orthogonal to the confirmation
+marker a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*).
 
-- **Likelihood × impact — H/M/L, backed 5/3/1.** The tiers stay human-readable (`H`/`M`/`L`), but the
-  triage ranks by the **product on the 5/3/1 backing** (H=5 · M=3 · L=1): five "high"s with no numbers
-  behind them is not an ordering. Rank the carried set by likelihood × impact, top-product first.
 - **Lifecycle — `open` → `mitigating` → `contained` → `realized` → `closed`, plus `accepted`.**
-  `contained` = a live risk whose mitigation is in place; `realized` = it fired (the mitigation and the
-  fallout are now the story); `closed` = no longer credible. `accepted` is **off-cycle** — a decision
-  to carry the risk un-mitigated on purpose, not a stage. Written back to the register's `status`.
+  `contained` = a live risk whose mitigation is in place; `realized` = it fired (the mitigation and
+  the fallout are now the story); `closed` = no longer credible. `accepted` is **off-cycle** — a
+  decision to carry the risk un-mitigated on purpose, not a stage. Written back to the register's
+  `status`.
+
+(The likelihood × impact scale — H/M/L backed 5/3/1 — belongs to the triage upstream in
+`pre-mortem`; the score arrives here on the row and is not re-derived.)
 
 ## Anti-patterns
 - **No owner / no trigger.** A risk logged but unassigned, with nothing that says when to act.
-- **Only external risks.** Listing market/competitor risks while ignoring execution and
-  key-person risks — usually the ones that actually sink it.
-- **Severity theatre.** Scoring everything high so nothing is prioritized.
-- **Register drift.** Risks captured here but never written back to R-.
+- **Trigger and due conflated.** "Review in Q3" written as the trigger — then nobody acts when the
+  signal actually fires in July.
+- **Mitigation theatre.** "Monitor" / "be careful" as the mitigation — no action, no owner, nothing
+  falsifiable.
+- **Register fork.** Copying the carried risks into a step-local table that then drifts from R- —
+  upsert the register; the section is a projection.
+- **Re-triaging here.** Re-scoring or re-litigating the carried set — that argument belongs in
+  `pre-mortem`'s worklog, where the dispositions and reasons live.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/risk-mitigation.md` (`node_type: worklog`,
-e.g. `3-strategy/risk-mitigation.md`): the pre-mortem's ≥8 named failure modes, the likelihood × impact
-triage with every surfaced risk's disposition (carried · parked · dropped) and reason, the ranked
-carried set, and each carried risk's mitigation, owner, and trigger. That worklog is the **source of
-truth**; the artifact section `{#product-risks}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
+The working is done in the step's **worklog** `<step-folder>/risk-mitigation.md`
+(`node_type: worklog`, e.g. `4-strategic-plan/risk-mitigation.md`): the carried set pulled from the
+R- register, and per risk the mitigation, owner, observable trigger, review date, and lifecycle
+status with the reasoning behind each. That worklog is the **source of truth**; the artifact section
+`{#risk-mitigation}` is its **projection** into the fixed shape of
+[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
+step's change-log history lives in the worklog, not the section
 (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
 `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
 
 ## Output
-Projects `{#product-risks}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs
-via [`questions.yaml`](questions.yaml).
+Projects `{#risk-mitigation}` via [`template-fragment.md`](template-fragment.md) from the worklog;
+inputs via [`questions.yaml`](questions.yaml). Upserts mitigation · owner · trigger · due · status
+into the R- register — one row per risk, the same row triage filled upstream.

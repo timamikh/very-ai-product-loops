@@ -11,6 +11,14 @@ questions:
     ask: "What does that customer do today — a rival, a substitute, or nothing? (⚙️ agent proposes from competitor/substitutes work)"
     type: free_text
     why: "Value is relative to an alternative; positioning against nothing says nothing."
+  - id: situations
+    ask: "In which situations/triggers does the lead segment meet this problem? (list the distinct situations — the same buyer in a different trigger perceives a different value)"
+    type: list
+    why: "A CVP written above the situations is a slogan."
+  - id: situation_cvp
+    ask: "For each situation — the pain and its cost of inaction, and the CVP: the concrete outcome we promise in that situation."
+    type: per_item
+    why: "A pain with no cost of inaction carries no CVP in that situation."
   - id: value
     ask: "For the top jobs/pains — what outcome do we create, and why does it beat the alternative? (value, not features)"
     type: per_item

@@ -30,7 +30,7 @@ product stages). Most entities below belong to one side or the other; a few are 
 |--------|-------|------------|
 | **Process core** / **steps** | `steps/` | The thin, fixed skeleton: six gated steps. Each owns an artifact's structure and its gate — **no methods inside**. |
 | **Registers** | an instance's `registers/` | The vertical, living, shared state: the **metric**, **hypothesis**, and **risk** registers. Born once, refined down, results flow back up. |
-| **Library** | `tool-skills/library/` | Product **methods** as skills (segmentation, pricing, jtbd, …). The plane meant to grow and be adapted per company. |
+| **Library** | `tool-skills/library/` | Product **methods** as skills (segmentation, pricing-strategy, jtbd-concept, …). The plane meant to grow and be adapted per company. |
 | **Statuses** | `statuses/` | Product **stages** as config: `concept-viability` · `pmf` · `growth` (extensible). Each re-prioritises goals and tool emphasis per step. |
 
 Alongside the library sit two more `tool-skills/` planes:

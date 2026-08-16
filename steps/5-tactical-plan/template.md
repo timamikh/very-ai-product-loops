@@ -4,8 +4,8 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — <Product> · <period>"
 status: template
-version: 0.2.1
-updated: 2026-07-20
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 <!--
@@ -27,7 +27,7 @@ updated: 2026-07-20
 > The shell is for structure and stable IDs only.
 
 ## Period goals {#period-goals}
-<!-- tool: prioritization -->
+<!-- tool: prioritization-tactical-plan -->
 _Measurable goals for the period, grouped by direction._
 
 | Direction <!--c:direction--> | Goal (measurable) <!--c:goal--> | Why now <!--c:why--> | Confidence <!--c:conf--> |
@@ -37,7 +37,7 @@ _Measurable goals for the period, grouped by direction._
 | back-office | … | … | [assumption] |
 
 ## Goal targets {#goal-targets}
-<!-- tool: metric-tree -->
+<!-- tool: goal-targets -->
 _What each goal maps to: go-to-market → a metric node (`M-…`); technical & back-office → a Definition of Done._
 
 | Goal <!--c:goal--> | Direction <!--c:direction--> | Target: `M-…` or DoD <!--c:target--> | Baseline → target <!--c:baseline--> | Confidence <!--c:conf--> |
@@ -65,7 +65,8 @@ _Resources available this period (people, budget, time) — via survey._
 ## Market-entry bundles {#market-bundles}
 <!-- tool: segment-cvp -->
 _Candidate go-to-market entries, gated on test-readiness (6 filters + three-things test).
-Top 3–5 by `prioritization` are staged; `hypothesis-test-design` designs the chosen ones._
+The top 3–5 by readiness score are staged; `prioritization-tactical-plan` decides whether they fit
+the period's capacity; `hypothesis-test-design` designs the chosen ones._
 
 | ID <!--c:id--> | Segment <!--c:segment--> | Situation <!--c:situation--> | Pain <!--c:pain--> | CVP <!--c:cvp--> | Offer <!--c:offer--> | Channel <!--c:channel--> | Signal · tier <!--c:signal--> | Readiness <!--c:readiness--> | `H-…` <!--c:register--> | Confidence <!--c:conf--> |
 |----|---------|-----------|------|-----|-------|---------|---------------|-----------|-------|------------|
@@ -80,6 +81,15 @@ _One row per `H-…` tested this period: a pre-registered read — metric · thr
 | `H-…` <!--c:register--> | Metric node (`M-…`) <!--c:node--> | Success <!--c:success--> | Failure <!--c:failure--> | Sample / duration <!--c:sample--> | Decision rule <!--c:decision--> | Confidence <!--c:conf--> |
 |-------|---------------------|---------|---------|-------------------|---------------|------------|
 | H-… | M-… | ≥ … | < … | n = … / … wk | ≥ success → validated; < failure → refuted; between → <next> | [assumption] |
+
+## Readouts {#readouts}
+<!-- tool: experiment-readout -->
+_Verdicts of tests that finished this period, read against their pre-registered rules;
+signal/decision flow to the register._
+
+| `H-…` <!--c:register--> | Test <!--c:test--> | Result vs rule <!--c:result--> | Signal <!--c:signal--> | Decision <!--c:decision--> | Follow-up <!--c:followup--> | Confidence <!--c:conf--> |
+|-------|------|----------------|--------|----------|-----------|------------|
+| H-… | … | … vs "≥ … / < …" → validated / refuted / inconclusive | weak / medium / strong | scale / iterate / reject / research | research → named learning item; refuted → section it invalidates | [sourced: …] |
 
 ## Blockers {#blockers}
 <!-- open -->

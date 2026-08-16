@@ -44,8 +44,8 @@ never reached.
 | B-07 | readiness gate — **Find** | no named place this segment is reachable | a partner/community is identified |
 | B-04 | score 11 of 25 | slow to a signal (needs a 3-week pilot to learn anything) | the offer can be cut down to a 2-day diagnostic |
 
-**Staged for test this period** (top 3–5 by the score above; `prioritization` then decides whether
-they fit the period's capacity and does not re-score them; test designed by
+**Staged for test this period** (top 3–5 by the score above; `prioritization-tactical-plan` then
+decides whether they fit the period's capacity and does not re-score them; test designed by
 `hypothesis-test-design`): B-…, B-…
 
 **Seeded registers:** each `ready` bundle → hypothesis register (`H-…`, `type: desirability`,

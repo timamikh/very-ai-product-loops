@@ -15,6 +15,38 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### One skill, one step — the multi-step methods recut
+
+- **The rule** (EXTENDING → *Rules that hold for any change*, linter check U): a library method
+  declares exactly one step. A different operation per step is a second skill with its own name;
+  the same operation revisited at another step is a per-step variant. The library grows 28 → 39.
+- **Operation cuts** (a skill was doing two different things): `metric-tree` [4,5] → `metric-tree`
+  (4) + `goal-targets` (5, ex-ghost section); `hypothesis-test-design` [4,5] →
+  `hypothesis-thresholds` (4, single source of truth for thresholds) + `hypothesis-test-design` (5);
+  `risk-mitigation` [3,4] → `pre-mortem` (3, surface & triage) + `risk-mitigation` (4,
+  mitigation·owner·trigger; `produces` desync fixed); `jtbd` [1,3] → `jtbd-concept` (1) + `bets`
+  (3); `{#architecture-instrumentation}` co-ownership → one owner, `instrumentation-plan` (4).
+- **Per-step variants** (same operation, another step): `cjm` → `cjm-concept`/`cjm-strategy`
+  (concept variant no longer births risks at Step 1); `value-definition` →
+  `value-definition-concept`/`value-definition-strategy`; `pricing` → `pricing-strategy` (3) +
+  `pricing-strategic-plan` (4, margin revisit); `prioritization` →
+  `prioritization-tactical-plan`/`prioritization-sprint-plan` (the "no file of its own"
+  contradiction removed — a primary always owns its worklog).
+- **segment-cvp homed**: Step 5 only; its value half (segment · situation · pain · CVP) absorbed
+  into `uvp-cpv` at Step 3; statuses no longer recommend it where it had no section.
+- **Steps 5–6 widened**: `{#readouts}` (experiment-readout — verdicts against pre-registered
+  rules, write-back to the register), `{#sprint-goal}`, `{#to-clarify}` at Step 6; `{#handoff}` →
+  `{#delivery}` (the name collided with the operations `handoff`); Feature format gains acceptance
+  criteria, items gain owner/estimate; back-office Tasks get `task-spec`.
+- **Three new linter checks**: Q (questions.yaml types are machine-readable — the
+  `single_select_from:` invalid-YAML class), U (one skill, one step), V (a status may only
+  recommend a tool with a `<!-- tool: … -->` home at that step — the segment-cvp failure class).
+- **Library gates for donated methods** (library README → *How to add a tool*): one step · a home
+  for every recommendation · jurisdiction/vendor-neutral · one owner per scale or definition.
+- **Two-form design written down** (library README → *Anatomy*): `template-fragment.md` is the
+  draft form the worklog works in — richer than the step template by design; the orchestrator
+  projects only the theses into the artifact.
+
 ### The entity law — a source only comes from outside
 
 - **The law** (CONVENTIONS → *Raw data & access*): `sources/` = what the user (or the world) brings

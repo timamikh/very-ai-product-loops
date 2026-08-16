@@ -13,6 +13,6 @@
 
 - **Budget:** … (and what it's earmarked for) [sourced: … | assumption]
 - **Time:** period = … ; fixed dates/constraints = …
-- **Binding constraint:** … (the resource most likely to cap the plan — feeds `prioritization`)
+- **Binding constraint:** … (the resource most likely to cap the plan — feeds `prioritization-tactical-plan`)
 
 **Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.

@@ -1,0 +1,26 @@
+# jtbd-concept — interview
+tool: jtbd-concept
+produces: jtbd
+questions:
+  - id: circumstance
+    ask: "What's the circumstance/trigger — the situation the customer is in when this job shows up? (⚙️ agent drafts from interviews/kb)"
+    type: free_text
+    why: "A job without a circumstance is a persona, not a testable job."
+  - id: progress
+    ask: "What progress does the customer want to make? State it as progress, not a product: 'I want to <make this progress>'."
+    type: free_text
+    why: "The job is the progress they'd make with or without us — never a feature."
+  - id: push
+    ask: "Push — what about the current way makes it unacceptable (drives them away from the status quo)?"
+    type: free_text
+  - id: pull
+    ask: "Pull — what attracts them to the new solution?"
+    type: free_text
+  - id: anxiety_habit
+    ask: "What holds them back — anxieties about switching, and habit/inertia keeping them on the old way?"
+    type: free_text
+    why: "Ignoring anxiety/habit is usually why a great solution doesn't get hired."
+  - id: outcomes
+    ask: "Desired outcomes — how does the customer measure success at this job? State as measurable directions (minimize/increase the time/likelihood/effort of …)."
+    type: list
+    why: "Outcomes, not features — these are what segment-pains scores and metrics later track."

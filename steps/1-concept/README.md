@@ -7,8 +7,8 @@ output: 1-concept.md
 cadence: "~ product lifetime; revisit on pivot or major learning"
 method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
-version: 0.5.0
-updated: 2026-08-15
+version: 0.6.0
+updated: 2026-08-16
 ---
 
 # Step 1 — Concept
@@ -38,18 +38,18 @@ swap or add tools per product (see [library](../../tool-skills/library/README.md
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
 | `idea` | The idea in a few lines: what it is, the shift it makes | `concept-formation` |
-| `jtbd` | The job + the four forces that gate switching (anchors segments/pains; feeds Step 2 substitutes) | `jtbd` |
+| `jtbd` | The job + the four forces that gate switching (anchors segments/pains; feeds Step 2 substitutes) | `jtbd-concept` |
 | `segments` | Who it's for — segments and how they're cut | `segmentation` |
 | `problems` | Each segment's problems (severity × frequency) | `segment-pains` |
-| `cjm` (optional) | The segment's journey over time — where it breaks (the temporal view behind `problems`) | `cjm` |
+| `cjm` (optional) | The segment's journey over time — where it breaks (the temporal view behind `problems`) | `cjm-concept` |
 | `solution` | How the product solves each problem | `concept-formation` |
-| `value-defensibility` | Value and moats (base + derivative) | `value-definition` |
+| `value-defensibility` | Value and moats (base; derivatives deferred to Step 3) | `value-definition-concept` |
 
 ## Register touchpoints
 
 - **Hypotheses** — seeds the register. Every segment, problem, and value claim starts as
   `[assumption]` and becomes an entry in the hypothesis register with an ID (`H-001`, …).
-- **Risks / Metrics** — not born here (Steps 2 and 4). Do not force them.
+- **Risks / Metrics** — not born here (risks: Steps 2–4; metrics: Step 4). Do not force them.
 
 ## Gate checklist ("step is defended" — soft)
 

@@ -1,0 +1,19 @@
+# hypothesis-thresholds — interview
+tool: hypothesis-thresholds
+produces: [global-hypotheses]
+questions:
+  - id: bets
+    ask: "Which bets (H-…) from 3-strategy.md#bets are we quantifying? (⚙️ agent pulls them from the register)"
+    type: list
+  - id: metric_node
+    ask: "For each bet — which existing metric node (M-…) would prove or refute it? (a defined node in the metric tree, not a number invented for the test)"
+    type: per_item
+    why: "A metric invented for the test can't be compared or trusted; a missing node is a gap for metric-tree."
+  - id: success_threshold
+    ask: "For each bet — what bar must the node clear for the bet to count as validated, and where does that number come from (economics / benchmark / ambition)?"
+    type: per_item
+    why: "A threshold with no provenance gets re-litigated the moment the result lands near it."
+  - id: failure_threshold
+    ask: "For each bet — below what bar is the bet refuted? The gap to the success bar is the inconclusive zone: how wide do you consciously want it?"
+    type: per_item
+    why: "Success-only means no result can refute the bet; an unstated gap triggers arguments instead of the pre-agreed 'inconclusive'."

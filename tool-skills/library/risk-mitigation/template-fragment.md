@@ -1,33 +1,21 @@
 <!--
-  template-fragment: risk-mitigation → fills {#product-risks}
+  template-fragment: risk-mitigation → fills {#risk-mitigation}
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
 -->
 
-## Product Risks {#product-risks}
-_Pre-mortem: it's 12 months out and the strategy failed — why? Cover execution & key-person risks,
-not only external ones. Pull existing risks from the R- register before inventing new ones._
+## Risk mitigation {#risk-mitigation}
+_Every carried `R-…` becomes managed: mitigation + owner + observable trigger + review date +
+status. Carried risks arrive triaged from `pre-mortem` (Step 3) and `niche-risks` (Step 2) — pull
+them from the R- register; never re-surface or re-score here. Upsert the same register row; this
+section is a projection of it._
 
-**Step 3 — light triage** (choices are being made; mitigations don't exist yet):
+| `R-…` | Risk | Likelihood | Impact | Mitigation | Owner | Trigger (act-now signal) | Due (mitigation review date) | Status |
+|-------|------|------------|--------|------------|-------|--------------------------|------------------------------|--------|
+| R-… | <concrete failure story, from triage> | H/M/L | H/M/L | <what we'll actually do — an action, not "monitor"> | <one person> | <observable signal: metric crossing a line / event occurring> | <YYYY-MM-DD — when the mitigation is reviewed> | open / mitigating / contained / realized / closed / accepted |
 
-| ID | Risk (concrete failure story) | Category | Likelihood | Impact | Confidence |
-|----|-------------------------------|----------|------------|--------|------------|
-| R-… | … | market / product / execution / … (key-person → execution) | H/M/L | H/M/L | [assumption] |
+_**Trigger vs Due:** the trigger is the signal to act; the due is the date the mitigation is
+reviewed even if the trigger never fired. Both, or the risk isn't managed. Ranked by the P×I score
+carried on the register row (5/3/1 backing, set at triage — not re-derived here)._
 
-**Step 4 — extend each carried risk** with the columns that make it *managed*:
-
-| ID | Score (P×I) | Mitigation | Owner | Trigger (act-now signal) | Status |
-|----|-------------|------------|-------|--------------------------|--------|
-| R-… | … | … | … | … | open / mitigating / contained / realized / closed / accepted |
-
-_Ranked by P×I on the 5/3/1 backing (H=5·M=3·L=1). At Step 4 every carried risk gets an owner and a trigger, or it isn't managed.
-Upsert each into the R- register (one row per risk — the Step-4 columns fill in the same register entry)._
-
-**Disposition of every risk surfaced** — including the ones not carried. A risk that simply fails to
-reappear in the next table is indistinguishable from one nobody raised, and the pre-mortem's whole
-value is that somebody did.
-
-| Risk | P × I | Disposition | Reason |
-|------|-------|-------------|--------|
-| … | H×M | carried · parked · dropped | … |
-
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.
+**Written back:** each row upserted into the R- register (mitigation · owner · trigger · due ·
+status on the same `R-…` entry the upstream triage created).

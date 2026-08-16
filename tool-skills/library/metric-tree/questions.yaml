@@ -2,9 +2,14 @@
 tool: metric-tree
 produces: metric-tree
 questions:
+  - id: north-star-candidates
+    ask: "The 2–4 candidate North Stars, each run through the three filters (⚙️ agent drafts them from the worklog — confirm or amend the list)"
+    type: list
+    why: "The choice is made among named candidates, with the losers and their failed filter recorded."
   - id: north-star-choice
     ask: "Which North Star candidate do you approve (or who approves it — e.g. a steering committee)?"
     type: single_select
+    from: north-star-candidates
     why: "Sets the #metric-tree North Star."
   - id: deepening-axis
     ask: "What is the strategy's engagement axis — what does 'using the product deeper' mean here?"

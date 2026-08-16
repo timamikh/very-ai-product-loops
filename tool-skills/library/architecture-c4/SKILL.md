@@ -6,7 +6,7 @@ reads_registers: []
 writes_registers: [risks]
 inputs: [interview, kb, git]
 prerequisites: [product-concept]
-used_by_steps: [3, 4]
+used_by_steps: [3]
 opinionated: false
 method_basis: "C4 model — Context level (Simon Brown)"
 evidence_standard: decision
@@ -14,14 +14,14 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.2
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-16
 ---
 
 # Architecture (C4 Context)
 
 Sketch the product's architecture at **C4 Context level** — the system, its users, and the
-external systems it depends on. Fills `{#architecture}` (sketched at Step 3, refined at Step 4).
+external systems it depends on. Fills `{#architecture}` at Step 3.
 At the product-loops altitude we deliberately stay at Context level, not Container/Component —
 enough to reason about integrations, dependencies, and cost, not to design the build.
 
@@ -29,7 +29,7 @@ enough to reason about integrations, dependencies, and cost, not to design the b
 
 ## When to apply
 - Step 3 — a context sketch informs moats (integrations are a moat), channels, and risk.
-- Step 4 — refined; external systems become **infra cost lines** and **dependency risks**.
+- Step-4 refinement into the instrumentation map: see `instrumentation-plan` (Step 4).
 
 ## Prerequisites
 - **Product concept.** *Missing → run `concept-formation`.*

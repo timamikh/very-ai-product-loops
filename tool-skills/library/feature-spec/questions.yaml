@@ -8,6 +8,10 @@ questions:
   - id: scope
     ask: "What tasks are needed to implement it? (the scope list)"
     type: list
+  - id: acceptance_criteria
+    ask: "Acceptance criteria — binary, checkable statements for 'the feature is done', each answerable yes/no (how we know it's done, distinct from the scope's what-we-build)?"
+    type: list
+    why: "Criteria you can't answer yes/no to leave 'done' negotiable."
   - id: business_value
     ask: "Business value — which metric node / hypothesis does it move?"
     type: free_text

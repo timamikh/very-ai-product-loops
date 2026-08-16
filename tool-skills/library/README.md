@@ -2,7 +2,7 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 
@@ -32,7 +32,10 @@ Each tool is a folder `tool-skills/library/<tool>/`:
 ```
 tool-skills/library/<tool>/
   SKILL.md             # what it is · when to apply it · PREREQUISITES · how to do it · anti-patterns
-  template-fragment.md # the artifact section it produces, with source + confidence markers
+  template-fragment.md # the DRAFT form of the section — the shape the method's worklog works in.
+                       # It may be richer than the step template: the subagent drafts at full depth,
+                       # the orchestrator projects only the theses into the step artifact (whose
+                       # schema is steps/<n>/template.md). Never put <!--c:key--> keys here.
   questions.yaml       # the interview to gather inputs (also renders to a fillable file)
   references/          # deeper method notes, worked examples
 
@@ -61,7 +64,10 @@ inputs: [interview, metrics, research, kb]  # source slots it needs — `intervi
                                        # notes (arrive via sources/); `research` = a scoped desk-research
                                        # pass the method runs itself (`loops-research` briefs, discipline
                                        # per references/evidence-standards.md); `metrics` = register readings
-used_by_steps: [1, 3]                  # soft, informational
+used_by_steps: [3]                     # exactly ONE step (linter check U) — a method that would span
+                                       # steps is recut: a different operation per step is a second
+                                       # skill with its own name; the same operation revisited at
+                                       # another step is a per-step variant (`jtbd-concept`, `cjm-strategy`)
 # --- the quality declaration (all four required; the linter checks them) ---
 evidence_standard: external-sources    # what class of evidence carries this method's claims
 volume_rule: "10–15 situational segments → 20–30 bundles"   # generate-before-you-cut, or n/a
@@ -114,7 +120,20 @@ rejects.
 2. Fill `SKILL.md` (what / when / how / anti-patterns) and its frontmatter wiring.
 3. Add `template-fragment.md` and `questions.yaml`.
 4. Register it in the index below.
-5. Link it from the relevant step(s) and status(es) as a *recommendation*.
+5. Link it from the relevant step and status(es) as a *recommendation*.
+
+Before it lands, four gates a donated method must clear (each learned from a real failure):
+
+- **One step, one operation** (check U). If it spans steps, recut it along the step seam first.
+- **A home for every recommendation** (check V). If a status will recommend it at step *n*, the
+  step-*n* template must carry its `<!-- tool: … -->` marker — otherwise the agent has to invent
+  a section.
+- **Jurisdiction- and vendor-neutral.** A region-specific registry, data vendor or legal-id scheme
+  (a national company register, a local analytics vendor) belongs in a company adapter or a local
+  skill, never in the base method.
+- **One owner per definition.** A scale, enum or gate the library already defines lives in exactly
+  one skill — grep before adding; point at the owner instead of restating it (drifted duplicates
+  are how two "identical" 1/3/5 scales end up with different criteria).
 
 Keep tools **single-purpose** and **opinion-explicit**: if a method reflects a particular
 school of thought (e.g. a post-AI view of defensibility), say so in `SKILL.md` — that is
@@ -133,31 +152,42 @@ don't turn a tool into a literature review.
 | `concept-formation` | Shape the concept from a raw idea | Dunford positioning ('the shift') | 1 | draft |
 | `segmentation` | Define & cut segments | JTBD / needs-based, priority-tiered | 1 | draft |
 | `segment-pains` | Surface problems in the job | JTBD + Value Proposition Canvas; severity × frequency; differentiator vs table-stakes | 1 | draft |
-| `value-definition` | Value & defensibility | 7 Powers (Helmer) → base/derivative; post-AI lens | 1, 3 | draft |
+| `jtbd-concept` | Jobs-to-be-Done framing of the concept | JTBD — Christensen 'progress' + Ulwick ODI (job statement · forces · desired outcomes) | 1 | draft |
+| `cjm-concept` | Customer journey map (concept lens) | Journey mapping — stages · touchpoints · emotion curve · pains → opportunities | 1 | draft |
+| `value-definition-concept` | Base moats & defensibility | 7 Powers (Helmer) → base moats; post-AI LLM-rebuild test | 1 | draft |
 | `market-sizing` | TAM / SAM / SOM | Bottom-up sizing (top-down cross-check) with named assumptions | 2 | draft |
 | `competitor-analysis` | Competitors, their game, pricing & dynamics | 'What game are they playing' + moat comparison + pricing scan + registry dynamics (public company registries) | 2 | draft |
 | `substitutes` | Non-obvious competition | JTBD competition incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes | 2 | draft |
 | `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) — winning-aspiration / where-to-play / how-to-win cascade | 3 | draft |
-| `uvp-cpv` | Value proposition / CPV | Dunford positioning + Value Proposition Canvas + customer-perceived value | 3 | draft |
-| `pricing` | Pricing model & packaging | Value-based pricing — value metric, tiers/fences, WTP (van Westendorp), price vs the next-best alternative | 3, 4 | draft |
+| `uvp-cpv` | Value proposition / CPV per situation | Dunford positioning + Value Proposition Canvas + customer-perceived value | 3 | draft |
+| `pricing-strategy` | Pricing model & packaging | Value-based pricing — value metric, tiers/fences, WTP (van Westendorp), price vs the next-best alternative | 3 | draft |
 | `channels-expansion` | Channels & expansion | Bullseye framework (*Traction*, Weinberg/Mares) + expansion-path thinking | 3 | draft |
-| `risk-mitigation` | Risks → owned mitigations | Pre-mortem (Klein) + risk-register triage (prob × impact) + mitigation/owner | 3, 4 | draft |
-| `product-surface` | User-interaction surfaces + instrumentation | Touchpoint mapping + instrumentation planning | 3, 4 | draft |
-| `architecture-c4` | System architecture (Context level) | C4 model — Context (Simon Brown) | 3, 4 | draft |
-| `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude); anti-lamppost: right metric over measurable metric | 4, 5 | draft |
+| `product-surface` | User-interaction surfaces + instrumentation sketch | Touchpoint mapping + instrumentation planning | 3 | draft |
+| `architecture-c4` | System architecture (Context level) | C4 model — Context (Simon Brown) | 3 | draft |
+| `bets` | Strategy bets seeded as hypotheses | JTBD forces (pull > anxiety + habit) + moat linkage; dedup against cascade H-seeds | 3 | draft |
+| `value-definition-strategy` | Moat revisit: derivatives & trajectory | 7 Powers (Helmer) — derivative moats once customers/scale exist | 3 | draft |
+| `cjm-strategy` | Journey revisit against the chosen strategy | Journey mapping — re-walk vs strategy/channels; feeds product-surface | 3 | draft |
+| `pre-mortem` | Surface & triage strategy risks | Pre-mortem (Klein) + probability × impact triage (5/3/1); carried/parked/dropped disposition | 3 | draft |
+| `instrumentation-plan` | Component → instrumentation → data → infra cost | Instrumentation planning over the C4 context (refines Step 3) | 4 | draft |
+| `metric-tree` | North Star → drivers → inputs | North Star Framework (Amplitude); anti-lamppost: right metric over measurable metric | 4 | draft |
+| `retention-analysis` | Cohort retention curve + engagement loop | Flattening cohort curve as PMF signal; retention by cohort/frequency; real churn input to LTV, not an assumed % | 4 | draft |
 | `unit-economics` | CAC/LTV/payback/contribution | Contribution margin; LLM inference as explicit COGS; dual basis (operational/honest own-compute) | 4 | draft |
 | `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
-| `retention-analysis` | Cohort retention curve + engagement loop | Flattening cohort curve as PMF signal; retention by cohort/frequency; real churn input to LTV, not an assumed % | 4 | draft |
+| `risk-mitigation` | Carried risks → owned mitigations | Risk lifecycle: mitigation · owner · trigger · status; register upsert | 4 | draft |
+| `hypothesis-thresholds` | Quantify strategy bets | Assumption mapping (Bland/Osterwalder) — success & failure thresholds on existing `M-…` nodes | 4 | draft |
+| `pricing-strategic-plan` | Margin revisit of the pricing decision | Contribution/COGS re-read of Step-3 pricing (holds, or ⚙️ change proposal) | 4 | draft |
+| `prioritization-tactical-plan` | Rank period goals against the gate | RICE / ICE as ranking aid, ranked by contribution to the period gate; capacity-bounded | 5 | draft |
+| `goal-targets` | Period goals → metric nodes & DoD | Node selection off the metric tree; baseline from metrics.csv → reasoned target | 5 | draft |
 | `guardrails` | What must not drop while hitting goals | Guardrail metrics + red lines (steering-committee reconciliation) | 5 | draft |
 | `resource-check` | Assess available resources this period | Lightweight capacity survey | 5 | draft |
-| `hypothesis-test-design` | Design a test for a hypothesis | Assumption mapping (Bland/Osterwalder) + smallest viable test (metric · threshold · sample/duration · decision rule) | 4, 5 | draft |
+| `segment-cvp` | Compose a testable go-to-market entry bundle | Market-entry bundle (segment · situation · pain · CVP · offer · channel · signal) + 6-filter readiness gate + qualified-action signal scale | 5 | draft |
+| `hypothesis-test-design` | Design a test for a hypothesis | Smallest viable test (metric · threshold · sample/duration · decision rule); thresholds referenced from Step 4 | 5 | draft |
 | `ab-test` | Run a controlled experiment | Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrails, MDE-driven sizing, no-peek stopping rule | 5 | draft |
-| `cjm` | Customer journey map | Journey mapping — stages · touchpoints · emotion curve · pains → opportunities | 1, 3 | draft |
-| `jtbd` | Jobs-to-be-Done framing | JTBD — Christensen 'progress' + Ulwick ODI (job statement · forces · desired outcomes) | 1, 3 | draft |
-| `segment-cvp` | Compose a testable go-to-market entry bundle | Market-entry bundle (segment · situation · pain · CVP · offer · channel · signal) + 6-filter readiness gate + qualified-action signal scale | 1, 3, 5 | draft |
-| `prioritization` | Rank must vs backlog | RICE / ICE, ranked by contribution to the period gate; capacity-bounded must/backlog line | 5, 6 | draft |
-| `feature-spec` | Development item as a Feature | Description/Scope/Business value/User value/User stories | 6 | draft |
+| `experiment-readout` | Read a finished test against its pre-registered rule | Pre-registered readout; signal/decision written back to the hypotheses register | 5 | draft |
+| `prioritization-sprint-plan` | Rank must vs backlog, show excluded | RICE / ICE as ranking aid, ranked by contribution to the period gate; capacity-bounded must/backlog line | 6 | draft |
+| `feature-spec` | Development item as a Feature | Description/Scope/Acceptance criteria/Business value/User value/User stories | 6 | draft |
 | `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
+| `task-spec` | Back-office item as a Task | Description · why-link · binary DoD · owner · estimate | 6 | draft |
 
 > **Runtime skills live elsewhere.** `handoff` (session-to-session state transfer) was a library
 > entry; it is a *runtime* capability, not a product method, and now lives in

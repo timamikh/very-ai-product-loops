@@ -1,0 +1,28 @@
+# experiment-readout — interview
+tool: experiment-readout
+produces: readouts
+questions:
+  - id: finished
+    ask: "Which tests finished this period (reached their pre-registered sample/duration)? Every finished H-… gets a readout."
+    type: list
+    why: "A mid-test read is peeking; an unread finished test is a paid answer left unopened."
+  - id: rule
+    ask: "For each test — the pre-registered rule, verbatim from the design: metric node, success/failure thresholds, sample/duration, and the verdict each zone triggers."
+    type: per_item
+    why: "The result must read itself against the rule fixed in advance — no post-hoc re-thresholding."
+  - id: result
+    ask: "For each test — the measured result, as dated rows in metrics.csv (capture via metrics-capture if not landed yet)."
+    type: per_item
+    why: "A readout against a remembered number is not reproducible."
+  - id: signal
+    ask: "For each test — the signal grade: weak / medium / strong (per the register's scale)?"
+    type: per_item
+    why: "Clicks and likes diagnose the channel, not the fit, whatever the raw count says."
+  - id: decision
+    ask: "For each test — the decision: scale / iterate / reject / research?"
+    type: per_item
+    why: "A readout with no decision is not finished."
+  - id: follow_up
+    ask: "For a research decision — the named learning item for the next period's goals; for a refuted H-… — which section's confirmation does it invalidate?"
+    type: per_item
+    why: "Research without a named item returns the same bet unimproved; a refutation must bubble up by name."

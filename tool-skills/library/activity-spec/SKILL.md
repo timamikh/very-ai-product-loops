@@ -14,8 +14,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
-updated: 2026-08-09
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 # Activity Spec (go-to-market direction)
@@ -39,6 +39,8 @@ directions read the same way and plug into the same must/backlog.
 - **Business value** — the `M-…` it moves or the `H-…` it tests.
 - **Audience value** — why the audience cares (not spam).
 - **Links** — `H-…` tested / `M-…` moved; the surface it runs on (from `product-surface`).
+- **Owner** — who runs it.
+- **Estimate** — the effort it takes (the must-set must fit the capacity).
 
 ## Anti-patterns
 - **Activity without a metric.** A campaign that moves no known node — a candidate to cut.
@@ -51,9 +53,9 @@ e.g. `6-sprint-plan/activity-spec.md`): for each go-to-market item, its Descript
 value (the `M-…` it moves / `H-…` it tests), Audience value, and Links (the `H-…` tested / `M-…`
 moved and the surface it runs on). That worklog is the **source of truth** for this method's rows; the
 Activities subsections of `{#must}` / `{#backlog}`
-(`### … Activities <!-- tool: activity-spec, prioritization -->`) are its **projection** into the
+(`### … Activities <!-- tool: activity-spec, prioritization-sprint-plan -->`) are its **projection** into the
 fixed shape of [`template-fragment.md`](template-fragment.md) — those sections are co-filled (the
-ranking comes from `prioritization`), but this method owns its worklog for its own activity rows. The
+ranking comes from `prioritization-sprint-plan`), but this method owns its worklog for its own activity rows. The
 projection holds nothing the worklog does not, and the step's change-log history lives in the worklog,
 not the section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
 dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.

@@ -1,0 +1,31 @@
+# prioritization-sprint-plan — interview
+tool: prioritization-sprint-plan
+produces: [must, backlog, excluded]
+questions:
+  - id: gate
+    ask: "What's the goal/gate of this period — the metric node to move (M-…) or the Definition of Done every item is ranked against — and what must this sprint contribute to it?"
+    type: free_text
+    why: "Items are ranked by contribution to the gate, not by an abstract score."
+  - id: candidates
+    ask: "List the candidate items to rank (features/activities/tasks), grouped by direction."
+    type: list
+  - id: capacity
+    ask: "What's the available capacity this sprint (people, budget, time) that sets the must/backlog line?"
+    type: free_text
+    why: "The must/backlog line is drawn by capacity, not by wishful scope."
+  - id: reach
+    ask: "For each candidate — reach: how many users / how much of the base does it touch?"
+    type: per_item
+  - id: impact
+    ask: "For each candidate — impact / contribution: how much does it move the period gate?"
+    type: per_item
+  - id: confidence
+    ask: "For each candidate — confidence: how sure are we of the reach and impact?"
+    type: per_item
+  - id: effort
+    ask: "For each candidate — effort: how much capacity does it consume? (skip for ICE)"
+    type: per_item
+  - id: moves
+    ask: "For each candidate — what does it move or test? (the M-… node or H-… hypothesis)"
+    type: per_item
+    why: "An item that moves no metric and tests no hypothesis is a candidate to cut."

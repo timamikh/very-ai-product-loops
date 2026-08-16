@@ -5,10 +5,10 @@ name: tactical-plan
 title: "Step 5 — Tactical Plan"
 output: 5-tactical-plan.md
 cadence: "~1–3 mo; stage-gate ~monthly"
-method_basis: "OKR-style goals per direction · targets = metric nodes (go-to-market) or DoD (technical & back-office) · guardrails / red lines (steering-committee reconciliation) · resource survey · go-to-market bundle composition + readiness gate · experiment design · prioritization (RICE/ICE)"
+method_basis: "OKR-style goals per direction · targets = metric nodes (go-to-market) or DoD (technical & back-office) · guardrails / red lines (steering-committee reconciliation) · resource survey · go-to-market bundle composition + readiness gate · experiment design · pre-registered readout · prioritization (RICE/ICE)"
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 # Step 5 — Tactical Plan
@@ -31,19 +31,21 @@ The strategic plan (`4-strategic-plan.md`), the metric register, the hypothesis 
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
-| `period-goals` | Measurable goals **grouped by direction** | `prioritization` |
-| `goal-targets` | What each goal maps to: **go-to-market → metric node (`M-…`); technical & back-office → a Definition of Done** | `metric-tree` |
+| `period-goals` | Measurable goals **grouped by direction** | `prioritization-tactical-plan` |
+| `goal-targets` | What each goal maps to: **go-to-market → metric node (`M-…`); technical & back-office → a Definition of Done** | `goal-targets` |
 | `guardrails` | What must **not** drop while hitting the goals — protected metrics / red lines | `guardrails` |
 | `resources` | Resources available this period (people, budget, time) — via survey | `resource-check` |
 | `market-bundles` | Candidate go-to-market entries (segment · situation · pain · CVP · offer · channel · signal), gated on test-readiness | `segment-cvp` |
 | `hypotheses-to-test` | Which `H-…` we test now + the test design | `hypothesis-test-design` (`ab-test` when the test is a split-traffic experiment) |
+| `readouts` | Verdicts of tests that finished this period, read against their pre-registered rules | `experiment-readout` |
 | `blockers` | Dependencies/blockers with an owner | — |
 
 ## Register touchpoints
 - **Metric tree** — go-to-market goals select nodes to move (`M-…`); guardrails are protected `M-…` nodes.
 - **Hypotheses** — `market-bundles` seed go-to-market bets (`H-…`, `type: desirability`);
-  `hypotheses-to-test` picks `H-…` and attaches a test design. `prioritization` scores which
-  ready bundles are staged this period.
+  `hypotheses-to-test` picks `H-…` and attaches a test design; `readouts` write `signal` and
+  `decision` back to the register. `segment-cvp` stages the ready bundles;
+  `prioritization-tactical-plan` decides whether they fit the period's capacity.
 - **Risks** — period `blockers` link back to `R-…`; guardrails encode risks-not-to-realize.
 
 ## Gate checklist (soft) — each item ↔ artifact section
@@ -53,6 +55,7 @@ The strategic plan (`4-strategic-plan.md`), the metric register, the hypothesis 
 - [ ] available resources assessed (survey) → `tactical-plan#resources`
 - [ ] go-to-market entries composed as bundles and gated on readiness (6 filters + three-things test) → `tactical-plan#market-bundles` → hypothesis register
 - [ ] hypotheses to test have a test design → `tactical-plan#hypotheses-to-test` → hypothesis register
+- [ ] tests that finished this period are read against their pre-registered rules, with signal and decision recorded → `tactical-plan#readouts` → hypothesis register
 - [ ] blockers listed with an owner → `tactical-plan#blockers`
 
 ## Cadence & invalidation

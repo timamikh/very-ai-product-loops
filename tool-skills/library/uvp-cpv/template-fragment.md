@@ -9,6 +9,12 @@
 
 **Alternative they use today:** _rival / substitute / do-nothing — …_  [assumption]
 
+**Value per situation (lead segment)** _(the same buyer in a different trigger perceives a
+different value — the one-liner compresses these)_
+| Situation / trigger | Pain (cost of inaction) | CVP (outcome promised in this situation) | Confidence |
+|---------------------|-------------------------|------------------------------------------|------------|
+| … | … | … | [assumption] |
+
 **Value (not features)**
 | Top job / pain | Outcome we create | Why it beats the alternative | Confidence |
 |----------------|-------------------|------------------------------|------------|

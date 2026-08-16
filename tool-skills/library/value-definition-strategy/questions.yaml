@@ -1,0 +1,30 @@
+# value-definition-strategy — interview
+tool: value-definition-strategy
+produces: value-defensibility
+
+questions:
+  - id: base_retest
+    ask: "For each Step-1 base moat — does it still survive an LLM rebuild in the chosen arena, against the known competitors? Have / building / aspiration — updated honestly."
+    type: per_item
+    options: [have, building, aspiration]
+    why: "A year of evidence and a chosen arena change the answers; a degraded moat stays in the table with its new rating."
+
+  - id: derivatives
+    ask: "Which derivative moats are now reachable (lock-in / switching costs · network effects · economies of scale) — and what exactly does each depend on (which base moat + which customer/scale threshold)?"
+    type: per_item
+    why: "A derivative with no named dependency is an aspiration, not a moat."
+
+  - id: trajectory
+    ask: "The moat trajectory — which base moat converts into which derivative, over what horizon, and what erodes meanwhile? In what order are the moats built?"
+    type: free_text
+    why: "The strategy leans on moats in the sequence they will actually exist, not all at once."
+
+  - id: leverage
+    ask: "Which moat(s) does the winning logic leverage (→ how-to-win), and which moat does each bet lean on (→ bets)?"
+    type: per_item
+    why: "The moats are the 'because' in every bet; this contribution lands in the primaries' worklogs."
+
+  - id: reconfirm
+    ask: "The updated {#value-defensibility} section loses its confirmed: marker on re-projection — who re-confirms it, and when?"
+    type: free_text
+    why: "A signed-off thesis that changed is no longer signed off."

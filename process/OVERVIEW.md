@@ -2,7 +2,7 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.9.0
+version: 0.9.1
 updated: 2026-08-16
 ---
 
@@ -51,7 +51,7 @@ are swappable and extensible per company, without forking the framework.
 │                           register touchpoints, artifact structure (sections + IDs).
 │                           NO methods inside.
 ├─ Registers ────────────── metrics · hypotheses · risks (vertical, living, shared state)
-├─ Library (tool-skills/library/) ─ product methods as skills (segmentation, pricing, jtbd…)
+├─ Library (tool-skills/library/) ─ product methods as skills (segmentation, pricing-strategy, jtbd-concept…)
 └─ Statuses (statuses/) ─── product stages as config: concept-viability · PMF · growth
 ```
 

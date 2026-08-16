@@ -2,8 +2,8 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.5.1
-updated: 2026-08-15
+version: 0.6.0
+updated: 2026-08-16
 ---
 
 # Extending the framework
@@ -137,6 +137,16 @@ affected methods, fix the links, run the linter to zero, bump the version and re
 - **One mechanism, one way.** If your change introduces a second format or a second path for something
   the framework already does one way, it is the wrong change — see
   [`process/CONVENTIONS.md`](process/CONVENTIONS.md).
+- **One skill, one step, one operation.** A library method declares exactly one step (the linter holds
+  this, check U). A method that would do *different* operations on different steps is two skills with
+  two names (`hypothesis-thresholds` at 4 vs `hypothesis-test-design` at 5); the *same* operation
+  revisited at another step is a per-step variant named for its step (`jtbd-concept`, `cjm-strategy`).
+  A donated skill that spans steps is recut along this seam before it enters the library.
+- **A recommendation needs a home.** A tool named in a status's `per_step` list must have a
+  `<!-- tool: … -->` marker in that step's template (linter check V) — a recommendation with no
+  section to land in forces the agent to invent one. And before adding a skill, check what it
+  overlaps: a scale, an enum or a definition the library already owns lives in exactly one skill —
+  grep for it and point at the owner instead of restating it.
 - **Classify before you write it.** A rule that a machine can verify belongs in the linter; a procedure
   belongs in a skill; only a contract two readers must agree on belongs in `process/` — see
   *Where a new rule goes* below. This is what keeps the always-loaded rule set from thickening with every

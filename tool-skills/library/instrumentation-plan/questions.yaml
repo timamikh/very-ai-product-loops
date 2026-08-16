@@ -1,0 +1,19 @@
+# instrumentation-plan — interview
+tool: instrumentation-plan
+produces: [architecture-instrumentation]
+questions:
+  - id: components
+    ask: "Which components are we mapping? (⚙️ agent unions 3-strategy.md#architecture boxes with #product-surface touchpoints — confirm or add)"
+    type: list
+  - id: instrumentation_state
+    ask: "For each component — instrumented, proxy, or not-instrumented? (proxy: name what it actually measures and where it lies)"
+    type: per_item
+    why: "A proxy sold as instrumented makes the metric tree steer by a lie."
+  - id: data_yield
+    ask: "For each component — what events or measures does it yield (or would it, once instrumented)?"
+    type: per_item
+    why: "Every future metric-tree node needs a data source here or an explicit gap."
+  - id: infra_cost
+    ask: "For each component — what infra cost does it drive (inference, analytics stack, session capture, email…), and which unit-economics COGS line does that reconcile with?"
+    type: per_item
+    why: "A cost driver with no COGS line (or vice versa) is a hole in one of the two."

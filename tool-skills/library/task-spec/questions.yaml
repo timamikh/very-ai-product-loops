@@ -1,0 +1,21 @@
+# task-spec — interview (back-office direction)
+tool: task-spec
+produces: [must, backlog]
+questions:
+  - id: description
+    ask: "What needs doing? (one clear description, at task altitude — not sub-tasks)"
+    type: free_text
+  - id: why
+    ask: "Why does the business need it — which M-… does it move, R-… does it mitigate, or H-… does it serve?"
+    type: free_text
+    why: "A task with no link moves nothing, mitigates nothing, tests nothing — a candidate to cut."
+  - id: dod
+    ask: "The binary Definition of Done — answerable yes/no at sprint end?"
+    type: free_text
+    why: "A DoD you can't answer yes/no to never closes and never fails."
+  - id: owner
+    ask: "Who owns it landing? (a named person, not 'the team')"
+    type: free_text
+  - id: estimate
+    ask: "What's the estimate — the capacity it consumes?"
+    type: free_text

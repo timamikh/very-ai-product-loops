@@ -9,7 +9,7 @@ prerequisites:
   - strategy exists (how-to-win logic — the tree must encode it, not generic SaaS)
   - metric register seeded with captured readings (metrics.csv) and instrumentation status per node
   - the product's paying/value base numbers (who pays, what they do)
-used_by_steps: [4, 5]
+used_by_steps: [4]
 opinionated: true
 method_basis: "North Star Framework (Amplitude); anti-lamppost — right metric over measurable"
 evidence_standard: decision
@@ -17,8 +17,8 @@ volume_rule: "2–4 candidate North Stars, each run through all three filters (l
 selection_rule: "the candidate passing all three filters becomes the North Star; 3–5 drivers under it, not more"
 rejects_shown: required
 status: draft
-version: 0.2.4
-updated: 2026-08-09
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 # Metric tree — North Star → drivers → inputs
@@ -28,7 +28,7 @@ tree of drivers that explain and predict it; guardrails that must not degrade wh
 
 ## When to apply
 - Step 4, to build the North Star → drivers → inputs tree once strategy exists.
-- Step 5, to select the nodes to steer by for the period.
+- Period selection: see `goal-targets` (Step 5).
 
 ## Prerequisites
 - **Strategy exists** — how-to-win logic; the tree must encode it, not generic SaaS.

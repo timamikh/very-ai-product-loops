@@ -1,0 +1,29 @@
+# bets — interview
+tool: bets
+produces: bets
+questions:
+  - id: candidates
+    ask: "Candidate bets — for each chosen arena/segment: who hires us over what status quo, for which job? (⚙️ agent drafts from where-to-play + jtbd)"
+    type: list
+    why: "A bet against 'the market' displaces nothing; name the segment, the status quo, and the job."
+  - id: forces
+    ask: "For each candidate — why does the pull beat the anxiety + habit? Name what holds them back, not just what attracts them."
+    type: per_item
+    why: "The forces that kill adoption are exactly the ones left off the slide."
+  - id: moat
+    ask: "For each candidate — which named moat (from value-defensibility / how-to-win) makes the win durable? If none, say so explicitly."
+    type: per_item
+    why: "A bet with no moat behind it is a promotion, not a strategy — carry it only knowingly."
+  - id: type
+    ask: "For each candidate — what type of hypothesis is it?"
+    type: per_item
+    options: [desirability, viability, feasibility, usability]
+    why: "The type decides what evidence can settle the bet."
+  - id: dedup
+    ask: "Which existing H- ids does each bet restate or sharpen? (⚙️ agent reads the register — where-to-play-how-to-win cascade assumptions and Step-1 seeds — before minting new ids)"
+    type: per_item
+    why: "Two ids for one claim means each accumulates half the evidence and neither settles."
+  - id: carry
+    ask: "Which 3–7 do we carry, and why is each cut candidate cut?"
+    type: free_text
+    why: "Fewer than 3 means unexamined assumptions; more than 7 is a backlog, not a strategy."

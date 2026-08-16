@@ -1,0 +1,23 @@
+# cjm-strategy — interview
+tool: cjm-strategy
+produces: cjm
+questions:
+  - id: strategy_delta
+    ask: "Which strategy choices (arena, winning logic, channels) change the Step-1 journey — and at which stages?"
+    type: free_text
+    why: "The revisit changes what the strategy changes; it does not redraw the map."
+  - id: arrival
+    ask: "For each chosen channel — how does the customer now actually arrive? Name the concrete touchpoints at aware/evaluate."
+    type: per_item
+    why: "The chosen channels replace the generic 'they find us' with a concrete path."
+  - id: touchpoints
+    ask: "Which touchpoints does the strategy now commit to owning? (feeds product-surface)"
+    type: list
+  - id: risks
+    ask: "Where can the chosen journey break — drop-offs, partner hand-offs, integration dependencies? Which R- does each seed? (⚙️ agent checks the register and pre-mortem first — no duplicates)"
+    type: per_item
+    why: "Step 3 births risks; a journey risk nobody logged is a journey risk nobody owns."
+  - id: reconfirm
+    ask: "The updated {#cjm} section loses its confirmed: marker on re-projection — who re-confirms it, and when?"
+    type: free_text
+    why: "A signed-off thesis that changed is no longer signed off."

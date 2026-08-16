@@ -5,10 +5,10 @@ name: strategic-plan
 title: "Step 4 — Strategic Plan"
 output: 4-strategic-plan.md
 cadence: "~3–12 mo; with strategy / on a financial or metric shift"
-method_basis: "North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · pre-mortem (risk mitigation)"
+method_basis: "Instrumentation mapping · North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · pricing margin revisit · risk mitigation (owner · trigger · due) · hypothesis thresholds"
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 # Step 4 — Strategic Plan
@@ -31,21 +31,28 @@ against a working model.
 ## Artifact skeleton
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
-| `architecture-instrumentation` | Refined C4 architecture + instrumentation from Step 3 — where metric data comes from, and what drives infra cost | `architecture-c4`, `product-surface` |
+| `architecture-instrumentation` | Refined C4 architecture + instrumentation from Step 3 — where metric data comes from, and what drives infra cost | `instrumentation-plan` |
 | `metric-tree` | North Star → drivers → input metrics | `metric-tree` |
 | `retention` | Cohort retention curve + engagement loop — the real churn/retention input to LTV (where usage history exists) | `retention-analysis` |
 | `unit-economics` | CAC / LTV / payback / contribution — incl. LLM inference COGS | `unit-economics` |
 | `financial-model` | A simple projection tied to the metric tree | `financial-model` |
 | `risk-mitigation` | Each key risk → an owned mitigation (pre-mortem) | `risk-mitigation` |
-| `global-hypotheses` | Strategy bets, now quantified & tied to metric nodes | `hypothesis-test-design` |
+| `global-hypotheses` | Strategy bets, now quantified & tied to metric nodes (thresholds set here; test design at Step 5 via `hypothesis-test-design`) | `hypothesis-thresholds` |
 | `open-questions` | What's still unknown, explicitly | — |
+
+**Contributing method (no section of its own):** `pricing-strategic-plan` — once `unit-economics`
+exists, re-reads the Step-3 pricing decision against contribution margin, inference COGS per tier,
+and free-tier burn; the verdict is "holds" (logged) or a ⚙️ proposed change to `3-strategy.md#pricing`
+(triggering that section's re-confirmation). It works inside the `unit-economics` /
+`financial-model` worklogs.
 
 ## Register touchpoints
 - **Metric tree** — **built here** (`M-…`); the canonical decomposition all lower steps reference.
   `retention-analysis` appends cohort retention/churn readings to `metrics.csv` against their `M-…`.
 - **Hypotheses** — `global-hypotheses` quantify existing `H-…` and link them to `M-…`; retention
   drivers to act on seed new `H-…`.
-- **Risks** — `risk-mitigation` attaches owners/mitigations to `R-…`.
+- **Risks** — `risk-mitigation` attaches mitigation · owner · trigger · due to the carried `R-…`
+  (surfaced upstream by `pre-mortem` at Step 3 / `niche-risks` at Step 2).
 
 ## Gate checklist (soft) — each item ↔ artifact section
 - [ ] architecture & instrumentation refined; metric data sources and infra cost drivers identified → `strategic-plan#architecture-instrumentation`

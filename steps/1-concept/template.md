@@ -4,8 +4,8 @@ artifact: concept
 step: 1
 title: "Product Concept — <Product>"
 status: template
-version: 0.4.0
-updated: 2026-08-15
+version: 0.5.0
+updated: 2026-08-16
 ---
 
 <!--
@@ -32,9 +32,10 @@ _What it is, and the shift it makes, in a few lines._
 - …  [assumption]
 
 ## Job-to-be-Done {#jtbd}
-<!-- tool: jtbd (lens — anchors #segments and #problems; the job feeds Step 2 substitutes) -->
+<!-- tool: jtbd-concept -->
 _The job the customer hires the product for, the four forces around switching, and the outcomes
-they judge success by. States the job; the pains inside it are scored in #problems._
+they judge success by. A lens that anchors `#segments` and `#problems`; the job feeds Step 2
+`substitutes`. States the job; the pains inside it are scored in #problems._
 
 **Job statement.** _When_ <circumstance>, _I want to_ <make this progress>, _so that_ <outcome>.  [assumption]
 
@@ -62,11 +63,11 @@ _Each segment's problems, scored by severity × frequency._
 | … | H/M/L | H/M/L | differentiator / table-stakes | [assumption] |
 
 ## Customer Journey {#cjm}
-<!-- tool: cjm (optional lens — the temporal view behind #problems; fill when a drop-off needs explaining) -->
-_Optional. One segment's end-to-end journey doing the job over time — the stages and where it
-breaks. Fill when a flat pain list isn't enough (e.g. an unexplained drop-off). Its pains feed
-`#problems`; its touchpoints feed Step-3 `#product-surface`. Omit it if not needed — it is not a
-required concept section._
+<!-- tool: cjm-concept -->
+_Optional lens — the temporal view behind `#problems`; fill when a flat pain list isn't enough
+(e.g. an unexplained drop-off). One segment's end-to-end journey doing the job over time — the
+stages and where it breaks. Its pains feed `#problems`; its touchpoints feed Step-3
+`#product-surface`. Omit it if not needed — it is not a required concept section._
 
 | Stage <!--c:stage--> | Actions <!--c:actions--> | Touchpoints <!--c:touchpoints--> | Thoughts / emotions <!--c:thoughts--> | Pains <!--c:pains--> | Emotion (▲/▼) <!--c:emotion--> | Confidence <!--c:conf--> |
 |-------|---------|-------------|---------------------|-------|---------------|------------|
@@ -81,7 +82,7 @@ _How the product solves each problem above. No orphan features._
 | … | … | [assumption] |
 
 ## Value & Defensibility {#value-defensibility}
-<!-- tool: value-definition -->
+<!-- tool: value-definition-concept -->
 _The value and the moat(s). See the tool for the base/derivative taxonomy._
 
 - Intended moat(s): …  [assumption]

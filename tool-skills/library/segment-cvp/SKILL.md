@@ -6,7 +6,7 @@ prerequisites: [segments, segment-pains]
 reads_registers: [hypotheses]
 writes_registers: [hypotheses]
 inputs: [interview, kb, research]
-used_by_steps: [1, 3, 5]
+used_by_steps: [5]
 opinionated: true
 method_basis: "Market-entry bundle (segment · situation · pain · CVP · offer · first action · channel · signal) with a 6-filter readiness gate and a qualified-action signal scale; one bundle = one testable go-to-market hypothesis"
 evidence_standard: derived
@@ -14,8 +14,8 @@ volume_rule: "≥3 distinct situations per priority segment and ≥8 bundles in 
 selection_rule: "6-filter readiness gate (binary) → among the ready, 5 criteria × 1/3/5 = 5–25 → top 3–5 staged"
 rejects_shown: required
 status: draft
-version: 0.1.3
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-16
 ---
 
 # Segment–CVP bundle
@@ -38,27 +38,21 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
 >   the *job and forces*; `uvp-cpv` articulates *value vs an alternative*; `channels-expansion`
 >   maps *channels*. **`segment-cvp` does none of these from scratch** — it *composes* their
 >   outputs into a single testable entry (segment + situation + pain + CVP + offer + channel +
->   signal) and gates it on test-readiness. If a pain isn't ranked yet, run `segment-pains`; if the
->   value isn't articulated, run `uvp-cpv`. This tool is the assembler, not a re-derivation.
+>   signal) and gates it on test-readiness. The value half — segment · situation · pain · CVP —
+>   lives in `uvp-cpv` at Step 3; this tool is the Step 5 assembler, not a re-derivation. If a pain
+>   isn't ranked yet, run `segment-pains`; if the value isn't articulated, run `uvp-cpv`.
 > - It does **not** design the test's statistics — once a bundle is picked, `hypothesis-test-design`
 >   (or `ab-test`) sets the metric · threshold · sample · decision rule. `segment-cvp` produces the
 >   *candidate*; those produce the *experiment*.
-> - It scores **which bet is worth learning about first**; `prioritization` scores **what fits this
->   period's capacity**. Two questions, two scales, one object each — a staged bundle is not
->   re-scored downstream (see step 5).
+> - It scores **which bet is worth learning about first**; `prioritization-tactical-plan` scores
+>   **what fits this period's capacity**. Two questions, two scales, one object each — a staged
+>   bundle is not re-scored downstream (see step 5).
 
 ## When to apply
-- **Step 1 — as a lens (no concept section).** Once segments and pains exist, turn them into a
-  first set of market-entry bundles to seed the hypothesis register with **desirability** bets.
-  It sharpens which entries are even worth carrying forward; it does not own a concept section.
-- **Step 3 — as a lens (no strategy section).** Sharpen each strategic `{#bets}` entry into a
-  concrete, testable market-entry shape (segment + situation + pain + CVP + offer + channel +
-  signal) so the bet is specific enough to test. It informs `{#bets}`; the full bundle table +
-  readiness gate is composed at Step 5.
 - **Step 5 — owns `{#market-bundles}`.** Refresh/expand the bundle set for the period, gate each on
-  readiness, score the ready ones and stage the top 3–5. `prioritization` then decides whether those
-  fit the period's capacity — it does not re-score them; `hypothesis-test-design` designs the chosen
-  ones.
+  readiness, score the ready ones and stage the top 3–5. `prioritization-tactical-plan` then decides
+  whether those fit the period's capacity — it does not re-score them; `hypothesis-test-design`
+  designs the chosen ones.
 - Whenever positioning feels generic ("for everyone, convenient, with AI") — the bundle forces a
   specific who/where/promise/first-step.
 
@@ -111,14 +105,15 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
    | **Evidence of willingness to pay** | none | they pay for something adjacent | they pay for this problem today |
    | **Speed to a signal** — how fast we learn | > 2 weeks | about a week | 1–2 days |
 
-   **Speed to a signal is why this scoring lives here and not in `prioritization`.** The two answer
-   different questions and must not be merged: this rubric asks *which bet is worth learning about
-   first*, and `prioritization` asks *what fits this period's capacity against the period gate* on
-   RICE/ICE. RICE has no axis for how fast a bet can be falsified — Effort is build cost, which for a
-   bundle that needs a landing page and ad copy is nearly constant across candidates and therefore
-   discriminates nothing. `prioritization` does **not** re-score bundles: it takes the staged 3–5 and
-   decides whether they fit the period. Scoring the same objects twice on two scales is exactly the
-   drift "one mechanism, one way" forbids, which is why the boundary is stated in both files.
+   **Speed to a signal is why this scoring lives here and not in `prioritization-tactical-plan`.**
+   The two answer different questions and must not be merged: this rubric asks *which bet is worth
+   learning about first*, and `prioritization-tactical-plan` asks *what fits this period's capacity
+   against the period gate* on RICE/ICE. RICE has no axis for how fast a bet can be falsified —
+   Effort is build cost, which for a bundle that needs a landing page and ad copy is nearly constant
+   across candidates and therefore discriminates nothing. `prioritization-tactical-plan` does **not**
+   re-score bundles: it takes the staged 3–5 and decides whether they fit the period. Scoring the
+   same objects twice on two scales is exactly the drift "one mechanism, one way" forbids, which is
+   why the boundary is stated in both files.
 
    A score is `⚙️` until the human confirms it, and a criterion you cannot judge is a `— to clarify —`,
    not a 3.
@@ -152,8 +147,8 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
 - **Padding to hit the number.** The volume rule is a floor on *distinct situations*, not on rows —
   the same entry reworded three times fails it more expensively than eight honest ones would.
 - **Scoring the same bundle twice.** Running the readiness score here and then re-ranking the staged
-  bundles on RICE downstream. Two scales over one object is drift; `prioritization` capacity-bounds
-  what this method staged, it does not re-judge it.
+  bundles on RICE downstream. Two scales over one object is drift; `prioritization-tactical-plan`
+  capacity-bounds what this method staged, it does not re-judge it.
 - **A 3 for "I don't know".** The middle of a 1/3/5 scale is a judgement, not a shrug — an unknown is
   `— to clarify —`, and a bundle scored mostly on shrugs should not be staged.
 
@@ -170,7 +165,7 @@ change-log history lives in the worklog, not the section
 `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
 
 ## Output
-At Step 5, projects `{#market-bundles}` via [`template-fragment.md`](template-fragment.md) from the
-worklog; inputs via [`questions.yaml`](questions.yaml). At Steps 1 and 3 it produces no artifact
-section — it acts as a lens: at Step 1 it seeds the hypothesis register (desirability bets) and informs
-`segments`/`problems`; at Step 3 it sharpens `{#bets}` into concrete, testable market-entry shapes.
+Projects `{#market-bundles}` (Step 5) via [`template-fragment.md`](template-fragment.md) from the
+worklog; inputs via [`questions.yaml`](questions.yaml). The value half of an entry — segment ·
+situation · pain · CVP — is articulated by `uvp-cpv` at Step 3; this tool composes it into the
+testable bundle here.

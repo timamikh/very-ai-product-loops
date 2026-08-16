@@ -1,0 +1,34 @@
+# value-definition-concept — interview
+# Drives an LLM survey OR renders to a fillable file. The agent proposes ⚙️ defaults from the
+# concept/segments; the human confirms or overrides. Free-text always allowed.
+tool: value-definition-concept
+produces: value-defensibility
+
+questions:
+  - id: core_value
+    ask: "In one line — what is valuable here that a clone rebuilt with an LLM tomorrow would NOT have?"
+    type: free_text
+    why: "Forces value onto position, not features."
+
+  - id: base_moats
+    ask: "Which base moats do you actually have or can build? (unique data · unique algorithms/IP · exclusive access/integrations/rights · audience/distribution · brand/trust · expertise · processes · product depth · real-world assets)"
+    type: list
+    why: "Base primitives only at concept stage — derivatives have nothing to derive from yet."
+
+  - id: moat_state
+    ask: "For each named moat — do you HAVE it, are you BUILDING it, or is it an ASPIRATION?"
+    type: per_item
+    options: [have, building, aspiration]
+    why: "Have/building can be [sourced]; aspiration stays [assumption]."
+
+  - id: llm_test
+    ask: "For each moat — would it survive someone rebuilding the app with an LLM? (yes / partly / no)"
+    type: per_item
+    options: [yes, partly, "no"]
+    why: "A 'no' means it's a feature, not a moat — it moves to the rejected-candidates table, with the reason."
+
+  - id: lead_moat
+    ask: "Which single moat do you bet on leading with?"
+    type: single_select
+    from: base_moats
+    why: "The lead moat shapes strategy."

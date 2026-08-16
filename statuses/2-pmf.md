@@ -10,7 +10,7 @@ per_step:
     goals:
       - Sharpen segments/pains with real usage evidence, not just interviews
       - Confirm the value bet against how first clients actually behave
-    tools: [segment-pains, segmentation, value-definition, segment-cvp]
+    tools: [segment-pains, segmentation, value-definition-concept]
   "2":  # Analysis
     goals:
       - Refresh the market read with LIVE data — prices and competitors move; a stale read misleads pricing
@@ -21,28 +21,28 @@ per_step:
       - Sharpen how-to-win around what actually RETAINS paying users, not just what attracts them
       - Turn the retention logic into a testable bet and name the moats it leverages
       - Set pricing & packaging that captures the repeatable value (value metric + fences), tested not assumed
-    tools: [where-to-play-how-to-win, uvp-cpv, value-definition, pricing, channels-expansion, jtbd, risk-mitigation]
+    tools: [where-to-play-how-to-win, uvp-cpv, value-definition-strategy, pricing-strategy, channels-expansion, bets, pre-mortem]
   "4":  # Strategic Plan
     goals:
       - Build the metric tree with a North Star that ENCODES the strategy, not a vanity/lag metric
       - Prove unit economics in BOTH bases (operational and honest own-compute) — profit must survive the honest one
       - Read retention by cohort — the flattening curve is the PMF signal and the real churn input to LTV, not an assumed %
       - Model off drivers, treat churn as a scenario axis, and surface capacity caps as a first-class ceiling
-    tools: [metric-tree, retention-analysis, unit-economics, financial-model, risk-mitigation, hypothesis-test-design]
+    tools: [metric-tree, retention-analysis, unit-economics, financial-model, risk-mitigation, hypothesis-thresholds, instrumentation-plan]
   "5":  # Tactical Plan
     goals:
       - Pick the few metric nodes whose movement would prove repeatable value this period
       - Design the smallest tests for the live bets; set guardrails so growth doesn't erode the economics
       - Compose & stage market-entry bundles for the go-to-market direction; test the strongest with pre-set decision rules
-    tools: [prioritization, segment-cvp, metric-tree, hypothesis-test-design, guardrails, resource-check]
+    tools: [prioritization-tactical-plan, goal-targets, segment-cvp, hypothesis-test-design, experiment-readout, guardrails, resource-check]
   "6":  # Sprint Plan
     goals:
       - Must-set = only what proves value/monetization or unblocks its measurement (instrumentation first if it's missing)
       - Every item moves a metric node or tests a hypothesis; defer scale-spend items to the backlog
-    tools: [prioritization, feature-spec, activity-spec]
+    tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
 status: draft
-version: 0.3.1
-updated: 2026-07-18
+version: 0.4.0
+updated: 2026-08-16
 ---
 
 # Status: pmf

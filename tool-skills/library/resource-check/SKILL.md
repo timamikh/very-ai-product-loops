@@ -40,7 +40,7 @@ planning is a future integration; don't fake precision we don't have.
    three; the third stays on support"). An unattributed capacity number is the one everyone
    remembers differently at the end of the period, which is why this method is a `decision` and not a
    reading.
-6. Feed into `prioritization` so the must-set fits the capacity.
+6. Feed into `prioritization-tactical-plan` so the period goals fit the capacity.
 
 ## Anti-patterns
 - **Fake precision.** Inventing capacity numbers instead of asking.

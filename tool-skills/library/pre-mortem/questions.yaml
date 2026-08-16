@@ -1,0 +1,20 @@
+# pre-mortem — interview
+tool: pre-mortem
+produces: product-risks
+questions:
+  - id: premortem
+    ask: "It's 12 months from now and the chosen strategy failed — why? (≥8 concrete failure stories; include execution & key-person risks, not just external ones)"
+    type: list
+    why: "The first three failure modes are always the ones already being discussed; the killer is rarely among them."
+  - id: existing_risks
+    ask: "Any risks already in the R- register to fold in — e.g. cjm-strategy's journey risks? (⚙️ agent pulls them; no duplicate R- for the same failure)"
+    type: list
+  - id: triage
+    ask: "For each failure mode — likelihood and impact (L/M/H each)?"
+    type: per_item
+    why: "The triage ranks by the product on the 5/3/1 backing — five 'high's with no numbers is not an ordering."
+  - id: disposition
+    ask: "For each failure mode — carried, parked, or dropped, and why in one line?"
+    type: per_item
+    options: [carried, parked, dropped]
+    why: "A risk that silently vanishes is indistinguishable from one nobody raised."

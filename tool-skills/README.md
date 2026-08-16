@@ -20,7 +20,7 @@ The framework splits into two halves:
 
 | Category | What it does | When it runs | Index |
 |----------|--------------|--------------|-------|
-| [`library/`](library/README.md) | product methods that fill an artifact **section** (segmentation, pricing, jtbd, …) | *during* a step pass — recommended by the step & status | [`library/README.md`](library/README.md) |
+| [`library/`](library/README.md) | product methods that fill an artifact **section** (segmentation, pricing-strategy, jtbd-concept, …) | *during* a step pass — recommended by the step & status | [`library/README.md`](library/README.md) |
 | [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, metrics capture, delegation to subagents; future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
 | [`outputs/`](outputs/README.md) | produce the **files that leave the framework** — renderers (table · document · deck) and authored deliverables (`brief`, `interview`); they land in the instance's `export-files/` | *after* the content exists — on a delivery request | [`outputs/README.md`](outputs/README.md) |
 

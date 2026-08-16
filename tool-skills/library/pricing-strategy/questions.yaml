@@ -1,0 +1,28 @@
+# pricing-strategy — value-based pricing & packaging (intake)
+tool: pricing-strategy
+produces: pricing
+questions:
+  - id: value_metric
+    ask: "What should we meter on so the price rises with the value the customer gets (seats / workspaces / active users / usage)?"
+    type: free_text
+    why: "A value metric misaligned with value caps growth or punishes success."
+  - id: packaging
+    ask: "What tiers/packages, for which segments, and what fence makes each segment self-select its tier?"
+    type: per_item
+    why: "One price fits no one; fences let one product serve several WTP levels."
+  - id: alternative_anchor
+    ask: "For each segment, what is the next-best alternative (rival / substitute / do-nothing) and what would they pay or spend on it?"
+    type: per_item
+    why: "Value-based price is anchored to the alternative, not to our cost."
+  - id: wtp
+    ask: "What willingness-to-pay evidence do we have — van Westendorp bands, direct WTP answers, or pilot price-talk? Per segment; [assumption] is fine at Step 3."
+    type: free_text
+    why: "A price with no WTP evidence is a guess dressed as a fact."
+  - id: price_points
+    ask: "Proposed price points and model per tier (subscription / usage / hybrid / one-off)?"
+    type: per_item
+    why: "Step 4's margin check and projection need concrete numbers to firm up."
+  - id: trial
+    ask: "How does a free/trial entry convert to the first paid action?"
+    type: free_text
+    why: "Trial mechanics decide whether interest becomes revenue."

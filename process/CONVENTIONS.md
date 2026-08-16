@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.22.0
+version: 0.22.1
 updated: 2026-08-16
 ---
 
@@ -106,7 +106,7 @@ worklog; every one of its markers points at it (e.g. `competitor-analysis` fills
 projected from `2-analysis/competitor-analysis.md`).
 
 **Several methods → one section: the first is primary.** When a section's marker lists more than one
-tool (`<!-- tool: where-to-play-how-to-win, value-definition -->`), the **first** tool is the section's
+tool (`<!-- tool: where-to-play-how-to-win, value-definition-strategy -->`), the **first** tool is the section's
 **primary**: its worklog `<step-folder>/<first-tool>.md` backs the section, carries the id-thread, and
 is what the section projects from. The others are **contributing methods** — their working for *this*
 section lands in the primary's worklog, not a file of their own (a contributing method still owns its

@@ -77,9 +77,9 @@ column.
 | `source` | where it surfaced |
 
 Carried risks are **ranked by likelihood × impact** on the 5/3/1 tiers — the numeric backing is
-what makes the product a real ordering rather than a pile of "high"s. The scale and the pre-mortem
-that feeds it are owned by
-[`risk-mitigation`](../tool-skills/library/risk-mitigation/SKILL.md).
+what makes the product a real ordering rather than a pile of "high"s. The scale and the pre-mortem that feeds it are owned by
+[`pre-mortem`](../tool-skills/library/pre-mortem/SKILL.md) (Step 3); the mitigation/owner/trigger
+lifecycle by [`risk-mitigation`](../tool-skills/library/risk-mitigation/SKILL.md) (Step 4).
 
 ## Metric register (`metric-tree.md` + `metrics.csv`)
 

@@ -4,8 +4,8 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.2.3
-updated: 2026-07-21
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 <!--
@@ -42,7 +42,7 @@ _Segments / markets / arena chosen — and what's explicitly excluded._
 | … | … | … | [assumption] |
 
 ## How to win {#how-to-win}
-<!-- tool: where-to-play-how-to-win, value-definition -->
+<!-- tool: where-to-play-how-to-win, value-definition-strategy -->
 _The winning logic + which moats we leverage._
 
 - Winning logic: …  [assumption]
@@ -57,7 +57,7 @@ _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], be
 | … | … | … | … | … | [assumption] |
 
 ## Pricing & Packaging {#pricing}
-<!-- tool: pricing -->
+<!-- tool: pricing-strategy -->
 _What we charge and how we package it — anchored to value vs the alternative. Quantified at Step 4._
 
 - **Value metric:** … (what we meter on, and why it scales with value) [assumption]
@@ -93,7 +93,7 @@ _System architecture at C4 **Context** level (product, its users, external syste
 - Context sketch: …  (product · users · external systems)  [assumption]
 
 ## Bets {#bets}
-<!-- tool: jtbd, value-definition -->
+<!-- tool: bets, value-definition-strategy -->
 _The strategic hypotheses we're wagering on (framed on the customer's job + forces)._
 
 | ID <!--c:id--> | Bet <!--c:bet--> | Type <!--c:type--> | Job / circumstance <!--c:job--> | Why it wins (pull > anxiety + habit) <!--c:whywins--> | Outcome it moves <!--c:outcome--> | Confidence <!--c:conf--> |
@@ -101,7 +101,7 @@ _The strategic hypotheses we're wagering on (framed on the customer's job + forc
 | H-… | … | desirability / viability / … | … | … | … | [assumption] |
 
 ## Product risks {#product-risks}
-<!-- tool: risk-mitigation -->
+<!-- tool: pre-mortem -->
 _Risks specific to this strategy (mitigations owned at Step 4)._
 
 | ID <!--c:id--> | Risk <!--c:risk--> | Category <!--c:category--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Confidence <!--c:conf--> |

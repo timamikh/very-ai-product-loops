@@ -4,8 +4,8 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.3.1
-updated: 2026-08-08
+version: 0.3.2
+updated: 2026-08-16
 ---
 
 <!--
@@ -29,7 +29,7 @@ updated: 2026-08-08
 > The shell is for structure and stable IDs only.
 
 ## Architecture & instrumentation {#architecture-instrumentation}
-<!-- tool: architecture-c4, product-surface -->
+<!-- tool: instrumentation-plan -->
 _Refined C4 architecture + instrumentation from Step 3 — where metric data comes from, and what drives infra cost._
 
 | Surface / component <!--c:surface--> | Instrumentation (instrumented / proxy / not) <!--c:instrumentation--> | Data it produces <!--c:data--> | Infra cost driver <!--c:cost--> | Confidence <!--c:conf--> |
@@ -100,7 +100,7 @@ _Each key risk → an owned mitigation (pre-mortem)._
 | R-… | … | H/M/L | H/M/L | … | … | … | … | open / mitigating |
 
 ## Global hypotheses {#global-hypotheses}
-<!-- tool: hypothesis-test-design -->
+<!-- tool: hypothesis-thresholds -->
 _Strategy bets, now quantified & tied to metric nodes (threshold set here; test design at Step 5)._
 
 | `H-…` <!--c:register--> | Bet <!--c:bet--> | Metric node (`M-…`) <!--c:node--> | Success threshold <!--c:success--> | Failure threshold <!--c:failure--> | Confidence <!--c:conf--> |

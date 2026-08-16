@@ -392,6 +392,83 @@ def check_worklogs(inst):
                  "never the artifact (see source-intake)" % (name, stem))
 
 
+QUESTION_TYPES = {"free_text", "text", "list", "per_item", "single_select", "multi_select"}
+
+
+def check_questions(tools):
+    """Q — questions.yaml is machine-readable: every question `type` is from the shared vocabulary.
+
+    Donated skills arrived with `type: single_select_from: x` — a second `:` inside a plain scalar,
+    which is invalid YAML — and the interview silently died at run time. A check costs nothing;
+    unifying the vocabulary itself stays a method decision (this only holds the fence).
+    """
+    for name, t in sorted(tools.items()):
+        q = os.path.join(t["dir"], "questions.yaml")
+        if not os.path.exists(q):
+            continue
+        for i, line in enumerate(read(q).splitlines(), 1):
+            m = re.match(r"\s*type:\s*([^#]+?)\s*(#.*)?$", line)
+            if not m:
+                continue
+            val = m.group(1).strip()
+            if ":" in val:
+                err("Q [%s] questions.yaml:%d `type: %s` — a second `:` in a plain scalar is invalid "
+                    "YAML; spell it `type: single_select` + `from: <question-id>` (or `options: [...]`)"
+                    % (name, i, val))
+            elif val not in QUESTION_TYPES:
+                err("Q [%s] questions.yaml:%d unknown question type `%s` (allowed: %s)"
+                    % (name, i, val, ", ".join(sorted(QUESTION_TYPES))))
+
+
+def check_single_step(tools):
+    """U — a library method serves exactly one step.
+
+    A skill that did different operations on different steps (build the tree at 4, pick the period
+    targets at 5) was two methods wearing one name; the 2026-08 rework cut every such skill apart.
+    This keeps the seam from growing back: the same operation revisited at another step is a
+    separate `<name>-<step>` skill, a different operation is a differently named one (EXTENDING.md).
+    """
+    for name, t in sorted(tools.items()):
+        steps = T.as_list(t["fm"].get("used_by_steps"))
+        if len(steps) != 1:
+            err("U [%s] used_by_steps %s — a library method serves exactly one step; a second step "
+                "is a second skill (see EXTENDING.md)" % (name, steps))
+
+
+def check_status_tools(tools):
+    """V — a status may only recommend a tool that has a home at that step.
+
+    For a library method that means a `<!-- tool: ... -->` marker in that step's template. A
+    recommendation with no section to land in forces the agent to invent one or stall (the
+    segment-cvp failure: three statuses recommended it at steps 1 and 3, its section lived at 5).
+    """
+    step_tools = {}
+    for tpl in glob.glob(os.path.join(ROOT, "steps", "[1-6]-*", "template.md")):
+        n = os.path.basename(os.path.dirname(tpl))[0]
+        names = set()
+        for m in TOOL_MARK_RE.findall(read(tpl)):
+            names.update(x.strip() for x in m.split(","))
+        step_tools[n] = names
+    other = {}
+    for plane, fname in (("operations", "SKILL.md"), ("outputs", "SKILL.md"), ("outputs", "ADAPTER.md")):
+        for p in glob.glob(os.path.join(ROOT, "tool-skills", plane, "*", fname)):
+            other[os.path.basename(os.path.dirname(p))] = plane
+    for st in F.statuses(ROOT):
+        for step, block in sorted(st["per_step"].items()):
+            for tool in T.as_list((block or {}).get("tools")):
+                if tool in tools:
+                    if tool not in step_tools.get(step, set()):
+                        err("V [%s] step %s recommends `%s` but steps/%s-*/template.md has no "
+                            "`<!-- tool: %s -->` marker — a recommendation with no home section"
+                            % (st["name"], step, tool, step, tool))
+                elif tool in other:
+                    warn("V [%s] step %s recommends `%s` — an %s skill in a library tools list; "
+                         "it fills no artifact section" % (st["name"], step, tool, other[tool]))
+                else:
+                    err("V [%s] step %s recommends unknown tool `%s` — no such skill folder"
+                        % (st["name"], step, tool))
+
+
 def check_register_tables(inst):
     """J — a register's table is one table, not one split by a stray blank line.
 
@@ -759,6 +836,9 @@ def main(argv=()):
 
     check_tools(tools, homed)
     check_quality(tools)
+    check_questions(tools)
+    check_single_step(tools)
+    check_status_tools(tools)
     check_operations()
     check_subagent_defs()
     check_column_keys()

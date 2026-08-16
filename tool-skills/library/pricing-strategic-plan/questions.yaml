@@ -1,0 +1,20 @@
+# pricing-strategic-plan — interview
+tool: pricing-strategic-plan
+produces: [pricing]
+questions:
+  - id: usage_per_tier
+    ask: "For each tier — what does a typical account's usage cost in inference (and other usage-scaling COGS)? (from unit-economics; ⚙️ agent pulls the COGS lines)"
+    type: per_item
+    why: "A flat price over a usage-scaling cost is where margins silently invert."
+  - id: free_tier_burn
+    ask: "What does the free tier burn per month at current volume, and what does it convert at?"
+    type: free_text
+    why: "Free-tier burn is a COGS line, not marketing dust — the paid margin must fund it."
+  - id: verdict
+    ask: "Does the Step-3 pricing decision hold against these margins?"
+    type: single_select
+    options: [holds, propose-change]
+  - id: proposed_change
+    ask: "If it doesn't hold — what change do you propose to 3-strategy.md#pricing (new price point / moved fence / usage cap / re-metered value metric), and why does the margin force it?"
+    type: free_text
+    why: "The price is decided at Step 3; a failed margin check proposes a change there (⚙️, re-confirmation), it never re-decides here."
