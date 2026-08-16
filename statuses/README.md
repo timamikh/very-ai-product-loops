@@ -2,8 +2,8 @@
 node_type: statuses-index
 title: Statuses — product-stage plane
 status: draft
-version: 0.3.0
-updated: 2026-07-19
+version: 0.4.0
+updated: 2026-08-16
 ---
 
 # Statuses
@@ -79,6 +79,12 @@ per_step:
 ```
 Body: a description. Directions default to `development · go-to-market ·
 back-office` but are an instance config; use whichever the product has.
+
+Two rules the linter holds `tools:` lists to (check V): a list holds **library methods only** —
+*how the data is gathered* (interviews, metrics pulls) is named in the step's goals prose, not in
+the list — and every listed tool must have a `<!-- tool: … -->` home in that step's template.
+Contributing methods with no section of their own (e.g. `pricing-strategic-plan`) are invoked by
+the step README and are never listed.
 
 ## Add or change a status
 

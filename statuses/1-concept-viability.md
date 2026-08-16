@@ -23,12 +23,12 @@ per_step:
       - Choose ONE beachhead arena to win first (resist "for everyone")
       - State how-to-win as a testable positioning bet, not a finished position
       - Formulate the CVP per situation for the lead segment so the bet is concrete enough to test (bundles are composed at Step 5; WTP stays an open hypothesis, not a set price)
-    tools: [where-to-play-how-to-win, uvp-cpv, bets, value-definition-strategy]
+    tools: [where-to-play-how-to-win, uvp-cpv, bets, value-definition-strategy, product-surface, architecture-c4, pre-mortem]
   "4":  # Strategic Plan
     goals:
       - Keep the metric tree light — name the ONE activation/value metric that proves the concept works; defer the rest
       - Sketch unit economics with placeholders; treat willingness-to-pay and cost as explicit hypotheses, not facts (retention has no cohorts yet)
-      - Pre-mortem the 2–3 risks that would kill the concept
+      - Own mitigations for the 2–3 concept-killing risks (the pre-mortem itself runs at Step 3)
     tools: [metric-tree, unit-economics, risk-mitigation, hypothesis-thresholds, instrumentation-plan]
   "5":  # Tactical Plan
     goals:
@@ -43,7 +43,7 @@ per_step:
       - Keep the delivery lightweight — optimize for cycle speed with a small team
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
 status: draft
-version: 0.5.0
+version: 0.6.0
 updated: 2026-08-16
 ---
 

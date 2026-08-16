@@ -15,6 +15,24 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Statuses audited against the post-release skeleton
+
+- **growth catches up with the competitor recut**: its step-2 list gains `competitor-pricing` +
+  `competitor-dynamics` — the goal already said "track competitor dynamics from live data", the
+  tools didn't (the P1 sweep bumped the version and missed the list).
+- **`product-surface` + `architecture-c4` enter step 3 of all three statuses**: every status
+  recommended `instrumentation-plan` (step 4), which rests on `3#product-surface` and
+  `3#architecture` — the foundation was never staged. The methods scale with the stage themselves.
+- **concept-viability owns its risk chain**: `pre-mortem` added to step 3; the step-4 goal now
+  reads "own mitigations for the 2–3 concept-killing risks" (the pre-mortem itself runs at Step 3
+  — before, `risk-mitigation` was recommended with nothing upstream to mitigate).
+- **`ab-test` enters step 5 of pmf and growth** (not concept-viability — no traffic to split);
+  `segment-pains` enters growth step 1 (its goal watches for a segment/pain shift).
+- **Wording**: growth's "at the passport level" → the concept level; pmf/growth bodies name their
+  center of gravity (retention cohorts / guardrails) the way concept-viability already named the
+  hypothesis register; statuses README states the check-V rules for `tools:` lists (library
+  methods only, template home required, contributing methods never listed).
+
 ### Wide and quality — the P2 pass (content gaps, the PTW tail, orphan links)
 
 - **Question-type vocabulary unified**: `text` is gone — `free_text` everywhere
