@@ -35,6 +35,13 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   gaps seed execution `R-…` consumed by `risk-mitigation` in the same step. The
   `where-to-play-how-to-win` "land in later steps" promise now names its heir. In `pmf`/`growth`
   step-4 tool lists; kept out of `concept-viability` (that status defers step-4 depth by design).
+- **The target ladder gets its top — `strategic-targets`** (new, Step 4, library 43 → 44): three
+  target objects, three owners — `metric-tree` defines a node, `{#strategic-targets}` commits its
+  horizon value (3–5 nodes, values read off a named `financial-model` scenario, horizon date from
+  `3#winning-aspiration`, decision-attributed, untargeted nodes kept with why), Step-5
+  `goal-targets` sets the period value as a step toward it (`4#strategic-targets` rests-on; a
+  period in which no horizon target moves is drift). No double-write: a projection is a
+  computation, a target is a commitment.
 - **Orphan links closed**: `2#competitor-dynamics` gains its consumer (`where-to-play-how-to-win`
   prerequisites + `3#how-to-win` rests-on); Step-6 activities link the `B-…` bundle they launch
   (`activity-spec`, `#must`/`#backlog`); the REGISTERS born-at table now matches reality

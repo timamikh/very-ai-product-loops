@@ -4,7 +4,7 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — <Product> · <period>"
 status: template
-version: 0.3.1
+version: 0.3.2
 updated: 2026-08-16
 ---
 
@@ -39,8 +39,10 @@ _Measurable goals for the period, grouped by direction._
 
 ## Goal targets {#goal-targets}
 <!-- tool: goal-targets -->
-<!-- rests-on: 4#metric-tree -->
-_What each goal maps to: go-to-market → a metric node (`M-…`); technical & back-office → a Definition of Done._
+<!-- rests-on: 4#metric-tree, 4#strategic-targets -->
+_What each goal maps to: go-to-market → a metric node (`M-…`); technical & back-office → a Definition
+of Done. Each target is a step toward `4#strategic-targets` — a period in which no horizon target
+moves is drift._
 
 | Goal <!--c:goal--> | Direction <!--c:direction--> | Target: `M-…` or DoD <!--c:target--> | Baseline → target <!--c:baseline--> | Confidence <!--c:conf--> |
 |------|-----------|----------------------|-------------------|------------|

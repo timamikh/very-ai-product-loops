@@ -2,7 +2,7 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.7.0
+version: 0.8.0
 updated: 2026-08-16
 ---
 
@@ -176,6 +176,7 @@ don't turn a tool into a literature review.
 | `retention-analysis` | Cohort retention curve + engagement loop | Flattening cohort curve as PMF signal; retention by cohort/frequency; real churn input to LTV, not an assumed % | 4 | draft |
 | `unit-economics` | CAC/LTV/payback/contribution | Contribution margin; LLM inference as explicit COGS; dual basis (operational/honest own-compute) | 4 | draft |
 | `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
+| `strategic-targets` | Horizon commitments on key nodes | Values read off the projection (scenario named), 3–5 nodes, decision-attributed; the top of the target ladder | 4 | draft |
 | `capabilities-systems` | Must-have capabilities + management systems | Playing to Win (Lafley/Martin) choices 4–5; have/partial/missing honesty, gaps seed execution `R-…` | 4 | draft |
 | `risk-mitigation` | Carried risks → owned mitigations | Risk lifecycle: mitigation · owner · trigger · status; register upsert | 4 | draft |
 | `hypothesis-thresholds` | Quantify strategy bets | Assumption mapping (Bland/Osterwalder) — success & failure thresholds on existing `M-…` nodes | 4 | draft |

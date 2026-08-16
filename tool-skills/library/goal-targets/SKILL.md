@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
+version: 0.2.0
 updated: 2026-08-16
 ---
 
@@ -59,8 +59,10 @@ DoD** instead — done or not, no percentages of done.
    reasoning is a wish; record the reasoning so a miss can be diagnosed (wrong size vs wrong work).
 5. **Give technical & back-office goals a binary DoD.** Done / not done, checkable at period end —
    no "80% migrated" unless the percentage itself is the defined outcome.
-6. **Trace every target to the period gate.** Each target states how hitting it moves the gate. A
-   target that doesn't serve the gate belongs to another period.
+6. **Trace every target to the period gate — and up the ladder.** Each target states how hitting
+   it moves the gate, and which `4#strategic-targets` commitment it is a step toward. A target that
+   doesn't serve the gate belongs to another period; a period in which no horizon target moves is
+   drift — flag it, don't pad a target to hide it.
 
 ## Anti-patterns
 - **Invented baseline.** A "current value" that exists nowhere in `metrics.csv` — the target's size

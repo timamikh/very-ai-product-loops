@@ -5,9 +5,9 @@ name: strategic-plan
 title: "Step 4 — Strategic Plan"
 output: 4-strategic-plan.md
 cadence: "~3–12 mo; with strategy / on a financial or metric shift"
-method_basis: "Instrumentation mapping · North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · pricing margin revisit · capabilities & management systems (PTW choices 4–5) · risk mitigation (owner · trigger · due) · hypothesis thresholds"
+method_basis: "Instrumentation mapping · North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · horizon targets off the projection · pricing margin revisit · capabilities & management systems (PTW choices 4–5) · risk mitigation (owner · trigger · due) · hypothesis thresholds"
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 
@@ -36,6 +36,7 @@ against a working model.
 | `retention` | Cohort retention curve + engagement loop — the real churn/retention input to LTV (where usage history exists) | `retention-analysis` |
 | `unit-economics` | CAC / LTV / payback / contribution — incl. LLM inference COGS | `unit-economics` |
 | `financial-model` | A simple projection tied to the metric tree | `financial-model` |
+| `strategic-targets` | Horizon commitments: 3–5 nodes × value at the horizon date, read off the projection; the top of the target ladder Step-5 `goal-targets` climbs | `strategic-targets` |
 | `capabilities` | Must-have capabilities behind the winning logic + the management system per capability (PTW choices 4–5); gaps seed `R-…` | `capabilities-systems` |
 | `risk-mitigation` | Each key risk → an owned mitigation (pre-mortem) | `risk-mitigation` |
 | `global-hypotheses` | Strategy bets, now quantified & tied to metric nodes (thresholds set here; test design at Step 5 via `hypothesis-test-design`) | `hypothesis-thresholds` |
@@ -62,6 +63,7 @@ and free-tier burn; the verdict is "holds" (logged) or a ⚙️ proposed change 
 - [ ] retention read by cohort where usage history exists (curve shape; churn input to LTV, not an assumed %) → `strategic-plan#retention` → metric register
 - [ ] unit economics computed, LLM inference as an explicit COGS line → `strategic-plan#unit-economics`
 - [ ] a projection ties to the metric tree → `strategic-plan#financial-model`
+- [ ] horizon targets committed on 3–5 nodes, each read off a named scenario, decision-attributed → `strategic-plan#strategic-targets`
 - [ ] every winning-logic element has a capability behind it; each gap has a close and an `R-…` → `strategic-plan#capabilities` → risk register
 - [ ] each key risk has an owned mitigation → `strategic-plan#risk-mitigation` → risk register
 - [ ] bets are quantified and linked to metric nodes → `strategic-plan#global-hypotheses`

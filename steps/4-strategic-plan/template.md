@@ -4,7 +4,7 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 
@@ -94,6 +94,21 @@ _A simple projection tied to the metric-tree drivers; churn as a scenario axis; 
 
 - Capacity ceiling: … (what caps growth, and when it binds)
 - Scenarios: base / optimistic / conservative — key deltas …
+
+## Strategic targets {#strategic-targets}
+<!-- tool: strategic-targets -->
+<!-- rests-on: 3#winning-aspiration -->
+_Horizon commitments: 3–5 nodes × the value each must reach by the horizon date, read off the
+projection (scenario named). `metric-tree` defines the node, this section commits its horizon
+value, Step-5 `goal-targets` sets the period value — three values, three owners._
+
+**Horizon:** <date> (from `3#winning-aspiration`)
+
+| Node (`M-…`) <!--c:node--> | Target at horizon <!--c:target--> | From scenario <!--c:scenario--> | Why this node <!--c:why--> | Confidence <!--c:conf--> |
+|--------------|-------------------|---------------|---------------|------------|
+| M-… | … | base / conservative / optimistic | … | [assumption] |
+
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** … · ⚙️ while unconfirmed
 
 ## Capabilities & systems {#capabilities}
 <!-- tool: capabilities-systems -->

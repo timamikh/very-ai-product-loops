@@ -1,0 +1,21 @@
+# strategic-targets — interview
+tool: strategic-targets
+produces: strategic-targets
+questions:
+  - id: horizon
+    ask: "What is the strategy horizon date? (⚙️ agent reads it from 3#winning-aspiration — if the aspiration has no 'by when', that gap goes upstream, not invented here)"
+    type: free_text
+    why: "A commitment without a date cannot be missed."
+  - id: nodes
+    ask: "Which 3–5 metric nodes carry the horizon commitment? (⚙️ agent proposes the North Star + the drivers the winning logic leans on)"
+    type: list
+    max: 5
+    why: "More than 5 is a dashboard, not commitments — when everything is promised, no miss is visible."
+  - id: targets
+    ask: "For each node — the value at the horizon, and which projection scenario produces it (base / conservative / optimistic)?"
+    type: per_item
+    why: "A target no scenario produces is a wish: fix the model or lower the target."
+  - id: untargeted
+    ask: "Which nodes were considered and deliberately left untargeted — and why?"
+    type: list
+    why: "Untargeted ≠ forgotten; unnamed, they get re-proposed every re-forecast."
