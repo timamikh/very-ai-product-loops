@@ -2,7 +2,7 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 
@@ -44,6 +44,89 @@ category's index.**
 
 The human may always call any skill directly or override the recommendation — discovery is a
 default, not a gate.
+
+## Reference — every skill at a glance
+
+A hand-maintained **projection** of each skill's `SKILL.md` frontmatter and the statuses'
+`per_step` lists — those stay the owners; if a row disagrees with a frontmatter, the frontmatter
+is right and the row is a bug. Deeper columns (method basis, quality declaration) live in
+[`library/README.md`](library/README.md)'s index.
+
+Legend — **Input** (the `inputs:` slots the agent draws on): `interview` = answers to the skill's
+`questions.yaml`, `kb` = existing artifacts & dispatched sources, `research` = its own scoped
+desk-research pass, `metrics` = register readings, `git` = repo access. **Registers**: H =
+hypotheses · R = risks · M = metrics/metric-tree, written `reads → writes`. **Statuses** that
+recommend the skill at its step: CV = concept-viability · PMF = pmf · G = growth; `—` = deliberately
+recommended by none (reason in the row).
+
+### `library/` — methods, by step
+
+| Skill | Step | Statuses | Goal | Input | Output | Registers |
+|-------|------|----------|------|-------|--------|-----------|
+| `concept-formation` | 1 | CV | Shape a raw idea into a concept | interview · kb | `1#idea` | → H |
+| `jtbd-concept` | 1 | CV | Frame the job: statement, forces, desired outcomes | interview · kb | `1#jtbd` | H → H |
+| `segmentation` | 1 | CV·PMF·G | Cut the market on candidate bases, pick priority segments | interview · kb · metrics | `1#segments` | → H |
+| `segment-pains` | 1 | CV·PMF·G | Surface ≥5 pains in the job, rank by severity × frequency | interview · metrics · kb | `1#problems` | → H |
+| `cjm-concept` | 1 | — (optional lens) | Journey map through the concept lens | interview · research | `1#cjm` | H → H |
+| `concept-expansion` | 1 | CV | Map every ranked problem to a solution mechanism, cut orphan features | interview · kb | `1#solution` | → H |
+| `value-definition-concept` | 1 | CV·PMF·G | Base moats & the defensibility bet | interview · kb | `1#value-defensibility` | → H |
+| `market-sizing` | 2 | CV·PMF·G | TAM/SAM/SOM bottom-up with named assumptions | research · kb | `2#market-sizing` | → H |
+| `competitor-analysis` | 2 | CV·PMF·G | ≥5 named players & the game each plays | research · kb · interview | `2#competitors` · `2#competitor-strategy` | → R, H |
+| `competitor-pricing` | 2 | CV·PMF·G | Dated per-player pricing scan | research · kb | `2#competitor-pricing` | — |
+| `competitor-dynamics` | 2 | CV·PMF·G | Trend per player over time (filings, registries) | research · kb | `2#competitor-dynamics` | → R |
+| `substitutes` | 2 | CV·PMF·G | Non-obvious competition incl. do-nothing / manual / self-build | interview · kb · research | `2#substitutes` | → R |
+| `where-to-play-how-to-win` | 3 | CV·PMF·G | The strategy cascade: aspiration · arena · winning logic | kb · interview | `3#winning-aspiration` · `3#where-to-play` · `3#how-to-win` | H → H |
+| `uvp-cpv` | 3 | CV·PMF·G | Value proposition & perceived value per situation | interview · kb | `3#uvp-cpv` | → H |
+| `pricing-strategy` | 3 | PMF·G | Value-based pricing model & packaging — the one place price is decided | interview · kb · research | `3#pricing` | H → H |
+| `channels-expansion` | 3 | PMF·G | Bullseye channels, GTM motion, expansion path | interview · kb · research | `3#channels-expansion` | → H, R |
+| `product-surface` | 3 | CV·PMF·G | Interaction surfaces + instrumentation sketch | interview · kb · git | `3#product-surface` | — |
+| `architecture-c4` | 3 | CV·PMF·G | System architecture (C4 Context) | interview · kb · git | `3#architecture` | → R |
+| `bets` | 3 | CV·PMF | 3–7 strategy bets seeded as typed hypotheses | interview · kb | `3#bets` | H → H |
+| `value-definition-strategy` | 3 | CV·PMF·G | Moat revisit: derivative moats & trajectory | interview · kb | `3#value-defensibility` | H → H |
+| `cjm-strategy` | 3 | — (optional lens) | Journey re-walk against the chosen strategy | interview · research | `3#cjm` | H, R → H, R |
+| `pre-mortem` | 3 | CV·PMF·G | ≥8 named failure modes, triaged into risks | interview · kb | `3#product-risks` | R → R |
+| `metric-tree` | 4 | CV·PMF·G | North Star → drivers → inputs; defines the nodes | metrics · kb | `4#metric-tree` | M, H → M |
+| `financial-model` | 4 | PMF·G | Named-scenario projection computed off the tree | metrics | `4#financial-model` | M, H, R → M |
+| `strategic-targets` | 4 | PMF·G | Commit horizon values on 3–5 nodes (read off a scenario) | interview · kb | `4#strategic-targets` | M → |
+| `unit-economics` | 4 | CV·PMF·G | Does one customer pay for themselves | metrics | `4#unit-economics` | M, H → M |
+| `retention-analysis` | 4 | PMF·G | Cohort retention read | metrics · kb | `4#retention` | M, H → H, M |
+| `capabilities-systems` | 4 | PMF·G | PTW choices 4–5: capabilities behind how-to-win + their management systems | interview · kb | `4#capabilities` | R → R |
+| `risk-mitigation` | 4 | CV·PMF·G | Mitigation, owner and trigger per carried risk | interview · kb | `4#risk-mitigation` | R → R |
+| `hypothesis-thresholds` | 4 | CV·PMF·G | Kill/scale thresholds on the global hypotheses | metrics | `4#global-hypotheses` | H, M → H |
+| `instrumentation-plan` | 4 | CV·PMF·G | What to measure and how, before building | interview · kb · git | `4#architecture-instrumentation` | M → |
+| `pricing-strategic-plan` | 4 | — (revisit, no own section) | Margin-check the Step-3 price; outcome: holds, or ⚙️ change proposed on `3#pricing` | metrics · kb | worklog verdict → `3#pricing` re-confirmation | H, M → H |
+| `prioritization-tactical-plan` | 5 | CV·PMF·G | Rank every current candidate goal against the period gate | — | `5#period-goals` | M, H → |
+| `goal-targets` | 5 | CV·PMF·G | Period targets as a step toward the horizon commitment | metrics | `5#goal-targets` | M → |
+| `segment-cvp` | 5 | CV·PMF·G | Compose ≥8 segment×situation bundles, gate by the 6 filters | interview · kb · research | `5#market-bundles` | H → H |
+| `hypothesis-test-design` | 5 | CV·PMF·G | Smallest test per hypothesis with a pre-set decision rule | metrics | `5#hypotheses-to-test` | H, M → H |
+| `ab-test` | 5 | PMF·G | Controlled split test: design, power, read | metrics | `5#hypotheses-to-test` | H, M → H, M |
+| `experiment-readout` | 5 | CV·PMF·G | Verdict per finished test → signal + decision | metrics | `5#readouts` | H, M → H |
+| `resource-check` | 5 | CV·PMF·G | Honest capacity check that bounds the period | interview | `5#resources` | — |
+| `guardrails` | 5 | CV·PMF·G | Floors/ceilings so the goals don't break the base | interview · metrics | `5#guardrails` | M, R → R |
+| `prioritization-sprint-plan` | 6 | CV·PMF·G | Rank every current sprint item; must/backlog line by capacity | — | `6#must` · `6#backlog` · `6#excluded` | M, H → |
+| `feature-spec` | 6 | CV·PMF·G | Spec per development item | interview · kb | `6#must` · `6#backlog` | H, M → |
+| `activity-spec` | 6 | CV·PMF·G | Spec per go-to-market activity | interview · kb | `6#must` · `6#backlog` | H, M → |
+| `task-spec` | 6 | CV·PMF·G | Spec per back-office task | interview · kb | `6#must` · `6#backlog` | H, M, R → |
+
+### `operations/` — runtime skills, by trigger
+
+| Skill | When it runs | Goal | Output |
+|-------|--------------|------|--------|
+| `orchestration` | a pass splits across subagents | written briefs + acceptance passport; the orchestrator alone projects and writes state | worklogs via `loops-draft`; returns integrated |
+| `source-intake` | a raw file lands in `sources/` | dispatch it into the step worklog(s) it feeds, cite it there | routed citations + `sources/INDEX.md` entry |
+| `metrics-capture` | a number arrives | source → dated register row with population, window, derivation | `metrics-capture` worklog + M row |
+| `theses` | operating-loop step 7 (scope: step) · before a step change (scope: instance) | walk the human through the sections, record the sign-off | `confirmed:` / `contested:` markers |
+| `handoff` | session boundary | carry state and next-actions to the next session | `HANDOFF.md` |
+
+### `outputs/` — files that leave the framework, on a delivery request
+
+| Skill | What leaves |
+|-------|-------------|
+| `brief` | an authored brief compiled from the instance (`export-files/<slug>-brief.md`) |
+| `interview` | an interview guide for steps 1–2 primary research; the notes come back as a source |
+| `to-deck` | a self-contained HTML slide deck (+ PDF companion once approved) |
+| `to-document` | a compiled `.docx` — one-pager · full doc · report · status update |
+| `to-table` | CSV (or one multi-tab `.xlsx`) from a register or artifact section |
 
 ## Where a product's OWN skills live
 
