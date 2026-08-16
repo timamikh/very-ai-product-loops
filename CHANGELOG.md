@@ -15,6 +15,25 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Console S-signals — the main axes readable at a distance
+
+- **Dual ring per step** (overview cascade, step header, snapshot cover; the rail gets a second
+  navy bar): outer ring = gate items closed (green, process), inner = sections a human confirmed
+  (navy, semantics). The gap between the rings is the signal — a closed gate nobody signed, or
+  signed work whose gate was never ticked.
+- **Evidence heat strip** on every canvas card (and step-2 zone headers): the section's confidence
+  mix as one thin bar in the colours the `.conf` chips already taught — sourced/validated vs
+  assumption at a glance, counts on hover. Untagged section → no strip.
+- **Freshness**: a sign-off older than 60 days turns its `confirmed` tag amber with the age; a
+  metric KPI whose last reading is older than 90 days carries an age chip; a worklog whose
+  `updated` is later than its artifact's gets a "workings newer" chip on the card, the section row
+  and the reader — the projection may no longer say what the workings say.
+- **Snapshot cover**: the exported file opens on a title screen — product, status, current step,
+  the six steps as dual rings — so a stakeholder's first screen answers "where are we" before any
+  navigation. Renders only inside a snapshot; the live console keeps its chrome.
+- Pure render: no canon, no schema, no read-layer change; `instance.py` already carried every
+  value. Selftest green.
+
 ### Statuses audited against the post-release skeleton
 
 - **growth catches up with the competitor recut**: its step-2 list gains `competitor-pricing` +

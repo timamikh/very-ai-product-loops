@@ -136,6 +136,10 @@ h1 { font-size:22px; letter-spacing:-.02em; font-weight:700; line-height:1.2 }
 .rail .rp { height:3px; background:var(--grid); margin-top:7px; display:flex }
 .rail .rp i { display:block; height:100%; background:var(--brand) }
 .rail .rp i.dim { background:var(--line-2) }
+/* the second axis under the first: gate progress above (red), human sign-offs below (navy) */
+.rail .rp.rp2 { margin-top:2px }
+.rail .rp.rp2 i { background:var(--navy) }
+.rail .rp.rp2 i.dim { background:var(--line-2); opacity:.45 }
 .rail .here-dot { position:absolute }
 
 .tabs { display:flex; gap:0; padding:0 28px; flex-wrap:wrap; background:var(--paper);
@@ -209,6 +213,11 @@ hr { border:0; border-top:1px solid var(--line); margin:14px 0 }
 .tag.pending { color:var(--faint); border-style:dashed }
 .tag.contested { color:var(--err); border-color:currentColor; font-weight:600 }
 .tag.restwarn { color:var(--warn); border-color:currentColor; background:var(--warn-soft) }
+/* freshness: an old sign-off or reading is a question again — amber, after .confirmed so it wins */
+.tag.aged { color:var(--warn); border-color:currentColor; background:var(--warn-soft) }
+/* the worklog moved after the projection was written — the chistovik may no longer say what the
+   workings say (worklog = source of truth, artifact = projection) */
+.tag.wlnew { color:var(--warn); border-color:currentColor; background:var(--warn-soft) }
 /* Register gradations (the ordinal axis, distinct from the confirmation marker above). Colour by
    meaning on the house tokens, not by register: a live-but-held risk and an in-progress mitigation
    read amber; a fired risk reads red; a "go" decision reads green; a "back to discovery" decision
@@ -584,3 +593,30 @@ ul.cvex.cvlist > li::before { content:''; position:absolute; left:1px; top:8px; 
 .callout { border:1px solid var(--line); border-left:3px solid var(--ok); background:var(--ok-soft);
   border-radius:8px; padding:2px 16px }
 .callout .md { font-size:13px }
+
+/* ================================================================ S-signals
+   Dual ring — a step's two axes in one figure: outer = gate items closed (green, process), inner =
+   sections a human confirmed (navy, semantics). The gap between the rings is the signal. */
+.dringwrap { display:inline-flex; vertical-align:middle; flex-shrink:0 }
+.dring { display:block }
+/* Evidence heat strip — the section's confidence mix, in the same colours the .conf chips taught:
+   sourced brand-red · validated green · assumption amber · refuted deep red. Hover names the counts. */
+.evstrip { display:flex; height:3px; border-radius:2px; overflow:hidden; background:var(--grid); gap:1px;
+  flex-shrink:0 }
+.evstrip i { display:block; height:100% }
+.evstrip i.sourced { background:var(--brand) }
+.evstrip i.validated { background:var(--ok) }
+.evstrip i.assumption { background:var(--warn) }
+.evstrip i.refuted { background:var(--err) }
+/* the strip inside a zone header (step-2 boards) — a fixed short bar on the text line */
+.evstrip.inline { display:inline-flex; width:64px; vertical-align:middle; margin:0 3px }
+/* Snapshot cover — the exported file's title screen: identity, position, six dual rings. */
+.cover { background:var(--paper); border:1px solid var(--line); border-radius:10px;
+  padding:26px 28px 22px; margin-bottom:26px }
+.covername { font-size:38px; letter-spacing:-.035em; line-height:1.1; font-weight:700 }
+.coversub { font-family:var(--mono); font-size:11.5px; color:var(--muted); margin-top:8px }
+.coversteps { display:flex; gap:20px; flex-wrap:wrap; margin-top:20px }
+.coverstep { font:inherit; background:none; border:0; cursor:pointer; display:flex; align-items:center;
+  gap:8px; color:var(--muted); padding:0 }
+.coverstep:hover { color:var(--ink) }
+.coverstep .cl { font-size:11.5px; font-weight:600; white-space:nowrap }

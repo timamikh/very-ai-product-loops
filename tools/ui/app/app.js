@@ -102,6 +102,9 @@ const STR = {
     pendingTip: 'result not yet confirmed by a human', sectionsShort: 'sections',
     contested: 'returned', contestedTip: 'a human reviewed this and sent it back for rework',
     restsOn: 'foundation unconfirmed', restsTip: 'confirmed, but rests on sections not yet confirmed:',
+    daysAgo: 'days ago', daysOld: 'days old',
+    wlNewer: 'workings newer',
+    wlNewerTip: 'the worklog changed after the artifact was written — the projection may be stale',
     navBack: 'back', navFwd: 'forward', toTop: 'back to top',
     boardStrategy: 'Strategy canvas', boardStratPlan: 'Metrics & economics',
     boardTactical: 'Goals & guardrails', boardSprint: 'Sprint board',
@@ -190,6 +193,9 @@ const STR = {
     pendingTip: 'результат ещё не подтверждён человеком', sectionsShort: 'секций',
     contested: 'возвращён', contestedTip: 'человек посмотрел и вернул на доработку',
     restsOn: 'опора не подтверждена', restsTip: 'подтверждено, но опирается на неподтверждённые секции:',
+    daysAgo: 'дн. назад', daysOld: 'дн. давности',
+    wlNewer: 'расчёт новее',
+    wlNewerTip: 'worklog обновлён позже артефакта — проекция могла устареть',
     navBack: 'назад', navFwd: 'вперёд', toTop: 'наверх',
     boardStrategy: 'Канвас стратегии', boardStratPlan: 'Метрики и экономика',
     boardTactical: 'Цели и гардрейлы', boardSprint: 'Доска спринта',
@@ -488,10 +494,15 @@ const ridChips = ids => (ids || []).map(x => h('span', { class: 'tag ' + ridClas
    nothing — there is no result to confirm yet. Words, not a glyph, per the house rule. */
 const confTag = m => {
   if (!m || !m.present || m.open) return null;   // an open section (inbox) has no result to sign
-  if (m.confirmed)
-    return h('span', { class: 'tag confirmed',
-        title: t('confirmedOn') + ' ' + m.confirmed + (m.confirmed_by ? ' · ' + m.confirmed_by : '') },
+  if (m.confirmed) {
+    // an old sign-off is not wrong, but it is a question again — the tag turns amber past the threshold
+    const age = daysSince(m.confirmed);
+    const old = age !== null && age > STALE_SIGNED;
+    return h('span', { class: 'tag confirmed' + (old ? ' aged' : ''),
+        title: t('confirmedOn') + ' ' + m.confirmed + (m.confirmed_by ? ' · ' + m.confirmed_by : '')
+          + (old ? ` · ${age} ${t('daysAgo')}` : '') },
       t('confirmed') + ' ' + m.confirmed);
+  }
   if (m.contested)   // a human looked and sent it back — distinct from never-reviewed pending
     return h('span', { class: 'tag contested', title: t('contestedTip') }, t('contested'));
   return h('span', { class: 'tag pending', title: t('pendingTip') }, t('pending'));
@@ -508,6 +519,63 @@ const restTag = s => {
   return h('span', { class: 'tag restwarn', title: t('restsTip') + ' ' + s.rests_on_unconfirmed.join(', ') },
     t('restsOn'));
 };
+
+/* -- freshness. Age is read against the viewer's clock (also in a snapshot: "how stale is this NOW"
+   is the honest question a months-old export should answer). Only staleness is shown — a chip that is
+   always present is noise; the thresholds are deliberate round numbers, not tuned per instance. */
+const daysSince = iso => {
+  const d = Date.parse(String(iso || ''));
+  return isNaN(d) ? null : Math.floor((Date.now() - d) / 86400000);
+};
+const STALE_SIGNED = 60;    // a sign-off older than this is re-shown as a question, not a fact
+const STALE_READING = 90;   // a metric KPI whose last reading is older than this gets flagged
+/* The worklog is the source of truth and the artifact its projection (CONVENTIONS → Step folders &
+   worklogs) — so a worklog dated after the artifact means the projection may no longer say what the
+   workings say. Dates are the `updated` frontmatter both sides are obliged to keep. */
+function wlNewerTag(step, tool) {
+  const stem = step.artifact_file ? step.artifact_file.replace(/\.md$/, '') : '';
+  const wl = ((S.model.worklogs || {})[stem] || {})[tool];
+  if (!wl || !wl.updated || !step.artifact_updated || wl.updated <= step.artifact_updated) return null;
+  return h('span', { class: 'tag wlnew',
+    title: `${t('wlNewerTip')} (${wl.updated} > ${step.artifact_updated})` }, t('wlNewer'));
+}
+
+/* The step's two axes drawn as one figure: outer ring = gate items closed (the process axis), inner
+   ring = sections a human confirmed (the semantic axis). Health is the rings agreeing; the gap
+   between them is the signal — a closed gate nobody signed, or signed work with its gate unticked. */
+function dualRing(s, size) {
+  const gt = s.gate.length, gd = (s.gate_counts || {}).done || 0;
+  const cc = confCounts(s);
+  const R = size / 2, w = Math.max(2.4, size / 11);
+  const el = svg('svg', { viewBox: `0 0 ${size} ${size}`, width: size, height: size,
+    class: 'dring', role: 'img' });
+  [[R - w / 2 - 0.5, gt ? gd / gt : 0, 'var(--ok)'],
+   [R - w * 2 - 1.5, cc.total ? cc.done / cc.total : 0, 'var(--navy)']].forEach(([r, frac, color]) => {
+    el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: 'var(--grid)', 'stroke-width': w }));
+    if (frac > 0) {
+      const c = 2 * Math.PI * r;
+      el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: color, 'stroke-width': w,
+        'stroke-dasharray': `${(c * Math.min(1, frac)).toFixed(2)} ${c.toFixed(2)}`,
+        'stroke-linecap': frac < 1 ? 'round' : 'butt', transform: `rotate(-90 ${R} ${R})` }));
+    }
+  });
+  return h('span', { class: 'dringwrap',
+    title: `${t('gateClosed')} ${gd}/${gt} · ${t('confirmed')} ${cc.done}/${cc.total}` }, el);
+}
+
+/* The section's confidence mix as one thin strip — same classes and colours as the .conf chips, so
+   the strip reads with the vocabulary the chips already taught. Nothing tagged → no strip: an
+   untagged section has no evidence story to compress. */
+const EV_ORDER = ['sourced', 'validated', 'assumption', 'refuted'];
+function evStrip(conf, extra) {
+  const c = conf || {};
+  const total = EV_ORDER.reduce((a, k) => a + (c[k] || 0), 0);
+  if (!total) return null;
+  return h('div', { class: 'evstrip' + (extra ? ' ' + extra : ''),
+    title: EV_ORDER.filter(k => c[k]).map(k => `${k} ×${c[k]}`).join(' · ') },
+    EV_ORDER.filter(k => c[k]).map(k =>
+      h('i', { class: k, style: `width:${(c[k] / total * 100).toFixed(1)}%` })));
+}
 
 /* A section heading — an eyebrow number, a title, and one line of context on the right. Every block
  * on every tab wears one, so a page reads as a document with parts rather than a wall of cards. */
@@ -671,7 +739,8 @@ function viewOverview() {
       const written = s.sections.filter(x => x.present).length;
       const here = m.current_step === s.step;
       return h('tr', {},
-        h('td', { class: 'id' }, h('b', { style: here ? 'color:var(--brand-ink)' : null }, s.step)),
+        h('td', { class: 'id' }, h('b', { style: here ? 'color:var(--brand-ink)' : null }, s.step),
+          h('span', { style: 'margin-left:9px' }, dualRing(s, 24))),
         h('td', {}, h('div', { style: 'font-weight:650' }, shortTitle(s.title || s.name)),
           h('div', { class: 'tiny muted' }, s.cadence || '')),
         h('td', { class: 'id' }, s.artifact_file
@@ -702,6 +771,7 @@ function viewOverview() {
   }
 
   return h('div', {},
+    S.snapshot ? snapCover() : null,
     thesis,
     h('div', { class: 'grid cols-2' },
       sec(t('cascade'), { right: `${gateDone}/${gateAll} ${t('gateDone')}` }, cascade),
@@ -710,6 +780,26 @@ function viewOverview() {
         sec(t('instanceReading'), {}, health))),
     m.scope_note ? sec(t('scope'), {}, h('div', { class: 'panel md', html: md(m.scope_note) })) : null,
     sec(t('whatElse'), {}, table([t('file'), t('whatElseCol'), ''], elseRows)));
+}
+
+/* The exported file's title screen: who this is, where the cycle stands, and the six steps as dual
+   rings — so a stakeholder's first screen answers "where are we" before any navigation. Live console
+   viewers already have the chrome for that, so the cover renders only inside a snapshot. */
+function snapCover() {
+  const m = S.model;
+  return h('div', { class: 'cover' },
+    h('div', { class: 'kick' },
+      `very-ai-product-loops · ${t('snapshot')} · ${t('madeOn')} ${S.snapshot.generated}`),
+    h('h2', { class: 'covername' }, m.product),
+    h('p', { class: 'coversub' }, [
+      m.active_status ? `${t('status')} ${m.active_status}` : null,
+      m.current_step ? `${t('step')} ${m.current_step} ${t('of6')}` : t('noState'),
+    ].filter(Boolean).join(' · ')),
+    m.goal ? h('p', { class: 'lead', style: 'margin-top:9px' }, m.goal) : null,
+    h('div', { class: 'coversteps' }, m.steps.map(s => h('button', {
+      class: 'coverstep',
+      onclick: () => { S.tab = 'step'; S.step = s.step; render(); },
+    }, dualRing(s, 34), h('span', { class: 'cl' }, `${s.step} · ${shortTitle(s.title || s.name)}`)))));
 }
 
 function viewUmbrella() {
@@ -969,10 +1059,12 @@ function cvCard(s, id, opts) {
       h('span', { class: 'cvttl' }, meta.title || id),
       confTag(meta),
       tick ? tickTag(tick) : null),
+    live ? evStrip(meta.confidence) : null,
     face,
     live ? h('div', { class: 'cvfoot' },
       goSection(s.artifact_file, id, t('more'), meta.title || id),
-      wlTool ? goWorklog(stem, wlTool) : null, xpand) : null);
+      wlTool ? goWorklog(stem, wlTool) : null,
+      wlTool ? wlNewerTag(s, wlTool) : null, xpand) : null);
   if (live) {
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
@@ -1186,7 +1278,10 @@ function canvasAnalysis(s) {
     const a = id ? bodyOf(s, id) : null;
     const tool = a ? worklogTool(stem, a.body) : null;
     const meta = id ? s.sections.find(x => x.id === id) : null;
-    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta), tool ? goWorklog(stem, tool) : null), node);
+    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta),
+      meta ? evStrip(meta.confidence, 'inline') : null,
+      tool ? goWorklog(stem, tool) : null,
+      tool ? wlNewerTag(s, tool) : null), node);
   };
   push(t('dMarket'), marketBoard(s), 'market-sizing');
   push(t('dCompetitors'), competitorTable(s), 'competitors');
@@ -1222,6 +1317,7 @@ function viewStep() {
   const head = h('div', { class: 'sec' },
     h('div', { class: 'kick' }, `${t('step')} ${s.step} ${t('of6')} · ${s.cadence || ''}`),
     h('div', { class: 'titlerow' },
+      dualRing(s, 38),
       h('h2', { style: 'font-size:25px;letter-spacing:-.025em' }, shortTitle(s.title || s.name)),
       m.active_status ? h('span', { class: 'tag stagebadge', title: t('status') }, m.active_status) : null,
       asksHtml ? infoDot(asksHtml) : null),
@@ -1248,6 +1344,8 @@ function viewStep() {
           : h('span', { class: 'tag unknown' }, t('notWritten')),
         confTag(x),
         restTag(x),
+        x.present && body ? (tool => tool ? wlNewerTag(s, tool) : null)(
+          worklogTool(s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '', body.body)) : null,
         x.gaps ? h('span', { class: 'tag open' }, `${x.gaps} ${t('gaps')}`) : null,
         x.proposals ? h('span', { class: 'gear' }, `${t('proposalMark')} ×${x.proposals}`) : null,
         gate ? tickTag(gate.tick) : null,
@@ -1317,6 +1415,8 @@ function viewArtifacts() {
       confTag({ present: true, confirmed: section.confirmed, confirmed_by: section.confirmed_by,
         contested: section.contested, open: section.open }),
       restTag(section),
+      stepOf ? (tool => tool ? wlNewerTag(stepOf, tool) : null)(
+        worklogTool(art.file.replace(/\.md$/, ''), section.body)) : null,
       confChips(section.markers.confidence),
       section.markers.proposals ? h('span', { class: 'gear' },
         `${t('proposalMark')} ×${section.markers.proposals}`) : null,
@@ -1481,7 +1581,11 @@ function viewMetrics() {
         : h('div', { class: 'delta ' + (d > 0.5 ? 'up' : d < -0.5 ? 'down' : 'flat'), title: t('basisNote') },
           `${d > 0 ? '+' : ''}${d.toFixed(1)}% ${t('vsPrev')}`),
       h('div', { class: 'when' }, `${dateOf(last)}${variant(last) ? ' · ' + variant(last) : ''}`
-        + `${last.observed_n ? ` · n=${last.observed_n}` : ''}`));
+        + `${last.observed_n ? ` · n=${last.observed_n}` : ''}`),
+      // a reading this old steers nothing — the age rides the KPI so the staleness is read first
+      (age => age !== null && age > STALE_READING
+        ? h('div', { style: 'margin-top:6px' }, h('span', { class: 'tag aged' }, `${age} ${t('daysOld')}`))
+        : null)(daysSince(dateOf(last))));
   }));
 
   const charts = h('div', { class: 'charts' }, withReadings.map(id => {
@@ -1900,16 +2004,21 @@ function renderRail() {
     const c = s.gate_counts || {};
     const total = s.gate.length || 1;
     const done = c.done || 0;
+    const cc = confCounts(s);
     return h('button', {
       class: (S.tab === 'step' && S.step === s.step ? 'on ' : '') + (m.current_step === s.step ? 'here' : ''),
       onclick: () => { S.tab = 'step'; S.step = s.step; render(); },
-      title: `${s.title || s.name} — ${gateSummary(s)}`,
+      title: `${s.title || s.name} — ${gateSummary(s)} · ${t('confirmed')} ${cc.done}/${cc.total}`,
     },
       h('div', { class: 'rn' }, `${s.step}${m.current_step === s.step ? ' ·' : ''}`),
       h('div', { class: 'rt' }, shortTitle(s.title || s.name)),
       h('div', { class: 'rp' },
         h('i', { style: `width:${(done / total * 100).toFixed(1)}%` }),
-        h('i', { class: 'dim', style: `width:${((total - done) / total * 100).toFixed(1)}%` })));
+        h('i', { class: 'dim', style: `width:${((total - done) / total * 100).toFixed(1)}%` })),
+      // the second axis under the first: gate progress (red) above, human sign-offs (navy) below
+      cc.total ? h('div', { class: 'rp rp2' },
+        h('i', { style: `width:${(cc.done / cc.total * 100).toFixed(1)}%` }),
+        h('i', { class: 'dim', style: `width:${((cc.total - cc.done) / cc.total * 100).toFixed(1)}%` })) : null);
   }));
 }
 
