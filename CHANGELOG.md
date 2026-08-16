@@ -15,6 +15,35 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### One operation even within a step — P1 pass after the recut
+
+- **The rule extends** (EXTENDING, library gates): a second pass inside a step is a second skill,
+  and a skill filling several sections must be one operation across them. Library 39 → 42.
+- **`concept-formation` → + `concept-expansion`** (1): the concept one-liner is first thing; the
+  problem→solution mapping runs after `{#problems}`, with an orphan-feature reject table and
+  `type: feasibility` seeds. `{#solution}` re-homed.
+- **`competitor-analysis` recut along the original/imported seam**: keeps players + their game
+  (`{#competitors}`, `{#competitor-strategy}`); the dated pricing scan is **`competitor-pricing`**
+  (feeds `market-sizing`'s price anchor, Step-3 `pricing-strategy`, the Step-4 financial model);
+  the registry trend read is **`competitor-dynamics`**. The RU-specific interview question
+  (ОГРН/datanewton) is gone — the registry question is jurisdiction-neutral, regional pulls go
+  through adapters.
+- **Iteration notes for the honest cycles**: `1#jtbd` first pass runs on the `#idea` customer and
+  re-reads after `#segments`; `segmentation`'s moat ground is skipped ⚙️ until
+  `{#value-defensibility}` exists; `market-sizing`'s first-pass price is a named `[assumption]`
+  revisited after `{#competitor-pricing}`.
+- **`rests-on` rolled out**: 15 markers across steps 2–6 (was 2) — derived from skill
+  prerequisites, validated by check S; the console's foundation-unconfirmed signal and derivation
+  map now have a schema to read.
+- **One owner for the priority score**: defined in `hypothesis-test-design` §Scales (criteria
+  wording adopted from `segment-cvp`: pain acuteness · reachability · deliverability · evidence of
+  WTP · speed to a signal), operated at Step 5 by `segment-cvp`; REGISTERS points at both roles.
+- **Gate holes closed**: items for `2#hypotheses`, `2#to-clarify`, `3#to-clarify`.
+- **Status tools = library methods only**: `interview` left the `concept-viability` step-1 list
+  (its role stays in the goals prose); the rule is one phrase in OPERATING-LOOP step 2, and linter
+  check V now errors on an operations/outputs skill in a status list. The questions-vocabulary
+  check is re-lettered **Y** (its old letter collided with the confirmation-schema check Q).
+
 ### One skill, one step — the multi-step methods recut
 
 - **The rule** (EXTENDING → *Rules that hold for any change*, linter check U): a library method

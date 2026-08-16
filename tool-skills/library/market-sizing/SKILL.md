@@ -2,7 +2,7 @@
 name: market-sizing
 kind: research
 produces: market-sizing
-prerequisites: [arena/segment defined]
+prerequisites: [arena/segment defined, price input (assumption on first pass)]
 reads_registers: []
 writes_registers: [hypotheses]
 inputs: [research, kb]
@@ -14,8 +14,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.2
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-16
 ---
 
 # Market Sizing
@@ -35,6 +35,10 @@ answer. Every input is a **named assumption** traced to its source; sizing assum
 ## Prerequisites
 - **Arena / segment defined** — the specific market you're sizing (who, where, which job).
   *Missing → run `segmentation` / `where-to-play-how-to-win` first.*
+- **A price input** — bottom-up sizing is *units × price*. The observed anchor comes from
+  `{#competitor-pricing}` (`competitor-pricing`), which is filled later in this step; the first pass
+  carries an `[assumption]` price from Step-1 value work and the sizing is **revisited** once the
+  scan lands. *Neither available → the price is a named `[assumption]`, never an implied one.*
 
 ## How to do it
 1. **Build SAM bottom-up.** Estimate *units × price*: number of reachable customers/accounts in the

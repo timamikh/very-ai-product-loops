@@ -1,0 +1,12 @@
+# competitor-pricing — interview
+tool: competitor-pricing
+produces: competitor-pricing
+questions:
+  - id: pricing
+    ask: "For each detailed-table competitor — do you know their pricing, or should the agent scan sites/search for it?"
+    type: per_item
+    options: [i-provide, agent-scans, unknown]
+  - id: comparability
+    ask: "Which price should anchor our comparison (the plan closest to our intended packaging)?"
+    type: free_text
+    why: "A per-seat and a usage price are not commensurable; the anchor must be named."

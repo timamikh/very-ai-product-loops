@@ -33,7 +33,7 @@ copied blindly. Package with a **value metric** that scales with the value the c
 WTP questions, or observed pilot/price-talk behaviour — never guessed.
 
 > **Relation to neighbours (one mechanism, one way).**
-> - `competitor-analysis` captures **what others charge** (Step 2 `competitor-pricing` scan) —
+> - `competitor-pricing` captures **what others charge** (the Step-2 dated scan) —
 >   that is an *input* to this tool, not the decision.
 > - **`pricing-strategic-plan` (Step 4)** firms the price points up with WTP evidence and runs
 >   them through the margin: `unit-economics` checks whether the chosen price **survives**
@@ -53,7 +53,7 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
 - **Value proposition (`uvp-cpv`)** — price anchors to value vs an alternative. *Missing → run `uvp-cpv`.*
 - **Segments** — different segments have different WTP and fences. *Missing → run `segmentation`.*
 - **Competitor pricing scan** — the reference points customers compare against. *Missing → run
-  `competitor-analysis` (Step 2 `competitor-pricing`).*
+  `competitor-pricing` (Step 2).*
 
 ## How to do it
 1. **Pick the value metric.** What you meter on should rise with the value the customer receives

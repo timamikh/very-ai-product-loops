@@ -4,7 +4,7 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.3.2
+version: 0.3.3
 updated: 2026-08-16
 ---
 
@@ -30,6 +30,7 @@ updated: 2026-08-16
 
 ## Architecture & instrumentation {#architecture-instrumentation}
 <!-- tool: instrumentation-plan -->
+<!-- rests-on: 3#architecture, 3#product-surface -->
 _Refined C4 architecture + instrumentation from Step 3 — where metric data comes from, and what drives infra cost._
 
 | Surface / component <!--c:surface--> | Instrumentation (instrumented / proxy / not) <!--c:instrumentation--> | Data it produces <!--c:data--> | Infra cost driver <!--c:cost--> | Confidence <!--c:conf--> |
@@ -38,6 +39,7 @@ _Refined C4 architecture + instrumentation from Step 3 — where metric data com
 
 ## Metric tree {#metric-tree}
 <!-- tool: metric-tree -->
+<!-- rests-on: 3#how-to-win -->
 _North Star → drivers → input metrics. Node **definitions** live in `registers/metric-tree.md`,
 **values** in `registers/metrics.csv` — this section is the shape + rationale, not a value store._
 
@@ -68,6 +70,7 @@ observable yet._
 
 ## Unit economics {#unit-economics}
 <!-- tool: unit-economics -->
+<!-- rests-on: 3#pricing -->
 _Contribution margin; LLM inference as an explicit COGS line. The "honest" basis is **optional —
 own-compute (own-GPU) products only**; on third-party/API compute the bases collapse to one._
 
@@ -82,6 +85,7 @@ own-compute (own-GPU) products only**; on third-party/API compute the bases coll
 
 ## Financial model {#financial-model}
 <!-- tool: financial-model -->
+<!-- rests-on: 2#market-sizing, 3#pricing -->
 _A simple projection tied to the metric-tree drivers; churn as a scenario axis; capacity caps as a first-class ceiling._
 
 | Driver <!--c:driver--> | Base <!--c:base--> | Assumption <!--c:assumption--> | Confidence <!--c:conf--> |
@@ -93,6 +97,7 @@ _A simple projection tied to the metric-tree drivers; churn as a scenario axis; 
 
 ## Risk mitigation {#risk-mitigation}
 <!-- tool: risk-mitigation -->
+<!-- rests-on: 3#product-risks -->
 _Each key risk → an owned mitigation (pre-mortem)._
 
 | `R-…` <!--c:register--> | Risk <!--c:risk--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Mitigation <!--c:mitigation--> | Owner <!--c:owner--> | Trigger <!--c:trigger--> | Due <!--c:due--> | Status <!--c:status--> |
@@ -101,6 +106,7 @@ _Each key risk → an owned mitigation (pre-mortem)._
 
 ## Global hypotheses {#global-hypotheses}
 <!-- tool: hypothesis-thresholds -->
+<!-- rests-on: 3#bets -->
 _Strategy bets, now quantified & tied to metric nodes (threshold set here; test design at Step 5)._
 
 | `H-…` <!--c:register--> | Bet <!--c:bet--> | Metric node (`M-…`) <!--c:node--> | Success threshold <!--c:success--> | Failure threshold <!--c:failure--> | Confidence <!--c:conf--> |

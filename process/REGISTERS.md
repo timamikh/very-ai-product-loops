@@ -57,9 +57,11 @@ as `superseded` — not `refuted`; it was divided, not disproved. Risks follow t
 marker a human signs — see [`CONVENTIONS.md`](CONVENTIONS.md) *Gradation vs confirmation*. A
 **refuted** bet, or a `reject`/`research` decision, is a signal: it can trigger an upward revisit
 (see step cadence/invalidation). Which bets enter a test is a **priority score** (1/3/5 on pain
-acuteness · segment reach · product fit · pay potential · test speed) — a selection scale owned by
-[`hypothesis-test-design`](../tool-skills/library/hypothesis-test-design/SKILL.md), not a register
-column.
+acuteness · reachability · deliverability · evidence of willingness to pay · speed to a signal) — a
+selection scale **defined** by
+[`hypothesis-test-design`](../tool-skills/library/hypothesis-test-design/SKILL.md) §Scales and
+**operated** at Step 5 by [`segment-cvp`](../tool-skills/library/segment-cvp/SKILL.md), not a
+register column.
 
 ## Risk register (`risks.md`)
 

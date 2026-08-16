@@ -80,7 +80,7 @@ worth removing rather than routing.
 
 **2 · Route each fact to a tool, not a step.** Read the target step's artifact for its section markers
 (`<!-- tool: X -->`, and `<!-- synthesis -->` → `synthesis`). Map each fact in the source to the worklog
-whose method works from it: market figures → `market-sizing`, competitor prices → `competitor-analysis`,
+whose method works from it: market figures → `market-sizing`, competitor prices → `competitor-pricing`,
 a cross-cutting read → `synthesis`. A fact that maps to no declared tool goes to the human as a routing
 question; it does not conjure a new worklog.
 

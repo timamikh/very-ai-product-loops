@@ -4,7 +4,7 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — <Product> · <period>"
 status: template
-version: 0.3.0
+version: 0.3.1
 updated: 2026-08-16
 ---
 
@@ -28,6 +28,7 @@ updated: 2026-08-16
 
 ## Period goals {#period-goals}
 <!-- tool: prioritization-tactical-plan -->
+<!-- rests-on: 4#metric-tree -->
 _Measurable goals for the period, grouped by direction._
 
 | Direction <!--c:direction--> | Goal (measurable) <!--c:goal--> | Why now <!--c:why--> | Confidence <!--c:conf--> |
@@ -38,6 +39,7 @@ _Measurable goals for the period, grouped by direction._
 
 ## Goal targets {#goal-targets}
 <!-- tool: goal-targets -->
+<!-- rests-on: 4#metric-tree -->
 _What each goal maps to: go-to-market → a metric node (`M-…`); technical & back-office → a Definition of Done._
 
 | Goal <!--c:goal--> | Direction <!--c:direction--> | Target: `M-…` or DoD <!--c:target--> | Baseline → target <!--c:baseline--> | Confidence <!--c:conf--> |
@@ -47,6 +49,7 @@ _What each goal maps to: go-to-market → a metric node (`M-…`); technical & b
 
 ## Guardrails {#guardrails}
 <!-- tool: guardrails -->
+<!-- rests-on: 4#metric-tree -->
 _What must **not** drop while hitting the goals — protected metrics / red lines._
 
 | Guardrail (`M-…`) <!--c:guardrail--> | Must stay <!--c:muststay--> | Red line <!--c:redline--> | Why <!--c:why--> | Confidence <!--c:conf--> |
@@ -64,6 +67,7 @@ _Resources available this period (people, budget, time) — via survey._
 
 ## Market-entry bundles {#market-bundles}
 <!-- tool: segment-cvp -->
+<!-- rests-on: 1#segments, 3#uvp-cpv -->
 _Candidate go-to-market entries, gated on test-readiness (6 filters + three-things test).
 The top 3–5 by readiness score are staged; `prioritization-tactical-plan` decides whether they fit
 the period's capacity; `hypothesis-test-design` designs the chosen ones._
@@ -76,6 +80,7 @@ the period's capacity; `hypothesis-test-design` designs the chosen ones._
 
 ## Hypotheses to test {#hypotheses-to-test}
 <!-- tool: hypothesis-test-design, ab-test -->
+<!-- rests-on: 4#global-hypotheses -->
 _One row per `H-…` tested this period: a pre-registered read — metric · threshold · sample · decision rule fixed before running. A split-traffic read follows `ab-test`._
 
 | `H-…` <!--c:register--> | Metric node (`M-…`) <!--c:node--> | Success <!--c:success--> | Failure <!--c:failure--> | Sample / duration <!--c:sample--> | Decision rule <!--c:decision--> | Confidence <!--c:conf--> |

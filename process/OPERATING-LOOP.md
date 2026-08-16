@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.10.0
+version: 0.10.1
 updated: 2026-08-15
 ---
 
@@ -40,7 +40,9 @@ Offer the tools tied to that item, **filtered by step and status**:
   `concept-viability` step 1 pains come from *interviews + analytics search*, at `growth` from
   *internal product metrics*.
 - **Rule:** prefer the status's per-step tools when present; otherwise the step default. The
-  human may pick any tool.
+  human may pick any tool. A status's `tools:` list holds **library methods only** — *how the data
+  is gathered* (interviews, metrics pulls) is named in the status's goals prose, not the list
+  (linter check V).
 
 **3 · Check the tool's prerequisites — and size the pass.**
 Every tool declares a **prerequisites checklist** — the info / artifacts / access it needs.

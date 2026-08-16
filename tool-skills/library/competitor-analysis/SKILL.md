@@ -1,31 +1,33 @@
 ---
 name: competitor-analysis
 kind: method
-produces: [competitors, competitor-strategy, competitor-pricing, competitor-dynamics]
+produces: [competitors, competitor-strategy]
 reads_registers: []
 writes_registers: [risks, hypotheses]
 inputs: [research, kb, interview]
 prerequisites: [product-concept, competitor-list-seed]
 used_by_steps: [2]
 opinionated: false
-method_basis: "'What game are they playing' + moat comparison; pricing scan; growth-dynamics from public registries"
+method_basis: "'What game are they playing' + moat comparison (pricing scan and growth-dynamics are separate methods)"
 evidence_standard: external-sources
 volume_rule: "≥5 named players, including ≥1 the team did not name first (registry/search/app-store sweep)"
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.1.6
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-16
 ---
 
 # Competitor Analysis
 
 Map the competition and, crucially, **what game each competitor plays and how well it's
-working**. Fills `{#competitors}`, `{#competitor-strategy}`, `{#competitor-pricing}`, `{#competitor-dynamics}`.
+working**. Fills `{#competitors}` and `{#competitor-strategy}`. Two follow-on scans run over the
+same competitor list as separate methods: the dated pricing scan is
+[`competitor-pricing`](../competitor-pricing/SKILL.md), the development dynamics is
+[`competitor-dynamics`](../competitor-dynamics/SKILL.md).
 
 **Method basis.** For each competitor: the *game* they play (revenue / profit / market share /
-social capital — and how), compared against our moats; their **pricing**; and their **development
-dynamics** over time.
+social capital — and how), compared against our moats.
 
 ## When to apply
 - Step 2, after framing the market.
@@ -48,43 +50,32 @@ dynamics** over time.
    with no reason is indistinguishable from one nobody thought of.
 2. **Name each one's game** — are they chasing revenue, profit, share, or social capital, and by
    what strategy? Compare on the Step-1 moat axes (who has data / distribution / brand …).
-3. **Competitor pricing scan.** Capture each competitor's pricing where findable — the
-   competitor's own site, or a web search. Record the **date you read it**: published pricing is the
-   fastest-ageing fact in this table, and an undated price is a claim about an unknown month. This is an **input** to our own pricing
-   decision (the `pricing` tool at Step 3) and feeds the Step-4 financial model — it is not our
-   price. Tag `[sourced: …]`; if not public, `— to clarify —`.
-4. **Development dynamics.** Capture how each competitor is trending (revenue, headcount, filings)
-   to compare strategy effectiveness. These are **external claims about other companies**, which is
-   where sourcing goes wrong most often: judge each source *per fact type* — a company's own filing is
-   authoritative for its own revenue and worthless for a rival's share — stay out of the forbidden
-   zone, record `as_of`, and give any number that reaches a conclusion a second independent source
-   before you draw it. The rules are in
-   [`../references/evidence-standards.md`](../references/evidence-standards.md). Use public company registries, filings, and financial press
-   appropriate to the company's jurisdiction. Region-specific registry integrations (a national
-   business registry, a paid data provider) belong in a **regional/company adapter**, not the base
-   framework — keep this tool jurisdiction-neutral. Record source + date.
-5. **Conclude** into `{#opportunity}` (the step's synthesis): where the white space / threat is.
-6. **Seed registers.** Competitive threats → `R-…`; assumptions about a rival's move → `H-…`.
+3. **Hand the list on.** The detailed-table players are the input to the two scans:
+   [`competitor-pricing`](../competitor-pricing/SKILL.md) (dated pricing, feeds `market-sizing`'s
+   price input, Step-3 `pricing-strategy`, and the Step-4 financial model) and
+   [`competitor-dynamics`](../competitor-dynamics/SKILL.md) (trend per player from public sources).
+4. **Conclude** into `{#opportunity}` (the step's synthesis): where the white space / threat is.
+5. **Seed registers.** Competitive threats → `R-…`; assumptions about a rival's move → `H-…`.
 
 ## Anti-patterns
 - **Feature checklist.** Comparing feature grids instead of the game each plays and why.
-- **No dynamics.** A static snapshot with no trend — can't judge whose strategy is working.
-- **Guessed pricing/financials.** Numbers with no source, stated as fact.
+- **The two-rival analysis.** Studying only the incumbents everyone already worries about; the
+  entrant that takes the segment is not on the page.
+- **A game with no evidence.** Asserting what a competitor is chasing without a move that shows it.
 
 ## Worklog & projection
 The working is done in the step's **worklog** `<step-folder>/competitor-analysis.md`
 (`node_type: worklog`, e.g. `2-analysis/competitor-analysis.md`): the competitor list (≥5 named,
 including one the team did not name first), the excluded players each with its reason, each player's
-*game* and moat comparison, the dated pricing scan, the development-dynamics with source + `as_of`,
-and the white-space / threat conclusion. This method keeps **one** worklog, and all four sections
-`{#competitors}`, `{#competitor-strategy}`, `{#competitor-pricing}`, `{#competitor-dynamics}` are its
-**projections** into the fixed shape of [`template-fragment.md`](template-fragment.md) — the worklog is
-the **source of truth**, the sections hold nothing it does not, and the step's change-log history lives
-in the worklog, not the sections (`process/CONVENTIONS.md` → *Step folders & worklogs*). External
-figures arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never linked
-from the artifact.
+*game* and moat comparison, and the white-space / threat conclusion. This method keeps **one**
+worklog, and both sections `{#competitors}` and `{#competitor-strategy}` are its **projections** into
+the fixed shape of [`template-fragment.md`](template-fragment.md) — the worklog is the **source of
+truth**, the sections hold nothing it does not, and the step's change-log history lives in the
+worklog, not the sections (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures
+arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from
+the artifact.
 
 ## Output
-Projects `{#competitors}`, `{#competitor-strategy}`, `{#competitor-pricing}`, `{#competitor-dynamics}`
-via [`template-fragment.md`](template-fragment.md) from the single worklog; inputs via
+Projects `{#competitors}` and `{#competitor-strategy}` via
+[`template-fragment.md`](template-fragment.md) from the single worklog; inputs via
 [`questions.yaml`](questions.yaml).

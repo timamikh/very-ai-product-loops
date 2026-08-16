@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.22.1
+version: 0.22.2
 updated: 2026-08-16
 ---
 
@@ -102,8 +102,8 @@ a projected section with no worklog behind it is the source of truth gone missin
 check P holds it).
 
 **One method → several sections: one worklog.** A method that fills several sections keeps **one**
-worklog; every one of its markers points at it (e.g. `competitor-analysis` fills four sections, all
-projected from `2-analysis/competitor-analysis.md`).
+worklog; every one of its markers points at it (e.g. `competitor-analysis` fills `{#competitors}` and
+`{#competitor-strategy}`, both projected from `2-analysis/competitor-analysis.md`).
 
 **Several methods → one section: the first is primary.** When a section's marker lists more than one
 tool (`<!-- tool: where-to-play-how-to-win, value-definition-strategy -->`), the **first** tool is the section's

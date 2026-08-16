@@ -1,0 +1,16 @@
+# concept-expansion — interview
+tool: concept-expansion
+produces: solution
+questions:
+  - id: mechanism_per_problem
+    ask: "For each ranked problem from {#problems} — how exactly does the product remove it? (⚙️ agent proposes from the concept's solution stub)"
+    type: per_item
+    why: "A mapping is per pain; a general answer is a slogan."
+  - id: orphans
+    ask: "Which planned capabilities answer none of the ranked problems? (they leave the concept — list them so the cut is visible)"
+    type: list
+    why: "Orphan features hide scope; the reject table makes the cut explicit."
+  - id: feasibility
+    ask: "Which mechanisms has the team NOT built before, or which lean on unproven tech?"
+    type: list
+    why: "Build bets become type: feasibility hypotheses, not silent confidence."

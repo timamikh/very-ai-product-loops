@@ -11,13 +11,13 @@ per_step:
       - Name the riskiest assumption the concept rests on
       - Frame segments and pains as testable hypotheses, not facts
       - State the value bet (lead moat) to validate
-    tools: [interview, concept-formation, segmentation, segment-pains, value-definition-concept, jtbd-concept]
+    tools: [concept-formation, jtbd-concept, segmentation, segment-pains, concept-expansion, value-definition-concept]
   "2":  # Analysis
     goals:
       - Size the prize roughly (bottom-up, few sources, wide error bars OK) — just enough to know it's worth chasing
       - Map who already solves this pain (competitors + substitutes incl. do-nothing) to find the white space
       - State ONE sharpest opportunity/threat as the "so what" — a conclusion, not a survey
-    tools: [market-sizing, competitor-analysis, substitutes]
+    tools: [market-sizing, competitor-analysis, competitor-pricing, competitor-dynamics, substitutes]
   "3":  # Strategy
     goals:
       - Choose ONE beachhead arena to win first (resist "for everyone")
@@ -43,7 +43,7 @@ per_step:
       - Keep the delivery lightweight — optimize for cycle speed with a small team
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 

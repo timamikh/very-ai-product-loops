@@ -1,7 +1,7 @@
 ---
 name: concept-formation
 kind: method
-produces: [idea, solution]
+produces: idea
 reads_registers: []
 writes_registers: [hypotheses]
 inputs: [interview, kb]
@@ -14,15 +14,16 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.3
-updated: 2026-08-15
+version: 0.3.0
+updated: 2026-08-16
 ---
 
 # Concept Formation
 
-Turn a raw idea into a crisp product **concept** and the **shift** it makes. Fills `{#idea}`
-(and seeds `{#solution}`). A good concept is a sentence a stranger repeats correctly — not a
-feature list.
+Turn a raw idea into a crisp product **concept** and the **shift** it makes. Fills `{#idea}`.
+A good concept is a sentence a stranger repeats correctly — not a feature list. The
+problem-by-problem solution mapping is a separate pass with its own prerequisites —
+[`concept-expansion`](../concept-expansion/SKILL.md), after `{#problems}` exist.
 
 **Method basis.** April Dunford-style positioning (define the product by the *shift* it creates
 versus the current alternative, not by its features) + explicit problem→solution articulation.
@@ -46,8 +47,9 @@ versus the current alternative, not by its features) + explicit problem→soluti
 3. **Riskiest assumption.** State the single belief the concept most depends on — the thing
    that, if false, sinks it. Seed it as a hypothesis (`H-…`). At `concept-viability` this is the
    center of gravity.
-4. **Sketch the solution stub** — 2–4 lines on *how* it delivers the shift, to seed `{#solution}`.
-   Do not design features here; that's later and downstream of problems.
+4. **Sketch the solution stub** — 2–4 lines on *how* it delivers the shift, kept in the worklog as
+   input for `concept-expansion`. Do not design features here; the problem→solution mapping runs
+   downstream of `{#problems}`.
 5. **Tag confidence.** The concept is usually a `[sourced: PO decision]`; the shift and the
    assumption are `[assumption]` until evidenced.
 
@@ -62,14 +64,13 @@ versus the current alternative, not by its features) + explicit problem→soluti
 The working is done in the step's **worklog** `<step-folder>/concept-formation.md`
 (`node_type: worklog`, e.g. `1-concept/concept-formation.md`): the one-line concept sentence, the
 **shift** it names versus the current alternative, the riskiest assumption the concept depends on,
-and the solution stub. That worklog is the **source of truth**; this method keeps **one** worklog, and
-the artifact sections `{#idea}` and `{#solution}` are both its **projections** into the fixed shape of
-[`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the sections
+and the solution stub. That worklog is the **source of truth**; the artifact section `{#idea}` is its
+**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md), holding nothing
+the worklog does not, and the step's change-log history lives in the worklog, not the section
 (`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
 `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
 
 ## Output
 
-Projects `{#idea}` and `{#solution}` via [`template-fragment.md`](template-fragment.md) from the
-worklog; inputs via [`questions.yaml`](questions.yaml).
+Projects `{#idea}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via
+[`questions.yaml`](questions.yaml).

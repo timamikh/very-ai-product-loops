@@ -41,6 +41,11 @@ Checks (ERROR fails CI · WARN never does):
      section is both `confirmed:` and `contested:` (a verdict is one or the other)
   S  rests-on provenance: a `rests-on: <step>#<id>` target resolves to a real section, and a confirmed
      section resting on an unconfirmed foundation is surfaced  (WARN)
+  U  a library method serves exactly one step (used_by_steps has one entry)
+  V  a status's per-step tools list holds library methods only, each with a `<!-- tool: … -->` home
+     in that step's template (how data is gathered belongs in the goals prose)
+  Y  questions.yaml is machine-readable: every question `type` is from the shared vocabulary
+     (no `type: x_from: y` double-colon scalars)
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -396,7 +401,7 @@ QUESTION_TYPES = {"free_text", "text", "list", "per_item", "single_select", "mul
 
 
 def check_questions(tools):
-    """Q — questions.yaml is machine-readable: every question `type` is from the shared vocabulary.
+    """Y — questions.yaml is machine-readable: every question `type` is from the shared vocabulary.
 
     Donated skills arrived with `type: single_select_from: x` — a second `:` inside a plain scalar,
     which is invalid YAML — and the interview silently died at run time. A check costs nothing;
@@ -412,11 +417,11 @@ def check_questions(tools):
                 continue
             val = m.group(1).strip()
             if ":" in val:
-                err("Q [%s] questions.yaml:%d `type: %s` — a second `:` in a plain scalar is invalid "
+                err("Y [%s] questions.yaml:%d `type: %s` — a second `:` in a plain scalar is invalid "
                     "YAML; spell it `type: single_select` + `from: <question-id>` (or `options: [...]`)"
                     % (name, i, val))
             elif val not in QUESTION_TYPES:
-                err("Q [%s] questions.yaml:%d unknown question type `%s` (allowed: %s)"
+                err("Y [%s] questions.yaml:%d unknown question type `%s` (allowed: %s)"
                     % (name, i, val, ", ".join(sorted(QUESTION_TYPES))))
 
 
@@ -462,8 +467,9 @@ def check_status_tools(tools):
                             "`<!-- tool: %s -->` marker — a recommendation with no home section"
                             % (st["name"], step, tool, step, tool))
                 elif tool in other:
-                    warn("V [%s] step %s recommends `%s` — an %s skill in a library tools list; "
-                         "it fills no artifact section" % (st["name"], step, tool, other[tool]))
+                    err("V [%s] step %s recommends `%s` — an %s skill in a library tools list; "
+                        "status tools are library methods only, how data is gathered belongs in "
+                        "the goals prose (OPERATING-LOOP step 2)" % (st["name"], step, tool, other[tool]))
                 else:
                     err("V [%s] step %s recommends unknown tool `%s` — no such skill folder"
                         % (st["name"], step, tool))

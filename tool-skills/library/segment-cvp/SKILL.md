@@ -14,7 +14,7 @@ volume_rule: "≥3 distinct situations per priority segment and ≥8 bundles in 
 selection_rule: "6-filter readiness gate (binary) → among the ready, 5 criteria × 1/3/5 = 5–25 → top 3–5 staged"
 rejects_shown: required
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-08-16
 ---
 
@@ -94,8 +94,9 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
    channel diagnostics, never the result.
 5. **Score the ready bundles and stage the top 3–5.** The 6-filter gate is binary — it says which
    bundles are *testable at all*. It does not say which are worth a test slot, and with eight or more
-   ready bundles that question does not answer itself. Score each ready bundle **1 · 3 · 5** on five
-   criteria, sum to **5–25**, stage the top 3–5:
+   ready bundles that question does not answer itself. Score each ready bundle on the **priority
+   score** — the scale is *defined* in `hypothesis-test-design` §Scales and *operated* here —
+   **1 · 3 · 5** on its five criteria, sum to **5–25**, stage the top 3–5:
 
    | Criterion | 1 | 3 | 5 |
    |-----------|---|---|---|

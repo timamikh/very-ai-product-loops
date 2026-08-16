@@ -15,7 +15,7 @@ per_step:
     goals:
       - Refresh the market read with LIVE data — prices and competitors move; a stale read misleads pricing
       - State the sharpest threat to repeatable monetization (commoditization, a direct competitor) as the "so what"
-    tools: [competitor-analysis, market-sizing, substitutes]
+    tools: [competitor-analysis, competitor-pricing, competitor-dynamics, market-sizing, substitutes]
   "3":  # Strategy
     goals:
       - Sharpen how-to-win around what actually RETAINS paying users, not just what attracts them
@@ -41,7 +41,7 @@ per_step:
       - Every item moves a metric node or tests a hypothesis; defer scale-spend items to the backlog
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 

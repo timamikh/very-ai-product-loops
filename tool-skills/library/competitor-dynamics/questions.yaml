@@ -1,0 +1,12 @@
+# competitor-dynamics — interview
+tool: competitor-dynamics
+produces: competitor-dynamics
+questions:
+  - id: sources
+    ask: "For each detailed-table competitor — point to a public financials source, or give the company-registry identifier for its jurisdiction (registry pulls go through a regional adapter when one is configured)."
+    type: per_item
+    why: "Dynamics are external claims about other companies; the source must fit the fact type and the jurisdiction."
+  - id: known_moves
+    ask: "Any competitor moves you already know of (funding, layoffs, pivot, big client win)?"
+    type: list
+    why: "Known moves direct the trend read and become the numbers to double-source first."

@@ -4,7 +4,7 @@ artifact: concept
 step: 1
 title: "Product Concept — <Product>"
 status: template
-version: 0.5.0
+version: 0.6.0
 updated: 2026-08-16
 ---
 
@@ -35,7 +35,9 @@ _What it is, and the shift it makes, in a few lines._
 <!-- tool: jtbd-concept -->
 _The job the customer hires the product for, the four forces around switching, and the outcomes
 they judge success by. A lens that anchors `#segments` and `#problems`; the job feeds Step 2
-`substitutes`. States the job; the pains inside it are scored in #problems._
+`substitutes`. States the job; the pains inside it are scored in #problems.
+First iteration: frame the job for the customer named in `#idea`; once `#segments` ranks a tier-1
+segment, re-read the job for it._
 
 **Job statement.** _When_ <circumstance>, _I want to_ <make this progress>, _so that_ <outcome>.  [assumption]
 
@@ -74,7 +76,7 @@ stages and where it breaks. Its pains feed `#problems`; its touchpoints feed Ste
 | … | … | … | … | … | ▼ | [assumption] |
 
 ## Solution {#solution}
-<!-- tool: concept-formation -->
+<!-- tool: concept-expansion -->
 _How the product solves each problem above. No orphan features._
 
 | Problem <!--c:problem--> | How the product solves it <!--c:solution--> | Confidence <!--c:conf--> |

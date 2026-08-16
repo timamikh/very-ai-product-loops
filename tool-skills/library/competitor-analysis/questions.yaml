@@ -1,17 +1,10 @@
 # competitor-analysis — interview
 tool: competitor-analysis
-produces: [competitors, competitor-strategy, competitor-pricing, competitor-dynamics]
+produces: [competitors, competitor-strategy]
 questions:
   - id: competitors
     ask: "Who are the direct and indirect competitors? (⚙️ agent proposes from its desk-research gathering)"
     type: list
   - id: game
     ask: "For each — what are they chasing (revenue/profit/share/social capital) and how?"
-    type: per_item
-  - id: pricing
-    ask: "Do you know their pricing, or should the agent scan sites/search for it?"
-    type: per_item
-    options: [i-provide, agent-scans, unknown]
-  - id: dynamics
-    ask: "Provide OGRN/INN/name for RU competitors so the agent can pull dynamics from datanewton (or point to public financials for non-RU)."
     type: per_item

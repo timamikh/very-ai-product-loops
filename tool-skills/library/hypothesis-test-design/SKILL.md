@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
+version: 0.3.1
 updated: 2026-08-16
 ---
 
@@ -64,8 +64,9 @@ re-decided here** — this method designs the smallest test that can reach that 
 
 Four ordinal scales travel with a hypothesis. They are **gradations**, orthogonal to the confirmation
 marker a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*). This method is
-their canonical home; the deferred `hypothesis-scoring` / `experiment-readout` skills (Steps 5–6) will
-*operate* them at sprint scale, but the definitions live here so there is one of each.
+their canonical home; other skills **operate** them — `segment-cvp` runs the readiness gate and the
+priority score over bundles at Step 5, `experiment-readout` reads the signal and records the
+decision — but the definitions live here so there is one of each.
 
 - **Readiness gate (before a test) — 6 filters, pass/fail.** A hypothesis is test-ready only if each
   filter has a concrete answer, not a hand-wave:
@@ -82,11 +83,14 @@ their canonical home; the deferred `hypothesis-scoring` / `experiment-readout` s
   A hypothesis missing a channel, a priced pain, a current alternative, or a target action is **not
   ready to test** — fix it before designing the test, don't run it.
 
-- **Priority score (selecting what to test) — 1 / 3 / 5 on five criteria:** pain acuteness
-  (`interesting` / `blocks work` / `already costs money`) · segment reach (`unclear where` / `channels
-  exist` / `bases, communities, partners`) · product fit (`needs work` / `partial` / `sellable now`) ·
-  pay potential (`likes` / `leads` / `willing to pay, pilot`) · test speed (`>2 weeks` / `1 week` /
-  `1–2 days`). Rank by the sum; the top few enter the test.
+- **Priority score (selecting what to test) — 1 / 3 / 5 on five criteria:** pain acuteness — the
+  cost of inaction (`nice-to-have` / `recurring irritation` / `already paying or improvising`) ·
+  reachability (`no named place` / `a place we could get into` / `a named community/base/partner
+  reachable this week`) · deliverability (`needs a product we don't have` / `needs work we could do` /
+  `deliverable today, even manually`) · evidence of willingness to pay (`none` / `they pay for
+  something adjacent` / `they pay for this problem today`) · speed to a signal (`>2 weeks` / `about
+  a week` / `1–2 days`). Sum to 5–25 and rank; the top few enter the test. Operated at Step 5 by
+  `segment-cvp` over ready bundles — one definition, one operator, defined only here.
 
 - **Signal strength (the result) — `weak` / `medium` / `strong`.** `weak` (click · like · page-view) is
   **channel diagnostics, not a result**; `medium` (lead · sign-up · reply · details request); `strong`

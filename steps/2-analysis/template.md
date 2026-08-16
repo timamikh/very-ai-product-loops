@@ -4,8 +4,8 @@ artifact: analysis
 step: 2
 title: "Market & Competitive Analysis — <Product>"
 status: template
-version: 0.3.2
-updated: 2026-08-13
+version: 0.4.0
+updated: 2026-08-16
 ---
 
 <!--
@@ -29,7 +29,10 @@ updated: 2026-08-13
 
 ## Market sizing {#market-sizing}
 <!-- tool: market-sizing -->
-_TAM / SAM / SOM with an explicit method and named assumptions (bottom-up preferred)._
+<!-- rests-on: 1#segments -->
+_TAM / SAM / SOM with an explicit method and named assumptions (bottom-up preferred).
+First pass: the price input is an `[assumption]` from Step-1 value work; once `#competitor-pricing`
+is filled, revisit the sizing with the observed anchor._
 
 | Layer <!--c:layer--> | Value <!--c:value--> | Method <!--c:method--> | Key assumptions <!--c:assumptions--> | Source <!--c:source--> | Confidence <!--c:conf--> |
 |-------|-------|--------|-----------------|--------|------------|
@@ -39,6 +42,7 @@ _TAM / SAM / SOM with an explicit method and named assumptions (bottom-up prefer
 
 ## Competitors {#competitors}
 <!-- tool: competitor-analysis -->
+<!-- rests-on: 1#segments, 1#jtbd -->
 _Direct & indirect competitors (substitutes are separate, below)._
 
 | Competitor <!--c:name--> | Direct/Indirect <!--c:type--> | What they offer <!--c:offer--> | Confidence <!--c:conf--> |
@@ -47,6 +51,7 @@ _Direct & indirect competitors (substitutes are separate, below)._
 
 ## Competitor strategy {#competitor-strategy}
 <!-- tool: competitor-analysis -->
+<!-- rests-on: 1#value-defensibility -->
 _What game each plays (revenue / profit / share / social capital — and how), vs our moats._
 
 | Competitor <!--c:name--> | Game <!--c:game--> | How they play it <!--c:play--> | Their moats vs ours <!--c:moat--> | Confidence <!--c:conf--> |
@@ -54,15 +59,16 @@ _What game each plays (revenue / profit / share / social capital — and how), v
 | … | … | … | … | [assumption] |
 
 ## Competitor pricing {#competitor-pricing}
-<!-- tool: competitor-analysis -->
-_Input to our own pricing (Step 3 `pricing`) and the financial model — not our price._
+<!-- tool: competitor-pricing -->
+_Input to our own pricing (Step 3 `pricing-strategy`), `#market-sizing`'s price anchor, and the
+financial model — not our price. Every price carries the date it was read._
 
-| Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
+| Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price (+ read date) <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
 |------------|--------------|-------|--------|------------|
 | … | … | … | site / search | [sourced: …] |
 
 ## Competitor dynamics {#competitor-dynamics}
-<!-- tool: competitor-analysis -->
+<!-- tool: competitor-dynamics -->
 _Trend over time — to compare whose strategy is working. Source per firm: public financials / press
 / filings / public company registries appropriate to the jurisdiction. (Region-specific registry
 lookups are a regional/company adapter concern, not the base.)_

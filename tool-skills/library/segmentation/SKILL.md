@@ -14,7 +14,7 @@ volume_rule: "≥3 candidate cuts on different bases (situation · job · behavi
 selection_rule: "priority tiers 1–3 on need-difference × reachability × fit with the moat; ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.2.3
+version: 0.3.0
 updated: 2026-08-09
 ---
 
@@ -63,7 +63,9 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …) on three
    stated grounds: **how sharply its needs differ** from the others (a tier that needs the same thing
    as tier 1 is not a separate segment), **reachability** (can we get in front of it at all), and
-   **fit with the moat** from `value-definition`. Say which ground decided each placement; a tier
+   **fit with the intended moat** from `{#value-defensibility}` (`value-definition-concept`) — which
+   runs **later in the step**, so on the first pass this ground is usually empty: **skip it, rank on
+   the other two, mark the ranking ⚙️, and revisit it once the moat is stated**. Say which ground decided each placement; a tier
    order with no stated ground is a preference. ⚙️ the agent proposes the lead; the human decides.
    Everything downstream (problems, solution, value) leads with the priority-1 segment; lower tiers
    are kept, not dropped.

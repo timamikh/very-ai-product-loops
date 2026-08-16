@@ -2,7 +2,7 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.6.0
+version: 0.6.1
 updated: 2026-08-16
 ---
 
@@ -141,7 +141,13 @@ affected methods, fix the links, run the linter to zero, bump the version and re
   this, check U). A method that would do *different* operations on different steps is two skills with
   two names (`hypothesis-thresholds` at 4 vs `hypothesis-test-design` at 5); the *same* operation
   revisited at another step is a per-step variant named for its step (`jtbd-concept`, `cjm-strategy`).
-  A donated skill that spans steps is recut along this seam before it enters the library.
+  This holds **within a step** too: a second pass with its own prerequisites is a second skill
+  (`concept-formation` states the concept first thing; `concept-expansion` maps problems→solutions
+  after `{#problems}`), and a skill filling several sections must be doing *one* operation across
+  them — `competitor-analysis` (players + their game) was recut from the pricing scan
+  (`competitor-pricing`) and the trend read (`competitor-dynamics`) exactly there.
+  A donated skill that spans steps or bundles operations is recut along this seam before it enters
+  the library.
 - **A recommendation needs a home.** A tool named in a status's `per_step` list must have a
   `<!-- tool: … -->` marker in that step's template (linter check V) — a recommendation with no
   section to land in forces the agent to invent one. And before adding a skill, check what it

@@ -4,7 +4,7 @@ artifact: sprint-plan
 step: 6
 title: "Sprint Plan — <Product> · Sprint <n> (<dates>)"
 status: template
-version: 0.3.0
+version: 0.3.1
 updated: 2026-08-16
 ---
 
@@ -29,12 +29,14 @@ updated: 2026-08-16
 
 ## Sprint goal {#sprint-goal}
 <!-- synthesis -->
+<!-- rests-on: 5#period-goals -->
 _One or two lines: what this sprint must prove or move — ties to the period gate and the status's
 learning goal._
 
 - …
 
 ## Must {#must}
+<!-- rests-on: 5#period-goals, 5#hypotheses-to-test -->
 _Minimal mandatory items — without which the period goal is unreachable. Grouped by direction._
 
 ### Development — Features

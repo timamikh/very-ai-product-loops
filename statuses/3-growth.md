@@ -42,7 +42,7 @@ per_step:
       - Delivery includes the guardrail checks the team must watch during rollout
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 

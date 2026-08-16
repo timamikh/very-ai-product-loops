@@ -4,7 +4,7 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.3.0
+version: 0.3.1
 updated: 2026-08-16
 ---
 
@@ -43,6 +43,7 @@ _Segments / markets / arena chosen — and what's explicitly excluded._
 
 ## How to win {#how-to-win}
 <!-- tool: where-to-play-how-to-win, value-definition-strategy -->
+<!-- rests-on: 1#value-defensibility, 2#competitor-strategy -->
 _The winning logic + which moats we leverage._
 
 - Winning logic: …  [assumption]
@@ -50,6 +51,7 @@ _The winning logic + which moats we leverage._
 
 ## UVP & CPV {#uvp-cpv}
 <!-- tool: uvp-cpv -->
+<!-- rests-on: 1#segments, 1#problems, 2#substitutes -->
 _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], because [why us]._
 
 | Best-fit customer <!--c:customer--> | Job / pain <!--c:job--> | Value (outcome) <!--c:value--> | vs alternative <!--c:alt--> | Customer-perceived value <!--c:cpv--> | Confidence <!--c:conf--> |
@@ -58,6 +60,7 @@ _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], be
 
 ## Pricing & Packaging {#pricing}
 <!-- tool: pricing-strategy -->
+<!-- rests-on: 2#competitor-pricing -->
 _What we charge and how we package it — anchored to value vs the alternative. Quantified at Step 4._
 
 - **Value metric:** … (what we meter on, and why it scales with value) [assumption]
@@ -70,6 +73,7 @@ _What we charge and how we package it — anchored to value vs the alternative. 
 
 ## Channels & expansion {#channels-expansion}
 <!-- tool: channels-expansion -->
+<!-- rests-on: 1#segments -->
 _Acquisition/comms channels (Bullseye) + expansion paths._
 
 | Channel <!--c:channel--> | Stage (traction / scale) <!--c:stage--> | Why it fits the segment <!--c:fit--> | Confidence <!--c:conf--> |
@@ -94,6 +98,7 @@ _System architecture at C4 **Context** level (product, its users, external syste
 
 ## Bets {#bets}
 <!-- tool: bets, value-definition-strategy -->
+<!-- rests-on: 1#jtbd, 2#opportunity -->
 _The strategic hypotheses we're wagering on (framed on the customer's job + forces)._
 
 | ID <!--c:id--> | Bet <!--c:bet--> | Type <!--c:type--> | Job / circumstance <!--c:job--> | Why it wins (pull > anxiety + habit) <!--c:whywins--> | Outcome it moves <!--c:outcome--> | Confidence <!--c:conf--> |

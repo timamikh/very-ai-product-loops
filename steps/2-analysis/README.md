@@ -29,8 +29,8 @@ Recommended tools are soft; the active [status](../../statuses/README.md) sets w
 | `market-sizing` | TAM / SAM / SOM with method + source | `market-sizing` |
 | `competitors` | Direct & indirect competitors | `competitor-analysis` |
 | `competitor-strategy` | What game each plays (revenue/profit/share/social capital — how), vs our moats | `competitor-analysis` |
-| `competitor-pricing` | Competitor pricing — input to our pricing (Step 3) & the financial model | `competitor-analysis` |
-| `competitor-dynamics` | How each competitor develops over time (revenue/headcount trend) — compares strategy effectiveness | `competitor-analysis` |
+| `competitor-pricing` | Dated competitor pricing — input to our pricing (Step 3), sizing's price anchor & the financial model | `competitor-pricing` |
+| `competitor-dynamics` | How each competitor develops over time (revenue/headcount trend) — compares strategy effectiveness | `competitor-dynamics` |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | `substitutes` |
 | `niche-risks` | Structural risks of the niche (light Five Forces) | — (synthesis, light Five Forces) |
 | `opportunity` | The "so what" — where the white space / the threat is | — (synthesis) |
@@ -48,6 +48,8 @@ Recommended tools are soft; the active [status](../../statuses/README.md) sets w
 - [ ] substitutes incl. "do nothing" covered → `analysis#substitutes`
 - [ ] niche risks logged → `analysis#niche-risks` → risk register
 - [ ] an explicit opportunity/threat conclusion is stated → `analysis#opportunity`
+- [ ] seeded hypotheses typed and carried to the register → `analysis#hypotheses` → hypothesis register
+- [ ] open questions logged for the human to resolve → `analysis#to-clarify`
 
 ## Cadence & invalidation
 - **Cadence:** ~quarterly or on a market shift.

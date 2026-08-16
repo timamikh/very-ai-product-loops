@@ -1,5 +1,5 @@
 <!--
-  template-fragment: concept-formation → fills {#idea} (and stubs {#solution})
+  template-fragment: concept-formation → fills {#idea}
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
 -->
 

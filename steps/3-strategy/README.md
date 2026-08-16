@@ -57,6 +57,7 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 - [ ] C4-context architecture sketched → `strategy#architecture`
 - [ ] bets captured as typed hypotheses → `strategy#bets` → hypothesis register
 - [ ] product risks logged → `strategy#product-risks` → risk register
+- [ ] open questions logged for the human to resolve → `strategy#to-clarify`
 
 > `product-surface` and `architecture` are **sketched here and refined at Step 4** — the
 > instrumentation defines where metric-tree data comes from, and the architecture feeds infra
