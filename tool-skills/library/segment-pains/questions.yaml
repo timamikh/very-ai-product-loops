@@ -19,5 +19,6 @@ questions:
     options: [differentiator, table-stakes]
   - id: lead_pain
     ask: "Which pain do we lead on?"
-    type: single_select_from: pains
+    type: single_select
+    from: pains
     default: null   # ⚙️ agent proposes the top differentiator by severity × frequency

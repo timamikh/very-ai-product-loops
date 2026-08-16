@@ -4,7 +4,8 @@ produces: uvp-cpv
 questions:
   - id: best_fit
     ask: "From the where-to-play segments — who is this UVP for? (the best-fit customer)"
-    type: single_select_from: segments
+    type: single_select
+    from: segments
     why: "A UVP that fits everyone fits no one sharply."
   - id: alternative
     ask: "What does that customer do today — a rival, a substitute, or nothing? (⚙️ agent proposes from competitor/substitutes work)"

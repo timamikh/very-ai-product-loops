@@ -95,9 +95,9 @@ _A simple projection tied to the metric-tree drivers; churn as a scenario axis; 
 <!-- tool: risk-mitigation -->
 _Each key risk → an owned mitigation (pre-mortem)._
 
-| `R-…` <!--c:register--> | Risk <!--c:risk--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Mitigation <!--c:mitigation--> | Owner <!--c:owner--> | Due <!--c:due--> | Status <!--c:status--> |
-|-------|------|------------|--------|------------|-------|-----|--------|
-| R-… | … | H/M/L | H/M/L | … | … | … | open / mitigating |
+| `R-…` <!--c:register--> | Risk <!--c:risk--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Mitigation <!--c:mitigation--> | Owner <!--c:owner--> | Trigger <!--c:trigger--> | Due <!--c:due--> | Status <!--c:status--> |
+|-------|------|------------|--------|------------|-------|---------|-----|--------|
+| R-… | … | H/M/L | H/M/L | … | … | … | … | open / mitigating |
 
 ## Global hypotheses {#global-hypotheses}
 <!-- tool: hypothesis-test-design -->

@@ -74,8 +74,8 @@ Top 3–5 by `prioritization` are staged; `hypothesis-test-design` designs the c
 **Staged for test this period:** B-…, B-… (seed `type: desirability` `H-…`).
 
 ## Hypotheses to test {#hypotheses-to-test}
-<!-- tool: hypothesis-test-design (ab-test for split-traffic) -->
-_One row per `H-…` tested this period: a pre-registered read — metric · threshold · sample · decision rule fixed before running._
+<!-- tool: hypothesis-test-design, ab-test -->
+_One row per `H-…` tested this period: a pre-registered read — metric · threshold · sample · decision rule fixed before running. A split-traffic read follows `ab-test`._
 
 | `H-…` <!--c:register--> | Metric node (`M-…`) <!--c:node--> | Success <!--c:success--> | Failure <!--c:failure--> | Sample / duration <!--c:sample--> | Decision rule <!--c:decision--> | Confidence <!--c:conf--> |
 |-------|---------------------|---------|---------|-------------------|---------------|------------|

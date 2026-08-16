@@ -44,6 +44,7 @@ questions:
 
   - id: lead_moat
     ask: "Which single moat do you bet on leading with?"
-    type: single_select_from: base_moats
+    type: single_select
+    from: base_moats
     default: null  # ⚙️ agent proposes the most durable + highest-confidence one
     why: "The lead moat shapes strategy."
