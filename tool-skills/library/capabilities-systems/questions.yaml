@@ -1,0 +1,21 @@
+# capabilities-systems — interview
+tool: capabilities-systems
+produces: capabilities
+questions:
+  - id: capabilities
+    ask: "For each element of the winning logic (3#how-to-win) — what must we be reliably great at for it to be true? (⚙️ agent drafts the walk element by element)"
+    type: list
+    why: "A how-to-win no capability supports is a hope; an element with none is an unbacked claim."
+  - id: level
+    ask: "For each capability — do we have it today? (name who confirmed the rating)"
+    type: per_item
+    options: [have, partial, missing]
+    why: "A flattering rating here surfaces later as an execution miss no metric explains."
+  - id: gap
+    ask: "For each partial/missing — what closes the gap (hire · train · buy · partner), by when, owned by whom?"
+    type: per_item
+    why: "A gap with no close date is a risk — it seeds R-… for risk-mitigation."
+  - id: system
+    ask: "For each capability — the management system: how is it built, maintained, and measured (the signal that shows it slipping)?"
+    type: per_item
+    why: "A capability without a system is a one-time hire that erodes."

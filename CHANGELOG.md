@@ -15,6 +15,31 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Wide and quality — the P2 pass (content gaps, the PTW tail, orphan links)
+
+- **Question-type vocabulary unified**: `text` is gone — `free_text` everywhere
+  (`market-sizing`, `substitutes` renamed; check Y now enforces a single name).
+- **Buyer vs user lands in `1#segments`** (`segmentation` 0.4.0): a column naming who pays vs who
+  uses — when they differ, pains are scored for the user but the CVP and channel must convince the
+  buyer.
+- **Cost of inaction lands in `1#problems`** (`segment-pains` 0.2.0): per-pain
+  `nice-to-have / recurring irritation / already paying or improvising` — the same gradation as
+  pain acuteness in `hypothesis-test-design` §Scales, so Step 1 feeds the Step-3 CVP and the
+  Step-5 priority score without translation.
+- **GTM motion lands in `3#channels-expansion`** (`channels-expansion` 0.2.0): product-led /
+  sales-led / partner-led / community-led, decided by price-per-account vs cost of the motion's
+  touch; inner-ring channels are coherence-checked against it.
+- **The PTW cascade completes — `capabilities-systems`** (new, Step 4, library 42 → 43): choices
+  4–5 of Playing to Win get a home. `{#capabilities}` walks the winning logic element by element:
+  capability (an ability, not an asset) · have/partial/missing · gap & close · management system;
+  gaps seed execution `R-…` consumed by `risk-mitigation` in the same step. The
+  `where-to-play-how-to-win` "land in later steps" promise now names its heir. In `pmf`/`growth`
+  step-4 tool lists; kept out of `concept-viability` (that status defers step-4 depth by design).
+- **Orphan links closed**: `2#competitor-dynamics` gains its consumer (`where-to-play-how-to-win`
+  prerequisites + `3#how-to-win` rests-on); Step-6 activities link the `B-…` bundle they launch
+  (`activity-spec`, `#must`/`#backlog`); the REGISTERS born-at table now matches reality
+  (hypotheses born 1·2·3; risks born 2·3·4).
+
 ### One operation even within a step — P1 pass after the recut
 
 - **The rule extends** (EXTENDING, library gates): a second pass inside a step is a second skill,

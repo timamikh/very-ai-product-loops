@@ -2,7 +2,7 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.6.0
+version: 0.7.0
 updated: 2026-08-16
 ---
 
@@ -164,7 +164,7 @@ don't turn a tool into a literature review.
 | `where-to-play-how-to-win` | Arena + winning logic | Playing to Win (Lafley/Martin) — winning-aspiration / where-to-play / how-to-win cascade | 3 | draft |
 | `uvp-cpv` | Value proposition / CPV per situation | Dunford positioning + Value Proposition Canvas + customer-perceived value | 3 | draft |
 | `pricing-strategy` | Pricing model & packaging | Value-based pricing — value metric, tiers/fences, WTP (van Westendorp), price vs the next-best alternative | 3 | draft |
-| `channels-expansion` | Channels & expansion | Bullseye framework (*Traction*, Weinberg/Mares) + expansion-path thinking | 3 | draft |
+| `channels-expansion` | Channels, GTM motion & expansion | Bullseye framework (*Traction*, Weinberg/Mares) + GTM-motion choice + expansion-path thinking | 3 | draft |
 | `product-surface` | User-interaction surfaces + instrumentation sketch | Touchpoint mapping + instrumentation planning | 3 | draft |
 | `architecture-c4` | System architecture (Context level) | C4 model — Context (Simon Brown) | 3 | draft |
 | `bets` | Strategy bets seeded as hypotheses | JTBD forces (pull > anxiety + habit) + moat linkage; dedup against cascade H-seeds | 3 | draft |
@@ -176,6 +176,7 @@ don't turn a tool into a literature review.
 | `retention-analysis` | Cohort retention curve + engagement loop | Flattening cohort curve as PMF signal; retention by cohort/frequency; real churn input to LTV, not an assumed % | 4 | draft |
 | `unit-economics` | CAC/LTV/payback/contribution | Contribution margin; LLM inference as explicit COGS; dual basis (operational/honest own-compute) | 4 | draft |
 | `financial-model` | Projection off the metric tree | Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint | 4 | draft |
+| `capabilities-systems` | Must-have capabilities + management systems | Playing to Win (Lafley/Martin) choices 4–5; have/partial/missing honesty, gaps seed execution `R-…` | 4 | draft |
 | `risk-mitigation` | Carried risks → owned mitigations | Risk lifecycle: mitigation · owner · trigger · status; register upsert | 4 | draft |
 | `hypothesis-thresholds` | Quantify strategy bets | Assumption mapping (Bland/Osterwalder) — success & failure thresholds on existing `M-…` nodes | 4 | draft |
 | `pricing-strategic-plan` | Margin revisit of the pricing decision | Contribution/COGS re-read of Step-3 pricing (holds, or ⚙️ change proposal) | 4 | draft |

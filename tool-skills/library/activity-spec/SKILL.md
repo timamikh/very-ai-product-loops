@@ -14,7 +14,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
+version: 0.3.1
 updated: 2026-08-16
 ---
 
@@ -38,7 +38,9 @@ directions read the same way and plug into the same must/backlog.
 - **Scope** — the steps to run it (draft copy, pick audience, schedule, publish, measure).
 - **Business value** — the `M-…` it moves or the `H-…` it tests.
 - **Audience value** — why the audience cares (not spam).
-- **Links** — `H-…` tested / `M-…` moved; the surface it runs on (from `product-surface`).
+- **Links** — `H-…` tested / `M-…` moved; the surface it runs on (from `product-surface`); the
+  `B-…` bundle it launches when the activity runs a Step-5 market-entry bundle — without the link,
+  the sprint doesn't say which bundle it is testing.
 - **Owner** — who runs it.
 - **Estimate** — the effort it takes (the must-set must fit the capacity).
 

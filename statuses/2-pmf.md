@@ -28,7 +28,7 @@ per_step:
       - Prove unit economics in BOTH bases (operational and honest own-compute) — profit must survive the honest one
       - Read retention by cohort — the flattening curve is the PMF signal and the real churn input to LTV, not an assumed %
       - Model off drivers, treat churn as a scenario axis, and surface capacity caps as a first-class ceiling
-    tools: [metric-tree, retention-analysis, unit-economics, financial-model, risk-mitigation, hypothesis-thresholds, instrumentation-plan]
+    tools: [metric-tree, retention-analysis, unit-economics, financial-model, capabilities-systems, risk-mitigation, hypothesis-thresholds, instrumentation-plan]
   "5":  # Tactical Plan
     goals:
       - Pick the few metric nodes whose movement would prove repeatable value this period
@@ -41,7 +41,7 @@ per_step:
       - Every item moves a metric node or tests a hypothesis; defer scale-spend items to the backlog
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
 status: draft
-version: 0.5.0
+version: 0.5.1
 updated: 2026-08-16
 ---
 

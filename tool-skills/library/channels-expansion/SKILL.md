@@ -8,14 +8,14 @@ inputs: [interview, kb, research]
 prerequisites: [segments, uvp]
 used_by_steps: [3]
 opinionated: false
-method_basis: "Bullseye framework (Traction, Weinberg/Mares) + expansion-path thinking"
+method_basis: "Bullseye framework (Traction, Weinberg/Mares) + GTM-motion choice + expansion-path thinking"
 evidence_standard: external-sources
 volume_rule: "≥8 candidate channels across ≥3 channel-type categories before any ring is assigned"
 selection_rule: "reach × cost-to-test × testability (1/3/5); inner ring = the 3 highest, tested now"
 rejects_shown: required
 status: draft
-version: 0.1.3
-updated: 2026-08-09
+version: 0.2.0
+updated: 2026-08-16
 ---
 
 # Channels & Expansion
@@ -49,13 +49,22 @@ expansion-path thinking: sequence the segments/markets we grow into once the fir
    external claim: source it per
    [`../references/evidence-standards.md`](../references/evidence-standards.md), or tag it
    `[assumption]` and say so.
-3. **Define a measurable test per inner-ring channel.** For each, state the metric, the cost, and
+3. **Choose the GTM motion — how this segment buys.** `product-led` (self-serve: try → buy) ·
+   `sales-led` (a human sells: demo → contract) · `partner-led` (someone else's channel sells) ·
+   `community-led` (adoption spreads through a shared space). The economics decide, not taste:
+   the price per account must cover the cost of the motion's touch — a $30/mo tier cannot fund a
+   sales call, a $50k contract will not close self-serve (read `{#pricing}` if it exists). Then
+   check the inner ring against the motion: a channel that cannot start the motion's first step is
+   a mis-fit however well it scored — record the conflict, don't silently re-rank. The motion is a
+   choice the whole plan inherits: Step-5 bundles (`segment-cvp` offers) and Step-6 activities are
+   staged inside it.
+4. **Define a measurable test per inner-ring channel.** For each, state the metric, the cost, and
    the success threshold *before* running it. A channel you can't measure isn't a test.
-4. **Keep channel separate from message.** The channel is *where* you reach them; the UVP is
+5. **Keep channel separate from message.** The channel is *where* you reach them; the UVP is
    *what* you say. Name both, don't conflate them.
-5. **Map the expansion path.** Sequence the next segments / markets / geographies and the
+6. **Map the expansion path.** Sequence the next segments / markets / geographies and the
    trigger that unlocks each (e.g. "expand to segment B once channel X hits CAC < …").
-6. **Seed registers.** Channel bets → `H-…`; expansion or dependency risks (saturation,
+7. **Seed registers.** Channel bets → `H-…`; expansion or dependency risks (saturation,
    regulatory, localization) → `R-…`.
 
 ## Anti-patterns
@@ -68,8 +77,10 @@ expansion-path thinking: sequence the segments/markets we grow into once the fir
 The working is done in the step's **worklog** `<step-folder>/channels-expansion.md`
 (`node_type: worklog`, e.g. `3-strategy/channels-expansion.md`): the full brainstorm (≥8 candidates
 across ≥3 channel-type categories), the 1·3·5 reach × cost-to-test × testability scores ranked into
-outer / middle / inner rings with every loser kept and its reason, the measurable test (metric, cost,
-threshold) per inner-ring channel, and the sequenced expansion path with the trigger gating each step.
+outer / middle / inner rings with every loser kept and its reason, the chosen GTM motion with the
+price-vs-touch reasoning and the coherence check against the inner ring, the measurable test (metric,
+cost, threshold) per inner-ring channel, and the sequenced expansion path with the trigger gating each
+step.
 That worklog is the **source of truth**; the artifact section `{#channels-expansion}` is its
 **projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds nothing
 the worklog does not, and the step's change-log history lives in the worklog, not the section

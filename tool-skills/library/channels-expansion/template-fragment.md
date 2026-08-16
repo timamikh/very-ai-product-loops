@@ -5,6 +5,9 @@
 
 ## Channels & Expansion {#channels-expansion}
 
+**GTM motion:** product-led / sales-led / partner-led / community-led — _why this fits how the
+segment buys: price per account vs the cost of the motion's touch._ [assumption]
+
 **Channel ranking (Bullseye rings)**
 | Channel | Reach 1/3/5 | Cost to test 1/3/5 | Testability 1/3/5 | Sum | Ring | Why it lost | Segment reached | Metric | Cost | Success threshold | Confidence |
 |---------|-------------|--------------------|-------------------|-----|------|-------------|-----------------|--------|------|-------------------|------------|
@@ -15,7 +18,9 @@ _At least 8 candidates across at least 3 channel-type categories enter this tabl
 assigned. A middle- or outer-ring row without a "why it lost" is a verdict with no reasoning — next
 period it gets re-proposed from scratch._
 
-_Message (what we say) stays in `{#uvp-cpv}` — this table is where we reach them, not what we say._
+_Message (what we say) stays in `{#uvp-cpv}` — this table is where we reach them, not what we say.
+An inner-ring channel that cannot start the motion's first step is a recorded conflict, not a silent
+re-rank._
 
 **Expansion path**
 | Order | Next segment / market / geography | Trigger that unlocks it | Confidence |

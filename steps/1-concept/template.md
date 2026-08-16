@@ -4,7 +4,7 @@ artifact: concept
 step: 1
 title: "Product Concept — <Product>"
 status: template
-version: 0.6.0
+version: 0.7.0
 updated: 2026-08-16
 ---
 
@@ -52,17 +52,17 @@ segment, re-read the job for it._
 <!-- tool: segmentation -->
 _Who it's for and how segments are cut._
 
-| Priority <!--c:priority--> | Segment <!--c:segment--> | How it's cut <!--c:cut--> | Why it matters <!--c:why--> | Where to reach them <!--c:reach--> | Confidence <!--c:conf--> |
-|----------|---------|--------------|----------------|---------------------|------------|
-| 1 (lead) | … | … | … | … | [assumption] |
+| Priority <!--c:priority--> | Segment <!--c:segment--> | How it's cut <!--c:cut--> | Buyer / user <!--c:buyer--> | Why it matters <!--c:why--> | Where to reach them <!--c:reach--> | Confidence <!--c:conf--> |
+|----------|---------|--------------|--------------|----------------|---------------------|------------|
+| 1 (lead) | … | … | same / <buyer> vs <user> | … | … | [assumption] |
 
 ## Problems {#problems}
 <!-- tool: segment-pains -->
 _Each segment's problems, scored by severity × frequency._
 
-| Problem <!--c:problem--> | Severity <!--c:severity--> | Frequency <!--c:frequency--> | Class <!--c:class--> | Confidence <!--c:conf--> |
-|---------|----------|-----------|-------|------------|
-| … | H/M/L | H/M/L | differentiator / table-stakes | [assumption] |
+| Problem <!--c:problem--> | Severity <!--c:severity--> | Frequency <!--c:frequency--> | Cost of inaction <!--c:inaction--> | Class <!--c:class--> | Confidence <!--c:conf--> |
+|---------|----------|-----------|------------------|-------|------------|
+| … | H/M/L | H/M/L | nice-to-have / recurring irritation / already paying or improvising | differentiator / table-stakes | [assumption] |
 
 ## Customer Journey {#cjm}
 <!-- tool: cjm-concept -->

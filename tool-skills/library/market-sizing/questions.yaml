@@ -4,18 +4,18 @@ produces: market-sizing
 questions:
   - id: arena
     ask: "Which arena/segment are we sizing? (who · where · which job — you can only size a market you can name)"
-    type: text
+    type: free_text
   - id: units
     ask: "Bottom-up — how many reachable customers/accounts are in this segment?"
-    type: text
+    type: free_text
     why: "SAM is built units × price, not taken from the headline market."
   - id: price
     ask: "Bottom-up — what price would each pay per period (and how often)?"
-    type: text
+    type: free_text
     why: "Units × price is the load-bearing SAM number."
   - id: topdown_source
     ask: "Top-down cross-check — which published market figure or analog can we derive the same SAM from? (⚙️ agent pulls via its desk-research gathering)"
-    type: text
+    type: free_text
     why: "Top-down is a cross-check, not the answer; divergence must be reconciled, not averaged."
   - id: assumptions
     ask: "What are the key assumptions (segment size, adoption %, price, frequency, obtainable share) — and the source behind each?"

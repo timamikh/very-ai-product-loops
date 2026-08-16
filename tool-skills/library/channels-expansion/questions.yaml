@@ -9,6 +9,11 @@ questions:
     ask: "Sort each into a ring — inner (test now), middle (promising), outer (unlikely)."
     type: per_item
     options: [inner, middle, outer]
+  - id: motion
+    ask: "How does this segment buy — which motion carries the sale?"
+    type: single_select
+    options: [product-led (self-serve), sales-led, partner-led, community-led]
+    why: "Price per account must cover the cost of the motion's touch; channels are tested inside a motion."
   - id: test
     ask: "For each inner-ring channel — what metric, cost, and success threshold define the test?"
     type: per_item

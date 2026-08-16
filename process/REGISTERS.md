@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.8.0
-updated: 2026-08-15
+version: 0.8.1
+updated: 2026-08-16
 ---
 
 # Registers
@@ -14,8 +14,8 @@ Follow [`CONVENTIONS.md`](CONVENTIONS.md) for IDs, confidence, and dated change 
 
 | Register | Born at | Refined at |
 |----------|---------|------------|
-| Hypotheses | Step 1/3 | 4 (quantify) → 5 (test design) → 6 (experiment tasks) |
-| Risks | Step 2 | 3 (product) → 4 (mitigation) → 5 (period blockers) |
+| Hypotheses | Steps 1 (concept) · 2 (sizing) · 3 (bets) | 4 (quantify) → 5 (test design) → 6 (experiment tasks) |
+| Risks | Steps 2 (niche) · 3 (product) · 4 (capability gaps) | 4 (mitigation) → 5 (period blockers) |
 | Metric tree | Step 4 | 5 (select nodes) → 6 (task ↔ metric) |
 
 ## What earns a register — the four-sign test

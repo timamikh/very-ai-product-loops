@@ -4,7 +4,7 @@ produces: substitutes
 questions:
   - id: job
     ask: "What job is the customer actually trying to get done? (define competition by the job, not by our product category)"
-    type: text
+    type: free_text
   - id: current_way
     ask: "How does the customer get this job done today without us? (⚙️ agent forces the baseline three — do nothing, do it manually, build/host it themselves — plus adjacent tools)"
     type: list
@@ -14,8 +14,8 @@ questions:
     why: "A substitute with no winning condition can't be compared or triaged into risks."
   - id: self_build_threshold
     ask: "Where's the threshold at which 'just build it ourselves' beats buying from us? (team capability, volume, data sensitivity, cost crossover)"
-    type: text
+    type: free_text
     why: "Capable customers self-build past a threshold — name it or under-rate it."
   - id: switching_friction
     ask: "What keeps a customer on the substitute — what makes it hard to leave for us? (habit, sunk cost, integration, trust)"
-    type: text
+    type: free_text

@@ -14,8 +14,8 @@ volume_rule: "≥3 distinct where-to-play / how-to-win possibilities before one 
 selection_rule: "the chosen cascade must be internally consistent end to end; the others are recorded with why they lose"
 rejects_shown: required
 status: draft
-version: 0.1.2
-updated: 2026-08-09
+version: 0.1.3
+updated: 2026-08-16
 ---
 
 # Where to Play / How to Win
@@ -27,8 +27,9 @@ Strategy is **a cascade of integrated choices**, not a plan or a wish list. Fill
 > frames strategy differently can swap it. State the lens; don't present it as the only one.
 
 **Method basis.** Lafley & Martin's five-choice cascade: winning aspiration → where-to-play →
-how-to-win → capabilities → management systems. This tool authors the first three; capabilities
-and systems land in later steps. The two rules that make it strategy: **where-to-play must state
+how-to-win → capabilities → management systems. This tool authors the first three; choices 4 and 5
+are authored at Step 4 by `capabilities-systems`, which walks the chosen winning logic element by
+element and seeds execution `R-…` for every capability gap. The two rules that make it strategy: **where-to-play must state
 what's excluded**, and **how-to-win must be a coherent logic** that names how we beat the specific
 players in that arena — not a list of things we'd like to be good at.
 
@@ -38,7 +39,9 @@ players in that arena — not a list of things we'd like to be good at.
 
 ## Prerequisites
 - **Product concept** — what we're building. *Missing → run `concept-formation`.*
-- **Market analysis** — arenas, sizes, dynamics to choose among. *Missing → run `market-sizing` + `competitor-analysis`.*
+- **Market analysis** — arenas, sizes, each player's game and whether it works (`2#competitor-strategy`,
+  `2#competitor-dynamics`). *Missing → run `market-sizing` + `competitor-analysis` (+ the
+  `competitor-dynamics` scan for the trend read).*
 - **Value & moats** — what we can actually win with. *Missing → run `value-definition`.*
 
 ## How to do it

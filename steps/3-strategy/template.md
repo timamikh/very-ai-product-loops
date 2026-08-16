@@ -4,7 +4,7 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.3.1
+version: 0.4.0
 updated: 2026-08-16
 ---
 
@@ -43,7 +43,7 @@ _Segments / markets / arena chosen — and what's explicitly excluded._
 
 ## How to win {#how-to-win}
 <!-- tool: where-to-play-how-to-win, value-definition-strategy -->
-<!-- rests-on: 1#value-defensibility, 2#competitor-strategy -->
+<!-- rests-on: 1#value-defensibility, 2#competitor-strategy, 2#competitor-dynamics -->
 _The winning logic + which moats we leverage._
 
 - Winning logic: …  [assumption]
@@ -74,7 +74,9 @@ _What we charge and how we package it — anchored to value vs the alternative. 
 ## Channels & expansion {#channels-expansion}
 <!-- tool: channels-expansion -->
 <!-- rests-on: 1#segments -->
-_Acquisition/comms channels (Bullseye) + expansion paths._
+_Acquisition/comms channels (Bullseye) + the GTM motion + expansion paths._
+
+- **GTM motion:** product-led / sales-led / partner-led / community-led — why it fits how the segment buys  [assumption]
 
 | Channel <!--c:channel--> | Stage (traction / scale) <!--c:stage--> | Why it fits the segment <!--c:fit--> | Confidence <!--c:conf--> |
 |---------|--------------------------|-------------------------|------------|

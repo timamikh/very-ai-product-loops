@@ -13,6 +13,11 @@ questions:
     ask: "For each pain — severity (how much it hurts) × frequency (how often)?"
     type: per_item
     options: [H, M, L]
+  - id: inaction
+    ask: "For each pain — what happens if they do nothing about it today?"
+    type: per_item
+    options: [nice-to-have, recurring irritation, already paying or improvising]
+    why: "A pain with no cost of inaction carries no CVP and fails the Step-5 Pain filter — cheaper to learn that now."
   - id: class
     ask: "For each pain — is it a differentiator (where we compete) or table-stakes (must-have, won't win)?"
     type: per_item

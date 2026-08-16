@@ -8,10 +8,14 @@
 
 **Cut basis:** _what we segment by (job / context / behavior / buyer-vs-user / willingness to pay) and why it predicts different needs._
 
-| Priority | Segment | How it's cut | Why it matters | Where to reach them | Confidence |
-|----------|---------|--------------|----------------|---------------------|------------|
-| 1 (lead) | … | … | … | … | [assumption] |
-| 2 | … | … | … | … | [assumption] |
+| Priority | Segment | How it's cut | Buyer / user | Why it matters | Where to reach them | Confidence |
+|----------|---------|--------------|--------------|----------------|---------------------|------------|
+| 1 (lead) | … | … | same / <buyer> vs <user> | … | … | [assumption] |
+| 2 | … | … | … | … | … | [assumption] |
+
+_Buyer / user: who pays vs who uses — "same" when it's one person. When they differ, the segment
+hides two audiences: pains are scored for the user, but the CVP and the channel must also convince
+the buyer._
 
 **Lead segment:** ⚙️ _<segment>_ — _why we build for this one first._
 

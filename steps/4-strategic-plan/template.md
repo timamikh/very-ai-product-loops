@@ -4,7 +4,7 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.3.3
+version: 0.4.0
 updated: 2026-08-16
 ---
 
@@ -94,6 +94,17 @@ _A simple projection tied to the metric-tree drivers; churn as a scenario axis; 
 
 - Capacity ceiling: … (what caps growth, and when it binds)
 - Scenarios: base / optimistic / conservative — key deltas …
+
+## Capabilities & systems {#capabilities}
+<!-- tool: capabilities-systems -->
+<!-- rests-on: 3#how-to-win, 3#where-to-play -->
+_What we must be reliably great at for the winning logic to hold, and the system that builds and
+measures each (Playing to Win, choices 4–5). A capability is an ability, not an asset; gaps seed
+`R-…` for `#risk-mitigation`._
+
+| Capability <!--c:capability--> | Serves (element / moat) <!--c:serves--> | Level <!--c:level--> | Gap & close <!--c:gap--> | Management system <!--c:system--> | Owner <!--c:owner--> | Confidence <!--c:conf--> |
+|------------|--------------------------|-------|--------------|--------------------|-------|------------|
+| … | … | have / partial / missing | hire · train · buy · partner, by <date> → `R-…` | process · cadence · slip signal (`M-…`) | … | [assumption] |
 
 ## Risk mitigation {#risk-mitigation}
 <!-- tool: risk-mitigation -->

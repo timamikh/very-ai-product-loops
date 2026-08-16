@@ -397,7 +397,7 @@ def check_worklogs(inst):
                  "never the artifact (see source-intake)" % (name, stem))
 
 
-QUESTION_TYPES = {"free_text", "text", "list", "per_item", "single_select", "multi_select"}
+QUESTION_TYPES = {"free_text", "list", "per_item", "single_select", "multi_select"}
 
 
 def check_questions(tools):

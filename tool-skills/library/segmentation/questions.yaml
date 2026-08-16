@@ -22,6 +22,11 @@ questions:
     max: 3
     why: "Few, distinct segments early. More is usually false precision."
 
+  - id: buyer_vs_user
+    ask: "For each segment — who pays and who uses? ('same' when it's one person; if they differ, name both roles)"
+    type: per_item
+    why: "Buyer and user have different pains and different channels — a segment where they differ hides two audiences."
+
   - id: reachability
     ask: "For each segment — where do you find them (a channel, place, community)?"
     type: per_item

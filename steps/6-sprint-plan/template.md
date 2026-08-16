@@ -4,7 +4,7 @@ artifact: sprint-plan
 step: 6
 title: "Sprint Plan — <Product> · Sprint <n> (<dates>)"
 status: template
-version: 0.3.1
+version: 0.3.2
 updated: 2026-08-16
 ---
 
@@ -12,7 +12,8 @@ updated: 2026-08-16
   6-sprint-plan.md assembly shell. Filled per steps/6-sprint-plan/README.md. Keep section IDs stable.
   Follow process/CONVENTIONS.md. Items are grouped by DIRECTION, each in its own format
   (dev = Feature · go-to-market = Activity · back-office = Task+DoD). The minimal level of detail
-  is one feature/activity/task — not sub-tasks. Every item links to an H-… or M-….
+  is one feature/activity/task — not sub-tasks. Every item links to an H-… or M-…; an activity
+  that runs a Step-5 market-entry bundle also names its B-….
   ⚙️ marks agent-proposed defaults awaiting human approval.
 -->
 
@@ -53,7 +54,7 @@ _Minimal mandatory items — without which the period goal is unreachable. Group
 
 ### Go-to-market — Activities
 <!-- tool: activity-spec, prioritization-sprint-plan -->
-**A-1 · <activity name>** — links: `H-…` it tests / `M-…` it moves
+**A-1 · <activity name>** — links: `H-…` it tests / `M-…` it moves / `B-…` it launches
 - **Description:** what the activity is
 - **Scope:** the steps to run it
 - **Business value:** the metric/hypothesis it moves
@@ -74,10 +75,10 @@ _Minimal mandatory items — without which the period goal is unreachable. Group
 <!-- tool: prioritization-sprint-plan -->
 _The rest, prioritized (not a flat list), grouped by direction. Same item formats as above._
 
-| Rank <!--c:rank--> | Direction <!--c:direction--> | Item <!--c:item--> | Format <!--c:format--> | Links (`H-…`/`M-…`) <!--c:links--> | Est. <!--c:est--> | Confidence <!--c:conf--> |
+| Rank <!--c:rank--> | Direction <!--c:direction--> | Item <!--c:item--> | Format <!--c:format--> | Links (`H-…`/`M-…`/`B-…`) <!--c:links--> | Est. <!--c:est--> | Confidence <!--c:conf--> |
 |------|-----------|------|--------|---------------------|------|------------|
 | 1 | development | … | Feature | H-… / M-… | … | [assumption] |
-| 2 | go-to-market | … | Activity | H-… / M-… | … | [assumption] |
+| 2 | go-to-market | … | Activity | H-… / B-… | … | [assumption] |
 | 3 | back-office | … | Task+DoD | M-… / R-… | … | [assumption] |
 
 ## Excluded {#excluded}

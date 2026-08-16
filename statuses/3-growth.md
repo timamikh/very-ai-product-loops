@@ -28,7 +28,7 @@ per_step:
       - Re-forecast off a working model; optimize the metric tree around the levers with the best marginal return
       - Analyze retention by cohort/segment — protect the retained core as scaling adds lower-intent users
       - Keep unit economics honest at scale (CAC inflation, COGS, capacity caps) in both bases
-    tools: [metric-tree, retention-analysis, unit-economics, financial-model, risk-mitigation, hypothesis-thresholds, instrumentation-plan]
+    tools: [metric-tree, retention-analysis, unit-economics, financial-model, capabilities-systems, risk-mitigation, hypothesis-thresholds, instrumentation-plan]
   "5":  # Tactical Plan
     goals:
       - Pick the growth levers whose movement compounds this period; set guardrails so scale doesn't erode retention/economics/defensibility
@@ -42,7 +42,7 @@ per_step:
       - Delivery includes the guardrail checks the team must watch during rollout
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
 status: draft
-version: 0.5.0
+version: 0.5.1
 updated: 2026-08-16
 ---
 

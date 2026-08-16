@@ -14,8 +14,8 @@ volume_rule: "≥3 candidate cuts on different bases (situation · job · behavi
 selection_rule: "priority tiers 1–3 on need-difference × reachability × fit with the moat; ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-09
+version: 0.4.0
+updated: 2026-08-16
 ---
 
 # Segmentation
@@ -57,8 +57,11 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
    needs*, and **record the bases you rejected and why**. One cut, arrived at directly, is not a
    choice: the first cut anyone proposes is almost always the one the org is already structured
    around (industry, company size), which is the cut least likely to predict need.
-2. **Name 1–3 segments** on that cut. For each: a one-line description and *why it matters*
-   (size, urgency, fit with the moat).
+2. **Name 1–3 segments** on that cut. For each: a one-line description, *why it matters*
+   (size, urgency, fit with the moat), and **who pays vs who uses** — the buyer and the user,
+   "same" when it's one person. When they differ, the segment hides two audiences: pains are
+   scored for the user (`segment-pains`), but the CVP and the channel must also convince the
+   buyer — a plan that names only one of them will stall at whichever it ignored.
 3. **State reachability** — where each segment is found (a channel, a place, a community).
 4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …) on three
    stated grounds: **how sharply its needs differ** from the others (a tier that needs the same thing
