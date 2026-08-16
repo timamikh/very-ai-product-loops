@@ -7,8 +7,9 @@ questions:
     type: free_text
     why: "Items are ranked by contribution to the gate, not by an abstract score."
   - id: candidates
-    ask: "List the candidate items to rank (features/activities/tasks), grouped by direction."
+    ask: "List every candidate item current for this sprint (features/activities/tasks), grouped by direction — none pre-cut; record the count N that entered the ranking."
     type: list
+    why: "A pre-cut list hides the ranking's real input; N makes the cut visible."
   - id: capacity
     ask: "What's the available capacity this sprint (people, budget, time) that sets the must/backlog line?"
     type: free_text

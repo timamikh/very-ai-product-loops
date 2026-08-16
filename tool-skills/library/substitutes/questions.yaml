@@ -6,8 +6,9 @@ questions:
     ask: "What job is the customer actually trying to get done? (define competition by the job, not by our product category)"
     type: free_text
   - id: current_way
-    ask: "How does the customer get this job done today without us? (⚙️ agent forces the baseline three — do nothing, do it manually, build/host it themselves — plus adjacent tools)"
+    ask: "How does the customer get this job done today without us? (⚙️ agent forces the baseline three — do nothing, do it manually, build/host it themselves — plus ≥2 adjacent tools)"
     type: list
+    min: 5
   - id: why_and_when
     ask: "For each — why does the customer choose it, and when does it win against us?"
     type: per_item

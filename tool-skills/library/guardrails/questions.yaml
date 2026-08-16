@@ -3,8 +3,9 @@ tool: guardrails
 produces: guardrails
 questions:
   - id: what_breaks
-    ask: "For each period goal — what could it break if we optimize it too hard?"
+    ask: "For each period goal — walk all 7 break-categories (retention · unit economics · CAC · quality · brand/trust · support load · churn): what breaks if we optimize too hard? Record the cleared ones too."
     type: per_item
+    why: "A category nobody checked and one checked-and-cleared are indistinguishable afterwards."
   - id: protected
     ask: "Which metrics must NOT drop, and what's the floor/ceiling?"
     type: list

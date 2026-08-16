@@ -2,6 +2,11 @@
 tool: segment-cvp
 produces: market-bundles
 questions:
+  - id: bundle_slate
+    ask: "The candidate slate first — ≥3 distinct situations per priority segment, ≥8 segment×situation bundles in total (⚙️ agent drafts from segments + pains). The questions below run per bundle."
+    type: list
+    min: 8
+    why: "Staging the first bundle that comes to mind skips the comparison the 6 filters exist for."
   - id: segment_situation
     ask: "Which segment, in which specific SITUATION/trigger? (not demographics — the moment the pain bites)"
     type: free_text

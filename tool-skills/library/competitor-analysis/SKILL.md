@@ -14,7 +14,7 @@ volume_rule: "≥5 named players, including ≥1 the team did not name first (re
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-08-16
 ---
 

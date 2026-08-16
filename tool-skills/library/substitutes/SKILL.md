@@ -14,7 +14,7 @@ volume_rule: "the three baseline substitutes (do nothing · do it manually · bu
 selection_rule: "a substitute that wins in a real segment is promoted to the risk register; the rest stay in the map"
 rejects_shown: required
 status: draft
-version: 0.1.2
+version: 0.1.3
 updated: 2026-08-09
 ---
 

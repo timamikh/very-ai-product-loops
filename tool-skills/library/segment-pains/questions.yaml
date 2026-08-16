@@ -7,8 +7,10 @@ questions:
     type: free_text
     why: "Pains are obstacles to the job, not generic complaints."
   - id: pains
-    ask: "List the pains in that job. (⚙️ agent drafts from concept + any evidence)"
+    ask: "List ≥5 candidate pains in that job. (⚙️ agent drafts from concept + any evidence)"
     type: list
+    min: 5
+    why: "Fewer than 5 means only the pains already on the team's mind get ranked."
   - id: score
     ask: "For each pain — severity (how much it hurts) × frequency (how often)?"
     type: per_item

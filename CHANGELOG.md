@@ -15,6 +15,23 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Questionnaires carry their volume rules
+
+- The gap: a method's `volume_rule` lived in SKILL.md frontmatter while its interview quietly
+  allowed less — `segmentation` even *opened* with "pick the cut" (a choice before any candidates
+  existed), and `where-to-play-how-to-win` went straight into detailing one cascade. An agent that
+  honestly follows the questionnaire would honestly break the method.
+- The fix, across all 9 questionnaires whose rule wasn't already forced: the question that gathers
+  the set now states the floor in its `ask` and carries `min:`; where the rule demands
+  candidates-before-choice, the divergence question + a `single_select from:` choice now precede
+  the detailing (`segmentation` candidate cuts → cut; `where-to-play-how-to-win` ≥3 cascade
+  sketches → chosen cascade; `segment-cvp` opens with the ≥8-bundle slate). Prioritization pair:
+  "every candidate current — none pre-cut; record the count N".
+- The convention is written where `volume_rule` itself is defined (library/README): the
+  questionnaire carries the rule; an interview that opens with "pick one" has already broken it.
+- 7 questionnaires already complied (metric-tree, pre-mortem, capabilities-systems,
+  concept-expansion, competitor-dynamics/-pricing, bets) — untouched.
+
 ### Console S-signals — the main axes readable at a distance
 
 - **Dual ring per step** (overview cascade, step header, snapshot cover; the rail gets a second

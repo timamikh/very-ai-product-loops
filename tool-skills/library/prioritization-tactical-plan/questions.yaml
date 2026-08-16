@@ -7,8 +7,9 @@ questions:
     type: free_text
     why: "Candidates are ranked by contribution to the gate, not by an abstract score."
   - id: candidates
-    ask: "List the candidate goals to rank, grouped by direction."
+    ask: "List every candidate goal current for this period, grouped by direction — none pre-cut; record the count N that entered the ranking."
     type: list
+    why: "A pre-cut list hides the ranking's real input; N makes the cut visible."
   - id: capacity
     ask: "What's the available capacity this period (people, budget, time) that bounds the goal set? (from resource-check)"
     type: free_text

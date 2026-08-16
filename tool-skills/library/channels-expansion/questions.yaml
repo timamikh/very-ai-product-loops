@@ -3,8 +3,10 @@ tool: channels-expansion
 produces: channels-expansion
 questions:
   - id: channels
-    ask: "Which acquisition/comms channels could reach these segments? (⚙️ agent brainstorms the full Bullseye list, not just the obvious ones)"
+    ask: "Which acquisition/comms channels could reach these segments? ≥8 candidates across ≥3 channel-type categories (⚙️ agent brainstorms the full Bullseye list, not just the obvious ones)"
     type: list
+    min: 8
+    why: "Fewer than 8 means only the obvious channels entered; the ring sort needs a real field to sort."
   - id: rings
     ask: "Sort each into a ring — inner (test now), middle (promising), outer (unlikely)."
     type: per_item

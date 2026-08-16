@@ -14,7 +14,7 @@ volume_rule: "≥3 distinct situations per priority segment and ≥8 bundles in 
 selection_rule: "6-filter readiness gate (binary) → among the ready, 5 criteria × 1/3/5 = 5–25 → top 3–5 staged"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.3.0
 updated: 2026-08-16
 ---
 

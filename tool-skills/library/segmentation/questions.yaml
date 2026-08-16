@@ -4,17 +4,17 @@ tool: segmentation
 produces: segments
 
 questions:
+  - id: candidate_cuts
+    ask: "Candidate segmentation cuts — ≥3, on different bases (situation · job · behaviour · buying trigger · buyer-vs-user · willingness to pay). One line each: the cut + what it predicts. (⚙️ agent drafts; override freely)"
+    type: list
+    min: 3
+    why: "The volume rule: a cut chosen without named alternatives is the first idea, not a choice — and usually demographic-by-default."
   - id: cut_basis
-    ask: "What best predicts different needs for this product? (pick the segmentation cut)"
+    ask: "Which cut best predicts different needs for this product?"
     type: single_select
-    options:
-      - job-to-be-done
-      - use context / situation
-      - behavior
-      - buyer vs user
-      - willingness to pay
-    default: job-to-be-done   # ⚙️ agent proposes; override freely
-    why: "Actionable cuts beat demographic-by-default."
+    from: candidate_cuts
+    default: null   # ⚙️ agent proposes; override freely
+    why: "Actionable cuts beat demographic-by-default; the losing cuts stay recorded as rejects."
 
   - id: segments
     ask: "Name 1–3 segments on that cut. For each: one-line description + why it matters."

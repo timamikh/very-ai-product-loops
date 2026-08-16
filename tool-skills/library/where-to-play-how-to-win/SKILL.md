@@ -14,7 +14,7 @@ volume_rule: "≥3 distinct where-to-play / how-to-win possibilities before one 
 selection_rule: "the chosen cascade must be internally consistent end to end; the others are recorded with why they lose"
 rejects_shown: required
 status: draft
-version: 0.1.3
+version: 0.2.0
 updated: 2026-08-16
 ---
 

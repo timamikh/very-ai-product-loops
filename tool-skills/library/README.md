@@ -2,7 +2,7 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.8.0
+version: 0.8.1
 updated: 2026-08-16
 ---
 
@@ -102,7 +102,9 @@ you if it turned out to be unfounded; that is the class.
 **`volume_rule`** — how much is generated *before* anything is cut, or `n/a`. It exists because the
 default failure of a generative method is not a bad candidate, it is **too few candidates**: four
 polite options, all of them survivors, and no selection actually happened. A volume rule states the
-number that makes the selection real.
+number that makes the selection real. **The questionnaire carries the rule**: the question that
+gathers the set states the floor (`min:` on the `list` question) and runs *before* any choice
+question — an interview that opens with "pick one" has already broken its own method.
 
 **`selection_rule`** — how the set is cut down: the criteria, the scale, and how many survive. `n/a`
 where the method produces one thing rather than a set. A method with a `volume_rule` and no

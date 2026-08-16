@@ -6,6 +6,17 @@ questions:
     ask: "What does winning mean here — who do we serve, what result, by when? (not a slogan)"
     type: free_text
     why: "Vague aspiration produces vague strategy."
+  - id: candidate_cascades
+    ask: "Sketch ≥3 distinct where-to-play / how-to-win possibilities, one line each (⚙️ agent drafts from segments, moats, and the competitor read)"
+    type: list
+    min: 3
+    why: "A cascade chosen without alternatives is the first idea, not a choice."
+  - id: cascade_choice
+    ask: "Which possibility do we develop into the full cascade below?"
+    type: single_select
+    from: candidate_cascades
+    default: null   # ⚙️ agent proposes the one the moats back hardest
+    why: "The losing cascades stay recorded as rejects with the reason."
   - id: play_in
     ask: "Which segments / geographies / channels / product scope do we play in?"
     type: per_item

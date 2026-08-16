@@ -14,7 +14,7 @@ volume_rule: "≥3 candidate cuts on different bases (situation · job · behavi
 selection_rule: "priority tiers 1–3 on need-difference × reachability × fit with the moat; ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-16
 ---
 

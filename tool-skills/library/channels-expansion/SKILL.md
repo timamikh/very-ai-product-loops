@@ -14,7 +14,7 @@ volume_rule: "≥8 candidate channels across ≥3 channel-type categories before
 selection_rule: "reach × cost-to-test × testability (1/3/5); inner ring = the 3 highest, tested now"
 rejects_shown: required
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-08-16
 ---
 

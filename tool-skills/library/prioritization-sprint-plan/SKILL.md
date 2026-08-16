@@ -14,7 +14,7 @@ volume_rule: "every candidate current for the sprint enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the must/backlog line is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.1.0
+version: 0.1.1
 updated: 2026-08-16
 ---
 

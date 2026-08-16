@@ -14,7 +14,7 @@ volume_rule: "all 7 break-categories checked against every period goal before an
 selection_rule: "a category becomes a guardrail only with an M- node and a stated floor/ceiling; the rest are logged as considered"
 rejects_shown: required
 status: draft
-version: 0.1.3
+version: 0.1.4
 updated: 2026-08-09
 ---
 

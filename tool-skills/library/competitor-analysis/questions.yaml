@@ -3,8 +3,10 @@ tool: competitor-analysis
 produces: [competitors, competitor-strategy]
 questions:
   - id: competitors
-    ask: "Who are the direct and indirect competitors? (⚙️ agent proposes from its desk-research gathering)"
+    ask: "Who are the direct and indirect competitors? ≥5 named players, incl. ≥1 the team did not name first (⚙️ agent adds from its registry/search/app-store sweep)"
     type: list
+    min: 5
+    why: "A list only the team wrote is the team's mental model, not the market."
   - id: game
     ask: "For each — what are they chasing (revenue/profit/share/social capital) and how?"
     type: per_item
