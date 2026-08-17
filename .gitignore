@@ -15,3 +15,11 @@ instances/
 # stale local example runs — superseded by examples/decksmith (the reference run); never publish
 examples/tolmach/
 examples/decksmith-rebuild/
+
+# working notes of the framework's own development — local process, not the product; never publish
+DESIGN-*.md
+PLAN-*.md
+PROMPT-*.md
+REBUILD-JOURNAL.md
+RUN-JOURNAL-*.md
+HANDOFF-console-next.md
