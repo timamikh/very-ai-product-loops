@@ -2,8 +2,8 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: released
-version: 0.8.3
-updated: 2026-08-09
+version: 0.9.0
+updated: 2026-08-17
 ---
 
 # very-ai-product-loops
@@ -150,6 +150,51 @@ One rule sits under everything: **data lands in a draft first; the polished arti
 
 The links run one way: **board → artifact section → its worklog → (sometimes) a source.** Sources are leaves.
 
+**The same flow as a map** — what enters where, and what it becomes:
+
+```mermaid
+flowchart LR
+  subgraph enters["data enters"]
+    SRC["sources/ + INDEX.md<br/>raw external material"]
+    HUM["human in chat<br/>forks · answers · sign-off"]
+  end
+  subgraph works["the working (source of truth)"]
+    WL["step worklogs<br/>&lt;step&gt;/&lt;method&gt;.md"]
+  end
+  subgraph signs["what the human reads & signs"]
+    ART["step artifacts<br/>1-concept.md … 6-sprint-plan.md"]
+  end
+  subgraph memory["the product's memory"]
+    REG["registers/<br/>hypotheses · risks · metric-tree"]
+    CSV["registers/metrics.csv<br/>readings"]
+    ST["state.yaml<br/>gates · sign-offs"]
+  end
+  SRC -- "source-intake" --> WL
+  HUM -- "answers a fork" --> WL
+  WL -- "projection" --> ART
+  ART -- "seeds ids (H-/R-/M-)" --> REG
+  HUM -- "theses: sign-off" --> ST
+  ART -- "gate ticks" --> ST
+  SRC -- "metrics-capture" --> CSV
+  LINT["tools/lint.py — structure only"] -.reads all.-> WL
+  UI["tools/ui — console & HTML export, read-only"] -.reads all.-> ART
+```
+
+**Per file: who writes it, who reads it**
+
+| File | Written by | Read by | When |
+|------|-----------|---------|------|
+| `sources/*` + `sources/INDEX.md` | human drops it, agent indexes | `source-intake`, worklogs (as citations) | material arrives; never rewritten |
+| `<step>/<method>.md` (worklog) | whoever does the working (orchestrator or a `draft` subagent) | orchestrator (projection), console drill-through, `verify` | during a pass; the source of truth |
+| `<n>-<step>.md` (artifact) | orchestrator only, as a projection | the human (to sign), console boards, later steps | after the worklog is checked |
+| `registers/*.md` | orchestrator only | every step that touches the id; console | when a section seeds or refines an id |
+| `registers/metrics.csv` | `metrics-capture` | metrics tab, decisions | when a reading is taken |
+| `state.yaml` | orchestrator only | `start-work` (resume), console rail | gate ticks and sign-offs |
+| `export-files/*` | `outputs` skills, console export | people outside the repo | on demand; frozen copies |
+
+Two rules make the map safe to trust: subagents other than `draft` write **nothing**, and the
+console has **no write path** — everything on a board is a projection of a file you can open.
+
 ## How the agent reads the repo (for the curious)
 
 An agent working here boots in a fixed order. The rules live in one file, [`AGENTS.md`](AGENTS.md)
@@ -168,7 +213,10 @@ points it at that file; the framework never depends on a vendor's boot behaviour
 
 ## Status
 
-Released as **v0.8.0** under the MIT license — usable and open for others to vendor. Built in phases:
+Released as **v0.9.0** under the MIT license — usable and open for others to vendor. Since 0.8:
+the reference run (`examples/decksmith/`, steps 1–6 from a founder brief, raw run + review pass as
+two commits), section sign-off (`theses`: confirmed / contested / rests-on), register gradations,
+and the console rework (step boards, dual rings, worklog drill-through). Built in phases:
 
 - **Phase 0 — Process foundation** → [`process/OVERVIEW.md`](process/OVERVIEW.md) · [operating loop](process/OPERATING-LOOP.md) · [conventions](process/CONVENTIONS.md) _(merged)_
 - **Phase 1 — Step/tool/status anatomy + golden exemplar (Step 1, all 4 tools)** _(merged)_

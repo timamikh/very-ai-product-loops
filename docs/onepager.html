@@ -14,7 +14,7 @@
   body{background:var(--chrome);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
   .sheet{
     width:1400px;height:990px;margin:0 auto;background:var(--canvas);
-    padding:34px 40px 26px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;
+    padding:34px 40px 36px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;
   }
   /* corner registration ticks — house motif from the deck */
   .sheet::before,.sheet::after{content:"";position:absolute;width:9px;height:9px;border-color:var(--line-2);border-style:solid}
@@ -88,7 +88,17 @@
                  text-transform:uppercase;color:var(--met);margin:8px 0;font-weight:600;text-align:center;line-height:1.3}
 
   /* ---------- bottom strip ---------- */
-  .strip{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:12px;height:196px}
+  .strip{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:12px;height:206px}
+  /* truth chain: worklog → artifact → sign-off */
+  .truth{display:flex;flex-direction:column;gap:5px}
+  .trow{display:flex;align-items:center;gap:8px;font-size:11px;line-height:1.25}
+  .trow .tf{font-family:var(--mono);font-weight:700;font-size:10px;border-radius:5px;padding:3px 7px;
+            min-width:64px;text-align:center;flex-shrink:0;border:1px solid var(--line-2);background:var(--canvas)}
+  .trow .tf.wl{border-color:var(--ink);color:var(--ink)}
+  .trow .tf.art{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+  .trow .tf.sig{background:var(--accent-ink);border-color:var(--accent-ink);color:#fff}
+  .trow .td{color:var(--muted)} .trow .td b{color:var(--ink);font-weight:600}
+  .truthnote{font-size:10px;color:var(--muted);line-height:1.3;margin-top:auto}
   .panel{border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
   .panel h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink);font-weight:700}
   .panel h3 span{color:var(--faint);font-weight:500;text-transform:none;letter-spacing:0}
@@ -225,12 +235,23 @@
         <span class="fstep"><b>Orient</b><br>where the product is</span><span class="farr">→</span>
         <span class="fstep"><b>Method</b><br>for the task</span><span class="farr">→</span>
         <span class="fstep"><b>Inputs</b><br>present? if not, fetched</span><span class="farr">→</span>
-        <span class="fstep"><b>Draft</b><br>sourced + ⚙️</span><span class="farr">→</span>
+        <span class="fstep"><b>Draft</b><br>worklog, sourced + ⚙️</span><span class="farr">→</span>
         <span class="fstep you"><b>Fork</b><br>you decide</span><span class="farr">→</span>
         <span class="fstep"><b>Record</b><br>artifact, registers</span>
       </div>
       <div class="loopnote">One step at a time — not “generate the whole strategy”. A gap is never guessed —
-        it's marked <code>— to clarify —</code>. Artifacts keep a dated trail: how it was → what changed → why.</div>
+        it's marked <code>— to clarify —</code>. Every artifact keeps a dated trail of changes.</div>
+    </div>
+
+    <div class="panel">
+      <h3>Where truth lives <span>· and who signs it</span></h3>
+      <div class="truth">
+        <div class="trow"><span class="tf wl">worklog</span><span class="td"><b>the working</b> — numbers, rejects, reasoning. The source of truth</span></div>
+        <div class="trow"><span class="tf art">artifact</span><span class="td"><b>a projection</b> of the worklogs — the clean copy you read</span></div>
+        <div class="trow"><span class="tf sig">sign-off</span><span class="td"><b>you confirm each section</b> — or send it back (contested)</span></div>
+      </div>
+      <div class="truthnote">The local console is a read-only window: every board drills into the
+        worklog behind a section — nothing is invented.</div>
     </div>
 
     <div class="panel">
@@ -239,13 +260,13 @@
         <div class="archrow"><div class="rl">Fixed core — changes rarely</div>
           <div class="pills"><span class="pill core">process</span><span class="pill core">steps</span><span class="pill core">statuses</span><span class="pill core">registers</span></div></div>
         <div class="archrow"><div class="rl">Pluggable tool-skills — swapped per company</div>
-          <div class="pills"><span class="pill plug">library · methods</span><span class="pill plug">operations · runtime</span><span class="pill plug">adapters · output</span></div></div>
+          <div class="pills"><span class="pill plug">library · methods</span><span class="pill plug">operations · runtime</span><span class="pill plug">outputs · renderers</span></div></div>
       </div>
       <div class="archnote">The rules of the game stay fixed; methods and output formats plug in and swap — without forking the framework.</div>
     </div>
 
     <div class="panel">
-      <h3>Deliverables <span>· adapters assemble from the working area</span></h3>
+      <h3>Deliverables <span>· outputs assemble from the working area</span></h3>
       <div class="deliv">
         <div class="drow"><span class="fmt x">.xlsx</span><span class="dd"><b>Table</b> — registers &amp; plans for work and sign-off</span></div>
         <div class="drow"><span class="fmt d">.docx</span><span class="dd"><b>Document</b> — a brief or memo for a colleague / lead</span></div>
@@ -257,6 +278,6 @@
 
   <div class="foot">
     <span>Install: ask the agent to “install very-ai-product-loops for this project” → then “set up the product”.</span>
-    <span>v0.8.2 · MIT · github.com/timamikh/very-ai-product-loops</span>
+    <span>v0.9.0 · MIT · github.com/timamikh/very-ai-product-loops</span>
   </div>
 </div>
