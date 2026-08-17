@@ -1,2 +1,0 @@
-id,period_start,period_end,measured_at,value,observed_n,population,basis,source,note
-M-latency,,,2026-08-14,1750,,,prototype,founder-brief,"прототип одной языковой пары; ~1.5-2с (midpoint 1750мс); НЕ на реальной шумной речи/акцентах/длинном стриминге — не репрезентативно для риска-№1"

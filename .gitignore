@@ -11,3 +11,7 @@ outputs/
 
 # private product instances (real data) — never publish
 instances/
+
+# stale local example runs — superseded by examples/decksmith (the reference run); never publish
+examples/tolmach/
+examples/decksmith-rebuild/
