@@ -40,14 +40,13 @@ const STR = {
     madeOn: 'taken on', readOnlySnap: 'read-only copy',
     cascade: 'The six steps', instanceReading: 'How this instance reads', product: 'Product',
     cadence: 'cadence', artifact: 'artifact', filled: 'written', sections: 'sections',
-    sectionsTitle: 'Sections', whatElseCol: 'what it is',
+    whatElseCol: 'what it is',
     colType: 'type', colDefinition: 'definition', colStatement: 'statement',
     gate: 'The gate', gateItem: 'gate item', gateDone: 'closed', gateOpen: 'open', gateNa: 'n/a',
     gateDeferred: 'deferred', gateUnknown: 'unrecorded', gateClosed: 'gate closed',
-    words: 'words', gaps: 'gaps', proposals: 'agent proposals', proposalMark: 'proposed',
-    notWritten: 'not written yet', offSkeleton: 'outside the skeleton', validates: 'validates',
+    gaps: 'gaps', proposals: 'agent proposals', proposalMark: 'proposed', validates: 'validates',
     statusAsks: 'What the active status asks here', emphasised: 'emphasised for this stage',
-    fillWith: 'fill through', rows: 'rows', state: 'state',
+    rows: 'rows', state: 'state',
     hypotheses: 'Hypotheses', risks: 'Risks', metricNodes: 'Metric nodes', readings: 'readings',
     withReadings: 'measured', csvRows: 'csv rows', referencedIn: 'referenced in',
     live: 'live', testing: 'in test', inFlightShort: 'in flight',
@@ -95,7 +94,7 @@ const STR = {
     rForce: 'force', rLik: 'likelihood', rImp: 'impact',
     assembledFrom: 'Assembled from the competitor sections below — a dash is “no match”, not zero.',
     gapDash: '— to clarify —',
-    expand: 'show the whole excerpt', collapse: 'collapse',
+    expand: 'expand the whole section in place', collapse: 'collapse',
     worklog: 'workings', worklogTip: 'open the worklog this section was worked out in',
     worklogMissing: 'worklog not found',
     confirmed: 'confirmed', pending: 'to confirm', confirmedOn: 'confirmed by a human on',
@@ -114,7 +113,8 @@ const STR = {
     z4Instr: 'Instrumentation & risk', z4Hyp: 'Hypotheses',
     z5Goals: 'Goals & targets', z5Guard: 'Guardrails', z5Res: 'Resources & market',
     z5Test: 'Tests & blockers',
-    z6Commit: 'Committed vs backlog', z6Handoff: 'Handoff',
+    z6Commit: 'Committed vs backlog', z6Excluded: 'Excluded — and why', z6Handoff: 'Handoff',
+    zOther: 'Other sections',
   },
   ru: {
     tabs: { overview: 'Обзор', step: 'Шаг', artifacts: 'Артефакты', registers: 'Реестры',
@@ -130,15 +130,14 @@ const STR = {
     madeOn: 'снят', readOnlySnap: 'копия только для чтения',
     cascade: 'Шесть шагов', instanceReading: 'Как читается инстанс', product: 'Продукт',
     cadence: 'ритм', artifact: 'артефакт', filled: 'написано', sections: 'секций',
-    sectionsTitle: 'Секции', whatElseCol: 'что это',
+    whatElseCol: 'что это',
     colType: 'тип', colDefinition: 'определение', colStatement: 'формулировка',
     gate: 'Гейт', gateItem: 'пункт гейта', gateDone: 'закрыто', gateOpen: 'открыто',
     gateNa: 'не применимо', gateDeferred: 'отложено', gateUnknown: 'не зафиксировано',
     gateClosed: 'гейт закрыт',
-    words: 'слов', gaps: 'пробелов', proposals: 'предложения агента', proposalMark: 'предложение',
-    notWritten: 'ещё не написано', offSkeleton: 'вне скелета', validates: 'проверяет',
+    gaps: 'пробелов', proposals: 'предложения агента', proposalMark: 'предложение', validates: 'проверяет',
     statusAsks: 'Что просит активный статус на этом шаге', emphasised: 'выделено для этой стадии',
-    fillWith: 'заполнять через', rows: 'строк', state: 'состояние',
+    rows: 'строк', state: 'состояние',
     hypotheses: 'Гипотезы', risks: 'Риски', metricNodes: 'Узлы метрик', readings: 'показаний',
     withReadings: 'измеряется', csvRows: 'строк в csv', referencedIn: 'упоминается в',
     live: 'в работе', testing: 'на проверке', inFlightShort: 'в работе',
@@ -186,7 +185,7 @@ const STR = {
     rForce: 'сила', rLik: 'вероятность', rImp: 'влияние',
     assembledFrom: 'Собрано из секций конкурентов ниже — прочерк значит «нет совпадения», а не ноль.',
     gapDash: '— уточнить —',
-    expand: 'показать выдержку целиком', collapse: 'свернуть',
+    expand: 'развернуть секцию целиком на месте', collapse: 'свернуть',
     worklog: 'расчёт', worklogTip: 'открыть worklog, где это прорабатывалось',
     worklogMissing: 'worklog не найден',
     confirmed: 'подтверждён', pending: 'на подтверждение', confirmedOn: 'подтверждён человеком',
@@ -205,7 +204,8 @@ const STR = {
     z4Instr: 'Инструментовка и риски', z4Hyp: 'Гипотезы',
     z5Goals: 'Цели и таргеты', z5Guard: 'Гардрейлы', z5Res: 'Ресурсы и рынок',
     z5Test: 'Проверки и блокеры',
-    z6Commit: 'Обязательное и бэклог', z6Handoff: 'Передача',
+    z6Commit: 'Обязательное и бэклог', z6Excluded: 'Исключено — и почему', z6Handoff: 'Передача',
+    zOther: 'Остальные секции',
   },
 };
 
@@ -825,9 +825,10 @@ function viewUmbrella() {
  * A step's gate is nine or ten section targets — which is to say a canvas of the product. So instead
  * of one gate table repeated for every step, each step can draw its own board: the sections laid out
  * the way that step thinks (a product canvas, a market dashboard, a strategy cascade). The gate tick
- * rides on each card as a badge. Everything here reads the same model the accordions below read, so
- * nothing is invented: a section absent from the instance shows a `— to clarify —`, never filler, and
- * any section the board does not place still appears in full in the Sections list underneath. */
+ * rides on each card as a badge. Nothing is invented: a card's face is the author's `<!-- card -->`
+ * line or no face at all (the console renders the two authored layers, it never composes a third
+ * text); expanding a card shows the section itself, whole; a section absent from the instance shows
+ * a `— to clarify —`, never filler; a section the canvas does not place lands in a trailing zone. */
 
 /* Plain text out of a markdown fragment: drop emphasis, links (keep their text), confidence tags. */
 const plain = s => stripMd(String(s || '')
@@ -838,174 +839,27 @@ const plain = s => stripMd(String(s || '')
   .replace(/⚙️?/g, ''))
   .replace(/\s+/g, ' ').trim();
 
-/* A section body split into ordered blocks — paragraph, list, table — so a card can show the first
-   real content rather than the first line. Headings and comments are dropped. */
-function mdBlocks(body) {
-  const lines = String(body || '').split('\n');
-  const blocks = [];
-  let i = 0;
-  while (i < lines.length) {
-    const l = lines[i];
-    if (!l.trim()) { i++; continue; }
-    if (/^\s*<!--/.test(l)) { while (i < lines.length && !/-->/.test(lines[i])) i++; i++; continue; }
-    if (/^#{1,6}\s/.test(l.trim())) { i++; continue; }
-    const nx = (lines[i + 1] || '').trim();
-    if (l.trim().startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
-      const head = l.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
-      const rows = [];
-      i += 2;
-      while (i < lines.length && lines[i].trim().startsWith('|')) {
-        rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim())); i++;
-      }
-      blocks.push({ type: 'table', head, rows });
-      continue;
-    }
-    if (/^\s*([-*+]|\d+\.)\s+/.test(l)) {
-      const items = [];
-      while (i < lines.length && (/^\s*([-*+]|\d+\.)\s+/.test(lines[i]) || (/^\s{2,}\S/.test(lines[i]) && items.length))) {
-        if (/^\s*([-*+]|\d+\.)\s+/.test(lines[i])) items.push(lines[i].replace(/^\s*([-*+]|\d+\.)\s+/, ''));
-        else items[items.length - 1] += ' ' + lines[i].trim();
-        i++;
-      }
-      blocks.push({ type: 'list', items });
-      continue;
-    }
-    const p = [];
-    while (i < lines.length && lines[i].trim() && !lines[i].trim().startsWith('|')
-      && !/^\s*([-*+]|\d+\.)\s+/.test(lines[i]) && !/^#{1,6}\s/.test(lines[i].trim())) {
-      p.push(lines[i].replace(/^\s*>\s?/, '').trim()); i++;
-    }
-    blocks.push({ type: 'para', text: p.join(' ') });
-  }
-  return blocks;
-}
-/* A leading process/method note — "Секция пройдена методом …", "written by method X" — is provenance,
-   not content, and a prose-only card skips it. Keyed on the method wording, not on a date: a date
-   appears in every `[sourced: … 2026-07-16]` tag, so a date alone is no signal. */
-const isProvenance = b => b.type === 'para'
-  && /(пройден\w*\s+методом|\bметодом\b|\bmethod\b|\bпроведён\b|\bпроведен\b|generated\s+by|tool:)/i.test(b.text);
-/* Which column of a table names its items: the first that is not a rank/score/enum column (Priority,
-   Rank, H/M/L, yes/no). For a segments table that is the Segment column, not the Priority column. */
-function nameCol(tbl) {
-  const cols = Math.min((tbl.head || []).length, 6);
-  let best = 0, bestScore = -1;
-  for (let c = 0; c < cols; c++) {
-    const cells = tbl.rows.map(r => plain(r[c] || '')).filter(Boolean);
-    if (!cells.length) continue;
-    // A rank/score/enum cell (1, H/M/L, yes/no) or a bare identifier (H-001, P1, R-02) is a label,
-    // not the item's words: skip a column that is mostly those so a name column wins (Hypothesis
-    // statement over its ID, Segment over Priority).
-    const ranky = cells.filter(x => /^[*_ ]*(\d|[—–-]$|[HML]$|н\/п$|n\/a$|да$|нет$|yes$|no$)/i.test(x)
-      || /^[*_ ]*[A-Z]{1,3}-?\d{1,4}[*_ ]*$/.test(x)).length;
-    if (ranky > cells.length / 2) continue;
-    // Among what's left, the most *identifying* column names the rows: the one with the most distinct
-    // values (the Item column, not a Direction that repeats). Ties keep the earliest, so Segment wins
-    // over an equally-distinct "Why it matters" beside it.
-    const distinct = new Set(cells.map(x => x.toLowerCase())).size / cells.length;
-    if (distinct > bestScore) { bestScore = distinct; best = c; }
-  }
-  return best;
-}
-/* The card face. A canvas card wants the section's items at a glance, so an enumeration wins: the
-   first list (its item heads) or the first table (its name column — segment names, not the priority
-   number). This also steps over any leading process note for free. Only a section with no enumeration
-   falls back to prose, and there a leading provenance note is skipped. Best-effort: the artifact marks
-   no "headline" block, so the reader opens the section for the whole of it. */
-function cardFace(body) {
-  const blocks = mdBlocks(body);
-  const struct = blocks.find(b => b.type === 'list' || b.type === 'table');
-  let items = null;
-  if (struct && struct.type === 'list') {
-    items = struct.items.map(x => plain(x).split(/\s+[—–-]\s+|:\s+/)[0]).filter(Boolean);
-  } else if (struct && struct.type === 'table') {
-    const c = nameCol(struct);
-    items = struct.rows.map(r => plain(r[c] || '')).filter(Boolean);
-  }
-  // A structured section shows its items one per line — the enumeration is the face. Full items are
-  // kept; the collapsed card clips to a few and the expand arrow reveals the rest.
-  if (items && items.length) return { kind: 'list', items: items.slice(0, 12) };
-  let bi = 0;
-  while (bi < blocks.length && bi < 2 && isProvenance(blocks[bi])) bi++;
-  const b = blocks[bi] || blocks[0];
-  const s = b ? plain(b.type === 'para' ? b.text : (b.items || []).join(' ')) : '';
-  return { kind: 'prose', text: s };
-}
 const CONF_TAG_RE = /\s*\[(assumption|sourced|validated|refuted)(?::[^\]]*)?\]/g;
-const cap = (s, n) => s.length > n ? s.slice(0, n).replace(/\s+\S*$/, '') + '…' : s;
 
-/* Some sections have a face the generic gist cannot find: the JTBD's substance is its job statement,
-   not the four force names its table enumerates; a solution row means nothing without the problem it
-   answers; a hypothesis without its H-id cannot be looked up in the register. The hint names, per
-   section id, which columns (by their stable <!--c:key--> mark) or which block carry the section's
-   own words — a "read the mark, don't guess" rule, same as the boards use. A section whose instance
-   lacks the named keys falls back to the generic gist, so the hint never invents content. */
-const FACE_HINTS = {
-  idea: { paras: 3 },                                           // statement · the shift · riskiest bet
-  jtbd: { prose: true },                                        // the job statement, not the force names
-  solution: { col: 'problem', col2: 'solution', cap: 160 },     // each row reads problem — answer
-  hypotheses: { col: 'hypothesis', idCol: 'id', cap: 140 },     // the statement, addressable by its id
-};
-/* fully-italic paragraph = the template's own lead-in ("_what this section is_"), not instance words */
-const isTplLead = b => b.type === 'para' && /^_[^_].*_$/.test(b.text.trim());
-const isDecidedPara = b => b.type === 'para' && /^\*\*Decided:/.test(b.text.trim());
-function hintedFace(body, hint) {
-  if (!hint) return null;
-  if (hint.paras) {
-    // the first N substance paragraphs, markdown kept — rendered like a marked face, one per line
-    const ps = mdBlocks(body).filter(b => b.type === 'para' && !isProvenance(b) && !isDecidedPara(b));
-    return ps.length ? { kind: 'marked', text: ps.slice(0, hint.paras).map(b => b.text).join('\n') } : null;
-  }
-  if (hint.prose) {
-    const b = mdBlocks(body).find(x => x.type === 'para' && !isProvenance(x) && !isTplLead(x)
-      && !isDecidedPara(x));
-    return b && plain(b.text) ? { kind: 'prose', text: plain(b.text) } : null;
-  }
-  const tbl = firstTable(body);
-  const ci = colKey(tbl, hint.col);
-  if (ci < 0) return null;
-  const c2 = hint.col2 ? colKey(tbl, hint.col2) : -1;
-  const idi = hint.idCol ? colKey(tbl, hint.idCol) : -1;
-  const items = tbl.rows.map(r => {
-    const main = plain(r[ci] || '');
-    if (!main) return null;
-    const second = c2 >= 0 ? plain(r[c2] || '') : '';
-    const id = idi >= 0 ? plain(r[idi] || '') : '';
-    // the id in backticks so inline() paints it as the register chip the reader already knows
-    return (id ? '`' + id + '` ' : '') + main + (second ? ' — ' + second : '');
-  }).filter(Boolean);
-  return items.length ? { kind: 'list', items: items.slice(0, 12), cap: hint.cap } : null;
-}
-/* Turn a face — a showcase-marked line, a structured enumeration, or a prose gist — into the card's
-   excerpt element. The collapsed card clips overflow (measureCanvas adds the expand arrow); where a
-   line is clipped, `title` carries the whole of it on hover. An empty section reads muted when it is
-   n/a/deferred (nothing owed) and amber "to clarify" otherwise (a gap still owed). */
+/* The card's excerpt element. A face exists only where the author marked one — a `<!-- card -->`
+   line, shown verbatim (the console never composes a gist of its own: worklog and artifact are the
+   only authored layers, and the board is a layout of them, not a third text). A section that is not
+   written yet reads muted when it is n/a/deferred (nothing owed) and amber "to clarify" otherwise
+   (a gap still owed). */
 function cvExcerpt(fd, tick) {
-  const empty = !fd
-    || (fd.kind === 'prose' && !fd.text)
-    || (fd.kind === 'marked' && !fd.text)
-    || (fd.kind === 'list' && !fd.items.length);
-  if (empty) {
+  if (!fd || !fd.text) {
     return (tick === 'n/a' || tick === 'deferred')
       ? h('p', { class: 'cvex cv-muted' }, '—')
       : h('p', { class: 'cvex cv-clar' }, t('gapDash'));
   }
-  if (fd.kind === 'marked') {
-    const full = fd.text.replace(CONF_TAG_RE, '').trim();
-    // A marked face laid across hard breaks is an enumeration: the first line leads, each line below is
-    // an item, so give every continuation line a bullet where it has none — the tile reads as a list.
-    const parts = full.split('\n');
-    const html = parts
-      .map((ln, k) => inline(k > 0 && !/^\s*[-*•·–—]\s/.test(ln) ? '• ' + ln : ln))
-      .join('<br>');
-    return h('p', { class: 'cvex', title: full.length > 120 ? plain(full) : null, html });
-  }
-  if (fd.kind === 'list') {
-    return h('ul', { class: 'cvex cvlist' }, ...fd.items.map(x => {
-      const short = cap(x, fd.cap || 110);
-      return h('li', { title: short !== x ? plain(x) : null, html: inline(short) });
-    }));
-  }
-  return h('p', { class: 'cvex', title: fd.text.length > 120 ? fd.text : null }, fd.text);
+  const full = fd.text.replace(CONF_TAG_RE, '').trim();
+  // A marked face laid across hard breaks is an enumeration: the first line leads, each line below is
+  // an item, so give every continuation line a bullet where it has none — the tile reads as a list.
+  const parts = full.split('\n');
+  const html = parts
+    .map((ln, k) => inline(k > 0 && !/^\s*[-*•·–—]\s/.test(ln) ? '• ' + ln : ln))
+    .join('<br>');
+  return h('p', { class: 'cvex', title: full.length > 120 ? plain(full) : null, html });
 }
 const stripHead = b => String(b || '').replace(/^\s*#{1,6}\s.*\n?/, '');
 
@@ -1086,37 +940,41 @@ function cvCard(s, id, opts) {
   const tick = gate ? gate.tick : null;
   const live = meta.present && s.artifact_file;
   const art = live ? artSection(s.artifact_file, id) : null;
-  // The showcase mark wins: a `<!-- card -->` in the artifact names the line the author chose as this
-  // section's headline, and it is shown verbatim (markdown kept). No mark → the console's own gist.
-  const marked = art ? art.card : null;
-  const fd = art
-    ? (marked ? { kind: 'marked', text: marked }
-      : hintedFace(art.body, FACE_HINTS[id]) || cardFace(art.body))
-    : null;
-  const face = cvExcerpt(fd, tick);
-  // Interaction: the tile itself expands in place (a light, reversible look); the "details" link is the
-  // one thing that leaves for the full artifact section. The chevron is a state hint, hidden until
-  // measureCanvas finds the excerpt actually overflows (see .can-expand); it rotates when expanded.
+  // The face is the author's `<!-- card -->` line, verbatim — or no face at all: an unmarked section
+  // shows just its title and tags. Only an unwritten section shows the gap mark.
+  const face = art
+    ? (art.card ? cvExcerpt({ text: art.card }, tick) : null)
+    : cvExcerpt(null, tick);
+  // Interaction: the tile expands in place into the section itself, whole and verbatim (the card is a
+  // collapsed section, not a summary of one); it widens to the full row (see .cvcard.expanded). The
+  // "details" link is the one thing that leaves, for the section in the artifact.
   const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
   const wlTool = live && art ? worklogTool(stem, art.body) : null;
   const xpand = h('span', { class: 'cvxpand', 'aria-hidden': 'true' });
-  const card = h('div', { class: 'cvcard' + (o.hero ? ' cv-hero' : '') + (o.warn ? ' cv-warn' : '') + (live ? ' cv-link' : ' cv-gap') },
+  const foot = live ? h('div', { class: 'cvfoot' },
+    goSection(s.artifact_file, id, t('more'), meta.title || id),
+    wlTool ? goWorklog(stem, wlTool) : null,
+    wlTool ? wlNewerTag(s, wlTool) : null, xpand) : null;
+  const card = h('div', { class: 'cvcard' + (o.hero ? ' cv-hero' : '') + (o.warn ? ' cv-warn' : '')
+    + (live ? ' cv-link' + (art ? ' can-expand' : '') : ' cv-gap') },
     h('div', { class: 'cvtop' },
       h('span', { class: 'cvttl' }, meta.title || id),
       confTag(meta),
       tick ? tickTag(tick) : null),
     live ? evStrip(meta.confidence) : null,
     face,
-    live ? h('div', { class: 'cvfoot' },
-      goSection(s.artifact_file, id, t('more'), meta.title || id),
-      wlTool ? goWorklog(stem, wlTool) : null,
-      wlTool ? wlNewerTag(s, wlTool) : null, xpand) : null);
-  if (live) {
+    foot);
+  if (live && art) {
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
     card.setAttribute('aria-expanded', 'false');
     card.title = t('expand');
-    const toggle = () => card.setAttribute('aria-expanded', card.classList.toggle('expanded') ? 'true' : 'false');
+    let full = null;
+    const toggle = () => {
+      // built once, on first open — the section body rendered whole, above the footer
+      if (!full) { full = h('div', { class: 'cvfull md', html: md(stripHead(art.body)) }); card.insertBefore(full, foot); }
+      card.setAttribute('aria-expanded', card.classList.toggle('expanded') ? 'true' : 'false');
+    };
     // A click anywhere on the tile expands/collapses it — except on the "details" link, which navigates.
     card.addEventListener('click', e => { if (!e.target.closest('.golink')) toggle(); });
     card.addEventListener('keydown', e => {
@@ -1124,17 +982,6 @@ function cvCard(s, id, opts) {
     });
   }
   return card;
-}
-/* After the canvas is in the DOM, show the expand arrow only on cards whose excerpt is actually
-   clipped — measured, so it is right at any tile width and for any instance's content. Kept on a
-   card once expanded so it can collapse again. */
-function measureCanvas() {
-  document.querySelectorAll('.cvcard').forEach(card => {
-    const ex = card.querySelector('.cvex');
-    if (!ex) return;
-    const over = ex.scrollHeight > ex.clientHeight + 2;
-    card.classList.toggle('can-expand', over || card.classList.contains('expanded'));
-  });
 }
 const cvZone = label => h('div', { class: 'cvzone' }, label);
 const bodyOf = (s, id) => {
@@ -1196,8 +1043,8 @@ function canvasStrategicPlan(s) {
   const parts = [];
   const hero = cvCard(s, 'metric-tree', { hero: true });
   if (hero) parts.push(cvZone(t('z4North')), hero);
-  [[t('z4Econ'), ['unit-economics', 'financial-model', 'retention']],
-   [t('z4Instr'), ['architecture-instrumentation', 'risk-mitigation']],
+  [[t('z4Econ'), ['unit-economics', 'financial-model', 'retention', 'strategic-targets']],
+   [t('z4Instr'), ['architecture-instrumentation', 'risk-mitigation', 'capabilities']],
    [t('z4Hyp'), ['global-hypotheses', 'open-questions']]].forEach(([lab, ids]) => {
     const z = cardZone(s, lab, ids); if (z) parts.push(...z);
   });
@@ -1212,19 +1059,26 @@ function canvasTacticalPlan(s) {
   const guard = cvCard(s, 'guardrails', { hero: true, warn: true });
   if (guard) parts.push(cvZone(t('z5Guard')), guard);
   [[t('z5Res'), ['resources', 'market-bundles']],
-   [t('z5Test'), ['hypotheses-to-test', 'blockers', 'to-clarify']]].forEach(([lab, ids]) => {
+   [t('z5Test'), ['hypotheses-to-test', 'readouts', 'blockers', 'to-clarify']]].forEach(([lab, ids]) => {
     const z = cardZone(s, lab, ids); if (z) parts.push(...z);
   });
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
-/* Step 6 — the sprint board: the committed 'must' set beside the backlog, and the handoff as a
-   callout — where each item goes and how its result loops back. */
+/* Step 6 — the sprint board: the sprint goal on top, the committed 'must' set beside the backlog,
+   what was excluded (and why), and the delivery handoff as a callout — where each item goes and how
+   its result loops back. */
 function canvasSprintPlan(s) {
   const parts = [];
+  const goal = cvCard(s, 'sprint-goal', { hero: true });
+  if (goal) parts.push(goal);
   const b2 = board2(s, 'must', 'backlog');
   if (b2) parts.push(cvZone(t('z6Commit')), b2);
-  const ho = mdBlock(s, 'handoff', 'callout');
+  const ex = cardZone(s, t('z6Excluded'), ['excluded']);
+  if (ex) parts.push(...ex);
+  const ho = mdBlock(s, 'delivery', 'callout');   // the template's anchor is {#delivery} — 'handoff' matched nothing
   if (ho) parts.push(cvZone(t('z6Handoff')), ho);
+  const open = cardZone(s, t('z3Open'), ['to-clarify']);
+  if (open) parts.push(...open);
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
 
@@ -1334,6 +1188,11 @@ function canvasAnalysis(s) {
   push(t('dSubstitutes'), mdBlock(s, 'substitutes'), 'substitutes');
   push(t('dOpportunity'), mdBlock(s, 'opportunity', 'callout'), 'opportunity');
   push(t('dRisks'), riskBoard(s), 'niche-risks');
+  // the two sections the dashboard widgets don't draw — as ordinary cards, so nothing goes missing
+  const hyp = cardZone(s, t('z4Hyp'), ['hypotheses']);
+  if (hyp) parts.push(...hyp);
+  const open = cardZone(s, t('z3Open'), ['to-clarify']);
+  if (open) parts.push(...open);
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
 const STEP_CANVAS = {
@@ -1344,6 +1203,21 @@ const STEP_CANVAS = {
   5: { fn: canvasTacticalPlan, title: 'boardTactical' },
   6: { fn: canvasSprintPlan, title: 'boardSprint' },
 };
+/* The section ids each canvas above places — mirrored by hand, read only to find leftovers: a
+   section the canvas does not know (an instance's own addition, or a template ahead of the console)
+   still reaches the board, as a card in a trailing zone. */
+const PLACED = {
+  1: ['idea', 'segments', 'jtbd', 'problems', 'cjm', 'solution', 'value-defensibility', 'hypotheses', 'to-clarify'],
+  2: ['market-sizing', 'competitors', 'competitor-strategy', 'competitor-pricing', 'competitor-dynamics',
+    'substitutes', 'opportunity', 'niche-risks', 'hypotheses', 'to-clarify'],
+  3: ['winning-aspiration', 'where-to-play', 'how-to-win', 'uvp-cpv', 'pricing', 'channels-expansion',
+    'product-surface', 'architecture', 'bets', 'product-risks', 'to-clarify'],
+  4: ['metric-tree', 'unit-economics', 'financial-model', 'retention', 'strategic-targets',
+    'architecture-instrumentation', 'risk-mitigation', 'capabilities', 'global-hypotheses', 'open-questions'],
+  5: ['period-goals', 'goal-targets', 'guardrails', 'resources', 'market-bundles',
+    'hypotheses-to-test', 'readouts', 'blockers', 'to-clarify'],
+  6: ['sprint-goal', 'must', 'backlog', 'excluded', 'delivery', 'to-clarify'],
+};
 
 /* ---------------------------------------------------------------- the step */
 function viewStep() {
@@ -1352,7 +1226,6 @@ function viewStep() {
   const s = m.steps.find(x => x.step === S.step) || m.steps[0];
   S.step = s.step;
   const perStep = (m.status && m.status.per_step && m.status.per_step[String(s.step)]) || null;
-  const emph = new Set((perStep && perStep.tools) || []);
   const written = s.sections.filter(x => x.present).length;
   const gaps = s.sections.reduce((a, x) => a + (x.gaps || 0), 0);
   const proposals = s.sections.reduce((a, x) => a + (x.proposals || 0), 0);
@@ -1378,37 +1251,6 @@ function viewStep() {
       s.artifact_file ? fig(t('artifact'), h('span', { style: 'font-size:14px;font-family:var(--mono)' },
         s.artifact_file), s.artifact_updated || '') : null));
 
-  const sections = h('div', {}, s.sections.map(x => {
-    const gate = s.gate.find(g => (g.sections || []).includes(x.id));
-    const body = x.present ? artSection(s.artifact_file, x.id) : null;
-    return acc([
-      h('span', { class: 'sumtitle' }, x.title || x.id),
-      h('code', { class: 'tag' }, '#' + x.id),
-      h('span', { class: 'summeta' },
-        x.off_skeleton ? h('span', { class: 'tag' }, t('offSkeleton')) : null,
-        x.present ? h('span', { class: 'tag' }, `${x.words} ${t('words')}`)
-          : h('span', { class: 'tag unknown' }, t('notWritten')),
-        confTag(x),
-        restTag(x),
-        x.present && body ? (tool => tool ? wlNewerTag(s, tool) : null)(
-          worklogTool(s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '', body.body)) : null,
-        x.gaps ? h('span', { class: 'tag open' }, `${x.gaps} ${t('gaps')}`) : null,
-        x.proposals ? h('span', { class: 'gear' }, `${t('proposalMark')} ×${x.proposals}`) : null,
-        gate ? tickTag(gate.tick) : null,
-        x.present && s.artifact_file ? goSection(s.artifact_file, x.id) : null),
-    ], [
-      x.present && body
-        ? h('div', {},
-          h('div', { class: 'row', style: 'margin-bottom:10px' }, confChips(x.confidence), ridChips(x.ids)),
-          h('div', { class: 'md', html: md(body.body) }))
-        : h('div', {},
-          h('p', { class: 'small muted' }, x.what || t('notWritten')),
-          x.tools.length ? h('div', { class: 'row', style: 'margin-top:9px' },
-            h('span', { class: 'tiny faint mono' }, t('fillWith') + ':'),
-            x.tools.map(y => h('span', { class: 'tag' + (emph.has(y) ? ' strong' : '') }, y))) : null),
-    ]);
-  }));
-
   // The gate's `targets` are the same sections the links point at, so the link *is* the column: one
   // less column of mono text broken across five lines in a narrow rail.
   const gateTable = table([t('state'), t('gateItem'), t('validates')],
@@ -1419,17 +1261,19 @@ function viewStep() {
         s.artifact_file ? (g.sections || []).map(id => goSection(s.artifact_file, id, '#' + id)) : null,
         g.register ? h('span', { class: 'tag met' }, g.register) : null))));
 
-  // The board is the frame around the reading. Where a step has a canvas of its own — the passport as
-  // a product canvas, the analysis as a market dashboard — it draws that, with each gate tick riding
-  // on its card; otherwise it falls back to the plain gate table. The full text runs below either way.
+  // The board IS the reading: every section is a card (collapsed = title + the author's card line;
+  // expanded = the section itself), so there is no duplicate section list underneath. Where a step has
+  // a canvas of its own it draws that, with each gate tick riding on its card; otherwise it falls back
+  // to the plain gate table. Sections the canvas does not place land in a trailing zone.
   const cv = STEP_CANVAS[s.step];
   const board = cv ? cv.fn(s) : null;
+  const left = cv ? cardZone(s, t('zOther'),
+    s.sections.map(x => x.id).filter(id => !(PLACED[s.step] || []).includes(id))) : null;
   const frame = board
-    ? sec(t(cv.title), { right: gateSummary(s) }, board)
+    ? sec(t(cv.title), { right: gateSummary(s) }, h('div', {}, board, ...(left || [])))
     : sec(t('gate'), { right: gateSummary(s) }, gateTable);
 
-  return h('div', {}, head, frame,
-    sec(t('sectionsTitle'), { right: `${written}/${s.sections.length} ${t('filled')}` }, sections));
+  return h('div', {}, head, frame);
 }
 
 /* ---------------------------------------------------------------- artifacts */
@@ -2113,7 +1957,6 @@ function render() {
   document.getElementById('footrev').textContent = S.snapshot ? t('snapshotNote') : t('readOnly');
   const tt = document.getElementById('totop');
   if (tt) { tt.title = t('toTop'); tt.setAttribute('aria-label', t('toTop')); }
-  if (typeof requestAnimationFrame === 'function') requestAnimationFrame(measureCanvas);
 }
 
 async function addFolder(raw) {

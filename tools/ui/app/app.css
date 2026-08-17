@@ -554,22 +554,22 @@ details.acc .accbody { padding:13px 15px 16px }
   max-height:9em; overflow:hidden;
   display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical }
 .cvex :where(b, strong) { color:var(--ink) }
-/* a structured face is an enumeration — one item per line, not clamped to a paragraph box */
-ul.cvex.cvlist { display:block; margin:0; padding:0; list-style:none }
-ul.cvex.cvlist > li { position:relative; padding-left:13px; margin:0 0 4px }
-ul.cvex.cvlist > li:last-child { margin-bottom:0 }
-ul.cvex.cvlist > li::before { content:''; position:absolute; left:1px; top:8px; width:4px; height:4px;
-  border-radius:50%; background:var(--brand-ink); opacity:.55 }
 .cv-hero .cvex { font-size:14px; line-height:1.55; color:var(--ink); max-width:88ch;
   max-height:13.5em; -webkit-line-clamp:9 }
-.cvcard.expanded .cvex { max-height:none; overflow:visible; -webkit-line-clamp:none; display:block }
-.cvcard.expanded ul.cvex.cvlist { display:block }
+/* Expanded, the card IS the section: it widens to the full row and shows the body whole; the face
+   line hides (it is a line of that same body, and would read twice). */
+.cvcard.expanded { grid-column:1/-1 }
+.cascade > .cvcard.expanded { flex-basis:100% }
+.cvcard.expanded .cvex { display:none }
+.cvfull { display:none; border-top:1px solid var(--line-2); margin-top:2px; padding-top:11px;
+  font-size:13px; max-width:88ch }
+.cvcard.expanded .cvfull { display:block }
 .cvex.cv-clar { color:var(--warn); background:var(--warn-soft); padding:2px 6px; border-radius:4px;
   align-self:flex-start; font-weight:600; display:inline-block; -webkit-line-clamp:none; max-height:none }
 .cvex.cv-muted { color:var(--faint); display:inline-block; -webkit-line-clamp:none; max-height:none }
 /* footer row: the "details" link on the left, the expand-state chevron on the right, on one baseline */
 .cvfoot { margin-top:auto; padding-top:2px; display:flex; align-items:center; justify-content:space-between; gap:8px }
-/* expand / collapse chevron — a state hint (the whole tile is the click target), shown only when clipped */
+/* expand / collapse chevron — a state hint (the whole tile is the click target), on every live card */
 .cvxpand { display:none; height:21px; line-height:1; color:var(--muted); font-size:15px; user-select:none }
 .cvcard.can-expand .cvxpand { display:inline-flex; align-items:center; justify-content:center }
 .cvxpand::before { content:'⌄'; margin-top:-3px }

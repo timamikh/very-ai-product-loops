@@ -418,9 +418,10 @@ def card_line(body):
     bullet headline wrapped across physical lines is not cut off either. Within the collected lead, a
     markdown hard break (a line ending in `\\` or two spaces) is kept as a `\\n`, so an enumeration the
     author laid one-item-per-line reaches the card as separate lines; ordinary soft wraps still join
-    with a space. The `showcase` operations skill places the mark (agent judgement of what a section's
-    headline is); nothing is generated or summarised here, so a card can neither drift from the text nor
-    invent past it. No mark → None, and the interface falls back to its own gist of the section.
+    with a space. The agent places the mark at projection time (choosing the headline is projection
+    judgement — CONVENTIONS → *Card line*); nothing is generated or summarised here, so a card can
+    neither drift from the text nor invent past it. No mark → None, and the interface shows the
+    section's title and status only — it never composes a gist of its own.
     """
     lines = body.splitlines()
     for i, raw in enumerate(lines):

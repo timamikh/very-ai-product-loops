@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.22.2
-updated: 2026-08-16
+version: 0.23.0
+updated: 2026-08-17
 ---
 
 # Conventions
@@ -57,6 +57,24 @@ carries none — "no consumer, no key".
 **The authoring rule — the three homes of a key, and the one place it must never be (a method
 template) — is** [`reference/column-keys.md`](reference/column-keys.md). Read it when editing a step
 template or a register.
+
+## Card line
+
+A section may mark **one of its own lines** as its headline — the line a board card shows while the
+section is collapsed:
+
+```markdown
+The one-line statement of the concept, in the author's words. <!-- card -->
+```
+
+Two forms: the mark **trailing a line** points at that line (a marked bullet returns the whole
+bullet, even wrapped); the mark **alone on a line** points at the paragraph below it, collected
+whole. The console shows the marked line verbatim, markdown kept — it never summarises, reorders or
+invents: a section with no mark shows only its title and status, and expanding any card shows the
+section itself, in full. The mark is placed by the agent at projection time (choosing the headline
+is projection judgement, same as ordering the section), and the human can move it like any other
+line of the artifact — through the agent. One mark per section; a template never ships one (the
+headline is the instance's words, not the skeleton's).
 
 ## Links & register item IDs
 
