@@ -6,15 +6,15 @@ reads_registers: []
 writes_registers: []
 inputs: [kb]
 prerequisites:
-  - a raw file in `sources/` (or a new one just added) with a role in `sources/INDEX.md`
+  - a raw file in `sources/` (or a new one just added) with a role in `sources/INDEX.md` — a URL becomes a dated extract first (see *A source that is a URL*)
   - the target step's artifact exists, so its `<!-- tool: X -->` markers name the worklogs a source may feed
   - a decision, when a source could feed more than one step, on which it primarily informs — proposed by the agent, confirmed by the human
 used_by_steps: [any]
 opinionated: true
 method_basis: "Route, don't reason: every external source is dispatched into the step worklog(s) it informs and cited there, so no artifact ever reaches around a worklog to a raw file"
 status: draft
-version: 0.1.0
-updated: 2026-08-13
+version: 0.2.0
+updated: 2026-08-17
 ---
 
 # Source intake — dispatch a raw source into the step worklogs it feeds
@@ -60,6 +60,28 @@ written, `sources/INDEX.md` updated, and a change-log entry. Routing evidence is
 > by [`metrics-capture`](../metrics-capture/SKILL.md), not dispatched as an intake row. Source-intake
 > routes qualitative and contextual evidence; a metric reading's home is the register, and the worklog
 > cites the register id.
+
+## A source that is a URL
+
+A product manager's inputs often arrive as links — the product's own site, a competitor's pricing
+page, a published report. A live page is **not a source yet**: it changes under you, and the
+re-dispatch rule (*a source changed*, above) has nothing to re-read. Make it a file first:
+
+1. **Fetch and extract** what the routing actually needs — the claims, numbers and wording, not the
+   whole HTML — into a **dated extract** in `sources/` (e.g. `sources/competitor-pricing-2026-08-17.md`)
+   whose header carries the URL and the capture date.
+2. **Index it** in `sources/INDEX.md` like any file: its role, the URL, and when it was captured.
+3. **Route the extract** exactly as below. The worklog cites the extract; the extract carries the
+   URL — so a claim stays checkable even after the page changes.
+
+A page worth watching (pricing, a changelog) is re-fetched as a **new** dated extract, never edited
+in place; trigger 3 above then re-dispatches the affected worklogs.
+
+Two web inputs are *not* routed here: a **number from an analytics tool or an admin panel** is a
+reading, and its pass is [`metrics-capture`](../metrics-capture/SKILL.md) — this skill only files
+the **access file** that says where the tool lives and how to reach it (CONVENTIONS → *Raw data &
+access*); and an **open question the web must answer** is a `research` brief for a subagent, not an
+intake.
 
 ## Prerequisites
 
@@ -121,6 +143,8 @@ decoding each id and file in the same sentence, and name any source left unroute
   dispatched once, to the method that works from it; other worklogs cite it by reference.
 - **A metric as prose.** Filing a number that belongs in `metrics.csv` as an intake row — its home is the
   register (`metrics-capture`); the worklog cites the register id.
+- **The live link.** A worklog citing a bare URL with no dated extract in `sources/` — when the page
+  changes, the citation points at something that no longer says it.
 - **The silent overwrite.** A changed source overwriting an intake row with no strike and no new date, so
   a superseded value looks current.
 - **Filing without Update state.** Evidence moved, index and change log untouched — the pass did not

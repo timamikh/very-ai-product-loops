@@ -13,8 +13,8 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Reproducible measurement: a declared population, a declared observation window, a written derivation, and an independent recount before the value is trusted"
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.2.1
+updated: 2026-08-17
 ---
 
 # Metrics capture — from a source to a register row
@@ -101,6 +101,15 @@ step people skip, and skipping it produces a plausible number that is simply fal
 an external origin, the query or script and the raw rows it reads live outside it; only a reference goes
 inside. Prefer a script you can re-run over a click path you can only describe — reproducibility is the
 whole point, and a UI that changes next month takes an unrepeatable procedure with it.
+
+> **Web analytics (GA4, Yandex Metrika and kin).** The counter / property id, the exact report or
+> API query, the date range, the segment and the **sampling state** are all part of the derivation:
+> `basis` names the tool and the query (`GA4 API runReport · sessions · 2026-07`), never just
+> "analytics", and a sampled number is an estimate and says so in `note`. Prefer the API or a saved
+> export over reading numbers off the UI — a click path is not reproducible, and the UI resegments
+> silently between visits. If the agent has no access, the access file names who does, and the
+> export is requested from the human (`questions.yaml`) — that export then lands in `sources/` and
+> the worklog cites it.
 
 **6 · Verify before you believe it.** At least one independent check, and say in the method file which one
 you ran:
