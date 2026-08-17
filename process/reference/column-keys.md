@@ -2,8 +2,8 @@
 node_type: reference
 title: Column keys — the authoring rule
 status: draft
-version: 0.1.0
-updated: 2026-08-15
+version: 0.1.1
+updated: 2026-08-18
 ---
 
 # Column keys
@@ -26,7 +26,7 @@ the column. Keys are kebab-case, unique within their table, and stable across re
 translations** — translate or reorder the header freely, keep the key. A table is **all-keyed or
 none**: a half-keyed header is the very ambiguity the key removes, so the linter rejects it (check O).
 
-**The three homes of a key — and the one place it must never be.** The **chistovik** (an instance's
+**The three homes of a key — and the one place it must never be.** The **clean copy** (an instance's
 artifact section) and the **interface** that renders it are the *same form*, one to one, and that form
 is defined by the **step template**. So a column key has exactly three homes:
 
@@ -42,8 +42,8 @@ is defined by the **step template**. So a column key has exactly three homes:
 
 A key is **never** put in a method's template (`template-fragment.md`). That file is the *draft's*
 shape — by default it matches the section's theses, but a method may work a wider table, more tables,
-or more detail than the chistovik shows, and data may arrive from `sources/` or a method the product
-altered. When it does, the **orchestrator adapts the draft's data into the chistovik's fixed form**,
+or more detail than the clean copy shows, and data may arrive from `sources/` or a method the product
+altered. When it does, the **orchestrator adapts the draft's data into the clean copy's fixed form**,
 matching columns **by meaning**, not by any machine key — so a key in a method template is consumed by
 nothing and only creates a sync burden every new skill would have to carry. The linter therefore treats
 a key in a method template as an **error** (check O), and enforces on the step templates the shape a key

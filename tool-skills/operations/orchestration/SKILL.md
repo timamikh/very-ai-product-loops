@@ -13,7 +13,7 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.2.0
+version: 0.2.1
 updated: 2026-08-18
 ---
 
@@ -115,7 +115,7 @@ separable, not that the brief needs to be longer).
 
 7. **Check the worklog, then project — this is the writing the orchestrator owns.** A `draft` return
    points at a **worklog the subagent wrote**; read it against the passport, then **project** it into
-   the artifact section (the chistovik the human signs) — the writing move itself is the
+   the artifact section (the clean copy the human signs) — the writing move itself is the
    [`projection`](../projection/SKILL.md) operations skill. Delegation adds its own rules on top:
    a subagent's tag is never laundered (its `[assumption]` stays an assumption, and never re-tag a
    return as `[sourced: subagent]` — the source is what the subagent opened, named in your text);

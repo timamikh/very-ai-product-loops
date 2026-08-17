@@ -2,8 +2,8 @@
 node_type: extending
 title: Extending — how to adapt the framework without forking it
 status: draft
-version: 0.6.1
-updated: 2026-08-16
+version: 0.6.2
+updated: 2026-08-18
 ---
 
 # Extending the framework
@@ -72,7 +72,7 @@ The procedure, run by the agent as one pass of the loop:
 ## Changing a section or its columns
 
 A step artifact's shape is a contract, and its one home is the step template `steps/<n>/template.md`:
-the chistovik an instance fills and the console that renders it are the *same form*, read from there.
+the clean copy an instance fills and the console that renders it are the *same form*, read from there.
 So changing a section means changing that schema — everything else follows it, nothing is a second edit.
 
 A section is three marks (the column half is specified in

@@ -20,7 +20,7 @@ updated: 2026-08-18
 
 **What it is.** The writing move at [operating-loop](../../../process/OPERATING-LOOP.md) **step 6**
 that turns a **worklog** (the method's working — inputs, reasoning, numbers, open items) into its
-**artifact section** (the chistovik the human signs). The *invariants* are canon: the worklog is the
+**artifact section** (the clean copy the human signs). The *invariants* are canon: the worklog is the
 source of truth and the section is its projection (CONVENTIONS → *Step folders & worklogs*), the
 projection is writing only the orchestrator owns (OPERATING-LOOP → *Delegation*). This file is the
 *how* — the procedure an agent follows every time a section is written or re-written.
