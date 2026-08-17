@@ -3,8 +3,8 @@ node_type: worklog
 tool: segment-cvp
 step: 5
 title: "segment–CVP market-entry bundles — Period 1"
-updated: 2026-08-16
-version: 0.1.0
+updated: 2026-08-17
+version: 0.1.1
 ---
 
 # segment–CVP bundles — the working (Period 1)
@@ -16,7 +16,7 @@ distinct situations for the priority segment and ≥8 bundles total before any i
 **6-filter readiness gate** (binary), the **1·3·5 priority score** over the ready ones, stage the top
 3–5, seed `H-…` (`type: desirability`). Cut bundles are kept with their reason._
 
-## 1 · Bundles composed (N = 9; S1 across 6 situations + one adjacent segment + one deliberate reject)
+## 1 · Bundles composed (N = 9; S1 across 7 situations + one adjacent segment + one deliberate reject)
 
 Priority segment **S1** = sales & marketing client-facing deck makers (`1#segments`). Situations are
 the unit of generation, not the segment.
@@ -87,8 +87,18 @@ recorded reject.
   different channel/audience than the founder's design community) → **mints `H-013`**
   (`desirability`): *a named consulting community reaches S1 consultants at a qualified-action signal.*
 
-Decision commitment per staged bundle: **scale / iterate / reject / research** — recorded; the test
-design is handed to `hypothesis-test-design` (not designed here).
+Decision commitment per staged bundle (the test design itself is handed to `hypothesis-test-design`,
+not designed here):
+
+- **B-01** — on the `H-011` readout: qualified pilot signal at/above the bar → **scale** the warm
+  push into more agency situations; recruits sign up but don't pilot → **iterate** the offer (the
+  deadline-pitch framing, not the channel); the warm audience yields no reachable S1 agency buyers →
+  **reject** this channel-situation pair.
+- **B-05** — same readout, freelance-designer situation: pilot + willingness to pay a subscription →
+  **scale**; pilots but balks at paying → **iterate** pricing/packaging toward `H-010`'s price-talk;
+  no pilot uptake → **reject** the situation, keep the channel (it still carries B-01).
+- **B-02** — **research**: staged in the ranking but deferred on founder capacity; no decision falls
+  this period — it enters `hypothesis-test-design` (`H-013`) when it gets a period slot.
 
 ## 6 · What was cut and why (kept — the cheapest output, the most expensive to re-derive)
 
@@ -100,8 +110,19 @@ design is handed to `hypothesis-test-design` (not designed here).
 
 ## Change log
 
+### 2026-08-17 — human review pass: situation count corrected, staged decisions written out
+- **From → To:** (1) "6 S1 situations" → **7** in §1's heading and the change log below — §1 itself
+  listed seven (multi-SMB-client · deadline pitch · monthly QBR · rebrand rollout · per-prospect ·
+  RFP · conference) and the artifact projected seven, so the headline number was the odd one out;
+  (2) §5's claim that per-bundle decision commitments were "recorded" → the three commitments
+  (B-01 scale/iterate/reject on the `H-011` readout, B-05 likewise with the `H-010` price fork,
+  B-02 research/deferred) are now actually written
+- **Why:** a worklog that contradicts its own table invites the next reader to trust neither; a
+  claimed-but-absent record is worse than no claim — review returned both
+- **Trigger:** human review of the finished run (tactics lens)
+
 ### 2026-08-16 — Period-1 bundles composed, gated, scored; `H-013` seeded
-- **From → To:** — → 9 bundles (6 S1 situations + 1 adjacent + 1 deliberate reject), 6-filter gate
+- **From → To:** — → 9 bundles (7 S1 situations + 1 adjacent + 1 deliberate reject), 6-filter gate
   (B-08 fails all six), 1·3·5 score over 8 ready bundles, **top 3 staged (B-05/B-01/B-02)**; B-01/B-05
   recorded as `H-011`/`H-003` instances, **B-02 mints `H-013`**; 5 bundles kept below the line with
   reasons

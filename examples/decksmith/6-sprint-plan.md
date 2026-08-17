@@ -4,8 +4,8 @@ artifact: sprint-plan
 step: 6
 title: "Sprint Plan — Decksmith (fictional sample) · Sprint 1"
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-17
 ---
 
 # Sprint Plan — Decksmith (fictional sample) · Sprint 1 (⚙️ ~2 wk, no dates)
@@ -115,6 +115,11 @@ Backlog is the visible reject of the must-set; this is the reject of the ranking
 | F-5 · brand-kit storage | development | cut at Step 5 (`5#period-goals`) — the lock-in moat is the `H-012` *trajectory*, premature before the wedge is proven; no gate contribution this period |
 | A-3 · paid-ad probe | go-to-market | backlogged at Step 5, out of Sprint-1 scope — paid CAC is thin (`4#unit-economics`); don't spend into a channel modelled as secondary (`R-008`) |
 
+_Step-5 carry-over check: the period backlog's other two items — **C3** (activation funnel; waits on
+partners using the prototype, a later sprint's ranking) and **C9** (provider-abstraction/ToS risk
+hygiene) — did not enter Sprint 1's candidate list at all; they stay on the period backlog, owned by
+`5#prioritization`. Reconciliation table in `6-sprint-plan/prioritization-sprint-plan.md` §5._
+
 ## Delivery {#delivery}
 <!-- synthesis -->
 _What goes to the development process, and how (the framework ends here; work proceeds in the team's own flow)._
@@ -136,6 +141,14 @@ _What goes to the development process, and how (the framework ends here; work pr
   confirm at grooming; the acceptance criteria hold regardless.
 
 ## Change log
+
+### 2026-08-17 — human review pass: Step-5 carry-over made visible
+- **From → To:** `#excluded` gains the carry-over check — the period backlog's C3/C9 did not enter
+  Sprint 1's ranking and now say so explicitly, with the re-entry condition; reconciliation table in
+  the worklog §5
+- **Why:** two period-plan items vanishing between Step 5 and Step 6 files is the silent-drop the
+  prioritization pair exists to prevent; review returned it
+- **Trigger:** human review of the finished run (tactics lens)
 
 ### 2026-08-16 — created (Step 6, Sprint 1 projection)
 - **From → To:** — → Sprint-1 plan projected from the four `6-sprint-plan/` worklogs: sprint goal;

@@ -4,8 +4,8 @@ artifact: analysis
 step: 2
 title: "Market & Competitive Analysis — Decksmith (fictional sample)"
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-17
 ---
 
 <!--
@@ -82,14 +82,14 @@ worklog reject table._
 |------------|--------------|-------|--------|------------|
 | Gamma | per-seat + credits | Free · Plus $8/mo · Pro $18/mo · Ultra $100/mo (2026-08-16) | gamma.app/pricing | [sourced: med] |
 | Beautiful.ai | flat / per-seat | Pro $12/mo · Team $40/user/mo · deck $45 (2026-08-16) | beautiful.ai/pricing | [sourced: high] |
-| Microsoft Copilot | per-seat add-on | $18/user/mo (promo, reg. $21) + M365 base (2026-08-16) | microsoft.com | [sourced: high] |
+| Microsoft Copilot | per-seat add-on | enterprise $30/user/mo · SMB "Copilot Business" $21 list / $18 promo (2026-08-17) + M365 base | microsoft.com pricing pages | [sourced: high] |
 | Plus AI | per-seat + credits | Basic $10 · Pro $20 · Team $30 · Max $200 /mo (2026-08-16) | plusai.com/pricing | [sourced: high] |
 | Presentations.ai | flat + credits | Free · Pro $20 · Gold $100 /mo (2026-08-16) | presentations.ai/pricing | [sourced: med] |
 | Pitch | per-seat + credits | Free · Plus €10 · Team €15 · Business €20 /mo (2026-08-16) | pitch.com/pricing | [sourced: high] |
 
-_Blended market anchor ⚙️ ≈ **$15/mo = $180/yr/seat**. The bundle (Copilot $18 on top of an existing
-M365 seat) and freemium tiers are the real WTP pressure — a paid standalone must beat "already in
-PowerPoint." No >20% CONFLICT on entered figures._
+_Blended market anchor ⚙️ ≈ **$15/mo = $180/yr/seat**. The bundle (Copilot $18–30 by tier on top of
+an existing M365 seat) and freemium tiers are the real WTP pressure — a paid standalone must beat
+"already in PowerPoint." No >20% CONFLICT on entered figures._
 
 ## Competitor dynamics {#competitor-dynamics}
 <!-- tool: competitor-dynamics -->
@@ -97,13 +97,13 @@ _Trend over time — whose strategy is working. Per-fact-type sourcing, `as_of` 
 
 | Competitor <!--c:name--> | Metric (revenue / headcount / …) <!--c:metric--> | Trend + period <!--c:trend--> | Source (+ date) <!--c:source--> | Confidence <!--c:conf--> |
 |------------|----------------------------------|----------------|-----------------|------------|
-| Gamma | valuation / ARR / users | $2.1B val (Nov 2025); ARR ~$100M up from ~$30M (2024); ~70M users | BusinessWire + TechCrunch + Sacra, cross-checked (as_of 2026-08-16) | [sourced: fact — high] |
+| Gamma | valuation / ARR / users | $2.1B val (Nov 2025); ARR ~$100M up from ~$30M (2024); ~70M users | TechCrunch + SiliconANGLE + Sacra, cross-checked (as_of 2026-08-16; URLs in worklog) | [sourced: fact — high] |
 | Canva | valuation / ARR / users | ~$42B val (Aug 2025); ~$4B ARR run-rate, B2B ~2× YoY; 265M MAU | Sacra + TechCrunch (as_of 2026-08-16) | [sourced: fact — high] |
-| Microsoft Copilot | paid seats | 20M+ M365 Copilot seats, +160% YoY (PPT-specific not disclosed) | Microsoft-reported + press (CONFLICT 15M vs 20M → range) | [sourced: fact — med-high] |
+| Microsoft Copilot | paid seats | M365 Copilot 15M seats +160% YoY (FY26 Q2) → 20M+ (FY26 Q3); PPT-specific not disclosed | Microsoft earnings via press, two quarters (URLs in worklog) | [sourced: fact — high] |
 | Beautiful.ai | revenue / funding | ~$13.5M rev (2025); funding CONFLICT $16M vs $61M | getlatka / tracxn (as_of 2026-08-16) | [sourced: estimate — low] |
 | Plus AI | funding / ARR | — to clarify — (bootstrapped, no disclosed round; one aggregator ~$47.5M ARR, unverified) | getlatka only (as_of 2026-08-16) | [assumption — low] |
-| Tome (exited) | status | killed Slides ~Apr 2025; pivoted to sales AI | Semafor + Tome.com (as_of 2026-08-16) | [sourced: fact — high] |
-| Pitch (exited) | status / ARR | Jan 2024 reset; ~$10M ARR; → sales enablement | Sacra + TechCrunch (as_of 2026-08-16) | [sourced: fact — high] |
+| Tome (exited) | status | shut down Mar 2025 (sunset date — to clarify —); pivoted to sales AI | Forbes (shutdown) + Semafor (2024 layoffs) | [sourced: fact — high] |
+| Pitch (exited) | status / ARR | Jan 2024 reset (~78% layoffs); ~$10M ARR (est.); → sales enablement | Sacra (single-source estimate) | [sourced: estimate — med-high] |
 
 _Accelerating into our space: Gamma (clearest threat), Canva, Microsoft (bundle). Retreated: Tome,
 Pitch — validating the free-virality monetization trap (`R-005`), but retreating *toward* the
@@ -121,7 +121,7 @@ self-build threshold) in the worklog._
 | do-it-manually (status quo) | build in PowerPoint/Slides/Keynote by hand | habit + control — the dominant substitute and the real competitor | [assumption] |
 | self-build (internal template / python-pptx) | ops team maintains a locked corporate template | wins above the volume + design-team + brand-governance threshold | [assumption] |
 | hire a designer / agency | outsource to a human | highest-stakes one-shots where quality > speed | [assumption] |
-| general AI chat (ChatGPT/Claude) → paste in | LLM writes content, human formats | does the words, not the designed editable file — leaves the restyle tax | [sourced: competitor-dynamics, as_of 2026-08-16] |
+| general AI chat (ChatGPT/Claude) → paste in | LLM writes content, human formats | does the words, not the designed editable file — leaves the restyle tax | [assumption] |
 | bundled incumbent (Copilot/Gemini in-suite) | deck-gen inside the paid suite | "free, already-here, native" — a real threat (`R-002`) | [sourced: competitor-dynamics, as_of 2026-08-16] |
 
 ## Niche risks {#niche-risks}
@@ -152,9 +152,11 @@ _The "so what" — the point of the step._
 - **The sharpest conclusion (⚙️):** win the editable-and-designed corner for client-facing
   sales/marketing decks by **proving `H-001` faster than Gamma/Canva can make their export truly
   native**, and monetize deliberately to dodge the Tome/Pitch free-virality trap (`R-005`).
-- **Why now:** AI generation quality crossed the threshold where editable-and-designed is buildable;
-  the category is exploding (Gamma $0→$100M ARR in ~2 yr) yet nobody has solved it — a real but
-  narrow window before an incumbent closes the export gap.
+- **Why now:** AI generation quality crossed the threshold where editable-and-designed is buildable
+  [assumption — this *is* `H-001`, not an evidenced fact]; the category is exploding (Gamma $0→$100M
+  ARR in ~2 yr) [sourced: competitor-dynamics, as_of 2026-08-16] yet nobody has solved it
+  [assumption — the scan-based inference above] — a real but narrow window before an incumbent closes
+  the export gap [assumption].
 
 ## Seeded hypotheses {#hypotheses}
 _Market/sizing/white-space assumptions carried into the hypothesis register._
@@ -180,6 +182,19 @@ _Open items surfaced by the agent for the human to resolve._
   threat needs a primary source.
 
 ## Change log
+
+### 2026-08-17 — human review pass: evidence findings returned and fixed
+- **From → To:** (1) the general-AI-chat substitute row `[sourced: competitor-dynamics]` →
+  `[assumption]` — the cited worklog says nothing about AI chat (citation laundering caught in
+  review); (2) `#opportunity` "why now" — untagged load-bearing clauses now carry per-clause tags
+  (the buildability claim is `H-001` itself, not evidence); (3) Copilot pricing row gains the $30
+  enterprise tier next to the SMB $18/$21; (4) dynamics source cells corrected (Tome:
+  Semafor→Forbes; Pitch: single-source Sacra estimate, ~78% layoffs; Copilot seats: two-quarter
+  series, not a CONFLICT) — openable URLs now in `2-analysis/competitor-dynamics.md`
+- **Why:** the run was committed raw as the honest demonstration; this pass is the human review the
+  loop prescribes — findings sent back, fixed at the worklog first, re-projected here
+- **Trigger:** human review of the finished run (three review lenses); re-verification via fresh
+  `loops-research` briefs, read 2026-08-17
 
 ### 2026-08-16 — Step 2 analysis worked and projected
 - **From → To:** — → all sections filled from real web research (`loops-research`, `as_of

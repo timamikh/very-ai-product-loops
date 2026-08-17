@@ -4,8 +4,8 @@ artifact: strategy
 step: 3
 title: "Strategy — Decksmith (fictional sample)"
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-17
 ---
 
 # Strategy — Decksmith (fictional sample)
@@ -38,9 +38,10 @@ _Segments / markets / arena chosen — and what's explicitly excluded._
 
 _Per-dimension play-in/exclusion breakdown in `3-strategy/where-to-play-how-to-win.md` §3._
 
-**Alternatives considered (⚙️):** horizontal "AI PowerPoint for everyone" (no moat applies),
-enterprise brand-compliance (reachable, not winnable now), investor pitch-deck niche (Tome/Pitch's
-grave). Full cascades + why each loses in `3-strategy/where-to-play-how-to-win.md`.
+**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** horizontal
+"AI PowerPoint for everyone" (no moat we hold applies), enterprise brand-compliance (reachable, not
+winnable now), investor pitch-deck niche (Tome/Pitch's grave) — full cascades + why each loses in
+`3-strategy/where-to-play-how-to-win.md`.
 
 ## How to win {#how-to-win}
 <!-- tool: where-to-play-how-to-win, value-definition-strategy -->
@@ -95,10 +96,16 @@ _What we charge and how we package it — anchored to value vs the alternative. 
 
 - **Anchoring:** premium *above* the $8–20 prosumer cluster (dated Step-2 scan) — we are not the
   cheapest; we are the one that removes the rebuild. We do **not** win on price vs the Copilot bundle
-  ($18 on M365); we win on taste.  [sourced: 2-analysis.md#competitor-pricing, as_of 2026-08-16]
+  ($18–30 by tier on M365); we win on taste.  [sourced: 2-analysis.md#competitor-pricing, as_of
+  2026-08-17]
 - **Monetisation discipline (guards `R-005`):** tight time-boxed free trial, **not** free-first-
   unlimited; native export + brand kits are paid fences from day one. Numbers at Step 4
   (`pricing-strategic-plan` → `unit-economics`).
+
+**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** per-deck/usage
+as the primary value metric (punishes the power users who are the best-fit customer) · price at
+parity with the $8–20 cluster (surrenders the premium the removed rebuild justifies; kept as an open
+question in `#to-clarify`) · free-first-unlimited (the Tome/Pitch trap, `R-005`).
 
 ## Channels & expansion {#channels-expansion}
 <!-- tool: channels-expansion -->
@@ -143,6 +150,11 @@ _Every user-interaction surface + instrumentation (sketched here, refined at Ste
 - **Infra implications (→ Step 4 costs):** analytics, email, session capture, **LLM inference
   (COGS — the big one)**, file-render/export service.
 
+**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** none recorded
+as competing surface sets — the map follows from the chosen PLG motion (`#channels-expansion`); the
+honest fork is instrumentation of the promise (export-open fidelity / post-export edits leave our
+surface), flagged in `#to-clarify` rather than resolved here.
+
 ## Architecture {#architecture}
 <!-- tool: architecture-c4 -->
 _System architecture at C4 **Context** level (product, its users, external systems). Refined at Step 4._
@@ -162,6 +174,11 @@ _System architecture at C4 **Context** level (product, its users, external syste
   duplicated); **no exclusive integration moat yet** — the corpus is the moat, the export engine a
   proprietary wedge. Mermaid context diagram in `3-strategy/architecture-c4.md`.
 
+**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** none recorded
+as competing contexts — a C4-Context read of the already-chosen scope; build-vs-buy on the export
+engine is not an open fork (the proprietary engine *is* the `H-001` bet), and multi-LLM abstraction
+is deferred as risk hygiene (`R-004`, backlogged at Step 5).
+
 ## Bets {#bets}
 <!-- tool: bets, value-definition-strategy -->
 <!-- rests-on: 1#jtbd, 2#opportunity -->
@@ -179,6 +196,11 @@ _The strategic hypotheses we're wagering on (framed on the customer's job + forc
 
 Reconciled against the register — `H-001`/`H-003`/`H-006`/`H-007` reused (not re-minted);
 `H-010`/`H-011`/`H-012` newly minted. Cuts (feature bets) in `3-strategy/bets.md`.
+
+**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** two candidate
+bets cut — "users will love the generation UI" (a feature bet, no segment/forces; belongs in a spec)
+and "we win because we use a frontier LLM" (commodity input, already killed as a moat at Step 1) —
+kept visible in `3-strategy/bets.md`.
 
 ## Product risks {#product-risks}
 <!-- tool: pre-mortem -->
@@ -198,6 +220,10 @@ _Risks specific to this strategy (mitigations owned at Step 4)._
   `R-005`, `R-006` (re-confirmed, not duplicated) — and 1 parked (inverse of `H-005`). Full triage in
   `3-strategy/pre-mortem.md`.
 
+**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** the full
+11-mode triage — 5 carried as new `R-007`…`R-011`, 5 folded onto existing register entries, 1 parked
+— each with its disposition recorded in `3-strategy/pre-mortem.md`.
+
 ## To clarify {#to-clarify}
 <!-- open -->
 _Open items surfaced for the human to resolve._
@@ -216,6 +242,17 @@ _Open items surfaced for the human to resolve._
   Discovery interviews are the first thing the tactical loop should buy.
 
 ## Change log
+
+### 2026-08-17 — human review pass: canonical Decided lines added
+- **From → To:** the six decision-class sections (`#where-to-play` — carrying the cascade choice —
+  `#pricing`, `#product-surface`, `#architecture`, `#bets`, `#product-risks`) had no canonical
+  `**Decided:**` line → each now ends with one (dated, attributed ⚙️, alternatives shown); where a
+  worklog recorded no competing alternatives, the line says so instead of inventing them; the Copilot
+  bundle reference updated to $18–30 by tier (per the Step-2 pricing fix)
+- **Why:** the library convention makes the decision line the section's one canonical, checkable
+  record of a choice — the run's decisions were real but carried only in prose; review returned the
+  omission
+- **Trigger:** human review of the finished run (strategy lens)
 
 ### 2026-08-16 — created (Step 3 strategy)
 - **From → To:** — → strategy projected from the 8 `3-strategy/` worklogs: winning aspiration,

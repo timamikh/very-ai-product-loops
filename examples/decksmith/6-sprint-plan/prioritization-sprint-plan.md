@@ -3,8 +3,8 @@ node_type: worklog
 tool: prioritization-sprint-plan
 step: 6
 title: "prioritization (sprint) — Sprint 1"
-updated: 2026-08-16
-version: 0.1.0
+updated: 2026-08-17
+version: 0.1.1
 ---
 
 # prioritization — the working (Sprint 1)
@@ -72,7 +72,30 @@ not a dead sprint.
 Backlog is the visible reject of the must-set; these two are the reject of the **ranking itself** —
 kept here so the next sprint doesn't silently re-propose them.
 
+## 5 · Step-5 carry-over reconciliation (nothing vanishes between the period plan and the sprint)
+
+Of the period plan's non-musts (`5#prioritization`: backlog C3 · C7 · C9, cut C4):
+
+| Period item | In Sprint 1's ranking? | Where it went |
+|-------------|------------------------|---------------|
+| C7 paid-ad probe | yes → **A-3** | entered, excluded again (§4) |
+| C4 brand-kit storage | yes → **F-5** | entered, excluded again (§4) |
+| **C3** activation funnel | **no** | waits on recruited partners *using* the prototype — mid-period work for a later sprint's ranking; T-1's lean landing+events is the Sprint-1 slice of that instrumentation, not the funnel itself |
+| **C9** provider-abstraction + ToS | **no** | period-backlog risk hygiene (`R-004`/`R-006`), no gate contribution — not sprint-sized until a sprint has slack |
+
+C3 and C9 stay on the **period** backlog, owned by `5#prioritization`; recorded here so the
+carry-over is visible, not silent.
+
 ## Change log
+
+### 2026-08-17 — human review pass: Step-5 carry-over reconciled
+- **From → To:** the period plan's backlog items C3 (activation funnel) and C9 (provider-abstraction/
+  ToS) silently absent from the sprint ranking → §5 reconciliation table added: C7/C4 re-entered as
+  A-3/F-5 and were excluded again; C3/C9 deliberately not sprint-sized, staying on the period backlog
+  with the reason and the re-entry condition stated
+- **Why:** the worklog promised "the next sprint doesn't silently re-propose" its own rejects but let
+  two period items vanish without a trace — the same discipline applied one level up
+- **Trigger:** human review of the finished run (tactics lens)
 
 ### 2026-08-16 — Sprint-1 items ranked; must/backlog/excluded drawn
 - **From → To:** — → gate stated; **N=10** candidates ranked by gate contribution (ICE as aid); 4

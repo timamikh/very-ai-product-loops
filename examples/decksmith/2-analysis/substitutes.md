@@ -3,8 +3,8 @@ node_type: worklog
 tool: substitutes
 step: 2
 title: "substitutes — the working"
-updated: 2026-08-16
-version: 0.1.0
+updated: 2026-08-17
+version: 0.1.1
 ---
 
 # substitutes — the working
@@ -21,7 +21,7 @@ baseline substitutes forced + ≥2 adjacent. Strong substitutes → risk registe
 | **Do it manually** — build in PowerPoint/Slides/Keynote by hand | the maker (or a teammate) formats every slide | wins when the maker trusts only their own hands, or the content is bespoke; **the dominant status quo** | habit + control: they already know the tool and own their templates (`jtbd` habit force) | [assumption] |
 | **Build/host it themselves** — internal template system or a scripted pipeline (e.g. python-pptx) | an ops/enablement team maintains a locked corporate template; eng scripts bulk decks | wins for large orgs with brand governance and volume, or data-sensitive shops | not our fight early; the self-build threshold is *volume + a design team on staff* | [assumption] |
 | **Hire a designer / agency** (adjacent) | outsource the deck to a human designer | wins for the highest-stakes one-shots (fundraise, keynote) where quality > speed and budget exists | cost + turnaround; we win on speed and price, lose on bespoke craft | [assumption] |
-| **A general AI chat tool** (adjacent) — ChatGPT/Claude/Gemini → paste into slides | ask an LLM for an outline/content, format it yourself | wins for the content/outline half; free and already open | it does the *words*, not the *designed editable file* — leaves the restyle tax intact | [sourced: general availability, as_of 2026-08-16] |
+| **A general AI chat tool** (adjacent) — ChatGPT/Claude/Gemini → paste into slides | ask an LLM for an outline/content, format it yourself | wins for the content/outline half; free and already open | it does the *words*, not the *designed editable file* — leaves the restyle tax intact | [assumption] |
 | **The bundled incumbent** (adjacent) — Microsoft Copilot / Google Gemini in the suite | deck-gen already inside the tool they pay for | wins on "it's already here and native" for enterprise | our edge must be *visibly better design*, or the free-in-the-suite option wins (see risks) | [sourced: competitor-dynamics.md, as_of 2026-08-16] |
 
 ## Self-build threshold
@@ -40,6 +40,13 @@ buying wins — which is why the beachhead is individuals/teams, not enterprise 
   genuine threat. → `R-002` (bundling) in the risk register.
 
 ## Change log
+
+### 2026-08-17 — human review pass: AI-chat row re-tagged
+- **From → To:** the general-AI-chat row's confidence `[sourced: general availability]` →
+  `[assumption]`
+- **Why:** "general availability" names no openable source; the claim (an LLM does the words, not the
+  designed file) is the agent's capability inference, not a gathered fact — review returned it
+- **Trigger:** human review pass on the finished run (finding: citation laundering, evidence lens)
 
 ### 2026-08-16 — substitutes worked and projected
 - **From → To:** empty → 3 baseline + 3 adjacent substitutes, self-build threshold, 2 strong → risk

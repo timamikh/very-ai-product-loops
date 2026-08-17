@@ -4,8 +4,8 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — Decksmith (fictional sample)"
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-17
 ---
 
 # Strategic Plan — Decksmith (fictional sample)
@@ -135,9 +135,10 @@ _A simple driver-based projection; churn as a scenario axis; the capacity ceilin
 ## Strategic targets {#strategic-targets}
 <!-- tool: strategic-targets -->
 <!-- rests-on: 3#winning-aspiration -->
-_Horizon commitments read off the base scenario. `metric-tree` defines the node, this commits its
-horizon value, Step-5 `goal-targets` sets the period value. Full working + nodes left untargeted:
-`4-strategic-plan/strategic-targets.md`._
+_Horizon commitments anchored to the base scenario — read off it where it outputs the number,
+derived or committed as a driver bar where it doesn't (per-node provenance in the worklog).
+`metric-tree` defines the node, this commits its horizon value, Step-5 `goal-targets` sets the
+period value. Full working + nodes left untargeted: `4-strategic-plan/strategic-targets.md`._
 
 **Horizon:** ⚙️ **+12 months from launch** — provisional. `3#winning-aspiration` names "this horizon"
 with **no explicit date**; per the method a missing horizon is an upstream gap (→ `#open-questions`),
@@ -145,10 +146,10 @@ flagged not invented. Targets rest on a model with no actuals — doubly ⚙️.
 
 | Node (`M-…`) <!--c:node--> | Target at horizon <!--c:target--> | From scenario <!--c:scenario--> | Why this node <!--c:why--> | Confidence <!--c:conf--> |
 |--------------|-------------------|---------------|---------------|------------|
-| `M-northstar` | ~600 WNVE/wk | base | the value delivered — the whole strategy in one number | [assumption] |
-| `M-paid-conv` | ≥ 8% | base | the WTP/monetisation bet `H-010` made visible | [assumption] |
-| `M-w4-retention` | ≥ 30% floor | base | the switch *sticking* (`H-003`); a flattening core is the fit signal | [assumption] |
-| `M-contribution` | ≥ $25/mo (~80%) | base | the margin guardrail — stay economic while chasing volume | [assumption] |
+| `M-northstar` | ~600 WNVE/wk | base, derived (~600 accts × ~1 export/acct/wk ⚙️) | the value delivered — the whole strategy in one number | [assumption] |
+| `M-paid-conv` | ≥ 8% | driver bar (`H-010`), not a scenario output | the WTP/monetisation bet `H-010` made visible | [assumption] |
+| `M-w4-retention` | ≥ 30% floor | driver bar (`H-003`), not a scenario output | the switch *sticking* (`H-003`); a flattening core is the fit signal | [assumption] |
+| `M-contribution` | ≥ $25/mo (~80%) | base §5 (read off: ~$29.5/payer) | the margin guardrail — stay economic while chasing volume | [assumption] |
 
 **Decided:** 2026-08-16 · **by:** acting PO ⚙️ (awaiting human) · **alternatives considered:** the
 conservative/stretch scenario values (e.g. WNVE ~400 / ~850) — base chosen as the honest middle. ⚙️
@@ -238,6 +239,15 @@ down it stops the next cycle from re-running it.
 | Can week-4 retention be measured now? | no — pre-launch, every cohort censored | absence of data, not a refutation | `M-w4-retention` marked not-instrumented; `H-003` untested until launch |
 
 ## Change log
+
+### 2026-08-17 — human review pass: target provenance made honest
+- **From → To:** `#strategic-targets` claimed all four horizon values were "read off the base
+  scenario" → the scenario column now states each value's real provenance: `M-contribution` read off
+  the model, `M-northstar` derived via an assumed exports-per-account multiplier,
+  `M-paid-conv`/`M-w4-retention` committed as the driver bars the scenario assumes
+- **Why:** the financial model outputs accounts and MRR — the old wording laundered hypothesis bars
+  into scenario outputs; fixed at the worklog first, re-projected here
+- **Trigger:** human review of the finished run (strategy lens)
 
 ### 2026-08-16 — created (Step 4 projection)
 - **From → To:** — → full Step-4 strategic plan projected from the nine `4-strategic-plan/` worklogs
