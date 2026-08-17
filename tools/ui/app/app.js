@@ -551,7 +551,9 @@ function dualRing(s, size) {
     class: 'dring', role: 'img' });
   [[R - w / 2 - 0.5, gt ? gd / gt : 0, 'var(--ok)'],
    [R - w * 2 - 1.5, cc.total ? cc.done / cc.total : 0, 'var(--navy)']].forEach(([r, frac, color]) => {
-    el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: 'var(--grid)', 'stroke-width': w }));
+    // the empty track in --line-2, not --grid: an unfilled ring must still read as a ring, or the
+    // figure disappears exactly where its message ("nothing closed yet") matters most
+    el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: 'var(--line-2)', 'stroke-width': w }));
     if (frac > 0) {
       const c = 2 * Math.PI * r;
       el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: color, 'stroke-width': w,
@@ -930,6 +932,49 @@ function cardFace(body) {
 }
 const CONF_TAG_RE = /\s*\[(assumption|sourced|validated|refuted)(?::[^\]]*)?\]/g;
 const cap = (s, n) => s.length > n ? s.slice(0, n).replace(/\s+\S*$/, '') + '…' : s;
+
+/* Some sections have a face the generic gist cannot find: the JTBD's substance is its job statement,
+   not the four force names its table enumerates; a solution row means nothing without the problem it
+   answers; a hypothesis without its H-id cannot be looked up in the register. The hint names, per
+   section id, which columns (by their stable <!--c:key--> mark) or which block carry the section's
+   own words — a "read the mark, don't guess" rule, same as the boards use. A section whose instance
+   lacks the named keys falls back to the generic gist, so the hint never invents content. */
+const FACE_HINTS = {
+  idea: { paras: 3 },                                           // statement · the shift · riskiest bet
+  jtbd: { prose: true },                                        // the job statement, not the force names
+  solution: { col: 'problem', col2: 'solution', cap: 160 },     // each row reads problem — answer
+  hypotheses: { col: 'hypothesis', idCol: 'id', cap: 140 },     // the statement, addressable by its id
+};
+/* fully-italic paragraph = the template's own lead-in ("_what this section is_"), not instance words */
+const isTplLead = b => b.type === 'para' && /^_[^_].*_$/.test(b.text.trim());
+const isDecidedPara = b => b.type === 'para' && /^\*\*Decided:/.test(b.text.trim());
+function hintedFace(body, hint) {
+  if (!hint) return null;
+  if (hint.paras) {
+    // the first N substance paragraphs, markdown kept — rendered like a marked face, one per line
+    const ps = mdBlocks(body).filter(b => b.type === 'para' && !isProvenance(b) && !isDecidedPara(b));
+    return ps.length ? { kind: 'marked', text: ps.slice(0, hint.paras).map(b => b.text).join('\n') } : null;
+  }
+  if (hint.prose) {
+    const b = mdBlocks(body).find(x => x.type === 'para' && !isProvenance(x) && !isTplLead(x)
+      && !isDecidedPara(x));
+    return b && plain(b.text) ? { kind: 'prose', text: plain(b.text) } : null;
+  }
+  const tbl = firstTable(body);
+  const ci = colKey(tbl, hint.col);
+  if (ci < 0) return null;
+  const c2 = hint.col2 ? colKey(tbl, hint.col2) : -1;
+  const idi = hint.idCol ? colKey(tbl, hint.idCol) : -1;
+  const items = tbl.rows.map(r => {
+    const main = plain(r[ci] || '');
+    if (!main) return null;
+    const second = c2 >= 0 ? plain(r[c2] || '') : '';
+    const id = idi >= 0 ? plain(r[idi] || '') : '';
+    // the id in backticks so inline() paints it as the register chip the reader already knows
+    return (id ? '`' + id + '` ' : '') + main + (second ? ' — ' + second : '');
+  }).filter(Boolean);
+  return items.length ? { kind: 'list', items: items.slice(0, 12), cap: hint.cap } : null;
+}
 /* Turn a face — a showcase-marked line, a structured enumeration, or a prose gist — into the card's
    excerpt element. The collapsed card clips overflow (measureCanvas adds the expand arrow); where a
    line is clipped, `title` carries the whole of it on hover. An empty section reads muted when it is
@@ -956,8 +1001,8 @@ function cvExcerpt(fd, tick) {
   }
   if (fd.kind === 'list') {
     return h('ul', { class: 'cvex cvlist' }, ...fd.items.map(x => {
-      const short = cap(x, 76);
-      return h('li', { title: short !== x ? x : null, html: inline(short) });
+      const short = cap(x, fd.cap || 110);
+      return h('li', { title: short !== x ? plain(x) : null, html: inline(short) });
     }));
   }
   return h('p', { class: 'cvex', title: fd.text.length > 120 ? fd.text : null }, fd.text);
@@ -1045,7 +1090,8 @@ function cvCard(s, id, opts) {
   // section's headline, and it is shown verbatim (markdown kept). No mark → the console's own gist.
   const marked = art ? art.card : null;
   const fd = art
-    ? (marked ? { kind: 'marked', text: marked } : cardFace(art.body))
+    ? (marked ? { kind: 'marked', text: marked }
+      : hintedFace(art.body, FACE_HINTS[id]) || cardFace(art.body))
     : null;
   const face = cvExcerpt(fd, tick);
   // Interaction: the tile itself expands in place (a light, reversible look); the "details" link is the
@@ -1123,7 +1169,7 @@ function board2(s, leftId, rightId) {
    validation zones. Each card is one gate section. */
 function canvasIdea(s) {
   const kids = [
-    cvCard(s, 'concept', { hero: true }),
+    cvCard(s, 'idea', { hero: true }),   // the template's anchor is {#idea} — 'concept' matched nothing
     cardZone(s, t('zCustomer'), ['segments', 'jtbd', 'problems', 'cjm']),
     cardZone(s, t('zProduct'), ['solution', 'value-defensibility']),
     cardZone(s, t('zValidation'), ['hypotheses', 'to-clarify']),
