@@ -2,8 +2,8 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.5.0
-updated: 2026-08-16
+version: 0.5.1
+updated: 2026-08-18
 ---
 
 # Tool-skills
@@ -113,6 +113,7 @@ recommended by none (reason in the row).
 | Skill | When it runs | Goal | Output |
 |-------|--------------|------|--------|
 | `orchestration` | a pass splits across subagents | written briefs + acceptance passport; the orchestrator alone projects and writes state | worklogs via `loops-draft`; returns integrated |
+| `projection` | a worklog is ready to become its section (or changed under one) | the conclusion in the fragment's shape — tags verbatim, headline marked, stale sign-offs dropped | artifact section(s) + `<!-- card -->` mark |
 | `source-intake` | a raw file lands in `sources/` | dispatch it into the step worklog(s) it feeds, cite it there | routed citations + `sources/INDEX.md` entry |
 | `metrics-capture` | a number arrives | source → dated register row with population, window, derivation | `metrics-capture` worklog + M row |
 | `theses` | operating-loop step 7 (scope: step) · before a step change (scope: instance) | walk the human through the sections, record the sign-off | `confirmed:` / `contested:` markers |

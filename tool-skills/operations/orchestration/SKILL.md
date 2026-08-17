@@ -13,8 +13,8 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.1.3
-updated: 2026-08-10
+version: 0.2.0
+updated: 2026-08-18
 ---
 
 # Orchestration — running one pass with subagents
@@ -115,14 +115,15 @@ separable, not that the brief needs to be longer).
 
 7. **Check the worklog, then project — this is the writing the orchestrator owns.** A `draft` return
    points at a **worklog the subagent wrote**; read it against the passport, then **project** it into
-   the artifact section (the chistovik the human signs) — the worklog is the source of truth, the
-   section is its fixed shape. Carry every claim across **with its own tag**; a subagent's
-   `[assumption]` stays an assumption. Never re-tag a return as `[sourced: subagent]` — the source is
-   what the subagent opened, named in your text. You **mint the register ids** the worklog described in
-   words, you write the rows, you tick the gate (after a `verify`), you write the change log — none of
-   that is ever the subagent's. A `gather`/`research` return is **not** a worklog: you file its values
-   where they belong (the method's worklog, a source, a register row) yourself. Where a return named an
-   unresolved fork, it becomes your fork with the human — with the options as returned.
+   the artifact section (the chistovik the human signs) — the writing move itself is the
+   [`projection`](../projection/SKILL.md) operations skill. Delegation adds its own rules on top:
+   a subagent's tag is never laundered (its `[assumption]` stays an assumption, and never re-tag a
+   return as `[sourced: subagent]` — the source is what the subagent opened, named in your text);
+   you **mint the register ids** the worklog described in words, you write the rows, you tick the
+   gate (after a `verify`), you write the change log — none of that is ever the subagent's. A
+   `gather`/`research` return is **not** a worklog: you file its values where they belong (the
+   method's worklog, a source, a register row) yourself. Where a return named an unresolved fork, it
+   becomes your fork with the human — with the options as returned.
 
 8. **Close the pass normally.** Delegation changes who read the material, not what a pass owes:
    step 7 of the loop still runs — registers, change log, open items — and anything the delegation

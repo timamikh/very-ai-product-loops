@@ -2,8 +2,8 @@
 node_type: operations-index
 title: Operations — runtime skills for how the agent works
 status: draft
-version: 0.4.0
-updated: 2026-08-16
+version: 0.5.0
+updated: 2026-08-18
 ---
 
 # Operations
@@ -23,6 +23,7 @@ change, a schedule) — the OPERATING-LOOP and each skill's own file define thos
 | [`handoff`](handoff/SKILL.md) | Write/update the instance's `HANDOFF.md` so a fresh agent resumes without re-asking the human | session boundary · environment change needing restart · imminent compaction · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → "Session handoff" |
 | [`metrics-capture`](metrics-capture/SKILL.md) | Turn a source into dated rows in `metrics.csv` plus the living method file that makes them reproducible | a step/gate needs a value the register lacks · a hypothesis enters `testing` · a reading went stale · the source changed · on request | [`process/REGISTERS.md`](../../process/REGISTERS.md) → "Metric register" + [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Raw data & access" |
 | [`orchestration`](orchestration/SKILL.md) | Run one pass with subagents: cut the work, write the brief, score the return against its passport, integrate it | the pass is wider than one context (many sources, many directions) · an artifact needs checking by someone who did not write it · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → "Delegation" |
+| [`projection`](projection/SKILL.md) | Write an artifact section from its worklog: the fragment's shape, tags carried verbatim, the section's `<!-- card -->` headline, sign-off markers dropped on a changed conclusion | a worklog just worked (own pass or accepted `draft` return) · a worklog changed under an existing section · the human edits a conclusion in chat | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → step 6 + [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Step folders & worklogs" + "Card line" |
 | [`source-intake`](source-intake/SKILL.md) | Dispatch a raw `sources/` file into the step worklog(s) it informs and cite it there, so no artifact ever links a source directly | product setup (legacy sources) · a new file lands in `sources/` · a source changed · on request | [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Raw data & access" + "Step folders & worklogs" |
 | [`theses`](theses/SKILL.md) | Walk the human through section results (their theses) for sign-off and stamp `<!-- confirmed: date -->` — the semantic half of the two-layer check. Runs at `scope: step` (one step) or `scope: instance` (every step + cross-step rests-on provenance) | step 7, results just worked · a section re-projected — both `scope: step` · a big re-projection or a step change — `scope: instance` · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → step 7 + [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Section confirmation" |
 

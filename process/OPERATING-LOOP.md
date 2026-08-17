@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass of a step
 status: draft
-version: 0.10.1
-updated: 2026-08-15
+version: 0.11.0
+updated: 2026-08-18
 ---
 
 # Operating Loop
@@ -71,6 +71,9 @@ The **artifact section** is a **projection** of it into the fixed schema of its 
 — the conclusion in shape, not the working; it never holds anything the worklog does not. Every claim
 in both carries a source and confidence per `CONVENTIONS.md`, with the agent's own proposals ⚙️.
 (One method → one worklog → one section; the mechanism is `CONVENTIONS.md` → *Step folders & worklogs*.)
+The **procedure** of that writing move — the fragment shape, tags carried verbatim, the section's
+`<!-- card -->` headline, sign-off markers dropped on a changed conclusion — is the
+[`projection`](../tool-skills/operations/projection/SKILL.md) operations skill.
 
 If step 3 decided to split, this is where the split runs: one **brief** per part (the task, the
 context and where to find it, the allowed tools, the return shape — procedure in the

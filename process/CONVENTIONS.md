@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.23.0
-updated: 2026-08-17
+version: 0.23.1
+updated: 2026-08-18
 ---
 
 # Conventions
@@ -71,8 +71,9 @@ Two forms: the mark **trailing a line** points at that line (a marked bullet ret
 bullet, even wrapped); the mark **alone on a line** points at the paragraph below it, collected
 whole. The console shows the marked line verbatim, markdown kept — it never summarises, reorders or
 invents: a section with no mark shows only its title and status, and expanding any card shows the
-section itself, in full. The mark is placed by the agent at projection time (choosing the headline
-is projection judgement, same as ordering the section), and the human can move it like any other
+section itself, in full. The mark is placed by the agent at projection time — the step of the
+[`projection`](../tool-skills/operations/projection/SKILL.md) operations skill (choosing the headline
+is projection judgement, same as ordering the section) — and the human can move it like any other
 line of the artifact — through the agent. One mark per section; a template never ships one (the
 headline is the instance's words, not the skeleton's).
 
@@ -113,8 +114,10 @@ reserved `<step-folder>/synthesis.md`.
 **One id threads the chain.** The same `<tool>` names the section's marker, the skill folder
 (`tool-skills/.../<tool>/`), and the worklog file — so a reader resolves a section's worklog with no
 guessing and no per-instance link. The flow runs along it: subagents gather into `<tool>.md`, then the
-skill `<tool>` **projects** the artifact section from it. The **worklog is the source of truth; the
-artifact section is its projection** — which is also why that step's change-log history lives in the
+skill `<tool>` **projects** the artifact section from it (the writing move itself — the
+[`projection`](../tool-skills/operations/projection/SKILL.md) operations skill). The **worklog is the
+source of truth; the artifact section is its projection** — which is also why that step's
+change-log history lives in the
 worklog, not the artifact. Every section that a method fills has a worklog; this is not optional —
 a projected section with no worklog behind it is the source of truth gone missing (the linter's
 check P holds it).
