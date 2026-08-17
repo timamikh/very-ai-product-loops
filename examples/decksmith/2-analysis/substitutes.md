@@ -2,50 +2,46 @@
 node_type: worklog
 tool: substitutes
 step: 2
-title: "Substitutes — the working"
-updated: 2026-08-13
+title: "substitutes — the working"
+updated: 2026-08-16
 version: 0.1.0
 ---
 
-# Substitutes — the working
+# substitutes — the working
 
-_Source of truth for `2-analysis.md#substitutes`; that section is the projection of this file._
-_Method: `tool-skills/library/substitutes`. Scored against the customer's **job**
-(`../1-passport.md#jtbd`: a credible client deck fast, without redoing it by hand), not our category.
-External inputs are dispatched here from `../sources/market-research.md` (see CONVENTIONS → Raw data &
-access), never linked from the artifact._
+_Source of truth for `2-analysis.md#substitutes`. Framed by the job (`1-concept.md#jtbd`): "turn raw
+content into a finished, on-brand, well-structured client-facing deck without hand-fixing." Three
+baseline substitutes forced + ≥2 adjacent. Strong substitutes → risk register._
 
-## The job, restated
+## The map
 
-What is being hired: *get a credible, on-brand client deck fast, without rebuilding it by hand.* Every
-substitute below is something a buyer already uses to get that job done — the baseline three
-(do-nothing / do-it-manually / self-build) are always listed, then the market alternatives.
+| Substitute | How it does the job today | Why the customer chooses it / when it wins | Switching friction to overcome | Conf |
+|------------|---------------------------|--------------------------------------------|--------------------------------|------|
+| **Do nothing** — live with the current deck / reuse an old one | copy last quarter's deck, swap a few numbers | wins when the deck is low-stakes or the deadline is brutal; zero cost, zero risk | must be faster than "just reuse the old one" | [assumption] |
+| **Do it manually** — build in PowerPoint/Slides/Keynote by hand | the maker (or a teammate) formats every slide | wins when the maker trusts only their own hands, or the content is bespoke; **the dominant status quo** | habit + control: they already know the tool and own their templates (`jtbd` habit force) | [assumption] |
+| **Build/host it themselves** — internal template system or a scripted pipeline (e.g. python-pptx) | an ops/enablement team maintains a locked corporate template; eng scripts bulk decks | wins for large orgs with brand governance and volume, or data-sensitive shops | not our fight early; the self-build threshold is *volume + a design team on staff* | [assumption] |
+| **Hire a designer / agency** (adjacent) | outsource the deck to a human designer | wins for the highest-stakes one-shots (fundraise, keynote) where quality > speed and budget exists | cost + turnaround; we win on speed and price, lose on bespoke craft | [assumption] |
+| **A general AI chat tool** (adjacent) — ChatGPT/Claude/Gemini → paste into slides | ask an LLM for an outline/content, format it yourself | wins for the content/outline half; free and already open | it does the *words*, not the *designed editable file* — leaves the restyle tax intact | [sourced: general availability, as_of 2026-08-16] |
+| **The bundled incumbent** (adjacent) — Microsoft Copilot / Google Gemini in the suite | deck-gen already inside the tool they pay for | wins on "it's already here and native" for enterprise | our edge must be *visibly better design*, or the free-in-the-suite option wins (see risks) | [sourced: competitor-dynamics.md, as_of 2026-08-16] |
 
-## Alternatives scored against the job
+## Self-build threshold
 
-| Substitute | Whose job it does | Why the customer chooses it | When it wins against us | → Risk | Confidence |
-|------------|-------------------|-----------------------------|-------------------------|--------|------------|
-| Do nothing (status quo) | Present a plain/templated deck as-is | "Good enough" for low-stakes meetings | Meeting is low-stakes; look doesn't matter | — | [assumption] |
-| Do it manually | Build in PowerPoint/Keynote/Canva by hand, or brief a designer | Full control, on-brand, trusted result | High-stakes flagship decks; brand-critical | `R-006` | [assumption] |
-| Self-serve via a general LLM | Prompt ChatGPT/Claude for outline+copy, then hand-format | Already paying for the LLM; flexible | Capable user, low deck volume | `R-003` | [sourced: market-research] |
-| Gamma (web-format generation) | Fast AI decks that live on the web | Speed + polish if native `.pptx`/`.key` isn't required | Native format not needed; audience views a link | `R-001` | [sourced: market-research] |
-| Copilot in PowerPoint | AI edits your *real* native PPT | Native + bundled; no new tool to buy | M365 shops; native editing is the priority | `R-002` | [sourced: market-research] |
+"Just build it ourselves / use an internal template" beats buying when: the org has a **design team +
+brand-governance mandate + deck volume** high enough to amortise a template system, or **data
+sensitivity** forbids a third-party tool. Below that threshold (most of S1's individuals and SMBs),
+buying wins — which is why the beachhead is individuals/teams, not enterprise brand-governance shops.
 
-## Two thresholds that bound willingness to pay
+## Strong substitutes → risk register
 
-- **Self-build threshold:** a capable individual with low deck volume who already pays for a general
-  LLM — at that point "just prompt it and format myself" beats paying us. Caps WTP; feeds `R-003`. [assumption]
-- **Switching friction:** company-standard templates and brand kits locked into incumbents (Canva/M365),
-  plus habit — the barrier our native-fidelity + design quality has to clearly beat. [assumption]
-
-## Open
-
-- No quantified split between "do nothing" and "do it manually" — both are `[assumption]`. A few buyer
-  interviews would separate them and firm up `R-006`.
+- **"Do it manually" (the status quo)** is the substitute that wins most often — habit + control. It
+  is the real competitor, not the other AI tools. → feeds `synthesis.md` (rivalry/habit) and the
+  desirability bets `H-003`/`H-005`.
+- **The bundled incumbent (Copilot/Gemini)** — a "free, already-here, native" substitute — is a
+  genuine threat. → `R-002` (bundling) in the risk register.
 
 ## Change log
 
-### 2026-08-13 — created
-- **From → To:** — → first substitutes working, reconstructed from `2-analysis.md`.
-- **Why:** stand up the worklog layer so the board drills into where the job-based read was worked out.
-- **Trigger:** step-2 worklog migration (see `DESIGN-console-rework.md` → Transition A).
+### 2026-08-16 — substitutes worked and projected
+- **From → To:** empty → 3 baseline + 3 adjacent substitutes, self-build threshold, 2 strong → risk
+- **Why:** Step 2 Act pass; find the non-obvious competition incl. do-nothing (concept-viability)
+- **Trigger:** Step 2 pass, section `#substitutes`

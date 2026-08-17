@@ -2,59 +2,86 @@
 node_type: worklog
 tool: market-sizing
 step: 2
-title: "Market sizing — the working"
-updated: 2026-08-13
+title: "market-sizing — the working"
+updated: 2026-08-16
 version: 0.1.0
 ---
 
-# Market sizing — the working
+# market-sizing — the working
 
 _Source of truth for `2-analysis.md#market-sizing`; that section is the projection of this file._
-_Method: `tool-skills/library/market-sizing`. External inputs are dispatched here from
-`../sources/market-research.md` (see CONVENTIONS → Raw data & access), never linked from the artifact._
+Evidence gathered by a `loops-research` brief (web, `as_of 2026-08-16`), integrated and reasoned
+here. Bottom-up is the headline; the top-down band is a directional sanity check only.
 
 ## Arena sized
 
-AI-generated **client-facing decks** for the lead segment — salespeople & marketers who make decks
-often, in English-first paying markets (job: `../1-passport.md#jtbd`). The arena is the *paying*
-generation segment, not the whole presentation-software market. [assumption]
+The **beachhead**: US sales & marketing professionals who make **client-facing** decks (S1 from
+`1-concept.md#segments`). Sizing the US first because that is the reachable serviceable market at
+concept stage; global is the TAM direction.
 
-## Method — bottom-up SAM is the load-bearing number
+## Bottom-up SAM (units × price) — US beachhead, annual
 
-Per `market-sizing`, a bottom-up SAM is trusted over the published top-down figures (which diverge
-2–3× and are used only as a cross-check — never averaged).
+**Population — reachable client-facing deck-makers (US):**
 
-**SAM (serviceable addressable) ≈ $750M / yr** — bottom-up:
+| Component | Count | Source | Conf |
+|-----------|-------|--------|------|
+| Market research analysts & marketing specialists (SOC 13-1161) | 899,580 | BLS OEWS May 2025 (via BLS-derived tables + press summary; bls.gov 403'd direct fetch), `as_of 2026-08-16` | [sourced: BLS OEWS, fact] |
+| Marketing managers (SOC 11-2021) | 395,240 | BLS OEWS May 2025 (press→BLS), `as_of 2026-08-16` | [sourced: BLS OEWS, fact — single-surfaced] |
+| B2B / professional salespeople who regularly build decks | ~2–3M ⚙️ | derived: a fraction (~15–25%) of "Sales & Related" 13.4M (BLS OEWS May 2025, cross-checked vs FRED CPS LNU02032206) — excludes retail/cashier roles that don't make decks | [assumption] (the fraction is an estimate) |
+| **Reachable US client-facing deck-makers** | **~3–4M** (mid ~3.5M) | sum, wide bars | [assumption] |
 
-| Input | Value | Basis | Confidence |
-|-------|-------|-------|------------|
-| Reachable frequent deck-makers (sales/marketing, paying English-first markets) | ~5,000,000 | illustrative population estimate | [assumption] |
-| Price per user / year | ~$150 | ≈ incumbent paid tiers (`competitor-analysis.md`) | [sourced: market-research] → [assumption] for us |
-| **SAM = users × price** | **≈ $750M / yr** | 5.0M × $150 | [assumption] |
+**Price input (annual, per seat):** competitor scan (`competitor-pricing.md`) clusters the
+prosumer/business AI-deck tier at **~$10–20/mo/seat**. Take a blended **$15/mo = $180/yr** ⚙️ as the
+first-pass anchor. Willingness-to-pay for Decksmith specifically is an open hypothesis (deferred to
+Step 3 per the founder brief) — this is the *market* anchor, not our price.
 
-→ seeds `H-006` (viability) in `registers/hypotheses.md`.
+**SAM = units × price:**
+- Mid: 3.5M × $180 = **~$630M / yr**
+- Band: 2M × $120 = ~$240M … 5M × $300 = ~$1.5B
+- **SAM ≈ $0.3–1.5B / yr (US beachhead), midpoint ~$630M.** [assumption] — wide bars are expected and
+  acceptable at concept-viability (the status asks "just enough to know it's worth chasing").
 
-## TAM cross-check (top-down, range only)
+**TAM (global, directional):** all professionals who make presentations, worldwide. Global knowledge
+workers ≈ 1B (Gartner, via aggregators — primary not reached, `as_of 2026-08-16`, [estimate, low]);
+the deck-making, client-facing subset is far smaller. Order-of-magnitude TAM: **low single-digit $B
+to ~$10B/yr**, consistent with the report-mill "presentation software" band below. Precise TAM is
+`— to clarify —` (no reachable primary/analyst sizing exists).
 
-Published reports put AI presentation-generation at **~$2.8–4.7B (2026)** inside a ~$8.6B broad
-presentation-software market, segment CAGR **~23–26%**. Used as a sanity band around the bottom-up
-SAM, not as the estimate. [sourced: market-research] — reports diverge 2–3×, kept as a range. See
-`../sources/market-research.md`.
+**SOM (obtainable, ~3-yr horizon, unproven entrant):** an early share of the US beachhead SAM. At
+0.5–2% capture → **~$3–12M ARR**, take **~$5M ARR** ⚙️ as a concept-stage 3-yr target. Rationale:
+the category can grow fast (Gamma reached ~$100M ARR in ~2 yr — `competitor-dynamics.md`), but an
+unproven entrant betting on a hard feasibility problem (`H-001`) should not assume hypergrowth.
 
-## SOM (serviceable obtainable, ~3 yr)
+## Top-down cross-check (soft — all report-mill, not anchor-grade)
 
-**≈ $4M ARR** — ~0.5% of SAM captured early, given Gamma's dominance and incumbent entry
-(`competitor-analysis.md`). Reasoned share, not a booked plan. [assumption]
+Every reachable "presentation software / AI presentation" market figure is a **report-mill forecast**
+with paywalled method → **forbidden zone for the number** (evidence-standards §2). Reported only as a
+directional band, never as the headline:
 
-## Open
+| Figure | Publisher (class) | `as_of` |
+|--------|-------------------|---------|
+| Presentation software ~$8–9B today → ~$16–22B by 2030–33, ~11–15% CAGR | SNS Insider / Cognitive Market Research et al. (report-mill, forbidden zone) | 2026-08-16 |
+| "AI presentation generation" $2.8B (2025) → $18.6B (2034), 23% CAGR | MarketIntelo (report-mill, single-sourced) | 2026-08-16 |
 
-- The 5M reachable-population figure is illustrative — a real bottom-up needs a named source per
-  market. `— to clarify —`
-- Price anchor leans on competitor pricing; revisit once our own pricing (Step 3) exists.
+These diverge >20% on base/end-year and none exposes its method → **`[CONFLICT]`, not resolved.**
+Bottom-up SAM ~$630M US is a plausible ~7–8% of a global ~$8–9B presentation market (US ≈ 40% of
+software spend × an AI-deck slice) — **within an order of magnitude**, which is all the top-down band
+can honestly support. **Bottom-up stays the headline.**
+
+## Seeded hypotheses (→ register, `type: viability`)
+
+- **H-008:** the reachable US beachhead is ~3–4M client-facing deck-makers at ~$180/yr → SAM
+  ~$0.3–1.5B/yr — big enough to build a venture on. `tags: sizing`.
+
+## Open items
+
+- The B2B-sales fraction (~15–25%) is a ⚙️ estimate; a cleaner cut (deck-making B2B roles) would
+  tighten SAM. `— to clarify —`.
+- Revisit the price anchor once Step-3 pricing sets Decksmith's actual model.
 
 ## Change log
 
-### 2026-08-13 — created
-- **From → To:** — → first market-sizing working, reconstructed from `2-analysis.md#market-sizing`.
-- **Why:** stand up the worklog layer so the analysis board can drill into where sizing was worked out.
-- **Trigger:** console drill-through slice (see `DESIGN-console-rework.md` → Transition A).
+### 2026-08-16 — market sizing worked and projected
+- **From → To:** empty → bottom-up SAM ~$0.3–1.5B (US beachhead), TAM directional, SOM ~$5M/3yr; H-008 seeded
+- **Why:** Step 2 Act pass; size the prize roughly to confirm it's worth chasing (concept-viability)
+- **Trigger:** Step 2 operating-loop pass, section `#market-sizing`; evidence from `loops-research`

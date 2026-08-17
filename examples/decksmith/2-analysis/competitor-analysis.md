@@ -2,81 +2,69 @@
 node_type: worklog
 tool: competitor-analysis
 step: 2
-title: "Competitors — the working"
-updated: 2026-08-13
+title: "competitor-analysis — the working"
+updated: 2026-08-16
 version: 0.1.0
 ---
 
-# Competitors — the working
+# competitor-analysis — the working
 
-_Source of truth for `2-analysis.md#competitors`, `#competitor-strategy`, `#competitor-pricing` and
-`#competitor-dynamics`; those sections are the projection of this file._
-_Method: `tool-skills/library/competitor-analysis`. External inputs are dispatched here from
-`../sources/market-research.md` (see CONVENTIONS → Raw data & access), never linked from the artifact._
+_Source of truth for `2-analysis.md#competitors` and `#competitor-strategy` (this method fills both;
+first tool in each marker). Evidence from a `loops-research` brief (web, `as_of 2026-08-16`)._
 
-## Field — who is in the arena
+## 1 · The player sweep (≥5 named, ≥1 not named first)
 
-Scanned the paying AI-deck-generation segment (`market-sizing.md#arena`). Kept the players that touch
-the customer's job (`../1-passport.md#jtbd`): a web-first leader, two native-format incumbents, two
-niche design/collab tools, general LLMs as an indirect route, and one instructive exit.
+| # | Player | What it offers | Output editability (a=native pptx/key · b=web-editor-only, lossy export · c=locked/image) | Shares segment+job? |
+|---|--------|----------------|-------------------------------------------------------------------------------------------|---------------------|
+| 1 | **Gamma** | AI doc/deck generator, card-based web canvas | **b (borderline a, contested)** — claims editable pptx but card→slide is a lossy conversion (vendor help flags render fallbacks) | partly — designed look, but export fidelity is the gap |
+| 2 | **Canva** | Broad design suite + AI deck generation | **b** — exports pptx but text partly rasterized, layouts shift | partly — huge marketing overlap, general tool |
+| 3 | **Microsoft Copilot in PowerPoint** | Prompt-to-deck built into PowerPoint | **a** — native, editable in-app; generic design | partly — native but not design-tuned |
+| 4 | **Beautiful.ai** | "Smart template" web deck builder + AI | **b (CONFLICT)** — vendor "fully editable" vs reviews "charts→images, ~60–70% text editable" | partly — client-facing design, value trapped in editor |
+| 5 | **Plus AI** | AI generator running *inside* PPT/Google Slides | **a** — native by construction, but template-bound | **yes** — business/sales decks, native |
+| 6 | **Presentations.ai** | "ChatGPT for presentations," own format | **b** — one-way pptx export, no round-trip | partly — business decks, not design-led |
+| 7 | **Decktopus** | Quick pro decks (web), PPT/PDF/PNG export | **b** — export exists, native-shape editability unverified | partly — sales target, editability [assumption] |
+| 8 | **MagicSlides** *(registry-sweep pick — 1M+ installs, Google Workspace Marketplace)* | Google Slides add-on: text/PDF/URL → slides | **a (Slides)** — editable inside Slides | no — speed/volume, not design quality |
 
-| Competitor | Direct/Indirect | What they offer | Confidence |
-|------------|-----------------|-----------------|------------|
-| Gamma | direct | Web-first AI generator; fast, polished decks/sites/docs (category leader) | [sourced: market-research] |
-| Microsoft Copilot in PowerPoint | direct (incumbent) | Agentic AI that generates/edits **native PPT** in place | [sourced: market-research] |
-| Canva (AI 2.0 / Magic Design) | direct (incumbent) | Conversational AI building **editable design objects** | [sourced: market-research] |
-| Beautiful.ai | direct | Rule/template-driven design automation for decks | [sourced: market-research] |
-| Pitch | direct | Collaborative, team-oriented deck tool | [sourced: market-research] |
-| General LLMs (ChatGPT / Claude) | indirect | Outline + copy; the user formats the slides | [sourced: market-research] |
-| Tome | (exited) | Raised $81M, then **shut its Slides product (Apr 2025)** — a cautionary exit | [sourced: market-research] |
+Retreated (confirmed exits, not active rivals): **Tome** (killed Slides ~Apr 2025, pivoted to sales
+AI), **Pitch** (Jan 2024 reset, repositioned to sales enablement) — see `competitor-dynamics.md`.
 
-## Strategy — the game each is playing
+## 2 · Detailed table (share our segment AND our job) vs excluded
 
-The load-bearing read: where is each strong, and where is the wedge for a native-fidelity
-editable-and-designed engine (`../1-passport.md#value-defensibility`, `H-004`)?
+**Enter the detailed scans** (client-facing sales/marketing decks, finished-editable-designed job):
+**Gamma, Canva, Microsoft Copilot, Beautiful.ai, Plus AI.**
 
-- **Gamma** — growth + profitable share; web-first speed, agentic design, own format; $100M ARR. Strong
-  on brand/distribution/design-corpus, **weak on native `.pptx`/`.key` fidelity** → our wedge.
-- **Microsoft Copilot** — ecosystem lock-in; agentic edits in the *native* format, bundled into M365.
-  Owns the format + distribution (very strong); design taste / narrative generic.
-- **Canva** — share + ecosystem; freemium scale, AI across a design suite. Huge audience; a generalist,
-  not a deck-*narrative* specialist.
-- **Beautiful.ai** — niche profit via design-rule automation; less AI-native, weaker narrative. [assumption]
-- **Pitch** — collaboration-first niche; not a design/fidelity leader. [assumption]
+**Excluded, with reason:**
 
-Conclusion: Gamma is weak exactly at native fidelity; Copilot is strong on native but weak on
-design/narrative. The gap between them is where Decksmith's thesis sits — feeds `#opportunity` in
-`synthesis.md`.
+| Excluded | Reason |
+|----------|--------|
+| MagicSlides / SlidesAI | positioned on speed/volume, not design quality — a different job (fast content→slides) |
+| Presentations.ai | one-way export (no round-trip editable file); business but not design-led — indirect |
+| Decktopus | sales target overlaps but output editability unverified — indirect, revisit if it proves native |
 
-## Pricing — input to our own pricing (Step 3), not our price
+## 3 · What game each plays (revenue/profit/share/social capital — how) vs our moats
 
-| Competitor | Plan / model | Price | Source | Confidence |
-|------------|--------------|-------|--------|------------|
-| Gamma | Pro | ~$20 / mo | `../sources/market-research.md` (deckary) | [sourced] |
-| Canva | Pro / Business | ~$15 / mo · ~$25 / user | `../sources/market-research.md` | [sourced] |
-| Beautiful.ai | Pro / Team | $12/mo annual ($45 monthly) · $40/user (Team) | `../sources/market-research.md` | [sourced] |
-| Pitch | Entry | from ~$13 / mo | `../sources/market-research.md` | [sourced] |
-| Microsoft Copilot | Bundled (M365 / Copilot Pro) | ~$20–30 / user/mo | `../sources/market-research.md` | [sourced] |
+| Player | Game | How they play it | Their moats vs ours (`H-007`: corpus+taste) |
+|--------|------|------------------|----------------------------------------------|
+| **Gamma** | share / hypergrowth | freemium virality (70M users) → "replace PowerPoint"; a16z-backed | distribution + brand + usage data — strong; but sacrifices native export fidelity (their card model), the exact axis of our moat |
+| **Canva** | share / ecosystem | bundle AI into a design empire; own distribution (265M MAU) | distribution + brand — dominant; general design tool, deck export lossy; not deck-native |
+| **Microsoft Copilot** | bundling / lock-in | ride 20M+ M365 Copilot seats into every enterprise | distribution + enterprise lock-in — dominant; design is generic, no taste/corpus edge |
+| **Beautiful.ai** | niche / profit | "smart templates," stable ~$13.5M rev | template IP + brand — modest; value trapped in its editor, lossy export |
+| **Plus AI** | wedge | add-in *inside* PPT/Slides → native by construction | integration/distribution inside the incumbents; but template-bound, not design-led |
 
-The ~$150/yr price anchor in `market-sizing.md` is derived from this band.
+**Read:** the two dominant moats in the field are **distribution** (Gamma, Canva, Microsoft) and
+**integration** (Plus AI). None competes on **native-and-designed quality** — which is where `H-007`
+(corpus + taste) bets Decksmith's moat lives. That is also the risk: distribution can beat a quality
+edge if the quality gap is small or slow to show.
 
-## Dynamics — whose strategy is working
+## Seeded registers
 
-| Competitor | Metric | Trend + period | Source (+ date) | Confidence |
-|------------|--------|----------------|-----------------|------------|
-| Gamma | ARR / users / valuation | $0 → **$100M ARR in ~3 yr**; 70M users; **$2.1B** valuation (Series B) — profitable 2+ yrs | BusinessWire / TechCrunch, 2025-11-10 | [sourced] |
-| Tome | Product line | **Shut its Slides product, Apr 2025** after an $81M raise — pivoted away | market coverage, 2025 | [sourced] |
-| Microsoft / Canva | Feature velocity | Shipping agentic / AI-2.0 deck generation through 2026 | vendor, 2026 | [sourced] |
-
-## Open
-
-- Beautiful.ai / Pitch strategy reads are `[assumption]` — no primary financials pulled yet.
-- Pricing is a snapshot; incumbents re-bundle often. Revisit before Step-3 pricing locks.
+- Competitive-threat risks → `synthesis.md` niche-risks (R-…): well-funded rivals accelerating,
+  Microsoft bundling.
+- Assumption about a rival: none minted as `H-` here beyond the white-space claim carried in synthesis.
 
 ## Change log
 
-### 2026-08-13 — created
-- **From → To:** — → first competitor-analysis working, reconstructed from `2-analysis.md`.
-- **Why:** stand up the worklog layer so the analysis board drills into where the read was worked out,
-  and move the raw `sources/` citations off the artifact and onto the worklog.
-- **Trigger:** step-2 worklog migration (see `DESIGN-console-rework.md` → Transition A).
+### 2026-08-16 — competitors & strategy worked and projected
+- **From → To:** empty → 8-player sweep, 5-player detailed table with exclusions, game-per-player vs our moats
+- **Why:** Step 2 Act pass; map who solves this pain to find the white space (concept-viability)
+- **Trigger:** Step 2 pass, sections `#competitors` + `#competitor-strategy`; evidence from `loops-research`

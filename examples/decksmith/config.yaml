@@ -1,14 +1,24 @@
-# Decksmith (fictional sample) · instance config
+# Instance config — HUMAN-authored decisions about this instance.
+# Cycle position (current_step, gate ticks) lives in state.yaml, not here.
+# Schema: process/reference/config-schema.md (linter check H).
+
 product: "Decksmith (fictional sample)"
 language: en
-active_status: concept-viability   # no product/market data yet — hypotheses are the center of gravity (see registers/)
-directions: [development, go-to-market, back-office]   # execution streams for Steps 5–6 (framework default set)
-delegation: allowed   # orchestrator may fan out to subagents; a `draft` subagent writes its method's worklog
+active_status: concept-viability
+directions:
+  - development
+  - go-to-market
+  - back-office
+delegation: allowed
+
 scope_note: >
-  Fictional walkthrough of the framework — no real product or company data. Decksmith is an AI
-  generator of native, editable AND well-designed .pptx/.key decks. At concept-viability there is
-  no product in market and no usage metrics; every value is illustrative and most claims are
-  [assumption] by design.
+  Fictional sample product used as the reference run of very-ai-product-loops. Decksmith is an
+  AI slide generator whose bet is native, fully editable .pptx/.key output that also looks
+  designed — the escape from the "pretty-but-locked vs editable-but-ugly" fork. In scope: the
+  concept, its market, and a concept-viability strategy through a first sprint. Out of scope
+  (per the founder brief): real-time collaboration, non-slide formats, and pricing (deferred to
+  Step 3 Strategy). The product is fictional; the market it sits in is real, and every external
+  claim is researched and dated.
+
 sources:
-  - sources/founder-brief.md        # the raw idea + founder decisions (origin of the concept)
-metric_source_slots: {}             # none yet — no product in market at concept stage
+  - sources/founder-brief.md

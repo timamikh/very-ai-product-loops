@@ -1,42 +1,25 @@
 ---
 node_type: sources-index
-product: "Decksmith (fictional sample)"
-updated: 2026-08-13
+title: Sources index — Decksmith
+updated: 2026-08-16
+version: 0.1.0
 ---
 
-# Source navigation — Decksmith
+# Sources index
 
-> Entry point into the knowledge. The agent reads **this file first** and opens only the sources a
-> task needs — it does not re-read the whole folder. The "Out of scope" column keeps boundaries from
-> getting lost on re-reading raw material. ⚙️ = agent proposal; the human decides.
+The navigation map read **first** on every task, so an agent opens only the sources a task needs.
+Roles: **access** (living — how to reach a source) · **evidence** (dated, immutable — a capture or
+report). A source is **dispatched into worklogs** by `source-intake`, never linked from an artifact.
+The "Dispatched into" column records which worklog(s) have absorbed each source.
 
-| File | Contains | In scope | Out of scope | Feeds steps | Confidence |
-|------|----------|----------|--------------|-------------|------------|
-| `founder-brief.md` | The raw idea, the founder's observations of the sales/marketing crowd, an honest have/can-build inventory, and the early bets (lead segment, riskiest = feasibility, pricing deferred) | Concept, lead segment, the pains to test, the value/moat inventory | Pricing (deferred to Step 3), collaboration/co-editing, non-slide formats | 1 | [sourced: founder brief 2026-07-16] |
-| `market-research.md` | Triangulated desk-research digest (real, public): market size/dynamics, players (Gamma, Copilot, Canva, Beautiful.ai, Pitch, Tome), pricing, trends, barriers; the Gamma `.pptx` export-fidelity gap | Sizing inputs, competitor game/pricing/dynamics, substitutes, niche risks | Anything about Decksmith's own (fictional) metrics — none exist | 2, 3, 4 | [sourced] primary press for funding; secondary for pricing/export |
+| File | Role | What it contains | In scope | Out of scope | Feeds steps | Dispatched into | Confidence / freshness |
+|------|------|------------------|----------|--------------|-------------|-----------------|------------------------|
+| `sources/founder-brief.md` | evidence | The raw idea and the founder's early bets at kickoff: the "editable vs designed" fork, observed pains (templated look, wrong story), lead segment (sales & marketers), riskiest bet (feasibility), and explicit out-of-scope (collaboration, non-slide formats, pricing). | The whole brief — it is the origin the concept is built from. | Nothing excluded; it is the sole product input by design. | 1 (concept) primarily; feasibility bet also informs 3–4; pricing deferral noted for 3. | `1-concept/concept-formation.md`, `1-concept/jtbd-concept.md`, `1-concept/segmentation.md`, `1-concept/segment-pains.md`, `1-concept/concept-expansion.md`, `1-concept/value-definition-concept.md` | Captured 2026-07-16; fictional sample. Founder's bets are `[assumption]`; the observed pains are `[sourced: founder brief]`. |
 
-## Dispatched into worklogs
+## Change log
 
-Where each source's evidence was routed by `source-intake` (the artifacts cite these worklogs, never
-the source directly — see `../../../process/CONVENTIONS.md` → *Step folders & worklogs*):
-
-- `market-research.md` → `2-analysis/market-sizing.md`, `2-analysis/competitor-analysis.md`,
-  `2-analysis/substitutes.md`, `2-analysis/synthesis.md` (Step 2 fully absorbed).
-- `founder-brief.md` → Step 1 worklogs — **not yet dispatched** (Step 1 not migrated to the worklog
-  layer). Still read directly for now.
-
-## Open sources (not yet obtained)
-
-- **Demand signal for the lead segment** — no interviews or analytics run yet. Needed to move
-  `H-002`/`H-003` (salespeople & marketers feel the pains strongly enough to switch) past
-  `[assumption]`. Source — discovery interviews + analytics search (Step 2 / Step 5 test). [agent 2026-07-20]
-- **Feasibility evidence** — no prototype quality evaluation yet. Needed for `H-001` (engine
-  reliably produces editable-and-beautiful files at scale). Source — a prototype slice + design
-  eval (Step 5/6 test). [agent 2026-07-20]
-
-## Boundaries stated explicitly
-
-- **Editability is a baseline, not the differentiator.** It's in the concept; the product competes
-  on *look* (P1) and *structure/framing* (P2). See `../1-passport.md#problems`.
-- **Pricing is deferred.** The founder brief deliberately leaves willingness-to-pay open — do not
-  invent a price; it's a Step 3 decision. See `../1-passport.md#to-clarify`.
+### 2026-08-16 — created
+- **From → To:** — → index created with the founder brief dispatched to the Step 1 worklogs
+- **Why:** instance setup; the founder brief is the sole product input and is routed into the
+  Step 1 concept worklogs via `source-intake` so the first Act pass finds its evidence in place
+- **Trigger:** `product-setup` scaffolding of the Decksmith sample instance

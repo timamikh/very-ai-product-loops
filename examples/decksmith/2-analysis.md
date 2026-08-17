@@ -1,165 +1,193 @@
 ---
 node_type: artifact
 artifact: analysis
-product: Decksmith (fictional sample)
 step: 2
-status_stage: concept-viability
-owner: sample
-updated: 2026-08-13
+title: "Market & Competitive Analysis — Decksmith (fictional sample)"
+status: draft
 version: 0.1.0
+updated: 2026-08-16
 ---
+
+<!--
+  Analysis artifact. Each section projects from its worklog in 2-analysis/. Section IDs, rests-on
+  markers and column keys are stable. The point of this step is the CONCLUSION (#opportunity).
+  Evidence is real: gathered by loops-research (web, as_of 2026-08-16), tagged and dated in the
+  worklogs. Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting human approval.
+-->
 
 # Market & Competitive Analysis — Decksmith (fictional sample)
 
-> Status: `concept-viability` · Owner: sample · Last review: 2026-07-21
-> Feeds: `3-strategy.md` · seeds the risk register (`registers/risks.md`).
-> Fictional product; **the market and competitors are real, public information** (dated). Evidence
-> lives in the step worklogs (`2-analysis/`), which cite the raw sources. At concept stage, sizing
-> leans on a bottom-up SAM with wide error bars.
+> Status: concept-viability · Owner: acting PO (agent) · Last review: 2026-08-16
+> Feeds: `3-strategy.md` · seeds the risk register.
 
 ## Market sizing {#market-sizing}
 <!-- tool: market-sizing -->
-<!-- confirmed: 2026-08-13 -->
+<!-- rests-on: 1#segments -->
+_Bottom-up is the headline; the top-down band is a directional sanity check only (all top-down
+figures are report-mill → not anchor-grade). Wide error bars are acceptable at concept-viability.
+Price anchor from `#competitor-pricing`._
 
-**Arena / segment sized:** AI-generated client-facing decks for the lead segment — salespeople &
-marketers who make decks often, in English-first paying markets (job: see `1-passport.md#jtbd`).
+| Layer <!--c:layer--> | Value <!--c:value--> | Method <!--c:method--> | Key assumptions <!--c:assumptions--> | Source <!--c:source--> | Confidence <!--c:conf--> |
+|-------|-------|--------|-----------------|--------|------------|
+| TAM | order of ~$ several billion–$10B/yr (directional) | top-down band, soft | all professionals who make presentations globally; no reachable primary sizing | report-mill band ($8–9B presentation sw); `— to clarify —` on the precise figure | [assumption] |
+| SAM | **~$0.3–1.5B/yr** (mid ~$630M), US beachhead | bottom-up: units × price | ~3–4M US sales & marketing client-facing deck-makers × ~$180/yr blended anchor | BLS OEWS May 2025 (13-1161 900k, 11-2021 395k, a fraction of Sales 13.4M) — reached via BLS-derived tables + FRED (bls.gov 403'd direct fetch); `competitor-pricing` | [assumption] |
+| SOM | **~$3–12M ARR** (take ~$5M), ~3-yr | bottom-up: 0.5–2% capture of SAM | unproven entrant on a hard feasibility bet; category can grow fast (Gamma $0→$100M in ~2 yr) | derived | [assumption] |
 
-**TAM / SAM / SOM**
-
-| Level <!--c:layer--> | Estimate <!--c:value--> | How it was calculated <!--c:method--> | Key assumptions <!--c:assumptions--> | Source <!--c:source--> | Confidence <!--c:conf--> |
-|-------|----------|-----------------------|-----------------|--------|------------|
-| TAM (total addressable) | AI presentation-generation segment ~$2.8–4.7B (2026), inside a ~$8.6B broad presentation-software market; segment CAGR ~23–26% | top-down, published reports (range, not a point) | reports name the same segment; ranges reconciled, not averaged (see assumptions table) | worked in `market-sizing` | [sourced] (reports diverge 2–3× — used as a range) |
-| SAM (serviceable addressable) | **≈ $750M/yr** | **bottom-up: ~5M reachable frequent deck-making sales/marketing pros in paying English-first markets × ~$150/yr** | ~5M reachable pros · ~$150/yr willingness (see assumptions table) | bottom-up (inputs illustrative) | [assumption] |
-| SOM (serviceable obtainable) | **≈ $4M ARR in ~3 yr** | ~0.5% of SAM captured early, given Gamma's dominance + incumbent entry | ~0.5% early capture vs an entrenched leader (see assumptions table) | reasoned share | [assumption] |
-
-_SAM is the load-bearing number and is bottom-up; the divergent published TAM figures are only a
-cross-check (per `market-sizing` — do not average conflicting reports)._
-
-**Key assumptions (traced)**
-
-| Assumption <!--c:assumption--> | Value <!--c:value--> | Source <!--c:source--> | Confidence <!--c:conf--> | → register <!--c:register--> |
-|------------|-------|--------|------------|------------|
-| Reachable frequent deck-makers (lead segment, paying markets) | ~5M | illustrative | [assumption] | `H-006` (viability) |
-| Price per user / year | ~$150 (≈ incumbent paid tiers) | competitor pricing (below) | [sourced: market-research] → [assumption] for us | `H-006` |
-| Early obtainable share (3 yr) | ~0.5% of SAM | reasoned vs leader/incumbents | [assumption] | `H-006` |
+_Bottom-up SAM ~$630M is a plausible ~7–8% of a global ~$8–9B presentation market — within an order
+of magnitude, all the report-mill top-down can honestly support. `[CONFLICT]` among top-down sources
+left unresolved (see worklog)._
 
 ## Competitors {#competitors}
 <!-- tool: competitor-analysis -->
-<!-- confirmed: 2026-08-13 -->
+<!-- rests-on: 1#segments, 1#jtbd -->
+_Direct & indirect (substitutes are separate, below). 8-player sweep incl. a registry pick
+(MagicSlides); the 5 sharing our segment AND job enter the detailed scans. Full sweep + exclusions in
+the worklog._
 
 | Competitor <!--c:name--> | Direct/Indirect <!--c:type--> | What they offer <!--c:offer--> | Confidence <!--c:conf--> |
 |------------|-----------------|-----------------|------------|
-| **Gamma** | direct | Web-first AI generator; fast, polished decks/sites/docs (category leader) | [sourced: market-research] |
-| **Microsoft Copilot in PowerPoint** | direct (incumbent) | Agentic AI that generates and edits **native PPT** in place | [sourced: market-research] |
-| **Canva (AI 2.0 / Magic Design)** | direct (incumbent) | Conversational AI building **editable design objects** in Canva | [sourced: market-research] |
-| **Beautiful.ai** | direct | Rule/template-driven design automation for decks | [sourced: market-research] |
-| **Pitch** | direct | Collaborative, team-oriented deck tool | [sourced: market-research] |
-| General LLMs (ChatGPT / Claude) | indirect | Generate outline + copy; the user formats the slides | [sourced: market-research] |
-| Tome | (exited) | Raised $81M, then **shut its Slides product (Apr 2025)** — a cautionary exit | [sourced: market-research] |
+| Gamma | direct | AI deck generator, card-based web canvas; designed look, lossy pptx export (class b, contested) | [sourced: help.gamma.app, as_of 2026-08-16] |
+| Canva | direct | broad design suite + AI decks; pptx export partly rasterized (class b) | [sourced: canva help + press, as_of 2026-08-16] |
+| Microsoft Copilot in PowerPoint | direct | prompt-to-deck inside PowerPoint; native/editable but generic design (class a) | [sourced: support.microsoft.com, as_of 2026-08-16] |
+| Beautiful.ai | direct | smart-template web builder + AI; export "editable" vs reviews (class b, CONFLICT) | [sourced: beautiful.ai + press, as_of 2026-08-16] |
+| Plus AI | direct | AI generator inside PPT/Google Slides; native but template-bound (class a) | [sourced: plusai.com, as_of 2026-08-16] |
+| Presentations.ai | indirect | own format, one-way pptx export | [sourced: presentations.ai, as_of 2026-08-16] |
+| Decktopus | indirect | quick pro decks; export exists, editability unverified | [assumption] |
+| MagicSlides (registry pick) | indirect | Google Slides add-on, text→slides; speed/volume, not design | [sourced: Google Workspace Marketplace, as_of 2026-08-16] |
 
 ## Competitor strategy {#competitor-strategy}
 <!-- tool: competitor-analysis -->
-<!-- confirmed: 2026-08-13 -->
+<!-- rests-on: 1#value-defensibility -->
+_What game each plays vs our moats (`H-007`: corpus + taste)._
 
 | Competitor <!--c:name--> | Game <!--c:game--> | How they play it <!--c:play--> | Their moats vs ours <!--c:moat--> | Confidence <!--c:conf--> |
 |------------|------|------------------|---------------------|------------|
-| Gamma | Growth + share (profitably) | Web-first speed, agentic design, own platform/format; $100M ARR | Brand + distribution + design-corpus data (strong). **Weak on native `.pptx`/`.key` fidelity** — our wedge | [sourced: market-research] |
-| Microsoft Copilot | Ecosystem lock-in | Bundle Copilot into M365; agentic edits in the *native* format everyone already uses | Owns the native format + distribution (very strong). Design taste / audience narrative generic | [sourced: market-research] |
-| Canva | Share + ecosystem | Freemium scale; AI across a whole design suite | Huge audience + brand. Generalist, not a deck-*narrative* specialist | [sourced: market-research] |
-| Beautiful.ai | Niche profit | Design-rule automation, consistency | Design consistency; less AI-native, weaker narrative | [assumption] |
-| Pitch | Team/collab niche | Collaboration-first | Collaboration; not a design/fidelity leader | [assumption] |
+| Gamma | share / hypergrowth | freemium virality (70M users) → "replace PowerPoint"; a16z-backed | distribution + brand + data — strong; sacrifices native export fidelity (our axis) | [sourced: competitor-dynamics, as_of 2026-08-16] |
+| Canva | share / ecosystem | bundle AI into a design empire; own distribution (265M MAU) | distribution + brand — dominant; general tool, deck export lossy | [sourced: competitor-dynamics, as_of 2026-08-16] |
+| Microsoft Copilot | bundling / lock-in | ride 20M+ M365 Copilot seats into enterprise | distribution + lock-in — dominant; design generic, no taste/corpus edge | [sourced: competitor-dynamics, as_of 2026-08-16] |
+| Beautiful.ai | niche / profit | smart templates; stable ~$13.5M rev | template IP + brand — modest; value trapped in its editor | [sourced: competitor-dynamics, as_of 2026-08-16] |
+| Plus AI | wedge | add-in *inside* PPT/Slides → native by construction | integration/distribution; template-bound, not design-led | [sourced: competitor-dynamics, as_of 2026-08-16] |
 
-_Our intended moat (`passport#value-defensibility`, `H-004`) is a native-fidelity editable-and-designed
-engine. Gamma is weak exactly there; Copilot is strong on native but weak on design/narrative._
+_The field competes on **distribution** (Gamma/Canva/MS) and **integration** (Plus AI). None competes
+on **native-and-designed quality** — where `H-007` bets our moat lives. The risk: distribution can
+beat a quality edge if the gap is small or slow to show (`R-003`)._
 
 ## Competitor pricing {#competitor-pricing}
-<!-- tool: competitor-analysis -->
-<!-- confirmed: 2026-08-13 -->
-_Input to our own pricing (Step 3) and the Step-4 model — not our price._
+<!-- tool: competitor-pricing -->
+_Input to Step-3 pricing, sizing's price anchor, and the financial model — not our price. Every price
+read `as_of 2026-08-16`. Non-comparable tiers (enterprise "contact us", Canva Pro unreachable) in the
+worklog reject table._
 
-| Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
+| Competitor <!--c:name--> | Plan / model <!--c:plan--> | Price (+ read date) <!--c:price--> | Source <!--c:source--> | Confidence <!--c:conf--> |
 |------------|--------------|-------|--------|------------|
-| Gamma | Pro | ~$20 / mo | worked in `competitor-analysis` | [sourced] |
-| Canva | Pro / Business | ~$15 / mo · ~$25 / user | worked in `competitor-analysis` | [sourced] |
-| Beautiful.ai | Pro / Team | $12/mo annual ($45 monthly) · $40/user (Team) | worked in `competitor-analysis` | [sourced] |
-| Pitch | Entry | from ~$13 / mo | worked in `competitor-analysis` | [sourced] |
-| Microsoft Copilot | Bundled (M365 / Copilot Pro) | ~$20–30 / user/mo | worked in `competitor-analysis` | [sourced] |
+| Gamma | per-seat + credits | Free · Plus $8/mo · Pro $18/mo · Ultra $100/mo (2026-08-16) | gamma.app/pricing | [sourced: med] |
+| Beautiful.ai | flat / per-seat | Pro $12/mo · Team $40/user/mo · deck $45 (2026-08-16) | beautiful.ai/pricing | [sourced: high] |
+| Microsoft Copilot | per-seat add-on | $18/user/mo (promo, reg. $21) + M365 base (2026-08-16) | microsoft.com | [sourced: high] |
+| Plus AI | per-seat + credits | Basic $10 · Pro $20 · Team $30 · Max $200 /mo (2026-08-16) | plusai.com/pricing | [sourced: high] |
+| Presentations.ai | flat + credits | Free · Pro $20 · Gold $100 /mo (2026-08-16) | presentations.ai/pricing | [sourced: med] |
+| Pitch | per-seat + credits | Free · Plus €10 · Team €15 · Business €20 /mo (2026-08-16) | pitch.com/pricing | [sourced: high] |
+
+_Blended market anchor ⚙️ ≈ **$15/mo = $180/yr/seat**. The bundle (Copilot $18 on top of an existing
+M365 seat) and freemium tiers are the real WTP pressure — a paid standalone must beat "already in
+PowerPoint." No >20% CONFLICT on entered figures._
 
 ## Competitor dynamics {#competitor-dynamics}
-<!-- tool: competitor-analysis -->
-<!-- confirmed: 2026-08-13 -->
-_Trend over time — whose strategy is working. Source: public financials / press / registries
-appropriate to the company's jurisdiction._
+<!-- tool: competitor-dynamics -->
+_Trend over time — whose strategy is working. Per-fact-type sourcing, `as_of` on every number._
 
-| Competitor <!--c:name--> | Metric <!--c:metric--> | Trend + period <!--c:trend--> | Source (+ date) <!--c:source--> | Confidence <!--c:conf--> |
-|------------|--------|----------------|-----------------|------------|
-| Gamma | ARR / users / valuation | $0 → **$100M ARR in ~3 yr**; 70M users; **$2.1B** valuation (Series B) — profitable 2+ yrs | BusinessWire / TechCrunch, 2025-11-10 | [sourced] |
-| Tome | Product line | **Shut its Slides product, Apr 2025**, after an $81M raise — pivoted away | market coverage, 2025 | [sourced] |
-| Microsoft / Canva | Feature velocity | Shipping agentic / AI-2.0 deck generation through 2026 | vendor, 2026 | [sourced] |
+| Competitor <!--c:name--> | Metric (revenue / headcount / …) <!--c:metric--> | Trend + period <!--c:trend--> | Source (+ date) <!--c:source--> | Confidence <!--c:conf--> |
+|------------|----------------------------------|----------------|-----------------|------------|
+| Gamma | valuation / ARR / users | $2.1B val (Nov 2025); ARR ~$100M up from ~$30M (2024); ~70M users | BusinessWire + TechCrunch + Sacra, cross-checked (as_of 2026-08-16) | [sourced: fact — high] |
+| Canva | valuation / ARR / users | ~$42B val (Aug 2025); ~$4B ARR run-rate, B2B ~2× YoY; 265M MAU | Sacra + TechCrunch (as_of 2026-08-16) | [sourced: fact — high] |
+| Microsoft Copilot | paid seats | 20M+ M365 Copilot seats, +160% YoY (PPT-specific not disclosed) | Microsoft-reported + press (CONFLICT 15M vs 20M → range) | [sourced: fact — med-high] |
+| Beautiful.ai | revenue / funding | ~$13.5M rev (2025); funding CONFLICT $16M vs $61M | getlatka / tracxn (as_of 2026-08-16) | [sourced: estimate — low] |
+| Plus AI | funding / ARR | — to clarify — (bootstrapped, no disclosed round; one aggregator ~$47.5M ARR, unverified) | getlatka only (as_of 2026-08-16) | [assumption — low] |
+| Tome (exited) | status | killed Slides ~Apr 2025; pivoted to sales AI | Semafor + Tome.com (as_of 2026-08-16) | [sourced: fact — high] |
+| Pitch (exited) | status / ARR | Jan 2024 reset; ~$10M ARR; → sales enablement | Sacra + TechCrunch (as_of 2026-08-16) | [sourced: fact — high] |
+
+_Accelerating into our space: Gamma (clearest threat), Canva, Microsoft (bundle). Retreated: Tome,
+Pitch — validating the free-virality monetization trap (`R-005`), but retreating *toward* the
+sales/marketing niche, so it is contested, not empty._
 
 ## Substitutes {#substitutes}
 <!-- tool: substitutes -->
 <!-- rests-on: 1#jtbd -->
-<!-- confirmed: 2026-08-13 -->
-_Competition scored against the customer's **job** (`passport#jtbd`: a credible client deck fast,
-without redoing it by hand), not our category. The baseline three are always listed._
+_Non-obvious competition incl. do-nothing / do-it-manually / self-build. Full map (6 substitutes +
+self-build threshold) in the worklog._
 
-| Substitute | Whose job it does | Why the customer chooses it | When it wins against us | → Risk | Confidence |
-|------------|-------------------|-----------------------------|-------------------------|--------|------------|
-| Do nothing (status quo) | Present a plain/templated deck as-is | "Good enough" for low-stakes meetings | Meeting is low-stakes; look doesn't matter | — | [assumption] |
-| Do it manually | Build in PowerPoint/Keynote/Canva by hand, or brief a designer | Full control, on-brand, trusted result | High-stakes flagship decks; brand-critical | `R-006` | [assumption] |
-| Build / self-serve via a general LLM | Prompt ChatGPT/Claude for outline+copy, then hand-format | Already paying for the LLM; flexible | Capable user, low deck volume | `R-003` | [sourced: market-research] |
-| Gamma (web-format generation) | Fast AI decks that live on the web | Speed + polish if native `.pptx`/`.key` isn't required | Native format not needed; audience views a link | `R-001` | [sourced: market-research] |
-| Copilot in PowerPoint | AI edits your *real* native PPT | Native + bundled; no new tool to buy | M365 shops; native editing is the priority | `R-002` | [sourced: market-research] |
-
-**Self-build threshold:** a capable individual with low deck volume who already pays for a general
-LLM — at that point "just prompt it and format myself" beats paying us. [assumption]
-
-**Switching friction:** company-standard templates and brand kits locked into incumbents (Canva/M365),
-plus habit — the barrier our native-fidelity + design quality has to clearly beat. [assumption]
+| Substitute <!--c:substitute--> | How it does the job today <!--c:job--> | Why a customer would stay with it <!--c:why--> | Confidence <!--c:conf--> |
+|------------|---------------------------|-----------------------------------|------------|
+| do-nothing | reuse last quarter's deck, swap numbers | zero cost/risk; wins when low-stakes or brutal deadline | [assumption] |
+| do-it-manually (status quo) | build in PowerPoint/Slides/Keynote by hand | habit + control — the dominant substitute and the real competitor | [assumption] |
+| self-build (internal template / python-pptx) | ops team maintains a locked corporate template | wins above the volume + design-team + brand-governance threshold | [assumption] |
+| hire a designer / agency | outsource to a human | highest-stakes one-shots where quality > speed | [assumption] |
+| general AI chat (ChatGPT/Claude) → paste in | LLM writes content, human formats | does the words, not the designed editable file — leaves the restyle tax | [sourced: competitor-dynamics, as_of 2026-08-16] |
+| bundled incumbent (Copilot/Gemini in-suite) | deck-gen inside the paid suite | "free, already-here, native" — a real threat (`R-002`) | [sourced: competitor-dynamics, as_of 2026-08-16] |
 
 ## Niche risks {#niche-risks}
 <!-- synthesis: light Five Forces -->
-<!-- confirmed: 2026-08-13 -->
+_Structural risks of the niche (light Five Forces). Seeded to the risk register R-001…R-006._
 
 | Risk <!--c:risk--> | Force <!--c:force--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | → `R-…` <!--c:register--> | Confidence <!--c:conf--> |
 |------|-------|------------|--------|---------|------------|
-| Gamma is a dominant, profitable leader — head-on displacement is hard | rivalry | H | H | `R-001` | [sourced: market-research] |
-| Incumbents (Copilot in PPT, Canva) bundle native-editable AI generation with distribution | substitution | H | H | `R-002` | [sourced: market-research] |
-| Capable buyers self-build with general LLMs → caps willingness to pay | buyer power / substitution | M | M | `R-003` | [sourced: market-research] |
-| Engine quality/COGS depend on third-party LLM providers | supplier power | M | H | `R-004` | [assumption] |
-| Low entry barrier for "AI slide wrappers" → crowded rivalry | entry barriers | H | M | `R-005` | [sourced: market-research] |
+| Funded incumbents accelerating (Gamma, Canva) | rivalry | H | H | R-001 | [sourced] |
+| Bundled substitutes (Copilot/Gemini in-suite) | substitution | H | H | R-002 | [sourced] |
+| Low entry barriers / thin moat unless corpus+taste holds | entry barriers | H | H | R-003 | [assumption] |
+| Foundation-model supplier power (price/access) | supplier power | M | M | R-004 | [assumption] |
+| Monetization trap (free virality kills — Tome/Pitch) | buyer power | M | H | R-005 | [sourced] |
+| Platform/format dependency (.pptx/.key owned by others) | substitution/dependency | L | M | R-006 | [assumption] |
 
 ## Opportunity {#opportunity}
 <!-- synthesis -->
-<!-- confirmed: 2026-08-13 -->
+_The "so what" — the point of the step._
 
-- **Opportunity (the white space): native, high-fidelity editable `.pptx`/`.key` that also look
-  designed.** The category leader (Gamma) is web-first and its PowerPoint export **flattens 30–40%
-  of slides into uneditable images** — it is not truly native-editable. The incumbents that *are*
-  native (Copilot in PPT) or claim editable objects (Canva) are generalists whose design quality and
-  audience-specific *narrative* are weak. Decksmith's thesis (`passport#concept`) sits exactly in
-  that gap: native fidelity **and** design quality **and** narrative structure. [sourced: market-research]
-- **Threat (why the window is narrow):** the incumbents are moving into this wedge with a
-  distribution advantage, and Gamma could fix its export. So this is a race — the defensible thing
-  must be a genuinely hard *fidelity + design engine* (`H-004`), not the app. [sourced: market-research]
-- **Why now:** AI-slide demand is growing ~23–26% CAGR; "editable design objects" is the headline
-  battleground of 2026; the native-fidelity gap is currently unmet by the leader. [sourced: market-research]
+- **Opportunity / threat:** the **editable-AND-designed corner is genuinely unoccupied** and is
+  Decksmith's wedge. The field splits exactly along the thesis — **design-led tools (Gamma, Canva,
+  Beautiful.ai) trap value in their web editor with lossy pptx export ("pretty-but-locked")**, while
+  **native-export tools (Plus AI, Copilot, MagicSlides) sacrifice design ("editable-but-ugly")**. The
+  field split is observed [sourced: competitor-analysis, as_of 2026-08-16]; that **no** opened tool
+  does both is an **inference** [assumption] — it supports (does not prove) `H-001`, and it rests on a
+  scan, not a hands-on export test (see `#to-clarify`). The corner is **contested, not safe**:
+  Gamma/Canva/Microsoft are racing and Tome/Pitch retreated toward the same niche.
+- **The sharpest conclusion (⚙️):** win the editable-and-designed corner for client-facing
+  sales/marketing decks by **proving `H-001` faster than Gamma/Canva can make their export truly
+  native**, and monetize deliberately to dodge the Tome/Pitch free-virality trap (`R-005`).
+- **Why now:** AI generation quality crossed the threshold where editable-and-designed is buildable;
+  the category is exploding (Gamma $0→$100M ARR in ~2 yr) yet nobody has solved it — a real but
+  narrow window before an incumbent closes the export gap.
 
 ## Seeded hypotheses {#hypotheses}
+_Market/sizing/white-space assumptions carried into the hypothesis register._
 
 | ID <!--c:id--> | Hypothesis <!--c:hypothesis--> | Type <!--c:type--> | From section <!--c:from--> | Confidence <!--c:conf--> |
 |----|------------|------|--------------|------------|
-| H-005 | A native, high-fidelity editable-and-designed deck is a real unmet need the lead segment values over web-format generation (Gamma's export gap) | desirability/viability | opportunity/substitutes | [assumption] |
-| H-006 | The obtainable market is large enough to build a business on (bottom-up SAM ~$750M; realistic SOM) | viability | market-sizing | [assumption] |
-
-_Also pressured by this step: `H-004` (defensibility) — incumbents are entering the wedge, so the
-moat must be the fidelity engine, not the app (noted in the register); `H-001` (feasibility) becomes
-even more central — native fidelity is precisely where the leader fails._
+| H-008 | US beachhead ~3–4M deck-makers × ~$180/yr → SAM ~$0.3–1.5B — worth chasing | viability | market-sizing | [assumption] |
+| H-009 | The editable-AND-designed corner is genuinely unoccupied — the white space is real | viability | opportunity | [assumption] |
 
 ## To clarify {#to-clarify}
 <!-- open -->
+_Open items surfaced by the agent for the human to resolve._
 
-- **Beachhead within the lead segment** and **first format** (`.pptx` vs `.key` vs both) — a Step 3 (Strategy) choice.
-- **Willingness to pay vs bundled incumbents** (Copilot/Canva at ~$15–30 already bundled) — Step 3 pricing.
-- **Whether to position explicitly against Gamma's export gap** ("actually-editable") — Step 3 positioning.
+- **The white space rests on a scan, not a file test.** No competitor's exported `.pptx` was opened
+  and inspected for real-shape editability — Gamma's class (a vs b) and Decktopus's editability are
+  `contested`/`[assumption]`. A hands-on export inspection of 2–3 rivals is the cheapest way to harden
+  `H-009` (and it doubles as an `H-001` design-bar reference). ⚙️ recommend running it in Step 5–6.
+- **Top-down market size is `— to clarify —`.** All reachable figures are report-mill; treat only the
+  bottom-up SAM as anchor-grade.
+- **Bottom-up SAM's B2B-sales fraction (~15–25%) is a ⚙️ estimate** — a cleaner "deck-making B2B
+  roles" cut would tighten it.
+- **Plus AI's traction is `— to clarify —`** (bootstrapped, no disclosed funding) — sizing it as a
+  threat needs a primary source.
+
+## Change log
+
+### 2026-08-16 — Step 2 analysis worked and projected
+- **From → To:** — → all sections filled from real web research (`loops-research`, `as_of
+  2026-08-16`): bottom-up SAM ~$0.3–1.5B, 8-player competitor sweep, dated pricing, dynamics
+  (Gamma/Canva/MS up; Tome/Pitch out), substitutes, 6 niche risks (R-001…R-006), and the white-space
+  opportunity call; H-008/H-009 seeded
+- **Why:** Step 2's job is an explicit opportunity/threat conclusion — the editable-and-designed
+  corner is unoccupied but contested; every external claim is dated and cross-checked, report-mill
+  numbers refused as anchors
+- **Trigger:** Step 2 operating-loop pass; four parallel `loops-research` briefs, integrated and
+  synthesised by the orchestrator

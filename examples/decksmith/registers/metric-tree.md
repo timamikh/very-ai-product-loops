@@ -1,43 +1,43 @@
 ---
 node_type: register
 register: metric-tree
-product: "Decksmith (fictional sample)"
-updated: 2026-08-08
+title: Metric tree — Decksmith
+updated: 2026-08-16
+version: 0.1.0
 ---
 
-# Metric register — Decksmith
+# Metric tree
 
-> **Definitions here; values only in `metrics.csv`** (dated rows, append-only — `process/REGISTERS.md`).
-> A changed definition mints a NEW id. Built at Step 4 (`metric-tree`).
-> **Concept-viability state:** there is no product in market, so **every node is `not-instrumented`
-> and `metrics.csv` has no readings yet** — the tree is the *plan of what to measure*, and the
-> not-instrumented list is the instrumentation work for Steps 5–6 (the "lamppost trap" is avoided:
-> the right metric is named even though it isn't measured yet). Kept light per the status: the ONE
-> concept-proving metric is `M-edit-fidelity`.
+Node **definitions** only (North Star → drivers → input metrics); dated **values** live in
+`metrics.csv`, append-only. The tree is born at Step 4. Schema:
+[`process/REGISTERS.md`](../../../process/REGISTERS.md). Exactly one id per row; a changed
+definition mints a NEW id, never reuses the old one.
 
-| ID <!--c:id--> | Definition <!--c:definition--> | Unit <!--c:unit--> | Kind <!--c:kind--> | Parent | Instrumentation <!--c:instrumentation--> | Target | Source |
-|----|------------|------|------|--------|-----------------|--------|--------|
-| M-ns-kept-decks-wk | **North Star (⚙️ candidate).** Decks generated → exported → **kept and edited** (used as the real deliverable, not rebuilt by hand) per active deck-maker per week. A redo = the value failed, so this encodes "editable **and** designed". | count | measured | — (top) | **not-instrumented** | ⚙️ grow | product events (future) |
-| M-edit-fidelity | **THE concept-proving metric.** Share of exported slide objects that are **natively editable** (real shapes/text, not flattened images) — the anti-Gamma metric; proxy for "I don't have to redo it". | % | measured | M-ns-kept-decks-wk | **not-instrumented** | ⚙️ ≥ 90% | export pipeline (future) |
-| M-activation | Share of new signups who **generate AND export a first editable deck ≤ 7d**. | % | measured | M-ns-kept-decks-wk | **not-instrumented** | — to clarify — | product events (future) |
-| M-wk-retention | Share of activated users who **return and export another deck the next week**. | % | measured | M-ns-kept-decks-wk | **not-instrumented** | — to clarify — (no cohorts yet) | product events (future) |
-| M-free-paid-conv | Free → paid conversion ≤ 30d (full funnel). | % | measured | M-ns-kept-decks-wk | **not-instrumented** | — to clarify — | billing (future) |
-| M-cogs-per-deck | LLM inference + render cost per generated deck (COGS). `basis`: metered = API list price; fact = real spend. | $ | measured | — (guardrail) | **not-instrumented** | ⚙️ ↓ | LLM/API billing (future) |
-| M-gross-margin | (Revenue − COGS) / Revenue. | % | derived | — (guardrail) | **not-instrumented** | ⚙️ ≥ 70% | derived (future) |
-
-**Not instrumented (→ Steps 5–6):** *all of the above* — nothing is instrumented at concept stage.
-The first build slice must stand up event capture for `M-activation` + `M-edit-fidelity` (the export
-pipeline is the instrumentation point — see `../3-strategy.md#product-surface`). `M-wk-retention`
-needs cohorts (from `pmf`). No own-GPU compute → COGS is third-party API only (no depreciation basis).
+| ID <!--c:id--> | Name <!--c:name--> | Definition <!--c:definition--> | Unit <!--c:unit--> | Kind <!--c:kind--> | Parent <!--c:parent--> | Population <!--c:population--> | Instrumentation <!--c:instrumentation--> | Target <!--c:target--> | Owner <!--c:owner--> | Source <!--c:source--> | Note <!--c:note--> |
+|----|------|------------|------|------|--------|------------|-----------------|--------|-------|--------|------|
+| M-northstar | Weekly Native Value-Exports (WNVE) | on-brand decks natively exported (`.pptx`/`.key`) per week, counting only exports the maker *kept* (design-accepted) | exports/wk | measured | — | active accounts | proxy | ⚙️ see `#strategic-targets` | acting PO ⚙️ | `4-strategic-plan/metric-tree.md` | North Star; "kept" clause is a proxy (edit-behaviour gap) |
+| M-activated | Activated accounts | new accounts reaching their first native value-export | accounts | measured | M-northstar | new signups | instrumented | ⚙️ see `#strategic-targets` | acting PO ⚙️ | `4-strategic-plan/metric-tree.md` | driver: acquisition/activation |
+| M-paid-conv | Trial→paid conversion | share of trials that convert to a paid seat | % | derived | M-northstar | trials | instrumented | ⚙️ | acting PO ⚙️ | `4-strategic-plan/metric-tree.md` | driver: conversion; = paid starts ÷ trial starts |
+| M-exports-per-acct | Value-exports per active account | native value-exports per active account per week | exports/acct/wk | derived | M-northstar | active accounts | proxy | ⚙️ | acting PO ⚙️ | `4-strategic-plan/metric-tree.md` | driver: deepening (engagement axis) |
+| M-w4-retention | Week-4 value-export retention | % of activated accounts still doing a value-export at week 4 (cohort) | % | derived | M-northstar | activated cohort | not-instrumented | ⚙️ see `#strategic-targets` | acting PO ⚙️ | `4-strategic-plan/metric-tree.md` | driver: retention; unobservable pre-launch (censored) |
+| M-design-acceptance | Design-acceptance rate | % of native exports the maker keeps without a full restyle | % | derived | M-northstar | exports | proxy | ⚙️ | acting PO ⚙️ | `4-strategic-plan/metric-tree.md` | guardrail: quality (the "designed enough" floor) |
+| M-contribution | Contribution per payer | revenue − COGS (incl. LLM inference) per payer per month, honest basis | $/payer/mo | derived | M-northstar | payers | instrumented | ⚙️ | acting PO ⚙️ | `4-strategic-plan/unit-economics.md` | guardrail: finance; = M-arppu − allocated COGS |
+| M-cogs-per-export | Inference COGS per value-export | LLM inference $ per native value-export | $/export | derived | M-contribution | value-exports | instrumented | ⚙️ | acting PO ⚙️ | `4-strategic-plan/unit-economics.md` | guardrail: cost; token metering × provider price |
+| M-arppu | Revenue per payer | blended revenue per paying account per month | $/payer/mo | derived | M-contribution | payers | instrumented | ⚙️ | acting PO ⚙️ | `4-strategic-plan/unit-economics.md` | unit-economics input |
+| M-cac | CAC per paying account | acquisition cost per new paying account, by channel | $/payer | derived | M-northstar | new payers | proxy | ⚙️ | acting PO ⚙️ | `4-strategic-plan/unit-economics.md` | community/organic attribution is a proxy |
 
 ## Change log
 
-### 2026-07-21 — born at Step 4
-- **From → To:** — → `M-ns-kept-decks-wk` (North Star, ⚙️ candidate), `M-edit-fidelity`,
-  `M-activation`, `M-wk-retention`, `M-free-paid-conv`, `M-cogs-per-deck`, `M-gross-margin`
-- **Why:** the strategy needed instruments. `M-edit-fidelity` is the one concept-proving metric — the
-  anti-Gamma number the whole wedge rests on; the rest are the tree it hangs in.
-- **Trigger:** Step 4 (`../4-strategic-plan.md#metric-tree`).
-- **Note:** every node is `not-instrumented` and `metrics.csv` is empty by design at
-  concept-viability — the tree is the plan of what to measure, so the instrumentation work is visible
-  at Steps 5–6 instead of the metric being chosen later under the lamppost.
+### 2026-08-16 — metric tree born (Step 4): 10 nodes
+- **From → To:** empty → `M-northstar` (Weekly Native Value-Exports) + 4 drivers (`M-activated`,
+  `M-paid-conv`, `M-exports-per-acct`, `M-w4-retention`) + 3 guardrails (`M-design-acceptance`,
+  `M-contribution`, `M-cogs-per-export`) + 2 unit-econ inputs (`M-arppu`, `M-cac`)
+- **Why:** the North-Star tree the whole lower ladder references, born at Step 4; encodes the
+  editable-AND-designed how-to-win (North Star = *kept* native exports, not decks generated)
+- **Trigger:** Step 4 pass, `#metric-tree` (`metric-tree`) + `#unit-economics` (`unit-economics`).
+  Values in `metrics.csv` stay empty — the product is pre-launch, no readings exist yet.
+
+### 2026-08-16 — created
+- **From → To:** — → empty metric tree scaffolded
+- **Why:** instance setup; the metric tree is born at Step 4, not at scaffold time
+- **Trigger:** `product-setup` scaffolding of the Decksmith sample instance

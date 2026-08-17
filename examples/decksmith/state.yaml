@@ -1,69 +1,74 @@
-# Decksmith (fictional sample) · cycle STATE
-#
-# Written by the AGENT every pass (see process/OPERATING-LOOP.md, steps 0 and 7). This is the home of
-# the cycle's POSITION and gate ticks — distinct from config.yaml, which the HUMAN authors and rarely
-# changes. Never put rules or product truth here; state only. Keeping the frequent automatic write out
-# of config.yaml means the agent can never clobber the human's decisions.
+# Cycle position — AGENT-written every pass (OPERATING-LOOP step 7).
+# Home of current_step, last_pass, and the gate ticks (keyed by each item's `artifact#section`).
+# Human decisions live in config.yaml, never here.
 
-current_step: 6            # the concept-viability walkthrough has run 1 → 6 (this is a completed sample cycle)
-last_pass: 2026-07-21
+current_step: 6
+last_pass: 2026-08-16
 
-# Gate ticks — key = the gate item's `artifact#section` target (see each step README's gate checklist);
-# where an item spans/repeats sections it carries an explicit tick-id (e.g. step 6 `item-format`).
-# Values: done · open · n/a (not applicable) · deferred (intentionally postponed for this status).
-# At concept-viability the data-dependent Step-4 quantitatives are deferred by design (no product in
-# market yet — see config.yaml scope_note).
+# Gate ticks per step: <artifact#section>: done | open | n/a | deferred.
+# Reasoning-heavy sections were ticked only after a loops-verify pass that did not write them.
 gates:
-  1-idea:
-    concept#idea: done
-    concept#jtbd: done
-    concept#segments: done
-    concept#problems: done
-    concept#cjm: n/a                     # optional — no drop-off needed explaining at concept stage
-    concept#solution: done
-    concept#value-defensibility: done
-    concept#to-clarify: done
-    concept#hypotheses: done
+  1-concept:
+    "concept#idea": done
+    "concept#jtbd": done
+    "concept#segments": done
+    "concept#problems": done
+    "concept#cjm": n/a          # optional lens; a flat pain list sufficed, no drop-off to explain
+    "concept#solution": done
+    "concept#value-defensibility": done
+    "concept#to-clarify": done
+    "concept#hypotheses": done
   2-analysis:
-    analysis#market-sizing: done
-    analysis#competitors: done
-    analysis#competitor-strategy: done
-    analysis#competitor-pricing: done
-    analysis#competitor-dynamics: done
-    analysis#substitutes: done
-    analysis#niche-risks: done
-    analysis#opportunity: done
+    "analysis#market-sizing": done
+    "analysis#competitors": done
+    "analysis#competitor-strategy": done
+    "analysis#competitor-pricing": done
+    "analysis#competitor-dynamics": done
+    "analysis#substitutes": done
+    "analysis#niche-risks": done
+    "analysis#opportunity": done
+    "analysis#hypotheses": done
+    "analysis#to-clarify": done
   3-strategy:
-    strategy#winning-aspiration: done
-    strategy#where-to-play: done
-    strategy#how-to-win: done
-    strategy#uvp-cpv: done
-    strategy#pricing: done
-    strategy#channels-expansion: done
-    strategy#product-surface: done
-    strategy#architecture: done
-    strategy#bets: done
-    strategy#product-risks: done
+    "strategy#winning-aspiration": done
+    "strategy#where-to-play": done
+    "strategy#how-to-win": done
+    "strategy#uvp-cpv": done
+    "strategy#pricing": done
+    "strategy#channels-expansion": done
+    "strategy#product-surface": done
+    "strategy#architecture": done
+    "strategy#bets": done
+    "strategy#product-risks": done
+    "strategy#to-clarify": done
   4-strategic-plan:
-    strategic-plan#architecture-instrumentation: done
-    strategic-plan#metric-tree: done      # node definitions exist; values not-instrumented yet
-    strategic-plan#retention: deferred     # no cohorts — no product in market
-    strategic-plan#unit-economics: deferred
-    strategic-plan#financial-model: deferred
-    strategic-plan#risk-mitigation: done
-    strategic-plan#global-hypotheses: done
-    strategic-plan#open-questions: done
+    # Reasoning-heavy step — ticked only after a loops-verify pass (2 cosmetic count fixes applied, no substantive defects).
+    "strategic-plan#architecture-instrumentation": done
+    "strategic-plan#metric-tree": done
+    "strategic-plan#retention": done          # cohort unobservable pre-launch (censored) — the honest read, not a skip
+    "strategic-plan#unit-economics": done
+    "strategic-plan#financial-model": done
+    "strategic-plan#strategic-targets": done  # horizon date is an upstream gap → #open-questions; targets ⚙️ provisional
+    "strategic-plan#capabilities": done
+    "strategic-plan#risk-mitigation": done
+    "strategic-plan#global-hypotheses": done
+    "strategic-plan#open-questions": done
   5-tactical-plan:
-    tactical-plan#period-goals: done
-    tactical-plan#goal-targets: done
-    tactical-plan#guardrails: done
-    tactical-plan#resources: done
-    tactical-plan#market-bundles: done
-    tactical-plan#hypotheses-to-test: done
-    tactical-plan#blockers: done
+    # Period 1 "Prototype-to-first-signal". Reasoning-heavy — ticked after a loops-verify pass.
+    "tactical-plan#period-goals": done
+    "tactical-plan#goal-targets": done
+    "tactical-plan#guardrails": done
+    "tactical-plan#resources": done          # ⚙️ stated capacity — no real human to survey (fictional run)
+    "tactical-plan#market-bundles": done
+    "tactical-plan#hypotheses-to-test": done
+    "tactical-plan#readouts": done           # none finished — Period 1 launches the first three (peeking refused)
+    "tactical-plan#blockers": done
+    "tactical-plan#to-clarify": done
   6-sprint-plan:
-    sprint-plan#must: done
-    sprint-plan#backlog: done
-    item-format: done
-    item-links: done
-    sprint-plan#handoff: done
+    # Sprint 1 of Period 1. Item-format/links/rejects are cross-section tick-ids (per the step README).
+    "sprint-plan#must": done
+    "sprint-plan#backlog": done
+    "item-format": done          # dev=Feature · g2m=Activity · back-office=Task+DoD
+    "item-links": done           # every must/backlog item links an H-/M- (A-1 also its B-)
+    "rejects-shown": done        # F-5/A-3 excluded with reasons (#excluded)
+    "sprint-plan#delivery": done
