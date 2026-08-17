@@ -4,8 +4,8 @@ artifact: concept
 step: 1
 title: "Product Concept — Decksmith (fictional sample)"
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-17
 ---
 
 <!--
@@ -22,6 +22,7 @@ updated: 2026-08-16
 ## Idea {#idea}
 <!-- tool: concept-formation -->
 
+<!-- card -->
 _Decksmith is an **AI deck generator** that produces **native, fully editable** `.pptx`/`.key` slides
 that **also look designed** — for people who make client-facing decks._  [sourced: founder brief]
 
@@ -43,6 +44,7 @@ lives or dies on whether the engine holds quality at scale; demand is real but n
 _The job the customer hires the product for, the four forces around switching, and the outcomes
 they judge success by. Anchors `#segments` and `#problems`; the job feeds Step 2 `substitutes`._
 
+<!-- card -->
 **Job statement.** _When_ I need to produce a client-facing deck (pitch / proposal / QBR) that must
 look credible to an external audience, usually on a deadline, _I want to_ turn my raw content into a
 finished, on-brand, well-structured deck **without hand-fixing every slide**, _so that_ I come across
@@ -80,6 +82,7 @@ each predicts *how you sell* or a single facet, not the core need.
 | 2 | Independent consultants / agencies / freelancers building decks for clients | job = client deliverable decks | buyer = user (self-funded) | sharpest design + editability need (client handoff); frequent but price-sensitive, lower volume | consultant/agency communities, Upwork/Contra | [assumption] |
 | 3 | Startup founders raising / pitching | job = fundraising & pitch decks | buyer = user | extreme stakes but bursty/one-shot; skews to done-for-you | accelerators, VC networks, founder communities | [assumption] |
 
+<!-- card -->
 **Lead segment:** ⚙️ **S1 — sales & marketing client-facing deck makers.** The only segment whose
 need *recurs* often enough to fit a self-serve product rather than a one-off service; matches the
 founder's bet (frequency × stakes × company budget). Ranking rests on need-difference + reachability;
@@ -103,6 +106,7 @@ order; the top 3 carry into the solution. Full 7-pain scoring in the worklog._
 | Visual inconsistency across a deck (spacing, alignment, rhythm) → looks amateur | M | M | recurring irritation | differentiator | [assumption] |
 | Getting existing content into slides is tedious reformatting | M | M | recurring irritation | table-stakes | [assumption] |
 
+<!-- card -->
 **Lead pain:** the "templated look" restyle tax (top differentiator). The editability gate is
 table-stakes but *disqualifying* — the wedge against "pretty-but-locked" incumbents.
 **Seeded hypotheses:** `H-003` (restyle tax), `H-004` (wrong-story pain), `H-005` (editability gate) → register.
@@ -118,6 +122,7 @@ _How the product solves each ranked problem. No orphan features (rejects in the 
 | Editability gate | **Native `.pptx`/`.key` emission** — real shapes, text and layout objects that round-trip as fully editable, never flattened images or a locked template | [assumption] → `H-001` |
 | Not on-brand (tier-2) | **Brand-kit ingestion** (fonts, colours, logo, layouts) into the design engine; concept-level commitment, post-MVP in delivery | [assumption] |
 
+<!-- card -->
 **Feasibility bets:** `H-001` (native-editable **and** designed at scale) · `H-002` (audience-fit
 narrative structure) → hypothesis register.
 **Rejected as orphans** (no ranked pain): real-time collaboration, non-slide formats, chat-assistant
@@ -131,6 +136,7 @@ so the build bet is split into H-001 visual/editable and H-002 narrative).
 <!-- tool: value-definition-concept -->
 _Base moats only; derivatives deferred to Step 3. Lens: post-AI rebuild test (opinionated method)._
 
+<!-- card -->
 **Core value (post-AI):** not the generator (a commodity) but the ability to reliably hit
 *editable-and-designed* quality on arbitrary content — which rests on **curated design taste encoded
 as data + rules** and the **credibility to be trusted on design**. Software is copyable; taste,
@@ -191,6 +197,13 @@ _Open items surfaced by the agent for the human to resolve._
   product decision.
 
 ## Change log
+
+### 2026-08-17 — card lines marked for the console board
+- **From → To:** no section carried a `<!-- card -->` mark → 6 section(s) with a natural headline
+  line now mark it; table-only sections stay unmarked (title and status only, the body one expand away)
+- **Why:** the console no longer composes a card face of its own — a board card shows the author's
+  marked line verbatim or nothing (CONVENTIONS → *Card line*)
+- **Trigger:** console rework — a card is a collapsed section, not a third text
 
 ### 2026-08-16 — Step 1 concept worked and projected
 - **From → To:** empty skeleton → all six method sections filled (`#idea`, `#jtbd`, `#segments`,

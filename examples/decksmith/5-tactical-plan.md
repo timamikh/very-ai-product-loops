@@ -4,8 +4,8 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — Decksmith (fictional sample) · Period 1"
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-17
 ---
 
 # Tactical Plan — Decksmith (fictional sample) · Period 1
@@ -55,6 +55,7 @@ Full reasoning: `5-tactical-plan/goal-targets.md`._
 | G-G2 | go-to-market | `M-paid-conv` (**proxy** — qualified price-talk acceptance, not instrumented trial→paid) — ladders to ≥8% | — → **≥5 of ~8 accept a premium price-talk** | [assumption] |
 | G-B1 | back-office | **DoD** — seat/MRR/funnel events instrumented + a price page live (lean, not full billing) | — → done | [assumption] |
 
+<!-- card -->
 **Drift check:** the period moves the two horizon targets that *can* move at concept-viability
 (`M-northstar` via G-G1, `M-paid-conv` via G-G2); `M-w4-retention` and `M-contribution` correctly wait
 (unobservable / no payers yet). Not drift.
@@ -70,6 +71,7 @@ in `5-tactical-plan/guardrails.md`); retention/churn/support left un-guardrailed
 | `M-design-acceptance` | ≥ 60% during the build (rising to the 70% `H-001` bar) | < 40% on any vertical → stop scaling the eval, fix the corpus | don't win export *volume* by shipping decks the maker restyles — that kills the wedge (ties `R-009`) | [assumption] |
 | `M-cac` (proxy) | ≤ $150 blended on the founder channel | > $300 → halt the paid probe, stay founder-only | don't buy the G-G1 signal with spend that breaks payback (ties `R-008`/`R-011`) | [assumption] |
 
+<!-- card -->
 **Red lines (qualitative, no metric):** (1) never ship locked / image-only export — editability is the
 `H-005` table-stakes gate; (2) no dark-pattern fences / no charge without consent (`R-005` is
 conversion mechanics, not tricks); (3) corpus content licensed or original only — **mints `R-013`**
@@ -77,6 +79,7 @@ conversion mechanics, not tricks); (3) corpus content licensed or original only 
 
 ## Resources {#resources}
 <!-- tool: resource-check -->
+<!-- card -->
 _Capacity survey — **stated, not measured**. This is a fictional run with no human to survey, so every
 figure is acting-PO ⚙️ and the whole survey is `— to clarify —` for the founder. `5-tactical-plan/resource-check.md`._
 
@@ -105,6 +108,7 @@ situations + 1 adjacent + 1 deliberate reject); top 3 staged. Scores/rejects in
 | B-09 | S1 marketer | conference/speaker deck | one-off on-brand deck | "on-brand speaker deck in an afternoon" | template + trial | event/community | trial · medium | ready · 11 (low pain) | — | [assumption] |
 | B-08 | "SMB owners" (mass) | — | "would be nice" | "better decks with AI" | trial | "online" | interest · weak | **not-ready** (fails 6/6 — reference reject) | — | [assumption] |
 
+<!-- card -->
 **Staged (top 3 by readiness):** B-05, B-01, B-02. **Tested this period:** B-01/B-05 via the `H-011`
 recruit push (G-G1); **B-02's bet `H-013` is deferred** to a later period on founder capacity
 (`#hypotheses-to-test`). Seeding: B-01/B-05 are instances of `H-011`/`H-003` — **not** re-minted; B-02
@@ -125,6 +129,7 @@ capacity) are recorded in `5-tactical-plan/hypothesis-test-design.md`._
 
 ## Readouts {#readouts}
 <!-- tool: experiment-readout -->
+<!-- card -->
 _Verdicts of tests that finished this period. **Period 1 finishes none** — it launches the three above;
 reading now would be peeking. Stated, not skipped. `5-tactical-plan/experiment-readout.md`._
 
@@ -164,6 +169,13 @@ down so the next cycle doesn't re-run it.
 | Can the founder channel be tested cheaply now? | yes — a 2-wk recruit push needs no product | it designs the test; the *result* is `H-011`, still testing | `H-011` → testing (no verdict yet) |
 
 ## Change log
+
+### 2026-08-17 — card lines marked for the console board
+- **From → To:** no section carried a `<!-- card -->` mark → 5 section(s) with a natural headline
+  line now mark it; table-only sections stay unmarked (title and status only, the body one expand away)
+- **Why:** the console no longer composes a card face of its own — a board card shows the author's
+  marked line verbatim or nothing (CONVENTIONS → *Card line*)
+- **Trigger:** console rework — a card is a collapsed section, not a third text
 
 ### 2026-08-16 — created (Step 5, Period 1 projection)
 - **From → To:** — → full Period-1 tactical plan projected from the seven `5-tactical-plan/` worklogs

@@ -4,7 +4,7 @@ artifact: strategy
 step: 3
 title: "Strategy — Decksmith (fictional sample)"
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-17
 ---
 
@@ -21,7 +21,7 @@ updated: 2026-08-17
 <!-- tool: where-to-play-how-to-win -->
 _What winning means here — who we serve, what result, by when. Not a slogan._
 
-- **Win the "editable-AND-designed" corner for client-facing sales & marketing decks** — be the tool
+- **Win the "editable-AND-designed" corner for client-facing sales & marketing decks** — be the tool <!-- card -->
   S1 switches to when a deck must be *both* on-brand-beautiful *and* a real, natively-editable file,
   and prove that switch is **repeatable in the US beachhead before an incumbent closes the export
   gap**. Status is `concept-viability`, so winning = **evidence of fit** (`H-001` holds, S1 switches,
@@ -38,6 +38,7 @@ _Segments / markets / arena chosen — and what's explicitly excluded._
 
 _Per-dimension play-in/exclusion breakdown in `3-strategy/where-to-play-how-to-win.md` §3._
 
+<!-- card -->
 **Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** horizontal
 "AI PowerPoint for everyone" (no moat we hold applies), enterprise brand-compliance (reachable, not
 winnable now), investor pitch-deck niche (Tome/Pitch's grave) — full cascades + why each loses in
@@ -48,7 +49,7 @@ winnable now), investor pitch-deck niche (Tome/Pitch's grave) — full cascades 
 <!-- rests-on: 1#value-defensibility, 2#competitor-strategy, 2#competitor-dynamics -->
 _The winning logic + which moats we leverage._
 
-- **Winning logic:** own the corner where editable **and** designed are both mandatory; beat the
+- **Winning logic:** own the corner where editable **and** designed are both mandatory; beat the <!-- card -->
   native-export tools on **taste**, beat the design-led tools on a **real native file** — the axis
   each is structurally unable to prioritise.  [assumption]
 
@@ -71,7 +72,7 @@ _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], be
 |-------------------|------------|-----------------|----------------|--------------------------|------------|
 | Client-facing deck-maker (agency/consultant/in-house S1) who must look designed *and* hand over an editable file | New pitch / recurring report / client handoff — the restyle tax + export breakage | Client-ready, on-brand, **fully-editable** deck in minutes; no rebuild; no breakage | Gamma/Canva + manual rebuild (polished but locked) | *"A deck that already looks designed — and a real PowerPoint I can edit and send, so I'm not rebuilding it at midnight"* | [assumption] |
 
-- **One-liner:** *For sales & marketing teams who must send client-ready decks, Decksmith generates a
+- **One-liner:** *For sales & marketing teams who must send client-ready decks, Decksmith generates a <!-- card -->
   fully-editable, on-brand PowerPoint or Keynote in minutes — unlike Gamma or Canva, whose polished
   decks lock you into their editor and break on export, because our curated design engine writes
   native files, not screenshots.*  [assumption]
@@ -94,7 +95,7 @@ _What we charge and how we package it — anchored to value vs the alternative. 
 | better (Team) | Agency / sales team | Multi-seat, shared brand kits, brand-lock, priority generation | Teams that must stay on-brand across people | ~$45/seat/mo ⚙️ | subscription/seat | [assumption] |
 | best (Studio) | Agencies at volume | Unlimited brand kits, client workspaces, white-label, bulk/API | Volume + client management | ~$90/seat/mo or custom ⚙️ | subscription/hybrid | [assumption] |
 
-- **Anchoring:** premium *above* the $8–20 prosumer cluster (dated Step-2 scan) — we are not the
+- **Anchoring:** premium *above* the $8–20 prosumer cluster (dated Step-2 scan) — we are not the <!-- card -->
   cheapest; we are the one that removes the rebuild. We do **not** win on price vs the Copilot bundle
   ($18–30 by tier on M365); we win on taste.  [sourced: 2-analysis.md#competitor-pricing, as_of
   2026-08-17]
@@ -112,7 +113,7 @@ question in `#to-clarify`) · free-first-unlimited (the Tome/Pitch trap, `R-005`
 <!-- rests-on: 1#segments -->
 _Acquisition/comms channels (Bullseye) + the GTM motion + expansion paths._
 
-- **GTM motion:** **product-led (self-serve)** — Solo ~$24 / Team ~$45 can't fund a sales call; S1
+- **GTM motion:** **product-led (self-serve)** — Solo ~$24 / Team ~$45 can't fund a sales call; S1 <!-- card -->
   buys self-serve; try→buy. Studio tier layers light sales-assist *later*. Inner ring all start the
   PLG first step (coherence check passes).  [assumption]
 
@@ -144,7 +145,7 @@ _Every user-interaction surface + instrumentation (sketched here, refined at Ste
 | Admin / billing | ops + revenue | seats, MRR, churn (billing + analytics) | [assumption] |
 | Lifecycle emails | activation/retention | opens, clicks, return-to-paid-action | [assumption] |
 
-- **Behaviour-study tools:** analytics/funnels, session capture on onboarding+export, in-app + email
+- **Behaviour-study tools:** analytics/funnels, session capture on onboarding+export, in-app + email <!-- card -->
   surveys. **Load-bearing gap:** export-open fidelity + post-export edits leave our surface (the cost
   of the differentiation) — proxies needed; feeds Step-4 `instrumentation-plan`.
 - **Infra implications (→ Step 4 costs):** analytics, email, session capture, **LLM inference
@@ -159,7 +160,7 @@ surface), flagged in `#to-clarify` rather than resolved here.
 <!-- tool: architecture-c4 -->
 _System architecture at C4 **Context** level (product, its users, external systems). Refined at Step 4._
 
-- **Context sketch:** **Decksmith** (system) · **actors:** deck-maker (S1, primary), client/recipient
+- **Context sketch:** **Decksmith** (system) · **actors:** deck-maker (S1, primary), client/recipient <!-- card -->
   who edits natively (secondary) · **external systems:** LLM provider(s), curated design corpus,
   native export engine (`.pptx`/`.key`/Slides), auth, payments, analytics/email.  [assumption]
 
@@ -242,6 +243,13 @@ _Open items surfaced for the human to resolve._
   Discovery interviews are the first thing the tactical loop should buy.
 
 ## Change log
+
+### 2026-08-17 — card lines marked for the console board
+- **From → To:** no section carried a `<!-- card -->` mark → 8 section(s) with a natural headline
+  line now mark it; table-only sections stay unmarked (title and status only, the body one expand away)
+- **Why:** the console no longer composes a card face of its own — a board card shows the author's
+  marked line verbatim or nothing (CONVENTIONS → *Card line*)
+- **Trigger:** console rework — a card is a collapsed section, not a third text
 
 ### 2026-08-17 — human review pass: canonical Decided lines added
 - **From → To:** the six decision-class sections (`#where-to-play` — carrying the cascade choice —

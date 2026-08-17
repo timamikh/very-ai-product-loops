@@ -4,7 +4,7 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — Decksmith (fictional sample)"
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-17
 ---
 
@@ -36,6 +36,7 @@ _Where each metric's data comes from, and what drives infra cost. Full map + COG
 | Cohort store | not-instrumented | value-export recurrence by cohort (→ `M-w4-retention`; no data pre-launch) | analytics | [assumption] |
 | Paid / community attribution | instrumented / **proxy** | CAC by paid channel (instrumented); community/organic (proxy) → `M-cac` | ad spend | [assumption] |
 
+<!-- card -->
 **Two load-bearing gaps** (→ Steps 5–6; carried as `R-012`): the design-acceptance / edit-behaviour
 proxy behind the North Star, and post-export fidelity (not-instrumented — the native file leaves our
 surface, which is the differentiation *and* what makes it unmeasurable).
@@ -47,6 +48,7 @@ _North Star → drivers → input metrics. Node **definitions** live in `registe
 **values** in `registers/metrics.csv` (empty, pre-launch) — this section is the shape + rationale.
 Candidate North Stars and the filter each loser failed: `4-strategic-plan/metric-tree.md`._
 
+<!-- card -->
 **North Star:** `M-northstar` — Weekly Native Value-Exports (on-brand decks natively exported and
 *kept*, no full restyle before export) · [decision: ⚙️ awaiting human]
 _Why this one: **leading** (moves before revenue) · **value-repeating** (each kept native export is
@@ -78,7 +80,7 @@ cohort can be formed** — every cell is censored (`—`), nothing written to `m
 |----------------------|----|----|----|-----|-------------|------------|------------|
 | — (none — pre-launch) | — | — | — | — | ~mo 3–4 (benchmark) | expected flattening core | [assumption] |
 
-- **Retained action:** a native value-export (the North Star action), **not** a login. Natural
+- **Retained action:** a native value-export (the North Star action), **not** a login. Natural <!-- card -->
   frequency **weekly** for S1 (agencies ship client decks continuously); `M-w4-retention` read at week 4.
 - Engagement loop: **trigger** (a client deck is due) → **action** (generate → native value-export) →
   **reward** (client-ready, no rebuild — restyle tax removed) → **investment** (brand kit saved,
@@ -104,6 +106,7 @@ figure modelled. Full working incl. the `pricing-strategic-plan` verdict:
 | Payback | community ~5 mo · paid ~14 mo | n/a | ceiling ≤12 mo [sourced: Skok/Bessemer, as_of 2026-08-16] |
 | LTV | — churn 3/5/7% ⚙️ → ~$975 / ~$590 / ~$415 — | n/a | uses the `#retention` axis; LTV/CAC community 6.5×/3.9×/2.8× |
 
+<!-- card -->
 **Finding:** at these prices inference is **not** the margin threat; the binding viability constraints
 are **WTP (`H-010`)** and **CAC/payback (`H-011`)** — paid-search is thin-to-underwater, community is
 the inner ring. `pricing-strategic-plan` verdict: **HOLDS** (no ⚙️ change to `3#pricing`).
@@ -124,7 +127,7 @@ _A simple driver-based projection; churn as a scenario axis; the capacity ceilin
 | CAC blended (`M-cac`) | ~$150 community → ~$400 if paid leans in | directional | [assumption] |
 | Fixed costs / mo | ~$40–80k ⚙️ | small team + founder | [assumption] |
 
-- **Capacity ceiling: the founder, not the servers.** Compute scales elastically; the binding caps are
+- **Capacity ceiling: the founder, not the servers.** Compute scales elastically; the binding caps are <!-- card -->
   human — founder-community channel saturation (`R-008`, ~mo 6–9 ⚙️) and founder-as-corpus/taste
   bottleneck (`R-010`). Saying *when* the human cap binds is the model's main output, not the MRR line.
 - **Scenarios @ mo-12** (illustrative — the point is the ~2× spread, not the decimals): conservative
@@ -140,6 +143,7 @@ derived or committed as a driver bar where it doesn't (per-node provenance in th
 `metric-tree` defines the node, this commits its horizon value, Step-5 `goal-targets` sets the
 period value. Full working + nodes left untargeted: `4-strategic-plan/strategic-targets.md`._
 
+<!-- card -->
 **Horizon:** ⚙️ **+12 months from launch** — provisional. `3#winning-aspiration` names "this horizon"
 with **no explicit date**; per the method a missing horizon is an upstream gap (→ `#open-questions`),
 flagged not invented. Targets rest on a model with no actuals — doubly ⚙️.
@@ -239,6 +243,13 @@ down it stops the next cycle from re-running it.
 | Can week-4 retention be measured now? | no — pre-launch, every cohort censored | absence of data, not a refutation | `M-w4-retention` marked not-instrumented; `H-003` untested until launch |
 
 ## Change log
+
+### 2026-08-17 — card lines marked for the console board
+- **From → To:** no section carried a `<!-- card -->` mark → 6 section(s) with a natural headline
+  line now mark it; table-only sections stay unmarked (title and status only, the body one expand away)
+- **Why:** the console no longer composes a card face of its own — a board card shows the author's
+  marked line verbatim or nothing (CONVENTIONS → *Card line*)
+- **Trigger:** console rework — a card is a collapsed section, not a third text
 
 ### 2026-08-17 — human review pass: target provenance made honest
 - **From → To:** `#strategic-targets` claimed all four horizon values were "read off the base

@@ -4,7 +4,7 @@ artifact: sprint-plan
 step: 6
 title: "Sprint Plan — Decksmith (fictional sample) · Sprint 1"
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-17
 ---
 
@@ -23,7 +23,7 @@ updated: 2026-08-17
 <!-- synthesis -->
 <!-- rests-on: 5#period-goals -->
 
-- **Stand up the first shippable slice of the native-export engine and its acceptance
+- **Stand up the first shippable slice of the native-export engine and its acceptance <!-- card -->
   instrumentation, and launch founder-community partner recruitment** — i.e. *start* period gate (A)
   (`H-001` becomes measurable) and *start* (B) (`H-011` clock running). At `concept-viability` the
   sprint's job is to make the bet **testable**, not to hit traction.
@@ -141,6 +141,13 @@ _What goes to the development process, and how (the framework ends here; work pr
   confirm at grooming; the acceptance criteria hold regardless.
 
 ## Change log
+
+### 2026-08-17 — card lines marked for the console board
+- **From → To:** no section carried a `<!-- card -->` mark → 1 section(s) with a natural headline
+  line now mark it; table-only sections stay unmarked (title and status only, the body one expand away)
+- **Why:** the console no longer composes a card face of its own — a board card shows the author's
+  marked line verbatim or nothing (CONVENTIONS → *Card line*)
+- **Trigger:** console rework — a card is a collapsed section, not a third text
 
 ### 2026-08-17 — human review pass: Step-5 carry-over made visible
 - **From → To:** `#excluded` gains the carry-over check — the period backlog's C3/C9 did not enter
