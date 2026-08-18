@@ -13,7 +13,7 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.2.1
+version: 0.3.0
 updated: 2026-08-18
 ---
 
@@ -78,7 +78,16 @@ separable, not that the brief needs to be longer).
    that must stay whole. Record the decision in one line; the human should be able to see why a pass
    was fanned out.
 
-2. **Cut the work into task kinds.** Use the closed list (`gather` · `research` · `draft` · `verify`).
+2. **Cut the work into task kinds.** Use the closed list — anything that fits none of the four kinds
+   stays with the orchestrator (canon: OPERATING-LOOP → *Delegation*):
+
+   | Kind | The subagent is given | It returns |
+   |------|-----------------------|------------|
+   | `gather` | one source + the question the number/fact must answer | dated tagged values + what it could not reach |
+   | `research` | one question + its scope and stop condition | a sourced digest, every claim tagged |
+   | `draft` | one library method + the inputs it needs | its method's **worklog** (the draft), written by the subagent; ⚙️-marked — plus a summary + passport for the orchestrator to check before projecting |
+   | `verify` | one artifact/section + the checklist to hold it against | findings: file · anchor · what fails · why |
+
    One brief = one kind = one deliverable. A brief that mixes kinds ("collect the data and also draft
    the section") returns a blend you cannot check line by line, because the passport applies
    differently to each kind. Two briefs cost less than one bad merge.
