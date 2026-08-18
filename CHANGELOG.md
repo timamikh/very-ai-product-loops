@@ -15,6 +15,34 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### The per-pass canon halved — pay for contracts, not exposition
+
+- The gap: the always-loaded set (AGENTS + OVERVIEW + OPERATING-LOOP + CONVENTIONS + REGISTERS) cost
+  ~9,150 words per pass, much of it exposition duplicated from skills and reference — and a loaded
+  context is exactly where an agent starts skipping loop steps.
+- The cut, by the contract·method·check test (each deletion lands in the same change as its
+  receiving home): **CONVENTIONS** is now a notation card — every marker, id, link and change-log
+  form kept verbatim, the worklog-resolution exposition moved to the new
+  `process/reference/worklog-resolution.md`; **OPERATING-LOOP** keeps the loop 0–8 and compresses
+  *Delegation* to the contract kernel (write rule · never-delegated · closed task-kind list · hard
+  return gate · the `delegation: off` / no-subagent-runtime fallback), with the task-kinds table
+  moved to the `orchestration` skill that already owns the procedure; **OVERVIEW** stays in the
+  per-pass order as the philosophy's one home (§1) plus the four planes, three homes and the loop
+  model — the §5/§6/§9 duplicate tables are gone, each replaced by a pointer to its canonical home.
+- **REGISTERS.md leaves the per-pass order** — it is canon read at named moments: loop **step 3**
+  (pulling register rows as inputs, when field semantics are in doubt) and **step 7** (before
+  writing rows). The loop carries explicit pointers at both steps; register *values* are still read
+  every pass from the instance files.
+- **AGENTS.md non-negotiables now carry ids N1–N10**, each an imperative plus the one-clause reason
+  it exists; the reading order routes: per-pass (OVERVIEW → LOOP → CONVENTIONS), named-moment
+  (REGISTERS, `reference/`).
+- **Step 7 gains an exit self-check** ("do not leave step 7 until: ticks ⊕ registers ⊕ theses
+  sign-off ⊕ change log ⊕ open items") — the step most often skipped by a loaded context.
+- **New linter check W** holds the per-pass set to a word budget (soft/hard ceiling in
+  `tools/lint.py`); EXTENDING's "~1000 lines" prose budget is superseded by the machine-held one.
+- Net: per-pass set 9,152 → ~4,300 words (−53%), zero contract removed — every enum, marker, id
+  shape, path form and hard rule survives verbatim in exactly one home.
+
 ### Questionnaires carry their volume rules
 
 - The gap: a method's `volume_rule` lived in SKILL.md frontmatter while its interview quietly

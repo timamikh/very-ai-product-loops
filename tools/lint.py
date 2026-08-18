@@ -44,6 +44,8 @@ Checks (ERROR fails CI · WARN never does):
   U  a library method serves exactly one step (used_by_steps has one entry)
   V  a status's per-step tools list holds library methods only, each with a `<!-- tool: … -->` home
      in that step's template (how data is gathered belongs in the goals prose)
+  W  the always-loaded canon (AGENTS.md + OVERVIEW + OPERATING-LOOP + CONVENTIONS) stays within its
+     word budget — WARN past the soft ceiling, ERROR past the hard one (EXTENDING -> subtraction rule)
   Y  questions.yaml is machine-readable: every question `type` is from the shared vocabulary
      (no `type: x_from: y` double-colon scalars)
 
@@ -836,10 +838,42 @@ def instances(argv):
     return sorted({c["path"] for c in I.discover(ROOT, ROOT)})
 
 
+# The per-pass canon: every agent reads these before every pass, so each word here is paid on every
+# read. The ceilings hold the set at roughly half its pre-0.10 size; growth past WARN means the
+# subtraction rule (EXTENDING -> "Where a new rule goes") — move something to a skill or reference/
+# before adding, never just raise the numbers.
+PER_PASS_CANON = ("AGENTS.md", "process/OVERVIEW.md", "process/OPERATING-LOOP.md",
+                  "process/CONVENTIONS.md")
+BUDGET_WARN_WORDS = 4500
+BUDGET_ERROR_WORDS = 5000
+
+
+def check_word_budget():
+    """W — the always-loaded canon stays within its word budget."""
+    total, missing = 0, []
+    for name in PER_PASS_CANON:
+        path = os.path.join(ROOT, name)
+        if not os.path.exists(path):
+            missing.append(name)
+            continue
+        total += len(read(path).split())
+    for name in missing:
+        err("W %s: per-pass canon file missing — the reading order in AGENTS.md points at it" % name)
+    if total > BUDGET_ERROR_WORDS:
+        err("W per-pass canon is %d words (> %d): every agent pays this on every pass — apply the "
+            "subtraction rule (EXTENDING -> Where a new rule goes) before adding"
+            % (total, BUDGET_ERROR_WORDS))
+    elif total > BUDGET_WARN_WORDS:
+        warn("W per-pass canon is %d words (> %d soft ceiling of %d hard): move something to a "
+             "skill or process/reference/ before it grows further"
+             % (total, BUDGET_WARN_WORDS, BUDGET_ERROR_WORDS))
+
+
 def main(argv=()):
     tools = F.load_tools(ROOT)
     homed = F.homed_sections(ROOT)
 
+    check_word_budget()
     check_tools(tools, homed)
     check_quality(tools)
     check_questions(tools)

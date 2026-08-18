@@ -186,11 +186,13 @@ just enforcement — it is where a rule belongs when it *can* live there.
 
 Two consequences worth stating:
 
-- **A budget on the always-loaded set.** The rule files an agent must read before any work
-  (`AGENTS.md` + the four in `process/`) are meant to stay near **1000 lines**; the method library is
-  over twice that and costs nothing until used. An addition to `process/` names what it displaces, or
-  why it is neither a check nor a method. A reference that only one task needs goes to
-  [`process/reference/`](process/reference/README.md), pointed at from a one-line stub — not into the core.
+- **A budget on the always-loaded set.** The per-pass canon (`AGENTS.md` + `process/OVERVIEW.md` +
+  `OPERATING-LOOP.md` + `CONVENTIONS.md`) is machine-held by **linter check W** — a soft ceiling that
+  warns and a hard one that fails; the numbers live in one place, [`tools/lint.py`](tools/lint.py).
+  The method library is several times that size and costs nothing until used. An addition to
+  `process/` names what it displaces, or why it is neither a check nor a method. A reference that only
+  one task needs goes to [`process/reference/`](process/reference/README.md), pointed at from a
+  one-line stub; `process/REGISTERS.md` is likewise read at its named moments, outside the per-pass set.
 - **Subtraction is part of the job.** A rule stated in two of these files is two places to drift.
   When a change touches a duplicated rule, delete the copy in the same change and leave a pointer.
 
