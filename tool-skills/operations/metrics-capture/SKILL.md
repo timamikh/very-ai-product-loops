@@ -13,8 +13,8 @@ used_by_steps: [any]
 opinionated: true
 method_basis: "Reproducible measurement: a declared population, a declared observation window, a written derivation, and an independent recount before the value is trusted"
 status: draft
-version: 0.2.1
-updated: 2026-08-17
+version: 0.3.0
+updated: 2026-08-18
 ---
 
 # Metrics capture — from a source to a register row
@@ -22,7 +22,9 @@ updated: 2026-08-17
 **What it is.** The pass that turns a **source** (a database, an analytics tool, an admin panel, a
 billing export, a hand count) into **dated rows in `registers/metrics.csv`** and a **derivation
 worklog** — `<step-folder>/metrics-capture.md` in the folder of the step whose need triggered the
-capture (`node_type: worklog`) — that says how those rows were derived. The worklog is agent
+capture; when nothing specific asked (an unsolicited reading, event 5), the **current step's** folder
+(`state.yaml` → `current_step`) — one rule, no judgement call (`node_type: worklog`) — that says how
+those rows were derived. The worklog is agent
 reasoning, so it lives with the worklogs; `sources/` holds only what comes from outside — the
 source's **access file** stays there, and the worklog cites it. Every other tool in the framework starts
 after this one: the metric tree wants "the register seeded with captured readings", retention wants
@@ -122,6 +124,10 @@ you ran:
 A check that fails is a finding, not an obstacle: it usually means the population or the join is wrong,
 and it is far cheaper to learn it now than from a stakeholder.
 
+Until one check passes, the reading's tag is **`[assumption]`**, even though its origin is named.
+For a reading this deliberately tightens CONVENTIONS' `[sourced]`: a number with a named origin but
+no independent check is not yet evidence — it is the "assumption wearing a decimal point" above.
+
 **7 · Land it, then clean up.** In one pass:
 
 - **Rows** appended to `metrics.csv` — `id`, the period the value describes, `measured_at`, `value`,
@@ -168,6 +174,7 @@ Then tell the human what landed, decoding each id in the same sentence, and name
 - Dated rows in `registers/metrics.csv` (the home of every value).
 - A derivation worklog `product-loops/<step-folder>/metrics-capture.md` (`node_type: worklog`) via
   [`template-fragment.md`](template-fragment.md), citing the source's access file in `sources/`.
-- No new file in `sources/` — that folder holds what comes from outside (the access file, a raw
-  export the user keeps), never the agent's derivation.
+- No **derivation** in `sources/` — that folder never holds agent reasoning. The one file this pass
+  *may* create there is the source's **access file**, when the source had none (see Prerequisites);
+  an existing access file is cited, never duplicated.
 - Inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).

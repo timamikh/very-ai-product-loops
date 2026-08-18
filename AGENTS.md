@@ -2,7 +2,7 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.8.0
+version: 0.8.1
 updated: 2026-08-18
 ---
 
@@ -18,7 +18,8 @@ folder and writes markdown can run this framework — see
 1. `process/OVERVIEW.md` — the philosophy (§1) and the model
 2. `process/OPERATING-LOOP.md` — how one pass of a step runs
 3. `process/CONVENTIONS.md` — notation: tags, IDs, links, markers, change logs
-4. The instance: its `HANDOFF.md` → `sources/INDEX.md` → only the artifacts the task needs
+4. The instance: its `HANDOFF.md` (if present — absence just means no handoff is pending) →
+   `sources/INDEX.md` → only the artifacts the task needs
 
 **Read at the named moment, not every pass:** `process/REGISTERS.md` — register schemas — when
 pulling register rows as inputs (loop step 3) and before writing rows (step 7);

@@ -42,6 +42,18 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   `tools/lint.py`); EXTENDING's "~1000 lines" prose budget is superseded by the machine-held one.
 - Net: per-pass set 9,152 → ~4,300 words (−53%), zero contract removed — every enum, marker, id
   shape, path form and hard rule survives verbatim in exactly one home.
+- **Field-tested A/B before merge**: two cold agents, same brief (a real metrics-capture pass on
+  `examples/decksmith` + a 7-question contract quiz), one on the old canon, one on this one. Both:
+  identical correct file set, lint 0/0, 7/7 quiz; the new canon answered the `delegation: off`
+  question *more* completely at 53% less always-loaded reading. Fixes from what the run surfaced:
+  - `metrics-capture` 0.3.0: the access-file contradiction resolved (Output now says no *derivation*
+    in `sources/` — the access file **is** created by the pass when missing); an unsolicited reading's
+    worklog lands in the **current step's** folder (one rule, no judgement call); explicit: a reading
+    stays `[assumption]` until one independent check passes — for readings this tightens `[sourced]`.
+  - `REGISTERS.md` 0.9.1: registers live at the instance root (`registers/`), the `product-loops/`
+    spelling scoped to what it is — the live working area; empty `observed_n` defined for plain counts.
+  - `AGENTS.md` 0.8.1: a missing instance `HANDOFF.md` is declared benign (no handoff pending), not
+    a defect.
 
 ### Questionnaires carry their volume rules
 

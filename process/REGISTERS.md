@@ -2,15 +2,16 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.9.0
+version: 0.9.1
 updated: 2026-08-18
 ---
 
 # Registers
 
 Three living, vertical objects, shared across all steps — born once, refined downward, results
-flowing back up, **not re-authored per step**. In an instance: `product-loops/registers/`. IDs,
-confidence and change logs follow [`CONVENTIONS.md`](CONVENTIONS.md).
+flowing back up, **not re-authored per step**. In an instance: `registers/` at the instance root
+(the working area — `product-loops/` in a live product). IDs, confidence and change logs follow
+[`CONVENTIONS.md`](CONVENTIONS.md).
 
 *Read this file at its named moments* (OPERATING-LOOP): **step 3** — pulling register rows as
 inputs, when field semantics or gradations are in doubt — and **step 7** — before writing rows.
@@ -108,8 +109,9 @@ id,period_start,period_end,measured_at,value,observed_n,population,basis,source,
 - `measured_at` = when the reading was taken; `period_start/period_end` = the interval the value
   describes (empty for point-in-time). Collapsing them makes every trailing-window metric lie.
 - `observed_n` = how many of the population **could already have shown the outcome** — the rate's
-  denominator. A cohort metric divides by the observed, never the whole cohort. **An empty `value`
-  means the outcome was not observable yet** — never a word inside a numeric column.
+  denominator. A cohort metric divides by the observed, never the whole cohort; a plain count that
+  is no rate's numerator leaves `observed_n` empty. **An empty `value` means the outcome was not
+  observable yet** — never a word inside a numeric column.
 - `basis` = **how the value was computed**, nothing else (`operational` · `with_depreciation` ·
   `metered` · `fact` …). *Who* was counted is `population`; *which slice* is a node of its own.
   Rows are comparable across `basis`, not across `population`.

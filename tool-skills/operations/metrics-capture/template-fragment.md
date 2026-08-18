@@ -91,5 +91,6 @@ which is why they are two rows.
 
 **Then:** update the node in `metric-tree.md` where the pass taught you something (`instrumentation`,
 default `population`, a `note`), write a change-log entry in the worklog naming the ids it moved,
-delete the raw capture, and run `python3 tools/lint.py <instance>` to 0 errors. No new file lands in
-`sources/` — the access file already there is cited, not duplicated.
+delete the raw capture, and run `python3 tools/lint.py <instance>` to 0 errors. No derivation lands
+in `sources/` — the access file there is cited, not duplicated (if the source had none, this pass
+created it first — see the skill's Prerequisites).
