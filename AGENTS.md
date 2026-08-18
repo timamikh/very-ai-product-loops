@@ -2,60 +2,61 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.7.2
-updated: 2026-08-16
+version: 0.8.0
+updated: 2026-08-18
 ---
 
 # Agent rules — very-ai-product-loops
 
-**This file is the one home of the rules, for any agent.** `AGENTS.md` is the cross-vendor convention
-(Codex, Cursor and others auto-load it); the root `CLAUDE.md` is a one-line pointer here, not a second
-copy. Whatever reads a folder and writes markdown can run this framework — see
+**This file is the one home of the rules, for any agent.** `AGENTS.md` is the cross-vendor
+convention; the root `CLAUDE.md` is a one-line pointer here, not a second copy. Whatever reads a
+folder and writes markdown can run this framework — see
 [`install/README.md`](install/README.md) → *Running on an agent other than Claude Code*.
 
-Read BEFORE any work, in this order (normative, not optional):
+**Read BEFORE any work, in this order (normative, not optional):**
 
-1. `process/OVERVIEW.md` — the model + the philosophy the agent lives by (§1)
+1. `process/OVERVIEW.md` — the philosophy (§1) and the model
 2. `process/OPERATING-LOOP.md` — how one pass of a step runs
-3. `process/CONVENTIONS.md` — notation: confidence tags, IDs, forks, change logs
-4. `process/REGISTERS.md` — register schemas
-5. The instance: its `HANDOFF.md` → `sources/INDEX.md` → only the artifacts the task needs
+3. `process/CONVENTIONS.md` — notation: tags, IDs, links, markers, change logs
+4. The instance: its `HANDOFF.md` → `sources/INDEX.md` → only the artifacts the task needs
 
-`process/reference/` is **not** in this order — it is canon read **on demand** (the config schema, the
-node_type matrix, column-key authoring, the glossary, worked examples), each pointed at from the core
-file that needs it, so the always-loaded set stays lean.
+**Read at the named moment, not every pass:** `process/REGISTERS.md` — register schemas — when
+pulling register rows as inputs (loop step 3) and before writing rows (step 7);
+`process/reference/` — the config schema, column keys, the node_type matrix, the glossary, worked
+examples — each pointed at from the core file that needs it.
 
-**Never trust auto-load.** When work begins via a skill, from another session, or on a tool that loads
-nothing, this file was not read for you — read the order above yourself. The `start-work` skill (or
-`product-setup` for first run) walks it; on a tool without slash-skills, read
+**Never trust auto-load.** When work begins via a skill, from another session, or on a tool that
+loads nothing, this file was not read for you — read the order above yourself. The `start-work`
+skill (or `product-setup` for first run) walks it; without slash-skills, read
 `.claude/skills/start-work/SKILL.md` as a plain file and follow it.
 
-Non-negotiables (details live in the files above; on conflict, those files win):
+## Non-negotiables
 
-- **The agent prepares, the human decides.** Never invent; missing data = `— to clarify —`.
-- **Registers are the home of values.** Metric readings land in `registers/metrics.csv` as dated
-  rows at capture time; a `sources/` snapshot is evidence, not the home. A data-gathering errand
-  is still a loop pass: it ends with register updates and a change-log entry.
-- **A handoff restores state — not rules, not truth.** Verify its claims against the registers
+Details live in the files above; on conflict, those files win. Each rule: what to do — and the one
+reason it exists.
+
+- **N1 · The agent prepares, the human decides.** Never invent; missing data = `— to clarify —` —
+  a guess in an artifact is a decision the human never made.
+- **N2 · Registers are the home of values.** Metric readings land in `registers/metrics.csv` as
+  dated rows **at capture time**; a `sources/` snapshot is evidence, not the home. A data-gathering
+  errand is still a loop pass — it ends with step 7.
+- **N3 · A handoff restores state — not rules, not truth.** Verify its claims against the registers
   and artifacts; run its environment checks before relying on them.
-- **Read the tool before filling.** Open `tool-skills/library/<tool>/SKILL.md` before writing its
-  section. Missing prerequisites → ask or help obtain; never proceed on a guess. (Pluggable skills
-  live under `tool-skills/`: `library/` methods · `operations/` runtime skills · `outputs/` output —
-  pick by task phase; see [`tool-skills/README.md`](tool-skills/README.md).)
-- **One mechanism, one way.** Never introduce a second format/path for something the framework
-  already does one way.
-- **The write rule is a split.** The **orchestrator** (the agent holding the human's session) owns
-  the artifact, the registers and `state.yaml` — it alone projects worklogs into sections, mints
-  register ids, ticks gates. If you were spawned with a brief, you are a **subagent**: a `draft`
-  writes **exactly one file, its method's worklog**, and returns a summary; a `gather`/`research`/
-  `verify` writes nothing and **returns text**. Never close a fork, never tick a gate, never mint a
-  register id. The rule is transitive: the only file anything you spawn may write is a `draft`'s own
-  worklog. See OPERATING-LOOP → *Delegation*.
-- **Confidence tags on every claim**; agent proposals marked ⚙️. Never blanket-source your own
-  derived conclusions.
-- **No secrets or PII** in artifacts, handoffs, or chat. Raw captures are **never committed** and
-  are deleted once their values land in the registers.
-- **In chat with the human: no bare IDs or links** — decode what each one means in the same
-  sentence.
-- **Changing the framework itself** (a new skill, a status, the work directions, a step) follows
+- **N4 · Read the tool before filling.** Open the tool's `SKILL.md` before writing its section;
+  missing prerequisites → ask or help obtain, never proceed on a guess. (Skills live under
+  `tool-skills/`: `library/` methods · `operations/` runtime · `outputs/` output.)
+- **N5 · One mechanism, one way.** Never introduce a second format or path for something the
+  framework already does one way — every variation point is where two readers diverge.
+- **N6 · The write rule is a split.** The **orchestrator** alone owns the artifact, the registers,
+  `state.yaml`, ticks and change log — it projects worklogs, mints ids, ticks gates. Spawned with a
+  brief? You are a **subagent**: a `draft` writes exactly one file (its method's worklog); the rest
+  return text. Never close a fork, never tick a gate, never mint an id. Transitive down the tree.
+  (OPERATING-LOOP → *Delegation*.)
+- **N7 · Confidence tags on every claim**; agent proposals ⚙️. Never blanket-source your own
+  derived conclusions — an untagged claim silently becomes a fact.
+- **N8 · No secrets or PII** in artifacts, handoffs, or chat. Raw captures are **never committed**,
+  deleted once their values land in the registers.
+- **N9 · In chat: no bare IDs or links** — decode what each one means in the same sentence, so the
+  human never opens the repo just to follow the conversation.
+- **N10 · Changing the framework itself** (a skill, a status, a step, a direction) follows
   [`EXTENDING.md`](EXTENDING.md) — never an ad-hoc edit of the core.

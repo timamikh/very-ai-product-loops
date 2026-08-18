@@ -26,8 +26,9 @@ loaded and the agent works the disciplined loop instead of bulk-filling.
 **Do not trust auto-load.** When this skill is invoked (or the repo wasn't opened as a fresh
 session, or on a tool that auto-loads nothing), the framework's root `AGENTS.md` was not read for you. So load the rules
 yourself, in order, before touching any artifact:
-`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` → `REGISTERS.md`. These are the
-authority for everything below — this skill only walks you into them, it does not restate them.
+`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` (`REGISTERS.md` is read at its named
+moments — loop steps 3 and 7). These are the authority for everything below — this skill only walks
+you into them, it does not restate them.
 
 **Check delegation availability, now.** The loop delegates gathering, drafting and verification to
 subagents (`loops-gather` · `loops-research` · `loops-draft` · `loops-verify`). Confirm two things

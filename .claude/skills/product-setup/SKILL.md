@@ -33,7 +33,8 @@ its source and confidence; nothing is invented; gaps are `— to clarify —`.
 **Do not trust auto-load.** This skill is usually invoked right after install or from another repo's
 session, when the framework's root `AGENTS.md` was never auto-loaded as the boot entry. So load the
 rules yourself, in order, before any setup work:
-`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` → `REGISTERS.md`. They define the
+`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` (plus `REGISTERS.md` before any
+register work). They define the
 disciplined loop and the "prepare, don't invent" rule the rest of this skill depends on. Skipping
 them is exactly how a first run turns into an invented bulk-fill.
 

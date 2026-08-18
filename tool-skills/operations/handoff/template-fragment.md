@@ -18,8 +18,8 @@ read_me_first: true
 
 > Operational state doc (private to the instance). Restores context without asking the human.
 > **Reading order on return:** framework rules (`process/OVERVIEW.md` → `OPERATING-LOOP.md` →
-> `CONVENTIONS.md` → `REGISTERS.md`) → **this file** → `sources/INDEX.md` → only the artifacts
-> the task needs.
+> `CONVENTIONS.md`; `REGISTERS.md` at its named moments) → **this file** → `sources/INDEX.md` →
+> only the artifacts the task needs.
 
 ## Who / what / where
 - PO / decision-maker, working language, product + scope boundary (one line each).

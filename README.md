@@ -204,8 +204,10 @@ auto-loads that name). It sends the agent through the rules first:
 1. [`process/OVERVIEW.md`](process/OVERVIEW.md) — the model and the philosophy it lives by.
 2. [`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) — the runtime: how one pass of a step runs.
 3. [`process/CONVENTIONS.md`](process/CONVENTIONS.md) — notation: confidence tags, sources, IDs, forks, change logs.
-4. [`process/REGISTERS.md`](process/REGISTERS.md) — register schemas (hypotheses / risks / metric tree).
-5. Then the instance: its `HANDOFF.md` (if present) → `sources/INDEX.md` → only the artifacts the task needs.
+4. Then the instance: its `HANDOFF.md` (if present) → `sources/INDEX.md` → only the artifacts the task needs.
+
+[`process/REGISTERS.md`](process/REGISTERS.md) — the register schemas — is canon read at its **named
+moments** (pulling register rows as inputs, writing rows), like `process/reference/`, not on every pass.
 
 `AGENTS.md` is the enforced version of this list — skipping the rules and working from a task
 description alone is how they get violated silently. Where an agent auto-loads nothing, the human

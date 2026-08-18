@@ -13,8 +13,8 @@ used_by_steps: [any]
 opinionated: false
 method_basis: "Structured shift-handover (SBAR-style): state · environment checks · open forks · next step"
 status: draft
-version: 0.4.0
-updated: 2026-07-21
+version: 0.4.1
+updated: 2026-08-18
 ---
 
 # Handoff — session-to-session state transfer
@@ -22,7 +22,7 @@ updated: 2026-07-21
 **What it is.** A tool that writes/updates the instance's `HANDOFF.md` — the file a fresh agent
 reads to resume work after a session restart, context loss, or agent switch, **without re-asking the
 human**. **Cycle position — current step and gate ticks — lives in `state.yaml`, not here** (see
-OPERATING-LOOP → "Instance state"); the handoff carries only what `state.yaml` doesn't: the
+OPERATING-LOOP → step 0); the handoff carries only what `state.yaml` doesn't: the
 **environment / access checks** and the **open forks in flight**. The framework's rules restore
 *behavior* (see the required reading order below — a handoff must never become a substitute for the rules).
 
@@ -58,7 +58,7 @@ know is stale.
 2. Fill every section of `template-fragment.md`. Sections that deserve special care, from
    field-tested failures:
    - **Reading order** must start with the framework rules (`process/OVERVIEW → OPERATING-LOOP →
-     CONVENTIONS → REGISTERS`), *then* `state.yaml` (position + gate ticks), *then* the handoff
+     CONVENTIONS`; `REGISTERS` at its named moments), *then* `state.yaml` (position + gate ticks), *then* the handoff
      (environment + open forks), *then* `sources/INDEX.md`. A handoff that routes straight to sources
      produces an agent that works without rules.
    - **Environment & access** must be *verifiable*: for each dependency record (a) what it is,
