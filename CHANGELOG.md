@@ -106,6 +106,15 @@ what a disciplined pass already had to do.
   the last pre-wave spelling of the write perimeter — a second word for what card headers call
   `writes`. All 48 files migrated to `writes: [section:…]` / `writes: [file:…]` (same atom grammar
   as the header); check A2 now reads the atoms and errors on the old spelling.
+- **Artifact column vocabularies are machine-checked** (F-007; the author's call: template + linter).
+  A truncated token (`already improvising`) passed the linter in the traced run and only a `verify`
+  subagent caught it. Now a step template declares a closed vocabulary under the table
+  (`<!-- enum:c:inaction: … | … -->`) and the new **check O3** holds every instance cell to it — the
+  same template-is-the-schema contract check D holds for registers. First declarations: the four
+  vocabulary columns of `1-concept#problems`. The check immediately caught **five real defects in
+  the published reference example** (`examples/decksmith`): compound `M–H` grades and the very same
+  truncated token — fixed there with a change-log entry, ranges rounded down (confidence is never
+  upgraded in transit).
 - Canon: 4,945 → 5,013 words (the goal-map phrase + the declared-input law); W warns, mechanics
   decide acceptance.
 

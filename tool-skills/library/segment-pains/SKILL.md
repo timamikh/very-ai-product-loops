@@ -49,7 +49,9 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
    and the bundle; the rest stay in the table with their rank, never deleted — a pain ranked low this
    quarter is the cheapest thing to re-check next quarter, and the most expensive to re-derive.
 3. **Name the cost of inaction per pain** — what the segment does about it today:
-   `nice-to-have` / `recurring irritation` / `already paying or improvising`. This is the same
+   `nice-to-have` / `recurring irritation` / `already paying or improvising` — tokens exactly as
+   written: the step template declares this vocabulary (`<!-- enum:c:inaction -->`) and the linter
+   holds it (check O3); a truncated or compounded token is an error, not a nuance. This is the same
    gradation `hypothesis-test-design` §Scales uses for pain acuteness, so the column feeds the
    Step-3 CVP (`uvp-cpv`) and the Step-5 priority score without translation. Severity says how much
    it hurts; cost of inaction says what they *do* about it — a vivid pain nobody pays or improvises

@@ -98,10 +98,10 @@ order; the top 3 carry into the solution. Full 7-pain scoring in the worklog._
 
 | Problem <!--c:problem--> | Severity <!--c:severity--> | Frequency <!--c:frequency--> | Cost of inaction <!--c:inaction--> | Class <!--c:class--> | Confidence <!--c:conf--> |
 |---------|----------|-----------|------------------|-------|------------|
-| AI output "looks templated" → restyled by hand, so the promised time-saving evaporates | H | H | already paying / improvising | differentiator | [sourced: founder brief] |
-| Deck comes back with the wrong structure/story for the audience → narrative rewritten | H | M–H | already improvising | differentiator | [sourced: founder brief] |
-| Locked / image output can't be edited → last-minute edits & reuse impossible (disqualifying) | H | H | already improvising | table-stakes | [sourced: founder brief] |
-| Output isn't on-brand (fonts, colours, logo, layout) → manual re-branding every time | M–H | H | recurring irritation | differentiator | [assumption] |
+| AI output "looks templated" → restyled by hand, so the promised time-saving evaporates | H | H | already paying or improvising | differentiator | [sourced: founder brief] |
+| Deck comes back with the wrong structure/story for the audience → narrative rewritten | H | M | already paying or improvising | differentiator | [sourced: founder brief] |
+| Locked / image output can't be edited → last-minute edits & reuse impossible (disqualifying) | H | H | already paying or improvising | table-stakes | [sourced: founder brief] |
+| Output isn't on-brand (fonts, colours, logo, layout) → manual re-branding every time | M | H | recurring irritation | differentiator | [assumption] |
 | Deadline pressure → slow tools / manual rebuild risk missing the deadline | M | H | recurring irritation | table-stakes | [assumption] |
 | Visual inconsistency across a deck (spacing, alignment, rhythm) → looks amateur | M | M | recurring irritation | differentiator | [assumption] |
 | Getting existing content into slides is tedious reformatting | M | M | recurring irritation | table-stakes | [assumption] |
@@ -197,6 +197,15 @@ _Open items surfaced by the agent for the human to resolve._
   product decision.
 
 ## Change log
+
+### 2026-08-19 — {#problems} enum tokens normalized to the template's vocabulary
+- **From → To:** `already improvising` / `already paying / improvising` → `already paying or
+  improvising`; range grades `M–H` → the conservative bound `M` (severity, row "output isn't
+  on-brand"; frequency, row "wrong structure/story")
+- **Why:** the step template now declares column vocabularies (`<!-- enum:c:… -->`, linter check
+  O3) — a compounded or truncated token reads plausibly but breaks every by-key consumer; a range
+  rounds down, never up (confidence is never upgraded in transit)
+- **Trigger:** check O3 landing (canon wave 3.1) — the reference instance must pass its own linter
 
 ### 2026-08-17 — card lines marked for the console board
 - **From → To:** no section carried a `<!-- card -->` mark → 6 section(s) with a natural headline

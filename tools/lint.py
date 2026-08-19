@@ -33,6 +33,8 @@ Checks (ERROR fails CI · WARN never does):
      (all-keyed-or-none, unique); a key in a method template is an error — the draft is matched by meaning
   O2 an instance artifact section carries its template's column keys (the projection contract;
      enforced — a template-keyed section left un-keyed in the instance is an error)
+  O3 a column with a template-declared vocabulary (`<!-- enum:c:key: a | b -->` under the table)
+     holds only its tokens — the template is the schema, for artifacts as for registers (check D)
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
      sections use; required — every artifact section that names a method (or synthesis) has its worklog
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
@@ -851,6 +853,29 @@ def _section_keys(text):
     return out
 
 
+# a template-declared column vocabulary: `<!-- enum:c:inaction: a | b | c -->` under the table
+ENUM_DECL_RE = re.compile(r"<!--\s*enum:c:([\w-]+):\s*([^>]*?)\s*-->", re.I)
+
+
+def _section_enums(text):
+    """{section_id: {key: (tokens…)}} — the enum vocabularies a step template declares per section."""
+    out = {}
+    for sec in T.sections(text):
+        if not sec["id"]:
+            continue
+        for m in ENUM_DECL_RE.finditer(sec["body"]):
+            toks = tuple(t.strip() for t in m.group(2).split("|") if t.strip())
+            out.setdefault(sec["id"], {})[m.group(1)] = toks
+    return out
+
+
+def _template_section_enums():
+    out = {}
+    for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+        out.update(_section_enums(read(path)))
+    return out
+
+
 SCHEMA_FILES = ("steps/*/template.md",
                 "tool-skills/library/*/template-fragment.md",
                 "tool-skills/operations/*/template-fragment.md")
@@ -886,6 +911,16 @@ def check_column_keys():
             if dupes:
                 err("O %s: column key(s) %s repeat in one table — keys are unique within a table"
                     % (rel(path), ", ".join("`%s`" % d for d in dupes)))
+        # an enum declaration binds to a key its section's table actually carries (O3 reads these)
+        skeys = _section_keys(text)
+        for sid, enums in _section_enums(text).items():
+            for key, toks in enums.items():
+                if not toks:
+                    err("O %s#%s: `enum:c:%s` declares no tokens — an empty vocabulary checks "
+                        "nothing" % (rel(path), sid, key))
+                if key not in skeys.get(sid, []):
+                    err("O %s#%s: `enum:c:%s` but the section's table carries no `<!--c:%s-->` "
+                        "column — a vocabulary binds to a real key" % (rel(path), sid, key, key))
     # Not a home — method templates: a key here is a maintenance trap with no consumer.
     for pattern in ("tool-skills/library/*/template-fragment.md",
                     "tool-skills/operations/*/template-fragment.md"):
@@ -919,9 +954,11 @@ def check_instance_conformance(inst):
     language. A step the instance has not reached (no artifact file) is simply not iterated.
     """
     tkeys = _template_section_keys()
+    tenums = _template_section_enums()
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         text = read(art)
-        present = {sec["id"] for sec in T.sections(text) if sec["id"]}
+        bodies = {sec["id"]: sec["body"] for sec in T.sections(text) if sec["id"]}
+        present = set(bodies)
         inst_keys = _section_keys(text)   # {sid: [keys]} for keyed instance tables only
         for sid, tks in tkeys.items():
             if sid not in present:
@@ -935,6 +972,20 @@ def check_instance_conformance(inst):
                 err("O2 %s#%s: instance table keys %s do not match the template's form %s — the "
                     "chistovik must carry its template's keys (CONVENTIONS → Column keys)"
                     % (rel(art), sid, sorted(iks), sorted(tks)))
+        # O3 — a column with a template-declared vocabulary holds only its tokens. The template is
+        # the schema (the same contract check D holds for registers): a truncated or improvised
+        # token reads plausibly and slips through every human pass — this is the machine's catch.
+        for sid, enums in tenums.items():
+            body = bodies.get(sid)
+            if body is None:
+                continue
+            for key, toks in enums.items():
+                for v in (T.column_key_values(body, key) or ()):
+                    cv = T.enum_value(v)
+                    if cv and cv not in toks:
+                        err("O3 %s#%s: `%s` = %r not in the template's enum %s — the template is "
+                            "the schema; a qualifier belongs in a note or the worklog, never "
+                            "compounded into the value" % (rel(art), sid, key, cv, sorted(toks)))
 
 
 CONFIRM_LOOSE_RE = re.compile(r"<!--\s*confirmed:\s*(.*?)\s*-->")

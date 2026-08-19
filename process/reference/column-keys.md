@@ -2,8 +2,8 @@
 node_type: reference
 title: Column keys — the authoring rule
 status: draft
-version: 0.1.1
-updated: 2026-08-18
+version: 0.2.0
+updated: 2026-08-19
 ---
 
 # Column keys
@@ -54,3 +54,19 @@ section carrying its template's keys — is check O2 (instance-conformance).
 This exists because matching a column by header prose breaks the moment the instance is written in
 another language or its columns are reordered — the failure the section `{#anchor}` already prevents
 for whole sections.
+
+## Column vocabularies (enums)
+
+A keyed column whose values come from a **closed vocabulary** declares it in the step template,
+right under the table — one comment per column:
+
+```markdown
+<!-- enum:c:inaction: nice-to-have | recurring irritation | already paying or improvising -->
+```
+
+The template is the schema: the same contract check D holds for register enums, check **O3** holds
+for artifact columns — an instance cell under that key must be one of the tokens (a `— to clarify —`
+gap is fine; a qualifier belongs in a note or the worklog, never compounded into the value). The
+declaration binds to a key the section's table actually carries, and an empty vocabulary is an error
+(check O). Declare a vocabulary only where the method genuinely fixes it — a free-text column takes
+none, the same "no consumer, no key" restraint.

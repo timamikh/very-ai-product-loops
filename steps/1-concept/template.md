@@ -4,8 +4,8 @@ artifact: concept
 step: 1
 title: "Product Concept — <Product>"
 status: template
-version: 0.7.0
-updated: 2026-08-16
+version: 0.8.0
+updated: 2026-08-19
 ---
 
 <!--
@@ -63,6 +63,11 @@ _Each segment's problems, scored by severity × frequency._
 | Problem <!--c:problem--> | Severity <!--c:severity--> | Frequency <!--c:frequency--> | Cost of inaction <!--c:inaction--> | Class <!--c:class--> | Confidence <!--c:conf--> |
 |---------|----------|-----------|------------------|-------|------------|
 | … | H/M/L | H/M/L | nice-to-have / recurring irritation / already paying or improvising | differentiator / table-stakes | [assumption] |
+
+<!-- enum:c:severity: H | M | L -->
+<!-- enum:c:frequency: H | M | L -->
+<!-- enum:c:inaction: nice-to-have | recurring irritation | already paying or improvising -->
+<!-- enum:c:class: differentiator | table-stakes -->
 
 ## Customer Journey {#cjm}
 <!-- tool: cjm-concept -->
