@@ -1,6 +1,6 @@
 # instrumentation-plan — interview
 tool: instrumentation-plan
-produces: [architecture-instrumentation]
+writes: [section:architecture-instrumentation]
 questions:
   - id: components
     ask: "Which components are we mapping? (⚙️ agent unions 3-strategy.md#architecture boxes with #product-surface touchpoints — confirm or add)"

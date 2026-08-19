@@ -1,6 +1,6 @@
 # goal-targets — interview
 tool: goal-targets
-produces: goal-targets
+writes: [section:goal-targets]
 questions:
   - id: goals
     ask: "List the period goals to set targets for (from {#period-goals}), each with its direction."

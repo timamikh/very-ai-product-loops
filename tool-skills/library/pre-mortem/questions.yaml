@@ -1,6 +1,6 @@
 # pre-mortem — interview
 tool: pre-mortem
-produces: product-risks
+writes: [section:product-risks]
 questions:
   - id: premortem
     ask: "It's 12 months from now and the chosen strategy failed — why? (≥8 concrete failure stories; include execution & key-person risks, not just external ones)"

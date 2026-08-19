@@ -1,6 +1,6 @@
 # concept-expansion — interview
 tool: concept-expansion
-produces: solution
+writes: [section:solution]
 questions:
   - id: mechanism_per_problem
     ask: "For each ranked problem from {#problems} — how exactly does the product remove it? (⚙️ agent proposes from the concept's solution stub)"

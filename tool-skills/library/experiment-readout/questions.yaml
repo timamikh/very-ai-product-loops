@@ -1,6 +1,6 @@
 # experiment-readout — interview
 tool: experiment-readout
-produces: readouts
+writes: [section:readouts]
 questions:
   - id: finished
     ask: "Which tests finished this period (reached their pre-registered sample/duration)? Every finished H-… gets a readout."

@@ -1,6 +1,6 @@
 # hypothesis-test-design — interview
 tool: hypothesis-test-design
-produces: hypotheses-to-test
+writes: [section:hypotheses-to-test]
 questions:
   - id: hypothesis
     ask: "Which H-… are we testing, and what's the riskiest assumption behind it? (the one that would kill the bet, not the comfortable one)"

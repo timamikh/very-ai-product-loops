@@ -1,6 +1,6 @@
 # segment-pains — interview
 tool: segment-pains
-produces: problems
+writes: [section:problems]
 questions:
   - id: job
     ask: "For the lead segment — what are they really trying to get done (the job)?"

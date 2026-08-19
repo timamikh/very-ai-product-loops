@@ -1,6 +1,6 @@
 # feature-spec — interview (development direction)
 tool: feature-spec
-produces: [backlog, must]
+writes: [section:backlog, section:must]
 questions:
   - id: description
     ask: "What is the feature? (one clear description)"

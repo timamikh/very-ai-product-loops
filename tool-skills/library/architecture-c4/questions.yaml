@@ -1,6 +1,6 @@
 # architecture-c4 — interview
 tool: architecture-c4
-produces: architecture
+writes: [section:architecture]
 questions:
   - id: actors
     ask: "Who uses the system? (map to your segments)"

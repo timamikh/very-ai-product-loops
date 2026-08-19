@@ -1,7 +1,7 @@
 # segmentation — interview
 # Drives an LLM survey OR renders to a fillable file. ⚙️ = agent-proposed default; free-text always allowed.
 tool: segmentation
-produces: segments
+writes: [section:segments]
 
 questions:
   - id: candidate_cuts

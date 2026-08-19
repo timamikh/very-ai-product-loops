@@ -1,6 +1,6 @@
 # task-spec — interview (back-office direction)
 tool: task-spec
-produces: [must, backlog]
+writes: [section:must, section:backlog]
 questions:
   - id: description
     ask: "What needs doing? (one clear description, at task altitude — not sub-tasks)"

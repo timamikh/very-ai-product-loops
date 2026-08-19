@@ -2,7 +2,7 @@
 # Drives an LLM survey OR renders to a fillable file. The agent proposes ⚙️ defaults from the
 # concept/segments; the human confirms or overrides. Free-text always allowed.
 tool: value-definition-concept
-produces: value-defensibility
+writes: [section:value-defensibility]
 
 questions:
   - id: core_value

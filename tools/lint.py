@@ -11,7 +11,8 @@ alike. A second parser would drift from the canon and reintroduce exactly the bu
 
 Checks (ERROR fails CI · WARN never does):
   A  a card's `writes: section:<id>` has a matching `{#id}` in its template-fragment
-  A2 tool `questions.yaml` `produces` matches the sections its card writes
+  A2 tool `questions.yaml` `writes` (atoms, same grammar as the card) matches the card's sections;
+     the old `produces:` spelling is an ERROR
   B  every written section is homed in some step's artifact (a step template `{#id}`)
   C  library index rows <-> tool folders, and index "Steps" <-> the card's `steps`
   D  register enums per instance (hypothesis type/status/confidence · post-test signal/decision ·
@@ -108,15 +109,20 @@ def check_tools(tools, homed):
             if sid not in frag_ids:
                 err("A [%s] writes `section:%s` but its template-fragment.md has no {#%s}"
                     % (name, sid, sid))
-        # A2 — questions.yaml `produces` matches the sections the card writes
+        # A2 — questions.yaml `writes` matches the sections the card writes (one word, one grammar:
+        # the file uses the same atoms as the card header; `produces` is the pre-wave-3.1 spelling)
         q = os.path.join(t["dir"], "questions.yaml")
         if os.path.exists(q):
-            mm = re.search(r"^produces:\s*(.+)$", read(q), re.M)
+            qtext = read(q)
+            if re.search(r"^produces:", qtext, re.M):
+                err("A2 [%s] questions.yaml still says `produces:` — the field is `writes:`, in "
+                    "atoms (`writes: [section:idea]`); one write perimeter, one word" % name)
+            mm = re.search(r"^writes:\s*(.+)$", qtext, re.M)
             if mm:
-                qp = set(T.as_list(T.parse_scalar(mm.group(1))))
+                qp = set(C.sections_written(T.as_list(T.parse_scalar(mm.group(1)))))
                 sp = set(secs)
                 if qp != sp:
-                    err("A2 [%s] questions.yaml produces %s != the sections the card writes %s"
+                    err("A2 [%s] questions.yaml writes %s != the sections the card writes %s"
                         % (name, sorted(qp), sorted(sp)))
         # B — every written section is homed in a step artifact
         for sid in secs:

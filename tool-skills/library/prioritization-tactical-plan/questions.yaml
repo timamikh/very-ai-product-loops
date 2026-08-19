@@ -1,6 +1,6 @@
 # prioritization-tactical-plan — interview
 tool: prioritization-tactical-plan
-produces: period-goals
+writes: [section:period-goals]
 questions:
   - id: gate
     ask: "What's the goal/gate of this period — the metric node to move (M-…) or the Definition of Done every candidate is ranked against?"

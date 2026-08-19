@@ -1,6 +1,6 @@
 # guardrails — interview
 tool: guardrails
-produces: guardrails
+writes: [section:guardrails]
 questions:
   - id: what_breaks
     ask: "For each period goal — walk all 7 break-categories (retention · unit economics · CAC · quality · brand/trust · support load · churn): what breaks if we optimize too hard? Record the cleared ones too."

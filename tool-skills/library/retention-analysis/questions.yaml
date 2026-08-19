@@ -1,6 +1,6 @@
 # retention-analysis — cohort retention & engagement (intake)
 tool: retention-analysis
-produces: retention
+writes: [section:retention]
 questions:
   - id: active_definition
     ask: "What counts as a retained ACTIVE action, and what is the product's natural frequency (daily / weekly / monthly)?"

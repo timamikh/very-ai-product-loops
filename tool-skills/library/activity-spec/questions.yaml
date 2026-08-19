@@ -1,6 +1,6 @@
 # activity-spec — interview (go-to-market direction)
 tool: activity-spec
-produces: [must, backlog]
+writes: [section:must, section:backlog]
 questions:
   - id: description
     ask: "What is the activity? (e.g. reactivation mailing, TG post, landing test)"

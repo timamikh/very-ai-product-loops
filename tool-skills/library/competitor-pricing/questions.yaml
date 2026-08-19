@@ -1,6 +1,6 @@
 # competitor-pricing — interview
 tool: competitor-pricing
-produces: competitor-pricing
+writes: [section:competitor-pricing]
 questions:
   - id: pricing
     ask: "For each detailed-table competitor — do you know their pricing, or should the agent scan sites/search for it?"

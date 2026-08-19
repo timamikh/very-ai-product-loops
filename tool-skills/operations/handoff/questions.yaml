@@ -1,7 +1,7 @@
 # handoff — interview to gather what the agent cannot observe itself.
 # The agent fills most of HANDOFF.md from the instance; these questions cover the rest.
 tool: handoff
-produces: HANDOFF.md
+writes: [file:HANDOFF.md]
 questions:
   - id: restart-reason
     ask: "Why is the handoff needed now (restart / end of session / transfer / other)?"

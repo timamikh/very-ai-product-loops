@@ -1,6 +1,6 @@
 # unit-economics — interview
 tool: unit-economics
-produces: unit-economics
+writes: [section:unit-economics]
 questions:
   - id: honest-base
     ask: "For the honest base: hardware depreciation from capex, or market compute price? (pick one rule)"

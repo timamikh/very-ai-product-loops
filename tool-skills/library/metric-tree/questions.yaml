@@ -1,6 +1,6 @@
 # metric-tree — the few questions the agent cannot answer from data
 tool: metric-tree
-produces: metric-tree
+writes: [section:metric-tree]
 questions:
   - id: north-star-candidates
     ask: "The 2–4 candidate North Stars, each run through the three filters (⚙️ agent drafts them from the worklog — confirm or amend the list)"

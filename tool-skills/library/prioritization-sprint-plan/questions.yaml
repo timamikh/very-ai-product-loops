@@ -1,6 +1,6 @@
 # prioritization-sprint-plan — interview
 tool: prioritization-sprint-plan
-produces: [must, backlog, excluded]
+writes: [section:must, section:backlog, section:excluded]
 questions:
   - id: gate
     ask: "What's the goal/gate of this period — the metric node to move (M-…) or the Definition of Done every item is ranked against — and what must this sprint contribute to it?"

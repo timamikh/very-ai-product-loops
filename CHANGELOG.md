@@ -102,6 +102,10 @@ what a disciplined pass already had to do.
   on artifact sections, and only its own method ever writes a worklog. `concept-expansion` is the
   first declared reader. Injection proofs: bad format, unknown method, foreign worklog in `writes` —
   each an ERROR; the declared cross-step link — silent, the undeclared one — caught.
+- **`questions.yaml` speaks atoms too** (the author's call, 2026-08-19). The file's `produces:` was
+  the last pre-wave spelling of the write perimeter — a second word for what card headers call
+  `writes`. All 48 files migrated to `writes: [section:…]` / `writes: [file:…]` (same atom grammar
+  as the header); check A2 now reads the atoms and errors on the old spelling.
 - Canon: 4,945 → 5,013 words (the goal-map phrase + the declared-input law); W warns, mechanics
   decide acceptance.
 

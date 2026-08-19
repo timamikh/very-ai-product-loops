@@ -1,6 +1,6 @@
 # product-surface — interview
 tool: product-surface
-produces: product-surface
+writes: [section:product-surface]
 questions:
   - id: surfaces
     ask: "List every surface the user touches — channels, landings, mailings, in-product, admin, integrations."

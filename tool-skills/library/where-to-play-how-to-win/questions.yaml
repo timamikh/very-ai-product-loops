@@ -1,6 +1,6 @@
 # where-to-play-how-to-win — interview
 tool: where-to-play-how-to-win
-produces: [winning-aspiration, where-to-play, how-to-win]
+writes: [section:winning-aspiration, section:where-to-play, section:how-to-win]
 questions:
   - id: aspiration
     ask: "What does winning mean here — who do we serve, what result, by when? (not a slogan)"

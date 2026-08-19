@@ -1,6 +1,6 @@
 # pricing-strategy — value-based pricing & packaging (intake)
 tool: pricing-strategy
-produces: pricing
+writes: [section:pricing]
 questions:
   - id: value_metric
     ask: "What should we meter on so the price rises with the value the customer gets (seats / workspaces / active users / usage)?"

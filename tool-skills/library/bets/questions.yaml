@@ -1,6 +1,6 @@
 # bets — interview
 tool: bets
-produces: bets
+writes: [section:bets]
 questions:
   - id: candidates
     ask: "Candidate bets — for each chosen arena/segment: who hires us over what status quo, for which job? (⚙️ agent drafts from where-to-play + jtbd)"
