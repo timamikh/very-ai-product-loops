@@ -92,7 +92,18 @@ what a disciplined pass already had to do.
 - **Gate items without a router row** (F-009). `goal-map.md` now says it: a gate item that is another
   pass's `surfaces` (`#to-clarify`, `#hypotheses`) or an optional section closes at move 5 of the
   passes that feed it or at step finalization — one pass per *section*, not per gate item.
-- Canon: 4,945 → 5,000 words (the goal-map phrase); W warns, mechanics decide acceptance.
+- **A worklog can be a declared input** (F-008; the author's call, 2026-08-19). The absolute "a
+  worklog is never an input" was agent-written canon, and the traced run hit its cost:
+  `concept-expansion` requires the solution stub that `concept-formation` deliberately keeps in its
+  worklog — under the ban a delegated draft could never receive that input at all. The law is now
+  **declaration, not prohibition**: a card may read another method's worklog by declaring
+  `worklog:<step>/<method>` in `reads` (grammar — card-schema.md; format and method existence —
+  check X; an undeclared cross-step link stays a check-T error). Tags carry verbatim, sign-off stays
+  on artifact sections, and only its own method ever writes a worklog. `concept-expansion` is the
+  first declared reader. Injection proofs: bad format, unknown method, foreign worklog in `writes` —
+  each an ERROR; the declared cross-step link — silent, the undeclared one — caught.
+- Canon: 4,945 → 5,013 words (the goal-map phrase + the declared-input law); W warns, mechanics
+  decide acceptance.
 
 ### Canon wave 2 — the seven-move skeleton and the goal map
 

@@ -63,11 +63,16 @@ PREFIXED = {
     "register": REGISTERS,
     "source": SOURCE_SLOTS,
     "section": None,     # an artifact `{#anchor}` — checked against real templates by checks B/X
-    "worklog": None,     # `worklog` bare = its own; `worklog:*` = one the pass resolves
+    "worklog": None,     # bare = its own; `worklog:*` = a slot; `worklog:<step-folder>/<method>` =
+                         # a DECLARED foreign worklog input — legal in `reads` only (check T holds
+                         # the instance side; an undeclared cross-step link stays an error)
     "file": None,
     "state": None,
 }
 BARE = ("worklog", "ticks", "sign-off", "change-log")
+
+# a declared foreign worklog read: `worklog:1-concept/concept-formation`
+WORKLOG_ADDR_RE = re.compile(r"^[1-6]-[a-z][a-z0-9-]*/[a-z0-9-]+$")
 
 # which atoms each perimeter field admits
 ALLOWED = {
@@ -116,6 +121,13 @@ def atom_errors(field, values):
             out.append("`%s` is not in the %s vocabulary (%s)" % (atom, head, " · ".join(vocab)))
         if head == "section" and arg != "*" and not ANCHOR_RE.match(arg):
             out.append("`%s` is not a kebab-case section anchor" % atom)
+        if head == "worklog" and arg != "*":
+            if field != "reads":
+                out.append("`%s` — a foreign worklog is a declared READ; only its own method "
+                           "writes or surfaces a worklog (bare `worklog`)" % atom)
+            elif not WORKLOG_ADDR_RE.match(arg):
+                out.append("`%s` is not `worklog:<step-folder>/<method>` "
+                           "(e.g. `worklog:1-concept/concept-formation`)" % atom)
     return out
 
 

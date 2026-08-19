@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass
 status: draft
-version: 0.14.0
+version: 0.15.0
 updated: 2026-08-19
 ---
 
@@ -40,10 +40,10 @@ exists, then take the read perimeter from its **`reads`**. Three laws hold over 
 resolve by **data, not guess** — the card names the *types*, the *instances* come from the section's
 theme (open `H-` on its theme, live `R-`, the metric nodes it touches — semantics in doubt →
 [`REGISTERS.md`](REGISTERS.md)). The perimeter is a **union**, never one card's list alone: add the
-target section's **rests-on** and the step README's input map. And **a worklog is never an input** —
-cross-step exchange runs only through the registers and the **signed artifact sections**; if what you
-need lives only in another method's worklog, its projection has lagged, and re-projecting it is the
-debt. Announce the list. Volume is now visible: decide **here, aloud**, split across subagents or run
+target section's **rests-on** and the step README's input map. And **a worklog is an input only when
+the card declares it** (`worklog:<step>/<method>` in `reads`; tags carry verbatim, sign-off stays on
+sections) — an *undeclared* need for another method's worklog means its projection has lagged, and
+re-projecting it is the debt. Announce the list. Volume is now visible: decide **here, aloud**, split across subagents or run
 alone, and why (the split itself runs at move 4; the contract is *Delegation* below).
 
 **3 · Close the gaps — with the human.** A missing prerequisite → **ask** or offer to help obtain

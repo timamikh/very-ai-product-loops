@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
-updated: 2026-08-16
+version: 0.3.1
+updated: 2026-08-19
 ---
 # Concept Formation
 
@@ -45,9 +45,10 @@ versus the current alternative, not by its features) + explicit problem→soluti
 3. **Riskiest assumption.** State the single belief the concept most depends on — the thing
    that, if false, sinks it. Seed it as a hypothesis (`H-…`). At `concept-viability` this is the
    center of gravity.
-4. **Sketch the solution stub** — 2–4 lines on *how* it delivers the shift, kept in the worklog as
-   input for `concept-expansion`. Do not design features here; the problem→solution mapping runs
-   downstream of `{#problems}`.
+4. **Sketch the solution stub** — 2–4 lines on *how* it delivers the shift, kept in the worklog;
+   `concept-expansion` reads it there as its **declared** worklog input
+   (`worklog:1-concept/concept-formation` in that card's `reads`). Do not design features here; the
+   problem→solution mapping runs downstream of `{#problems}`.
 5. **Tag confidence.** The concept is usually a `[sourced: PO decision]`; the shift and the
    assumption are `[assumption]` until evidenced.
 

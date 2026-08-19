@@ -2,7 +2,7 @@
 node_type: reference
 title: The card — the pinned schema for every instruction an agent acts on
 status: draft
-version: 0.1.0
+version: 0.2.0
 updated: 2026-08-19
 ---
 
@@ -47,7 +47,8 @@ wherever a bare word would be ambiguous: `metrics` is both a register and a sour
 | `register:<name>` | a register — `hypotheses` · `risks` · `metrics` · `metric-tree` | reads · writes · surfaces |
 | `source:<slot>` | an external input slot — `kb` · `interview` · `research` · `metrics` · `git` | reads |
 | `section:<anchor>` | an artifact section by its `{#anchor}` | reads · writes · surfaces |
-| `worklog` | **its own** worklog; the path is resolved by [`worklog-resolution.md`](worklog-resolution.md), never restated here | reads · writes · surfaces |
+| `worklog` | bare: **its own** worklog; the path is resolved by [`worklog-resolution.md`](worklog-resolution.md), never restated here | reads · writes · surfaces |
+| `worklog:<step-folder>/<method>` | a **declared foreign worklog input** — the one legal way to read another method's worklog (OPERATING-LOOP move 2; checks X and T); tags carry verbatim, only its own method ever writes it | reads |
 | `file:<path>` | a file, path relative to the instance root | reads · writes · surfaces |
 | `state:<key>` | a key in `state.yaml` | writes · surfaces |
 | `ticks` | the current step gate's checklist items | surfaces |

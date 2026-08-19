@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.25.0
+version: 0.26.0
 updated: 2026-08-19
 ---
 
@@ -75,8 +75,9 @@ the id-thread, synthesis sections, a marker naming several tools —
 [`reference/worklog-resolution.md`](reference/worklog-resolution.md). Raw external inputs are never
 worked in a worklog directly: they live in `sources/` and are dispatched in by `source-intake`
 (see *Raw data & access*). A worklog is **private to its method** — read only by that method, its
-projection, and provenance audit; **cross-step exchange runs through the registers and the signed
-artifact sections**, never by reading another step's worklog (OPERATING-LOOP move 2).
+projection, provenance audit, and a card that **declares** it (`worklog:<step>/<method>` in `reads`);
+**undeclared cross-step exchange runs through the registers and the signed artifact sections**,
+never by reading another step's worklog (OPERATING-LOOP move 2; linter check T).
 
 ## Section confirmation
 

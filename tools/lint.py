@@ -43,12 +43,13 @@ Checks (ERROR fails CI · WARN never does):
   T  the boundary layer: sources/ holds only originals/ · snapshots/ · access/ (+INDEX.md; a flat
      legacy file WARNs); a passport (sources/access/*) is not an all-`— to clarify —` invented stub
      (WARN); an instance exchange skill (<instance>/skills/<slug>/) has a SKILL.md, and a `cadence:`
-     needs a `last_run` in state.yaml (WARN); a worklog never links another STEP's worklog (ERROR)
+     needs a `last_run` in state.yaml (WARN); a worklog links another STEP's worklog only when the
+     reading method's card declares it (`worklog:<step>/<method>` in reads) — undeclared is an ERROR
   U  a library method serves exactly one step (`steps` has one entry)
   V  a status's per-step tools list holds library methods only, each with a `<!-- tool: … -->` home
      in that step's template (how data is gathered belongs in the goals prose)
-  W  the always-loaded canon (AGENTS.md + OVERVIEW + OPERATING-LOOP + CONVENTIONS) stays within its
-     word budget — WARN past the soft ceiling, ERROR past the hard one (EXTENDING -> subtraction rule)
+  W  the always-loaded canon (AGENTS.md + OVERVIEW + OPERATING-LOOP + goal-map + CONVENTIONS) stays
+     visible in size — a guideline that WARNs, never a gate (EXTENDING -> subtraction rule)
   Y  questions.yaml is machine-readable: every question `type` is from the shared vocabulary
      (no `type: x_from: y` double-colon scalars)
   X  every card fills the one questionnaire (process/reference/card-schema.md): the core is present,
@@ -260,6 +261,12 @@ def routed_cards():
     return named, planes
 
 
+def _tool_card_exists(tool):
+    """A card by tool id, on any framework plane — the resolver checks X and T share."""
+    return any(os.path.isfile(os.path.join(ROOT, "tool-skills", plane, tool, "SKILL.md"))
+               for plane in ("library", "operations", "outputs"))
+
+
 def check_card_schema(inst=None):
     """X — every card fills the one questionnaire (process/reference/card-schema.md).
 
@@ -297,6 +304,15 @@ def check_card_schema(inst=None):
                 continue
             for defect in C.atom_errors(field, T.as_list(fm.get(field))):
                 err("X [%s] %s" % (label, defect))
+        # a declared foreign worklog input names a real method — a typo here silently widens
+        # nothing, it just never resolves; catch it at the card
+        for atom in T.as_list(fm.get("reads")):
+            head, arg = C.split_atom(atom)
+            if head == "worklog" and arg and arg != "*" and C.WORKLOG_ADDR_RE.match(arg):
+                tool = arg.split("/", 1)[1]
+                if not _tool_card_exists(tool):
+                    err("X [%s] reads `%s` but no card `%s/SKILL.md` exists under tool-skills/ — "
+                        "a declared worklog input names a real method" % (label, atom, tool))
         for key in C.REQUIRED_BY_KIND.get(kind, ()):
             if key not in fm:
                 err("X [%s] a `%s` card declares no `%s`" % (label, kind, key))
@@ -522,6 +538,18 @@ def check_worklogs(inst):
                  "never the artifact (see source-intake)" % (name, stem))
 
 
+def _declared_worklog_reads(tool, inst):
+    """The `reads` atoms of the card behind a worklog stem — framework planes, then instance skills."""
+    paths = [os.path.join(ROOT, "tool-skills", plane, tool, "SKILL.md")
+             for plane in ("library", "operations", "outputs")]
+    paths.append(os.path.join(inst, "skills", tool, "SKILL.md"))
+    for path in paths:
+        if os.path.isfile(path):
+            fm, _ = T.frontmatter(path)
+            return {str(a).strip() for a in T.as_list(fm.get("reads"))}
+    return set()
+
+
 def check_boundary(inst):
     """T — the boundary layer: sources/ subfolders, passports, exchange skills, worklog privacy.
 
@@ -529,9 +557,10 @@ def check_boundary(inst):
     — CONVENTIONS -> Raw data & access, reference/boundary-layout. A passport (`sources/access/*`) is
     the human's recorded answers, never an invented all-`— to clarify —` stub. An instance exchange
     skill lives at `<instance>/skills/<slug>/` with a `SKILL.md`; a `cadence:` needs a `last_run` in
-    `state.yaml` or an overdue run can't be caught at session start. And a worklog is **private**: it
-    never links another STEP's worklog — cross-step exchange runs through the registers and the signed
-    artifact sections (CONVENTIONS -> Step folders & worklogs).
+    `state.yaml` or an overdue run can't be caught at session start. And a worklog is **private by
+    default**: it links another STEP's worklog only when the reading method's card declares it
+    (`worklog:<step>/<method>` in reads); undeclared cross-step exchange runs through the registers
+    and the signed artifact sections (CONVENTIONS -> Step folders & worklogs).
     """
     name = rel(inst)
     srcdir = os.path.join(inst, "sources")
@@ -576,18 +605,27 @@ def check_boundary(inst):
         if fm.get("cadence") and slug not in last_runs:
             warn("T [%s] skills/%s declares a `cadence` but state.yaml has no `last_run` for it — an "
                  "overdue run can't be detected at session start (boundary-layout)" % (name, slug))
-    # a worklog never links another STEP's worklog
+    # a worklog links another STEP's worklog only when the reading method's card DECLARES it
+    # (`worklog:<step>/<method>` in reads) — undeclared cross-step exchange still goes through
+    # the registers and the signed sections
     for folder in sorted(glob.glob(os.path.join(inst, "[1-6]-*"))):
         if not os.path.isdir(folder):
             continue
         step_a = os.path.basename(folder)
         for wl in sorted(glob.glob(os.path.join(folder, "*.md"))):
+            reader = os.path.splitext(os.path.basename(wl))[0]
             for m in WORKLOG_XLINK_RE.finditer(read(wl)):
-                if m.group(2) != step_a:
-                    err("T [%s] %s/%s links another step's worklog `%s` — a worklog is private; "
-                        "cross-step exchange goes through the registers and the signed sections "
-                        "(CONVENTIONS -> Step folders & worklogs)"
-                        % (name, step_a, os.path.basename(wl), m.group(1)))
+                if m.group(2) == step_a:
+                    continue
+                linked = os.path.splitext(os.path.basename(m.group(1)))[0]
+                atom = "worklog:%s/%s" % (m.group(2), linked)
+                if atom in _declared_worklog_reads(reader, inst):
+                    continue
+                err("T [%s] %s/%s links another step's worklog `%s` without declaring it — a "
+                    "worklog is an input only when the reading card's `reads` carries `%s`; "
+                    "undeclared cross-step exchange goes through the registers and the signed "
+                    "sections (CONVENTIONS -> Step folders & worklogs)"
+                    % (name, step_a, os.path.basename(wl), m.group(1), atom))
 
 
 QUESTION_TYPES = {"free_text", "list", "per_item", "single_select", "multi_select"}

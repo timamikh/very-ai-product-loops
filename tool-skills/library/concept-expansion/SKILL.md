@@ -4,7 +4,7 @@ kind: method
 name: concept-expansion
 steps: [1]
 prerequisites: [concept, ranked-problems]
-reads: [source:interview, source:kb]
+reads: [source:interview, source:kb, worklog:1-concept/concept-formation]
 writes: [worklog, section:solution, register:hypotheses]
 opinionated: false
 method_basis: "problem→solution mapping — every ranked pain gets its mechanism; no orphan features"
@@ -13,8 +13,8 @@ volume_rule: "one row per ranked problem carried from {#problems} — every tier
 selection_rule: "a feature that answers no ranked problem is an orphan — dropped to the reject table, not kept"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-19
 ---
 # Concept Expansion
 
@@ -37,7 +37,8 @@ must point back at a pain or be rejected as an orphan.
 ## Prerequisites
 
 - **The concept** — the one-liner, the shift, and the solution stub from `concept-formation`'s
-  worklog. *Missing → run `concept-formation`.*
+  worklog — a **declared** worklog input (`worklog:1-concept/concept-formation` in this card's
+  `reads`; OPERATING-LOOP move 2). *Missing → run `concept-formation`.*
 - **Ranked problems** — `{#problems}` with tiers, from `segment-pains`. *Missing → run
   `segment-pains`; mapping against unranked pains produces feature soup.*
 
