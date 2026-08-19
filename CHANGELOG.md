@@ -54,9 +54,14 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   authored`. Dropped for having no consumer: `title`, `kind: method|template|research`, `mode`,
   `consumes`, `reads_ids`, `used_by_steps: [any]`. An instance with its own skills must migrate its
   headers; `process/reference/card-schema.md` carries the mapping table.
-- Canon: 4,447 → 4,945 words. check W warns (soft 4,600) and its threshold was deliberately **not**
-  moved — the wave's acceptance is the entity invariant, not the word count, and moving the ruler to
-  meet the reading was the wave-2 mistake this one records instead of repeating.
+- Canon: 4,447 → 4,945 words. check W warns (guideline 4,600); the wave's acceptance is the entity
+  invariant, not the word count.
+- **check W demoted from gate to guideline.** The hard 5,000-word ERROR is gone; W now only warns.
+  The ceiling was never the author's requirement — it was introduced by an agent in `4334d32` and
+  the author's explicit call is the opposite: *the word budget is a reference point, mechanics
+  decide acceptance*. The gate also failed every fresh install on its own: vendoring appends the
+  host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
+  its own linter out of the box.
 
 ### Canon wave 2 — the seven-move skeleton and the goal map
 

@@ -1029,17 +1029,17 @@ def instances(argv):
 
 
 # The per-pass canon: every agent reads these before every pass, so each word here is paid on every
-# read. The ceilings hold the set at roughly half its pre-0.10 size; growth past WARN means the
-# subtraction rule (EXTENDING -> "Where a new rule goes") — move something to a skill or reference/
-# before adding, never just raise the numbers.
+# read. The guideline number makes growth *visible* — it is a reference point, never a gate (the
+# author's call: mechanics and the entity invariant decide acceptance, not a word count). Growth
+# past it means the subtraction rule (EXTENDING -> "Where a new rule goes") — move something to a
+# skill or reference/ before adding.
 PER_PASS_CANON = ("AGENTS.md", "process/OVERVIEW.md", "process/OPERATING-LOOP.md",
                   "process/goal-map.md", "process/CONVENTIONS.md")
-BUDGET_WARN_WORDS = 4600
-BUDGET_ERROR_WORDS = 5000
+BUDGET_GUIDELINE_WORDS = 4600
 
 
 def check_word_budget():
-    """W — the always-loaded canon stays within its word budget."""
+    """W — the always-loaded canon's size stays visible (a guideline, never a gate)."""
     total, missing = 0, []
     for name in PER_PASS_CANON:
         path = os.path.join(ROOT, name)
@@ -1049,14 +1049,10 @@ def check_word_budget():
         total += len(read(path).split())
     for name in missing:
         err("W %s: per-pass canon file missing — the reading order in AGENTS.md points at it" % name)
-    if total > BUDGET_ERROR_WORDS:
-        err("W per-pass canon is %d words (> %d): every agent pays this on every pass — apply the "
-            "subtraction rule (EXTENDING -> Where a new rule goes) before adding"
-            % (total, BUDGET_ERROR_WORDS))
-    elif total > BUDGET_WARN_WORDS:
-        warn("W per-pass canon is %d words (> %d soft ceiling of %d hard): move something to a "
-             "skill or process/reference/ before it grows further"
-             % (total, BUDGET_WARN_WORDS, BUDGET_ERROR_WORDS))
+    if total > BUDGET_GUIDELINE_WORDS:
+        warn("W per-pass canon is %d words (guideline %d): every agent pays this on every pass — "
+             "prefer the subtraction rule (EXTENDING -> Where a new rule goes) over growth"
+             % (total, BUDGET_GUIDELINE_WORDS))
 
 
 def main(argv=()):
