@@ -15,6 +15,50 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Canon wave 2 — the seven-move skeleton and the goal map
+
+- The gap: the loop was an 8-step spine assumed to run in full for every trigger, but most triggers
+  (a metric capture, a source landing, a handoff) exercise only part of it — so the canon carried a
+  spine heavier than most passes need, and an agent had no cheap way to route a trigger to the right
+  card.
+- The rework: the loop is now a **seven-move skeleton** (0 Orient · 1 Name the goal · 2 Gather
+  inputs & size · 3 Close gaps · 4 Act · 5 Record · 6 Bubble), and a new per-pass file
+  `process/goal-map.md` is the **router** — a trigger → card table (passes) over the skeleton, with
+  *moves* (ask a human, delegate, project, sign-off, verify) invoked **inside** moves 2–5, never
+  routed to. Three ranks — passes · moves · outside-loop — replace the flat step list.
+  This **supersedes the "loop 0–8 / step 3 / step 7" numbering** named in the wave-1 bullets below:
+  old step 0 → move 0, old steps 1–2 → move 1, old step 3 → move 2, old steps 4–5 → move 3,
+  old step 6 → move 4, old step 7 → move 5, old step 8 → move 6.
+- **The three laws of interfaces.** A worklog is **private** to its own method — cross-step exchange
+  is only through registers and signed artifact sections; no pass reads another step's worklog. Slots
+  come from the card, instances from the data. Move 2 declares a **read perimeter** so a pass gathers
+  only what its goal needs. New linter **check T** enforces the privacy law (a worklog that links
+  another step's worklog is an error).
+- **check W** now budgets the per-pass set as AGENTS + OVERVIEW + OPERATING-LOOP + **goal-map** +
+  CONVENTIONS (router added; warn ceiling 4,500 → 4,600, error 5,000); the set lands at ~4,450 words
+  with the router included.
+
+### The boundary layer — one home for everything that crosses the edge
+
+- `sources/` is now explicitly **only external data**, split into three subfolders by *delivery
+  channel* (an objective test, never a judgement call): `originals/` (files the human brought),
+  `snapshots/` (dated captures by the couriers — `source-intake` and pull skills), `access/` (one
+  **passport** per external point). `INDEX.md` orchestrates. Full spec:
+  `process/reference/boundary-layout.md`.
+- A **passport** is written *only* as the human's recorded answers; no answers → the pass asks via
+  `questions.yaml` and stops with an open item. A passport of bare `— to clarify —` is the exact
+  defect this split makes impossible — the v0.9 bug where an agent invented an empty access stub.
+- A product's own **exchange skills** (repeatable pulls/pushes) live at `<instance>/skills/<slug>/`
+  with `cadence` in frontmatter and `last_run` in `state.yaml`; the framework is not a daemon — an
+  overdue run is caught at session start, never by a background scan. Rules of exchange: a pull
+  writes only to `snapshots/`, a push sends only `export-files/` with the human's confirmation,
+  secrets live nowhere in the repo.
+- `metrics-capture` (0.3.0) and `source-intake` (0.2.0) rewired onto the layout; the `decksmith`
+  sample migrated (`sources/originals/founder-brief.md`, an analytics passport, a live
+  `pull-analytics-weekly` skill). **Revert of d2e21dc**: the `metrics-capture` Output no longer
+  authors the access file — the passport is **cited, never minted** by the pass. This is the
+  correction that closes the invented-stub bug end to end.
+
 ### The per-pass canon halved — pay for contracts, not exposition
 
 - The gap: the always-loaded set (AGENTS + OVERVIEW + OPERATING-LOOP + CONVENTIONS + REGISTERS) cost
