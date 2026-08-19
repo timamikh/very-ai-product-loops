@@ -2,7 +2,7 @@
 node_type: goal-map
 title: Goal map — from trigger and goal to a card
 status: draft
-version: 0.2.0
+version: 0.3.0
 updated: 2026-08-19
 ---
 
@@ -52,6 +52,10 @@ artifact, the input map and the `surfaces` owed; the **method** from that sectio
 read types and the `writes` — its worklog and its section. Both halves feed move 2, whose perimeter
 is a **union** — narrowing it to the method's `reads` alone is the failure this row, the one that
 runs most often, is spelled out to prevent.
+
+Not every gate item is such a section. An item that is another pass's `surfaces` (`#to-clarify`,
+`#hypotheses`) or an optional section closes at **move 5** of the passes that feed it, or at step
+finalization — it has no router row and no pass of its own. One pass per *section*, not per gate item.
 
 **Moves — invoked from inside a pass, never routed to as a trigger:** *ask the human* (move 3 —
 `CONVENTIONS.md` → *Forks*; the card's `questions.yaml`) · *delegate* `gather`/`research`/`draft`/`verify`

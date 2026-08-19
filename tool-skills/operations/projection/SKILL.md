@@ -11,8 +11,8 @@ surfaces: []
 opinionated: true
 method_basis: "Single-source publishing: the worklog is the source of truth, the artifact section is its projection — the conclusion re-shaped into the method's fixed fragment schema, every claim carrying its original tag, the section's own headline marked for display, and any human sign-off dropped because the thesis it signed no longer exists"
 status: draft
-version: 0.1.0
-updated: 2026-08-18
+version: 0.2.0
+updated: 2026-08-19
 ---
 # Projection — write an artifact section from its worklog
 
@@ -49,8 +49,15 @@ move where text is re-written rather than carried.
   was just reasoned in chat lands in the worklog first. A section resolved to no worklog is not
   projected; the gap is the finding (check P).
 - **The target shape.** The method's `template-fragment.md` (for a `<!-- synthesis -->` section: the
-  step template's own schema) — the section's headings, tables and column keys are the fragment's,
-  not improvised.
+  step template's own schema) — the section's headings, tables and prose shape are the fragment's,
+  not improvised. **Column keys come from the step template**, never the fragment: keys live only on
+  step templates (CONVENTIONS → *Column keys*; a key in a method fragment is check O's error), so a
+  projection takes structure from the fragment and the `c:` keys from `steps/<n>-*/template.md`.
+- **The artifact, grown — never unrolled.** The step's *first* projection creates the artifact file
+  and writes only its own section (with the skeleton's `{#id}`, marker and keys); every later pass
+  adds or rewrites its own one. The step template is never instantiated whole: each `<!-- tool -->`
+  marker in an artifact is a worklog obligation (check P), so an empty-template unroll fails the
+  linter before the loop has run once. Setup creates no step artifacts at all (`product-setup`).
 
 ## How to do it
 

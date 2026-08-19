@@ -4,21 +4,22 @@ description: >
   Set up a PRODUCT on the very-ai-product-loops framework. Runs AFTER the framework is installed
   (this skill does not vendor the framework). Use when the framework is present but there is no
   product-loops/ working area yet, or the user asks to set up / onboard a product. Asks the documentation
-  language and for all existing materials, links and accesses; converts and files them; distributes
-  their content across the steps (human confirms, agent never invents); then PROPOSES a product
-  status with descriptions for the human to pick. Ends by summarizing what's filled vs blank and
-  proposing a gap-closing plan in step order — the point where the working loops begin.
+  language and for all existing materials, links and accesses; converts and files them; routes their
+  content to the steps via the sources index (human confirms, agent never invents); then PROPOSES a
+  product status with descriptions for the human to pick. Ends by summarizing what the sources cover
+  vs what's blank and proposing a gap-closing plan in step order — the point where the working loops
+  begin. Step artifacts are NOT created here — each is born by its step's first pass.
 status: draft
-version: 0.5.0
-updated: 2026-08-10
+version: 0.6.0
+updated: 2026-08-19
 ---
 
 # Product Setup (onboarding)
 
 The first-run experience. Its job: get from "framework installed + a pile of existing materials" to
-"a scaffolded `product-loops/` working area, pre-populated from those materials with gaps clearly marked,
-a chosen status, and a plan for what to work on first." Good onboarding is the difference between
-the framework feeling alive on day one and feeling like blank templates.
+"a scaffolded `product-loops/` working area — sources filed and indexed, registers seeded, gaps
+clearly marked, a chosen status, and a plan for what to work on first." Good onboarding is the
+difference between the framework feeling alive on day one and feeling like blank templates.
 
 **Install ≠ setup.** Installing the framework (vendoring `process/ steps/ statuses/ tool-skills/
 .claude/`, pinned to a version) is a separate, earlier step — see [`install/`](../../../install/README.md).
@@ -94,19 +95,23 @@ saved. Re-run this step whenever a source is added or a scope boundary changes.
 > INDEX.md is the **entry point for knowledge**, not a step artifact. Agents consult it to decide
 > what to read; it is not itself distributed across steps.
 
-### 4. Distribute across the steps
-Read the converted materials and map their content onto the step artifacts:
-- Draft each artifact section from the materials as **⚙️ proposals**, tagging every value
-  `[sourced: <original material>]`.
-- Where materials conflict, mark the field `[assumption]` and surface the conflict.
-- Where a section has no supporting material, leave `— to clarify —`.
-- Seed the registers (hypotheses/risks/metrics) from anything the materials imply.
+### 4. Distribute across the steps — a map, not a fill
+Read the converted materials and map their content onto the **steps** — as routing, not as drafts.
+**No step artifact is written here**: the artifact of a step is born by that step's *first pass* and
+grows section-by-section (see [`projection`](../../../tool-skills/operations/projection/SKILL.md) —
+every `<!-- tool -->` marker in an artifact is a worklog obligation, check P, so a pre-filled or
+empty-template artifact fails the linter before the loop has run once). What setup does instead:
+- Route each source to its steps in `INDEX.md` (**Feeds steps** column) — precise enough that the
+  step's first pass finds its material without re-reading everything.
+- Where materials conflict, record the conflict in INDEX.md and the placement report.
+- Seed the **registers** (hypotheses/risks/metrics) from anything the materials *state* — registers
+  are created at setup and carry no worklog obligation.
 - **Only place what the sources say.** Do NOT derive numbers, thresholds, hypotheses, test designs,
-  or pricing here — those are method work for the loop. If a section would need a library method to
-  produce it, leave it `— to clarify —` (optionally with a ⚙️ note naming the method that will
-  produce it later), not an invented draft.
+  or pricing here — those are method work for the loop. A section that will need a library method is
+  simply a gap the plan (step 7) names, not an invented draft.
 
-Produce a **placement report**: what went where, what conflicts were found, what's still open.
+Produce a **placement report**: which sources feed which steps, what conflicts were found, what's
+still open.
 
 ### 5. Propose the status (agent proposes, human picks)
 Do **not** ask "what status?" cold — the human may not know the options. **Present the choice:**
@@ -132,17 +137,20 @@ that is about the agent definitions being *available*; this is about whether the
 all.
 
 ### 6. Scaffold the working area
-Create `product-loops/` from templates (see layout below), in the chosen language, pre-filled per
-step 4. Write an initial **`state.yaml`** (`current_step: 1`, gate ticks empty) — the cycle's
-position home, distinct from the human-authored `config.yaml`. Produce the **placement report**:
-what went where, what conflicts were found, what's still open. This closes Phase 1 — the product is set up.
+Create `product-loops/` (see layout below), in the chosen language: `config.yaml`, `state.yaml`,
+`HANDOFF.md`, `sources/` (already filed in step 3), `registers/` (seeded per step 4),
+`export-files/`. **Do not create the step artifacts** (`1-concept.md` … `6-sprint-plan.md`) — not
+even as empty templates: each is born by its step's first pass and grows section-by-section; a step
+the instance has not reached has no artifact file, and that is the linter's expected state. Write an
+initial **`state.yaml`** (`current_step: 1`, gate ticks empty) — the cycle's position home, distinct
+from the human-authored `config.yaml`. This closes Phase 1 — the product is set up.
 
 ## Phase 2 — Orient and hand into the loops
 
 ### 7. Summarize the product and propose where to start
-Now that everything is filled and a status is set, give the human a **product summary**, then a plan:
-- **State of the artifact set:** step by step (1→6), what is populated (from which sources) and where
-  the **white spots** are (`— to clarify —` sections, open forks, unseeded registers, conflicts).
+Now that the sources are filed and a status is set, give the human a **product summary**, then a plan:
+- **Coverage by step:** step by step (1→6), what the sources cover (per `INDEX.md` → *Feeds steps*)
+  and where the **white spots** are (steps with no material, open conflicts, unseeded registers).
 - **Proposed plan:** in step order, propose closing the biggest/earliest gaps first — the shortest
   path to a coherent line from concept to sprint, weighted by the active status's `per_step` goals.
 - The human **agrees or proposes their own plan** — then **stop. Setup ends here.** Acting on the
@@ -174,12 +182,8 @@ product-loops/
     snapshots/           # dated, immutable captures (URL extracts, pulled exports)
     access/              # one passport per external point, recorded from the human
   skills/                # (optional) the product's own exchange skills: <pull|push>-<endpoint>-<what>/
-  1-concept.md            # Step 1 artifact
-  2-analysis.md            # Step 2
-  3-strategy.md            # Step 3
-  4-strategic-plan.md      # Step 4
-  5-tactical-plan.md       # Step 5
-  6-sprint-plan.md         # Step 6
+  # step artifacts (1-concept.md … 6-sprint-plan.md) are NOT created at setup — each is born
+  # by its step's first pass and grows section-by-section (projection; linter check P)
   registers/
     hypotheses.md        # H-… (single-value type + optional tags)
     risks.md             # R-… (single-value category + optional tags)
@@ -211,5 +215,8 @@ read-only into the repo at install and pinned to a version tag.
   the rules yourself.
 - **Onboarding as a work cycle.** Bulk-filling downstream artifacts or running a "first cycle" during
   setup. Setup places sourced material and stops; method work is the loop's job, one section at a time.
+- **Scaffolding step artifacts.** Creating `1-concept.md` … `6-sprint-plan.md` at setup — filled *or*
+  empty. Every `<!-- tool -->` marker in an artifact is a worklog debt (check P), so an unrolled
+  template fails the linter before any pass has run. Artifacts are born by passes.
 - **Deriving content during onboarding.** Producing thresholds, test designs, pricing, or hypotheses
   beyond what the sources state — that is method work (e.g. `hypothesis-test-design`), not onboarding.

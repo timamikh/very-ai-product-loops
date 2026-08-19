@@ -72,6 +72,28 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Canon wave 3.1 — contradictions surfaced by the traced test run
+
+A traced run on a fresh vendor (decksmith brief; TRACE per pass, FRICTION log, per-pass commits)
+walked Step 1 end-to-end and hit three places where one canon rule contradicts another. All three
+were resolved by the run's agent the same way the fix now spells out — the canon catches up with
+what a disciplined pass already had to do.
+
+- **Onboarding no longer scaffolds step artifacts** (F-002/F-003). `product-setup` used to say
+  "pre-fill all six artifacts", while check P reads *every* `<!-- tool -->` marker in an artifact as
+  a worklog obligation — so setup's own output failed the linter before the loop had run once. Now:
+  setup creates config/state/sources/registers only, routes materials to steps via
+  `sources/INDEX.md` (*Feeds steps*), and the step artifact is **born by the step's first pass and
+  grows section-by-section** — the rule is written where the writing happens (`projection`,
+  prerequisites), not in the loop.
+- **`projection` no longer misattributes column keys** (F-006). It said keys are "the fragment's";
+  keys live only on step templates (CONVENTIONS, check O) — a literal reading produced an un-keyed
+  table and an O2 error. Now: structure and prose from the fragment, `c:` keys from the step template.
+- **Gate items without a router row** (F-009). `goal-map.md` now says it: a gate item that is another
+  pass's `surfaces` (`#to-clarify`, `#hypotheses`) or an optional section closes at move 5 of the
+  passes that feed it or at step finalization — one pass per *section*, not per gate item.
+- Canon: 4,945 → 5,000 words (the goal-map phrase); W warns, mechanics decide acceptance.
+
 ### Canon wave 2 — the seven-move skeleton and the goal map
 
 - The gap: the loop was an 8-step spine assumed to run in full for every trigger, but most triggers
