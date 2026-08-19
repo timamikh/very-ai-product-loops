@@ -13,8 +13,8 @@ volume_rule: "≥5 candidate pains per segment before any is ranked"
 selection_rule: "severity × frequency; differentiator vs table-stakes; the top 3 carry forward, the rest stay ranked in the table"
 rejects_shown: required
 status: draft
-version: 0.2.1
-updated: 2026-08-16
+version: 0.2.2
+updated: 2026-08-19
 ---
 # Segment Pains
 

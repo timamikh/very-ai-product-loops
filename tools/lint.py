@@ -49,6 +49,8 @@ Checks (ERROR fails CI · WARN never does):
      needs a `last_run` in state.yaml (WARN); a worklog links another STEP's worklog only when the
      reading method's card declares it (`worklog:<step>/<method>` in reads) — undeclared is an ERROR
   U  a library method serves exactly one step (`steps` has one entry)
+  U2 every library method is named by at least one step-template `<!-- tool: … -->` marker — the
+     law of ranks makes the marker the only reach, so an unnamed method is unreachable
   V  a status's per-step tools list holds library methods only, each with a `<!-- tool: … -->` home
      in that step's template (how data is gathered belongs in the goals prose)
   W  the always-loaded canon (AGENTS.md + OVERVIEW + OPERATING-LOOP + goal-map + CONVENTIONS) stays
@@ -515,9 +517,13 @@ def check_worklogs(inst):
         stem = os.path.basename(art)[:-3]                 # "2-analysis"
         folder = os.path.join(inst, stem)
         text = read(art)
+        # only the FIRST tool of a marker owes a worklog up front; any named tool may own one
+        # (a second tool's pass creates its worklog when that pass actually runs)
+        named = {t.strip() for m in TOOL_MARK_RE.findall(text) for t in m.split(",")}
         expected = {m.split(",")[0].strip() for m in TOOL_MARK_RE.findall(text)}
         if SYNTH_MARK_RE.search(text):
             expected.add("synthesis")
+            named.add("synthesis")
         if not expected:
             continue                                      # no method sections → no worklogs owed
         if not os.path.isdir(folder):
@@ -533,7 +539,7 @@ def check_worklogs(inst):
             if fm.get("node_type") != "worklog":
                 err("P [%s] %s/%s is not `node_type: worklog` — a step folder holds only worklogs"
                     % (name, stem, base))
-            if base[:-3] not in expected and base[:-3] != "metrics-capture":
+            if base[:-3] not in named and base[:-3] != "metrics-capture":
                 # `metrics-capture` is event-driven (an operations skill): its derivation worklog may
                 # appear in any step folder without a section marker — the csv row cites it.
                 warn("P [%s] %s/%s is an orphan — no section uses tool `%s`"
@@ -677,6 +683,26 @@ def check_single_step(tools):
         if len(steps) != 1:
             err("U [%s] steps %s — a library method serves exactly one step; a second step "
                 "is a second skill (see EXTENDING.md)" % (name, steps))
+
+
+def check_reachable(tools):
+    """U2 — every library method is named by at least one step-template marker.
+
+    The law of ranks makes the marker the ONLY way a method is ever reached — a method is never a
+    routing target (goal-map). So a method no `<!-- tool: … -->` names is dead code with a card:
+    no pass can legally arrive at it, and the gap is invisible until someone wonders why a skill is
+    never used. A contributing method (no section of its own) is named SECOND in its receiving
+    section's marker — reach and rank both hold.
+    """
+    named = set()
+    for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+        for m in TOOL_MARK_RE.findall(read(path)):
+            named.update(t.strip() for t in m.split(","))
+    for name in sorted(tools):
+        if name not in named:
+            err("U2 [%s] no step template's `<!-- tool: … -->` marker names this method — by the "
+                "law of ranks it is unreachable; name it (second, if contributing) in its receiving "
+                "section's marker" % name)
 
 
 def check_status_tools(tools):
@@ -1159,6 +1185,7 @@ def main(argv=()):
     check_quality(tools)
     check_questions(tools)
     check_single_step(tools)
+    check_reachable(tools)
     check_status_tools(tools)
     check_operations()
     check_card_schema()

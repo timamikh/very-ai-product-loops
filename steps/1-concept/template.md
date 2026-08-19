@@ -4,7 +4,7 @@ artifact: concept
 step: 1
 title: "Product Concept — <Product>"
 status: template
-version: 0.8.0
+version: 0.8.1
 updated: 2026-08-19
 ---
 
@@ -70,7 +70,7 @@ _Each segment's problems, scored by severity × frequency._
 <!-- enum:c:class: differentiator | table-stakes -->
 
 ## Customer Journey {#cjm}
-<!-- tool: cjm-concept -->
+<!-- tool: cjm-concept, cjm-strategy -->
 _Optional lens — the temporal view behind `#problems`; fill when a flat pain list isn't enough
 (e.g. an unexplained drop-off). One segment's end-to-end journey doing the job over time — the
 stages and where it breaks. Its pains feed `#problems`; its touchpoints feed Step-3

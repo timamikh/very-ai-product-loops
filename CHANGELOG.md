@@ -115,6 +115,14 @@ what a disciplined pass already had to do.
   the published reference example** (`examples/decksmith`): compound `M–H` grades and the very same
   truncated token — fixed there with a change-log entry, ranges rounded down (confidence is never
   upgraded in transit).
+- **No more unreachable methods** (framework audit). `cjm-strategy` and `pricing-strategic-plan`
+  were named by no step-template marker — by the law of ranks, no pass could legally arrive at
+  them; the "contributing method" prose even had `pricing-strategic-plan` working *inside other
+  methods' worklogs* (a write-rule violation in canon). Both are now the **second tool** of their
+  receiving section's marker (`{#cjm}`, `{#pricing}`), each works in its own worklog, and the
+  step-4 economics workings `pricing-strategic-plan` re-reads became declared worklog inputs. New
+  **check U2** keeps it true: every library method must be named by at least one template marker.
+  Check P's orphan warning now recognizes non-first marker tools as legitimate worklog owners.
 - Canon: 4,945 → 5,013 words (the goal-map phrase + the declared-input law); W warns, mechanics
   decide acceptance.
 

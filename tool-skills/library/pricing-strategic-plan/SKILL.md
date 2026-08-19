@@ -4,7 +4,7 @@ kind: method
 name: pricing-strategic-plan
 steps: [4]
 prerequisites: [the step-3 pricing decision, unit economics]
-reads: [register:hypotheses, register:metrics, source:metrics, source:kb]
+reads: [register:hypotheses, register:metrics, source:metrics, source:kb, section:pricing, worklog:4-strategic-plan/unit-economics, worklog:4-strategic-plan/financial-model]
 writes: [worklog, section:pricing, register:hypotheses]
 opinionated: true
 method_basis: "Margin revisit of a value-based pricing decision: chosen price vs contribution margin, inference COGS per tier, free-tier burn; outcome is 'holds' or a proposed change to the Step-3 decision — never a silent re-decision"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-19
 ---
 # Pricing — Strategic-Plan Revisit
 
@@ -83,13 +83,17 @@ home, not patched locally.
   what the verdict rested on.
 
 ## Worklog & projection
-This method **contributes to the step's economics worklogs rather than owning a Step-4 section**:
-its working lands in `<step-folder>/unit-economics.md` / `<step-folder>/financial-model.md`
-(`node_type: worklog`) — the restated Step-3 decision, the per-tier margin and inference-COGS read,
-the free-tier burn, and the verdict with its assumptions. The section it `writes` is `{#pricing}`,
-homed at Step 3: a **holds** verdict logs there as a confirmation note; a **change** lands there as
-a ⚙️ proposal in the fixed shape of [`template-fragment.md`](template-fragment.md), triggering the
-section's re-confirmation (`process/CONVENTIONS.md` → *Step folders & worklogs*).
+This method owns **no Step-4 section**; it is reached through the `{#pricing}` marker
+(`<!-- tool: pricing-strategy, pricing-strategic-plan -->`, second tool) and works in **its own
+worklog** `3-strategy/pricing-strategic-plan.md` (`node_type: worklog`) — the restated Step-3
+decision, the per-tier margin and inference-COGS read, the free-tier burn, and the verdict with its
+assumptions. The step-4 economics workings it re-reads are **declared worklog inputs**
+(`worklog:4-strategic-plan/unit-economics` · `worklog:4-strategic-plan/financial-model` in `reads`) —
+read, never written: this method writes no other method's worklog (the write rule, N6). The section
+it `writes` is `{#pricing}`, homed at Step 3: a **holds** verdict logs there as a confirmation note;
+a **change** lands there as a ⚙️ proposal in the fixed shape of
+[`template-fragment.md`](template-fragment.md), triggering the section's re-confirmation
+(`process/CONVENTIONS.md` → *Step folders & worklogs*).
 
 ## Output
 Verdict on the Step-3 pricing decision: **holds** (logged with its assumptions) or a **⚙️ proposed

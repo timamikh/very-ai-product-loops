@@ -4,7 +4,7 @@ kind: method
 name: cjm-strategy
 steps: [3]
 prerequisites: [the step-1 journey map (cjm), strategy choices (where-to-play / how-to-win), channels]
-reads: [register:hypotheses, register:risks, source:interview, source:research]
+reads: [register:hypotheses, register:risks, source:interview, source:research, section:cjm, worklog:1-concept/cjm-concept]
 writes: [worklog, section:cjm, register:hypotheses, register:risks]
 opinionated: false
 method_basis: "Journey mapping as a revisit lens — re-walk the step-1 map against the chosen strategy and channels; touchpoints → product-surface; drop-offs → risks (step 3 births risks)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-19
 ---
 # Customer Journey Map (strategy revisit)
 
@@ -34,8 +34,8 @@ is asked *does the chosen strategy change what happens here?*
 > - **`cjm-concept` (Step 1)** drew the map; this skill *revises* it. One journey, one map, one
 >   section — `{#cjm}` in the Step-1 artifact. There is no second CJM section at Step 3.
 > - **`product-surface` (Step 3)** owns the static surface + instrumentation list. This skill's
->   touchpoint findings are its input — they land in `product-surface`'s worklog as a contribution,
->   not in a rival list here.
+>   touchpoint findings are its input — they reach it through the re-projected `{#cjm}` section
+>   (public), never by this method writing into another method's worklog (the write rule, N6).
 > - **Registers.** Step 3 births risks: a drop-off or dependency the strategy now walks into seeds
 >   `R-…` here (unlike `cjm-concept`, which may only seed `H-…`). Triage and disposition of the
 >   full risk set is `pre-mortem`'s job — seed the journey risks, don't run the pre-mortem here.
@@ -63,8 +63,9 @@ is asked *does the chosen strategy change what happens here?*
    channels replace the generic "they find us" with a concrete path. Name the touchpoints per
    chosen channel.
 3. **Extract the touchpoint list for `product-surface`.** Every touchpoint the strategy now commits
-   to owning is an input to the surface + instrumentation table. This lands in `product-surface`'s
-   worklog (that section's primary owns it), referenced from here — not duplicated.
+   to owning is an input to the surface + instrumentation table. It stays in **this method's own
+   worklog** and reaches `product-surface` through the re-projected `{#cjm}` section — this method
+   never writes another method's worklog (the write rule, N6).
 4. **Convert drop-offs and dependencies into risks.** A stage where the chosen journey can break —
    a drop-off the channel makes likely, a hand-off to a partner, a dependency on an integration —
    seeds `R-…` (Step 3 births risks). Check the register first; `pre-mortem` may already carry it —

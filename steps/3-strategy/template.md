@@ -4,8 +4,8 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.4.0
-updated: 2026-08-16
+version: 0.4.1
+updated: 2026-08-19
 ---
 
 <!--
@@ -59,7 +59,7 @@ _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], be
 | … | … | … | … | … | [assumption] |
 
 ## Pricing & Packaging {#pricing}
-<!-- tool: pricing-strategy -->
+<!-- tool: pricing-strategy, pricing-strategic-plan -->
 <!-- rests-on: 2#competitor-pricing -->
 _What we charge and how we package it — anchored to value vs the alternative. Quantified at Step 4._
 

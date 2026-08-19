@@ -2,8 +2,8 @@
 node_type: statuses-index
 title: Statuses — product-stage plane
 status: draft
-version: 0.4.0
-updated: 2026-08-16
+version: 0.4.1
+updated: 2026-08-19
 ---
 
 # Statuses
@@ -83,8 +83,9 @@ back-office` but are an instance config; use whichever the product has.
 Two rules the linter holds `tools:` lists to (check V): a list holds **library methods only** —
 *how the data is gathered* (interviews, metrics pulls) is named in the step's goals prose, not in
 the list — and every listed tool must have a `<!-- tool: … -->` home in that step's template.
-Contributing methods with no section of their own (e.g. `pricing-strategic-plan`) are invoked by
-the step README and are never listed.
+Contributing methods with no section of their own (e.g. `pricing-strategic-plan`) are named
+**second** in their receiving section's `<!-- tool: A, B -->` marker (the law of ranks holds — a
+method is reached only through a marker) and are never listed here.
 
 ## Add or change a status
 

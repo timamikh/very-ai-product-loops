@@ -12,8 +12,8 @@ surfaces: [ticks, register:hypotheses, register:risks, register:metric-tree, sig
 cadence: "~3–12 mo; with strategy / on a financial or metric shift"
 method_basis: "Instrumentation mapping · North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · horizon targets off the projection · pricing margin revisit · capabilities & management systems (PTW choices 4–5) · risk mitigation (owner · trigger · due) · hypothesis thresholds"
 status: draft
-version: 0.5.0
-updated: 2026-08-16
+version: 0.5.1
+updated: 2026-08-19
 ---
 # Step 4 — Strategic Plan
 
@@ -49,8 +49,9 @@ against a working model.
 **Contributing method (no section of its own):** `pricing-strategic-plan` — once `unit-economics`
 exists, re-reads the Step-3 pricing decision against contribution margin, inference COGS per tier,
 and free-tier burn; the verdict is "holds" (logged) or a ⚙️ proposed change to `3-strategy.md#pricing`
-(triggering that section's re-confirmation). It works inside the `unit-economics` /
-`financial-model` worklogs.
+(triggering that section's re-confirmation). It is reached as the **second tool** of the `{#pricing}`
+marker, works in its own worklog (`3-strategy/pricing-strategic-plan.md`), and re-reads the step-4
+economics workings as **declared worklog inputs** (its card's `reads`).
 
 ## Register touchpoints
 - **Metric tree** — **built here** (`M-…`); the canonical decomposition all lower steps reference.
