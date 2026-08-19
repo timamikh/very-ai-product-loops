@@ -6,12 +6,12 @@ prerequisites:
   - the section's worklog exists and holds the working — a projection with no worklog behind it is the source of truth gone missing (linter check P)
   - the projecting agent is the orchestrator — a subagent never writes the artifact (OPERATING-LOOP → Delegation, the write rule)
 reads: [source:kb]
-writes: [section:*]
+writes: [worklog, section:*]
 surfaces: []
 opinionated: true
 method_basis: "Single-source publishing: the worklog is the source of truth, the artifact section is its projection — the conclusion re-shaped into the method's fixed fragment schema, every claim carrying its original tag, the section's own headline marked for display, and any human sign-off dropped because the thesis it signed no longer exists"
 status: draft
-version: 0.2.0
+version: 0.3.0
 updated: 2026-08-19
 ---
 # Projection — write an artifact section from its worklog
@@ -60,6 +60,18 @@ move where text is re-written rather than carried.
   linter before the loop has run once. Setup creates no step artifacts at all (`product-setup`).
 
 ## How to do it
+
+**0 · Add the orchestrator's conclusions — before anything is projected.** The orchestrator holds
+context no single pass or subagent saw: the other sections, the live registers, the returns side by
+side. Ask one question — *what does this working mean next to everything else in view?* — and
+append the answer to the **worklog** under a block titled **Orchestrator's conclusions**:
+cross-section links, tensions with another artifact, a disqualifier, a card-line candidate. Every
+line is **⚙️ or `[assumption]`** — a conclusion is the agent's own reasoning and is never laundered
+into a sourced fact. *"No conclusions"* is a legal answer; **skipping the question is not.** This is
+the one sanctioned non-method write to a worklog (it belongs to the projection move, orchestrator
+only), and it lands *before* projecting so the ordinary rules below decide whether a conclusion
+reaches the section — and a section then resting mainly on agent reasoning is shown in chat in full
+and its tick waits for a `verify` (move 4/5), which is exactly the guard the ⚙️ tag triggers.
 
 **1 · Read the worklog against the section's schema.** What is the conclusion, and which parts of
 the working support it? The section gets the conclusion **in the fragment's shape — never the

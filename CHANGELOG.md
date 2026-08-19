@@ -123,6 +123,18 @@ what a disciplined pass already had to do.
   step-4 economics workings `pricing-strategic-plan` re-reads became declared worklog inputs. New
   **check U2** keeps it true: every library method must be named by at least one template marker.
   Check P's orphan warning now recognizes non-first marker tools as legitimate worklog owners.
+- **The orchestrator's conclusions** (the author's idea, 2026-08-19). The traced run matched the
+  v0.9 reference on correctness and lost on synthesis — every losing spot was a conclusion *between*
+  sections (feasibility↔anxiety, a disqualifier, a repeatability→self-serve link) that only the
+  holder of the whole context can draw, and no subagent can by construction. New **step 0 of
+  `projection`**: before projecting, the orchestrator appends an *Orchestrator's conclusions* block
+  to the worklog — cross-section links, tensions, card-line candidates — every line ⚙️ or
+  `[assumption]` (never laundered into sourced fact); *"no conclusions"* is a legal answer, skipping
+  the question is not. `orchestration` step 5 adds the cross-return half: what the accepted returns
+  mean **together**. Whether a conclusion reaches the section is decided by the ordinary projection
+  that follows — and the ⚙️ tag triggers the existing chat-preview + verify-before-tick guards.
+  The И5 demonstration (a conclusion drawn → projected → caught by verify) is the first item of the
+  next traced run on a re-vendored instance.
 - Canon: 4,945 → 5,013 words (the goal-map phrase + the declared-input law); W warns, mechanics
   decide acceptance.
 

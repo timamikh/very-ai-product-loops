@@ -12,8 +12,8 @@ surfaces: []
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.3.0
-updated: 2026-08-18
+version: 0.4.0
+updated: 2026-08-19
 ---
 # Orchestration — running one pass with subagents
 
@@ -112,7 +112,11 @@ separable, not that the brief needs to be longer).
 5. **Check every return against the passport, before reading it for content.** In that order — a
    return that fails the passport is not evidence, and reading it for content first is how its
    conclusions get into your head anyway. Mark each line pass/fail yourself; the subagent's own
-   self-check is a claim, not a verdict.
+   self-check is a claim, not a verdict. Then write into the pass's **worklog** what the accepted
+   returns mean **together** — agreements, contradictions, the pattern no single brief could see:
+   that cross-return view is evidence only the orchestrator holds, and it lands as *orchestrator's
+   conclusions* (⚙️/`[assumption]`, see [`projection`](../projection/SKILL.md) step 0) before the
+   projection reads the worklog.
 
 6. **Remediate once, then stop.** A failing return goes back with the **named defects** — not "improve
    the sourcing" but "claims 2 and 5 have no source; the URL in claim 4 was never opened". After the

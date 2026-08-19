@@ -48,7 +48,7 @@ wherever a bare word would be ambiguous: `metrics` is both a register and a sour
 | `source:<slot>` | an external input slot — `kb` · `interview` · `research` · `metrics` · `git` | reads |
 | `section:<anchor>` | an artifact section by its `{#anchor}` | reads · writes · surfaces |
 | `worklog` | bare: **its own** worklog; the path is resolved by [`worklog-resolution.md`](worklog-resolution.md), never restated here | reads · writes · surfaces |
-| `worklog:<step-folder>/<method>` | a **declared foreign worklog input** — the one legal way to read another method's worklog (OPERATING-LOOP move 2; checks X and T); tags carry verbatim, only its own method ever writes it | reads |
+| `worklog:<step-folder>/<method>` | a **declared foreign worklog input** — the one legal way to read another method's worklog (OPERATING-LOOP move 2; checks X and T); tags carry verbatim. Writing stays with its own method (plus the projection move's *orchestrator's conclusions* block — `projection` step 0) | reads |
 | `file:<path>` | a file, path relative to the instance root | reads · writes · surfaces |
 | `state:<key>` | a key in `state.yaml` | writes · surfaces |
 | `ticks` | the current step gate's checklist items | surfaces |
