@@ -2,8 +2,8 @@
 node_type: agent-rules
 title: Agent rules — very-ai-product-loops
 status: draft
-version: 0.8.1
-updated: 2026-08-18
+version: 0.9.0
+updated: 2026-08-19
 ---
 
 # Agent rules — very-ai-product-loops
@@ -44,9 +44,10 @@ reason it exists.
   errand is still a loop pass — it ends with move 5.
 - **N3 · A handoff restores state — not rules, not truth.** Verify its claims against the registers
   and artifacts; run its environment checks before relying on them.
-- **N4 · Read the tool before filling.** Open the tool's `SKILL.md` before writing its section;
-  missing prerequisites → ask or help obtain, never proceed on a guess. (Skills live under
-  `tool-skills/`: `library/` methods · `operations/` runtime · `outputs/` output.)
+- **N4 · Read the card before acting.** Every instruction you act on is a **card** and its header is
+  the pass plan — open it first; missing prerequisites → ask or help obtain, never proceed on a
+  guess. (Framework cards live under `tool-skills/`: `library/` methods · `operations/` runtime ·
+  `outputs/` output; a product's own live in its `skills/`.)
 - **N5 · One mechanism, one way.** Never introduce a second format or path for something the
   framework already does one way — every variation point is where two readers diverge.
 - **N6 · The write rule is a split.** The **orchestrator** alone owns the artifact, the registers,

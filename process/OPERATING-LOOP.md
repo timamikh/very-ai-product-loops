@@ -2,7 +2,7 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass
 status: draft
-version: 0.13.0
+version: 0.14.0
 updated: 2026-08-19
 ---
 
@@ -10,8 +10,9 @@ updated: 2026-08-19
 
 The **runtime** that ties the four planes together; everything else (steps, statuses, library,
 registers, conventions) is data this loop consumes. Every unit of work is a **pass** of the skeleton
-below. What varies between passes is the **card** — the goal's own instructions (a skill, a step
-README); the skeleton is fixed. The [goal map](goal-map.md) turns a trigger into a card.
+below. What varies between passes is the **card** — one entity in five kinds, whose frontmatter is
+that pass's plan ([`reference/card-schema.md`](reference/card-schema.md)); the skeleton is fixed. The
+[goal map](goal-map.md) turns a trigger and a goal into a card.
 
 > The golden rule holds throughout: **the agent prepares, the human decides** — the loop never
 > silently invents; it drafts (⚙️), asks, or marks `— to clarify —`.
@@ -27,21 +28,23 @@ reconstruct from the artifacts and confirm. A gate item's id is its **`artifact#
 questions, overdue cadences. **No scanning beyond this:** a trigger is an event now, or a debt
 recorded when it was found.
 
-**1 · Name the goal.** Classify the trigger against the [goal map](goal-map.md) and say it aloud —
-which pass, which card. The commonest trigger, *the current step's gate has open items*, takes its
-focus from the gate checklist and the status's per-step goals; an **empty `per_step`** never blocks
-(work by step defaults, and at move 5 propose filling it). Every other trigger names its card
-directly. An event matching **two rows is two passes**. **Open the card before acting** (N4).
+**1 · Name the goal.** Find the [goal map](goal-map.md) row for this **trigger and goal**, say both
+aloud, and **open the card before acting** (N4) — its frontmatter *is* this pass's plan. The commonest
+trigger, *the current step's gate has open items*, has a section for its goal and resolves to a step
+card plus that section's method (goal map → *The commonest row*); its focus comes from the gate
+checklist and the status's per-step goals, and an **empty `per_step`** never blocks (work by step
+defaults, and at move 5 propose filling it). An event matching **two rows is two passes**.
 
-**2 · Gather the inputs — and size the pass.** Check the card's **prerequisites** against what
-exists. Inputs resolve by **data, not guess**: the card names the *types* (`reads_registers`, source
-slots); the *instances* come from the section's theme (open `H-` on its theme, live `R-`, the metric
-nodes it touches — semantics in doubt → [`REGISTERS.md`](REGISTERS.md)) and from the target section's
-**rests-on** plus the step README's input map. **A worklog is never an input** — cross-step exchange
-runs only through the registers and the **signed artifact sections**; if what you need lives only in
-another method's worklog, its projection has lagged, and re-projecting it is the debt. Announce the
-list — the **read perimeter**. Volume is now visible: decide **here, aloud**, split across subagents
-or run alone, and why (the split itself runs at move 4; the contract is *Delegation* below).
+**2 · Gather the inputs — and size the pass.** Check the card's **`prerequisites`** against what
+exists, then take the read perimeter from its **`reads`**. Three laws hold over that list. Inputs
+resolve by **data, not guess** — the card names the *types*, the *instances* come from the section's
+theme (open `H-` on its theme, live `R-`, the metric nodes it touches — semantics in doubt →
+[`REGISTERS.md`](REGISTERS.md)). The perimeter is a **union**, never one card's list alone: add the
+target section's **rests-on** and the step README's input map. And **a worklog is never an input** —
+cross-step exchange runs only through the registers and the **signed artifact sections**; if what you
+need lives only in another method's worklog, its projection has lagged, and re-projecting it is the
+debt. Announce the list. Volume is now visible: decide **here, aloud**, split across subagents or run
+alone, and why (the split itself runs at move 4; the contract is *Delegation* below).
 
 **3 · Close the gaps — with the human.** A missing prerequisite → **ask** or offer to help obtain
 it; never proceed on a guess. An open **product decision** → written questions, 2–4 options each, a
@@ -56,10 +59,11 @@ scored against its passport before use** — [`orchestration`](../tool-skills/op
 external search (`gather`/`research`). Two obligations **before anything lands on disk**: **show
 reasoning first** (a section resting mainly on the agent's own reasoning or a spoken answer is
 previewed in chat, in full — a section restating a source is not), and **declare the write
-perimeter** (one message naming every file the pass will touch).
+perimeter** — the card's **`writes`** resolved to actual paths, one message naming every file the
+pass will touch.
 
 **5 · Record.** **Unconditionally:** a dated **change-log** entry (from → to · why · trigger) and
-the **open items** surfaced. Then **for every surface the pass touched** (which ones is in the card):
+the **open items** surfaced. Then **every surface in the card's `surfaces`**:
 **tick** the satisfied gate items in `state.yaml` and set `current_step`/`last_pass` — a tick on a
 section resting mainly on the agent's own reasoning waits for a `verify` subagent that did not write
 it (the human may waive; a runtime without agents leaves it `open`, reason surfaced); **seed/update

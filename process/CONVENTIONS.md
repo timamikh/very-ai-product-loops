@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.24.0
-updated: 2026-08-18
+version: 0.25.0
+updated: 2026-08-19
 ---
 
 # Conventions
@@ -33,23 +33,18 @@ Every artifact section carries a stable, kebab-case ID so tools can fill it and 
 
 ## Column keys
 
-A table column is addressed by a **stable key** in a hidden header comment, never by its header text:
-
-```markdown
-| Layer <!--c:layer--> | Value <!--c:value--> | Confidence <!--c:conf--> |
-```
-
-Keys are kebab-case, unique within their table, stable across revisions and translations. A table is
-**all-keyed or none** (check O); a filled instance section carries its template's keys (check O2);
-no consumer, no key. The authoring rule — the three homes of a key, and the one place it must never
-be — is [`reference/column-keys.md`](reference/column-keys.md).
+A table column is addressed by a **stable key** in a hidden header comment (`| Layer <!--c:layer--> |`),
+never by its header text — so it is found in any language. A table is **all-keyed or none** (check O);
+a filled instance section carries its template's keys (check O2); **no consumer, no key**. Key form,
+the three homes of a key, and the one place it must never be —
+[`reference/column-keys.md`](reference/column-keys.md), read when authoring a template or a register.
 
 ## Card line
 
 A section may mark **one of its own lines** as its headline — the line a board card shows collapsed:
 `<!-- card -->` **trailing a line** points at that line; **alone on a line**, at the paragraph below.
-One mark per section; a template never ships one. The console shows the marked line verbatim — it
-never summarises; no mark = title + status. Who places it and how the line is chosen — the
+The console shows the marked line verbatim — it never summarises; no mark = title + status. Who
+places it, how the line is chosen, and why a section may honestly stay unmarked — the
 [`projection`](../tool-skills/operations/projection/SKILL.md) operations skill.
 
 ## Links & register item IDs
@@ -65,20 +60,18 @@ checklist may use the shorthand `artifact#section` (e.g. `concept#idea`).
 
 ## Artifact filenames
 
-A step's artifact is **`<step-number>-<slug>.md`** — `1-concept.md`, `2-analysis.md`, `3-strategy.md`,
-`4-strategic-plan.md`, `5-tactical-plan.md`, `6-sprint-plan.md`; the numeric prefix only sorts the
-listing. Links use the real filename, prefix included. Registers and deliverables take no prefix.
+A step's artifact is **`<step-number>-<slug>.md`** (`2-analysis.md`); the numeric prefix only sorts
+the listing, and links use the real filename, prefix included. Registers and deliverables take no
+prefix. The six names are the step list in [`OVERVIEW.md`](OVERVIEW.md).
 
 ## Step folders & worklogs
 
 The artifact `<step-number>-<slug>.md` is a **projection**; its working lives in the sibling folder
-of the same stem (`2-analysis/` beside `2-analysis.md`), one **worklog per method**:
-`<step-folder>/<tool>.md`, where `<tool>` is the id in the section's `<!-- tool: <tool> -->` marker;
-`<!-- synthesis -->` sections share the reserved `<step-folder>/synthesis.md`. **The worklog is the
-source of truth; the artifact section is its projection** — every projected section has a worklog
-(check P), and the method's change-log history lives there, not in the artifact. When a marker names
-several tools, **the first tool in the marker owns the section's worklog**. The resolution detail —
-stems, the id-thread, one-method-many-sections, many-methods-one-section — is
+of the same stem, one **worklog per method**: `<step-folder>/<tool>.md`, where `<tool>` is the id in
+the section's `<!-- tool: <tool> -->` marker. **The worklog is the source of truth; the artifact
+section is its projection** — every projected section has a worklog (check P), and the method's
+change-log history lives there, not in the artifact. How a section resolves to exactly one worklog —
+the id-thread, synthesis sections, a marker naming several tools —
 [`reference/worklog-resolution.md`](reference/worklog-resolution.md). Raw external inputs are never
 worked in a worklog directly: they live in `sources/` and are dispatched in by `source-intake`
 (see *Raw data & access*). A worklog is **private to its method** — read only by that method, its
@@ -111,9 +104,9 @@ The procedure — walking the human through each thesis, never self-issued — i
 ## Gradation vs confirmation — two orthogonal axes
 
 **Confirmation** answers *has a human signed this?* — the binary marker above. **Gradation** answers
-*how good is it?* — ordinal scales carried inside the row (a hypothesis's `signal`/`decision`, a
-risk's likelihood × impact; enums in [`REGISTERS.md`](REGISTERS.md)). The axes are independent — a
-console renders **two chips**, never folding one into the other.
+*how good is it?* — ordinal scales carried inside the row (enums in
+[`REGISTERS.md`](REGISTERS.md)). The axes are independent: a reader renders **two chips**, never
+folding one into the other.
 
 ## Instance config (`config.yaml`)
 
@@ -121,6 +114,19 @@ console renders **two chips**, never folding one into the other.
 (OPERATING-LOOP). Keys are canon, spelled exactly one way (check H); the pinned schema is
 [`reference/config-schema.md`](reference/config-schema.md) — read it when writing or validating a
 `config.yaml`.
+
+## Cards
+
+Everything an agent acts on is a **card** — a step README, a library method, an operations or outputs
+skill, a product's own exchange skill. **One entity, one frontmatter schema, five `kind`s**; the
+header *is* the pass plan (`prerequisites` · `reads` · `writes` · `surfaces`), declaring types and
+slots while the pass resolves the instances from the data. Ranks and routing are the
+[goal map](goal-map.md)'s; the schema is [`reference/card-schema.md`](reference/card-schema.md), read
+when writing or validating a card.
+
+**Two homes, and the author decides which** (check Z): a card shipped with the framework lives in
+`tool-skills/`, a card written for one product in that instance's `skills/`, where a framework update
+never touches it. Objective, like the delivery channel in `sources/` — never a judgement about content.
 
 ## One mechanism, one way
 
@@ -130,10 +136,9 @@ alternatives. If two ways exist, pick one and eliminate the other in the same ch
 
 ## Where a new rule goes — contract · method · check
 
-Before adding a rule to this canon, classify it: a **check** (linter) costs nothing at read time; a
-**method** (skill) is read only when used; a **contract** (`process/`) is paid on every pass, by
-every agent. Only a contract two independent readers must agree on earns a place here; try the
-cheaper classes first. The full test — [`EXTENDING.md`](../EXTENDING.md) → *Where a new rule goes*.
+Only a **contract two independent readers must agree on** earns a place in this file — a check or a
+skill is cheaper and is tried first. Classify before adding:
+[`EXTENDING.md`](../EXTENDING.md) → *Where a new rule goes*.
 
 ## Forks & options
 
@@ -155,18 +160,16 @@ artifacts, where the register is one click away.
 **A source is what comes from outside**; no skill produces one from inside — agent reasoning is a
 worklog, a file for outside use is an export file (`export-files/`, the mirror of `sources/`). What
 fits none of the entities is recut along these seams — a new entity or hybrid home is never minted.
-`sources/` holds **only what came from outside**, in three subfolders (all indexed in
-`sources/INDEX.md`): **`originals/`** (files the human brought, untouched), **`snapshots/`** (dated,
-immutable captures — a source-intake extract, a pull skill's export), **`access/`** (a source's
-**passport**: how to connect/verify/recover, written **only as the human's recorded answers** — an
-agent never invents one, a passport of bare `— to clarify —` is the defect). A source is **dispatched
-into worklogs, never linked from an artifact**; captured values go to the registers as dated rows.
-The full layout, writer matrix and instance exchange-skill rules —
-[`reference/boundary-layout.md`](reference/boundary-layout.md). Hard rules (also in
-[`AGENTS.md`](../AGENTS.md)): **raw captures are never committed**, deleted once their values land;
-where `origin` may be public, raw data and its analysis code live **outside** the repo; **secrets**
-are never written anywhere — only *where* they live and how to rotate. The routing procedure —
-[`source-intake`](../tool-skills/operations/source-intake/SKILL.md).
+`sources/` holds **only what came from outside**, in three subfolders indexed by `sources/INDEX.md`:
+**`originals/`** · **`snapshots/`** · **`access/`** — the last holding a source's **passport**,
+written **only as the human's recorded answers**; an agent never invents one, and a passport of bare
+`— to clarify —` is the defect (check T). A source is **dispatched into worklogs, never linked from
+an artifact**; captured values go to the registers as dated rows. Who writes into which subfolder,
+and an instance exchange card's rules — [`reference/boundary-layout.md`](reference/boundary-layout.md).
+Hard rules (also in [`AGENTS.md`](../AGENTS.md)): **raw captures are never committed**, deleted once
+their values land; where `origin` may be public, raw data and its analysis code live **outside** the
+repo; **secrets** are never written anywhere — only *where* they live and how to rotate. The routing
+procedure — [`source-intake`](../tool-skills/operations/source-intake/SKILL.md).
 
 ## Which conventions apply where
 
