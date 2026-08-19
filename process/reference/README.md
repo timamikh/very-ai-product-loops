@@ -11,7 +11,7 @@ updated: 2026-08-18
 These files are **canon**, but they are **not** part of the always-loaded reading order in
 [`AGENTS.md`](../../AGENTS.md). Each is read at a **named moment** — when you are about to do the
 one thing it governs — so the per-pass `process/` files stay lean. `REGISTERS.md` follows the same
-pattern from the core: read at loop steps 3 (register rows as inputs) and 7 (before writing rows).
+pattern from the core: read at loop moves 2 (register rows as inputs) and 5 (before writing rows).
 
 The split follows [`CONVENTIONS.md`](../CONVENTIONS.md) → *Where a new rule goes* (now in
 [`EXTENDING.md`](../../EXTENDING.md)): a contract two readers must agree on lives in `process/`; a
@@ -26,6 +26,7 @@ stub that stays in the core.
 | [`node-type-matrix.md`](node-type-matrix.md) | in doubt **which conventions apply** to a file — the by-`node_type` lookup |
 | [`worked-example.md`](worked-example.md) | you want the operating loop shown end-to-end on one concrete pass |
 | [`worklog-resolution.md`](worklog-resolution.md) | a section's marker names **more than one tool**, a worklog is being created, or a reader must resolve which worklog backs a section |
+| [`boundary-layout.md`](boundary-layout.md) | adding a `sources/` subfolder, writing an instance's own **exchange skill** (pull/push), or resolving where a piece of external data belongs |
 | [`late-hypothesis.md`](late-hypothesis.md) | a hypothesis surfaces **after** the step where it belongs and you must place it without forking the process |
 
 A pointer in the core file names the moment; follow it here only then.
