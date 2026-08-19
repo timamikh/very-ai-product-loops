@@ -15,6 +15,49 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Canon wave 3 — the card: one entity, one schema, a thin router
+
+- The gap: wave 2 gave the loop a router, but what it routed *to* was still five different things.
+  A step README, a library method, an operations skill, an outputs skill and a product's own
+  exchange skill each declared themselves their own way — five questionnaires for one role — and the
+  router's table carried facts about cards (which surfaces move 5 owes) that belonged in the cards.
+  An agent that met an unfamiliar skill had to infer its shape.
+- **One entity.** Everything an agent acts on is now a **card**: `node_type: card` with
+  `kind: step | method | operation | output | exchange`. The kind is a **field value, never a second
+  schema**. The pinned schema is the new `process/reference/card-schema.md`.
+- **The header is the pass plan.** Every card declares `prerequisites` · `reads` · `writes` ·
+  `surfaces` — move 3's gaps, move 2's read perimeter, move 4's write perimeter, move 5's owed
+  surfaces. The header gives **types and slots**; the pass resolves instances from the data
+  (`section:*` is a slot, an `H-` id never appears in a header).
+- **One atom grammar for all three perimeter fields** — `register:` · `source:` · `section:` ·
+  `worklog` · `file:` · `state:` · `ticks` · `sign-off` · `change-log`. Prefixes are mandatory
+  because `metrics` is both a register and a source slot. Without controlled *values*, a shared field
+  name would have been unification in name only.
+- **A thin router.** `goal-map.md` rows are now **(trigger, goal) → card**; the *Move-5 surfaces*
+  column moved into the cards it described. The commonest row — *the gate has open items* — is
+  spelled out to the end: its goal is one named section, and it resolves to a **pair**, the step card
+  (gate, input map, surfaces) plus the section's method (prerequisites, read types, writes), with
+  move 2's perimeter their **union**.
+- **The law of ranks, as fields.** A `method` carries `steps` and no `surfaces` — it is reached from
+  inside a pass, never routed to. Who *does* owe surfaces is resolved against `goal-map.md` itself,
+  so the two cannot drift; an operations card that is a **move** rather than a pass (`projection`,
+  `orchestration`) declares `surfaces: []`, and that empty list states its rank honestly.
+- **The law of two homes.** `tool-skills/` holds cards that ship with the framework;
+  `<instance>/skills/` holds cards written for one product, which a framework update never touches.
+  The discriminator is **who authored it** — as objective as the delivery channel in `sources/`.
+- **New checks X and Z** validate the schema and the home. X checks field *values* against the
+  vocabularies, holds the per-kind exclusions, and warns on any key outside the schema so a private
+  field cannot quietly become de-facto canon.
+- **Breaking — field renames across all 62 cards.** `produces` + `writes_registers` → `writes`;
+  `reads_registers` + `inputs` → `reads`; `used_by_steps` → `steps` (methods only). `ADAPTER.md` is
+  renamed `SKILL.md`, the renderer/deliverable distinction becoming `output_kind: rendered |
+  authored`. Dropped for having no consumer: `title`, `kind: method|template|research`, `mode`,
+  `consumes`, `reads_ids`, `used_by_steps: [any]`. An instance with its own skills must migrate its
+  headers; `process/reference/card-schema.md` carries the mapping table.
+- Canon: 4,447 → 4,945 words. check W warns (soft 4,600) and its threshold was deliberately **not**
+  moved — the wave's acceptance is the entity invariant, not the word count, and moving the ruler to
+  meet the reading was the wave-2 mistake this one records instead of repeating.
+
 ### Canon wave 2 — the seven-move skeleton and the goal map
 
 - The gap: the loop was an 8-step spine assumed to run in full for every trigger, but most triggers
