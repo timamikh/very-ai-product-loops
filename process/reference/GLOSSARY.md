@@ -2,7 +2,7 @@
 node_type: reference
 title: Glossary — the entities of very-ai-product-loops
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-19
 ---
 
@@ -81,6 +81,14 @@ stem for **every** step.
 | 6 | **sprint-plan** | `6-sprint-plan.md` |
 
 ---
+
+## The card — one entity, five kinds
+
+| Entity | Notation | What it is |
+|--------|----------|------------|
+| **Card** | `node_type: card` | **Every instruction an agent acts on** — a step README, a library method, an operations or outputs skill, a product's own exchange skill. One frontmatter schema for all of them; its header **is the pass plan**: `prerequisites` → move 3, `reads` → move 2, `writes` → move 4, `surfaces` → move 5. Pinned in [`card-schema.md`](card-schema.md), held by linter checks X (schema) and Z (home). |
+| **Kind** | `kind: step \| method \| operation \| output \| exchange` | What role a card plays — **a field value, never a second schema**. A `method` carries `steps` and no `surfaces` (reached through its section's tool marker, never routed); the routed kinds are the reverse (the law of ranks). |
+| **Atom** | `register:metrics` · `source:kb` · `section:idea` · `worklog` · `file:<path>` · `state:<key>` · `ticks` · `sign-off` · `change-log` | One item of `reads`/`writes`/`surfaces` — a **typed name** from one grammar shared by all three fields. Prefixes are mandatory where a bare word is ambiguous (`metrics` is both a register and a source slot). `*` is a slot: *types from the card, instances from the data*. |
 
 ## Inside a step
 

@@ -5,8 +5,9 @@
 .~lock.*#
 ~$*
 
-# scratch / generated outputs
-outputs/
+# scratch / generated outputs — root-anchored: an unanchored `outputs/` also matched
+# `tool-skills/outputs/`, silently keeping NEW output cards out of every commit
+/outputs/
 *.tmp
 
 # private product instances (real data) — never publish
@@ -22,4 +23,4 @@ PLAN-*.md
 PROMPT-*.md
 REBUILD-JOURNAL.md
 RUN-JOURNAL-*.md
-HANDOFF-console-next.md
+HANDOFF-*.md

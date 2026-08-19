@@ -2,7 +2,7 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.6.0
+version: 0.6.1
 updated: 2026-08-15
 ---
 
@@ -67,8 +67,8 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
   `tool-skills/` (library · operations · outputs), `AGENTS.md`, `EXTENDING.md`, `.claude/skills/`,
   `tools/` (the linter and the local console, including the double-click launchers
   `tools/ui/console.command` and `console.bat`), and a `FRAMEWORK-VERSION` file (pinned tag + SHA).
-  Update by bumping the tag and re-vendoring — your own skills under `product-loops/tool-skills/` survive
-  it untouched.
+  Update by bumping the tag and re-vendoring — your product's own cards under `product-loops/skills/`
+  survive it untouched (the law of two homes: a framework update never enters an instance's `skills/`).
 - **Your product (yours, edited over time):** `product-loops/` — kept **separate from your code** so it
   never interferes with development.
 

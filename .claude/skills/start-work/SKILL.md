@@ -8,8 +8,8 @@ description: >
   fill. Use at the start of any working session, on resume after a restart/compaction, or when
   picking up an instance someone else set up.
 status: draft
-version: 0.2.0
-updated: 2026-08-10
+version: 0.3.0
+updated: 2026-08-19
 ---
 
 # Start work (begin / resume a session)
@@ -25,10 +25,10 @@ loaded and the agent works the disciplined loop instead of bulk-filling.
 
 **Do not trust auto-load.** When this skill is invoked (or the repo wasn't opened as a fresh
 session, or on a tool that auto-loads nothing), the framework's root `AGENTS.md` was not read for you. So load the rules
-yourself, in order, before touching any artifact:
-`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `goal-map.md` → `CONVENTIONS.md` (`REGISTERS.md` is read
-at its named moments — loop moves 2 and 5). These are the authority for everything below — this skill
-only walks you into them, it does not restate them.
+yourself, in order, before touching any artifact: `AGENTS.md` (the non-negotiables and the reading
+order) → `process/OVERVIEW.md` → `OPERATING-LOOP.md` → `goal-map.md` → `CONVENTIONS.md`
+(`REGISTERS.md` is read at its named moments — loop moves 2 and 5). These are the authority for
+everything below — this skill only walks you into them, it does not restate them.
 
 **Check delegation availability, now.** The loop delegates gathering, drafting and verification to
 subagents (`loops-gather` · `loops-research` · `loops-draft` · `loops-verify`). Confirm two things
@@ -59,30 +59,21 @@ and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load t
 
 ## Step 2 — Run ONE pass of the operating loop
 
-`OPERATING-LOOP.md` is the authority; one pass produces or updates **one** section / gate item:
+`OPERATING-LOOP.md` is the authority — the seven-move skeleton is written **there**, not here. What
+this skill holds you to is the shape of a pass:
 
-1. **Name the goal** — classify the trigger via `goal-map.md`; the common case is the current step's
-   next section / gate item (the human may redirect). A trigger matching two rows is two passes.
-2. **Recommend the tool** — from the status `per_step` tools first, else the step default.
-3. **Check prerequisites and size the pass** — **open that tool's `SKILL.md`** under
-   `tool-skills/library/` and read its prerequisites. Filling from `template.md` without opening the
-   method is the failure this skill exists to prevent. The volume is now visible — decide **aloud**:
-   split this pass across subagents or run it solo, and why.
-4. **Fill gaps** — for each missing input, ask the human or offer to obtain it; never guess an input.
-5. **Clarify** — only real **product** decisions, each as 2–4 options + a ⚙️ recommendation, then
-   **wait**. Technical/implementation gaps are not asked — note them as forks in the artifact.
-6. **Act — directly or through subagents** — produce the section via the tool's
-   `template-fragment.md`, tagging every claim with a source + confidence per `CONVENTIONS.md`;
-   mark your own proposals ⚙️. If step 3 said split: brief each subagent (task · context · tools ·
-   return shape) per the **`orchestration`** operations skill and score every return against its
-   passport before using it. A section built mainly on your own reasoning or the human's spoken
-   answer is **shown in chat before it is written**, together with the list of files this pass will
-   touch.
-7. **Update state** — only now write: the section, registers (`H-…`/`R-…`/`M-…`), a dated
-   change-log entry, what's still `— to clarify —`. A tick on a reasoning-based section waits for
-   a `verify` subagent's findings (the human may waive this).
-8. **Loop or bubble** — propose the next pass; if this pass invalidated a higher/lower artifact,
-   raise it as a trigger per the step's cadence/invalidation rules.
+1. **The router names the card.** Find the `goal-map.md` row for this **trigger and goal** and say
+   both aloud; the common case is the current step's gate — its goal is one named section (the human
+   may redirect). A trigger matching two rows is two passes.
+2. **The card's header is the pass plan** — open the card **before acting** (N4): `prerequisites`
+   are move 3's gaps, `reads` is move 2's read perimeter, `writes` is move 4's write perimeter,
+   `surfaces` is what move 5 owes. For the commonest row the plan is a **pair** — the step card plus
+   the section's method (from its `<!-- tool: -->` marker; the status `per_step` sets emphasis, the
+   marker names the method) — and move 2's perimeter is their **union**. Filling from `template.md`
+   without opening the method's card is the failure this skill exists to prevent.
+3. **Run the seven moves as written** — gaps with the human (product forks as 2–4 options + a ⚙️
+   recommendation, then **wait**), act within the declared perimeter, tag every claim, and end at
+   move 5 unconditionally: change-log entry, open items, every surface the header names.
 
 **Hard rule: one section per pass.** Propose the next section and let the human steer — do **not**
 barrel through the artifact set in one go. A bulk fill bypasses the method, the prerequisites, and

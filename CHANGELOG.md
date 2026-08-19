@@ -56,6 +56,15 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   headers; `process/reference/card-schema.md` carries the mapping table.
 - Canon: 4,447 → 4,945 words. check W warns (guideline 4,600); the wave's acceptance is the entity
   invariant, not the word count.
+- **Audit fixes after the wave.** `start-work` (the every-session entry point) no longer carries its
+  own eight-step paraphrase of the loop — it had drifted to the pre-wave model ("recommend the tool
+  from `per_step`", no card, no header-as-plan); it now defers to the skeleton and holds only the
+  shape of a pass, and its bootstrap list starts with `AGENTS.md` itself (the non-negotiables were
+  never in the list). `install/README.md` sent a product's own skills to `product-loops/tool-skills/`
+  — the one place the law of two homes forbids; now `product-loops/skills/`. GLOSSARY gains the
+  wave's three entities: **Card**, **Kind**, **Atom**. `.gitignore`'s unanchored `outputs/` also
+  matched `tool-skills/outputs/`, silently keeping new output cards out of every commit — now
+  root-anchored.
 - **check W demoted from gate to guideline.** The hard 5,000-word ERROR is gone; W now only warns.
   The ceiling was never the author's requirement — it was introduced by an agent in `4334d32` and
   the author's explicit call is the opposite: *the word budget is a reference point, mechanics
