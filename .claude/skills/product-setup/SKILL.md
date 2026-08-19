@@ -33,8 +33,8 @@ its source and confidence; nothing is invented; gaps are `— to clarify —`.
 **Do not trust auto-load.** This skill is usually invoked right after install or from another repo's
 session, when the framework's root `AGENTS.md` was never auto-loaded as the boot entry. So load the
 rules yourself, in order, before any setup work:
-`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` (plus `REGISTERS.md` before any
-register work). They define the
+`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `goal-map.md` → `CONVENTIONS.md` (plus `REGISTERS.md`
+before any register work). They define the
 disciplined loop and the "prepare, don't invent" rule the rest of this skill depends on. Skipping
 them is exactly how a first run turns into an invented bulk-fill.
 
@@ -63,9 +63,13 @@ Accesses are recorded per `CONVENTIONS.md` "Raw data & access" (secret *values* 
 where they live and how to check/recover them).
 
 ### 3. Convert and file them
+Scaffold the three source subfolders first: `product-loops/sources/{originals,snapshots,access}/`.
 For each material: convert to a convenient, diff-able format (markdown; tabular data → csv),
-preserving the original reference. Put the converted copies in **`product-loops/sources/`**, one file
-per original, with a short header noting the original filename/date. Do not edit the originals.
+preserving the original reference. Put the converted copies in **`product-loops/sources/originals/`**
+(the human's brought material — a format conversion, never a reinterpretation), one file per original,
+with a short header noting the original filename/date. Do not edit the originals. Access facts the
+human gives (where a tool lives, how to reach it) go to `sources/access/<slug>.md` as a **passport**,
+recorded from their answers — never invented (see [`boundary-layout`](../../process/reference/boundary-layout.md)).
 
 ### 3b. Write the sources index (navigation file)
 Create **`product-loops/sources/INDEX.md`** — a navigation map the agent reads *first* on every future
@@ -75,7 +79,7 @@ and the human corrects it:
 
 | Column | What it captures |
 |--------|------------------|
-| File | `sources/<name>.md` |
+| File | `sources/originals/<name>.md` (or `snapshots/`, `access/`) |
 | What it contains | 1–2 lines: the document's actual content |
 | In scope | Which parts apply to **this** product-loops/instance |
 | Out of scope | Which parts explicitly do **not** apply (e.g. "only the SaaS part; the infrastructure/GPU section is a different product") |
@@ -164,8 +168,12 @@ product-loops/
   config.yaml            # HUMAN-authored: language · active status · directions · delegation · metric source slots
   state.yaml             # AGENT-written each pass: current_step · last_pass · gate ticks (cycle position)
   HANDOFF.md             # session-to-session: environment/access checks + open forks (see operations/handoff)
-  sources/               # what comes from OUTSIDE — the user's existing materials (source of record)
+  sources/               # what comes from OUTSIDE — never agent reasoning (see reference/boundary-layout)
     INDEX.md             # navigation map: per-source what/in-scope/out-of-scope/feeds-steps
+    originals/           # the user's existing materials (source of record)
+    snapshots/           # dated, immutable captures (URL extracts, pulled exports)
+    access/              # one passport per external point, recorded from the human
+  skills/                # (optional) the product's own exchange skills: <pull|push>-<endpoint>-<what>/
   1-concept.md            # Step 1 artifact
   2-analysis.md            # Step 2
   3-strategy.md            # Step 3
@@ -188,7 +196,7 @@ read-only into the repo at install and pinned to a version tag.
 
 - **Inventing to fill.** Populating a section with plausible content the materials don't support.
 - **Silent conflicts.** Merging contradictory materials without flagging.
-- **Editing originals.** Converted copies live in `product-loops/sources/`; originals are untouched.
+- **Editing originals.** Converted copies live in `product-loops/sources/originals/`; the human's originals are untouched.
 - **Framework in the code tree.** Product docs must sit in `product-loops/`, away from `src/`.
 - **Reading everything, every time.** With `sources/INDEX.md` present, consult it first and open
   only the files a task needs — don't re-ingest the whole `sources/` folder each turn.

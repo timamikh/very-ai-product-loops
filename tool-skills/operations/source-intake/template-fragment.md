@@ -32,8 +32,8 @@ analysis and conclusions are worked below and projected into the artifact sectio
 
 | From source | What it gives this method | Value / claim | Captured | Confidence |
 |-----------------------------|------------------------------------------|------------------------------|---------------------------|--------------------------|
-| `../sources/<file>.md` | <why this method needs it> | <the fact, as the source states it> | <YYYY-MM-DD> | [sourced: <slug>] |
-| `../sources/<file>.md` | <…> | <…> | <YYYY-MM-DD> | [sourced: <slug>] |
+| `../sources/originals/<file>.md` | <why this method needs it> | <the fact, as the source states it> | <YYYY-MM-DD> | [sourced: <slug>] |
+| `../sources/snapshots/<file>.md` | <…> | <…> | <YYYY-MM-DD> | [sourced: <slug>] |
 
 <A metric value is NOT an intake row — it is captured to registers/metrics.csv by `metrics-capture`,
 and the worklog cites the `M-…` id. A superseded fact is struck through and re-dated, never

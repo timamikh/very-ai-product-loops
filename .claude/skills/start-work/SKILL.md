@@ -26,9 +26,9 @@ loaded and the agent works the disciplined loop instead of bulk-filling.
 **Do not trust auto-load.** When this skill is invoked (or the repo wasn't opened as a fresh
 session, or on a tool that auto-loads nothing), the framework's root `AGENTS.md` was not read for you. So load the rules
 yourself, in order, before touching any artifact:
-`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `CONVENTIONS.md` (`REGISTERS.md` is read at its named
-moments — loop steps 3 and 7). These are the authority for everything below — this skill only walks
-you into them, it does not restate them.
+`process/OVERVIEW.md` → `OPERATING-LOOP.md` → `goal-map.md` → `CONVENTIONS.md` (`REGISTERS.md` is read
+at its named moments — loop moves 2 and 5). These are the authority for everything below — this skill
+only walks you into them, it does not restate them.
 
 **Check delegation availability, now.** The loop delegates gathering, drafting and verification to
 subagents (`loops-gather` · `loops-research` · `loops-draft` · `loops-verify`). Confirm two things
@@ -48,7 +48,11 @@ Read the instance's current state (state, not rules — verify it against the re
    "Environment & access" checks before relying on them.
 2. **`config.yaml`** — `active_status`, `language`, `directions`, source slots.
 3. **`sources/INDEX.md`** — the knowledge map; open only the sources a task needs, not the whole folder.
-4. Determine the **active status** and the **current step**. Both are read, not guessed; if unclear, ask.
+4. **Recorded debts** — open items in the artifacts, unanswered `questions.yaml`, and any **overdue
+   exchange cadence**: compare each `<instance>/skills/*/SKILL.md` `cadence:` against its `last_run` in
+   `state.yaml`. This session-start scan is the framework's only sweep — an overdue pull/push surfaces
+   here as a trigger, never by the framework polling in the background.
+5. Determine the **active status** and the **current step**. Both are read, not guessed; if unclear, ask.
 
 Then read only what this task needs: the current step's `README.md` (its gate checklist + skeleton)
 and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load the whole framework.
@@ -57,7 +61,8 @@ and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load t
 
 `OPERATING-LOOP.md` is the authority; one pass produces or updates **one** section / gate item:
 
-1. **Focus** — propose the single next section/gate item (the human may redirect).
+1. **Name the goal** — classify the trigger via `goal-map.md`; the common case is the current step's
+   next section / gate item (the human may redirect). A trigger matching two rows is two passes.
 2. **Recommend the tool** — from the status `per_step` tools first, else the step default.
 3. **Check prerequisites and size the pass** — **open that tool's `SKILL.md`** under
    `tool-skills/library/` and read its prerequisites. Filling from `template.md` without opening the

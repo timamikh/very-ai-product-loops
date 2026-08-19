@@ -83,12 +83,12 @@ contested) a thesis that no longer exists; the new version goes back through the
 a link fix) keeps the marker — when in doubt, drop it: a stale signature is worse than a repeated
 sign-off.
 
-**5 · The two chat obligations, before anything lands on disk** (OPERATING-LOOP step 6): a section
+**5 · The two chat obligations, before anything lands on disk** (OPERATING-LOOP move 4): a section
 resting mainly on the agent's own reasoning or the human's spoken answer is shown **in chat, in
 full, first**; and the same message **declares the write perimeter** — the artifact, the worklog,
 anything else this pass touches.
 
-**6 · Close.** The change log records the projection per the loop's step 7 (from → to · why ·
+**6 · Close.** The change log records the projection per the loop's move 5 (from → to · why ·
 trigger), and `python3 tools/lint.py <instance>` reports 0 errors — check P holds the
 worklog-behind-every-section rule, checks Q/R the confirmation markers.
 
@@ -115,5 +115,5 @@ worklog-behind-every-section rule, checks Q/R the confirmation markers.
 - The **artifact section(s)** written or re-written — each in its fragment's shape, tags carried
   verbatim, `{#id}` and tool markers intact, at most one `<!-- card -->` headline per section.
 - **Dropped** `confirmed:` / `contested:` markers wherever the conclusion changed.
-- No register writes and no `state.yaml` — those belong to the loop's step 7, after the projection
+- No register writes and no `state.yaml` — those belong to the loop's move 5, after the projection
   stands.

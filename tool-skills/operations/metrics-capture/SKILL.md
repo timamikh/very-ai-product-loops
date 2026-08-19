@@ -7,7 +7,7 @@ writes_registers: [metrics]
 inputs: [metrics, kb]
 prerequisites:
   - the question the number must answer (a metric node, a hypothesis, or a gate item that is blocked without it)
-  - a reachable source — its access file in `sources/`, or the access needed to write one
+  - a reachable source — its passport in `sources/access/`; if none exists, the pass asks the human and records their answers (it never invents one)
   - a decision on who counts (population + exclusions) — proposed by the agent, confirmed by the human
 used_by_steps: [any]
 opinionated: true
@@ -26,7 +26,7 @@ capture; when nothing specific asked (an unsolicited reading, event 5), the **cu
 (`state.yaml` → `current_step`) — one rule, no judgement call (`node_type: worklog`) — that says how
 those rows were derived. The worklog is agent
 reasoning, so it lives with the worklogs; `sources/` holds only what comes from outside — the
-source's **access file** stays there, and the worklog cites it. Every other tool in the framework starts
+source's **passport** (`sources/access/<slug>.md`) stays there, and the worklog cites it. Every other tool in the framework starts
 after this one: the metric tree wants "the register seeded with captured readings", retention wants
 "usage data with a per-user timestamp", unit economics wants a real churn rate rather than an assumed
 one. This is the skill that produces what they consume.
@@ -43,7 +43,7 @@ someone who has no way to know.
 
 ## When to apply
 
-Triggered by events, not by a step:
+Triggered by events, not by a step — the [goal map](../../../process/goal-map.md) routes them here:
 
 1. **A step or gate item needs a value the register does not hold** — the honest move is to capture it,
    not to write `— to clarify —` when the source is one query away.
@@ -57,14 +57,19 @@ Triggered by events, not by a step:
 5. **On request** — the human asks for a number.
 
 The pass ends the way any pass of the [operating loop](../../../process/OPERATING-LOOP.md) ends: register
-updates and a change-log entry. "I only collected data" does not skip Update state.
+updates and a change-log entry. "I only collected data" does not skip move 5 (Record).
 
 ## Prerequisites
 
 - **The question, before the source.** Which node (`M-…`), which hypothesis (`H-…`), or which gate item
   is waiting on this number. Without it you will measure what the source makes easy.
-- **A reachable source.** If it has no access file in `sources/`, writing one is part of this pass —
-  what it is, how to connect, how to verify, how to recover. Never a token value, only where it lives.
+- **A reachable source.** Its **passport** in `sources/access/<slug>.md` says what it is, how to
+  connect, verify and recover (never a token value, only where it lives). If none exists, the agent
+  does **not** write one from its own head — it **asks the human** (`questions.yaml`) and records the
+  answers into the passport; unanswered, the pass **stops** and surfaces the gap as an open item. A
+  passport of bare `— to clarify —` is the very defect this split prevents (boundary-layout). A source
+  that *is* a human — a manual recount, a founder's figure — needs no passport: the value arrives as a
+  recorded answer.
 - **A decision on who counts.** The agent proposes (⚙️) and the human confirms; a material exclusion is
   a fork, not a detail. Never guess it silently — a guessed population is the defect this skill exists
   to prevent.
@@ -109,9 +114,10 @@ whole point, and a UI that changes next month takes an unrepeatable procedure wi
 > `basis` names the tool and the query (`GA4 API runReport · sessions · 2026-07`), never just
 > "analytics", and a sampled number is an estimate and says so in `note`. Prefer the API or a saved
 > export over reading numbers off the UI — a click path is not reproducible, and the UI resegments
-> silently between visits. If the agent has no access, the access file names who does, and the
-> export is requested from the human (`questions.yaml`) — that export then lands in `sources/` and
-> the worklog cites it.
+> silently between visits. If the agent has no access, the passport names who does, and the
+> export is requested from the human (`questions.yaml`) — that export lands in `sources/`
+> (`originals/` when the human hands the file over, `snapshots/` when a skill pulls it) and the
+> worklog cites it.
 
 **6 · Verify before you believe it.** At least one independent check, and say in the method file which one
 you ran:
@@ -134,8 +140,8 @@ no independent check is not yet evidence — it is the "assumption wearing a dec
   `observed_n`, `population`, `basis` (how it was computed, and nothing else), `source`, `note`. One row
   per population and per basis; two populations are two rows, never one blended number.
 - **The derivation worklog** `<step-folder>/metrics-capture.md` (`node_type: worklog`) — one per step
-  folder, a dated block per capture pass, naming the ids it feeds and citing the source's access file
-  in `sources/`; the csv row's `source` column points at this worklog. This is what makes the reading
+  folder, a dated block per capture pass, naming the ids it feeds and citing the source's passport in
+  `sources/access/`; the csv row's `source` column points at this worklog. This is what makes the reading
   reproducible, which is the first question anyone asks about it. (An event-driven worklog needs no
   section marker — the linter's check P knows the name.)
 - **`metric-tree.md` updated** where the pass taught you something about the node: `instrumentation`, the
@@ -166,15 +172,16 @@ Then tell the human what landed, decoding each id in the same sentence, and name
   history.
 - **`sourced` without a derivation worklog.** A confidence tag claiming evidence for a derivation nobody
   can repeat; until it is written down, the reading is an assumption.
-- **A capture that skips Update state.** Values in a file somewhere, registers untouched, no change-log
+- **A capture that skips move 5 (Record).** Values in a file somewhere, registers untouched, no change-log
   entry — the pass did not happen as far as the next agent is concerned.
 
 ## Output
 
 - Dated rows in `registers/metrics.csv` (the home of every value).
 - A derivation worklog `product-loops/<step-folder>/metrics-capture.md` (`node_type: worklog`) via
-  [`template-fragment.md`](template-fragment.md), citing the source's access file in `sources/`.
-- No **derivation** in `sources/` — that folder never holds agent reasoning. The one file this pass
-  *may* create there is the source's **access file**, when the source had none (see Prerequisites);
-  an existing access file is cited, never duplicated.
+  [`template-fragment.md`](template-fragment.md), citing the source's passport in `sources/access/`.
+- **Nothing written into `sources/` from the agent's own head.** That folder holds only what came from
+  outside; the passport there is **cited, never authored** — it exists only as the human's recorded
+  answers (see Prerequisites). A pass that cannot reach a passport's facts stops and asks, it does not
+  fabricate a stub.
 - Inputs the agent cannot observe itself via [`questions.yaml`](questions.yaml).

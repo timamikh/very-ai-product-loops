@@ -3,7 +3,7 @@
   product-loops/<step-folder>/metrics-capture.md (node_type: worklog), plus the csv rows it justifies.
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
   One worklog per step folder; one dated block per (source × derivation). The worklog is agent
-  reasoning — it never lives in sources/; it CITES the source's access file there.
+  reasoning — it never lives in sources/; it CITES the source's passport in sources/access/.
 -->
 
 # Derivation-worklog template (`product-loops/<step-folder>/metrics-capture.md`)
@@ -24,8 +24,8 @@ version: 0.1.0
 
 **Question it answers.** <which node / hypothesis waits on these numbers, and what decision moves>
 
-**Source & access.** <one line — what the source is>; access, verification and recovery live in
-[`../sources/<access-file>.md`](../sources/<access-file>.md) and are not repeated here.
+**Source & access.** <one line — what the source is>; access, verification and recovery live in the
+passport [`../sources/access/<slug>.md`](../sources/access/<slug>.md) and are not repeated here.
 
 ### Population
 
@@ -92,5 +92,6 @@ which is why they are two rows.
 **Then:** update the node in `metric-tree.md` where the pass taught you something (`instrumentation`,
 default `population`, a `note`), write a change-log entry in the worklog naming the ids it moved,
 delete the raw capture, and run `python3 tools/lint.py <instance>` to 0 errors. No derivation lands
-in `sources/` — the access file there is cited, not duplicated (if the source had none, this pass
-created it first — see the skill's Prerequisites).
+in `sources/` — the passport in `sources/access/` is **cited, never authored here**; it exists only
+as the human's recorded answers (if the source has none, the pass asks — see the skill's
+Prerequisites — it never fabricates a stub).

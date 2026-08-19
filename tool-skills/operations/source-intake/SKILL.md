@@ -41,13 +41,13 @@ folders & worklogs*.
 
 ## When to apply
 
-Triggered by events, not by a step:
+Triggered by events, not by a step — the [goal map](../../../process/goal-map.md) routes them here:
 
-1. **At product setup** — the instance arrives with legacy material in `sources/`. Before any step is
-   worked, each source is routed into the worklog(s) it will inform, so the first *Act* pass on a step
-   already finds its evidence dispatched and cited.
-2. **A new file lands in `sources/`** — an export, a report, an interview transcript. It is routed the
-   same way before any artifact section leans on it.
+1. **At product setup** — the instance arrives with legacy material in `sources/originals/`. Before any
+   step is worked, each source is routed into the worklog(s) it will inform, so the first *Act* pass on
+   a step already finds its evidence dispatched and cited.
+2. **A new file lands in `sources/originals/`** — an export, a report, an interview transcript. It is
+   routed the same way before any artifact section leans on it.
 3. **A source changed** — re-dispatch the affected worklogs and re-date the intake rows; a superseded
    value is struck, not silently overwritten.
 4. **On request** — the human points at a source and asks where it belongs.
@@ -68,8 +68,8 @@ page, a published report. A live page is **not a source yet**: it changes under 
 re-dispatch rule (*a source changed*, above) has nothing to re-read. Make it a file first:
 
 1. **Fetch and extract** what the routing actually needs — the claims, numbers and wording, not the
-   whole HTML — into a **dated extract** in `sources/` (e.g. `sources/competitor-pricing-2026-08-17.md`)
-   whose header carries the URL and the capture date.
+   whole HTML — into a **dated extract** in `sources/snapshots/` (e.g.
+   `sources/snapshots/competitor-pricing-2026-08-17.md`) whose header carries the URL and the capture date.
 2. **Index it** in `sources/INDEX.md` like any file: its role, the URL, and when it was captured.
 3. **Route the extract** exactly as below. The worklog cites the extract; the extract carries the
    URL — so a claim stays checkable even after the page changes.
@@ -79,9 +79,9 @@ in place; trigger 3 above then re-dispatches the affected worklogs.
 
 Two web inputs are *not* routed here: a **number from an analytics tool or an admin panel** is a
 reading, and its pass is [`metrics-capture`](../metrics-capture/SKILL.md) — this skill only files
-the **access file** that says where the tool lives and how to reach it (CONVENTIONS → *Raw data &
-access*); and an **open question the web must answer** is a `research` brief for a subagent, not an
-intake.
+the **passport** in `sources/access/` that says where the tool lives and how to reach it, recorded
+from the human, never invented ([`boundary-layout`](../../../process/reference/boundary-layout.md));
+and an **open question the web must answer** is a `research` brief for a subagent, not an intake.
 
 ## Prerequisites
 

@@ -135,7 +135,7 @@ separable, not that the brief needs to be longer).
    becomes your fork with the human — with the options as returned.
 
 8. **Close the pass normally.** Delegation changes who read the material, not what a pass owes:
-   step 7 of the loop still runs — registers, change log, open items — and anything the delegation
+   move 5 of the loop still runs — registers, change log, open items — and anything the delegation
    itself made awkward is surfaced to the human with the rest.
 
 ## The return passport
@@ -197,7 +197,7 @@ lines 3 and 9 are where a loud failure is supposed to land.
   and hand off (`handoff`); a brief written from an exhausted context is a bad brief.
 - **A brief that is a copy of your context.** If it takes everything you know to state the task, the
   task is not separable — do it yourself.
-- **Skipping step 7 because "the subagents did the work".** A delegated pass is still a pass.
+- **Skipping the loop's move 5 because "the subagents did the work".** A delegated pass is still a pass.
 
 ## On the runtime (Claude Code and others)
 

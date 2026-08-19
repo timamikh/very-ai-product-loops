@@ -9,9 +9,9 @@ questions:
     type: free_text
     why: "Starting from the source instead of the question is how you end up measuring what is easy to query."
   - id: source-reach
-    ask: "Where does this number come from, and do I already have access — database, analytics tool, admin panel, billing export, a hand count?"
+    ask: "Where does this number come from (database, analytics tool, admin panel, billing export, a hand count), and — if there is no passport yet — what are its access facts: URL/location, who owns access, how to verify reach, how to recover it?"
     type: free_text
-    why: "Missing access is a prerequisite to obtain, never to work around; the access recipe belongs in a sources/ file."
+    why: "Missing access is a prerequisite to obtain, never to work around. These answers ARE the passport (sources/access/<slug>.md); the agent records them, it never invents them — an unanswered passport stops the pass."
   - id: excluded-accounts
     ask: "Who must NOT be counted — test accounts, your own staff, demo tenants, agencies, refunded orders? How do I recognise them in the data?"
     type: list

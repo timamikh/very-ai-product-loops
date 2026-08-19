@@ -31,7 +31,7 @@ In the artifact's own change log — naming what was signed and what went back, 
   substitutes, niche-risks, opportunity confirmed by the human; hypotheses + to-clarify left pending
   (open items, not results).
 - **Why:** human sign-off of the step's theses — the semantic half of the two-layer check.
-- **Trigger:** operating-loop step 7 (theses).
+- **Trigger:** operating-loop move 5 (theses).
 ```
 
 **Then:** run `python3 tools/lint.py <instance>` to 0 errors — check Q holds every marker to a real date.

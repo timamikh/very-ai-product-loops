@@ -18,7 +18,7 @@ updated: 2026-08-14
 
 # Theses — walk the human through a step's results and record the sign-off
 
-**What it is.** The pass at [operating-loop](../../../process/OPERATING-LOOP.md) **step 7** where the
+**What it is.** The pass at [operating-loop](../../../process/OPERATING-LOOP.md) **move 5** where the
 human **confirms the step's results**. Each artifact section is a **thesis** — the step's conclusion in
 the reader's language, projected from its worklog. This skill presents each written section's thesis in
 chat, the human confirms it (or edits, or sends it back), and a confirmation marker
@@ -52,7 +52,7 @@ sections walked differs.
 
 ## When to apply
 
-1. **At step 7, after a step's sections are worked** (`scope: step`) — the agent has projected the
+1. **At move 5, after a step's sections are worked** (`scope: step`) — the agent has projected the
    sections from their worklogs; now the human signs off the results before the step is treated as closed.
 2. **After a section is re-projected** (`scope: step`) — *Act* dropped its `confirmed` marker because the
    conclusion changed; the changed thesis is re-confirmed, never assumed still-good.

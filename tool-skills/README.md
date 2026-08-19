@@ -116,7 +116,7 @@ recommended by none (reason in the row).
 | `projection` | a worklog is ready to become its section (or changed under one) | the conclusion in the fragment's shape — tags verbatim, headline marked, stale sign-offs dropped | artifact section(s) + `<!-- card -->` mark |
 | `source-intake` | a raw file lands in `sources/` | dispatch it into the step worklog(s) it feeds, cite it there | routed citations + `sources/INDEX.md` entry |
 | `metrics-capture` | a number arrives | source → dated register row with population, window, derivation | `metrics-capture` worklog + M row |
-| `theses` | operating-loop step 7 (scope: step) · before a step change (scope: instance) | walk the human through the sections, record the sign-off | `confirmed:` / `contested:` markers |
+| `theses` | operating-loop move 5 (scope: step) · before a step change (scope: instance) | walk the human through the sections, record the sign-off | `confirmed:` / `contested:` markers |
 | `handoff` | session boundary | carry state and next-actions to the next session | `HANDOFF.md` |
 
 ### `outputs/` — files that leave the framework, on a delivery request
@@ -138,7 +138,12 @@ canonical home is inside the product's working area, mirroring this layout:
 ```
 product-loops/tool-skills/library/<name>/      # a product's own method
 product-loops/tool-skills/operations/<name>/   # a product's own runtime skill
+product-loops/skills/<pull|push>-<endpoint>-<what>/  # a product's own EXCHANGE skill (see reference/boundary-layout)
 ```
+
+A product's **exchange skills** — repeatable pulls and pushes across the instance boundary — are the
+one kind kept apart, at `<instance>/skills/`, because the goal map routes to them by trigger and they
+carry a `cadence`; their spec is [`process/reference/boundary-layout.md`](../process/reference/boundary-layout.md).
 
 Three rules, and no other variant:
 

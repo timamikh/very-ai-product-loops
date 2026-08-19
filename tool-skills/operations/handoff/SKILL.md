@@ -22,7 +22,7 @@ updated: 2026-08-18
 **What it is.** A tool that writes/updates the instance's `HANDOFF.md` — the file a fresh agent
 reads to resume work after a session restart, context loss, or agent switch, **without re-asking the
 human**. **Cycle position — current step and gate ticks — lives in `state.yaml`, not here** (see
-OPERATING-LOOP → step 0); the handoff carries only what `state.yaml` doesn't: the
+OPERATING-LOOP → move 0); the handoff carries only what `state.yaml` doesn't: the
 **environment / access checks** and the **open forks in flight**. The framework's rules restore
 *behavior* (see the required reading order below — a handoff must never become a substitute for the rules).
 
