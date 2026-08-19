@@ -1,12 +1,11 @@
 ---
-name: segment-pains
+node_type: card
 kind: method
-produces: problems
-reads_registers: []
-writes_registers: [hypotheses]
-inputs: [interview, metrics, kb]
+name: segment-pains
+steps: [1]
 prerequisites: [segments, evidence-source]
-used_by_steps: [1]
+reads: [source:interview, source:metrics, source:kb]
+writes: [worklog, section:problems, register:hypotheses]
 opinionated: false
 method_basis: "Jobs-to-be-Done + Value Proposition Canvas (jobs/pains/gains), scored by severity × frequency, cost of inaction named per pain, classified differentiator vs table-stakes"
 evidence_standard: primary-research
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.1
 updated: 2026-08-16
 ---
-
 # Segment Pains
 
 Surface the **problems** each segment has — the jobs they're trying to get done and where those

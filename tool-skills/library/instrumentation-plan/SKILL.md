@@ -1,12 +1,11 @@
 ---
-name: instrumentation-plan
+node_type: card
 kind: method
-produces: [architecture-instrumentation]
+name: instrumentation-plan
+steps: [4]
 prerequisites: [the step-3 architecture sketch, the step-3 product-surface map]
-reads_registers: [metrics]
-writes_registers: []
-inputs: [interview, kb, git]
-used_by_steps: [4]
+reads: [register:metrics, source:interview, source:kb, source:git]
+writes: [worklog, section:architecture-instrumentation]
 opinionated: false
 method_basis: "Instrumentation mapping: component → instrumented/proxy/not-instrumented → data yielded → infra cost driven; every metric node needs a data source or an explicit gap"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Instrumentation Plan
 
 Refine Step 3's `#architecture` and `#product-surface` into one measurability map: for every

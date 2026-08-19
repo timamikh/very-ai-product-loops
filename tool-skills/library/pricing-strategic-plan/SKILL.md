@@ -1,12 +1,11 @@
 ---
-name: pricing-strategic-plan
+node_type: card
 kind: method
-produces: [pricing]
+name: pricing-strategic-plan
+steps: [4]
 prerequisites: [the step-3 pricing decision, unit economics]
-reads_registers: [hypotheses, metrics]
-writes_registers: [hypotheses]
-inputs: [metrics, kb]
-used_by_steps: [4]
+reads: [register:hypotheses, register:metrics, source:metrics, source:kb]
+writes: [worklog, section:pricing, register:hypotheses]
 opinionated: true
 method_basis: "Margin revisit of a value-based pricing decision: chosen price vs contribution margin, inference COGS per tier, free-tier burn; outcome is 'holds' or a proposed change to the Step-3 decision — never a silent re-decision"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Pricing — Strategic-Plan Revisit
 
 Re-read the **Step-3 pricing decision against the numbers that now exist**: once `unit-economics`
@@ -88,7 +86,7 @@ home, not patched locally.
 This method **contributes to the step's economics worklogs rather than owning a Step-4 section**:
 its working lands in `<step-folder>/unit-economics.md` / `<step-folder>/financial-model.md`
 (`node_type: worklog`) — the restated Step-3 decision, the per-tier margin and inference-COGS read,
-the free-tier burn, and the verdict with its assumptions. The section it `produces` is `{#pricing}`,
+the free-tier burn, and the verdict with its assumptions. The section it `writes` is `{#pricing}`,
 homed at Step 3: a **holds** verdict logs there as a confirmation note; a **change** lands there as
 a ⚙️ proposal in the fixed shape of [`template-fragment.md`](template-fragment.md), triggering the
 section's re-confirmation (`process/CONVENTIONS.md` → *Step folders & worklogs*).

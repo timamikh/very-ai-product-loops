@@ -1,12 +1,11 @@
 ---
-name: goal-targets
+node_type: card
 kind: method
-produces: goal-targets
+name: goal-targets
+steps: [5]
 prerequisites: [period goals, the metric tree, baselines in metrics.csv]
-reads_registers: [metrics]
-writes_registers: []
-inputs: [metrics]
-used_by_steps: [5]
+reads: [register:metrics, source:metrics]
+writes: [worklog, section:goal-targets]
 opinionated: false
 method_basis: "Per-goal target setting: go-to-market goals steer an existing metric node (baseline from metrics.csv → target with reasoned size); technical & back-office goals get a binary DoD; every target traces to the period gate"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.0
 updated: 2026-08-16
 ---
-
 # Goal Targets
 
 Turn each period goal into a **target you can read at the end of the period**: select the

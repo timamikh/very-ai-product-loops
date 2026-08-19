@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: market-sizing
-kind: research
-produces: market-sizing
+steps: [2]
 prerequisites: [arena/segment defined, price input (assumption on first pass)]
-reads_registers: []
-writes_registers: [hypotheses]
-inputs: [research, kb]
-used_by_steps: [2]
+reads: [source:research, source:kb]
+writes: [worklog, section:market-sizing, register:hypotheses]
 opinionated: false
 method_basis: "TAM/SAM/SOM — bottom-up preferred, top-down cross-check, named assumptions"
 evidence_standard: external-sources
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.0
 updated: 2026-08-16
 ---
-
 # Market Sizing
 
 Size the opportunity as **TAM / SAM / SOM** — total, serviceable, and obtainable — with an

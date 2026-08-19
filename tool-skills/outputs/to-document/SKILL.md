@@ -1,17 +1,18 @@
 ---
+node_type: card
+kind: output
 name: to-document
-kind: adapter
-mode: document
-consumes: [artifacts, registers]
-reads_ids: ["<any step artifact + its sections>", hypotheses, risks, metric-tree]
-produces: One compiled, presentable document from selected instance sections — a formatted .docx by default (one-pager · full doc · report · status update). Neutral, house-agnostic styling; a company adapter applies the house template.
-formats: [docx, markdown, html]
+output_kind: rendered
+prerequisites: []
+reads: [section:*, register:hypotheses, register:risks, register:metric-tree]
+writes: [file:export-files/*]
+surfaces: [file:export-files/*]
 opinionated: false
+formats: [docx, markdown, html]
 status: draft
 version: 0.2.0
 updated: 2026-07-21
 ---
-
 # to-document
 
 Compile **selected instance sections** into **one presentable document a stakeholder opens** — a
@@ -67,7 +68,7 @@ layered on top. Base = a real, neutral document; company = the house template.
 Because a `.docx` needs a library, this adapter ships a **generic, instance-agnostic** renderer here:
 [`render.py`](render.py) — `markdown content → styled, house-neutral .docx` (requires `python-docx`).
 It holds **no product data** (so it travels with the framework and never pollutes the base): the
-agent authors the content markdown per this ADAPTER (title / sections / bullets / a table / footer),
+agent authors the content markdown per this card (title / sections / bullets / a table / footer),
 then the renderer styles it. `python3 render.py CONTENT.md --out <deliverables>/<profile>.docx`.
 (HTML/CSV/markdown adapters need no shipped code — the agent authors those directly.)
 

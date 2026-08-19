@@ -75,13 +75,19 @@ writes `file:export-files/*` and names its extensions in `formats:`; a **pull** 
 | `step` | `steps/<n>-<slug>/README.md` | `step: <n>` · `output: <artifact>.md` · `cadence:` · `method_basis:` | `steps:` |
 | `method` | `tool-skills/library/<name>/SKILL.md` | `steps: [<n>]` (exactly one — check U) · `opinionated:` · `method_basis:` · the quality block: `evidence_standard` · `volume_rule` · `selection_rule` · `rejects_shown` (check L) | `surfaces:` — **a method is never a routing target** |
 | `operation` | `tool-skills/operations/<name>/SKILL.md` | `opinionated:` · `method_basis:` | `steps:` — it is routed, not step-bound |
-| `output` | `tool-skills/outputs/<name>/SKILL.md` | `output_kind: rendered \| authored` · `opinionated:` · (`rendered` adds `formats:` · `consumes:` · `reads_ids:`; `authored` may carry the quality block) | `steps:` |
+| `output` | `tool-skills/outputs/<name>/SKILL.md` | `output_kind: rendered \| authored` · `opinionated:` · `formats:` (what a renderer emits); `authored` may carry the quality block | `steps:` |
 | `exchange` | `<instance>/skills/<slug>/SKILL.md` | `direction: pull \| push` · `cadence:` · `reaches:` (its passport) · `lands_via:` (the landing card) | `steps:` |
 
-**The law of ranks, as fields.** `method` has `steps` and no `surfaces`, because a method is reached
-from inside a pass, never routed to. `operation` · `output` · `exchange` have `surfaces` and no
-`steps`, because the goal map is their only door. `step` has both a step number and surfaces: it is the
-target of the router's most-used row.
+**The law of ranks, as fields.** A `method` has `steps` and **no** `surfaces`: it is reached from
+inside a pass, through its section's marker, and is never routed to. A routed kind is the reverse — no
+`steps`, and `surfaces` naming what move 5 owes.
+
+**Who must carry `surfaces` is resolved against the router, not against a list here.** Every `step`
+card, plus every card the [goal map](../goal-map.md) actually routes to, must declare a non-empty
+`surfaces` — a pass that owes no surface has no reason to be a pass (check X reads goal-map.md; a
+second list of routed cards would drift from the first). An operations card that is a **move** rather
+than a pass — `projection` and `orchestration`, invoked from inside moves 2–5 and never routed to —
+declares `surfaces: []`, and that empty list is the honest statement of its rank.
 
 **The law of two homes.** A card ships with the framework → `tool-skills/`. A card is written for one
 product → `<instance>/skills/`. The discriminator is **who authored it**, as objective as the delivery

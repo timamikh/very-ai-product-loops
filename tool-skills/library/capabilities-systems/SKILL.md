@@ -1,12 +1,11 @@
 ---
-name: capabilities-systems
+node_type: card
 kind: method
-produces: capabilities
-reads_registers: [risks]
-writes_registers: [risks]
-inputs: [interview, kb]
+name: capabilities-systems
+steps: [4]
 prerequisites: [strategy-cascade]
-used_by_steps: [4]
+reads: [register:risks, source:interview, source:kb]
+writes: [worklog, section:capabilities, register:risks]
 opinionated: true
 method_basis: "Playing to Win (Lafley/Martin) — choices 4 & 5 of the cascade: must-have capabilities and the management systems that build and measure them"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Capabilities & Management Systems
 
 Name **what the organization must be great at** for the chosen strategy to work — and **the

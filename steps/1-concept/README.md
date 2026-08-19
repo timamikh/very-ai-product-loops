@@ -1,16 +1,20 @@
 ---
-node_type: step
-step: 1
+node_type: card
+kind: step
 name: concept
+step: 1
 title: "Step 1 — Concept"
 output: 1-concept.md
+prerequisites: []
+reads: [source:interview, source:kb, source:git, source:metrics]
+writes: [section:*]
+surfaces: [ticks, register:hypotheses, sign-off, change-log]
 cadence: "~ product lifetime; revisit on pivot or major learning"
 method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
 version: 0.6.0
 updated: 2026-08-16
 ---
-
 # Step 1 — Concept
 
 **Goal.** Capture the product concept: who it's for, the problems they have, how the product

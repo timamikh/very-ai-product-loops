@@ -1,12 +1,11 @@
 ---
-name: ab-test
+node_type: card
 kind: method
-produces: hypotheses-to-test
+name: ab-test
+steps: [5]
 prerequisites: [a hypothesis with a threshold and its metric node, enough traffic/sample to detect the effect, a way to randomize and instrument both arms]
-reads_registers: [hypotheses, metrics]
-writes_registers: [hypotheses, metrics]
-inputs: [metrics]
-used_by_steps: [5]
+reads: [register:hypotheses, register:metrics, source:metrics]
+writes: [worklog, section:hypotheses-to-test, register:hypotheses, register:metrics]
 opinionated: false
 method_basis: "Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrail metrics, MDE-driven sizing, pre-registered stopping rule (no peeking)"
 evidence_standard: internal-data
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.2
 updated: 2026-08-09
 ---
-
 # A/B Test
 
 Run a **controlled experiment** when the test picked for a hypothesis is a randomized split:

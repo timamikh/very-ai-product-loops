@@ -1,12 +1,11 @@
 ---
-name: hypothesis-test-design
+node_type: card
 kind: method
-produces: hypotheses-to-test
+name: hypothesis-test-design
+steps: [5]
 prerequisites: [a hypothesis with a threshold, its metric node]
-reads_registers: [hypotheses, metrics]
-writes_registers: [hypotheses]
-inputs: [metrics]
-used_by_steps: [5]
+reads: [register:hypotheses, register:metrics, source:metrics]
+writes: [worklog, section:hypotheses-to-test, register:hypotheses]
 opinionated: false
 method_basis: "Assumption mapping (Bland/Osterwalder) + smallest viable test: metric · threshold · sample/duration · decision rule"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.3.1
 updated: 2026-08-16
 ---
-
 # Hypothesis Test Design
 
 Turn a hypothesis into a **test you can act on**: pick the metric that reflects it, set the

@@ -1,22 +1,20 @@
 ---
+node_type: card
+kind: operation
 name: handoff
-kind: template
-produces: HANDOFF.md
-reads_registers: [hypotheses, risks, metrics]
-writes_registers: []
-inputs: [kb]
 prerequisites:
   - the instance exists (product-loops/ or instances/<name>/ working area)
   - current position in the process is known (step, section, open gate items)
   - open forks and pending human decisions are known
-used_by_steps: [any]
+reads: [register:hypotheses, register:risks, register:metrics, source:kb]
+writes: [file:HANDOFF.md]
+surfaces: [file:HANDOFF.md]
 opinionated: false
 method_basis: "Structured shift-handover (SBAR-style): state · environment checks · open forks · next step"
 status: draft
 version: 0.4.1
 updated: 2026-08-18
 ---
-
 # Handoff — session-to-session state transfer
 
 **What it is.** A tool that writes/updates the instance's `HANDOFF.md` — the file a fresh agent

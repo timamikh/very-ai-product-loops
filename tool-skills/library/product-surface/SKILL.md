@@ -1,12 +1,11 @@
 ---
-name: product-surface
+node_type: card
 kind: method
-produces: product-surface
-reads_registers: []
-writes_registers: []
-inputs: [interview, kb, git]
+name: product-surface
+steps: [3]
 prerequisites: [product-concept, channels-draft]
-used_by_steps: [3]
+reads: [source:interview, source:kb, source:git]
+writes: [worklog, section:product-surface]
 opinionated: false
 method_basis: "Touchpoint mapping + instrumentation planning (every user-interaction surface and every behavior/metric collection point)"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.0
 updated: 2026-08-16
 ---
-
 # Product Surface
 
 Map **every surface through which the product meets the user, and how each is instrumented**.

@@ -1,16 +1,20 @@
 ---
-node_type: step
-step: 5
+node_type: card
+kind: step
 name: tactical-plan
+step: 5
 title: "Step 5 — Tactical Plan"
 output: 5-tactical-plan.md
+prerequisites: [the strategic plan `4-strategic-plan.md` exists]
+reads: [file:4-strategic-plan.md, register:metrics, register:hypotheses, source:metrics]
+writes: [section:*]
+surfaces: [ticks, register:hypotheses, register:risks, register:metrics, sign-off, change-log]
 cadence: "~1–3 mo; stage-gate ~monthly"
 method_basis: "OKR-style goals per direction · targets = metric nodes (go-to-market) or DoD (technical & back-office) · guardrails / red lines (steering-committee reconciliation) · resource survey · go-to-market bundle composition + readiness gate · experiment design · pre-registered readout · prioritization (RICE/ICE)"
 status: draft
 version: 0.3.0
 updated: 2026-08-16
 ---
-
 # Step 5 — Tactical Plan
 
 **Goal.** Set **measurable goals for the period, per work direction**, decide **which

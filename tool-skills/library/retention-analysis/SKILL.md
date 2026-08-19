@@ -1,12 +1,11 @@
 ---
-name: retention-analysis
+node_type: card
 kind: method
-produces: retention
+name: retention-analysis
+steps: [4]
 prerequisites: [usage metrics with a per-user/per-account timestamp, the activation/active definition]
-reads_registers: [metrics, hypotheses]
-writes_registers: [hypotheses, metrics]
-inputs: [metrics, kb]
-used_by_steps: [4]
+reads: [register:metrics, register:hypotheses, source:metrics, source:kb]
+writes: [worklog, section:retention, register:hypotheses, register:metrics]
 opinionated: true
 method_basis: "Cohort retention curve (does it flatten?) + usage-frequency / engagement-loop analysis + resurrection; the flattening retention curve is the PMF signal and the real input to LTV/churn — not an assumed churn %"
 evidence_standard: internal-data
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.2
 updated: 2026-08-09
 ---
-
 # Retention Analysis
 
 Read whether **value repeats**: build the **cohort retention curve** (does it flatten at a

@@ -1,12 +1,11 @@
 ---
-name: pricing-strategy
+node_type: card
 kind: method
-produces: pricing
+name: pricing-strategy
+steps: [3]
 prerequisites: [uvp-cpv, segments, competitor pricing scan]
-reads_registers: [hypotheses]
-writes_registers: [hypotheses]
-inputs: [interview, kb, research]
-used_by_steps: [3]
+reads: [register:hypotheses, source:interview, source:kb, source:research]
+writes: [worklog, section:pricing, register:hypotheses]
 opinionated: true
 method_basis: "Value-based pricing & packaging — value metric selection, tiering/fences (good-better-best), willingness-to-pay (van Westendorp / direct WTP), price relative to the next-best alternative; price is a strategic choice, cost is a floor not the method"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Pricing & Packaging (strategy)
 
 Decide **what we charge and how we package it**: the **value metric** you meter on, the

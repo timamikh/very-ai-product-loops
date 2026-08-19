@@ -112,7 +112,7 @@ step" turns out to be one of these, and each is a dial that costs nothing:
 | What you actually want | The dial |
 |---|---|
 | this stage should focus elsewhere | the status's `per_step` goals and tools |
-| we need content the artifacts don't hold | a library method whose `produces` section is homed in an existing step artifact |
+| we need content the artifacts don't hold | a library method whose written `section:` is homed in an existing step artifact |
 | we need a different output | an adapter |
 | we need another execution stream | `directions` |
 | our stage isn't concept-viability / PMF / growth | a new status |

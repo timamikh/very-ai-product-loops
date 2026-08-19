@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: competitor-dynamics
-kind: research
-produces: competitor-dynamics
-reads_registers: []
-writes_registers: [risks]
-inputs: [research, kb]
+steps: [2]
 prerequisites: [competitor-list]
-used_by_steps: [2]
+reads: [source:research, source:kb]
+writes: [worklog, section:competitor-dynamics, register:risks]
 opinionated: false
 method_basis: "growth-dynamics per competitor from public sources — per-fact-type sourcing, as_of on every number, jurisdiction-neutral"
 evidence_standard: external-sources
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Competitor Dynamics
 
 Capture how each competitor is **trending over time** (revenue, headcount, filings) so strategy

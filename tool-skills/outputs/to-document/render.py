@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """to-document — GENERIC renderer: a markdown content file -> a styled, neutral .docx. Instance-
 agnostic: no product data lives here, only the house-neutral styling — so it travels with the
-framework. The *content* markdown is authored per instance (by the agent, per ADAPTER.md); this
+framework. The *content* markdown is authored per instance (by the agent, per SKILL.md); this
 tool only applies the formatting. Requires python-docx (a docx library is why this is code).
 
 Usage:  render.py CONTENT.md [--out FILE]

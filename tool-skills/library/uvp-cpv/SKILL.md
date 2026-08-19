@@ -1,12 +1,11 @@
 ---
-name: uvp-cpv
+node_type: card
 kind: method
-produces: uvp-cpv
-reads_registers: []
-writes_registers: [hypotheses]
-inputs: [interview, kb]
+name: uvp-cpv
+steps: [3]
 prerequisites: [segments, segment-pains, where-to-play]
-used_by_steps: [3]
+reads: [source:interview, source:kb]
+writes: [worklog, section:uvp-cpv, register:hypotheses]
 opinionated: false
 method_basis: "Dunford positioning + Value Proposition Canvas + customer-perceived value; CVP stated per situation (segment · situation · pain · CVP) for the lead segment before the one-liner"
 evidence_standard: primary-research
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.0
 updated: 2026-08-16
 ---
-
 # UVP & Customer-Perceived Value
 
 Articulate the **unique value proposition** — for whom, what job, versus which alternative, and

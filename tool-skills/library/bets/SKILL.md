@@ -1,12 +1,11 @@
 ---
-name: bets
+node_type: card
 kind: method
-produces: bets
+name: bets
+steps: [3]
 prerequisites: [the job and forces (jtbd), strategy choices (where-to-play / how-to-win), value & defensibility]
-reads_registers: [hypotheses]
-writes_registers: [hypotheses]
-inputs: [interview, kb]
-used_by_steps: [3]
+reads: [register:hypotheses, source:interview, source:kb]
+writes: [worklog, section:bets, register:hypotheses]
 opinionated: false
 method_basis: "Strategic bets framed on the JTBD forces — '<segment> will hire us over <status quo> for <job> because pull > anxiety + habit' — each tied to a named moat; one bet = one typed hypothesis"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Strategic Bets
 
 State the **3–7 wagers the strategy stands on** — each framed on the customer's job, not on our

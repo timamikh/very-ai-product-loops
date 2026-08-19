@@ -1,12 +1,11 @@
 ---
-name: prioritization-tactical-plan
+node_type: card
 kind: method
-produces: period-goals
+name: prioritization-tactical-plan
+steps: [5]
 prerequisites: [candidate items, the period gate/goal, available resources]
-reads_registers: [metrics, hypotheses]
-writes_registers: []
-inputs: []
-used_by_steps: [5]
+reads: [register:metrics, register:hypotheses]
+writes: [worklog, section:period-goals]
 opinionated: false
 method_basis: "RICE/ICE as a ranking aid, ranked by contribution to the period gate; capacity-bounded goal set"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.1
 updated: 2026-08-16
 ---
-
 # Prioritization — Tactical Plan
 
 Rank the period's candidate goals by their **contribution to the gate of the period** — not by an

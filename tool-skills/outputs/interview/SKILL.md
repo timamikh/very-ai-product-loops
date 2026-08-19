@@ -1,12 +1,12 @@
 ---
+node_type: card
+kind: output
 name: interview
-kind: deliverable
-produces: product-loops/export-files/<slug>-interview-guide.md
+output_kind: authored
 prerequisites: [the decision or hypothesis the interview must inform, a candidate segment/persona to talk to]
-reads_registers: [hypotheses]
-writes_registers: []
-inputs: []
-used_by_steps: [1, 2]
+reads: [register:hypotheses]
+writes: [file:product-loops/export-files/<slug>-interview-guide.md]
+surfaces: [file:export-files/*]
 opinionated: false
 method_basis: "Continuous discovery (Torres) + The Mom Test (Fitzpatrick) — non-leading questions, past behaviour over hypotheticals"
 evidence_standard: primary-research
@@ -17,7 +17,6 @@ status: draft
 version: 0.2.0
 updated: 2026-08-16
 ---
-
 # Interview (prep)
 
 Prepare an interview that actually produces learning: name the **goal** (which decision or

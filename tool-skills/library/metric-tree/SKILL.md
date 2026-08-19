@@ -1,15 +1,14 @@
 ---
-name: metric-tree
+node_type: card
 kind: method
-produces: metric-tree
-reads_registers: [metrics, hypotheses]
-writes_registers: [metrics]
-inputs: [metrics, kb]
+name: metric-tree
+steps: [4]
 prerequisites:
   - strategy exists (how-to-win logic — the tree must encode it, not generic SaaS)
   - metric register seeded with captured readings (metrics.csv) and instrumentation status per node
   - the product's paying/value base numbers (who pays, what they do)
-used_by_steps: [4]
+reads: [register:metrics, register:hypotheses, source:metrics, source:kb]
+writes: [worklog, section:metric-tree, register:metrics]
 opinionated: true
 method_basis: "North Star Framework (Amplitude); anti-lamppost — right metric over measurable"
 evidence_standard: decision
@@ -20,7 +19,6 @@ status: draft
 version: 0.3.0
 updated: 2026-08-16
 ---
-
 # Metric tree — North Star → drivers → inputs
 
 **Method basis:** North Star Framework (Amplitude). One metric the whole team steers by; a small

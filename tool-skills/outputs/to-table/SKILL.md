@@ -1,17 +1,18 @@
 ---
+node_type: card
+kind: output
 name: to-table
-kind: adapter
-mode: table
-consumes: [registers, artifacts]
-reads_ids: [hypotheses, risks, metric-tree, metrics.csv, "<any artifact section with a table>"]
-produces: A shareable table from a register or artifact section — CSV by default; a single multi-tab .xlsx when several datasets are asked for together
-formats: [csv, xlsx, markdown, tsv]
+output_kind: rendered
+prerequisites: []
+reads: [section:*, register:hypotheses, register:risks, register:metric-tree, register:metrics]
+writes: [file:export-files/*]
+surfaces: [file:export-files/*]
 opinionated: false
+formats: [csv, xlsx, markdown, tsv]
 status: draft
 version: 0.2.0
 updated: 2026-07-21
 ---
-
 # to-table
 
 Render a **register or an artifact section** into a **flat, shareable table** — a hypothesis
@@ -74,7 +75,7 @@ python3 render.py <INSTANCE_DIR> \
   --out <INSTANCE_DIR>/deliverables/tables.xlsx
 ```
 
-(CSV and markdown output need no library — the agent can author those directly from this ADAPTER.)
+(CSV and markdown output need no library — the agent can author those directly from this card.)
 
 ## Output shape
 

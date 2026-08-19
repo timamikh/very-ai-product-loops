@@ -17,13 +17,16 @@ mirror of `sources/`: sources are what comes **in** from outside; export-files a
 
 ## Two kinds, one plane
 
-| Kind | Contract file | Mechanic | Source of truth |
-|------|---------------|----------|-----------------|
-| **Renderer** (adapter) | `ADAPTER.md` | **reads** the structured instance, renders a view — never authors content | the instance; the rendered file is **regeneratable**, re-run to refresh |
-| **Authored deliverable** | `SKILL.md` | **authors** a document from the instance's state | the document itself (`node_type: deliverable`) — it is signed and versioned, not regenerated |
+Both are `kind: output` cards in one `SKILL.md`; `output_kind:` is what tells them apart — two
+filenames for one entity was the same defect as two schemas.
 
-- **Renderers**: [`to-table`](to-table/ADAPTER.md) · [`to-document`](to-document/ADAPTER.md) ·
-  [`to-deck`](to-deck/ADAPTER.md).
+| `output_kind` | Mechanic | Source of truth |
+|---------------|----------|-----------------|
+| **`rendered`** (a renderer) | **reads** the structured instance, renders a view — never authors content | the instance; the rendered file is **regeneratable**, re-run to refresh |
+| **`authored`** (a deliverable) | **authors** a document from the instance's state | the document itself (`node_type: deliverable`) — it is signed and versioned, not regenerated |
+
+- **Renderers**: [`to-table`](to-table/SKILL.md) · [`to-document`](to-document/SKILL.md) ·
+  [`to-deck`](to-deck/SKILL.md).
 - **Authored**: [`brief`](brief/SKILL.md) (one-page framing of an initiative) ·
   [`interview`](interview/SKILL.md) (an interview guide the product person runs outside;
   the notes come **back** as a source — see the skill).
@@ -43,9 +46,9 @@ presentable file you can open and present, not a markdown outline.
 
 | Renderer | Mode | Renders | Typical deliverables |
 |----------|------|---------|----------------------|
-| [`to-table`](to-table/ADAPTER.md) | table | a register or artifact section → a flat table | hypothesis scoreboard · metric series · market-bundle registry · sprint backlog |
-| [`to-document`](to-document/ADAPTER.md) | document | selected sections → one compiled document | full strategy doc · weekly test report · status update · a brief re-formatted to `.docx` |
-| [`to-deck`](to-deck/ADAPTER.md) | deck | the instance → a self-contained, presentable HTML deck (one idea per slide), plus a PDF companion once approved | strategy-defense · analysis readout · sprint-review · concept-pitch |
+| [`to-table`](to-table/SKILL.md) | table | a register or artifact section → a flat table | hypothesis scoreboard · metric series · market-bundle registry · sprint backlog |
+| [`to-document`](to-document/SKILL.md) | document | selected sections → one compiled document | full strategy doc · weekly test report · status update · a brief re-formatted to `.docx` |
+| [`to-deck`](to-deck/SKILL.md) | deck | the instance → a self-contained, presentable HTML deck (one idea per slide), plus a PDF companion once approved | strategy-defense · analysis readout · sprint-review · concept-pitch |
 
 ## Base vs. company (the boundary)
 
@@ -65,11 +68,11 @@ A **renderer** is a folder `outputs/<name>/`:
 
 ```
 outputs/<name>/
-  ADAPTER.md   # what it renders · what it consumes (by stable id) · how to render · output shape · anti-patterns
+  SKILL.md     # what it renders · what it reads · how to render · output shape · anti-patterns
   render.py    # a generic, instance-agnostic renderer — shipped where the deliverable format needs a library/engine
 ```
 
-`ADAPTER.md` is an **instruction skill** (the agent selects, orders, and decodes — no build step for
+`SKILL.md` is an **instruction skill** (the agent selects, orders, and decodes — no build step for
 the *reasoning*). **Where the final format needs a library or engine, the renderer also ships a
 generic `render.py`** that reads *any* instance and holds **no product data** — so the render logic
 travels with the framework and the base stays instance-agnostic. All three base renderers carry
@@ -81,16 +84,18 @@ one, which is the canon:
 
 The *content* is still authored per instance by the agent (a deck's HTML, a doc's markdown); the
 renderer only applies the format. Formats the agent can emit directly with no library (CSV, markdown,
-the deck's HTML) need no code. `ADAPTER.md` frontmatter declares the wiring:
+the deck's HTML) need no code. Its frontmatter is a card header like any other:
 
 ```yaml
 ---
+node_type: card
+kind: output
 name: <renderer>
-kind: adapter
-mode: table | document | deck
-consumes: [registers, artifacts]     # what instance data it reads
-reads_ids: [<stable section/register ids it targets>]  # the contract it renders against
-produces: <deliverable description>
+output_kind: rendered                 # rendered (regeneratable view) | authored (signed document)
+prerequisites: []
+reads: [section:*, register:hypotheses, register:metric-tree]   # what instance data it reads
+writes: [file:export-files/*]         # everything leaving the framework lands there
+surfaces: [file:export-files/*]       # what move 5 owes
 formats: [csv, markdown, ...]         # output formats it can emit
 opinionated: false
 status: draft
@@ -101,12 +106,12 @@ updated: <date>
 
 An **authored deliverable** is a folder with the library anatomy (`SKILL.md` ·
 `template-fragment.md` · `questions.yaml`), except its `produces` is a **file in
-`product-loops/export-files/`**, never an artifact section, and its `writes_registers` is empty —
+`product-loops/export-files/`**, never an artifact section, and it writes no register —
 registers are written by the orchestrator through the methods that work the evidence.
 
 ## How to add one
 
-1. Renderer → `outputs/<name>/ADAPTER.md` with the anatomy above; authored → `outputs/<name>/SKILL.md`
+1. Either kind → `outputs/<name>/SKILL.md` with the anatomy above; `output_kind:` says which
    producing a file in `export-files/`.
 2. State exactly which instance IDs it consumes and the output shape it emits.
 3. Register it in the tables above.

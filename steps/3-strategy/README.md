@@ -1,16 +1,20 @@
 ---
-node_type: step
-step: 3
+node_type: card
+kind: step
 name: strategy
+step: 3
 title: "Step 3 — Strategy"
 output: 3-strategy.md
+prerequisites: [the concept and the analysis exist]
+reads: [file:1-concept.md, file:2-analysis.md, source:interview, source:kb]
+writes: [section:*]
+surfaces: [ticks, register:hypotheses, register:risks, sign-off, change-log]
 cadence: "~3–12 mo; reviewed ~quarterly"
 method_basis: "Playing to Win (where-to-play / how-to-win) · Dunford positioning · UVP/CPV · value-based pricing & packaging · channels (Bullseye) · moats revisited (7 Powers) · product surface & instrumentation · C4-context architecture"
 status: draft
 version: 0.3.0
 updated: 2026-08-16
 ---
-
 # Step 3 — Strategy
 
 **Goal (qualitative choices).** Decide **where to play** and **how to win**, and state the

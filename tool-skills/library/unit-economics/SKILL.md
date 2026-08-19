@@ -1,16 +1,15 @@
 ---
-name: unit-economics
+node_type: card
 kind: method
-produces: unit-economics
-reads_registers: [metrics, hypotheses]
-writes_registers: [metrics]
-inputs: [metrics]
+name: unit-economics
+steps: [4]
 prerequisites:
   - revenue and paying-customer counts by tariff (billing)
   - cost lines incl. LLM inference (fact external spend AND own-compute cost: server + hardware depreciation)
   - acquisition channel costs (or an explicit CAC≈0 claim with its source)
   - churn/retention if instrumented — otherwise model as scenarios, never as a guessed constant
-used_by_steps: [4]
+reads: [register:metrics, register:hypotheses, source:metrics]
+writes: [worklog, section:unit-economics, register:metrics]
 opinionated: true
 method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
 evidence_standard: internal-data
@@ -21,7 +20,6 @@ status: draft
 version: 0.2.5
 updated: 2026-08-09
 ---
-
 # Unit economics — does one customer pay for themselves?
 
 **Method basis:** contribution-margin unit economics with **LLM inference as an explicit COGS

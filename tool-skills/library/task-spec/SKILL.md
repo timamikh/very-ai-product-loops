@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: task-spec
-kind: template
-produces: [must, backlog]
+steps: [6]
 prerequisites: [period-goals]
-reads_registers: [hypotheses, metrics, risks]
-writes_registers: []
-inputs: [interview, kb]
-used_by_steps: [6]
+reads: [register:hypotheses, register:metrics, register:risks, source:interview, source:kb]
+writes: [worklog, section:must, section:backlog]
 opinionated: false
 method_basis: "Back-office task description (Description / Why with an M-…/R-…/H-… link / binary DoD / Owner / Estimate)"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Task Spec (back-office direction)
 
 Describe a **back-office** item as a **Task** — the minimal level of detail this framework works at

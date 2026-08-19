@@ -10,10 +10,10 @@ Parsing lives in `tools/loops/` — the one shared read layer, used by this lint
 alike. A second parser would drift from the canon and reintroduce exactly the bugs checked here.
 
 Checks (ERROR fails CI · WARN never does):
-  A  tool `produces` (section form) has a matching `{#id}` in its template-fragment
-  A2 tool `questions.yaml` `produces` matches its SKILL `produces`
-  B  every section-form `produces` is homed in some step's artifact (a step template `{#id}`)
-  C  library index rows <-> tool folders, and index "Steps" <-> SKILL `used_by_steps`
+  A  a card's `writes: section:<id>` has a matching `{#id}` in its template-fragment
+  A2 tool `questions.yaml` `produces` matches the sections its card writes
+  B  every written section is homed in some step's artifact (a step template `{#id}`)
+  C  library index rows <-> tool folders, and index "Steps" <-> the card's `steps`
   D  register enums per instance (hypothesis type/status/confidence · post-test signal/decision ·
      risk category/status · metric kind/instrumentation; signal/decision enforced-if-present)
   E  metrics.csv ids are a subset of metric-tree.md ids
@@ -25,9 +25,8 @@ Checks (ERROR fails CI · WARN never does):
   K  a register `id` cell names exactly one item (one row = one id)
   L  every library tool carries the quality declaration (evidence_standard · volume_rule ·
      selection_rule · rejects_shown), with legal values and internally consistent
-  M  every vendored operations skill declares its wiring (name · kind · produces · used_by_steps ·
-     status · version), has the template-fragment its `produces` implies, and matches the
-     operations index row for row
+  M  a vendored operations card has the template-fragment its written sections imply, and the
+     operations index matches its folders row for row (the card core is check X's)
   N  a shipped subagent definition (.claude/agents/loops-*.md) carries only its kind's allowed write tool (loops-draft: Write; others: none)
   O  column keys live only on the step template (form of record) and are well-formed there
      (all-keyed-or-none, unique); a key in a method template is an error — the draft is matched by meaning
@@ -45,13 +44,19 @@ Checks (ERROR fails CI · WARN never does):
      legacy file WARNs); a passport (sources/access/*) is not an all-`— to clarify —` invented stub
      (WARN); an instance exchange skill (<instance>/skills/<slug>/) has a SKILL.md, and a `cadence:`
      needs a `last_run` in state.yaml (WARN); a worklog never links another STEP's worklog (ERROR)
-  U  a library method serves exactly one step (used_by_steps has one entry)
+  U  a library method serves exactly one step (`steps` has one entry)
   V  a status's per-step tools list holds library methods only, each with a `<!-- tool: … -->` home
      in that step's template (how data is gathered belongs in the goals prose)
   W  the always-loaded canon (AGENTS.md + OVERVIEW + OPERATING-LOOP + CONVENTIONS) stays within its
      word budget — WARN past the soft ceiling, ERROR past the hard one (EXTENDING -> subtraction rule)
   Y  questions.yaml is machine-readable: every question `type` is from the shared vocabulary
      (no `type: x_from: y` double-colon scalars)
+  X  every card fills the one questionnaire (process/reference/card-schema.md): the core is present,
+     `kind` and the atoms of reads/writes/surfaces come from the controlled vocabularies, the
+     per-kind fields hold (a method has `steps` and no `surfaces` — the law of ranks), and a card the
+     goal map routes to owes a non-empty `surfaces`; an off-schema key WARNs
+  Z  a card's home follows its author: `kind: exchange` only inside an instance's `skills/`, and a
+     framework kind never there
 
 Run:  python3 tools/lint.py            # every instance discoverable from here
       python3 tools/lint.py product    # or name the instance(s) to check
@@ -64,6 +69,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # tools/ -> repo root
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
+from loops import cards as C  # noqa: E402
 from loops import framework as F  # noqa: E402
 from loops import instance as I  # noqa: E402
 from loops import text as T  # noqa: E402
@@ -93,29 +99,28 @@ def rel(path):
 def check_tools(tools, homed):
     for name, t in tools.items():
         fm = t["fm"]
-        produces = T.as_list(fm.get("produces"))
-        secs = [p for p in produces if not T.is_file_produces(p)]
-        # A — produces section present in template-fragment
+        secs = C.sections_written(T.as_list(fm.get("writes")))
+        # A — a written section is present in the template-fragment
         frag = os.path.join(t["dir"], "template-fragment.md")
         frag_ids = T.section_ids(read(frag)) if os.path.exists(frag) else set()
         for sid in secs:
             if sid not in frag_ids:
-                err("A [%s] produces `%s` but its template-fragment.md has no {#%s}"
+                err("A [%s] writes `section:%s` but its template-fragment.md has no {#%s}"
                     % (name, sid, sid))
-        # A2 — questions.yaml produces matches SKILL produces
+        # A2 — questions.yaml `produces` matches the sections the card writes
         q = os.path.join(t["dir"], "questions.yaml")
         if os.path.exists(q):
             mm = re.search(r"^produces:\s*(.+)$", read(q), re.M)
             if mm:
                 qp = set(T.as_list(T.parse_scalar(mm.group(1))))
-                sp = set(produces)
+                sp = set(secs)
                 if qp != sp:
-                    err("A2 [%s] questions.yaml produces %s != SKILL produces %s"
+                    err("A2 [%s] questions.yaml produces %s != the sections the card writes %s"
                         % (name, sorted(qp), sorted(sp)))
-        # B — every section-form produces is homed in a step artifact
+        # B — every written section is homed in a step artifact
         for sid in secs:
             if sid not in homed:
-                err("B [%s] produces section `%s` with no home — not in any step template {#%s} "
+                err("B [%s] writes `section:%s` with no home — not in any step template {#%s} "
                     "(homeless output)" % (name, sid, sid))
 
 
@@ -143,7 +148,7 @@ def _missing(v):
     """A required frontmatter key that is absent or empty — for keys whose legal value may be a list.
 
     Distinct from `_blank`, which is stricter on purpose: the quality keys are single words or one
-    sentence, so a list there is a mistake, while `used_by_steps: [any]` is the canon spelling.
+    sentence, so a list there is a mistake.
     """
     return v is None or v == "" or v == [] or v == {}
 
@@ -180,17 +185,14 @@ def check_quality(tools):
                 "shows what it cut and why" % (name, " and ".join("`%s`" % c for c in cuts)))
 
 
-OPS_REQUIRED = ("name", "kind", "produces", "used_by_steps", "status", "version")
-SECTION_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 
 
 def check_operations():
-    """M — vendored operations skills obey the wiring rules too.
+    """M — a vendored operations card's sections are homed, and the plane's index matches its folders.
 
-    They were the one plane nothing checked: `library/` had checks A-C and a product's own skills had
-    check I, while an operations skill could declare anything at all. Its `produces` is a file or a
-    prose note far more often than a section id, so only a real section-form value is held to the
-    template-fragment/homing rule.
+    The card core (name · kind · the three perimeter fields) is check X's, for every plane at once —
+    a second presence test here would be two mechanisms for one rule, and it read an empty list as a
+    missing field when an empty list is a *declaration* that the card touches nothing there.
     """
     homed = F.homed_sections(ROOT)
     names = set()
@@ -198,20 +200,14 @@ def check_operations():
         d = os.path.dirname(skill)
         name = os.path.basename(d)
         fm, _ = T.frontmatter(skill)
-        for key in OPS_REQUIRED:
-            if key not in fm or _missing(fm.get(key)):
-                err("M [%s] operations skill declares no `%s`" % (name, key))
-        if fm.get("name") and fm["name"] != name:
-            err("M [%s] frontmatter name is `%s` — it must match the folder" % (name, fm["name"]))
-        for p in T.as_list(fm.get("produces")):
-            if T.is_file_produces(p) or not SECTION_ID_RE.match(str(p)):
-                continue  # a file, or prose about what it produces — not a section id
+        for p in C.sections_written(T.as_list(fm.get("writes"))):
             frag = os.path.join(d, "template-fragment.md")
             frag_ids = T.section_ids(read(frag)) if os.path.exists(frag) else set()
             if p not in frag_ids:
-                err("M [%s] produces `%s` but its template-fragment.md has no {#%s}" % (name, p, p))
+                err("M [%s] writes `section:%s` but its template-fragment.md has no {#%s}"
+                    % (name, p, p))
             if p not in homed:
-                err("M [%s] produces section `%s` with no home in any step template" % (name, p))
+                err("M [%s] writes `section:%s` with no home in any step template" % (name, p))
         if not os.path.exists(os.path.join(d, "template-fragment.md")):
             warn("M [%s] has no template-fragment.md — the shape it produces is described in prose "
                  "only, so two runs can produce two shapes" % name)
@@ -225,6 +221,125 @@ def check_operations():
         err("M operations skill `%s` has a folder but no row in operations/README.md" % missing)
     for extra in sorted(listed - names):
         err("M operations/README.md lists `%s` with no skill folder" % extra)
+
+
+def _cards(inst=None):
+    """Every card in the tree: the framework's five planes, plus a product's own."""
+    out = []
+    for f in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "README.md"))):
+        out.append((f, "steps"))
+    for plane in ("library", "operations", "outputs"):
+        for f in sorted(glob.glob(os.path.join(ROOT, "tool-skills", plane, "*", "SKILL.md"))):
+            out.append((f, plane))
+    if inst:
+        for f in sorted(glob.glob(os.path.join(inst, "skills", "*", "SKILL.md"))):
+            out.append((f, "instance-skills"))
+        for plane in ("library", "operations", "outputs"):
+            for f in sorted(glob.glob(os.path.join(inst, "tool-skills", plane, "*", "SKILL.md"))):
+                out.append((f, plane))
+    return out
+
+
+def routed_cards():
+    """The cards the goal map actually routes to — read from goal-map.md, never a second list.
+
+    `surfaces` is what move 5 owes, so it is required of exactly the cards a pass can start at. A
+    hand-kept list here would drift from the router within a wave; reading the router keeps the two
+    honest by construction.
+    """
+    text = read(os.path.join(ROOT, "process", "goal-map.md"))
+    cut = re.search(r"^##\s+Passes", text, re.M)
+    table = text[cut.start():] if cut else text
+    table = table[:table.find("\n## ", 10)] if "\n## " in table[10:] else table
+    named = set(re.findall(r"tool-skills/(?:operations|outputs)/([a-z0-9-]+)/SKILL\.md", table))
+    planes = set()
+    if "tool-skills/outputs/" in table:
+        planes.add("outputs")
+    if "<instance>/skills/" in table:
+        planes.add("exchange")
+    return named, planes
+
+
+def check_card_schema(inst=None):
+    """X — every card fills the one questionnaire (process/reference/card-schema.md).
+
+    This is the machine half of the wave's two load-bearing invariants: one entity with one schema
+    (so a role cannot grow a second header shape), and ranks that do not mix (a method is never a
+    routing target). It validates field **values** against the controlled vocabularies, not merely
+    that the fields exist — a check that only asks "is `reads` present?" leaves every card free to
+    describe its inputs its own way, and the single structure is nominal.
+    """
+    named, planes = routed_cards()
+    for path, plane in _cards(inst):
+        fm, _ = T.frontmatter(path)
+        d = os.path.dirname(path)
+        folder = os.path.basename(d)
+        label = rel(path)
+        kind = str(fm.get("kind", "")).strip()
+        if fm.get("node_type") != "card":
+            err("X [%s] node_type is `%s` — every instruction an agent acts on is `card`"
+                % (label, fm.get("node_type", "(absent)")))
+        if kind not in C.KINDS:
+            err("X [%s] kind `%s` is not one of %s" % (label, kind or "(absent)", " · ".join(C.KINDS)))
+            continue
+        for key in C.CORE:
+            if key in C.FORBIDDEN_BY_KIND.get(kind, ()):
+                continue          # the law of ranks removes it for this kind — see below
+            if key not in fm:
+                err("X [%s] declares no `%s` — the core every card carries" % (label, key))
+        # name threads the id: folder, frontmatter, worklog. A step folder carries its number.
+        expected = re.sub(r"^[0-9]+-", "", folder)
+        if str(fm.get("name", "")).strip().strip('"') not in ("", expected):
+            err("X [%s] frontmatter name is `%s` — it must match the folder (`%s`)"
+                % (label, fm.get("name"), expected))
+        for field in ("reads", "writes", "surfaces"):
+            if field not in fm:
+                continue
+            for defect in C.atom_errors(field, T.as_list(fm.get(field))):
+                err("X [%s] %s" % (label, defect))
+        for key in C.REQUIRED_BY_KIND.get(kind, ()):
+            if key not in fm:
+                err("X [%s] a `%s` card declares no `%s`" % (label, kind, key))
+        for key in C.FORBIDDEN_BY_KIND.get(kind, ()):
+            if key in fm:
+                err("X [%s] a `%s` card may not carry `%s` — the law of ranks (card-schema.md)"
+                    % (label, kind, key))
+        must_surface = (kind in C.NEEDS_SURFACES or folder in named
+                        or (kind == "output" and "outputs" in planes)
+                        or (kind == "exchange" and "exchange" in planes))
+        if must_surface and not T.as_list(fm.get("surfaces")):
+            err("X [%s] the goal map routes to this card, so move 5 owes something — `surfaces` "
+                "is empty" % label)
+        if kind == "output" and str(fm.get("output_kind", "")) not in C.OUTPUT_KINDS:
+            err("X [%s] output_kind `%s` is not %s"
+                % (label, fm.get("output_kind"), " | ".join(C.OUTPUT_KINDS)))
+        if kind == "exchange" and str(fm.get("direction", "")) not in C.DIRECTIONS:
+            err("X [%s] direction `%s` is not %s"
+                % (label, fm.get("direction"), " | ".join(C.DIRECTIONS)))
+        for key in fm:
+            if key not in C.known_fields(kind):
+                warn("X [%s] unknown card field `%s` — a key outside card-schema.md cannot quietly "
+                     "become de-facto schema" % (label, key))
+
+
+def check_card_home(inst=None):
+    """Z — a card's home is decided by who authored it, not by what it is about.
+
+    The discriminator is as objective as the delivery channel in `sources/`: shipped with the
+    framework -> `tool-skills/`; written for one product -> `<instance>/skills/`. Without this, a
+    product's own procedure lands on the framework shelf and the next re-vendoring erases it.
+    """
+    for path, plane in _cards(inst):
+        fm, _ = T.frontmatter(path)
+        kind = str(fm.get("kind", "")).strip()
+        label = rel(path)
+        if plane == "instance-skills" and kind != "exchange":
+            err("Z [%s] a card in a product's `skills/` is `kind: %s` — that home holds the "
+                "product's own exchange cards; a framework kind belongs in tool-skills/"
+                % (label, kind or "(absent)"))
+        if kind == "exchange" and plane != "instance-skills":
+            err("Z [%s] `kind: exchange` outside an instance's `skills/` — an exchange card is "
+                "written for one product and must not ship with the framework" % label)
 
 
 WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Bash"}
@@ -280,7 +395,7 @@ def check_index(tools):
     for extra in sorted(listed - folders):
         # index may list planned tools; flag only if it claims a folder path
         warn("C index lists `%s` with no tool folder" % extra)
-    # Steps column vs used_by_steps
+    # Steps column vs the card's `steps`
     for line in idx.splitlines():
         m = re.match(r"^\|\s*`([a-z0-9-]+)`\s*\|[^|]*\|[^|]*\|\s*([0-9, ]+)\|", line)
         if not m:
@@ -288,9 +403,9 @@ def check_index(tools):
         name, steps_col = m.group(1), m.group(2)
         idx_steps = sorted(s.strip() for s in steps_col.split(",") if s.strip())
         if name in tools:
-            ubs = sorted(str(x) for x in T.as_list(tools[name]["fm"].get("used_by_steps")))
+            ubs = sorted(str(x) for x in T.as_list(tools[name]["fm"].get("steps")))
             if idx_steps and ubs and idx_steps != ubs:
-                err("C [%s] index Steps %s != SKILL used_by_steps %s" % (name, idx_steps, ubs))
+                err("C [%s] index Steps %s != card `steps` %s" % (name, idx_steps, ubs))
 
 
 def check_instance(inst):
@@ -512,9 +627,9 @@ def check_single_step(tools):
     separate `<name>-<step>` skill, a different operation is a differently named one (EXTENDING.md).
     """
     for name, t in sorted(tools.items()):
-        steps = T.as_list(t["fm"].get("used_by_steps"))
+        steps = T.as_list(t["fm"].get("steps"))
         if len(steps) != 1:
-            err("U [%s] used_by_steps %s — a library method serves exactly one step; a second step "
+            err("U [%s] steps %s — a library method serves exactly one step; a second step "
                 "is a second skill (see EXTENDING.md)" % (name, steps))
 
 
@@ -533,7 +648,7 @@ def check_status_tools(tools):
             names.update(x.strip() for x in m.split(","))
         step_tools[n] = names
     other = {}
-    for plane, fname in (("operations", "SKILL.md"), ("outputs", "SKILL.md"), ("outputs", "ADAPTER.md")):
+    for plane, fname in (("operations", "SKILL.md"), ("outputs", "SKILL.md")):
         for p in glob.glob(os.path.join(ROOT, "tool-skills", plane, "*", fname)):
             other[os.path.basename(os.path.dirname(p))] = plane
     for st in F.statuses(ROOT):
@@ -635,21 +750,20 @@ def check_local_skills(inst):
             d = os.path.dirname(skill)
             local = os.path.basename(d)
             fm, _ = T.frontmatter(skill)
-            produces = T.as_list(fm.get("produces"))
-            if not produces:
-                err("I [%s] local skill `%s` declares no `produces`" % (name, local))
-            secs = [p for p in produces if not T.is_file_produces(p)]
+            if "writes" not in fm:
+                err("I [%s] local card `%s` declares no `writes`" % (name, local))
+            secs = C.sections_written(T.as_list(fm.get("writes")))
             frag = os.path.join(d, "template-fragment.md")
             frag_ids = T.section_ids(read(frag)) if os.path.exists(frag) else set()
             for sid in secs:
                 if sid not in homed:
-                    err("I [%s] local skill `%s` produces section `%s` with no home in any step template"
-                        % (name, local, sid))
+                    err("I [%s] local card `%s` writes `section:%s` with no home in any step "
+                        "template" % (name, local, sid))
                 if sid not in frag_ids:
-                    err("I [%s] local skill `%s` produces `%s` but its template-fragment.md has no {#%s}"
-                        % (name, local, sid, sid))
-            if not T.as_list(fm.get("used_by_steps")):
-                warn("I [%s] local skill `%s` names no `used_by_steps` — no step reaches it" % (name, local))
+                    err("I [%s] local card `%s` writes `section:%s` but its template-fragment.md "
+                        "has no {#%s}" % (name, local, sid, sid))
+            if not T.as_list(fm.get("steps")):
+                warn("I [%s] local card `%s` names no `steps` — no step reaches it" % (name, local))
 
 
 def check_links():
@@ -956,6 +1070,8 @@ def main(argv=()):
     check_single_step(tools)
     check_status_tools(tools)
     check_operations()
+    check_card_schema()
+    check_card_home()
     check_subagent_defs()
     check_column_keys()
     check_schema_not_confirmed()
@@ -965,6 +1081,8 @@ def main(argv=()):
         check_instance(inst)
         check_config(inst)
         check_local_skills(inst)
+        check_card_schema(inst)
+        check_card_home(inst)
         check_worklogs(inst)
         check_boundary(inst)
         check_instance_conformance(inst)

@@ -1,16 +1,20 @@
 ---
-node_type: step
-step: 2
+node_type: card
+kind: step
 name: analysis
+step: 2
 title: "Step 2 — Analysis"
 output: 2-analysis.md
+prerequisites: [the concept artifact `1-concept.md` exists]
+reads: [file:1-concept.md, source:research, source:kb, source:interview]
+writes: [section:*]
+surfaces: [ticks, register:hypotheses, register:risks, sign-off, change-log]
 cadence: "~6–12 mo view; revisit ~quarterly or on a market shift"
 method_basis: "TAM/SAM/SOM (bottom-up preferred) · competitor 'what game are they playing' · substitutes incl. do-nothing · light Five Forces for niche risk"
 status: draft
 version: 0.2.0
 updated: 2026-07-18
 ---
-
 # Step 2 — Analysis
 
 **Goal.** Understand the market and the competition well enough to conclude **where the

@@ -1,16 +1,20 @@
 ---
-node_type: step
-step: 4
+node_type: card
+kind: step
 name: strategic-plan
+step: 4
 title: "Step 4 — Strategic Plan"
 output: 4-strategic-plan.md
+prerequisites: [the strategy artifact `3-strategy.md` exists]
+reads: [file:3-strategy.md, source:metrics, source:research, source:kb]
+writes: [section:*]
+surfaces: [ticks, register:hypotheses, register:risks, register:metric-tree, sign-off, change-log]
 cadence: "~3–12 mo; with strategy / on a financial or metric shift"
 method_basis: "Instrumentation mapping · North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · horizon targets off the projection · pricing margin revisit · capabilities & management systems (PTW choices 4–5) · risk mitigation (owner · trigger · due) · hypothesis thresholds"
 status: draft
 version: 0.5.0
 updated: 2026-08-16
 ---
-
 # Step 4 — Strategic Plan
 
 **Goal (quantitative instruments).** Make the strategy **measurable, financed, and de-risked**.

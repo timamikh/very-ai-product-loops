@@ -1,12 +1,11 @@
 ---
-name: segmentation
+node_type: card
 kind: method
-produces: segments
-reads_registers: []
-writes_registers: [hypotheses]
-inputs: [interview, kb, metrics]
+name: segmentation
+steps: [1]
 prerequisites: [concept, audience-knowledge-or-analytics]
-used_by_steps: [1]
+reads: [source:interview, source:kb, source:metrics]
+writes: [worklog, section:segments, register:hypotheses]
 opinionated: false
 method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
 evidence_standard: primary-research
@@ -17,7 +16,6 @@ status: draft
 version: 0.5.0
 updated: 2026-08-16
 ---
-
 # Segmentation
 
 Define **who the product is for** and how the audience is cut into segments. Fills the

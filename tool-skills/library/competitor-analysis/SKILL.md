@@ -1,12 +1,11 @@
 ---
-name: competitor-analysis
+node_type: card
 kind: method
-produces: [competitors, competitor-strategy]
-reads_registers: []
-writes_registers: [risks, hypotheses]
-inputs: [research, kb, interview]
+name: competitor-analysis
+steps: [2]
 prerequisites: [product-concept, competitor-list-seed]
-used_by_steps: [2]
+reads: [source:research, source:kb, source:interview]
+writes: [worklog, section:competitors, section:competitor-strategy, register:risks, register:hypotheses]
 opinionated: false
 method_basis: "'What game are they playing' + moat comparison (pricing scan and growth-dynamics are separate methods)"
 evidence_standard: external-sources
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.1
 updated: 2026-08-16
 ---
-
 # Competitor Analysis
 
 Map the competition and, crucially, **what game each competitor plays and how well it's

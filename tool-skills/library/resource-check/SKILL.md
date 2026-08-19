@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: resource-check
-kind: research
-produces: resources
-reads_registers: []
-writes_registers: []
-inputs: [interview]
+steps: [5]
 prerequisites: []
-used_by_steps: [5]
+reads: [source:interview]
+writes: [worklog, section:resources]
 opinionated: false
 method_basis: "Lightweight capacity survey (people · budget · time); full resource planning is a future integration"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.3
 updated: 2026-08-09
 ---
-
 # Resource Check
 
 Assess **what resources are actually available this period** before committing to goals. Fills

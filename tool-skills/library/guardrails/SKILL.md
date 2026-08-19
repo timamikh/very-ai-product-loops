@@ -1,12 +1,11 @@
 ---
-name: guardrails
+node_type: card
 kind: method
-produces: guardrails
-reads_registers: [metrics, risks]
-writes_registers: [risks]
-inputs: [interview, metrics]
+name: guardrails
+steps: [5]
 prerequisites: [metric-tree, period-goals]
-used_by_steps: [5]
+reads: [register:metrics, register:risks, source:interview, source:metrics]
+writes: [worklog, section:guardrails, register:risks]
 opinionated: false
 method_basis: "Guardrail metrics + red lines (steering-committee reconciliation pattern)"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.4
 updated: 2026-08-09
 ---
-
 # Guardrails
 
 Define **what must not drop while we chase the period's goals** — the metrics and limits we

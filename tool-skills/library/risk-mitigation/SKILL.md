@@ -1,12 +1,11 @@
 ---
-name: risk-mitigation
+node_type: card
 kind: method
-produces: [risk-mitigation]
-reads_registers: [risks]
-writes_registers: [risks]
-inputs: [interview, kb]
+name: risk-mitigation
+steps: [4]
 prerequisites: [carried risks in the R- register]
-used_by_steps: [4]
+reads: [register:risks, source:interview, source:kb]
+writes: [worklog, section:risk-mitigation, register:risks]
 opinionated: false
 method_basis: "Risk-register upkeep: mitigation + owner + observable trigger + review date per carried risk; lifecycle status written back"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.4.0
 updated: 2026-08-16
 ---
-
 # Risk Mitigation
 
 Make every carried risk **managed**: each `R-…` gets a **mitigation**, an **owner**, an

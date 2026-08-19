@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: substitutes
-kind: research
-produces: substitutes
+steps: [2]
 prerequisites: [the job/segment]
-reads_registers: []
-writes_registers: [risks]
-inputs: [interview, kb, research]
-used_by_steps: [2]
+reads: [source:interview, source:kb, source:research]
+writes: [worklog, section:substitutes, register:risks]
 opinionated: false
 method_basis: "JTBD-competition — alternatives incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes"
 evidence_standard: external-sources
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.3
 updated: 2026-08-09
 ---
-
 # Substitutes
 
 Map the **non-obvious competition** — everything the customer could use instead of us to get the

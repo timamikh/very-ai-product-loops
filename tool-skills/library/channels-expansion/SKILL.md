@@ -1,12 +1,11 @@
 ---
-name: channels-expansion
+node_type: card
 kind: method
-produces: channels-expansion
-reads_registers: []
-writes_registers: [hypotheses, risks]
-inputs: [interview, kb, research]
+name: channels-expansion
+steps: [3]
 prerequisites: [segments, uvp]
-used_by_steps: [3]
+reads: [source:interview, source:kb, source:research]
+writes: [worklog, section:channels-expansion, register:hypotheses, register:risks]
 opinionated: false
 method_basis: "Bullseye framework (Traction, Weinberg/Mares) + GTM-motion choice + expansion-path thinking"
 evidence_standard: external-sources
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.1
 updated: 2026-08-16
 ---
-
 # Channels & Expansion
 
 Rank the **acquisition / communication channels** to test now, and lay out the **expansion path**

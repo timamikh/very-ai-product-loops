@@ -1,12 +1,11 @@
 ---
-name: concept-expansion
+node_type: card
 kind: method
-produces: solution
-reads_registers: []
-writes_registers: [hypotheses]
-inputs: [interview, kb]
+name: concept-expansion
+steps: [1]
 prerequisites: [concept, ranked-problems]
-used_by_steps: [1]
+reads: [source:interview, source:kb]
+writes: [worklog, section:solution, register:hypotheses]
 opinionated: false
 method_basis: "problem→solution mapping — every ranked pain gets its mechanism; no orphan features"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Concept Expansion
 
 Expand the concept into a **problem→solution mapping**: for each ranked problem, *how* the product

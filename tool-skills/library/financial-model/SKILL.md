@@ -1,16 +1,15 @@
 ---
-name: financial-model
+node_type: card
 kind: method
-produces: financial-model
-reads_registers: [metrics, hypotheses, risks]
-writes_registers: [metrics]
-inputs: [metrics]
+name: financial-model
+steps: [4]
 prerequisites:
   - metric tree exists (drivers are the model's inputs — no tree, no model)
   - unit economics computed (ARPPU, contribution, both bases)
   - current run-rate (MRR/revenue/cost lines) from the metric register
   - capacity constraints (slot caps, registration caps, compute limits) — explicit
-used_by_steps: [4]
+reads: [register:metrics, register:hypotheses, register:risks, source:metrics]
+writes: [worklog, section:financial-model, register:metrics]
 opinionated: true
 method_basis: "Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint"
 evidence_standard: derived
@@ -21,7 +20,6 @@ status: draft
 version: 0.2.2
 updated: 2026-08-09
 ---
-
 # Financial model — a simple projection off the metric tree
 
 The projection's inputs are the metric tree's driver nodes (new paying, churn, ARPPU,

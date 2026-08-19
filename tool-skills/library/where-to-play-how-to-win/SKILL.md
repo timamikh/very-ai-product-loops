@@ -1,12 +1,11 @@
 ---
-name: where-to-play-how-to-win
+node_type: card
 kind: method
-produces: [winning-aspiration, where-to-play, how-to-win]
-reads_registers: [hypotheses]
-writes_registers: [hypotheses]
-inputs: [kb, interview]
+name: where-to-play-how-to-win
+steps: [3]
 prerequisites: [product-concept, market-analysis, value-moats]
-used_by_steps: [3]
+reads: [register:hypotheses, source:kb, source:interview]
+writes: [worklog, section:winning-aspiration, section:where-to-play, section:how-to-win, register:hypotheses]
 opinionated: true
 method_basis: "Playing to Win (Lafley/Martin) — winning aspiration, where-to-play, how-to-win cascade"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.2.0
 updated: 2026-08-16
 ---
-
 # Where to Play / How to Win
 
 Strategy is **a cascade of integrated choices**, not a plan or a wish list. Fills

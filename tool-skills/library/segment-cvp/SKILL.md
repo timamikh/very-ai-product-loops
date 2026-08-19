@@ -1,12 +1,11 @@
 ---
-name: segment-cvp
+node_type: card
 kind: method
-produces: market-bundles
+name: segment-cvp
+steps: [5]
 prerequisites: [segments, segment-pains]
-reads_registers: [hypotheses]
-writes_registers: [hypotheses]
-inputs: [interview, kb, research]
-used_by_steps: [5]
+reads: [register:hypotheses, source:interview, source:kb, source:research]
+writes: [worklog, section:market-bundles, register:hypotheses]
 opinionated: true
 method_basis: "Market-entry bundle (segment · situation · pain · CVP · offer · first action · channel · signal) with a 6-filter readiness gate and a qualified-action signal scale; one bundle = one testable go-to-market hypothesis"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.3.0
 updated: 2026-08-16
 ---
-
 # Segment–CVP bundle
 
 Assemble the **testable market-entry bundle**: for one segment in one situation with one pain,

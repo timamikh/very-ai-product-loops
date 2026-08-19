@@ -1,17 +1,18 @@
 ---
+node_type: card
+kind: output
 name: to-deck
-kind: adapter
-mode: deck
-consumes: [artifacts, registers]
-reads_ids: ["<one or more step artifacts + their sections>", hypotheses, metric-tree]
-produces: A self-contained, presentable HTML slide deck rendered from the instance — one idea per slide, ready to open and present — and, once the human approves it, a PDF companion beside it for sending by email. Neutral, house-agnostic styling by default; a company adapter re-skins it.
-formats: [html, pdf]
+output_kind: rendered
+prerequisites: []
+reads: [section:*, register:hypotheses, register:metric-tree]
+writes: [file:export-files/*]
+surfaces: [file:export-files/*]
 opinionated: true
+formats: [html, pdf]
 status: draft
 version: 0.3.0
 updated: 2026-07-21
 ---
-
 # to-deck
 
 Turn the instance into a **presentable slide deck** — one idea per slide, each slide

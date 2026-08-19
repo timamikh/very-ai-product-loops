@@ -1,16 +1,20 @@
 ---
-node_type: step
-step: 6
+node_type: card
+kind: step
 name: sprint-plan
+step: 6
 title: "Step 6 — Sprint Plan"
 output: 6-sprint-plan.md
+prerequisites: [the tactical plan `5-tactical-plan.md` exists]
+reads: [file:5-tactical-plan.md, register:hypotheses, register:metrics]
+writes: [section:*]
+surfaces: [ticks, register:hypotheses, register:metrics, sign-off, change-log]
 cadence: "~1–2 wk; every sprint"
 method_basis: "sprint goal tied to the period gate · minimal must-set + prioritized backlog per direction · items in a per-direction format (dev = Feature; go-to-market = Activity; back-office = Task+DoD) · prioritization by contribution to the goal · explicit delivery"
 status: draft
 version: 0.3.0
 updated: 2026-08-16
 ---
-
 # Step 6 — Sprint Plan
 
 **Goal.** Turn the period's goals into **sprint tasks per direction** — a minimal **must** set

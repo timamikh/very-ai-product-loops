@@ -1,15 +1,19 @@
 ---
-node_type: instance-exchange-skill
+node_type: card
+kind: exchange
 name: pull-analytics-weekly
 direction: pull
-cadence: "weekly, Mon"
 reaches: sources/access/product-analytics.md
 lands_via: metrics-capture
+prerequisites: [the passport in `sources/access/` names a reachable point]
+reads: [file:sources/access/product-analytics.md]
+writes: [file:sources/snapshots/*]
+surfaces: [file:sources/snapshots/*, state:last_run]
+cadence: "weekly, Mon"
 status: draft
 version: 0.1.0
 updated: 2026-08-18
 ---
-
 # Pull — weekly product analytics (fictional)
 
 **What it is.** Decksmith's own exchange skill: a repeatable **pull** that captures last week's

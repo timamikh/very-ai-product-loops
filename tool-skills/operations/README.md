@@ -40,8 +40,9 @@ decide the cadence), and **automation** wiring for aggregators.
 
 An operations skill follows the same folder anatomy as a library tool — `SKILL.md`
 (what · when · how · anti-patterns + frontmatter wiring), and any `template-fragment.md` /
-`questions.yaml` it needs. The difference is classification, not packaging: its `used_by_steps` is
-typically `any`, and it reads/writes the instance's operational state rather than a step section.
+`questions.yaml` it needs. The difference is classification, not packaging: it carries no `steps` — the
+[goal map](../../process/goal-map.md) is its door — and it reads/writes the instance's operational
+state rather than a step section.
 
 **Rules stay in the core.** Where an operations skill has normative behavior (e.g. the handoff
 reading order, the "state not rules" guarantee), the authority is `process/` — the skill file

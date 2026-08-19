@@ -1,12 +1,11 @@
 ---
-name: jtbd-concept
+node_type: card
 kind: method
-produces: jtbd
+name: jtbd-concept
+steps: [1]
 prerequisites: [a segment/customer]
-reads_registers: [hypotheses]
-writes_registers: [hypotheses]
-inputs: [interview, kb]
-used_by_steps: [1]
+reads: [register:hypotheses, source:interview, source:kb]
+writes: [worklog, section:jtbd, register:hypotheses]
 opinionated: false
 method_basis: "Jobs-to-be-Done — Christensen 'progress' + Ulwick ODI: job statement · forces (push/pull/anxiety/habit) · desired outcomes"
 evidence_standard: primary-research
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Jobs-to-be-Done (concept)
 
 Frame the **job** a customer hires the product to do — the *progress they want in a

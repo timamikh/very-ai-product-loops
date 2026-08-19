@@ -1,12 +1,11 @@
 ---
-name: strategic-targets
+node_type: card
 kind: method
-produces: strategic-targets
-reads_registers: [metrics]
-writes_registers: []
-inputs: [interview, kb]
+name: strategic-targets
+steps: [4]
 prerequisites: [horizon, metric-tree, financial-model]
-used_by_steps: [4]
+reads: [register:metrics, source:interview, source:kb]
+writes: [worklog, section:strategic-targets]
 opinionated: false
 method_basis: "Horizon commitments read off the driver-based projection: 3–5 key metric nodes × value at the strategy horizon, scenario named, decision-attributed; Step-5 period targets ladder up to these"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Strategic Targets
 
 Commit **what the key metric nodes must reach by the strategy horizon**. Fills

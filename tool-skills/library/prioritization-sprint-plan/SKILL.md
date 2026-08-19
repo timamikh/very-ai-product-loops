@@ -1,12 +1,11 @@
 ---
-name: prioritization-sprint-plan
+node_type: card
 kind: method
-produces: [must, backlog, excluded]
+name: prioritization-sprint-plan
+steps: [6]
 prerequisites: [candidate items, the period gate/goal, available resources]
-reads_registers: [metrics, hypotheses]
-writes_registers: []
-inputs: []
-used_by_steps: [6]
+reads: [register:metrics, register:hypotheses]
+writes: [worklog, section:must, section:backlog, section:excluded]
 opinionated: false
 method_basis: "RICE/ICE as a ranking aid, ranked by contribution to the period gate; capacity-bounded must/backlog line"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.1
 updated: 2026-08-16
 ---
-
 # Prioritization — Sprint Plan
 
 Rank the sprint's candidate items by their **contribution to the gate of the period** — not by an

@@ -1,12 +1,11 @@
 ---
-name: concept-formation
+node_type: card
 kind: method
-produces: idea
-reads_registers: []
-writes_registers: [hypotheses]
-inputs: [interview, kb]
+name: concept-formation
+steps: [1]
 prerequisites: [raw-idea]
-used_by_steps: [1]
+reads: [source:interview, source:kb]
+writes: [worklog, section:idea, register:hypotheses]
 opinionated: false
 method_basis: "April Dunford positioning ('the shift') + problem→solution articulation"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.3.0
 updated: 2026-08-16
 ---
-
 # Concept Formation
 
 Turn a raw idea into a crisp product **concept** and the **shift** it makes. Fills `{#idea}`.

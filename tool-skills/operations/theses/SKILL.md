@@ -1,21 +1,19 @@
 ---
+node_type: card
+kind: operation
 name: theses
-kind: template
-produces: section confirmation markers
-reads_registers: []
-writes_registers: []
-inputs: [kb]
 prerequisites:
   - the step's sections are worked (projected from their worklogs), so there is a result to sign off
   - the human is present — a confirmation is theirs to give and is never delegated or self-issued
-used_by_steps: [any]
+reads: [source:kb]
+writes: [file:section confirmation markers]
+surfaces: [sign-off]
 opinionated: true
 method_basis: "Human sign-off as the semantic gate: the agent presents the section's thesis in plain language, the human confirms THIS version, and the confirmation is stamped on the section and dropped when the section changes. Runs at scope step (one step) or instance (every step, plus cross-step rests-on provenance)"
 status: draft
 version: 0.3.0
 updated: 2026-08-14
 ---
-
 # Theses — walk the human through a step's results and record the sign-off
 
 **What it is.** The pass at [operating-loop](../../../process/OPERATING-LOOP.md) **move 5** where the

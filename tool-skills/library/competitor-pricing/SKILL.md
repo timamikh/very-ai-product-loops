@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: competitor-pricing
-kind: research
-produces: competitor-pricing
-reads_registers: []
-writes_registers: []
-inputs: [research, kb]
+steps: [2]
 prerequisites: [competitor-list]
-used_by_steps: [2]
+reads: [source:research, source:kb]
+writes: [worklog, section:competitor-pricing]
 opinionated: false
 method_basis: "dated pricing scan per competitor — published price with a read-date, never a guess"
 evidence_standard: external-sources
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Competitor Pricing
 
 Capture each competitor's **published pricing with the date you read it**. Fills

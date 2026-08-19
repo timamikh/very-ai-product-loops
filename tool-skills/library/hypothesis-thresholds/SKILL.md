@@ -1,12 +1,11 @@
 ---
-name: hypothesis-thresholds
+node_type: card
 kind: method
-produces: [global-hypotheses]
+name: hypothesis-thresholds
+steps: [4]
 prerequisites: [strategy bets (H-…), the metric tree]
-reads_registers: [hypotheses, metrics]
-writes_registers: [hypotheses]
-inputs: [metrics]
-used_by_steps: [4]
+reads: [register:hypotheses, register:metrics, source:metrics]
+writes: [worklog, section:global-hypotheses, register:hypotheses]
 opinionated: false
 method_basis: "Pre-registered read (Bland/Osterwalder assumption mapping): success bar · failure bar · conscious inconclusive zone, each bound to an existing metric node"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Hypothesis Thresholds
 
 Quantify the strategy's bets: each `H-…` carried from `3-strategy.md#bets` gets a **success

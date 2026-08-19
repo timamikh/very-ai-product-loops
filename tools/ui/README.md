@@ -218,8 +218,9 @@ Two rules hold there:
 ### Skills
 
 The *Skills* tab shows every skill the agent can reach — the vendored `library` · `operations` ·
-`outputs`, plus the product's own local skills — with its wiring (produces · steps · prerequisites ·
-registers · inputs), its files, and a `homeless` flag when a declared section has no home in any step
+`outputs`, plus the product's own local skills — with its card header (reads ·
+writes · surfaces · prerequisites · steps), its files, and a `homeless` flag when a written section
+has no home in any step
 artifact (the linter's check B, surfaced before it fails).
 
 Adding or changing a skill is the **agent's** job, asked for in words ("add a method that does X", "adapt

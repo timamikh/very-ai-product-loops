@@ -1,12 +1,12 @@
 ---
+node_type: card
+kind: output
 name: brief
-kind: deliverable
-produces: product-loops/export-files/<slug>-brief.md
+output_kind: authored
 prerequisites: [the problem or opportunity this frames, who it is for, how success will be judged]
-reads_registers: [hypotheses, metrics, risks]
-writes_registers: []
-inputs: []
-used_by_steps: []
+reads: [register:hypotheses, register:metrics, register:risks]
+writes: [file:product-loops/export-files/<slug>-brief.md]
+surfaces: [file:export-files/*]
 opinionated: false
 method_basis: "Structured brief — problem · goal · target metric · scope in/out · constraints · success criteria · decision owner"
 evidence_standard: decision
@@ -17,7 +17,6 @@ status: draft
 version: 0.2.0
 updated: 2026-08-16
 ---
-
 # Brief
 
 A **one-page framing** that aligns a team before work starts — on an initiative, an experiment,

@@ -1,22 +1,20 @@
 ---
+node_type: card
+kind: operation
 name: source-intake
-kind: template
-produces: product-loops/<step-folder>/<tool>.md
-reads_registers: []
-writes_registers: []
-inputs: [kb]
 prerequisites:
   - a raw file in `sources/` (or a new one just added) with a role in `sources/INDEX.md` — a URL becomes a dated extract first (see *A source that is a URL*)
   - the target step's artifact exists, so its `<!-- tool: X -->` markers name the worklogs a source may feed
   - a decision, when a source could feed more than one step, on which it primarily informs — proposed by the agent, confirmed by the human
-used_by_steps: [any]
+reads: [source:kb]
+writes: [file:product-loops/<step-folder>/<tool>.md]
+surfaces: [file:sources/INDEX.md, worklog:*, change-log]
 opinionated: true
 method_basis: "Route, don't reason: every external source is dispatched into the step worklog(s) it informs and cited there, so no artifact ever reaches around a worklog to a raw file"
 status: draft
 version: 0.2.0
 updated: 2026-08-17
 ---
-
 # Source intake — dispatch a raw source into the step worklogs it feeds
 
 **What it is.** The pass that takes an **external source** in `sources/` — legacy material brought in at

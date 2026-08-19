@@ -1,12 +1,11 @@
 ---
-name: pre-mortem
+node_type: card
 kind: method
-produces: product-risks
+name: pre-mortem
+steps: [3]
 prerequisites: [strategy-choices]
-reads_registers: [risks]
-writes_registers: [risks]
-inputs: [interview, kb]
-used_by_steps: [3]
+reads: [register:risks, source:interview, source:kb]
+writes: [worklog, section:product-risks, register:risks]
 opinionated: false
 method_basis: "Pre-mortem (Klein) on the chosen strategy + risk-register triage (probability × impact); disposition of every candidate"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Pre-mortem
 
 Surface the risks to the **chosen strategy** via a **pre-mortem**, triage them by probability ×

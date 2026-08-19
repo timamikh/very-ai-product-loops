@@ -1,12 +1,11 @@
 ---
-name: value-definition-strategy
+node_type: card
 kind: method
-produces: value-defensibility
+name: value-definition-strategy
+steps: [3]
 prerequisites: [the step-1 value-defensibility section, competitor-context, strategy choices (where-to-play / how-to-win)]
-reads_registers: [hypotheses]
-writes_registers: [hypotheses]
-inputs: [interview, kb]
-used_by_steps: [3]
+reads: [register:hypotheses, source:interview, source:kb]
+writes: [worklog, section:value-defensibility, register:hypotheses]
 opinionated: true
 method_basis: "7 Powers (Helmer) revisited at strategy — derivative moats once customers/scale exist, moat trajectory over time; post-AI lens (software isn't the moat, position is)"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Value & Defensibility (strategy revisit)
 
 **Pressure-test how the product wins, now that a strategy exists** — the Step-3 revisit of the

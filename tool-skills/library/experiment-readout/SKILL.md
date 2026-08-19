@@ -1,12 +1,11 @@
 ---
-name: experiment-readout
+node_type: card
 kind: method
-produces: readouts
+name: experiment-readout
+steps: [5]
 prerequisites: [a finished test, its pre-registered decision rule, the measured result]
-reads_registers: [hypotheses, metrics]
-writes_registers: [hypotheses]
-inputs: [metrics]
-used_by_steps: [5]
+reads: [register:hypotheses, register:metrics, source:metrics]
+writes: [worklog, section:readouts, register:hypotheses]
 opinionated: false
 method_basis: "Pre-registered read: result vs the decision rule fixed at design time — signal grade + decision (scale · iterate · reject · research) written back to the hypothesis register; no post-hoc re-thresholding"
 evidence_standard: internal-data
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Experiment Readout
 
 Read a **finished test strictly against its pre-registered decision rule** from

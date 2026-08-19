@@ -5,7 +5,7 @@ the framework. Rendering a PDF needs a browser engine (that's why this is code, 
 this uses whatever Chromium-family browser is already installed (Chrome / Edge / Brave / Chromium)
 via `--headless --print-to-pdf`. No pip install, no bundled browser.
 
-The DECK must carry the standard `@media print` block (see to-deck/ADAPTER.md) so each slide prints
+The DECK must carry the standard `@media print` block (see to-deck/SKILL.md) so each slide prints
 as one landscape page. This tool only drives the browser; the pagination lives in the HTML's CSS.
 
 Usage:  render.py DECK.html [--out FILE]   # default out = DECK.pdf beside the html

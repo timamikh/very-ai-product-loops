@@ -54,20 +54,25 @@ can find and compose it:
 
 ```yaml
 ---
+node_type: card
+kind: method                           # one of five card kinds — process/reference/card-schema.md
 name: <tool>
-kind: method | template | research   # research = gathers inputs the agent can't observe (a survey)
-produces: <section-id | product-loops/path/file.md>  # a section it fills, OR a standalone file it creates
-prerequisites: [<info/artifact/access it needs>]  # checked first; asked for or helped-with if missing
-reads_registers: [metrics, hypotheses] # registers it consumes
-writes_registers: [hypotheses]         # registers it updates
-inputs: [interview, metrics, research, kb]  # source slots it needs — `interview` = returned interview
-                                       # notes (arrive via sources/); `research` = a scoped desk-research
-                                       # pass the method runs itself (`loops-research` briefs, discipline
-                                       # per references/evidence-standards.md); `metrics` = register readings
-used_by_steps: [3]                     # exactly ONE step (linter check U) — a method that would span
+steps: [3]                             # exactly ONE step (linter check U) — a method that would span
                                        # steps is recut: a different operation per step is a second
                                        # skill with its own name; the same operation revisited at
                                        # another step is a per-step variant (`jtbd-concept`, `cjm-strategy`)
+prerequisites: [<info/artifact/access it needs>]  # checked first; asked for or helped-with if missing
+reads: [register:metrics, register:hypotheses, source:interview, source:research, source:kb]
+                                       # the read perimeter of move 2, as atoms. The prefix is
+                                       # mandatory: `metrics` is both a register and a source slot.
+                                       # `source:interview` = returned interview notes (they arrive
+                                       # via sources/); `source:research` = a scoped desk-research pass
+                                       # the method runs itself (`loops-research` briefs, discipline
+                                       # per references/evidence-standards.md)
+writes: [worklog, section:<section-id>, register:hypotheses]
+                                       # the write perimeter of move 4: its worklog, the artifact
+                                       # section it fills, the registers it updates
+# a method carries NO `surfaces` — it is reached from inside a pass, never routed to (law of ranks)
 # --- the quality declaration (all four required; the linter checks them) ---
 evidence_standard: external-sources    # what class of evidence carries this method's claims
 volume_rule: "10–15 situational segments → 20–30 bundles"   # generate-before-you-cut, or n/a

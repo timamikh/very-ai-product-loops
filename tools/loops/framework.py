@@ -8,6 +8,7 @@ import glob
 import os
 import re
 
+from . import cards
 from . import text as T
 from . import yamlite
 
@@ -151,12 +152,11 @@ def tool_cards(root=ROOT):
         cards.append({
             "name": name,
             "kind": fm.get("kind", ""),
-            "produces": T.as_list(fm.get("produces")),
+            "writes": T.as_list(fm.get("writes")),
             "prerequisites": T.as_list(fm.get("prerequisites")),
-            "reads_registers": T.as_list(fm.get("reads_registers")),
-            "writes_registers": T.as_list(fm.get("writes_registers")),
-            "inputs": T.as_list(fm.get("inputs")),
-            "used_by_steps": [str(x) for x in T.as_list(fm.get("used_by_steps"))],
+            "reads": T.as_list(fm.get("reads")),
+            "surfaces": T.as_list(fm.get("surfaces")),
+            "steps": [str(x) for x in T.as_list(fm.get("steps"))],
             "method_basis": fm.get("method_basis", ""),
             "skill": T.rel(t["skill"], root),
             "has_questions": os.path.exists(os.path.join(t["dir"], "questions.yaml")),
@@ -165,7 +165,7 @@ def tool_cards(root=ROOT):
 
 
 def skill_card(path, plane, origin, root=ROOT):
-    """One skill (library method · operations · adapter) as a UI-ready card."""
+    """One card (library method · operation · output) as a UI-ready card."""
     fm, body = T.frontmatter(path)
     d = os.path.dirname(path)
     # the intro paragraph, without the document's own H1 (a card that starts by repeating its title
@@ -195,12 +195,12 @@ def skill_card(path, plane, origin, root=ROOT):
         "plane": plane,                                  # library · operations · outputs
         "origin": origin,                                # vendored (framework) · local (product)
         "kind": fm.get("kind", ""),
-        "produces": T.as_list(fm.get("produces")),
+        "output_kind": fm.get("output_kind", ""),
+        "writes": T.as_list(fm.get("writes")),
         "prerequisites": T.as_list(fm.get("prerequisites")),
-        "reads_registers": T.as_list(fm.get("reads_registers")),
-        "writes_registers": T.as_list(fm.get("writes_registers")),
-        "inputs": T.as_list(fm.get("inputs")),
-        "used_by_steps": [str(x) for x in T.as_list(fm.get("used_by_steps"))],
+        "reads": T.as_list(fm.get("reads")),
+        "surfaces": T.as_list(fm.get("surfaces")),
+        "steps": [str(x) for x in T.as_list(fm.get("steps"))],
         "method_basis": fm.get("method_basis", ""),
         # the quality declaration (library README -> "The quality declaration"); shown so a reader can
         # see what the method claims about its own evidence before running it
@@ -226,29 +226,25 @@ def skills(root=ROOT, instance=None):
     one library with the origin of each entry marked.
     """
     out = []
-    # the outputs plane holds two kinds: renderers (ADAPTER.md — read, never author) and
-    # authored deliverables (SKILL.md — e.g. `brief`, `interview`); both are discovered here
+    # the outputs plane holds two kinds — renderers and authored deliverables — told apart by
+    # `output_kind:` inside one card schema, not by two filenames
     planes = (("library", ("SKILL.md",)),
               ("operations", ("SKILL.md",)),
-              ("outputs", ("SKILL.md", "ADAPTER.md")))
+              ("outputs", ("SKILL.md",)))
     for plane, names in planes:
         for name in names:
             for f in sorted(glob.glob(os.path.join(root, "tool-skills", plane, "*", name))):
                 out.append(skill_card(f, plane, "vendored", root))
     if instance:
         for plane in ("library", "operations", "outputs"):
-            for name in ("SKILL.md", "ADAPTER.md"):
+            for name in ("SKILL.md",):
                 for f in sorted(glob.glob(os.path.join(instance, "tool-skills", plane, "*", name))):
                     out.append(skill_card(f, plane, "local", root))
     homed = homed_sections(root)
     for c in out:
-        # only library methods declare a section id; an outputs skill's `produces` is a file or
-        # prose about a deliverable, so "is it homed in a step artifact" does not apply to it
-        secs = ([p for p in c["produces"] if not T.is_file_produces(p)]
-                if c["plane"] == "library" else [])
-        c["homeless"] = [p for p in secs if p not in homed]
-        if c["plane"] == "outputs":
-            c["produces"] = [T.plain(p)[:200] for p in c["produces"]]
+        # a `section:` atom is a commitment to an artifact anchor, so it must be homed in a step
+        # template; a `file:` or `worklog` atom is not a section and does not apply
+        c["homeless"] = [s for s in cards.sections_written(c["writes"]) if s not in homed]
     return out
 
 

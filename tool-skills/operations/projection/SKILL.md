@@ -1,21 +1,19 @@
 ---
+node_type: card
+kind: operation
 name: projection
-kind: template
-produces: (none of its own — it writes existing artifact sections, each in its method's template-fragment shape)
-reads_registers: []
-writes_registers: []
-inputs: [kb]
 prerequisites:
   - the section's worklog exists and holds the working — a projection with no worklog behind it is the source of truth gone missing (linter check P)
   - the projecting agent is the orchestrator — a subagent never writes the artifact (OPERATING-LOOP → Delegation, the write rule)
-used_by_steps: [any]
+reads: [source:kb]
+writes: [section:*]
+surfaces: []
 opinionated: true
 method_basis: "Single-source publishing: the worklog is the source of truth, the artifact section is its projection — the conclusion re-shaped into the method's fixed fragment schema, every claim carrying its original tag, the section's own headline marked for display, and any human sign-off dropped because the thesis it signed no longer exists"
 status: draft
 version: 0.1.0
 updated: 2026-08-18
 ---
-
 # Projection — write an artifact section from its worklog
 
 **What it is.** The writing move at [operating-loop](../../../process/OPERATING-LOOP.md) **step 6**

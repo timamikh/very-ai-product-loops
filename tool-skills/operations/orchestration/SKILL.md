@@ -1,22 +1,20 @@
 ---
+node_type: card
+kind: operation
 name: orchestration
-kind: template
-produces: (none — a return is integrated into whatever artifact the delegated task targeted)
-reads_registers: [hypotheses, risks, metrics]
-writes_registers: []
-inputs: [kb]
 prerequisites:
   - a pass of the loop already scoped (the step, the section or gate item, the method it needs)
   - the work splits into parts that can be stated without each other — one source, one question, one direction, one artifact to check
   - the orchestrator has the human's session (a subagent must never be the one holding it)
-used_by_steps: [any]
+reads: [register:hypotheses, register:risks, register:metrics, source:kb]
+writes: []
+surfaces: []
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
 version: 0.3.0
 updated: 2026-08-18
 ---
-
 # Orchestration — running one pass with subagents
 
 **What it is.** The procedure the **orchestrator** (the agent holding the human's session) follows

@@ -1,12 +1,11 @@
 ---
-name: value-definition-concept
+node_type: card
 kind: method
-produces: value-defensibility
+name: value-definition-concept
+steps: [1]
 prerequisites: [concept, segments, what-we-have-or-can-build]
-reads_registers: []
-writes_registers: [hypotheses]
-inputs: [interview, kb]
-used_by_steps: [1]
+reads: [source:interview, source:kb]
+writes: [worklog, section:value-defensibility, register:hypotheses]
 opinionated: true
 method_basis: "7 Powers (Helmer) → base moats; post-AI lens (software isn't the moat, position is); derivative moats deferred to Step 3"
 evidence_standard: derived
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Value & Defensibility (concept)
 
 Define **why the product is valuable and why that value is defensible** — the moat — at concept

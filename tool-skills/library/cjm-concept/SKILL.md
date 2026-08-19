@@ -1,12 +1,11 @@
 ---
-name: cjm-concept
+node_type: card
 kind: method
-produces: cjm
+name: cjm-concept
+steps: [1]
 prerequisites: [the segment/persona whose journey this is, the job they are doing]
-reads_registers: [hypotheses]
-writes_registers: [hypotheses]
-inputs: [interview, research]
-used_by_steps: [1]
+reads: [register:hypotheses, source:interview, source:research]
+writes: [worklog, section:cjm, register:hypotheses]
 opinionated: false
 method_basis: "Journey mapping — stages · actions · touchpoints · thoughts/emotions · pains → opportunities; moments that matter"
 evidence_standard: primary-research
@@ -17,7 +16,6 @@ status: draft
 version: 0.1.0
 updated: 2026-08-16
 ---
-
 # Customer Journey Map (concept)
 
 Map **one segment's end-to-end journey doing the job, over time** — the stages, actions,

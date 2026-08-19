@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: feature-spec
-kind: template
-produces: [must, backlog]
-reads_registers: [hypotheses, metrics]
-writes_registers: []
-inputs: [interview, kb]
+steps: [6]
 prerequisites: [period-goals]
-used_by_steps: [6]
+reads: [register:hypotheses, register:metrics, source:interview, source:kb]
+writes: [worklog, section:must, section:backlog]
 opinionated: false
 method_basis: "Feature description at grooming altitude (Description / Scope / Acceptance criteria / Business value / User value / User stories)"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.3.0
 updated: 2026-08-16
 ---
-
 # Feature Spec (development direction)
 
 Describe a **development** item as a **Feature** — the minimal level of detail this framework

@@ -1,22 +1,20 @@
 ---
+node_type: card
+kind: operation
 name: metrics-capture
-kind: research
-produces: product-loops/<step-folder>/metrics-capture.md
-reads_registers: [metrics, hypotheses]
-writes_registers: [metrics]
-inputs: [metrics, kb]
 prerequisites:
   - the question the number must answer (a metric node, a hypothesis, or a gate item that is blocked without it)
   - a reachable source — its passport in `sources/access/`; if none exists, the pass asks the human and records their answers (it never invents one)
   - a decision on who counts (population + exclusions) — proposed by the agent, confirmed by the human
-used_by_steps: [any]
+reads: [register:metrics, register:hypotheses, source:metrics, source:kb]
+writes: [file:product-loops/<step-folder>/metrics-capture.md, register:metrics]
+surfaces: [register:metrics, register:metric-tree, worklog]
 opinionated: true
 method_basis: "Reproducible measurement: a declared population, a declared observation window, a written derivation, and an independent recount before the value is trusted"
 status: draft
 version: 0.3.0
 updated: 2026-08-18
 ---
-
 # Metrics capture — from a source to a register row
 
 **What it is.** The pass that turns a **source** (a database, an analytics tool, an admin panel, a

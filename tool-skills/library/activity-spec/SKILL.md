@@ -1,12 +1,11 @@
 ---
+node_type: card
+kind: method
 name: activity-spec
-kind: template
-produces: [must, backlog]
-reads_registers: [hypotheses, metrics]
-writes_registers: []
-inputs: [interview, kb]
+steps: [6]
 prerequisites: [period-goals]
-used_by_steps: [6]
+reads: [register:hypotheses, register:metrics, source:interview, source:kb]
+writes: [worklog, section:must, section:backlog]
 opinionated: false
 method_basis: "Go-to-market activity at the same altitude as a feature (Description / Scope / Business value / Audience value / Links)"
 evidence_standard: decision
@@ -17,7 +16,6 @@ status: draft
 version: 0.3.1
 updated: 2026-08-16
 ---
-
 # Activity Spec (go-to-market direction)
 
 Describe a **go-to-market** item as an **Activity** — the go-to-market-direction counterpart of a
