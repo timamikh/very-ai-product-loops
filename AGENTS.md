@@ -16,13 +16,14 @@ folder and writes markdown can run this framework — see
 **Read BEFORE any work, in this order (normative, not optional):**
 
 1. `process/OVERVIEW.md` — the philosophy (§1) and the model
-2. `process/OPERATING-LOOP.md` — how one pass of a step runs
-3. `process/CONVENTIONS.md` — notation: tags, IDs, links, markers, change logs
-4. The instance: its `HANDOFF.md` (if present — absence just means no handoff is pending) →
+2. `process/OPERATING-LOOP.md` — the seven-move skeleton every pass runs
+3. `process/goal-map.md` — the router: which trigger becomes which card
+4. `process/CONVENTIONS.md` — notation: tags, IDs, links, markers, change logs
+5. The instance: its `HANDOFF.md` (if present — absence just means no handoff is pending) →
    `sources/INDEX.md` → only the artifacts the task needs
 
 **Read at the named moment, not every pass:** `process/REGISTERS.md` — register schemas — when
-pulling register rows as inputs (loop step 3) and before writing rows (step 7);
+pulling register rows as inputs (loop move 2) and before writing rows (move 5);
 `process/reference/` — the config schema, column keys, the node_type matrix, the glossary, worked
 examples — each pointed at from the core file that needs it.
 
@@ -40,7 +41,7 @@ reason it exists.
   a guess in an artifact is a decision the human never made.
 - **N2 · Registers are the home of values.** Metric readings land in `registers/metrics.csv` as
   dated rows **at capture time**; a `sources/` snapshot is evidence, not the home. A data-gathering
-  errand is still a loop pass — it ends with step 7.
+  errand is still a loop pass — it ends with move 5.
 - **N3 · A handoff restores state — not rules, not truth.** Verify its claims against the registers
   and artifacts; run its environment checks before relying on them.
 - **N4 · Read the tool before filling.** Open the tool's `SKILL.md` before writing its section;

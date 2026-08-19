@@ -81,7 +81,9 @@ several tools, **the first tool in the marker owns the section's worklog**. The 
 stems, the id-thread, one-method-many-sections, many-methods-one-section — is
 [`reference/worklog-resolution.md`](reference/worklog-resolution.md). Raw external inputs are never
 worked in a worklog directly: they live in `sources/` and are dispatched in by `source-intake`
-(see *Raw data & access*).
+(see *Raw data & access*). A worklog is **private to its method** — read only by that method, its
+projection, and provenance audit; **cross-step exchange runs through the registers and the signed
+artifact sections**, never by reading another step's worklog (OPERATING-LOOP move 2).
 
 ## Section confirmation
 
@@ -104,7 +106,7 @@ An artifact section is a **thesis** — the linter holds its *structure*, a **hu
   *removing* items, never confirmed (check R), left out of the "N of M confirmed" count.
 
 The procedure — walking the human through each thesis, never self-issued — is the
-[`theses`](../tool-skills/operations/theses/SKILL.md) operations skill (OPERATING-LOOP step 7).
+[`theses`](../tool-skills/operations/theses/SKILL.md) operations skill (OPERATING-LOOP move 5).
 
 ## Gradation vs confirmation — two orthogonal axes
 
@@ -151,15 +153,19 @@ artifacts, where the register is one click away.
 ## Raw data & access
 
 **A source is what comes from outside**; no skill produces one from inside — agent reasoning is a
-worklog, a file produced for outside use is an export file (`export-files/`, the mirror of
-`sources/`). What fits none of the entities is recut along these seams — a new entity or hybrid
-home is never minted. `sources/` holds two roles, both indexed in `sources/INDEX.md`: **access** (living —
-how to connect/verify/recover) and **evidence** (dated, immutable captures). A source is
-**dispatched into worklogs, never linked from an artifact**; captured values go to the registers as
-dated rows. Hard rules (also in [`AGENTS.md`](../AGENTS.md)): **raw captures are never committed**,
-deleted once their values land; where `origin` may be public, raw data and its analysis code live
-**outside** the repo; **secrets** are never written anywhere — only *where* they live and how to
-rotate. The routing procedure —
+worklog, a file for outside use is an export file (`export-files/`, the mirror of `sources/`). What
+fits none of the entities is recut along these seams — a new entity or hybrid home is never minted.
+`sources/` holds **only what came from outside**, in three subfolders (all indexed in
+`sources/INDEX.md`): **`originals/`** (files the human brought, untouched), **`snapshots/`** (dated,
+immutable captures — a source-intake extract, a pull skill's export), **`access/`** (a source's
+**passport**: how to connect/verify/recover, written **only as the human's recorded answers** — an
+agent never invents one, a passport of bare `— to clarify —` is the defect). A source is **dispatched
+into worklogs, never linked from an artifact**; captured values go to the registers as dated rows.
+The full layout, writer matrix and instance exchange-skill rules —
+[`reference/boundary-layout.md`](reference/boundary-layout.md). Hard rules (also in
+[`AGENTS.md`](../AGENTS.md)): **raw captures are never committed**, deleted once their values land;
+where `origin` may be public, raw data and its analysis code live **outside** the repo; **secrets**
+are never written anywhere — only *where* they live and how to rotate. The routing procedure —
 [`source-intake`](../tool-skills/operations/source-intake/SKILL.md).
 
 ## Which conventions apply where

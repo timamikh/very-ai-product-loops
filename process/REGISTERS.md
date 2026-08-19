@@ -13,8 +13,8 @@ flowing back up, **not re-authored per step**. In an instance: `registers/` at t
 (the working area — `product-loops/` in a live product). IDs, confidence and change logs follow
 [`CONVENTIONS.md`](CONVENTIONS.md).
 
-*Read this file at its named moments* (OPERATING-LOOP): **step 3** — pulling register rows as
-inputs, when field semantics or gradations are in doubt — and **step 7** — before writing rows.
+*Read this file at its named moments* (OPERATING-LOOP): **move 2** — pulling register rows as
+inputs, when field semantics or gradations are in doubt — and **move 5** — before writing rows.
 The register *values* live in the instance files, read on every pass that needs them.
 
 | Register | Born at | Refined at |

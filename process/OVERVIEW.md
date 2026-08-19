@@ -43,11 +43,10 @@ methods (a **library**) and pluggable product stages (**statuses**).
 └─ Statuses (statuses/) ─── product stages as config: concept-viability · PMF · growth
 ```
 
-**How the planes interlock — softly (per rule 5):** a **step** says "produce sections A, B, C and
-pass gate G" and *recommends* library tools per section; a **status** re-prioritizes goals and
-*highlights* the tools for the current stage; the **human** overrides anything; the **registers**
-are the shared state tools read and write. The step owns the artifact skeleton; tools fill sections
-with their own method — method is swappable, skeleton is stable. The pluggable skills live under
+**How the planes interlock — softly (rule 5):** a **step** names the sections and gate and
+*recommends* a tool per section; a **status** re-prioritizes goals and *highlights* tools for the
+stage; the **human** overrides anything; the **registers** are the shared state tools read and write.
+Method is swappable, skeleton is stable. The pluggable skills live under
 [`tool-skills/`](../tool-skills/README.md) (`library/` · `operations/` · `outputs/`); which dial to
 turn is [`EXTENDING.md`](../EXTENDING.md).
 
@@ -85,16 +84,13 @@ everything else is data it consumes.
 
 ## 5. The rest of the map — canonical elsewhere
 
-- **The six steps** (`1-concept` … `6-sprint-plan`): each step's goal, gate checklist, skeleton and
-  tools are canonical in its own `steps/N-*/README.md`. One orientation rule: Step 3 = *choices and
-  direction* (qualitative), Step 4 = *instruments and resources* (quantitative).
-- **Statuses** (`concept-viability` · `PMF` · `growth`) parameterize the loops per step —
-  [`statuses/README.md`](../statuses/README.md). An empty `per_step` never blocks (OPERATING-LOOP
-  step 1).
-- **The library** of product methods — [`tool-skills/library/README.md`](../tool-skills/library/README.md).
-- **Consumers of the structure** — the output layer ([`tool-skills/outputs/`](../tool-skills/outputs/README.md)),
-  the read-only console ([`tools/ui/`](../tools/ui/README.md)) and the linter
-  ([`tools/lint.py`](../tools/lint.py)): structure is the contract, so anything that reads a folder
-  can consume it without per-instance wiring.
+- **The six steps** (`steps/N-*/README.md`) own each step's goal, gate, skeleton and tools. One
+  orientation rule: Step 3 = *choices and direction* (qualitative), Step 4 = *instruments and
+  resources* (quantitative).
+- **Statuses** (`concept-viability` · `PMF` · `growth`) parameterize the loops —
+  [`statuses/README.md`](../statuses/README.md); an empty `per_step` never blocks.
+- **The library** of methods — [`tool-skills/library/README.md`](../tool-skills/library/README.md);
+  the **consumers** of the structure (outputs, the read-only console, the linter) read the folders
+  directly, so structure is the only contract.
 - **Vocabulary and on-demand canon** — [`reference/GLOSSARY.md`](reference/GLOSSARY.md) and
-  [`process/reference/`](reference/README.md), read at named moments, not every pass.
+  [`process/reference/`](reference/README.md), read at named moments.
