@@ -2,8 +2,8 @@
 node_type: reference
 title: Which conventions apply where — the node_type matrix
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.3.0
+updated: 2026-08-19
 ---
 
 # Which conventions apply where
@@ -25,8 +25,15 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
 | `deliverable` (an authored export file in `export-files/` — a brief, an interview guide) | **yes** — on every non-trivial claim | n/a (a standalone file, no `{#anchors}`) | reference by ID | **yes** | authored by an outputs skill, signed by the human; itself the source of truth (unlike a rendered view, which regenerates) |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
-| framework files (`step`, `status`, `conventions`, `operating-loop`, `goal-map`, `library-*`, `template-fragment`, `reference`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
-| **instance exchange skill** (`<instance>/skills/<slug>/SKILL.md` — a pull/push procedure) | n/a — a procedure, not claims | **yes** where sectioned | reference by ID | **yes** — its own dated change log (it lives in the instance, not the repo CHANGELOG) | authored by the orchestrator, material choices human-confirmed; `cadence` in frontmatter, `last_run` in `state.yaml` — see [`boundary-layout.md`](boundary-layout.md) |
+| `card` (every instruction an agent acts on — a step README, a library method, an operations/outputs skill, an instance exchange skill) | n/a — a procedure, not claims | **yes** where sectioned | reference by ID | **by home** — see below | one entity, five `kind`s, one frontmatter schema: [`card-schema.md`](card-schema.md) |
+| framework files (`status`, `conventions`, `operating-loop`, `goal-map`, `library-*`, `template-fragment`, `reference`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
+
+**A card's change log follows its home, because its home says who owns its history.** A card in the
+framework's home (`tool-skills/`) ships with the framework: **no** change log of its own, history in
+the root `CHANGELOG.md`, like every other framework file. A card in a product's home
+(`<instance>/skills/`) lives in the instance and never travels with a framework update: it carries
+**its own dated change log** — authored by the orchestrator, material choices human-confirmed
+(`cadence` in frontmatter, `last_run` in `state.yaml` — see [`boundary-layout.md`](boundary-layout.md)).
 
 If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.
 A convention not listed here (e.g. "Talking to the human") is behavioral and applies always.

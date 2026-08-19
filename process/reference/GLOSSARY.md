@@ -2,8 +2,8 @@
 node_type: reference
 title: Glossary — the entities of very-ai-product-loops
 status: draft
-version: 0.3.0
-updated: 2026-08-16
+version: 0.4.0
+updated: 2026-08-19
 ---
 
 # Glossary
@@ -38,10 +38,30 @@ Alongside the library sit two more `tool-skills/` planes:
 | Entity | Where | What it is |
 |--------|-------|------------|
 | **Operations** | `tool-skills/operations/` | Runtime skills, not product methods: `handoff`, `metrics-capture`, `orchestration`, `source-intake`, `theses`. |
-| **Outputs** | `tool-skills/outputs/` | The **output layer** — skills that produce the files leaving the framework, landing in the instance's `export-files/`. Two kinds: **renderers** (`ADAPTER.md` — read the instance, render a regeneratable view: `to-table`, `to-document`, `to-deck`) and **authored deliverables** (`SKILL.md` — author a signed document: `brief`, `interview`). |
+| **Outputs** | `tool-skills/outputs/` | The **output layer** — skills that produce the files leaving the framework, landing in the instance's `export-files/`. Two kinds, told apart by `output_kind:` in one schema: **renderers** (`rendered` — read the instance, render a regeneratable view: `to-table`, `to-document`, `to-deck`) and **authored deliverables** (`authored` — author a signed document: `brief`, `interview`). |
 
 The runtime that consumes all four planes is `process/OPERATING-LOOP.md` (the seven-move skeleton);
 its **router**, turning a trigger into the card a pass runs, is `process/goal-map.md`.
+
+---
+
+## A card (the one thing an agent acts on)
+
+A **card** is the entity every pass runs: one frontmatter schema, five kinds. Its header **is the pass
+plan** — `prerequisites` · `reads` · `writes` · `surfaces`. The schema is defined once, in
+[`card-schema.md`](card-schema.md); this row only keeps the names aligned.
+
+| `kind` | It is | Where it lives |
+|--------|-------|----------------|
+| `step` | a step's goal, gate and touchpoints | `steps/<n>-<slug>/README.md` |
+| `method` | a product method — bound to its step, never a routing target | `tool-skills/library/<name>/` |
+| `operation` | a runtime skill, routed by the goal map | `tool-skills/operations/<name>/` |
+| `output` | a file leaving the framework (`output_kind: rendered \| authored`) | `tool-skills/outputs/<name>/` |
+| `exchange` | one product's repeatable pull/push across the boundary | `<instance>/skills/<slug>/` |
+
+**Two homes, one discriminator: who authored it.** A card that ships with the framework lives in
+`tool-skills/`; a card written for one product lives in that instance's `skills/`. Objective, like the
+delivery channel in `sources/` — never a judgement about the content.
 
 ---
 
@@ -86,7 +106,7 @@ folder, and the worklog file.
 
 | File | What it is |
 |------|------------|
-| `SKILL.md` | what it is · when to apply · **prerequisites** · how · anti-patterns; frontmatter declares `produces` (section id(s) or a file). |
+| `SKILL.md` | the **card** (`kind: method`): what it is · when to apply · how · anti-patterns; its frontmatter is the pass plan — schema in [`card-schema.md`](card-schema.md). |
 | `template-fragment.md` | the section the method produces, with source + confidence markers (the *draft's* shape — carries **no** column keys). |
 | `questions.yaml` | the interview that gathers the method's inputs. |
 | `references/` | deeper method notes (optional). |
@@ -102,7 +122,7 @@ folder, and the worklog file.
 | **`state.yaml`** | instance root | Agent-written each pass: `current_step`, `last_pass`, and the **gate ticks** (`artifact#section: done`). The single home of cycle position. |
 | **Worklog** | `<step-folder>/<tool>.md` | The **source of truth** for a method: inputs, reasoning, numbers, open items. Free-form (`node_type: worklog`); the artifact section is its projection. One per method that fills a section. |
 | **`sources/`** | instance | **What comes from outside**, in three subfolders + `INDEX.md`: `originals/` (files the human brought), `snapshots/` (dated, immutable evidence), `access/` (source **passports** — how to reach a point, recorded from the human). **No skill produces a source from inside**; agent reasoning is a worklog. Raw captures and secrets never go under version control. Layout — [`boundary-layout.md`](boundary-layout.md). |
-| **`skills/`** | instance | A product's own **exchange skills** (`<slug>/SKILL.md` + scripts) — repeatable pulls and pushes across the boundary, routed to by the goal map. Format is a normal `SKILL.md`; `cadence` in frontmatter, `last_run` in `state.yaml`. See [`boundary-layout.md`](boundary-layout.md). |
+| **`skills/`** | instance | A product's own **exchange cards** (`<slug>/SKILL.md` + scripts) — repeatable pulls and pushes across the boundary, routed to by the goal map. Same card schema as a vendored one (`kind: exchange`); `cadence` in frontmatter, `last_run` in `state.yaml`. See [`boundary-layout.md`](boundary-layout.md). |
 | **`HANDOFF.md`** | instance | Session-to-session state transfer, written by the `handoff` operations skill. |
 | **`export-files/`** | instance | **What goes outside** — the mirror of `sources/` (in ↔ out). Rendered views (regeneratable, re-run the renderer) and authored deliverables (`node_type: deliverable` — a brief, an interview guide; themselves the signed source). |
 
@@ -120,6 +140,23 @@ a human signs. A value lives in exactly one home.
 | **Subagent** | A spawned worker with a narrow write rule. `loops-draft` **writes exactly one file** — its method's worklog (the draft) — and nothing else; `loops-gather` / `loops-research` / `loops-verify` **write nothing** and return text. Enforced on Claude Code: only `loops-draft` carries a `Write` tool (linter check N). |
 | **Acceptance passport** (a.k.a. *return passport*) | The numbered checklist a subagent's return is scored against **before** its content is used. A return that fails its passport is not integrated. (This is the **only** meaning of "passport" in the framework — see Renames.) |
 | **Direction** | An execution stream in Steps 5–6 (default `development` · `go-to-market` · `back-office`), editable per instance. Named `go-to-market`, not `growth`, to avoid colliding with the `growth` **status**. |
+
+---
+
+## Renames (2026-08-19) — the card
+
+The entity law behind these: **everything an agent acts on is one entity with one questionnaire; a
+kind is a field value, never a second schema** ([`card-schema.md`](card-schema.md)).
+
+| Old | New | Why |
+|-----|-----|-----|
+| `node_type: step` (a step README) | `node_type: card`, `kind: step` | A step README is what a pass runs — the same entity as a skill, filled differently. |
+| `node_type: instance-exchange-skill` | `node_type: card`, `kind: exchange` | A product's pull/push is routed and run like any pass; its own node type was a second schema for one role. |
+| a skill frontmatter with no `node_type` at all | `node_type: card` + its `kind` | Three planes declared their type by folder position only — unreadable to anything but a path check. |
+| `ADAPTER.md` (renderers `to-table`, `to-document`, `to-deck`) | `SKILL.md` + `output_kind: rendered` | Two filenames for one entity is the same defect as two schemas; the distinction is a field. |
+| `produces` · `writes_registers` | `writes` | One write perimeter, one field, one atom grammar. |
+| `reads_registers` · `inputs` | `reads` | Likewise for the read perimeter — with a mandatory prefix, since `metrics` is both a register and a source slot. |
+| `used_by_steps` | `steps` (methods only) | An operation or an output is reached through the router, not through a step. |
 
 ---
 

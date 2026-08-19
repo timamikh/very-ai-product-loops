@@ -2,8 +2,8 @@
 node_type: reference
 title: process/reference — canon read on demand, not every pass
 status: draft
-version: 0.2.0
-updated: 2026-08-18
+version: 0.3.0
+updated: 2026-08-19
 ---
 
 # process/reference
@@ -21,6 +21,7 @@ stub that stays in the core.
 | File | Read it when |
 |------|--------------|
 | [`GLOSSARY.md`](GLOSSARY.md) | a term is unclear, or onboarding — the entity **vocabulary** (a map of names to where each is actually defined; not a second definition home) |
+| [`card-schema.md`](card-schema.md) | writing or validating a **card** — a step README, a library method, an operations/outputs skill, an instance exchange skill: the one frontmatter schema all five kinds fill |
 | [`column-keys.md`](column-keys.md) | authoring or editing a **step template** or a **register** — deciding whether a table column carries a `<!--c:key-->` and where its key lives |
 | [`config-schema.md`](config-schema.md) | writing or validating an instance's **`config.yaml`** (setup, or adding a key) |
 | [`node-type-matrix.md`](node-type-matrix.md) | in doubt **which conventions apply** to a file — the by-`node_type` lookup |
