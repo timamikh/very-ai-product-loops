@@ -41,6 +41,10 @@ Checks (ERROR fails CI · WARN never does):
      section is both `confirmed:` and `contested:` (a verdict is one or the other)
   S  rests-on provenance: a `rests-on: <step>#<id>` target resolves to a real section, and a confirmed
      section resting on an unconfirmed foundation is surfaced  (WARN)
+  T  the boundary layer: sources/ holds only originals/ · snapshots/ · access/ (+INDEX.md; a flat
+     legacy file WARNs); a passport (sources/access/*) is not an all-`— to clarify —` invented stub
+     (WARN); an instance exchange skill (<instance>/skills/<slug>/) has a SKILL.md, and a `cadence:`
+     needs a `last_run` in state.yaml (WARN); a worklog never links another STEP's worklog (ERROR)
   U  a library method serves exactly one step (used_by_steps has one entry)
   V  a status's per-step tools list holds library methods only, each with a `<!-- tool: … -->` home
      in that step's template (how data is gathered belongs in the goals prose)
@@ -349,6 +353,10 @@ def check_instance(inst):
 TOOL_MARK_RE = re.compile(r"<!--\s*tool:\s*([a-z0-9-]+(?:\s*,\s*[a-z0-9-]+)*)\s*-->")
 SYNTH_MARK_RE = re.compile(r"<!--\s*synthesis")
 SOURCES_LINK_RE = re.compile(r"sources/[A-Za-z0-9._/-]+\.md")
+# a markdown link whose target names a step folder's worklog (`<n>-<slug>/<tool>.md`)
+WORKLOG_XLINK_RE = re.compile(r"\]\(([^)]*?([1-6]-[a-z][a-z0-9-]*)/[a-z0-9-]+\.md)[^)]*\)")
+CLARIFY_RE = re.compile(r"to clarify")
+SOURCES_SUBFOLDERS = {"originals", "snapshots", "access"}
 
 
 def check_worklogs(inst):
@@ -397,6 +405,74 @@ def check_worklogs(inst):
         if SOURCES_LINK_RE.search(text):
             warn("P [%s] %s links sources/ directly — a source citation routes through the worklog, "
                  "never the artifact (see source-intake)" % (name, stem))
+
+
+def check_boundary(inst):
+    """T — the boundary layer: sources/ subfolders, passports, exchange skills, worklog privacy.
+
+    `sources/` holds only what comes from outside, in `originals/` · `snapshots/` · `access/` (+INDEX)
+    — CONVENTIONS -> Raw data & access, reference/boundary-layout. A passport (`sources/access/*`) is
+    the human's recorded answers, never an invented all-`— to clarify —` stub. An instance exchange
+    skill lives at `<instance>/skills/<slug>/` with a `SKILL.md`; a `cadence:` needs a `last_run` in
+    `state.yaml` or an overdue run can't be caught at session start. And a worklog is **private**: it
+    never links another STEP's worklog — cross-step exchange runs through the registers and the signed
+    artifact sections (CONVENTIONS -> Step folders & worklogs).
+    """
+    name = rel(inst)
+    srcdir = os.path.join(inst, "sources")
+    if os.path.isdir(srcdir):
+        stray = []
+        for entry in sorted(os.listdir(srcdir)):
+            p = os.path.join(srcdir, entry)
+            if os.path.isdir(p):
+                if entry not in SOURCES_SUBFOLDERS:
+                    err("T [%s] sources/%s/ is not a known subfolder — sources/ holds only "
+                        "originals/ · snapshots/ · access/ (reference/boundary-layout)" % (name, entry))
+            elif entry != "INDEX.md":
+                stray.append(entry)
+        if stray:
+            # Grandfather a flat legacy layout to WARN so pre-migration instances don't hard-fail.
+            warn("T [%s] sources/ has flat file(s) %s — the layout is originals/ · snapshots/ · "
+                 "access/ + INDEX.md; move them into a subfolder (reference/boundary-layout)"
+                 % (name, ", ".join(stray)))
+        for pf in sorted(glob.glob(os.path.join(srcdir, "access", "*.md"))):
+            _, body = T.frontmatter(pf)
+            content = [ln.strip() for ln in body.splitlines()
+                       if ln.strip() and not ln.strip().startswith("#")]
+            if content and all(CLARIFY_RE.search(ln) or set(ln) <= set("-—|: *_") for ln in content):
+                warn("T [%s] sources/access/%s is all `— to clarify —` — a passport is the human's "
+                     "recorded answers, not an invented stub (reference/boundary-layout)"
+                     % (name, os.path.basename(pf)))
+    # instance exchange skills
+    state = yamlite.load(os.path.join(inst, "state.yaml")) if \
+        os.path.exists(os.path.join(inst, "state.yaml")) else {}
+    last_runs = state.get("last_run") if isinstance(state, dict) else None
+    last_runs = last_runs if isinstance(last_runs, dict) else {}
+    for sk in sorted(glob.glob(os.path.join(inst, "skills", "*"))):
+        if not os.path.isdir(sk):
+            continue
+        slug = os.path.basename(sk)
+        skill_md = os.path.join(sk, "SKILL.md")
+        if not os.path.exists(skill_md):
+            err("T [%s] skills/%s/ has no SKILL.md — an exchange skill is a normal skill "
+                "(reference/boundary-layout)" % (name, slug))
+            continue
+        fm, _ = T.frontmatter(skill_md)
+        if fm.get("cadence") and slug not in last_runs:
+            warn("T [%s] skills/%s declares a `cadence` but state.yaml has no `last_run` for it — an "
+                 "overdue run can't be detected at session start (boundary-layout)" % (name, slug))
+    # a worklog never links another STEP's worklog
+    for folder in sorted(glob.glob(os.path.join(inst, "[1-6]-*"))):
+        if not os.path.isdir(folder):
+            continue
+        step_a = os.path.basename(folder)
+        for wl in sorted(glob.glob(os.path.join(folder, "*.md"))):
+            for m in WORKLOG_XLINK_RE.finditer(read(wl)):
+                if m.group(2) != step_a:
+                    err("T [%s] %s/%s links another step's worklog `%s` — a worklog is private; "
+                        "cross-step exchange goes through the registers and the signed sections "
+                        "(CONVENTIONS -> Step folders & worklogs)"
+                        % (name, step_a, os.path.basename(wl), m.group(1)))
 
 
 QUESTION_TYPES = {"free_text", "list", "per_item", "single_select", "multi_select"}
@@ -890,6 +966,7 @@ def main(argv=()):
         check_config(inst)
         check_local_skills(inst)
         check_worklogs(inst)
+        check_boundary(inst)
         check_instance_conformance(inst)
         check_confirm_dates(inst)
         check_open_not_confirmed(inst)

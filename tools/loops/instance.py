@@ -42,7 +42,8 @@ def sub_instances(path):
     out = []
     for d in sorted(glob.glob(os.path.join(path, "*"))):
         if os.path.isdir(d) and os.path.basename(d) not in ("registers", "sources", "deliverables",
-                                                            "briefs", "variants") \
+                                                            "briefs", "variants", "skills",
+                                                            "export-files") \
                 and not os.path.basename(d).startswith("."):
             if has_artifacts(d) or os.path.exists(os.path.join(d, "state.yaml")):
                 out.append(d)
@@ -362,7 +363,11 @@ def _metrics(path, tree_rows, health):
 
 
 def _sources(path):
-    idx = os.path.join(path, "sources", "INDEX.md")
+    # sources/ is three subfolders (originals/ · snapshots/ · access/) + INDEX.md; walk them all so a
+    # file in any subfolder is discovered. `indexed` matches by basename, so an index row may name the
+    # file with or without its subfolder path.
+    srcroot = os.path.join(path, "sources")
+    idx = os.path.join(srcroot, "INDEX.md")
     rows, indexed = [], set()
     if os.path.exists(idx):
         raw = T.read(idx)
@@ -375,20 +380,20 @@ def _sources(path):
                 row = {hs[i]: (r[i] if i < len(r) else "") for i in range(len(hs))}
                 name = T.clean_cell(row.get(first, ""))
                 if name.endswith(".md"):
-                    indexed.add(name)
+                    indexed.add(os.path.basename(name))
                     rows.append({"file": name, "cells": row})
             break
     files = []
-    for f in sorted(glob.glob(os.path.join(path, "sources", "*.md"))):
-        base = os.path.basename(f)
-        if base == "INDEX.md":
+    for f in sorted(glob.glob(os.path.join(srcroot, "**", "*.md"), recursive=True)):
+        rel_in = os.path.relpath(f, srcroot)             # "originals/founder-brief.md" or "INDEX.md"
+        if rel_in == "INDEX.md":
             continue
         fm, _ = T.frontmatter(f)
         files.append({
-            "file": base,
+            "file": rel_in,
             "node_type": fm.get("node_type", ""),
             "updated": fm.get("updated", ""),
-            "indexed": base in indexed,
+            "indexed": os.path.basename(rel_in) in indexed,
         })
     return {
         "index_present": os.path.exists(idx),
@@ -396,6 +401,24 @@ def _sources(path):
         "index": rows,
         "files": files,
     }
+
+
+def _skills(path):
+    """A product's own exchange skills (`<instance>/skills/<slug>/SKILL.md`) — repeatable pulls/pushes
+    across the boundary (reference/boundary-layout). Cadence and direction come from the frontmatter."""
+    out = []
+    for sk in sorted(glob.glob(os.path.join(path, "skills", "*"))):
+        smd = os.path.join(sk, "SKILL.md")
+        if not os.path.isdir(sk) or not os.path.exists(smd):
+            continue
+        fm, _ = T.frontmatter(smd)
+        out.append({
+            "slug": os.path.basename(sk),
+            "name": fm.get("name", os.path.basename(sk)),
+            "cadence": fm.get("cadence", ""),
+            "direction": fm.get("direction", ""),
+        })
+    return out
 
 
 def _history(timeline):
@@ -630,6 +653,10 @@ def load(path, framework_root=F.ROOT):
     if not shared["files"] and not shared["index_present"] and config.get("_inherited_from"):
         shared = _sources(config["_inherited_from"])   # a sub-product shares the parent's sources/
 
+    skills = _skills(path)
+    if not skills and config.get("_inherited_from"):
+        skills = _skills(config["_inherited_from"])     # …and, the same way, the parent's exchange skills
+
     return {
         "path": path,
         "name": os.path.basename(path),
@@ -656,6 +683,7 @@ def load(path, framework_root=F.ROOT):
         "registers": {"hypotheses": hypotheses, "risks": risks, "metric_tree": metric_tree},
         "metrics": metrics,
         "sources": shared,
+        "skills": skills,
         "worklogs": _worklogs(path),
         "handoff": _handoff(path),
         "deliverables": deliverables,
