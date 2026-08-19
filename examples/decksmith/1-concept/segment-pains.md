@@ -18,9 +18,9 @@ analysis and conclusions are worked below and projected into the artifact sectio
 
 | From source | What it gives this method | Value / claim | Captured | Confidence |
 |-------------|---------------------------|---------------|----------|------------|
-| `../sources/founder-brief.md` | The visual pain | AI output "looks templated," so the tool "saves less time than promised" — users regenerate by hand. | 2026-07-16 | [sourced: founder brief] |
-| `../sources/founder-brief.md` | The structural pain | Decks come back with the **wrong structure/story** for the audience — not only a visual problem. | 2026-07-16 | [sourced: founder brief] |
-| `../sources/founder-brief.md` | The disqualifier | Locked/image output is a **non-starter**; editability is table-stakes in this crowd. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The visual pain | AI output "looks templated," so the tool "saves less time than promised" — users regenerate by hand. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The structural pain | Decks come back with the **wrong structure/story** for the audience — not only a visual problem. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The disqualifier | Locked/image output is a **non-starter**; editability is table-stakes in this crowd. | 2026-07-16 | [sourced: founder brief] |
 
 ## The working
 
@@ -69,6 +69,11 @@ exist to test.
   regardless of visual quality (pain 3).
 
 ## Change log
+
+### 2026-08-19 — sources layout migrated
+- **From → To:** `../sources/founder-brief.md` → `../sources/originals/founder-brief.md`
+- **Why:** reorganized sources layout into originals/ · snapshots/ · access/ subfolders
+- **Trigger:** framework 0.10 boundary layer
 
 ### 2026-08-16 — problems worked and projected
 - **From → To:** intake only → `#problems` worked (7 candidate pains scored, top-3 carried) and projected

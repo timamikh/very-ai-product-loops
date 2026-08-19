@@ -18,9 +18,9 @@ analysis and conclusions are worked below and projected into the artifact sectio
 
 | From source | What it gives this method | Value / claim | Captured | Confidence |
 |-------------|---------------------------|---------------|----------|------------|
-| `../sources/founder-brief.md` | The core positioning shift the concept makes | Every AI slide tool forces a choice between **pretty-but-locked** (exports images / a rigid template) and **editable-but-ugly** (plain text dumped into default PowerPoint). Decksmith's bet: output **native, fully editable** `.pptx`/`.key` (real shapes, text, layouts) that **also look designed**. | 2026-07-16 | [sourced: founder brief] |
-| `../sources/founder-brief.md` | What "the shift" replaces | Today's tools "save less time than promised" because output "looks templated" and comes back with the **wrong structure/story** for the audience — so users regenerate by hand. | 2026-07-16 | [sourced: founder brief] |
-| `../sources/founder-brief.md` | The non-negotiable frame | Editability is **table-stakes** for this crowd — locked/image output is a non-starter. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The core positioning shift the concept makes | Every AI slide tool forces a choice between **pretty-but-locked** (exports images / a rigid template) and **editable-but-ugly** (plain text dumped into default PowerPoint). Decksmith's bet: output **native, fully editable** `.pptx`/`.key` (real shapes, text, layouts) that **also look designed**. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | What "the shift" replaces | Today's tools "save less time than promised" because output "looks templated" and comes back with the **wrong structure/story** for the audience — so users regenerate by hand. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The non-negotiable frame | Editability is **table-stakes** for this crowd — locked/image output is a non-starter. | 2026-07-16 | [sourced: founder brief] |
 
 ## The working
 
@@ -83,6 +83,11 @@ The concept sentence is a `[sourced: founder brief]` PO decision; the *shift* an
 `[assumption]` until evidenced. No claim here is validated yet — this is the earliest step.
 
 ## Change log
+
+### 2026-08-19 — sources layout migrated
+- **From → To:** `../sources/founder-brief.md` → `../sources/originals/founder-brief.md`
+- **Why:** reorganized sources layout into originals/ · snapshots/ · access/ subfolders
+- **Trigger:** framework 0.10 boundary layer
 
 ### 2026-08-16 — idea worked and projected
 - **From → To:** intake only → `#idea` worked (concept sentence, shift, H-001, solution stub) and projected

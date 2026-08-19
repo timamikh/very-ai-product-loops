@@ -18,8 +18,8 @@ analysis and conclusions are worked below and projected into the artifact sectio
 
 | From source | What it gives this method | Value / claim | Captured | Confidence |
 |-------------|---------------------------|---------------|----------|------------|
-| `../sources/founder-brief.md` | The founder's lead-segment bet | Lead with **salespeople & marketers** — highest frequency × stakes, and usually a **company budget** behind the purchase. | 2026-07-16 | [assumption] |
-| `../sources/founder-brief.md` | Who feels the pain | "People who make client-facing decks often (sales, marketing)" regenerate AI output by hand. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The founder's lead-segment bet | Lead with **salespeople & marketers** — highest frequency × stakes, and usually a **company budget** behind the purchase. | 2026-07-16 | [assumption] |
+| `../sources/originals/founder-brief.md` | Who feels the pain | "People who make client-facing decks often (sales, marketing)" regenerate AI output by hand. | 2026-07-16 | [sourced: founder brief] |
 
 ## The working
 
@@ -86,6 +86,11 @@ register at step 7:
   (`type: viability`, `tags: segment`).
 
 ## Change log
+
+### 2026-08-19 — sources layout migrated
+- **From → To:** `../sources/founder-brief.md` → `../sources/originals/founder-brief.md`
+- **Why:** reorganized sources layout into originals/ · snapshots/ · access/ subfolders
+- **Trigger:** framework 0.10 boundary layer
 
 ### 2026-08-16 — segments worked and projected
 - **From → To:** intake only → `#segments` worked (5 candidate cuts, 3 segments on cut A, ⚙️ ranking) and projected

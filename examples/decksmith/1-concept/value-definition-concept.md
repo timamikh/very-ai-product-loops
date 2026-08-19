@@ -18,9 +18,9 @@ analysis and conclusions are worked below and projected into the artifact sectio
 
 | From source | What it gives this method | Value / claim | Captured | Confidence |
 |-------------|---------------------------|---------------|----------|------------|
-| `../sources/founder-brief.md` | A candidate moat | The founder's own **design taste / credibility** in the design community. | 2026-07-16 | [assumption] |
-| `../sources/founder-brief.md` | A candidate accumulating asset | A corpus of well-designed decks the engine learns design patterns from (to be assembled) — could compound as a data/design advantage. | 2026-07-16 | [assumption] |
-| `../sources/founder-brief.md` | The value the moat must protect | A native, fully-editable-**and**-designed engine — the thing today's tools can't do (they force editable-XOR-designed). | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | A candidate moat | The founder's own **design taste / credibility** in the design community. | 2026-07-16 | [assumption] |
+| `../sources/originals/founder-brief.md` | A candidate accumulating asset | A corpus of well-designed decks the engine learns design patterns from (to be assembled) — could compound as a data/design advantage. | 2026-07-16 | [assumption] |
+| `../sources/originals/founder-brief.md` | The value the moat must protect | A native, fully-editable-**and**-designed engine — the thing today's tools can't do (they force editable-XOR-designed). | 2026-07-16 | [sourced: founder brief] |
 
 ## The working
 
@@ -90,6 +90,11 @@ before it erodes** — carried as bet `H-012` / risk `R-007`.
   than being copied away.
 
 ## Change log
+
+### 2026-08-19 — sources layout migrated
+- **From → To:** `../sources/founder-brief.md` → `../sources/originals/founder-brief.md`
+- **Why:** reorganized sources layout into originals/ · snapshots/ · access/ subfolders
+- **Trigger:** framework 0.10 boundary layer
 
 ### 2026-08-16 — Step-3 strategy revisit (`value-definition-strategy`)
 - **From → To:** §5 "derivatives — deferred" → derivatives **derived** (edit-behaviour data loop +

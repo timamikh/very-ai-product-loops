@@ -18,9 +18,9 @@ analysis and conclusions are worked below and projected into the artifact sectio
 
 | From source | What it gives this method | Value / claim | Captured | Confidence |
 |-------------|---------------------------|---------------|----------|------------|
-| `../sources/founder-brief.md` | The push away from the status quo | Users who make client-facing decks regenerate AI output **by hand** because it "looks templated"; the tool saves less time than promised. | 2026-07-16 | [sourced: founder brief] |
-| `../sources/founder-brief.md` | An anxiety/habit signal around switching | Editability is table-stakes; locked/image output is a non-starter — a new tool that locks output will be rejected regardless of looks. | 2026-07-16 | [sourced: founder brief] |
-| `../sources/founder-brief.md` | The outcome judged | Output must be both genuinely editable **and** genuinely well-designed, with the right structure/story for the audience. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The push away from the status quo | Users who make client-facing decks regenerate AI output **by hand** because it "looks templated"; the tool saves less time than promised. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | An anxiety/habit signal around switching | Editability is table-stakes; locked/image output is a non-starter — a new tool that locks output will be rejected regardless of looks. | 2026-07-16 | [sourced: founder brief] |
+| `../sources/originals/founder-brief.md` | The outcome judged | Output must be both genuinely editable **and** genuinely well-designed, with the right structure/story for the audience. | 2026-07-16 | [sourced: founder brief] |
 
 ## The working
 
@@ -81,6 +81,11 @@ around "deck sent with little/no manual restyle").
   minted here that `segment-pains` doesn't already carry.
 
 ## Change log
+
+### 2026-08-19 — sources layout migrated
+- **From → To:** `../sources/founder-brief.md` → `../sources/originals/founder-brief.md`
+- **Why:** reorganized sources layout into originals/ · snapshots/ · access/ subfolders
+- **Trigger:** framework 0.10 boundary layer
 
 ### 2026-08-16 — jtbd worked and projected
 - **From → To:** intake only → `#jtbd` worked (job statement, four forces, desired outcomes) and projected

@@ -18,9 +18,9 @@ analysis and conclusions are worked below and projected into the artifact sectio
 
 | From source | What it gives this method | Value / claim | Captured | Confidence |
 |-------------|---------------------------|---------------|----------|------------|
-| `../sources/founder-brief.md` | The core mechanism | A prototype rendering approach emits **native slide objects** (not images) and applies layout/spacing rules. Quality-at-scale is unproven. | 2026-07-16 | [assumption] |
-| `../sources/founder-brief.md` | The design-learning input | Access to a small corpus of well-designed decks to learn design patterns from (to be assembled). | 2026-07-16 | [assumption] |
-| `../sources/founder-brief.md` | The riskiest bet the solution must clear | The riskiest thing is **feasibility**: can the engine *reliably* produce files that are both genuinely editable and genuinely well-designed, **at scale**. | 2026-07-16 | [assumption] |
+| `../sources/originals/founder-brief.md` | The core mechanism | A prototype rendering approach emits **native slide objects** (not images) and applies layout/spacing rules. Quality-at-scale is unproven. | 2026-07-16 | [assumption] |
+| `../sources/originals/founder-brief.md` | The design-learning input | Access to a small corpus of well-designed decks to learn design patterns from (to be assembled). | 2026-07-16 | [assumption] |
+| `../sources/originals/founder-brief.md` | The riskiest bet the solution must clear | The riskiest thing is **feasibility**: can the engine *reliably* produce files that are both genuinely editable and genuinely well-designed, **at scale**. | 2026-07-16 | [assumption] |
 
 ## The working
 
@@ -59,6 +59,11 @@ Every mapping row is a design decision / `[assumption]`; nothing here is market 
 feasibility bets are the honest build risk — stated, not hidden.
 
 ## Change log
+
+### 2026-08-19 — sources layout migrated
+- **From → To:** `../sources/founder-brief.md` → `../sources/originals/founder-brief.md`
+- **Why:** reorganized sources layout into originals/ · snapshots/ · access/ subfolders
+- **Trigger:** framework 0.10 boundary layer
 
 ### 2026-08-16 — solution worked and projected
 - **From → To:** intake only → `#solution` worked (mechanism per ranked pain, orphan rejects, feasibility bets) and projected

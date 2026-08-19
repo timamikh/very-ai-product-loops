@@ -34,7 +34,7 @@ An agent that would write its own thinking into `sources/` has picked the wrong 
 
 | Subfolder | Who writes it | Trust | Lifecycle |
 |-----------|---------------|-------|-----------|
-| `originals/` | the human (`product-setup` only *files* what the human brought — it authors nothing) | untouchable, never edited | kept forever |
+| `originals/` | the human (`product-setup` *files* what the human brought — a format conversion for diffability is allowed, never a reinterpretation) | the human's content, not agent-derived | kept forever |
 | `snapshots/` | the **couriers**: `source-intake` (a URL → a dated extract) and a **pull** exchange skill (an export) | checkable against origin by its date | datable evidence; may be deleted once its values are in the registers |
 | `access/` | an agent as **scribe** of the human's answers (via the card's `questions.yaml`) | co-authored (human decides, agent records) | living; updated with a change log |
 | `INDEX.md` | the orchestrator | navigation only | living |

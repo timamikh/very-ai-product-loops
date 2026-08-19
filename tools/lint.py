@@ -444,8 +444,8 @@ def check_boundary(inst):
                      "recorded answers, not an invented stub (reference/boundary-layout)"
                      % (name, os.path.basename(pf)))
     # instance exchange skills
-    state = yamlite.load(os.path.join(inst, "state.yaml")) if \
-        os.path.exists(os.path.join(inst, "state.yaml")) else {}
+    state_path = os.path.join(inst, "state.yaml")
+    state, _ = yamlite.load(state_path) if os.path.exists(state_path) else ({}, [])
     last_runs = state.get("last_run") if isinstance(state, dict) else None
     last_runs = last_runs if isinstance(last_runs, dict) else {}
     for sk in sorted(glob.glob(os.path.join(inst, "skills", "*"))):

@@ -1,9 +1,14 @@
-# Cycle position — AGENT-written every pass (OPERATING-LOOP step 7).
+# Cycle position — AGENT-written every pass (OPERATING-LOOP move 5, Record).
 # Home of current_step, last_pass, and the gate ticks (keyed by each item's `artifact#section`).
 # Human decisions live in config.yaml, never here.
 
 current_step: 6
 last_pass: 2026-08-16
+
+# Last run of each instance exchange skill (skills/<slug>/) — start-work compares these against
+# each skill's `cadence` to catch an overdue pull/push at session start (reference/boundary-layout).
+last_run:
+  pull-analytics-weekly: 2026-08-18   # registered, not yet run live — panel ships with the prototype
 
 # Gate ticks per step: <artifact#section>: done | open | n/a | deferred.
 # Reasoning-heavy sections were ticked only after a loops-verify pass that did not write them.
