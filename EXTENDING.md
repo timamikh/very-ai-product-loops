@@ -187,7 +187,7 @@ just enforcement — it is where a rule belongs when it *can* live there.
 Two consequences worth stating:
 
 - **A budget on the always-loaded set.** The per-pass canon (`AGENTS.md` + `process/OVERVIEW.md` +
-  `OPERATING-LOOP.md` + `CONVENTIONS.md`) is machine-held by **linter check W** — a soft ceiling that
+  `OPERATING-LOOP.md` + `process/goal-map.md` + `CONVENTIONS.md`) is machine-held by **linter check W** — a soft ceiling that
   warns and a hard one that fails; the numbers live in one place, [`tools/lint.py`](tools/lint.py).
   The method library is several times that size and costs nothing until used. An addition to
   `process/` names what it displaces, or why it is neither a check nor a method. A reference that only

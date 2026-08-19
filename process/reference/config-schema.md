@@ -24,7 +24,7 @@ one way. A second spelling is a place two readers diverge, so the linter enforce
 | `directions` | **yes** | list | execution streams for Steps 5–6 (default: `development` · `go-to-market` · `back-office`) |
 | `delegation` | no | `allowed` · `off` | may the orchestrator spawn subagents this instance? Absent = `allowed` (the framework's normal mode). `off` = the orchestrator runs every pass itself and writes every worklog directly — for restricted environments, or when the human wants no fan-out. Set at setup (`product-setup`), changeable any time |
 | `scope_note` | no | text (block scalar) | what is in and out of this instance's scope, in prose |
-| `metric_source_slots` | no | map | where metric data comes from — *where* it lives and how to reach it, **never a secret value** |
+| `metric_source_slots` | no | map | names each metric source; the *how to reach it* (URL, owner, recovery) lives in its passport `sources/access/<slug>.md`, **never a secret value** |
 | `sources` | no | list of paths | the origin documents this instance was built from |
 | `products` | no | map | **multi-product instance only**: `<name>: { path, title, goal, users, active_status }`, one sub-folder per product, each with its own artifacts, `state.yaml` and `registers/`; the sub-products inherit everything above from this file |
 

@@ -125,7 +125,7 @@ Adapting the framework to your company — a new method, a new stage, different 
 One rule sits under everything: **data lands in a draft first; the polished artifact is a projection of that draft.**
 
 **The documents**
-- **Sources** (`sources/`) — raw external material (a founder brief, an export, a report). An archive; never rewritten.
+- **Sources** (`sources/`) — raw external material in three subfolders (`originals/` · `snapshots/` · `access/` — a founder brief, an export, a source passport). An archive; never rewritten.
 - **Worklog (draft)** — the working document for one method on one step, in the step's folder (e.g. `2-analysis/market-sizing.md`). All the working lives here: the numbers, the reasoning, the rejected options, the open questions. **The source of truth.**
 - **Artifact (clean copy)** — the step's output file (e.g. `2-analysis.md`). A **projection** of its worklogs — the conclusion in a fixed, readable shape, holding nothing the worklogs do not. It has two jobs: plain language the human signs off, and a template the console can render.
 - **Registers** — the three cross-step tables (hypotheses, risks, metric tree). The home of the IDs everything else references.
@@ -202,9 +202,10 @@ An agent working here boots in a fixed order. The rules live in one file, [`AGEN
 auto-loads that name). It sends the agent through the rules first:
 
 1. [`process/OVERVIEW.md`](process/OVERVIEW.md) — the model and the philosophy it lives by.
-2. [`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) — the runtime: how one pass of a step runs.
-3. [`process/CONVENTIONS.md`](process/CONVENTIONS.md) — notation: confidence tags, sources, IDs, forks, change logs.
-4. Then the instance: its `HANDOFF.md` (if present) → `sources/INDEX.md` → only the artifacts the task needs.
+2. [`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) — the runtime: the seven-move skeleton every pass runs.
+3. [`process/goal-map.md`](process/goal-map.md) — the router: which trigger becomes which card.
+4. [`process/CONVENTIONS.md`](process/CONVENTIONS.md) — notation: confidence tags, sources, IDs, forks, change logs.
+5. Then the instance: its `HANDOFF.md` (if present) → `sources/INDEX.md` → only the artifacts the task needs.
 
 [`process/REGISTERS.md`](process/REGISTERS.md) — the register schemas — is canon read at its **named
 moments** (pulling register rows as inputs, writing rows), like `process/reference/`, not on every pass.

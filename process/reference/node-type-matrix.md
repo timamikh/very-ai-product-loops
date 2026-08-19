@@ -25,7 +25,8 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
 | `deliverable` (an authored export file in `export-files/` — a brief, an interview guide) | **yes** — on every non-trivial claim | n/a (a standalone file, no `{#anchors}`) | reference by ID | **yes** | authored by an outputs skill, signed by the human; itself the source of truth (unlike a rendered view, which regenerates) |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
-| framework files (`step`, `status`, `conventions`, `operating-loop`, `library-*`, `template-fragment`, `reference`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
+| framework files (`step`, `status`, `conventions`, `operating-loop`, `goal-map`, `library-*`, `template-fragment`, `reference`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
+| **instance exchange skill** (`<instance>/skills/<slug>/SKILL.md` — a pull/push procedure) | n/a — a procedure, not claims | **yes** where sectioned | reference by ID | **yes** — its own dated change log (it lives in the instance, not the repo CHANGELOG) | authored by the orchestrator, material choices human-confirmed; `cadence` in frontmatter, `last_run` in `state.yaml` — see [`boundary-layout.md`](boundary-layout.md) |
 
 If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.
 A convention not listed here (e.g. "Talking to the human") is behavioral and applies always.
