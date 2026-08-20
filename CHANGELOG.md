@@ -72,6 +72,35 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Hardening from the local-model test run — prose is not a carrier for a weak model
+
+A live install-and-setup run on a small local model (opencode · Qwen3.6-35B) drew the line exactly
+where the rule classification predicted: everything that had a linter check was caught; everything
+that lived only in prose — the version pin, the root pointers, the install order — failed silently,
+and the artifact was bulk-filled with every gate ticked on setup day. Conclusions applied, all as
+checks (per `extending/rules.md` — a machine-verifiable rule never becomes prose):
+
+- **Check I2 — install acceptance.** Detected by layout, not by flag: an instance whose repo root
+  contains the framework means a vendored copy, and then the install's machine-checkable debts fire —
+  no `FRAMEWORK-VERSION` at the vendor root is an ERROR (no SHA in it a WARN), no root `AGENTS.md`
+  an ERROR (no `start-work` pointer or no `loops-*` delegation approval a WARN). Silent in the
+  framework's own dev repo, whose instances live *inside* it.
+- **Check H tightened — value shapes, not just key presence.** All three from the live run:
+  `language: русский` (a word, not a code) · `directions` as a comma string (reads as ONE stream) ·
+  `active_status` naming no status file. Each is now an ERROR.
+- **Check H2 — artifact frontmatter.** Missing `artifact`/`step` is an ERROR (gate ids are
+  `<artifact>#<section>` — the file unhooks its own ticks); an invented key WARNs, with the canon
+  home named for the two seen live (a `worklog:` list that was stale against its folder on day one;
+  `active_status` in an artifact).
+- **`start-work` orients with the linter first** (0.4.0). Session start is the one moment a human is
+  guaranteed to see the debt a previous session left silently — the report is shown before anything
+  else, findings become triggers, nothing is auto-fixed.
+- **Proven on the defective run itself**: the same instance re-linted in a mock vendored layout went
+  from 2 errors to 7 — five new catches, each a real defect; half-fixed installs produce the WARNs;
+  a complete install is silent. The bulk-fill itself gets **no prose rule**: the run confirmed a
+  weak model doesn't read prose, and the frontier-model requirement already stands in
+  `install/README.md`.
+
 ### Canon wave 3.6 — one instruction per change, and a door that only routes
 
 `EXTENDING.md` had grown into five jobs in one file: a router, three procedures written inline, the

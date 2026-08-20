@@ -20,8 +20,14 @@ Checks (ERROR fails CI · WARN never does):
   E  metrics.csv ids are a subset of metric-tree.md ids
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
-  H  instance config.yaml follows the pinned schema (required keys, one spelling, no aliases)
+  H  instance config.yaml follows the pinned schema (required keys, one spelling, no aliases) and
+     value shapes: `language` is a code, `directions` a list, `active_status` a real status file
+  H2 an instance artifact's frontmatter carries the template's keys and invents none — an invented
+     key (a worklog list, an active_status) is a second home for something the canon stores elsewhere
   I  a product's own skills (product-loops/tool-skills/…) obey the same wiring rules as vendored ones
+  I2 a vendored framework is pinned and pointed at: FRAMEWORK-VERSION (tag + SHA) at the vendor root,
+     a pointer + standing delegation approval in the product repo's root AGENTS.md (install/README →
+     Acceptance); detected by layout, silent in the framework's own dev repo
   J  a register table is not split by a blank line  (WARN)
   K  a register `id` cell names exactly one item (one row = one id)
   L  every library tool carries the quality declaration (evidence_standard · volume_rule ·
@@ -814,6 +820,108 @@ def check_config(inst):
         elif key not in CONFIG_REQUIRED and key not in CONFIG_OPTIONAL:
             warn("H [%s] config.yaml has non-schema key `%s` — allowed, but no tool may depend on it"
                  % (name, key))
+    # Value shapes — each learned from a live local-model run that passed the key-presence check
+    # while writing values no tool can read (config-schema.md is the authority for all three).
+    lang = data.get("language")
+    if isinstance(lang, str) and lang and not re.fullmatch(r"[a-z]{2,3}(-[A-Za-z]{2})?", lang):
+        err("H [%s] config.yaml `language: %s` is not a language code — the schema takes codes "
+            "(`ru`, `en`), which tools compare; a word written in some language is exactly what "
+            "the code exists to avoid" % (name, lang))
+    dirs = data.get("directions")
+    if dirs not in (None, "", [], {}) and not isinstance(dirs, list):
+        err("H [%s] config.yaml `directions` is a single string — the schema takes a list "
+            "(one `- <stream>` per line); a comma-joined string reads as ONE direction" % name)
+    status = data.get("active_status")
+    if isinstance(status, str) and status:
+        known = {os.path.basename(p)[:-3].split("-", 1)[1]
+                 for p in glob.glob(os.path.join(ROOT, "statuses", "[0-9]*-*.md"))}
+        if known and status not in known:
+            err("H [%s] config.yaml `active_status: %s` names no status file — statuses/ holds: %s"
+                % (name, status, " / ".join(sorted(known))))
+
+
+# The artifact frontmatter schema is the step template's own frontmatter (`artifact-template` ->
+# `artifact`); status/version/updated ride along like on every framework file.
+ARTIFACT_FM_KEYS = ("node_type", "artifact", "step", "title", "status", "version", "updated")
+ARTIFACT_FM_HOMES = {
+    "worklog": "worklogs are named by each section's `<!-- tool: … -->` marker and live in the "
+               "step folder (check P) — a frontmatter list is a second home that drifts",
+    "active_status": "the active status lives in config.yaml, never in an artifact",
+    "confirmed": "confirmation is a per-section `<!-- confirmed: -->` marker, not a frontmatter key",
+}
+
+
+def check_artifact_frontmatter(inst):
+    """H2 — an instance artifact's frontmatter carries the template's keys and invents none.
+
+    Gate ids are `<artifact>#<section>`, so a file that drops `artifact`/`step` unhooks its own
+    ticks; and an invented key (seen live: a `worklog:` list that immediately went stale against
+    the folder) is a second home for something the canon already stores elsewhere. Off-schema keys
+    WARN with the canon home where one is known.
+    """
+    name = rel(inst)
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        fm, _ = T.frontmatter(art)
+        if fm.get("node_type") != "artifact":
+            continue
+        base = os.path.basename(art)
+        for key in ("artifact", "step"):
+            if fm.get(key) in (None, ""):
+                err("H2 [%s] %s frontmatter is missing `%s` — gate ids are `<artifact>#<section>`, "
+                    "so without it no tool can key this file's ticks" % (name, base, key))
+        for key in fm:
+            if key not in ARTIFACT_FM_KEYS:
+                hint = ARTIFACT_FM_HOMES.get(
+                    key, "no tool reads it, and an invented key is a second home for something "
+                         "the canon stores elsewhere")
+                warn("H2 [%s] %s frontmatter has off-schema key `%s` — %s" % (name, base, key, hint))
+
+
+def check_install(checked):
+    """I2 — a vendored framework is pinned and pointed at (install/README -> Acceptance).
+
+    Detected by layout, not by flag: an instance whose repo root CONTAINS this framework means the
+    framework is a vendored copy inside a product repo. Then the install's two machine-checkable
+    debts become errors: the FRAMEWORK-VERSION pin at the vendor root (tag AND commit SHA — without
+    it nobody can say what version the instance runs on), and the pointer in the product repo's
+    root AGENTS.md (what makes a plain "continue the strategy" land in the loop instead of an
+    ad-hoc bulk fill). In the framework's own dev repo nothing fires: its instances (examples/)
+    live INSIDE the framework, not beside it.
+    """
+    root_abs = os.path.abspath(ROOT)
+    seen = set()
+    for inst in checked:
+        repo = os.path.dirname(os.path.abspath(inst))
+        if repo in seen or repo in ("", os.sep):
+            continue
+        seen.add(repo)
+        # vendored layout: the framework sits somewhere under the instance's repo root, and is not
+        # an ancestor of the instance itself (examples/ inside the dev repo must stay silent)
+        if not root_abs.startswith(repo + os.sep) or os.path.abspath(inst).startswith(root_abs + os.sep):
+            continue
+        tag = rel(inst)
+        pin = os.path.join(root_abs, "FRAMEWORK-VERSION")
+        if not os.path.exists(pin):
+            err("I2 [%s] the framework is vendored but has no FRAMEWORK-VERSION at the vendor root "
+                "— write the pinned tag AND commit SHA (install/README -> Acceptance); without it "
+                "nobody can say what version this instance runs on" % tag)
+        elif not re.search(r"\b[0-9a-f]{7,40}\b", read(pin)):
+            warn("I2 [%s] FRAMEWORK-VERSION names no commit SHA — tags can move or be deleted; "
+                 "the SHA is the immutable anchor" % tag)
+        agents = os.path.join(repo, "AGENTS.md")
+        if not os.path.exists(agents):
+            err("I2 [%s] no AGENTS.md at the product repo root (%s) — the install owes it the "
+                "pointer into the framework and the standing delegation approval "
+                "(install/README -> point 1)" % (tag, rel(repo) or repo))
+        else:
+            body = read(agents)
+            if "start-work" not in body:
+                warn("I2 [%s] the root AGENTS.md never names `start-work` — without the pointer, "
+                     "\"continue the strategy\" lands outside the loop" % tag)
+            if "loops-" not in body:
+                warn("I2 [%s] the root AGENTS.md carries no standing delegation approval "
+                     "(`loops-*`) — a restricted session will silently fall back to working solo"
+                     % tag)
 
 
 def check_local_skills(inst):
@@ -1319,6 +1427,7 @@ def main(argv=()):
     for inst in checked:
         check_instance(inst)
         check_config(inst)
+        check_artifact_frontmatter(inst)
         check_local_skills(inst)
         check_card_schema(inst)
         check_card_home(inst)
@@ -1331,6 +1440,7 @@ def main(argv=()):
         check_rests_confirmed(inst)
         check_register_tables(inst)
         check_register_ids(inst)
+    check_install(checked)
     check_links()
     check_gates(homed)
     check_rests_on(homed)

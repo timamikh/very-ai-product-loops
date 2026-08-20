@@ -8,8 +8,8 @@ description: >
   fill. Use at the start of any working session, on resume after a restart/compaction, or when
   picking up an instance someone else set up.
 status: draft
-version: 0.3.0
-updated: 2026-08-19
+version: 0.4.0
+updated: 2026-08-20
 ---
 
 # Start work (begin / resume a session)
@@ -43,16 +43,22 @@ before the first pass and tell the human if either fails:
 
 Read the instance's current state (state, not rules — verify it against the registers/artifacts):
 
-1. **`HANDOFF.md`** (if present) — where the last session left off. It restores *state, not rules or
+1. **The linter, first** — `python3 tools/lint.py <instance>`, and show the human the verdict line
+   plus every error. This report is the debt a previous session may have left **silently** (a weaker
+   agent, an interrupted pass, an update that changed a shape) — session start is the one moment a
+   human is guaranteed to see it. Check the `instances checked:` line names the instance: after
+   setup, a run that found nothing to check is a failure wearing a success message. **Fix nothing
+   yet** — a finding becomes a trigger, worked as an ordinary pass, at the human's order.
+2. **`HANDOFF.md`** (if present) — where the last session left off. It restores *state, not rules or
    truth*; treat anything older than its last change-log entry as suspect, and run its
    "Environment & access" checks before relying on them.
-2. **`config.yaml`** — `active_status`, `language`, `directions`, source slots.
-3. **`sources/INDEX.md`** — the knowledge map; open only the sources a task needs, not the whole folder.
-4. **Recorded debts** — open items in the artifacts, unanswered `questions.yaml`, and any **overdue
+3. **`config.yaml`** — `active_status`, `language`, `directions`, source slots.
+4. **`sources/INDEX.md`** — the knowledge map; open only the sources a task needs, not the whole folder.
+5. **Recorded debts** — open items in the artifacts, unanswered `questions.yaml`, and any **overdue
    exchange cadence**: compare each `<instance>/skills/*/SKILL.md` `cadence:` against its `last_run` in
    `state.yaml`. This session-start scan is the framework's only sweep — an overdue pull/push surfaces
    here as a trigger, never by the framework polling in the background.
-5. Determine the **active status** and the **current step**. Both are read, not guessed; if unclear, ask.
+6. Determine the **active status** and the **current step**. Both are read, not guessed; if unclear, ask.
 
 Then read only what this task needs: the current step's `README.md` (its gate checklist + skeleton)
 and the active status's `per_step[N]` (goals + tool emphasis). Do not pre-load the whole framework.
