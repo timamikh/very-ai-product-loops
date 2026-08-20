@@ -2,7 +2,7 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.9.0
+version: 0.10.0
 updated: 2026-08-20
 ---
 
@@ -96,7 +96,7 @@ Exactly one value; a secondary class is discussed in the body, never compounded 
 | `primary-research` | talking to or observing people directly — interviews, usability sessions, field observation | non-leading questions, past behaviour over stated intent, the sample and its bias named; a quote is evidence of one person, and *n* is stated |
 | `internal-data` | the product's own instrumentation and registers — **including controlled experiments run on it** | the reading is reproducible — population, window, derivation written down per [`operations/metrics-capture/`](../operations/metrics-capture/SKILL.md); never a number without its denominator |
 | `derived` | no new empirical claim — it composes, computes or ranks what other methods established | every input names the method or register it came from; the method's own reasoning is `[assumption]`, never blanket-sourced to its inputs |
-| `decision` | a choice, a plan or a specification the humans own | the decision is dated and attributed and the alternatives are shown, in one canonical line at the end of the produced section — `**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why>`, with ⚙️ while the agent's proposal is unconfirmed. **The alternatives field is not optional and a bare *none* is a defect** — see *The rejected alternative* below |
+| `decision` | a choice, a plan or a specification the humans own | the decision is dated and attributed and the alternatives are shown, in one canonical line at the end of the produced section, its three fields **keyed** so a tool reads them in any language — `**Decided:** <!--d:date--> <date> · **by:** <!--d:by--> <who> · **alternatives considered:** <!--d:alts--> <what lost, and why>` ([`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → *The decision line*), with ⚙️ while the agent's proposal is unconfirmed. **The alternatives field is not optional and a bare *none* is a defect** — see *The rejected alternative* below |
 
 **The tie-break**, because most methods touch more than one class: declare the class of **the claims a
 reader is most likely to take on trust**. A channel plan is a choice, but what a reader swallows
@@ -139,12 +139,13 @@ subagent ([`operations/orchestration/`](../operations/orchestration/SKILL.md) �
 records. One route to the obligation, not a second obligation: a pass that already weighed a real
 alternative owes no subagent.
 
-**No linter holds this**, and the reason is worth knowing: the line is prose in the instance's
-documentation language (the shipped Russian example writes *Решено / кем / рассмотренные
-альтернативы*), so a check keyed on the English label would pass every translated artifact in silence
-— the failure the column-key rule exists to prevent ([`process/CONVENTIONS.md`](../../process/CONVENTIONS.md)
-→ *Column keys*). Until the decision line carries a key, it is held by `verify` and by the human who
-signs the section.
+**What holds it.** The line's three fields carry keys — `<!--d:date-->` · `<!--d:by-->` ·
+`<!--d:alts-->` — so **check O4** reads the alternatives field in any language and errors on an empty
+or bare-*none* one ([`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → *The decision line*).
+That is the machine half, and it can only judge whether something is written there. Whether what is
+written is a real alternative is held by two readers: a `verify` return (the fresh reader's checklist
+carries the field) and the human at sign-off, whom [`theses`](../operations/theses/SKILL.md) asks what
+makes the chosen option better than the one it beat.
 
 ## How to add a tool
 

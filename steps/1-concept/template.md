@@ -106,7 +106,8 @@ _Everything above starts as an assumption. List the ones to carry into the hypot
 <!-- open -->
 _Open items surfaced by the agent for the human to resolve._
 
-- …
+- … — *the human chooses* · *nobody knows yet* · *a later step owns it* (name the step):
+  keep exactly one (`process/CONVENTIONS.md` → the `open` bullet)
 
 ## Change log
 

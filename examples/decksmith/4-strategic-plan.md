@@ -155,10 +155,12 @@ flagged not invented. Targets rest on a model with no actuals — doubly ⚙️.
 | `M-w4-retention` | ≥ 30% floor | driver bar (`H-003`), not a scenario output | the switch *sticking* (`H-003`); a flattening core is the fit signal | [assumption] |
 | `M-contribution` | ≥ $25/mo (~80%) | base §5 (read off: ~$29.5/payer) | the margin guardrail — stay economic while chasing volume | [assumption] |
 
-**Decided:** 2026-08-16 · **by:** acting PO ⚙️ (awaiting human) · **alternatives considered:** the
-conservative/stretch scenario values (e.g. WNVE ~400 / ~850) — base chosen as the honest middle. ⚙️
-while unconfirmed. **Ladder rule:** Step-5 period targets each step toward these; a period moving no
-horizon target is drift, visible at the Step-5 gate.
+**Ladder rule:** Step-5 period targets each step toward these; a period moving no horizon target is
+drift, visible at the Step-5 gate.
+
+**Decided:** <!--d:date--> 2026-08-16 · **by:** <!--d:by--> acting PO ⚙️ (awaiting human) ·
+**alternatives considered:** <!--d:alts--> the conservative/stretch scenario values (e.g. WNVE ~400
+/ ~850) — base chosen as the honest middle.
 
 ## Capabilities & systems {#capabilities}
 <!-- tool: capabilities-systems -->
@@ -243,6 +245,16 @@ down it stops the next cycle from re-running it.
 | Can week-4 retention be measured now? | no — pre-launch, every cohort censored | absence of data, not a refutation | `M-w4-retention` marked not-instrumented; `H-003` untested until launch |
 
 ## Change log
+
+### 2026-08-20 — decision line(s) keyed for machine reading
+- **From → To:** 1 `**Decided:**` line(s) as prose → each carrying `<!--d:date-->` ·
+  `<!--d:by-->` · `<!--d:alts-->` before its value (values unchanged; the **Ladder rule** paragraph moved above the line, which must be its section's last, and `⚙️ while unconfirmed` dropped as a duplicate of the `by:` field)
+- **Why:** the alternatives field is the one field an agent can satisfy by writing nothing,
+  and a check keyed on the English label would pass every translated artifact in silence —
+  the keys make it readable in any language (CONVENTIONS → *The decision line*, linter
+  check O4). No conclusion changed, so the confirmation markers stand.
+- **Trigger:** canon wave 3.5 — the schema gained the keys; the clean copy carries its
+  schema's form
 
 ### 2026-08-17 — card lines marked for the console board
 - **From → To:** no section carried a `<!-- card -->` mark → 6 section(s) with a natural headline

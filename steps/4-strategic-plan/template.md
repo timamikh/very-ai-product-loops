@@ -4,7 +4,7 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.5.1
+version: 0.5.2
 updated: 2026-08-20
 ---
 
@@ -108,8 +108,9 @@ value, Step-5 `goal-targets` sets the period value — three values, three owner
 |--------------|-------------------|---------------|---------------|------------|
 | M-… | … | base / conservative / optimistic | … | [assumption] |
 
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <one weighed alternative and
-why it lost, or what makes the choice forced — a bare "none" is a defect> · ⚙️ while unconfirmed
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <one weighed alternative and why it lost, or what makes
+the choice forced — a bare "none" is a defect>
 
 ## Capabilities & systems {#capabilities}
 <!-- tool: capabilities-systems -->
@@ -144,7 +145,8 @@ _Strategy bets, now quantified & tied to metric nodes (threshold set here; test 
 <!-- open -->
 _What's still unknown, explicitly — not hidden._
 
-- …
+- … — *the human chooses* · *nobody knows yet* · *a later step owns it* (name the step): keep exactly
+  one (`process/CONVENTIONS.md` → the `open` bullet)
 
 **Checked, not confirmed.** A check that came back neither validated nor refuted is a result: written
 down it stops the next cycle from re-running it, unwritten it is re-run forever. Name what moved —

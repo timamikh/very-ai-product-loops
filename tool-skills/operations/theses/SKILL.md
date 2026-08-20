@@ -11,8 +11,8 @@ surfaces: [sign-off]
 opinionated: true
 method_basis: "Human sign-off as the semantic gate: the agent presents the section's thesis in plain language, the human confirms THIS version, and the confirmation is stamped on the section and dropped when the section changes. Runs at scope step (one step) or instance (every step, plus cross-step rests-on provenance)"
 status: draft
-version: 0.3.0
-updated: 2026-08-14
+version: 0.4.0
+updated: 2026-08-20
 ---
 # Theses — walk the human through a step's results and record the sign-off
 
@@ -85,7 +85,24 @@ loop's **Show reasoning first**: the human reacts to the thesis as stated, decod
 sentence (no bare `H-006` / `R-001`). Group them so the human signs a step in one sitting, but shows
 **each** thesis — a single "confirm all" without seeing them is the anti-pattern below.
 
-**3 · Take the human's verdict, per section.**
+**3 · Where the section carries a decision, ask what it beat.** A section ending in a `**Decided:**`
+line was a **choice**, and the human is signing the choice, not the paragraph. So one extra question
+before the verdict, in plain words: *what makes this better than the option it beat?* — reading them
+the alternative the line records (`<!--d:alts-->`). Three answers, three different moves:
+
+- **The human answers from the line** — the alternative was real and the reason holds. Sign it.
+- **The human disagrees with the reason** — the fork is open again, and that is a send-back, not an
+  edit to the wording.
+- **Nobody can say what it beat** — the line says *forced* where nothing forced it, or the alternative
+  is the chosen option in other words. Do not sign, and do not invent one on the spot: it is an
+  ordinary re-projection, with the refutation lens available if the pass has no alternative of its own
+  ([`orchestration`](../orchestration/SKILL.md) → *The two lenses of a `verify`*).
+
+This is the cheapest quality gate in the loop — one question, no new mechanism — and it is the only
+place a *bad* decision (as opposed to a badly written one) is caught by design: the linter can see
+that the alternatives field is filled, never that what fills it is real.
+
+**4 · Take the human's verdict, per section.**
 
 - **Confirm** → stamp `<!-- confirmed: <today> -->` right after the section's `<!-- tool: … -->` /
   `<!-- synthesis -->` marker. Add ` by:<who>` when the product records an operator identity — read it,
@@ -101,7 +118,7 @@ sentence (no bare `H-006` / `R-001`). Group them so the human signs a step in on
 Never self-confirm, never confirm on silence — absence of a marker is the honest state. `confirmed` and
 `contested` are mutually exclusive: a section carries at most one (the linter's check R holds it).
 
-**4 · Record it.** A dated **change-log** entry in the artifact naming the sections confirmed and any
+**5 · Record it.** A dated **change-log** entry in the artifact naming the sections confirmed and any
 sent back (with the reason for the send-back), then **`python3 tools/lint.py <instance>` reports 0
 errors** — check Q catches a malformed date (which would silently read as pending) and a schema that
 shipped a marker at all; check R catches a section left both confirmed and contested.
@@ -118,6 +135,9 @@ Then tell the human what now stands confirmed and what is still pending, in the 
   outliving the thesis it approved. A changed section is re-confirmed or left pending.
 - **Confirming a placeholder.** Stamping a section that is empty or all `— to clarify —`. There is no
   result to sign.
+- **Signing a choice without its alternative.** Presenting a decision section as a conclusion and
+  taking a yes. The human then owns a choice they were never shown the other side of, which is the
+  one thing a signature was supposed to mean here.
 - **Confirmation in a second place.** Recording the sign-off anywhere but the section marker — a note in
   the worklog, a field in `state.yaml`. The date on the section is its one home; the console reads only
   that.

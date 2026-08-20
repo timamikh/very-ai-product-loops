@@ -112,7 +112,8 @@ _Market/sizing assumptions carried into the hypothesis register._
 <!-- open -->
 _Open items surfaced by the agent for the human to resolve._
 
-- …
+- … — *the human chooses* · *nobody knows yet* · *a later step owns it* (name the step):
+  keep exactly one (`process/CONVENTIONS.md` → the `open` bullet)
 
 ## Change log
 

@@ -26,5 +26,6 @@ produces is a wish: fix the model or lower the target._
 |--------------|----------------|
 | … | follows mechanically from a targeted node · not on the winning logic's path · no honest read at this horizon |
 
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <the scenario values not
-chosen, and why these> · ⚙️ while the agent's proposal is unconfirmed.
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <the scenario values not chosen, and why these — never
+a bare "none">

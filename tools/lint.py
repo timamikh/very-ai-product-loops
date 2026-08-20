@@ -35,6 +35,9 @@ Checks (ERROR fails CI · WARN never does):
      enforced — a template-keyed section left un-keyed in the instance is an error)
   O3 a column with a template-declared vocabulary (`<!-- enum:c:key: a | b -->` under the table)
      holds only its tokens — the template is the schema, for artifacts as for registers (check D)
+  O4 a decision line's three fields are keyed (`<!--d:date-->` · `<!--d:by-->` · `<!--d:alts-->`,
+     all or none) and its alternatives field is neither empty, a bare *none*, nor an unfilled
+     placeholder; an English `**Decided:**` label with no keys WARNs (best-effort by construction)
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
      sections use; required — every artifact section that names a method (or synthesis) has its worklog
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
@@ -1055,6 +1058,124 @@ def check_confirm_dates(inst):
                     % (rel(inst), os.path.basename(art), raw))
 
 
+D_KEY_RE = re.compile(r"<!--\s*d:([a-z0-9-]+)\s*-->")
+D_LABEL_RE = re.compile(r"^\*\*Decided:\*\*", re.M)
+D_FIELDS = ("date", "by", "alts")
+D_BARE_NONE_RE = re.compile(r"^(none|none recorded|no alternatives|not considered|n/?a|нет|не рассматривались"
+                            r"|—|-|\.\.\.|…)[.\s]*$", re.I)
+
+
+def _live(s):
+    """`s` with inline-code spans and fenced blocks removed — a *documented* marker is not a live one.
+
+    The framework documents its own markers in prose (a change-log entry naming the keys it added, a
+    reference file showing the shape). Reading those as live fields would make every explanation of
+    the mechanism a defect in it — the same reasoning that makes check Q strip fences.
+    """
+    return re.sub(r"`[^`]*`", "``", re.sub(r"```.*?```", "", s, flags=re.S))
+
+
+def _decision_blocks(text):
+    """(line_no, block) for every paragraph carrying a *live* `d:` field key — the line and its wrap.
+
+    The block ends at the first blank line, which is the parse rule the canon states (reference/
+    column-keys.md → Decision-line field keys): `d:alts` is last and runs to the end of the block.
+    The artifact's **change log** is cut first: it is the last section by convention (CONVENTIONS →
+    Change logs) and it talks *about* sections, so a decision line never lives there.
+    """
+    text = text.split("\n## Change log")[0]
+    lines = text.split("\n")
+    out, i = [], 0
+    while i < len(lines):
+        if D_KEY_RE.search(_live(lines[i])):
+            start = i
+            while start > 0 and lines[start - 1].strip():   # back up to the paragraph's first line
+                start -= 1
+            end = i
+            while end < len(lines) and lines[end].strip():
+                end += 1
+            out.append((start + 1, "\n".join(lines[start:end])))
+            i = end
+        else:
+            i += 1
+    return out
+
+
+def _d_value(block, key, last=False):
+    """The value a `d:` key introduces: to the next `·`, or to the end of the block for the last field."""
+    m = re.search(r"<!--\s*d:%s\s*-->" % re.escape(key), block)
+    if not m:
+        return None
+    rest = block[m.end():]
+    if last:
+        return rest.strip()
+    cut = rest.find("·")
+    return (rest if cut < 0 else rest[:cut]).strip()
+
+
+def check_decision_lines(inst):
+    """O4 (instance) — the decision line is machine-readable, and it names what the choice beat.
+
+    A `decision` method's section ends in one canonical line (CONVENTIONS → The decision line). Its
+    third field is the only one an agent can satisfy by writing nothing — *alternatives considered:
+    none* is legal prose and the commonest shape of a bad decision: the first idea, dated. The fields
+    carry keys so this check reads them in **any** language, which is the whole reason the keys exist:
+    a Russian artifact writes `Решено / кем / рассмотренные альтернативы`, and a check keyed on the
+    English label would pass it in silence.
+
+    What the machine can and cannot do: it sees whether something is written in the alternatives
+    field, never whether what is written is a real alternative. That half is held by a `verify` return
+    and by the human at sign-off (`operations/theses` asks what the choice beat).
+    """
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        text = read(art)
+        keyed_lines = set()
+        for lineno, block in _decision_blocks(text):
+            keyed_lines.update(range(lineno, lineno + block.count("\n") + 1))
+            keys = D_KEY_RE.findall(_live(block))
+            unknown = sorted(set(keys) - set(D_FIELDS))
+            if unknown:
+                err("O4 [%s] %s:%d: unknown decision field key(s) %s — the three are `d:date`, "
+                    "`d:by`, `d:alts` (CONVENTIONS → The decision line)"
+                    % (rel(inst), os.path.basename(art), lineno,
+                       ", ".join("`d:%s`" % k for k in unknown)))
+            dupes = sorted({k for k in keys if keys.count(k) > 1})
+            if dupes:
+                err("O4 [%s] %s:%d: decision field key(s) %s repeat in one line — one key, one field"
+                    % (rel(inst), os.path.basename(art), lineno,
+                       ", ".join("`d:%s`" % d for d in dupes)))
+            missing = [k for k in D_FIELDS if k not in keys]
+            if missing:
+                err("O4 [%s] %s:%d: decision line is half-keyed — missing %s. All three keys or none: "
+                    "a half-keyed line is the ambiguity the key removes (CONVENTIONS → The decision line)"
+                    % (rel(inst), os.path.basename(art), lineno,
+                       ", ".join("`d:%s`" % m for m in missing)))
+            date = _d_value(block, "date")
+            if date is not None and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+                err("O4 [%s] %s:%d: `d:date` = %r is not a YYYY-MM-DD date — an undated decision has "
+                    "no version it approved" % (rel(inst), os.path.basename(art), lineno, date))
+            alts = _d_value(block, "alts", last=True)
+            if alts is None:
+                continue
+            if alts.startswith("<") and alts.endswith(">"):
+                err("O4 [%s] %s:%d: the alternatives field still holds its template placeholder %r — "
+                    "the line was copied, not filled" % (rel(inst), os.path.basename(art), lineno, alts))
+            elif not alts or D_BARE_NONE_RE.match(alts):
+                err("O4 [%s] %s:%d: the alternatives field is %s — name one alternative that was "
+                    "weighed and why it lost, or what makes the choice forced (tool-skills/library/"
+                    "README.md → The rejected alternative)"
+                    % (rel(inst), os.path.basename(art), lineno,
+                       "empty" if not alts else "a bare %r" % alts))
+        # Best-effort, and only where the prose happens to be English: a decision line with no keys
+        # at all is unreadable to this check. The keys are the contract; the label never was.
+        for m in D_LABEL_RE.finditer(text.split("\n## Change log")[0]):
+            lineno = text[:m.start()].count("\n") + 1
+            if lineno not in keyed_lines:
+                warn("O4 [%s] %s:%d: a `**Decided:**` line carries no `d:` field keys — nothing can "
+                     "read its alternatives field in any language (CONVENTIONS → The decision line)"
+                     % (rel(inst), os.path.basename(art), lineno))
+
+
 def check_open_not_confirmed(inst):
     """R (instance) — confirmation markers are used consistently on a section:
 
@@ -1205,6 +1326,7 @@ def main(argv=()):
         check_boundary(inst)
         check_instance_conformance(inst)
         check_confirm_dates(inst)
+        check_decision_lines(inst)
         check_open_not_confirmed(inst)
         check_rests_confirmed(inst)
         check_register_tables(inst)

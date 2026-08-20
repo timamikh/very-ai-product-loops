@@ -100,7 +100,8 @@ _What goes to the development process, and how (the framework ends here; work pr
 <!-- open -->
 _Unresolved sprint questions; resolved by deleting the line._
 
-- …
+- … — *the human chooses* · *nobody knows yet* · *a later step owns it* (name the step):
+  keep exactly one (`process/CONVENTIONS.md` → the `open` bullet)
 
 ## Change log
 

@@ -19,6 +19,7 @@ _How the product solves each problem above. No orphan features._
 |------------|--------------|
 | … | no ranked pain / tier-3 only / duplicate mechanism |
 
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <at least one alternative
-actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect> ·
-⚙️ if the agent proposed it and the human has not confirmed.
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
+proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
+actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.
+Weighed none? Order a refutation — `operations/orchestration` → *The two lenses of a `verify`*>

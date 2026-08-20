@@ -72,6 +72,53 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Canon wave 3.5 — the rules that had no carrier
+
+Six debts closed, all of the same shape: a rule stated in one file and worked from another.
+
+- **The open item's kind: two became three.** `step-close` told the pass to label an open item with
+  "one of the two kinds" while CONVENTIONS (wave 3.4's own addition) had made them three — and the
+  card's own `template-fragment.md` already listed all three. An agent reads the card in the pass, not
+  the rule file, so it would have shipped two labels out of three: exactly *a later step owns it*, the
+  kind that otherwise reads as decided when it is merely inherited. The card now points at the canon
+  instead of restating it.
+- **The kind label reaches the form.** All six step templates left their `open` inbox as a bare
+  `- …` — the rule lived in CONVENTIONS and nowhere the agent looks while filling the section. The
+  placeholder now carries the three kinds, "keep exactly one". And the rule gained the qualifier it
+  needed: where the inbox is a **table with an owner column** (`#blockers`), that column *is* the
+  kind — a second label beside it would be the same fact spelled twice.
+- **The refutation lens is reachable from the pass.** Wave 3.4 made the rejected alternative
+  mandatory, but the route to one — the refutation lens — was named only in `library/README.md` (read
+  when *authoring* a method) and in `orchestration`. The `Decided:` placeholder in all 15 method
+  fragments now carries it: *weighed none? order a refutation*. An obligation with no route gets
+  satisfied the cheapest way, which here means "forced" written where nothing forced it.
+- **The decision line is keyed** (`<!--d:date-->` · `<!--d:by-->` · `<!--d:alts-->`, all three or
+  none) and **check O4** reads it. This is what wave 3.4 said it could not do: the line was prose in
+  the instance's language, so an English-keyed check would pass every translated artifact in silence.
+  Keys move it into the same contract as a column key — label prose free and translatable, the key
+  fixed. The parse rule is canon (CONVENTIONS → *The decision line*; detail in
+  `reference/column-keys.md`): `·` separates fields, `d:alts` is last and runs to the end of the
+  block, so the line is its section's last. O4 errors on a half-keyed line, a malformed date, an
+  unfilled placeholder, and an empty or bare-*none* alternatives field; it warns where an English
+  `**Decided:**` label carries no keys, and that warning is best-effort **by construction** — the
+  keys are the contract, the label never was. Proven by injection: five defects, five catches, plus a
+  Russian-labelled keyed line passing clean and an unkeyed Russian one staying invisible.
+  **Unlike a column key, this key does live in a method's `template-fragment.md`** — the line is
+  copied verbatim, not adapted by meaning, so its keys travel with it. The reference example's nine
+  decision lines are migrated (values unchanged; one `**Ladder rule:**` paragraph moved above its
+  line, which must be its section's last), each artifact carrying the change-log entry.
+- **The fresh reader looks at it.** `loops-verify`'s checklist gains decision lines as its item 5:
+  an empty field, a bare *none*, or the chosen option restated in other words is a finding. Until now
+  nothing but the author's attention held the rule.
+- **The human is asked what the choice beat.** New step 3 of `theses`: where a section carries a
+  `Decided:` line, one plain question before the verdict — *what makes this better than the option it
+  beat?* — with the three answers and their moves (sign · send back · do not sign and do not invent
+  one on the spot). This is the only place a **bad** decision, as opposed to a badly written one, is
+  caught by design: a check can see that the field is filled, never that what fills it is real. New
+  anti-pattern: signing a choice without its alternative.
+- Canon: 5,167 → 5,372 words. The growth is the decision-line contract, which is a contract two
+  independent readers must agree on — the one thing CONVENTIONS is for.
+
 ### Canon wave 3.4 — the conclusion nobody argued against
 
 - The gap, measured on the same two artifacts as wave 3.2: the traced run's sections were correct

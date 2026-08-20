@@ -108,7 +108,8 @@ _Dependencies / blockers with an owner (link back to `R-…`)._
 
 ## To clarify {#to-clarify}
 <!-- open -->
-- …
+- … — *the human chooses* · *nobody knows yet* · *a later step owns it* (name the step):
+  keep exactly one (`process/CONVENTIONS.md` → the `open` bullet)
 
 ## Change log
 

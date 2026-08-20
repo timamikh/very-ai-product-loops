@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.28.0
+version: 0.30.1
 updated: 2026-08-20
 ---
 
@@ -38,6 +38,25 @@ never by its header text — so it is found in any language. A table is **all-ke
 a filled instance section carries its template's keys (check O2); **no consumer, no key**. Key form,
 the three homes of a key, and the one place it must never be —
 [`reference/column-keys.md`](reference/column-keys.md), read when authoring a template or a register.
+
+## The decision line
+
+A section filled by a method whose evidence rests on **a choice** ends in one canonical line, and its
+three fields carry **field keys** so a tool reads them in any language:
+
+```markdown
+**Decided:** <!--d:date--> 2026-08-20 · **by:** <!--d:by--> ⚙️ acting PO · **alternatives considered:**
+<!--d:alts--> leading on demand rather than feasibility (rejected — the concept lives or dies on the engine)
+```
+
+Label prose is free and translatable, the keys are not. `·` separates the fields, so no value
+*before* the last may hold one; `d:alts` is last and runs to the end of the block — it may list
+several alternatives with `·` freely, and the line is its section's last. **All three keys or
+none** (check O4), and the alternatives field is never a bare *none* — it names one alternative that
+was weighed and why it lost, or what makes the choice forced
+([`../tool-skills/library/README.md`](../tool-skills/library/README.md) → *The rejected alternative*).
+Unlike a column key, a decision-field key **does** live in a method's `template-fragment.md`: this
+line is copied verbatim rather than adapted by meaning, so its keys travel with it.
 
 ## Card line
 
@@ -101,7 +120,9 @@ An artifact section is a **thesis** — the linter holds its *structure*, a **hu
   item names which kind it is** — *the human chooses* (it waits for a person) · *nobody knows yet*
   (it waits for work someone must go and do) · *a later step owns it* (naming the step). The kinds
   are not decoration: an inbox where the second kind is filed as the first reads as decided when
-  it is merely unasked, and the reader most likely to act on it is the one the label is for.
+  it is merely unasked, and the reader most likely to act on it is the one the label is for. Where
+  the inbox is a **table with an owner column** (`#blockers`), that column *is* the kind — it already
+  names who must act, and a second label beside it would be the same fact spelled twice.
 
 The procedure — walking the human through each thesis, never self-issued — is the
 [`theses`](../tool-skills/operations/theses/SKILL.md) operations skill (OPERATING-LOOP move 5).

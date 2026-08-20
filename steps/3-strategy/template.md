@@ -119,7 +119,8 @@ _Risks specific to this strategy (mitigations owned at Step 4)._
 <!-- open -->
 _Open items surfaced for the human to resolve._
 
-- …
+- … — *the human chooses* · *nobody knows yet* · *a later step owns it* (name the step):
+  keep exactly one (`process/CONVENTIONS.md` → the `open` bullet)
 
 ## Change log
 

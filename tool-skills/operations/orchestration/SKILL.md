@@ -12,7 +12,7 @@ surfaces: []
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.5.0
+version: 0.5.1
 updated: 2026-08-20
 ---
 # Orchestration — running one pass with subagents
@@ -174,7 +174,9 @@ lines 3 and 9 are where a loud failure is supposed to land.
 A `verify` brief names a lens, and there are two kinds.
 
 **Conformance** — the default, and what the shipped subagent does unbriefed: tags, sourcing, gaps,
-internal consistency, gate coverage. It answers *is this written correctly?*
+internal consistency, **decision lines** (an empty or bare-*none* alternatives field —
+[`library/README.md`](../../library/README.md) → *The rejected alternative*), gate coverage. It answers
+*is this written correctly?*
 
 **Refutation** — the brief names **one conclusion** and asks for the strongest case that it is
 **wrong**. It answers *is this true?*, which no conformance pass asks: a section can be fully tagged,
@@ -215,7 +217,7 @@ already weighed a real alternative owes no subagent — one obligation, two rout
 | **One source, one agent** | source | `gather` | two agents reading the same source and reporting different totals — that is a real finding, not a bug: it means the derivation is not written down (see `metrics-capture`) |
 | **One question, one agent** | question | `research` | overlapping questions producing the same digest twice |
 | **One direction, one agent** | work direction (Steps 5–6) | `draft` | drafts that assume different capacity — state the shared constraints in every brief |
-| **One lens, one agent** | the angle of the check (sourcing · internal consistency · gate coverage) | `verify` | one "review this" agent instead of three lenses: a single reviewer converges on the most obvious defect |
+| **One lens, one agent** | the angle of the check (sourcing · internal consistency · decision lines · gate coverage) | `verify` | one "review this" agent instead of three lenses: a single reviewer converges on the most obvious defect |
 | **Fresh reader** | nothing — one agent, no context | `verify` | using the agent that drafted the section. It cannot see its own assumptions |
 | **Refute the claim** | the conclusion, not the file | `verify` | a brief naming a section instead of a quoted claim: the return is a review, and the conclusion stays unopposed |
 

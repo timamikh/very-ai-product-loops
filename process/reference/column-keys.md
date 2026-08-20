@@ -1,16 +1,17 @@
 ---
 node_type: reference
-title: Column keys — the authoring rule
+title: Keys — columns, and the decision line's fields
 status: draft
-version: 0.2.0
-updated: 2026-08-19
+version: 0.3.0
+updated: 2026-08-20
 ---
 
 # Column keys
 
-*Read this when authoring or editing a **step template** or a **register** — deciding whether a
-table column carries a `<!--c:key-->` and where its key lives. The one-line contract stays in*
-[`CONVENTIONS.md`](../CONVENTIONS.md) → *Column keys*; *the authoring detail is here.*
+*Read this when authoring or editing a **step template**, a **register**, or a method fragment that
+ends in a **decision line** — deciding whether something carries a key and where that key lives. The
+one-line contracts stay in* [`CONVENTIONS.md`](../CONVENTIONS.md) → *Column keys* *and* → *The decision
+line*; *the authoring detail is here.*
 
 A table column is addressed by a **stable key**, never by its header text — the column-level twin of
 a section `{#anchor}`, the same "mark, don't guess" rule one level down. The key rides in a hidden
@@ -54,6 +55,33 @@ section carrying its template's keys — is check O2 (instance-conformance).
 This exists because matching a column by header prose breaks the moment the instance is written in
 another language or its columns are reordered — the failure the section `{#anchor}` already prevents
 for whole sections.
+
+## Decision-line field keys
+
+The same "mark, don't guess" rule on a **line** instead of a table row. A `decision` method's canonical
+line (CONVENTIONS → *The decision line*) carries `<!--d:date-->`, `<!--d:by-->` and `<!--d:alts-->`,
+each **after its label and before its value** — exactly where a column key sits relative to its column.
+The parse rule the linter uses, and the one an author must not break:
+
+- the **block** is the decision line and its wrapped continuation, ending at the first blank line;
+- `·` is the field separator, so `d:date` and `d:by` end at the next one and may not contain it;
+  `d:alts`, being last, may list several alternatives separated by `·` — the block's end is its end;
+- `d:alts` is **last** and runs to the end of the block, which is why the canonical line is the last
+  thing in its section: a paragraph after it with no blank line between would be read as alternatives.
+
+Three keys or none: a half-keyed line is the same ambiguity a half-keyed table is. Check **O4** holds
+the shape and rejects an empty or bare-*none* alternatives field.
+
+**Why this key lives where a column key may not.** A column key is banned from a method's
+`template-fragment.md` because the draft's table is adapted into the clean copy **by meaning** — a key
+there would sync with nothing. The decision line is the opposite case: the framework fixes its shape,
+and the method copies it **verbatim** into the section. So the fragment is one of its homes, alongside
+the step template that carries the line and the instance section that ends in it.
+
+**The one thing the key cannot fix.** An instance that never carried the keys is invisible to check O4 —
+a Russian artifact writing *Решено / кем / рассмотренные альтернативы* with no markers reads as "no
+decision line here". The linter warns where it can (an English `**Decided:**` label with no keys), and
+that warning is best-effort by construction: the keys are the contract, the prose is not.
 
 ## Column vocabularies (enums)
 

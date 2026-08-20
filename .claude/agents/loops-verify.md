@@ -27,10 +27,15 @@ Check, in this order:
    artifact in an area with no source is a finding.
 4. **Internal consistency** — a number in one section against the same number in another; a segment
    named in Step 1 and absent by Step 5; a hypothesis referenced by an id that has no register row.
-5. **Whatever lens the brief names** — pricing logic, register hygiene, gate coverage. Do that one
+5. **Decision lines** — a section ending in `**Decided:** … · **by:** … · **alternatives considered:**
+   …` (the fields carry `<!--d:date-->` / `<!--d:by-->` / `<!--d:alts-->`). The alternatives field is
+   a finding when it is empty, a bare *none*, or a restatement of the chosen option in other words:
+   the rule is one alternative actually weighed with why it lost, or what makes the choice forced. A
+   forced choice whose constraint is named is fine; "no alternatives" is not.
+6. **Whatever lens the brief names** — pricing logic, register hygiene, gate coverage. Do that one
    properly rather than everything shallowly.
 
-**If the brief names a claim to refute, that is the whole task** and lines 1–4 above are `n/a` unless
+**If the brief names a claim to refute, that is the whole task** and lines 1–5 above are `n/a` unless
 the brief asks for them. Build the strongest case that the claim is **false**: the assumption it
 rests on, what would have to be true for it to hold, what evidence would settle it. Then say honestly
 whether it **holds**, is **weakened**, or **falls**. `holds` is a real answer — an objection you

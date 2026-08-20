@@ -35,9 +35,10 @@ file, already designed and structured for the audience.  [assumption]
 **Riskiest assumption:** the engine can *reliably* produce files that are **both** genuinely editable
 **and** genuinely well-designed **at scale** — across arbitrary user content, not just demos.  [assumption] → `H-001`
 
-**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** leading on
-demand rather than feasibility (rejected — the founder's own read, which I share, is that the concept
-lives or dies on whether the engine holds quality at scale; demand is real but not the long pole).
+**Decided:** <!--d:date--> 2026-08-16 · **by:** <!--d:by--> ⚙️ acting PO (agent) ·
+**alternatives considered:** <!--d:alts--> leading on demand rather than feasibility (rejected —
+the founder's own read, which I share, is that the concept lives or dies on whether the engine
+holds quality at scale; demand is real but not the long pole).
 
 ## Job-to-be-Done {#jtbd}
 <!-- tool: jtbd-concept -->
@@ -128,9 +129,10 @@ narrative structure) → hypothesis register.
 **Rejected as orphans** (no ranked pain): real-time collaboration, non-slide formats, chat-assistant
 surface, deck analytics — all out of scope or a different job (see worklog).
 
-**Decided:** 2026-08-16 · **by:** ⚙️ acting PO (agent) · **alternatives considered:** treating
-narrative structure as part of H-001 (rejected — a deck can look good and still tell the wrong story,
-so the build bet is split into H-001 visual/editable and H-002 narrative).
+**Decided:** <!--d:date--> 2026-08-16 · **by:** <!--d:by--> ⚙️ acting PO (agent) ·
+**alternatives considered:** <!--d:alts--> treating narrative structure as part of H-001 (rejected
+— a deck can look good and still tell the wrong story, so the build bet is split into H-001
+visual/editable and H-002 narrative).
 
 ## Value & Defensibility {#value-defensibility}
 <!-- tool: value-definition-concept -->
@@ -197,6 +199,16 @@ _Open items surfaced by the agent for the human to resolve._
   product decision.
 
 ## Change log
+
+### 2026-08-20 — decision line(s) keyed for machine reading
+- **From → To:** 2 `**Decided:**` line(s) as prose → each carrying `<!--d:date-->` ·
+  `<!--d:by-->` · `<!--d:alts-->` before its value (values unchanged)
+- **Why:** the alternatives field is the one field an agent can satisfy by writing nothing,
+  and a check keyed on the English label would pass every translated artifact in silence —
+  the keys make it readable in any language (CONVENTIONS → *The decision line*, linter
+  check O4). No conclusion changed, so the confirmation markers stand.
+- **Trigger:** canon wave 3.5 — the schema gained the keys; the clean copy carries its
+  schema's form
 
 ### 2026-08-19 — {#problems} enum tokens normalized to the template's vocabulary
 - **From → To:** `already improvising` / `already paying / improvising` → `already paying or

@@ -11,7 +11,7 @@ surfaces: [ticks, change-log]
 opinionated: true
 method_basis: "The whole is a different reader: a step worked one section per pass is never read whole by anyone, so every conclusion that only the union shows — a link between two sections, a tension, a gap no single section could be missing — has no moment in which it can be found. This pass is that moment, and it lands what it finds through the ordinary channels"
 status: draft
-version: 0.1.2
+version: 0.2.0
 updated: 2026-08-20
 ---
 # Step close — read the step whole, land what only the whole shows
@@ -98,13 +98,14 @@ what to do with them; every line is **⚙️ or `[assumption]`** — this pass r
   `synthesis.md`, and for an `<!-- open -->` or unmarked one the **change-log entry is the record** —
   it names the finding and where it came from, because agent reasoning standing in a signed artifact
   with no working behind it anywhere is the one thing no rank of this framework allows.
-- **It belongs to the step** → an open item in `#to-clarify`, naming which of the two kinds it is:
-  *the human must choose*, or *nobody knows and someone must go and find out*. A finding that is a
+- **It belongs to the step** → an open item in `#to-clarify`, naming its kind — the three are canon
+  (`process/CONVENTIONS.md` → *Section confirmation*, the `open` bullet): *the human chooses* ·
+  *nobody knows yet* · *a later step owns it*. A finding that is a
   bet rather than a question may instead take a **register the step's own card already writes** (a
   bet nobody tested is a hypothesis; a tension between two sections is often a risk) — this pass does
   not open a register plane the step never had: a step that seeds no risks does not start here.
-- **It belongs to a later step** → an open item that says which step resolves it, so the next step's
-  first pass inherits it instead of rediscovering it.
+- **It belongs to a later step** → an open item of the third kind, *a later step owns it*, naming the
+  step that resolves it — so the next step's first pass inherits it instead of rediscovering it.
 - **Nothing found** → a legal answer, and it is recorded in the change log as the answer. Skipping
   the question is not legal.
 
@@ -150,7 +151,8 @@ been read whole.
 - The **conclusions of the whole**, written down with ⚙️/`[assumption]` provenance, each either landed
   or explicitly killed — never left stranded in a worklog a second time.
 - **Re-projected sections** where a conclusion belonged to one, through their worklogs.
-- **Open items** in `#to-clarify`, each marked as *the human chooses* or *nobody knows yet* — and,
+- **Open items** in `#to-clarify`, each carrying one of the three canon kinds (*the human chooses* ·
+  *nobody knows yet* · *a later step owns it*) — and,
   where a finding is a bet or a threat rather than a question, an entry in a register **the step
   itself writes**: this pass reaches for the step card's own touchpoints and does not open a register
   plane the step never had (a step that seeds no risks does not start seeding them here). That is why

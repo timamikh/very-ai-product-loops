@@ -11,6 +11,7 @@ _<Product> is a <category> that <core thing> for <who>._  [sourced: … | assump
 
 **Riskiest assumption:** <the belief the concept most depends on>.  [assumption] → `H-001`
 
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <at least one alternative
-actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect> ·
-⚙️ if the agent proposed it and the human has not confirmed.
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
+proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
+actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.
+Weighed none? Order a refutation — `operations/orchestration` → *The two lenses of a `verify`*>
