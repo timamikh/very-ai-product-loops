@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.27.0
+version: 0.28.0
 updated: 2026-08-20
 ---
 
@@ -97,7 +97,11 @@ An artifact section is a **thesis** — the linter holds its *structure*, a **hu
 - **`rests-on: <step>#<section-id>, …`** — a **schema** marker (lives in the step template): the
   upstream sections a conclusion depends on. Confirmed-on-unconfirmed-foundation warns (check S).
 - **`open`** — an agent→human inbox (`to-clarify`, `open-questions`, `blockers`): resolved by
-  *removing* items, never confirmed (check R), left out of the "N of M confirmed" count.
+  *removing* items, never confirmed (check R), left out of the "N of M confirmed" count. **Every
+  item names which kind it is** — *the human chooses* (it waits for a person) · *nobody knows yet*
+  (it waits for work someone must go and do) · *a later step owns it* (naming the step). The kinds
+  are not decoration: an inbox where the second kind is filed as the first reads as decided when
+  it is merely unasked, and the reader most likely to act on it is the one the label is for.
 
 The procedure — walking the human through each thesis, never self-issued — is the
 [`theses`](../tool-skills/operations/theses/SKILL.md) operations skill (OPERATING-LOOP move 5).
