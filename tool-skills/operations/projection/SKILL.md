@@ -11,12 +11,12 @@ surfaces: []
 opinionated: true
 method_basis: "Single-source publishing: the worklog is the source of truth, the artifact section is its projection — the conclusion re-shaped into the method's fixed fragment schema, every claim carrying its original tag, the section's own headline marked for display, and any human sign-off dropped because the thesis it signed no longer exists"
 status: draft
-version: 0.3.0
-updated: 2026-08-19
+version: 0.4.0
+updated: 2026-08-20
 ---
 # Projection — write an artifact section from its worklog
 
-**What it is.** The writing move at [operating-loop](../../../process/OPERATING-LOOP.md) **step 6**
+**What it is.** The writing move at [operating-loop](../../../process/OPERATING-LOOP.md) **move 4**
 that turns a **worklog** (the method's working — inputs, reasoning, numbers, open items) into its
 **artifact section** (the clean copy the human signs). The *invariants* are canon: the worklog is the
 source of truth and the section is its projection (CONVENTIONS → *Step folders & worklogs*), the
@@ -89,9 +89,13 @@ the section and its worklog.
 it `<!-- card -->` (syntax — CONVENTIONS → *Card line*: trailing a line points at that line; alone on
 a line points at the paragraph below). Choosing the headline is projection judgement, same as
 ordering the section — and it is a *choice among the section's own lines*, never a new line written
-to be the headline. A section with no natural headline (a table of rows, a list of open items) stays
-**unmarked**: title + status is its honest face, and the body is one expand away. One mark per
-section.
+to be the headline. **The criterion is whether the section states its conclusion — not whether it is
+prose.** A table with the judgement its rows add up to written under it marks *that* line; a table
+whose judgement is only implied has lost a line it needed on its own merit, and that is a finding for
+[`step-close`](../step-close/SKILL.md), which returns it through the worklog — never a headline
+improvised here to give the card something to show. A section with genuinely nothing to state (a list
+of open items) stays **unmarked**: title + status is its honest face, and the body is one expand
+away. One mark per section.
 
 **4 · Drop a sign-off the change invalidated.** A re-projection that changes the conclusion removes
 the section's `<!-- confirmed: … -->` or `<!-- contested: … -->` marker — the human signed (or

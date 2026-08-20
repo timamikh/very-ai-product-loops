@@ -2,8 +2,8 @@
 node_type: reference
 title: The card — the pinned schema for every instruction an agent acts on
 status: draft
-version: 0.2.0
-updated: 2026-08-19
+version: 0.2.1
+updated: 2026-08-20
 ---
 
 # The card — the pinned schema
@@ -60,6 +60,12 @@ wherever a bare word would be ambiguous: `metrics` is both a register and a sour
 from the card, instances from the data* written as syntax. A card that names a concrete anchor commits
 to it; a card that writes wherever it is pointed (`projection`, `source-intake`, `theses`) says so with
 `*`, and the check accepts that as a declaration, not as a blank.
+
+`worklog:*` in **`writes`** is the one narrow case, and it says one thing only: the *orchestrator's
+conclusions* block appended before projecting ([`projection`](../../tool-skills/operations/projection/SKILL.md)
+step 0), in whichever worklog the pass is projecting from — `step-close` declares it because its
+perimeter is a whole step of them. It is never permission to write another method's working: that
+stays with the method that owns it.
 
 An empty list is a **declaration that the card touches nothing there** (`orchestration` writes nothing
 of its own: `writes: []`), and is different from an absent field, which is an error.

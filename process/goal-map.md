@@ -2,8 +2,8 @@
 node_type: goal-map
 title: Goal map — from trigger and goal to a card
 status: draft
-version: 0.3.0
-updated: 2026-08-19
+version: 0.4.0
+updated: 2026-08-20
 ---
 
 # Goal map — from trigger and goal to a card
@@ -19,6 +19,7 @@ a **pass** — the *moves* below are invoked from inside skeleton moves 2–5, n
 | Trigger (an event now, or a recorded debt) | Goal — what this pass is for | Card | Move-5 surfaces it must touch |
 |---|---|---|---|
 | The current step's gate has open items | close one named section (`concept#idea`) | the step `README` + that section's method (below) | ticks · registers on touchpoints · sign-off |
+| The step's own sections are all worked | read the step whole and land what only the whole shows | [`step-close`](../tool-skills/operations/step-close/SKILL.md) | `ticks` · `change-log` |
 | A file/URL arrives; setup finds legacy material; a source changed under its worklogs | get outside material into the worklogs that need it | [`source-intake`](../tool-skills/operations/source-intake/SKILL.md) | `sources/INDEX.md` · worklog change logs |
 | A gate/hypothesis/decision waits on a number; a reading is stale when leaned on | land one trustworthy value in the metric register | [`metrics-capture`](../tool-skills/operations/metrics-capture/SKILL.md) | `metrics.csv` · derivation worklog · `metric-tree.md` |
 | An instance procedure's cadence is due; the human asks for a pull/push | move data across the boundary, in one direction | `<instance>/skills/<slug>/SKILL.md` | the snapshot landed · `state.yaml` `last_run` |
@@ -54,8 +55,10 @@ is a **union** — narrowing it to the method's `reads` alone is the failure thi
 runs most often, is spelled out to prevent.
 
 Not every gate item is such a section. An item that is another pass's `surfaces` (`#to-clarify`,
-`#hypotheses`) or an optional section closes at **move 5** of the passes that feed it, or at step
-finalization — it has no router row and no pass of its own. One pass per *section*, not per gate item.
+`#hypotheses`) or an optional section closes at **move 5** of the passes that feed it, or at the
+step's closing pass ([`step-close`](../tool-skills/operations/step-close/SKILL.md), the row above —
+triggered by the sections being done, never by the item). **No gate item has a router row of its
+own.** One pass per *section*, not per gate item.
 
 **Moves — invoked from inside a pass, never routed to as a trigger:** *ask the human* (move 3 —
 `CONVENTIONS.md` → *Forks*; the card's `questions.yaml`) · *delegate* `gather`/`research`/`draft`/`verify`

@@ -72,6 +72,36 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Canon wave 3.2 — the whole is a different reader
+
+- The gap, found by comparing a traced run against the v0.9 reference concept: the two artifacts came
+  out the same size, and the run's was the more honest of the two (provenance not blurred, rejects
+  visible in the artifact, no pain dropped) — but every place the reference was *sharper* was a
+  judgement spanning two sections, and the run had produced those judgements and left them in its
+  worklogs. The cause was structural, not a matter of agent quality: the reference wrote all six
+  sections in **one** pass, so its writer held six worklogs at once; the run wrote one section per
+  pass, so `#problems` was closed while the moat was still unwritten and "which segment proves the
+  moat" was a question no pass could ask. **Nobody was ever the reader of the whole.**
+- **`step-close` — a pass whose perimeter is the step** (`tool-skills/operations/step-close/`, and a
+  router row triggered by *the step's own sections are all worked*). It reads every section, every
+  worklog and the registers in one sitting and asks the four questions a section pass cannot: what
+  one section means next to another, which conclusion never left its worklog, what the whole is
+  missing, and which section states no conclusion. *Nothing new* is a legal answer; skipping the
+  reading is not.
+- **It needed no new write permission.** A finding that belongs to a section reaches it by ordinary
+  re-projection, and the *orchestrator's conclusions* block that `projection` step 0 already
+  sanctions is the channel into that section's worklog. The only new thing in the canon is the
+  moment. `card-schema.md` pins `worklog:*` in `writes` to that block alone — never permission to
+  write another method's working.
+- **A card headline is about the conclusion, not the prose.** `projection` step 3 said a section with
+  no natural headline — "a table of rows" — stays unmarked, and the run read it literally: four
+  table-shaped sections went unmarked, so most of the board showed title-and-status. The reference's
+  `#problems` is also a table, but it states its judgement in a line beneath it and marks that. The
+  criterion is now stated as such, the ban on writing a line *for the mark* stands, and a table whose
+  judgement is only implied is a `step-close` finding — returned through the worklog.
+- Also: `projection` said it was the writing move at "step 6"; it is move 4 (F-001 of the run's
+  friction log, fixed without a rule change).
+
 ### Canon wave 3.1 — contradictions surfaced by the traced test run
 
 A traced run on a fresh vendor (decksmith brief; TRACE per pass, FRICTION log, per-pass commits)

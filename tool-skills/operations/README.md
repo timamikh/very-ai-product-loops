@@ -2,8 +2,8 @@
 node_type: operations-index
 title: Operations — runtime skills for how the agent works
 status: draft
-version: 0.5.0
-updated: 2026-08-18
+version: 0.6.0
+updated: 2026-08-20
 ---
 
 # Operations
@@ -30,6 +30,7 @@ goal map routes to them by trigger. Their spec is
 | [`orchestration`](orchestration/SKILL.md) | Run one pass with subagents: cut the work, write the brief, score the return against its passport, integrate it | the pass is wider than one context (many sources, many directions) · an artifact needs checking by someone who did not write it · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → "Delegation" |
 | [`projection`](projection/SKILL.md) | Write an artifact section from its worklog: the fragment's shape, tags carried verbatim, the section's `<!-- card -->` headline, sign-off markers dropped on a changed conclusion | a worklog just worked (own pass or accepted `draft` return) · a worklog changed under an existing section · the human edits a conclusion in chat | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → move 4 + [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Step folders & worklogs" + "Card line" |
 | [`source-intake`](source-intake/SKILL.md) | Dispatch a raw `sources/` file into the step worklog(s) it informs and cite it there, so no artifact ever links a source directly | product setup (legacy sources) · a new file lands in `sources/` · a source changed · on request | [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Raw data & access" + "Step folders & worklogs" |
+| [`step-close`](step-close/SKILL.md) | Read the step whole once its sections are worked — the links, tensions and gaps no single-section pass could see — and land each finding through the ordinary channels (a re-projection, an open item, a register entry) | the step's own sections are all worked, before `theses` · a late section changed what an earlier one assumed · on request | [`process/goal-map.md`](../../process/goal-map.md) → *Passes* + [`projection`](projection/SKILL.md) → step 0 |
 | [`theses`](theses/SKILL.md) | Walk the human through section results (their theses) for sign-off and stamp `<!-- confirmed: date -->` — the semantic half of the two-layer check. Runs at `scope: step` (one step) or `scope: instance` (every step + cross-step rests-on provenance) | move 5, results just worked · a section re-projected — both `scope: step` · a big re-projection or a step change — `scope: instance` · on request | [`process/OPERATING-LOOP.md`](../../process/OPERATING-LOOP.md) → move 5 + [`process/CONVENTIONS.md`](../../process/CONVENTIONS.md) → "Section confirmation" |
 
 The list is a starting set. Candidate future operations skills (not yet authored): a metrics
