@@ -4,8 +4,8 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.5.0
-updated: 2026-08-16
+version: 0.5.1
+updated: 2026-08-20
 ---
 
 <!--
@@ -108,7 +108,8 @@ value, Step-5 `goal-targets` sets the period value — three values, three owner
 |--------------|-------------------|---------------|---------------|------------|
 | M-… | … | base / conservative / optimistic | … | [assumption] |
 
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** … · ⚙️ while unconfirmed
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <one weighed alternative and
+why it lost, or what makes the choice forced — a bare "none" is a defect> · ⚙️ while unconfirmed
 
 ## Capabilities & systems {#capabilities}
 <!-- tool: capabilities-systems -->

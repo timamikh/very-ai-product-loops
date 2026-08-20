@@ -12,8 +12,8 @@ surfaces: []
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.4.0
-updated: 2026-08-19
+version: 0.5.0
+updated: 2026-08-20
 ---
 # Orchestration — running one pass with subagents
 
@@ -84,7 +84,7 @@ separable, not that the brief needs to be longer).
    | `gather` | one source + the question the number/fact must answer | dated tagged values + what it could not reach |
    | `research` | one question + its scope and stop condition | a sourced digest, every claim tagged |
    | `draft` | one library method + the inputs it needs | its method's **worklog** (the draft), written by the subagent; ⚙️-marked — plus a summary + passport for the orchestrator to check before projecting |
-   | `verify` | one artifact/section + the checklist to hold it against | findings: file · anchor · what fails · why |
+   | `verify` | one artifact/section + **the lens**: a checklist to hold it against, or one claim to refute | findings: file · anchor · what fails · why — for a refutation, the case against the claim and what would settle it (*The two lenses*, below) |
 
    One brief = one kind = one deliverable. A brief that mixes kinds ("collect the data and also draft
    the section") returns a blend you cannot check line by line, because the passport applies
@@ -169,6 +169,45 @@ Lines 2–4 come from the failure this gate is really about: an agent that canno
 fills the hole with something reasonable. **Fail loudly** is the instruction to the subagent, and
 lines 3 and 9 are where a loud failure is supposed to land.
 
+## The two lenses of a `verify`
+
+A `verify` brief names a lens, and there are two kinds.
+
+**Conformance** — the default, and what the shipped subagent does unbriefed: tags, sourcing, gaps,
+internal consistency, gate coverage. It answers *is this written correctly?*
+
+**Refutation** — the brief names **one conclusion** and asks for the strongest case that it is
+**wrong**. It answers *is this true?*, which no conformance pass asks: a section can be fully tagged,
+internally consistent and correctly sourced while resting on a choice nobody ever argued against.
+That is not a hypothetical failure — it is the measured one. The framework's own traced run produced
+sections correct line by line in which every decision arrived unopposed, and the reference it lost to
+had weighed and rejected an alternative in the same place.
+
+The brief changes in three places and nowhere else:
+
+- **§3 The task** names the claim **verbatim**, as the section states it. "Refute the strategy
+  section" gets a style review back; one quoted sentence gets an argument.
+- **§4 Stop condition** is the strongest case, not a list — two attacks that would change the
+  decision beat ten that would not.
+- **§6 What to return** asks for the refutation shape instead of a finding list:
+
+| The claim, as stated | The case against it, at its strongest | What must be true for the claim to hold | What evidence would settle it | Verdict |
+|---|---|---|---|---|
+| <quoted> | <the attack> | <the assumption the claim rests on> | <the source · the experiment · the person to ask> | holds · **weakened** · falls |
+
+**`holds` is a real answer, and the brief must make it safe to give.** An agent that reads the brief
+as *find something wrong* will manufacture an attack, and a manufactured attack costs more than
+none: it is rejected, and the next real one is trusted less. Say so in the brief.
+
+**What the lens does not do.** It does not decide, does not rewrite, and does not close the fork it
+opened — passport line 6 holds unchanged. A refutation that lands is the orchestrator's finding, and
+it reaches the artifact the ordinary way: the section's worklog first, then the projection.
+
+**Where it is owed.** A `decision`-class section owes at least one weighed alternative in its
+`Decided:` line ([`library/README.md`](../../library/README.md) → *The rejected alternative*). When
+the pass's own reasoning produced none, this lens is how the alternative is found. A pass that
+already weighed a real alternative owes no subagent — one obligation, two routes to it.
+
 ## Decomposition patterns
 
 | Pattern | Cut by | Typical kind | Watch for |
@@ -178,6 +217,7 @@ lines 3 and 9 are where a loud failure is supposed to land.
 | **One direction, one agent** | work direction (Steps 5–6) | `draft` | drafts that assume different capacity — state the shared constraints in every brief |
 | **One lens, one agent** | the angle of the check (sourcing · internal consistency · gate coverage) | `verify` | one "review this" agent instead of three lenses: a single reviewer converges on the most obvious defect |
 | **Fresh reader** | nothing — one agent, no context | `verify` | using the agent that drafted the section. It cannot see its own assumptions |
+| **Refute the claim** | the conclusion, not the file | `verify` | a brief naming a section instead of a quoted claim: the return is a review, and the conclusion stays unopposed |
 
 ## Anti-patterns
 
@@ -187,6 +227,11 @@ lines 3 and 9 are where a loud failure is supposed to land.
   be rewritten rather than integrated.
 - **Trusting a fluent return.** Length and confidence are free; sourcing is not. Score the passport
   before you read for content.
+- **Reviewing where you needed refuting.** A conformance brief sent about a conclusion. It comes back
+  well-formed and silent on whether the conclusion is right, and the tick it clears is the wrong one.
+- **Ordering a refutation you will not act on.** The attack returned, filed, and the section left as
+  it was with no line recording why the attack failed. Either the alternative reaches the `Decided:`
+  line, or the reason it lost does; a refutation with no landing is delegation theatre.
 - **Laundering a tag.** A subagent's assumption arriving in your artifact as `[sourced: research]`.
   One step, and a guess has become a fact with a citation.
 - **A subagent writing past its worklog.** A `draft` writes its own worklog and nothing else; the

@@ -34,4 +34,6 @@ at directly is indistinguishable from the only option that was ever on the table
 |-------------------------------------|--------------|
 | … | no moat we hold applies here · the arena is reachable but not winnable · wins but does not meet the aspiration |
 
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <at least one alternative
+actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect> ·
+⚙️ if the agent proposed it and the human has not confirmed.

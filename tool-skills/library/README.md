@@ -2,8 +2,8 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.8.1
-updated: 2026-08-16
+version: 0.9.0
+updated: 2026-08-20
 ---
 
 # Library
@@ -96,7 +96,7 @@ Exactly one value; a secondary class is discussed in the body, never compounded 
 | `primary-research` | talking to or observing people directly — interviews, usability sessions, field observation | non-leading questions, past behaviour over stated intent, the sample and its bias named; a quote is evidence of one person, and *n* is stated |
 | `internal-data` | the product's own instrumentation and registers — **including controlled experiments run on it** | the reading is reproducible — population, window, derivation written down per [`operations/metrics-capture/`](../operations/metrics-capture/SKILL.md); never a number without its denominator |
 | `derived` | no new empirical claim — it composes, computes or ranks what other methods established | every input names the method or register it came from; the method's own reasoning is `[assumption]`, never blanket-sourced to its inputs |
-| `decision` | a choice, a plan or a specification the humans own | the decision is dated and attributed and the alternatives are shown, in one canonical line at the end of the produced section — `**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why>`, with ⚙️ while the agent's proposal is unconfirmed |
+| `decision` | a choice, a plan or a specification the humans own | the decision is dated and attributed and the alternatives are shown, in one canonical line at the end of the produced section — `**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why>`, with ⚙️ while the agent's proposal is unconfirmed. **The alternatives field is not optional and a bare *none* is a defect** — see *The rejected alternative* below |
 
 **The tie-break**, because most methods touch more than one class: declare the class of **the claims a
 reader is most likely to take on trust**. A channel plan is a choice, but what a reader swallows
@@ -120,6 +120,31 @@ otherwise. Rejects are the cheapest artifact in the framework and the most re-de
 the next pass re-proposes the same discarded option, and nobody can tell a filter that was applied
 from one that was never reached. Any method with a `volume_rule` or a `selection_rule` shows its
 rejects.
+
+### The rejected alternative — the `Decided:` line
+
+A `decision` method's canonical line has three fields, and the third is the only one an agent can
+satisfy by writing nothing: a date is a date, an author is an author, and *alternatives considered:
+none* is legal prose. It is also the commonest shape of a bad decision — the first idea, written down
+and dated. So the field carries a rule of its own:
+
+**Name at least one alternative that was actually weighed and why it lost — or name what makes the
+choice forced.** A forced choice is honest and frequent: a constraint that leaves no second option, an
+upstream decision already signed, a scope the step inherited rather than chose. What is not honest is
+the empty field, because an alternative nobody looked for and a choice with none look identical there.
+
+Where the alternative comes from when the pass produced none: the **refutation lens** of a `verify`
+subagent ([`operations/orchestration/`](../operations/orchestration/SKILL.md) → *The two lenses of a
+`verify`*) — a fresh reader argues the other side, and what survives the argument is what the line
+records. One route to the obligation, not a second obligation: a pass that already weighed a real
+alternative owes no subagent.
+
+**No linter holds this**, and the reason is worth knowing: the line is prose in the instance's
+documentation language (the shipped Russian example writes *Решено / кем / рассмотренные
+альтернативы*), so a check keyed on the English label would pass every translated artifact in silence
+— the failure the column-key rule exists to prevent ([`process/CONVENTIONS.md`](../../process/CONVENTIONS.md)
+→ *Column keys*). Until the decision line carries a key, it is held by `verify` and by the human who
+signs the section.
 
 ## How to add a tool
 

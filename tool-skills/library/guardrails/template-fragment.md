@@ -22,4 +22,6 @@ category nobody looked at and one that was looked at and cleared are indistingui
 |----------|------------------|---------------------|
 | retention · unit economics · CAC · quality · brand/trust · support load · churn | … | no metric node yet (→ instrumentation task) · no plausible mechanism this period · already covered by <other guardrail> |
 
-**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <what lost, and why> · ⚙️ if the agent proposed it and the human has not confirmed.
+**Decided:** <YYYY-MM-DD> · **by:** <who> · **alternatives considered:** <at least one alternative
+actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect> ·
+⚙️ if the agent proposed it and the human has not confirmed.

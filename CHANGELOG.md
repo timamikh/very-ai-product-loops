@@ -72,6 +72,45 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Canon wave 3.4 — the conclusion nobody argued against
+
+- The gap, measured on the same two artifacts as wave 3.2: the traced run's sections were correct
+  line by line, and every choice in them arrived **unopposed**. Two of the v0.9 reference's decision
+  lines weigh a real alternative and say why it lost; the run's say *none recorded* with nothing after
+  it. Nothing in the canon asked for more, and `verify` — the one fresh reader in the loop — was only
+  ever briefed to check whether a section was *written* correctly.
+- **The refutation lens of a `verify`** (`operations/orchestration`, new *The two lenses of a
+  `verify`*). A `verify` brief names its lens, and there are two: **conformance** (tags, sourcing,
+  gaps, consistency, gate coverage — *is this written correctly?*) and **refutation** (one quoted
+  claim, and the strongest case that it is **false** — *is this true?*). Three brief fields change and
+  nothing else: §3 quotes the claim, §4 stops at the two or three attacks that would change the
+  decision, §6 asks for the return table (*claim · the case against it · what must be true for it to
+  hold · what evidence would settle it · verdict*). **`holds` is a real answer and the brief says so** —
+  an agent that reads its brief as *find something wrong* manufactures an objection, and a
+  manufactured one costs more than none. The lens decides nothing and rewrites nothing: passport line
+  6 stands, and a landed refutation reaches the artifact through the worklog like any other finding.
+  Two new anti-patterns: reviewing where you needed refuting, and ordering a refutation you will not
+  act on. `.claude/agents/loops-verify.md` carries the mode; the brief template carries the variant.
+- **The rejected alternative is no longer optional** (`library/README.md`, new subsection). The
+  `Decided:` line's third field is the only one an agent can satisfy by writing nothing — *alternatives
+  considered: none* is legal prose and the commonest shape of a bad decision: the first idea, dated.
+  The rule now: **name at least one alternative actually weighed and why it lost, or name what makes
+  the choice forced** (a constraint with no second option, an upstream decision already signed). The
+  empty field is a defect because a choice with no alternative and an alternative nobody looked for
+  are indistinguishable there. Fifteen method fragments, the outputs `brief` fragment and the Step-4
+  template carry the new placeholder.
+- **The two are one obligation with two routes.** When a pass's own reasoning produced no alternative,
+  the refutation lens is how it finds one — the fresh reader argues the other side, and what survives
+  is what the line records. A pass that already weighed a real alternative owes no subagent.
+- **Why no linter check.** The decision line is prose in the instance's documentation language (the
+  shipped Russian example writes *Решено / кем / рассмотренные альтернативы*), so a check keyed on the
+  English label would pass every translated artifact in silence — the failure the column-key rule
+  exists to prevent. Recorded in `library/README.md` rather than left implicit: until the decision
+  line carries a key, the rule is held by `verify` and by the human who signs the section. A keyed
+  decision line is a data-unification candidate, not a wording fix.
+- Canon: unchanged at 5,167 words — both mechanisms live in the skills that need them, nothing entered
+  the always-loaded set.
+
 ### Canon wave 3.3 — the contradictions the two traced runs left standing
 
 - **A source can be dispatched at setup again.** `source-intake` named the setup dispatch as its first
@@ -189,8 +228,8 @@ what a disciplined pass already had to do.
   the question is not. `orchestration` step 5 adds the cross-return half: what the accepted returns
   mean **together**. Whether a conclusion reaches the section is decided by the ordinary projection
   that follows — and the ⚙️ tag triggers the existing chat-preview + verify-before-tick guards.
-  The И5 demonstration (a conclusion drawn → projected → caught by verify) is the first item of the
-  next traced run on a re-vendored instance.
+  The acceptance demonstration (a conclusion drawn → projected → caught by verify) is the first item
+  of the next traced run on a re-vendored instance.
 - Canon: 4,945 → 5,013 words (the goal-map phrase + the declared-input law); W warns, mechanics
   decide acceptance.
 

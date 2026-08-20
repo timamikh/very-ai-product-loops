@@ -2,8 +2,8 @@
 node_type: template-fragment
 title: Task brief & return — the two halves of one contract
 status: draft
-version: 0.2.0
-updated: 2026-08-10
+version: 0.3.0
+updated: 2026-08-20
 ---
 
 # Task brief & return
@@ -129,6 +129,40 @@ return has the same six sections, because the orchestrator reads several of them
 1 ✓/✗ · 2 ✓/✗ · 3 ✓/✗ · 4 ✓/✗ · 5 ✓/✗ · 6 ✓/✗ · 7 ✓/✗ · 8 ✓/✗ · 9 ✓/✗
 <one line per ✗: which line, and what is missing. A self-check is a claim; the orchestrator scores
 the passport itself.>
+```
+
+---
+
+## The refutation variant of a `verify`
+
+Same brief, same nine passport lines, three fields rewritten — the lens is the difference
+([`SKILL.md`](SKILL.md) → *The two lenses of a `verify`*). Everything not shown here is unchanged.
+
+```markdown
+## 3 · The task
+Build the strongest case that this claim is **false**:
+
+> <the claim, quoted verbatim as the section states it — one claim, not a section>
+
+You are not checking how it is written. You are asking whether it is true. If, having tried, you
+think it holds — **say it holds.** That is a real and useful answer; an invented objection is worse
+than none, because it makes the next real one easy to dismiss.
+
+## 4 · Scope and stop condition
+- **In scope:** the claim above and what it rests on.
+- **Out of scope:** the rest of the section, style, tags, formatting — and any proposal for what to
+  do instead.
+- **Stop when:** the two or three attacks that would actually change the decision are made as well
+  as you can make them. Ten weak objections are a failed return.
+
+## 6 · What to return
+**Result** as this table, one row per attack:
+
+| The claim, as stated | The case against it | What must be true for the claim to hold | What evidence would settle it | Verdict |
+|---|---|---|---|---|
+
+Then the verdict in one line: **holds · weakened · falls**, with the one sentence that decided it.
+You do not propose the alternative decision — passport line 6 stands: a fork comes back open.
 ```
 
 ---
