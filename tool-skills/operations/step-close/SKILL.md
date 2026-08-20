@@ -11,7 +11,7 @@ surfaces: [ticks, change-log]
 opinionated: true
 method_basis: "The whole is a different reader: a step worked one section per pass is never read whole by anyone, so every conclusion that only the union shows — a link between two sections, a tension, a gap no single section could be missing — has no moment in which it can be found. This pass is that moment, and it lands what it finds through the ordinary channels"
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-08-20
 ---
 # Step close — read the step whole, land what only the whole shows
@@ -93,7 +93,11 @@ what to do with them; every line is **⚙️ or `[assumption]`** — this pass r
 
 - **It belongs to a section** → re-project that section: the conclusion goes into *its* worklog as
   the orchestrator's conclusions block (`projection` step 0), then the section is written from the
-  worklog. Never patched straight into the artifact.
+  worklog. Never patched straight into the artifact. A section the step template gives **no method**
+  has no such channel: a `<!-- synthesis -->` section projects from the step's reserved
+  `synthesis.md`, and for an `<!-- open -->` or unmarked one the **change-log entry is the record** —
+  it names the finding and where it came from, because agent reasoning standing in a signed artifact
+  with no working behind it anywhere is the one thing no rank of this framework allows.
 - **It belongs to the step** → an open item in `#to-clarify`, naming which of the two kinds it is:
   *the human must choose*, or *nobody knows and someone must go and find out*. A finding that is a
   bet rather than a question may instead take a **register the step's own card already writes** (a
@@ -105,8 +109,9 @@ what to do with them; every line is **⚙️ or `[assumption]`** — this pass r
   the question is not legal.
 
 **4 · The step's face.** Every section either carries one marked `<!-- card -->` headline or a
-recorded reason why it honestly has none (`projection` step 3). A board where most sections show
-title-and-status is this pass's finding, not the board's problem.
+recorded reason why it honestly has none (`projection` step 3) — *recorded* meaning written where
+that section's working lives: its worklog, or the change-log entry for a section that has none. A
+board where most sections show title-and-status is this pass's finding, not the board's problem.
 
 **5 · Close.** The gate's derived items are ticked here if this pass is what closes them
 (`#to-clarify` is complete, `#hypotheses` carries what the step seeded), a dated **change-log** entry
@@ -132,8 +137,11 @@ been read whole.
   `verify`; this pass names the finding and stops. Correcting a **provenance tag** is not that: a tag
   says where a claim came from, and where the claims came from is exactly what a whole-step read sees
   for the first time — a `[sourced: …]` naming no source that exists outside the instance, the same
-  claim tagged two ways in two sections. The substance stays untouched, the tag is fixed, and the
-  change log says which tag and why.
+  claim tagged two ways in two sections. The substance stays untouched — but the tag is fixed **in
+  the worklog first**, like every other change: the tag on a section is a projection of the tag on
+  the working, so a section corrected over a worklog still carrying the old tag is exactly the
+  divergence this pass was called in to find, now authored by the pass itself. The change log names
+  which tag changed and why.
 - **Delegating the whole-step read.** Briefing a subagent to "review the step". It returns a review of
   the text it was given; the pass exists for the reading only the context-holder can do.
 
