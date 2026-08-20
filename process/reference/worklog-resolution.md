@@ -2,8 +2,8 @@
 node_type: reference
 title: Worklog resolution — how a section finds its worklog
 status: draft
-version: 0.1.0
-updated: 2026-08-18
+version: 0.2.0
+updated: 2026-08-20
 ---
 
 # Worklog resolution
@@ -11,7 +11,9 @@ updated: 2026-08-18
 *Read this when a section's marker names more than one tool, when creating a worklog, or when a
 reader/tool must resolve which file backs a section. The one-line contract stays in*
 [`CONVENTIONS.md`](../CONVENTIONS.md) → *Step folders & worklogs* — *the worklog path form, the
-first-tool-owns rule, and check P; the resolution detail is here.*
+first-tool-owns rule, and check P; the resolution detail is here. When **creating** a worklog,
+copy the skeleton from* [`worklog-skeleton.md`](worklog-skeleton.md) *verbatim — don't retype
+the shape from this prose.*
 
 ## The folder and the stem
 

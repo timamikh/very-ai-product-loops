@@ -10,7 +10,7 @@ description: >
   vs what's blank and proposing a gap-closing plan in step order — the point where the working loops
   begin. Step artifacts are NOT created here — each is born by its step's first pass.
 status: draft
-version: 0.7.0
+version: 0.8.0
 updated: 2026-08-20
 ---
 
@@ -104,8 +104,11 @@ empty-template artifact fails the linter before the loop has run once). What set
 - Route each source to its steps in `INDEX.md` (**Feeds steps** column) — precise enough that the
   step's first pass finds its material without re-reading everything.
 - Where materials conflict, record the conflict in INDEX.md and the placement report.
-- Create the **registers** (hypotheses/risks/metrics) — files with their headers, no rows invented;
-  they carry no worklog obligation. Seed a row only for something a source *states outright* and no
+- Create the **registers** (hypotheses/risks/metrics) by **copying the four skeleton files from
+  `process/reference/register-skeletons/` verbatim** into `registers/` — they carry the keyed table
+  headers (`<!--c:key-->`) check D and the console read; substitute only `<product>`/`<date>` in
+  the frontmatter, never retype a header. No rows invented; registers carry no worklog obligation.
+  Seed a row only for something a source *states outright* and no
   method will produce (a metric already being measured, a risk the founder names). **Anything a step's
   method owns is that method's to seed**, on its pass: a concept bet becomes `H-…` in `concept-formation`,
   not here. Both sides seeding is how one id gets issued twice.
@@ -146,7 +149,18 @@ Create `product-loops/` (see layout below), in the chosen language: `config.yaml
 even as empty templates: each is born by its step's first pass and grows section-by-section; a step
 the instance has not reached has no artifact file, and that is the linter's expected state. Write an
 initial **`state.yaml`** (`current_step: 1`, gate ticks empty) — the cycle's position home, distinct
-from the human-authored `config.yaml`. This closes Phase 1 — the product is set up.
+from the human-authored `config.yaml`.
+
+**Then verify before closing Phase 1 — two checks, both mandatory:**
+1. **`config.yaml` against the pinned schema** (`process/reference/config-schema.md`): all four
+   required keys present — `product` (the product's name as the human says it — a key setups have
+   silently dropped) · `language` · `active_status` · `directions` — spelled exactly as the schema
+   spells them, no aliases.
+2. **The linter**: run `python3 tools/lint.py <instance>`, confirm `instances checked:` names the
+   instance, and fix every error it reports *now* — an error left here is debt the first working
+   session inherits silently.
+
+This closes Phase 1 — the product is set up.
 
 ## Phase 2 — Orient and hand into the loops
 

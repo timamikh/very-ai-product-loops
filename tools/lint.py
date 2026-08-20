@@ -20,6 +20,8 @@ Checks (ERROR fails CI · WARN never does):
   E  metrics.csv ids are a subset of metric-tree.md ids
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
+  G2 a gate item whose sections are all written but whose state.yaml tick is still `open` —
+     move 5 (Record) was not finished, the cycle's recorded position fell behind the disk  (WARN)
   H  instance config.yaml follows the pinned schema (required keys, one spelling, no aliases) and
      value shapes: `language` is a code, `directions` a list, `active_status` a real status file
   H2 an instance artifact's frontmatter carries the template's keys and invents none — an invented
@@ -863,6 +865,15 @@ def check_artifact_frontmatter(inst):
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         fm, _ = T.frontmatter(art)
         if fm.get("node_type") != "artifact":
+            # A file wearing an artifact's name with no artifact passport is worse than a wrong
+            # one: the loader skips it entirely, so the steps view, the console and check G2 are
+            # all blind to it while the content checks (O2, P) still read it — a half-existing
+            # artifact (live-run finding: a weak model wrote 1-concept.md with no frontmatter and
+            # every structural check went silent).
+            err("H2 [%s] %s wears an artifact's name but its frontmatter never says "
+                "`node_type: artifact` — the loader skips the file, so the steps view, the console "
+                "and the gate checks are blind to it; add the template's frontmatter "
+                "(node_type/artifact/step)" % (name, os.path.basename(art)))
             continue
         base = os.path.basename(art)
         for key in ("artifact", "step"):
@@ -1342,6 +1353,29 @@ def check_rests_confirmed(inst):
                          % (rel(inst), os.path.basename(art), sec["id"], ", ".join(missing)))
 
 
+def check_gate_ticks(inst):
+    """G2 — sections written, tick still `open`: move 5 (Record) was not finished.
+
+    A pass ends by ticking its gate in `state.yaml` (OPERATING-LOOP move 5). A weaker agent writes
+    the section and the worklog and stops there (live-run finding), so the recorded position
+    silently falls behind what is on disk — the one drift the section checks (P, O2) cannot see,
+    because both look at files, never at the tick. Only written-vs-tick can. A WARN, not an error:
+    mid-pass, written-but-unticked is the legal in-between state; left across sessions it is debt,
+    and session start (start-work step 1) is where a human sees this report.
+    """
+    if not os.path.exists(os.path.join(inst, "state.yaml")):
+        return  # instance health already reports a missing state.yaml on its own
+    snap = I.load(inst, ROOT)
+    for s in snap["steps"]:
+        for g in s["gate"]:
+            if g.get("written") and g.get("tick") == "open":
+                warn("G2 [%s] step %d gate `%s`: its section(s) are written but state.yaml carries "
+                     "no tick (`done`/`n/a`/`deferred`) — move 5 (Record) was not finished; update "
+                     "state.yaml (gates → %d-…) or the cycle's position stays behind the disk"
+                     % (rel(inst), s["step"],
+                        g.get("tick_id") or ",".join(g.get("sections") or []), s["step"]))
+
+
 def check_gates(homed):
     for readme in glob.glob(ROOT + "/steps/*/README.md"):
         for mm in re.finditer(r"[→>]\s*`?[a-z0-9-]+#([a-z0-9-]+)`?", read(readme)):
@@ -1432,6 +1466,7 @@ def main(argv=()):
         check_card_schema(inst)
         check_card_home(inst)
         check_worklogs(inst)
+        check_gate_ticks(inst)
         check_boundary(inst)
         check_instance_conformance(inst)
         check_confirm_dates(inst)

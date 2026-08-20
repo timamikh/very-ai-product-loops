@@ -2,7 +2,7 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.9.2
+version: 0.10.0
 updated: 2026-08-20
 ---
 
@@ -16,6 +16,11 @@ flowing back up, **not re-authored per step**. In an instance: `registers/` at t
 *Read this file at its named moments* (OPERATING-LOOP): **move 2** — pulling register rows as
 inputs, when field semantics or gradations are in doubt — and **move 5** — before writing rows.
 The register *values* live in the instance files, read on every pass that needs them.
+
+**Creating the register files** (setup, or a lost file): copy the skeletons from
+[`reference/register-skeletons/`](reference/register-skeletons/) **verbatim** — one file per
+register, frontmatter plus the keyed table header (`<!--c:key-->`, what check D and the console
+read), zero rows. Never retype a header from the field tables below: prose is not a carrier.
 
 | Register | Born at | Refined at |
 |----------|---------|------------|

@@ -72,6 +72,40 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Canon wave 3.7 — the carriers the full-path test run found missing
+
+Source: the end-to-end run (install → setup → first loop passes) driven on a weak local model
+against an invented pmf product; findings F1–F8 in the run journal. One lesson, five carriers:
+*what is in a copyable template gets reproduced; what is only described does not.*
+
+- **Register skeletons** (`process/reference/register-skeletons/`): the register schema finally
+  has a vendored, copyable carrier — one file per register (hypotheses · risks · metric-tree ·
+  metrics.csv) holding the frontmatter and the keyed table header (exactly the keys check D and
+  the console read), zero rows. `REGISTERS.md` and `product-setup` step 4 now say *copy, don't
+  retype*. The full file layout stays a wave-4 subject; this ships only what tools already read.
+- **Worklog skeleton** (`process/reference/worklog-skeleton.md`): the working document's shape —
+  frontmatter, the projection line, the intake table, "The working" — as one copyable fenced
+  block; `worklog-resolution.md` points to it at creation time.
+- **The first-run door**: the install pointer now routes both ways ("first run → `product-setup`;
+  every session after → `start-work`"), and `start-work` step 1 stops on `instances checked: none`
+  and routes to onboarding instead of improvising one (live finding: the old pointer sent a first
+  run into `start-work`).
+- **Setup verifies before closing**: `product-setup` step 6 now ends Phase 1 by checking
+  `config.yaml` against the pinned schema (all four required keys — a live setup silently dropped
+  `product`) and running the linter, fixing errors before hand-over.
+- **Check G2** — the drift no file-check could see: a gate item whose sections are all written but
+  whose `state.yaml` tick is still `open` means move 5 (Record) was never finished and the cycle's
+  recorded position fell behind the disk. WARN, not error (mid-pass this state is legal).
+  Proven on the live instance: flags the unticked section and a gates block written in a shape the
+  reader can't parse; clears when `state.yaml` is recorded canonically.
+- **Check H2 hardened**: a file wearing an artifact's name whose frontmatter never says
+  `node_type: artifact` is now an **error**, not a silent skip — the loader ignores such a file,
+  so the steps view, the console and G2 were all blind to it while content checks still read it
+  (live finding: a weak model wrote `1-concept.md` with no frontmatter and every structural check
+  went quiet).
+- Install requirements now name an observable capability probe from the run: a model that cannot
+  copy a keyed table header out of a step template — even told to — cannot run this framework.
+
 ### Hardening from the local-model test run — prose is not a carrier for a weak model
 
 A live install-and-setup run on a small local model (opencode · Qwen3.6-35B) drew the line exactly

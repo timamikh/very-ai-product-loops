@@ -2,7 +2,7 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.7.0
+version: 0.8.0
 updated: 2026-08-20
 ---
 
@@ -35,10 +35,12 @@ As part of vendoring, the agent also:
   vendored copy, written at install time — not a second number anyone hand-bumps.)
 - adds a short **pointer to your repo's root `AGENTS.md`** (creating it if absent), and the same
   pointer to `CLAUDE.md` if that file already exists: *"Product-strategy work in this repo runs
-  through very-ai-product-loops — begin with the `start-work` skill; the rules live in the vendored
-  `AGENTS.md` and `process/`."* This is what makes a plain "continue the strategy" land in the
-  disciplined loop instead of an ad-hoc bulk-fill. Two names, one home: the rules are never copied
-  into either pointer.
+  through very-ai-product-loops. First run (no `product-loops/` instance yet): begin with the
+  `product-setup` skill. Every session after: begin with `start-work`. The rules live in the
+  vendored `AGENTS.md` and `process/`."* This is what makes a plain "continue the strategy" land in
+  the disciplined loop instead of an ad-hoc bulk-fill — and what stops a *first* run from walking
+  into `start-work`, which has nothing to resume before setup. Two names, one home: the rules are
+  never copied into either pointer.
 - adds, next to that pointer in the root `AGENTS.md`, the owner's **standing approval of
   delegation**: *"The repo owner pre-approves spawning subagents for framework passes (the
   `loops-*` read-only types) — per the vendored `process/OPERATING-LOOP.md` → Delegation."* The
@@ -100,7 +102,9 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
   working *one section per pass*, opening a method's `SKILL.md` before filling its section, and writing
   `— to clarify —` instead of a plausible guess. A weaker model bulk-fills the template and it *looks*
   like finished work; the linter will not catch that, because it checks wiring and enums, never whether
-  a claim is true.
+  a claim is true. A quick observable probe from a live test run: ask the model to copy a keyed table
+  header (`<!--c:key-->`) from a step template into a new file — a model that returns prose instead of
+  the table, even under that direct instruction, cannot run this framework.
 - `python3` for the tooling (standard library only) — needed for the linter and the local console, not
   for the process itself.
 - Optionally: connectors to your metrics/KB, so later steps can pull data automatically.

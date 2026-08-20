@@ -8,7 +8,7 @@ description: >
   fill. Use at the start of any working session, on resume after a restart/compaction, or when
   picking up an instance someone else set up.
 status: draft
-version: 0.4.0
+version: 0.5.0
 updated: 2026-08-20
 ---
 
@@ -49,6 +49,9 @@ Read the instance's current state (state, not rules — verify it against the re
    human is guaranteed to see it. Check the `instances checked:` line names the instance: after
    setup, a run that found nothing to check is a failure wearing a success message. **Fix nothing
    yet** — a finding becomes a trigger, worked as an ordinary pass, at the human's order.
+   **`instances checked: none` and no instance folder exists → this is a first run, not a resume:
+   stop here and run `product-setup` instead** — there is no state to orient on, and improvising a
+   setup from this skill is exactly the bulk-fill it exists to prevent.
 2. **`HANDOFF.md`** (if present) — where the last session left off. It restores *state, not rules or
    truth*; treat anything older than its last change-log entry as suspect, and run its
    "Environment & access" checks before relying on them.
