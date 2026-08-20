@@ -2,7 +2,7 @@
 node_type: install
 title: Update — move an installed framework to a newer version
 status: draft
-version: 0.1.0
+version: 0.2.0
 updated: 2026-08-20
 ---
 
@@ -71,21 +71,20 @@ is the design: the only way to keep a change is to put it where the update canno
 
 ## Migrating a filled instance
 
-This is the one part of the update that is **not yet decided**, and it is named here rather than guessed.
-
 The case: a new version changes the shape of a section — a column added, a key introduced, a table recut —
 and the instance already filled that section. Re-vendoring the template is trivial; the filled artifact
 stays in the old form, and the conformance check (O2) starts reporting it.
 
-What is already settled: the *act* is a normal re-projection — content moves into the new form, nothing is
-invented, anything with no home reads `— to clarify —`, the section takes a dated change-log entry, and a
-confirmation marker stands only if the conclusion did not change
-([`../extending/section.md`](../extending/section.md) → step 6).
+**There is no migration mechanism, on purpose** (decided 2026-08-20). Migration is ordinary work the
+orchestrator does when the human asks for it in chat — no separate skill, no separate instruction. The
+flow is:
 
-What is not settled is the **policy** around it, and it is an open item of the kind *the human chooses*:
+1. the update lands, the linter reports which sections are off-form (that report *is* the work list);
+2. the agent shows the list to the human;
+3. the human says, in chat, what to migrate and when — now, later, or section by section;
+4. each migration is a normal re-projection — content moves into the new form, nothing is invented,
+   anything with no home reads `— to clarify —`, the section takes a dated change-log entry, and a
+   confirmation marker stands only if the conclusion did not change
+   ([`../extending/section.md`](../extending/section.md) → step 6).
 
-- whether an update may land **at all** while sections are off-form, or must migrate first;
-- whether migration is **one pass per section** or one sweep for the whole artifact;
-- whether an off-form section keeps its **confirmation marker** while it waits.
-
-Until that is decided, an agent hitting this case stops and asks, and does **not** invent a policy.
+An off-form section is a visible, linted debt — not a blocker. The update may land while sections wait.

@@ -97,13 +97,13 @@ procedures that lived elsewhere drifted from the ones that did not.
   `tools/ui/README.md`. And the four gates a method must clear were stated twice, in `EXTENDING.md`
   and in `library/README.md`, with the same two checks (U, V) named in both. One home now:
   `extending/method.md`. Every former home keeps the anatomy and a pointer.
-- **Two gaps named instead of guessed.** A product's own **operation** has no door — the law of ranks
-  says an operation is reached only through the goal map, and the goal map is vendored, so a product
-  cannot add a row (`extending/operation.md` → *Open question*). And **migrating a filled instance**
-  through a shape change has a settled act (re-projection) but no settled policy — whether an update
-  may land while sections are off-form, per-section or per-artifact, and what happens to a
-  confirmation marker that waits (`install/UPDATE.md` → *Migrating a filled instance*). Both are
-  written as open items, and an agent that hits either stops and asks.
+- **One gap named instead of guessed, one decided.** A product's own **operation** has no door — the
+  law of ranks says an operation is reached only through the goal map, and the goal map is vendored,
+  so a product cannot add a row (`extending/operation.md` → *Open question*); an agent that hits it
+  stops and asks. **Migrating a filled instance** through a shape change is decided the other way:
+  no mechanism, on purpose — the linter's off-form report is the work list, the human orders the
+  migration in chat, and each one is an ordinary re-projection. An off-form section is a visible,
+  linted debt, not a blocker (`install/UPDATE.md` → *Migrating a filled instance*).
 - **Install grew an acceptance checklist and an update procedure.** Six things that are each a real
   failure if missing — including the one non-obvious case: at install time `instances checked: none`
   is the *correct* answer, and after setup it is a failure wearing a success message. New
