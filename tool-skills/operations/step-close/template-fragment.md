@@ -18,13 +18,13 @@ Appended to the worklog of the section the finding belongs to, under the same he
   proving it collapses the strongest force against adoption. ⚙️ → landed in this section
 - Tier-2 was the counter-signal to this ranking and never left this worklog. Now readable next to
   the moat: it may be the sharper proving ground even if tier 1 stays the scale bet. ⚙️ → `#to-clarify`
-- The scores in the table rest on no evidence from the segment at all. [assumption] → `R-002`
+- The scores in the table rest on no evidence from the segment at all. [assumption] → `H-007`
 ```
 
 - **Every line carries ⚙️ or `[assumption]`** — this pass reasons over the whole; it never sources.
-- **Every line ends in where it went** — `landed in this section` · a `#section` · a register id ·
-  `killed (why)`. A conclusion with no destination is the thing this pass exists to stop: a finding
-  stranded in a worklog for the second time.
+- **Every line ends in where it went** — `landed in this section` · a `#section` · an id in a
+  register the step's own card already writes · `killed (why)`. A conclusion with no destination is
+  the thing this pass exists to stop: a finding stranded in a worklog for the second time.
 - **Whose worklog** — the section the finding is *about*. A finding about the step as a whole has no
   worklog and goes straight to shape 2.
 
@@ -50,7 +50,7 @@ In the artifact's own change log — including the honest empty answer:
 ```markdown
 ### 2026-08-20 — step read whole (step close)
 - **From → To:** six sections closed one at a time → 2 re-projected (`#problems` gained the judgement
-  its rows implied; `#jtbd` links its anxiety force to `H-001`), 3 open items filed, `R-002` seeded,
+  its rows implied; `#jtbd` links its anxiety force to `H-001`), 3 open items filed, `H-007` seeded,
   4 card headlines marked
 - **Why:** the sections were written in sequence, each before the later ones existed — the links
   between them had no pass in which they could be found
