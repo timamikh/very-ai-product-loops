@@ -226,7 +226,13 @@ def write_export(inst, out):
     """
     page, model = export_html(inst["path"])
     name = export_filename(model)
-    out = os.path.join(out, name) if (not out or os.path.isdir(out)) else out
+    if not out or os.path.isdir(out):
+        out = os.path.join(out, name)
+    elif not os.path.exists(out) and not out.lower().endswith((".html", ".htm")):
+        # a target that does not exist and does not name an .html file was meant as a folder:
+        # writing it as an extensionless HTML file yields a snapshot nothing opens by click
+        os.makedirs(out, exist_ok=True)
+        out = os.path.join(out, name)
     with open(out, "w", encoding="utf-8") as f:
         f.write(page)
     print("very-ai-product-loops · snapshot")

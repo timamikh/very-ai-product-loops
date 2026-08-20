@@ -10,8 +10,8 @@ description: >
   vs what's blank and proposing a gap-closing plan in step order — the point where the working loops
   begin. Step artifacts are NOT created here — each is born by its step's first pass.
 status: draft
-version: 0.6.0
-updated: 2026-08-19
+version: 0.7.0
+updated: 2026-08-20
 ---
 
 # Product Setup (onboarding)
@@ -104,8 +104,11 @@ empty-template artifact fails the linter before the loop has run once). What set
 - Route each source to its steps in `INDEX.md` (**Feeds steps** column) — precise enough that the
   step's first pass finds its material without re-reading everything.
 - Where materials conflict, record the conflict in INDEX.md and the placement report.
-- Seed the **registers** (hypotheses/risks/metrics) from anything the materials *state* — registers
-  are created at setup and carry no worklog obligation.
+- Create the **registers** (hypotheses/risks/metrics) — files with their headers, no rows invented;
+  they carry no worklog obligation. Seed a row only for something a source *states outright* and no
+  method will produce (a metric already being measured, a risk the founder names). **Anything a step's
+  method owns is that method's to seed**, on its pass: a concept bet becomes `H-…` in `concept-formation`,
+  not here. Both sides seeding is how one id gets issued twice.
 - **Only place what the sources say.** Do NOT derive numbers, thresholds, hypotheses, test designs,
   or pricing here — those are method work for the loop. A section that will need a library method is
   simply a gap the plan (step 7) names, not an invented draft.

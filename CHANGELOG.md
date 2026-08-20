@@ -72,6 +72,32 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Canon wave 3.3 — the contradictions the two traced runs left standing
+
+- **A source can be dispatched at setup again.** `source-intake` named the setup dispatch as its first
+  scenario and then required *the target step's artifact* to exist so its `<!-- tool: X -->` markers
+  could be read — while `product-setup` forbids creating a step artifact at all. Three rules closed a
+  circle and the legal path was unreachable. The markers come from the **step template**, which is the
+  schema and exists before any instance does.
+- **One side seeds a register.** `product-setup` said "seed the registers from anything the materials
+  state" and the step-1 method says "seed it as a hypothesis" — both sides seeding is how one `H-` id
+  gets issued twice. Setup now creates the files and seeds only what a source states outright *and*
+  no method owns; anything a method owns is that method's to seed, on its pass.
+- **`concept-expansion`'s volume rule had two readings** — a row per *ranked* problem or a row per
+  problem *carried forward* — and the first collided with its own anti-pattern *one mechanism, every
+  pain*. It is the carried-forward set; a lower-ranked pain another mechanism removes as a side effect
+  is noted under the table, never given a row.
+- **A worklog carries a change log** — the node-type matrix always said so, and `CONVENTIONS` →
+  *Change logs* listed every other node type but that one. A section is a projection and holds no
+  history, so the method's history has nowhere else to live.
+- **A stale handoff is now visible as stale.** Nothing in the loop forces a pass to update
+  `HANDOFF.md`: no `surfaces` holds it and its trigger only fires if the previous agent reached it —
+  so a note six passes behind is a normal state that reads as current. It now carries `reflects:`, the
+  newest change-log entry it was written against, and the reader is told to compare it before trusting
+  a word.
+- Tooling: `--export <path>` given a target that does not exist and does not name an `.html` file now
+  treats it as a folder to create, instead of writing an extensionless HTML file nothing opens.
+
 ### Canon wave 3.2 — the whole is a different reader
 
 - The gap, found by comparing a traced run against the v0.9 reference concept: the two artifacts came

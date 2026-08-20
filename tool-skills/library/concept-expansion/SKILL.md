@@ -9,12 +9,12 @@ writes: [worklog, section:solution, register:hypotheses]
 opinionated: false
 method_basis: "problem→solution mapping — every ranked pain gets its mechanism; no orphan features"
 evidence_standard: decision
-volume_rule: "one row per ranked problem carried from {#problems} — every tier-1 pain covered"
+volume_rule: "one row per problem carried forward from {#problems} — the tier-1 / top-3 set, not every ranked row; a lower-ranked pain that another row's mechanism removes as a side effect is noted under the table, never given a row of its own"
 selection_rule: "a feature that answers no ranked problem is an orphan — dropped to the reject table, not kept"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-19
+version: 0.3.0
+updated: 2026-08-20
 ---
 # Concept Expansion
 

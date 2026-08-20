@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.26.0
-updated: 2026-08-19
+version: 0.27.0
+updated: 2026-08-20
 ---
 
 # Conventions
@@ -181,8 +181,10 @@ matrix (e.g. *Talking to the human*) is behavioral and applies always.
 
 ## Change logs
 
-Every **instance artifact** ends with a change log — the `artifact`, `register`, `source`,
-`sources-index`, and `handoff` rows in the matrix above — newest first, carrying the *motivation*:
+Every **instance artifact** ends with a change log — the `artifact`, `worklog`, `register`, `source`,
+`sources-index`, and `handoff` rows in the matrix above — newest first, carrying the *motivation*.
+The **worklog** is on that list and not by exception: a section is a projection and carries no history
+of its own, so the method's history lives in the worklog (matrix, `worklog` row):
 
 ```markdown
 ## Change log

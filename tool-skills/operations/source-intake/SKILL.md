@@ -4,7 +4,7 @@ kind: operation
 name: source-intake
 prerequisites:
   - a raw file in `sources/` (or a new one just added) with a role in `sources/INDEX.md` — a URL becomes a dated extract first (see *A source that is a URL*)
-  - the target step's artifact exists, so its `<!-- tool: X -->` markers name the worklogs a source may feed
+  - the target step's **template** (`steps/<n>-*/template.md`), whose `<!-- tool: X -->` markers name the worklogs a source may feed — the instance's artifact need not exist yet, and at setup it must not (`product-setup` creates none)
   - a decision, when a source could feed more than one step, on which it primarily informs — proposed by the agent, confirmed by the human
 reads: [source:kb]
 writes: [file:product-loops/<step-folder>/<tool>.md]
@@ -12,8 +12,8 @@ surfaces: [file:sources/INDEX.md, worklog:*, change-log]
 opinionated: true
 method_basis: "Route, don't reason: every external source is dispatched into the step worklog(s) it informs and cited there, so no artifact ever reaches around a worklog to a raw file"
 status: draft
-version: 0.2.0
-updated: 2026-08-17
+version: 0.3.0
+updated: 2026-08-20
 ---
 # Source intake — dispatch a raw source into the step worklogs it feeds
 
@@ -85,9 +85,13 @@ and an **open question the web must answer** is a `research` brief for a subagen
 
 - **A source with a role.** The file is in `sources/` and `sources/INDEX.md` records what it is. An
   unindexed file is indexed as part of this pass — role first, then routing.
-- **The target artifact exists.** A worklog may only be created for a `<tool>` the step's artifact
-  actually declares (`<!-- tool: X -->`). Material that fits no declared tool is a **routing question for
-  the human**, not a licence to invent a worklog — an orphan worklog is exactly what `check P` flags.
+- **The target step's template.** A worklog may only be created for a `<tool>` the **step template**
+  declares (`<!-- tool: X -->` in `steps/<n>-*/template.md`) — the template is the schema, so the set of
+  legal worklogs is known before the instance has an artifact. That is what makes the setup dispatch
+  possible at all: at setup no step artifact exists yet and none may be created (`product-setup`), and a
+  prerequisite reading *artifact* instead of *template* closes the very case this skill's first scenario
+  names. Material that fits no declared tool is a **routing question for the human**, not a licence to
+  invent a worklog — an orphan worklog is exactly what `check P` flags.
 - **A primary step, when a source spans several.** The agent proposes which step a source primarily
   informs (⚙️) and the human confirms; a source may be cited from more than one worklog, but each fact is
   dispatched to the one method that works from it, never copied wholesale into all of them.

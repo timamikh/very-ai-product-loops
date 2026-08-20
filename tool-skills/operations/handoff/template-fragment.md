@@ -11,6 +11,7 @@
 node_type: handoff
 product: "<product name>"
 updated: <YYYY-MM-DD>
+reflects: "<the newest artifact change-log entry this note was written against>"
 read_me_first: true
 ---
 
@@ -20,6 +21,12 @@ read_me_first: true
 > **Reading order on return:** framework rules (`process/OVERVIEW.md` → `OPERATING-LOOP.md` →
 > `CONVENTIONS.md`; `REGISTERS.md` at its named moments) → **this file** → `sources/INDEX.md` →
 > only the artifacts the task needs.
+>
+> **Check its age first.** `reflects:` names the newest change-log entry this note was written
+> against. Nothing in the loop forces a pass to update it — no `surfaces` holds it and its trigger
+> only fires if the previous agent reached it — so a note several passes behind is a *normal* state,
+> not a malfunction. Compare `reflects:` with the artifacts' newest change-log entries; everything
+> after that point is read from the files, never from here.
 
 ## Who / what / where
 - PO / decision-maker, working language, product + scope boundary (one line each).
