@@ -2,8 +2,8 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.6.1
-updated: 2026-08-15
+version: 0.7.0
+updated: 2026-08-20
 ---
 
 # Install
@@ -24,8 +24,8 @@ and onboard the product later.
 
 The agent **vendors** the framework (read-only) into the repo, pinned to a version tag:
 `steps/` · `statuses/` · `process/` · `tool-skills/` (library · operations · outputs) · `AGENTS.md`
-(the rules) · `EXTENDING.md` · the `product-setup` and `start-work` skills. That's it — the framework is present and configured; **no
-product is set up yet.**
+(the rules) · `EXTENDING.md` + `extending/` (how to adapt it) · the `product-setup` and `start-work`
+skills. That's it — the framework is present and configured; **no product is set up yet.**
 
 As part of vendoring, the agent also:
 - writes a **`FRAMEWORK-VERSION`** file at the vendor root recording the exact **tag _and_ commit
@@ -48,6 +48,24 @@ As part of vendoring, the agent also:
 - reminds the human at the end: **restart the session once** — agent definitions and skills
   vendored mid-session are picked up only at the next session start.
 
+### Acceptance — how to know the install landed
+
+Six things, and each one is a real failure if it is missing:
+
+- [ ] **`FRAMEWORK-VERSION` exists** at the vendor root and names **both** the tag and the commit SHA.
+- [ ] **The root `AGENTS.md` carries the pointer** (and `CLAUDE.md` too, if that file already existed) —
+      and **nothing normative** was copied into either. Two names, one home.
+- [ ] **The delegation approval line sits in `AGENTS.md`**, not in `CLAUDE.md`. Without it, a restricted
+      environment silently falls back to working solo.
+- [ ] **The session was restarted once.** Agent definitions and skills vendored mid-session are picked up
+      only at the next start.
+- [ ] **`python3 tools/lint.py` runs.** At this point `instances checked: none` is the *correct* answer —
+      no product is set up yet. After setup, that line must name your instance.
+- [ ] **No `product-loops/` folder yet.** If one appeared, a product was set up in the same breath as the
+      install, and the two phases were meant to stay apart.
+
+To move an installed framework to a newer version later, see [`UPDATE.md`](UPDATE.md).
+
 ## 2. Set up the product (a separate phase)
 
 When ready, ask the agent to set up the product. It runs the
@@ -64,7 +82,7 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
 ## What lands in your repo
 
 - **Framework (vendored, read-only, versioned):** `steps/`, `statuses/`, `process/`,
-  `tool-skills/` (library · operations · outputs), `AGENTS.md`, `EXTENDING.md`, `.claude/skills/`,
+  `tool-skills/` (library · operations · outputs), `AGENTS.md`, `EXTENDING.md` + `extending/`, `.claude/skills/`,
   `tools/` (the linter and the local console, including the double-click launchers
   `tools/ui/console.command` and `console.bat`), and a `FRAMEWORK-VERSION` file (pinned tag + SHA).
   Update by bumping the tag and re-vendoring — your product's own cards under `product-loops/skills/`

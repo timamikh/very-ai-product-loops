@@ -2,7 +2,7 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.10.0
+version: 0.11.0
 updated: 2026-08-20
 ---
 
@@ -149,28 +149,9 @@ makes the chosen option better than the one it beat.
 
 ## How to add a tool
 
-1. Create `tool-skills/library/<tool>/` with the anatomy above.
-2. Fill `SKILL.md` (what / when / how / anti-patterns) and its frontmatter wiring.
-3. Add `template-fragment.md` and `questions.yaml`.
-4. Register it in the index below.
-5. Link it from the relevant step and status(es) as a *recommendation*.
-
-Before it lands, four gates a donated method must clear (each learned from a real failure):
-
-- **One step, one operation** (check U). If it spans steps, recut it along the step seam first.
-- **A home for every recommendation** (check V). If a status will recommend it at step *n*, the
-  step-*n* template must carry its `<!-- tool: … -->` marker — otherwise the agent has to invent
-  a section.
-- **Jurisdiction- and vendor-neutral.** A region-specific registry, data vendor or legal-id scheme
-  (a national company register, a local analytics vendor) belongs in a company adapter or a local
-  skill, never in the base method.
-- **One owner per definition.** A scale, enum or gate the library already defines lives in exactly
-  one skill — grep before adding; point at the owner instead of restating it (drifted duplicates
-  are how two "identical" 1/3/5 scales end up with different criteria).
-
-Keep tools **single-purpose** and **opinion-explicit**: if a method reflects a particular
-school of thought (e.g. a post-AI view of defensibility), say so in `SKILL.md` — that is
-exactly why it lives here and not in the neutral core, so another company can supply its own.
+The procedure, the four gates a method must clear, and the checklist:
+[`extending/method.md`](../../extending/method.md). This file holds the anatomy and the index; that one
+holds the change.
 
 ## Index
 

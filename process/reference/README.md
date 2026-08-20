@@ -2,8 +2,8 @@
 node_type: reference
 title: process/reference — canon read on demand, not every pass
 status: draft
-version: 0.3.0
-updated: 2026-08-19
+version: 0.3.1
+updated: 2026-08-20
 ---
 
 # process/reference
@@ -13,8 +13,8 @@ These files are **canon**, but they are **not** part of the always-loaded readin
 one thing it governs — so the per-pass `process/` files stay lean. `REGISTERS.md` follows the same
 pattern from the core: read at loop moves 2 (register rows as inputs) and 5 (before writing rows).
 
-The split follows [`CONVENTIONS.md`](../CONVENTIONS.md) → *Where a new rule goes* (now in
-[`EXTENDING.md`](../../EXTENDING.md)): a contract two readers must agree on lives in `process/`; a
+The split follows [`CONVENTIONS.md`](../CONVENTIONS.md) → *Where a new rule goes* (the full test in
+[`extending/rules.md`](../../extending/rules.md)): a contract two readers must agree on lives in `process/`; a
 lookup or an authoring rule that only one task ever needs lives here and is pointed at from the
 stub that stays in the core.
 

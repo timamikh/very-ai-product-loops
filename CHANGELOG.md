@@ -72,6 +72,45 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   host-repo pointers to `AGENTS.md` (~75 words), pushing 4,945 past 5,000 — an install that fails
   its own linter out of the box.
 
+### Canon wave 3.6 — one instruction per change, and a door that only routes
+
+`EXTENDING.md` had grown into five jobs in one file: a router, three procedures written inline, the
+rules that hold for any change, and two policy tests. A router is read every time; a procedure is read
+once, when you are making that one change. Mixing them meant everyone paid for everything, and the
+procedures that lived elsewhere drifted from the ones that did not.
+
+- **A folder of instructions.** New `extending/` — one file per kind of change, each with the same
+  five parts: *is this the right dial* · what it touches · the procedure · **a checklist** · what the
+  change drags with it. `method` · `operation` · `output` · `status` · `section` · `step` ·
+  `interface` · `config` · `rules` · `register`. None of it is in the always-loaded set, so an agent
+  pays for it only when changing the framework — which the goal map already classes as *outside the
+  loop*.
+- **The door only routes.** `EXTENDING.md` keeps the dial table and the rules that hold for **any**
+  change, and nothing else. The procedures for directions, sections and steps moved out; the two
+  policy tests (*where a new rule goes*, *what earns a register*) moved to `extending/rules.md` and
+  `extending/register.md`, with the one-line stubs staying in `CONVENTIONS.md` and `REGISTERS.md`.
+- **A checklist never re-implements the linter.** Written into the door as a rule of its own: anything
+  a machine can judge is a check in `tools/lint.py`, and a checklist holds only what a machine cannot.
+  A hand-held copy of a machine rule is one more thing to drift.
+- **Three circular or duplicated pointers cut.** `tool-skills/README.md` sent the reader to
+  `EXTENDING.md` for the procedure while `EXTENDING.md` sent them back — same loop in
+  `tools/ui/README.md`. And the four gates a method must clear were stated twice, in `EXTENDING.md`
+  and in `library/README.md`, with the same two checks (U, V) named in both. One home now:
+  `extending/method.md`. Every former home keeps the anatomy and a pointer.
+- **Two gaps named instead of guessed.** A product's own **operation** has no door — the law of ranks
+  says an operation is reached only through the goal map, and the goal map is vendored, so a product
+  cannot add a row (`extending/operation.md` → *Open question*). And **migrating a filled instance**
+  through a shape change has a settled act (re-projection) but no settled policy — whether an update
+  may land while sections are off-form, per-section or per-artifact, and what happens to a
+  confirmation marker that waits (`install/UPDATE.md` → *Migrating a filled instance*). Both are
+  written as open items, and an agent that hits either stops and asks.
+- **Install grew an acceptance checklist and an update procedure.** Six things that are each a real
+  failure if missing — including the one non-obvious case: at install time `instances checked: none`
+  is the *correct* answer, and after setup it is a failure wearing a success message. New
+  `install/UPDATE.md` gives re-vendoring a carrier at last: what is overwritten, what survives, the
+  four CHANGELOG items that can leave an instance off-form, and the local-card shadow that was correct
+  at the old tag and may not be at the new one.
+
 ### Canon wave 3.5 — the rules that had no carrier
 
 Six debts closed, all of the same shape: a rule stated in one file and worked from another.

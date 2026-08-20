@@ -2,8 +2,8 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.5.1
-updated: 2026-08-18
+version: 0.6.0
+updated: 2026-08-20
 ---
 
 # Tool-skills
@@ -155,7 +155,10 @@ Three rules, and no other variant:
 - **Survives updates.** Because it sits under `product-loops/`, re-vendoring the framework never touches it.
 
 The **agent** writes it, asked for in words — describe the method, or point at an existing skill to adapt.
-The procedure is in [`EXTENDING.md`](../EXTENDING.md); the local console
+The procedure is per kind: a method → [`extending/method.md`](../extending/method.md), a runtime skill →
+[`extending/operation.md`](../extending/operation.md), a deliverable →
+[`extending/output.md`](../extending/output.md), an exchange card →
+[`process/reference/boundary-layout.md`](../process/reference/boundary-layout.md). The local console
 ([`tools/ui/`](../tools/ui/README.md)) then displays it, and never creates one itself.
 
 ## Not to be confused with `.claude/skills/`

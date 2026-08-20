@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.30.1
+version: 0.30.2
 updated: 2026-08-20
 ---
 
@@ -164,7 +164,7 @@ alternatives. If two ways exist, pick one and eliminate the other in the same ch
 
 Only a **contract two independent readers must agree on** earns a place in this file — a check or a
 skill is cheaper and is tried first. Classify before adding:
-[`EXTENDING.md`](../EXTENDING.md) → *Where a new rule goes*.
+[`extending/rules.md`](../extending/rules.md).
 
 ## Forks & options
 

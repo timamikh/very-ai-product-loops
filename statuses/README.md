@@ -2,8 +2,8 @@
 node_type: statuses-index
 title: Statuses — product-stage plane
 status: draft
-version: 0.4.1
-updated: 2026-08-19
+version: 0.5.0
+updated: 2026-08-20
 ---
 
 # Statuses
@@ -52,8 +52,8 @@ below with a recommendation, and the human confirms. Pick by where the product a
 | **growth** | a working, profitable product | scaling acquisition/revenue within guardrails, opening new segments, defending the moats | internal product metrics (dominant) |
 
 Each status file's body adds a fuller description; the agent surfaces this table plus a
-recommendation, and the human decides. A company can add or rename stages (see *Add or change a
-status*); the setup presents whatever statuses exist.
+recommendation, and the human decides. A company can add or rename stages
+([`extending/status.md`](../extending/status.md)); the setup presents whatever statuses exist.
 
 ## Anatomy of a status
 
@@ -89,12 +89,8 @@ method is reached only through a marker) and are never listed here.
 
 ## Add or change a status
 
-1. Create `statuses/<order>-<name>.md` (numbered by maturity) with the anatomy above.
-2. Fill `gate_emphasis` and, **for each step**, its `goals` (optionally by direction) and
-   `tools`. Keep goals concrete — they exist to keep the agent focused, not to restate theory.
-3. Slot it into the maturity order via both the filename number and the `order` field; renumber
-   neighbours if you insert one in the middle.
-4. That's it — the process core applies it automatically. No step needs editing.
+The procedure and its checklist: [`extending/status.md`](../extending/status.md). This file holds the
+anatomy; that one holds the change.
 
 A company can add stages (e.g. `pre-seed-validation`, `scale-up`, `harvest`) or rename these to
 its own vocabulary. The framework only assumes that *a* status is active and exposes its

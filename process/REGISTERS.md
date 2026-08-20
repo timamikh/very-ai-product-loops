@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.9.1
-updated: 2026-08-18
+version: 0.9.2
+updated: 2026-08-20
 ---
 
 # Registers
@@ -28,7 +28,7 @@ The register *values* live in the instance files, read on every pass that needs 
 A candidate is **tested, not argued**, on all four signs: a stable cross-step id · an enumerable
 lifecycle (`status`) · a life outlasting the step that bore it · state that flows both ways. Fail
 one and the home is a step artifact section. The full test —
-[`EXTENDING.md`](../EXTENDING.md) → *What earns a register*.
+[`extending/register.md`](../extending/register.md).
 
 ## Hypothesis register (`hypotheses.md`)
 

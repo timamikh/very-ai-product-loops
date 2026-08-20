@@ -1273,7 +1273,7 @@ def instances(argv):
 # The per-pass canon: every agent reads these before every pass, so each word here is paid on every
 # read. The guideline number makes growth *visible* — it is a reference point, never a gate (the
 # author's call: mechanics and the entity invariant decide acceptance, not a word count). Growth
-# past it means the subtraction rule (EXTENDING -> "Where a new rule goes") — move something to a
+# past it means the subtraction rule (extending/rules.md) — move something to a
 # skill or reference/ before adding.
 PER_PASS_CANON = ("AGENTS.md", "process/OVERVIEW.md", "process/OPERATING-LOOP.md",
                   "process/goal-map.md", "process/CONVENTIONS.md")
@@ -1293,7 +1293,7 @@ def check_word_budget():
         err("W %s: per-pass canon file missing — the reading order in AGENTS.md points at it" % name)
     if total > BUDGET_GUIDELINE_WORDS:
         warn("W per-pass canon is %d words (guideline %d): every agent pays this on every pass — "
-             "prefer the subtraction rule (EXTENDING -> Where a new rule goes) over growth"
+             "prefer the subtraction rule (extending/rules.md) over growth"
              % (total, BUDGET_GUIDELINE_WORDS))
 
 

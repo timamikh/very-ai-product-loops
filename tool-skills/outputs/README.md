@@ -2,8 +2,8 @@
 node_type: outputs-index
 title: Outputs — produce the files that leave the framework
 status: draft
-version: 0.3.0
-updated: 2026-08-16
+version: 0.4.0
+updated: 2026-08-20
 ---
 
 # Outputs
@@ -111,9 +111,5 @@ registers are written by the orchestrator through the methods that work the evid
 
 ## How to add one
 
-1. Either kind → `outputs/<name>/SKILL.md` with the anatomy above; `output_kind:` says which
-   producing a file in `export-files/`.
-2. State exactly which instance IDs it consumes and the output shape it emits.
-3. Register it in the tables above.
-4. If it encodes a company-specific format, put it in the company/plugin repo instead — this folder
-   is for neutral base outputs only.
+The procedure and its checklist: [`extending/output.md`](../../extending/output.md). This file holds the
+anatomy and the two kinds; that one holds the change.

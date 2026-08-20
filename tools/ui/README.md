@@ -2,8 +2,8 @@
 node_type: tooling
 title: The local console — a UI for a very-ai-product-loops instance
 status: draft
-version: 0.5.0
-updated: 2026-08-11
+version: 0.5.1
+updated: 2026-08-20
 ---
 
 # The local console
@@ -226,7 +226,8 @@ artifact (the linter's check B, surfaced before it fails).
 Adding or changing a skill is the **agent's** job, asked for in words ("add a method that does X", "adapt
 this one to how we work"): it writes the canon's three-file anatomy into `<instance>/tool-skills/<plane>/<name>/`,
 where a product-local skill wins over a vendored one of the same name, and the console shows it on the next
-read. The procedure, and the same for every other adaptation dial, is [`EXTENDING.md`](../../EXTENDING.md).
+read. The procedure is [`extending/method.md`](../../extending/method.md) and its neighbours; changing the
+console itself is [`extending/interface.md`](../../extending/interface.md).
 
 ### Why there is no write path
 
