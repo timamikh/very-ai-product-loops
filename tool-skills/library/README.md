@@ -2,8 +2,8 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.11.0
-updated: 2026-08-20
+version: 0.12.0
+updated: 2026-08-21
 ---
 
 # Library
@@ -207,6 +207,7 @@ don't turn a tool into a literature review.
 | `feature-spec` | Development item as a Feature | Description/Scope/Acceptance criteria/Business value/User value/User stories | 6 | draft |
 | `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
 | `task-spec` | Back-office item as a Task | Description · why-link · binary DoD · owner · estimate | 6 | draft |
+| `feature-grooming` | Groom a featured item to spec-readiness | Scope 1:1 · product forks closed by the owner · technical forks recorded · doc type; hands to `outputs/feature-to-spec` | 6 | draft |
 
 > **Runtime skills live elsewhere.** `handoff` (session-to-session state transfer) was a library
 > entry; it is a *runtime* capability, not a product method, and now lives in

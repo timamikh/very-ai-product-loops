@@ -12,8 +12,8 @@ surfaces: [ticks, register:hypotheses, register:metrics, sign-off, change-log]
 cadence: "~1–2 wk; every sprint"
 method_basis: "sprint goal tied to the period gate · minimal must-set + prioritized backlog per direction · items in a per-direction format (dev = Feature; go-to-market = Activity; back-office = Task+DoD) · prioritization by contribution to the goal · explicit delivery"
 status: draft
-version: 0.3.0
-updated: 2026-08-16
+version: 0.4.0
+updated: 2026-08-21
 ---
 # Step 6 — Sprint Plan
 
@@ -34,8 +34,8 @@ prove repeatable value and monetization; `growth` favors scale-and-defend items.
 | Section (ID) | What | Recommended tool |
 |--------------|------|------------------|
 | `sprint-goal` | One or two lines: what this sprint must prove or move — ties to the period gate and the status's learning goal | — (synthesis) |
-| `must` | Minimal mandatory items, grouped by direction, each in its per-direction format | `prioritization-sprint-plan`, `feature-spec`, `activity-spec`, `task-spec` |
-| `backlog` | The rest, prioritized, grouped by direction | `prioritization-sprint-plan`, `feature-spec`, `activity-spec`, `task-spec` |
+| `must` | Minimal mandatory items, grouped by direction, each in its per-direction format | `prioritization-sprint-plan`, `feature-spec`, `activity-spec`, `task-spec`, `feature-grooming` |
+| `backlog` | The rest, prioritized, grouped by direction | `prioritization-sprint-plan`, `feature-spec`, `activity-spec`, `task-spec`, `feature-grooming` |
 | `excluded` | Candidates that entered the ranking but were cut before backlog, each with why | `prioritization-sprint-plan` |
 | `delivery` | What goes to the development process, and how | — (synthesis) |
 | `to-clarify` | Unresolved sprint questions; resolved by deleting the line | — |
@@ -68,6 +68,22 @@ sub-tasks. Each direction describes its items in its own format:
   - **Definition of Done** — binary: answerable yes/no at sprint end
   - **Owner** — who is accountable for it landing
   - **Estimate** — the capacity it consumes
+
+## From feature to development instruction (the dev handoff chain)
+
+A development item can hand off at two altitudes. The default is **feature altitude**: the
+`feature-spec` block goes to the team's own grooming. When the team implements **from a written
+instruction**, the chain continues inside the step:
+
+1. **`feature-spec`** — describes the item (Description / Scope / Acceptance criteria / Business
+   value / User value / User stories).
+2. **`feature-grooming`** — closes every **product/UX/business fork with the product owner**
+   before anything is written for developers; records **technical forks** for the tech lead; picks
+   the document type. A feature with an open product fork is not spec-ready.
+3. **[`outputs/feature-to-spec`](../../tool-skills/outputs/feature-to-spec/SKILL.md)** — authors
+   the instruction itself (BRD/PRD or tech spec) as a deliverable at
+   `export-files/<feature>-spec.md`: scope-faithful, WHAT-not-HOW, product decisions fixed, only
+   technical forks open. `{#delivery}` names the file per handed-off feature.
 
 ## Register touchpoints
 - **Hypotheses / Metrics** — each task links to the `H-…` it tests or the `M-…` it moves

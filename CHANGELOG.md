@@ -15,6 +15,75 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Library & outputs — the dev-handoff chain (feature → groom → written instruction)
+
+- **`feature-grooming` (library, step 6).** The intermediate pass between a featured item and its
+  written instruction: enumerates the scope one-to-one, then splits every open fork by kind —
+  **product/UX/business forks are closed by the product owner before anything is written for
+  developers** (2–4 options each, a recommended default, dated decisions); **technical forks are
+  recorded for the tech lead**, never asked of the owner. A feature with an open product fork is
+  not spec-ready. Named on `6#must` / `6#backlog` markers after `feature-spec`; recommended by all
+  three statuses at step 6.
+- **`feature-to-spec` (outputs, authored).** Ported from a field skill (daisy-feature-2-spec) and
+  genericized: authors the development instruction a team implements from — BRD/PRD by default,
+  tech spec for engine-internal features — one `.md` per groomed feature in `export-files/`.
+  Scope-faithful (every requirement traces to the groom), WHAT-not-HOW, no hard names (the
+  codebase wins), Given/When/Then acceptance on every requirement, product decisions arrive fixed
+  and only technical forks stay open. Meeting an open product fork while writing is a stop, not a
+  workaround. `steps/6-sprint-plan/README.md` → *From feature to development instruction* pins the
+  chain: `feature-spec` → `feature-grooming` → `outputs/feature-to-spec`.
+- **Hardened from the first dry run** (the chain applied end-to-end on the decksmith example, the
+  spec then read by a context-free "developer" agent — whose questions were the defect list). The
+  goal the chain now enforces: **zero open product questions in the delivered instruction.** The
+  groom's fork sweep walks a *dimension list* — surface · told-or-silent · media & content types ·
+  cardinality · inputs the developer can't produce (owned, or readiness blocks) · check targets ·
+  trigger boundaries (the line under every classification a behaviour keys on) — each marked asked
+  or n/a, plus a per-scope-item "could two implementers build this differently?" pass for the
+  assumed mechanism. The spec's checklist gains: every criterion has something to check it against
+  (inputs owned, check targets concrete — never "current"), every normative clause of an FR is
+  exercised by a criterion, no two fixed decisions collide on the same behaviour, no criterion
+  presupposes what a requirement only permits, and a **developer pass** (re-read as the
+  implementer, nothing but the file) runs clean before delivery.
+
+### Console 0.6.0 — the Guide tab, English-only chrome, honest card heights
+
+- **A Guide tab** explains the framework inside the console, so it can be handed to someone who
+  never opened `process/`: the one-direction write cycle (human → agent → files → console), the
+  seven-move operating loop, the rules the agent lives by, the nested cadences with this instance's
+  six steps live, what lives where (the three homes and the folder tab by tab), a legend built from
+  the console's own marks, and how to phrase work for the agent. Pure chrome — nothing new is read
+  from the instance, and the tab renders identically inside an exported snapshot (diagrams are plain
+  HTML on the house tokens, no assets).
+- **The chrome is English, always.** The `ru` locale and the locale machinery are removed: the
+  framework is an international, English-language project, and a translated chrome was a second copy
+  of its vocabulary to keep in step. Instance *content* still appears exactly as written, in any
+  language. (`tools/ui/README.md` → *Interface language*, `extending/interface.md` step 6.)
+- **Cards are as tall as what they honestly carry.** The step-board card lost its fixed min-height:
+  a section with no authored `<!-- card -->` face folds to its title and tags instead of standing as
+  an empty box. The card's head split into two quiet lines — the title with its gate tick, then the
+  sign-off state with the evidence strip stretched beside it — so a long title no longer shuffles
+  the tags, and the strip has a full line to be legible on.
+- **The artifact reader opens the whole file.** Reading a projection in per-section slices hid the
+  through-line; now the Artifacts tab renders one artifact top to bottom, each section keeping its
+  own tags, and the TOC lists the files with the open one's worklogs nested beneath — the drill goes
+  file → workings (worklog = source of truth, artifact = projection), not file → slice. A section id
+  in the hash or from a cross-link still lands: the page scrolls to it.
+- **The Skills tab reads the current card schema.** It still expected the pre-wave-3 fields
+  (`used_by_steps`, `reads_registers`, the `adapters` plane) and crashed on the model the reader now
+  returns; it now shows `reads · writes · surfaces · steps` and the `library · operations · outputs`
+  planes, matching the card canon.
+- **A wide table gets the whole card.** The expanded card body capped everything at prose width, so
+  an eight-column table scrolled sideways beside empty space; the cap now applies to prose only
+  (the `.md` line-length rules), and a table earns its scrollbar only when it is genuinely wider
+  than the card.
+- **The sprint board shows items, not slabs.** The shared read layer parses the must-set's
+  F-/A-/T- blocks (`sprint_items` — the template's own head-line + bold-label convention, labels
+  carried verbatim), and step 6 draws one card per item, grouped by direction: description, scope,
+  acceptance, values, stories, owner·estimate, register links as chips, the groom state when
+  present. The backlog stays a ranked table; an instance the parser doesn't recognise falls back to
+  the old two-section board. `export-files/` is now read alongside the legacy `deliverables/` for
+  the overview's deliverables row.
+
 ### Canon wave 3 — the card: one entity, one schema, a thin router
 
 - The gap: wave 2 gave the loop a router, but what it routed *to* was still five different things.

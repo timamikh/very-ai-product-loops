@@ -40,10 +40,10 @@ per_step:
       - Must-set = scale-and-defend items that move a growth lever or hold a guardrail; instrument before optimizing
       - Every item moves a metric node or defends one; defer nice-to-haves to backlog
       - Delivery includes the guardrail checks the team must watch during rollout
-    tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
+    tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec, feature-grooming]
 status: draft
-version: 0.6.0
-updated: 2026-08-16
+version: 0.7.0
+updated: 2026-08-21
 ---
 
 # Status: growth

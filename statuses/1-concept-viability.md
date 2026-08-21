@@ -41,10 +41,10 @@ per_step:
       - Must-set = only what produces a learning signal this sprint (a prototype slice or a test launch)
       - Every item tests a hypothesis; cut anything that doesn't move the bet
       - Keep the delivery lightweight — optimize for cycle speed with a small team
-    tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
+    tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec, feature-grooming]
 status: draft
-version: 0.6.0
-updated: 2026-08-16
+version: 0.7.0
+updated: 2026-08-21
 ---
 
 # Status: concept-viability

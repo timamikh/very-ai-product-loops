@@ -4,8 +4,8 @@ artifact: sprint-plan
 step: 6
 title: "Sprint Plan — <Product> · Sprint <n> (<dates>)"
 status: template
-version: 0.3.2
-updated: 2026-08-16
+version: 0.4.0
+updated: 2026-08-21
 ---
 
 <!--
@@ -41,7 +41,7 @@ learning goal._
 _Minimal mandatory items — without which the period goal is unreachable. Grouped by direction._
 
 ### Development — Features
-<!-- tool: feature-spec, prioritization-sprint-plan -->
+<!-- tool: feature-spec, prioritization-sprint-plan, feature-grooming -->
 **F-1 · <feature name>** — links: `H-…` / `M-…`
 - **Description:** what the feature is
 - **Scope:** the tasks to implement it
@@ -51,6 +51,8 @@ _Minimal mandatory items — without which the period goal is unreachable. Group
 - **User stories:** (if applicable)
 - **Owner:** who is accountable for it landing
 - **Estimate:** the capacity it consumes
+- **Groom:** spec-ready | blocked: <fork> — `6-sprint-plan/feature-grooming.md` (when groomed;
+  the spec itself is authored by `outputs/feature-to-spec` into `export-files/<feature>-spec.md`)
 
 ### Go-to-market — Activities
 <!-- tool: activity-spec, prioritization-sprint-plan -->
@@ -93,7 +95,8 @@ _Candidates that entered the ranking (N = …) but left it entirely — cut befo
 <!-- synthesis -->
 _What goes to the development process, and how (the framework ends here; work proceeds in the team's own flow)._
 
-- Handed off: … (which items, to which board/process)
+- Handed off: … (which items, to which board/process; a groomed feature hands off as its written
+  instruction — `export-files/<feature>-spec.md`, authored by `outputs/feature-to-spec`)
 - Acceptance / how results flow back: … (a refuted `H-…` or missed `M-…` bubbles up to `5-tactical-plan.md`)
 
 ## To clarify {#to-clarify}

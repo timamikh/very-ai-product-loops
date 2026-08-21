@@ -39,10 +39,10 @@ per_step:
     goals:
       - Must-set = only what proves value/monetization or unblocks its measurement (instrumentation first if it's missing)
       - Every item moves a metric node or tests a hypothesis; defer scale-spend items to the backlog
-    tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec]
+    tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec, feature-grooming]
 status: draft
-version: 0.6.0
-updated: 2026-08-16
+version: 0.7.0
+updated: 2026-08-21
 ---
 
 # Status: pmf

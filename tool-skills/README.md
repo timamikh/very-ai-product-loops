@@ -2,8 +2,8 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.6.0
-updated: 2026-08-20
+version: 0.7.0
+updated: 2026-08-21
 ---
 
 # Tool-skills
@@ -22,7 +22,7 @@ The framework splits into two halves:
 |----------|--------------|--------------|-------|
 | [`library/`](library/README.md) | product methods that fill an artifact **section** (segmentation, pricing-strategy, jtbd-concept, …) | *during* a step pass — recommended by the step & status | [`library/README.md`](library/README.md) |
 | [`operations/`](operations/README.md) | runtime skills about how the agent **works** (handoff, metrics capture, delegation to subagents; future: scheduling, automation) | at session/process boundaries — triggered by events, not by a step | [`operations/README.md`](operations/README.md) |
-| [`outputs/`](outputs/README.md) | produce the **files that leave the framework** — renderers (table · document · deck) and authored deliverables (`brief`, `interview`); they land in the instance's `export-files/` | *after* the content exists — on a delivery request | [`outputs/README.md`](outputs/README.md) |
+| [`outputs/`](outputs/README.md) | produce the **files that leave the framework** — renderers (table · document · deck) and authored deliverables (`brief`, `interview`, `feature-to-spec`); they land in the instance's `export-files/` | *after* the content exists — on a delivery request | [`outputs/README.md`](outputs/README.md) |
 
 ## How the agent finds the right skill (discovery rule)
 
@@ -107,6 +107,7 @@ recommended by none (reason in the row).
 | `feature-spec` | 6 | CV·PMF·G | Spec per development item | interview · kb | `6#must` · `6#backlog` | H, M → |
 | `activity-spec` | 6 | CV·PMF·G | Spec per go-to-market activity | interview · kb | `6#must` · `6#backlog` | H, M → |
 | `task-spec` | 6 | CV·PMF·G | Spec per back-office task | interview · kb | `6#must` · `6#backlog` | H, M, R → |
+| `feature-grooming` | 6 | CV·PMF·G | Close product forks with the owner before the spec; record technical forks | interview | `6#must` · `6#backlog` | H, M → |
 
 ### `operations/` — runtime skills, by trigger
 

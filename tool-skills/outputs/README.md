@@ -2,8 +2,8 @@
 node_type: outputs-index
 title: Outputs — produce the files that leave the framework
 status: draft
-version: 0.4.0
-updated: 2026-08-20
+version: 0.5.0
+updated: 2026-08-21
 ---
 
 # Outputs
@@ -29,7 +29,10 @@ filenames for one entity was the same defect as two schemas.
   [`to-deck`](to-deck/SKILL.md).
 - **Authored**: [`brief`](brief/SKILL.md) (one-page framing of an initiative) ·
   [`interview`](interview/SKILL.md) (an interview guide the product person runs outside;
-  the notes come **back** as a source — see the skill).
+  the notes come **back** as a source — see the skill) ·
+  [`feature-to-spec`](feature-to-spec/SKILL.md) (the development instruction — BRD/PRD or tech
+  spec — per groomed Step-6 feature; product decisions arrive fixed from `feature-grooming`, only
+  technical forks stay open).
 
 A renderer's whole job is the **last hop**: from what's structured for an *agent* to read
 (stable IDs, typed links, register codes) into what's convenient for a *human* to consume. Its
