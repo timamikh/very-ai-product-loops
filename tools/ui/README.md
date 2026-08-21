@@ -2,8 +2,8 @@
 node_type: tooling
 title: The local console — a UI for a very-ai-product-loops instance
 status: draft
-version: 0.5.1
-updated: 2026-08-20
+version: 0.6.0
+updated: 2026-08-21
 ---
 
 # The local console
@@ -102,12 +102,12 @@ was. Pinning it (and linting it) is the proposal that follows from this work.
 
 ### Interface language
 
-Taken from the instance: `config.yaml` → `language` (`ru` / `en`, English fallback). One `STR` object in
-`app.js` per locale, and nothing else in the app knows a language exists. **Chrome is translated;
-content is not** — a step's goal and a status's per-step goals are the framework's own English text, and
-the product's own text appears in whatever language it was written in. There is no language switch in
-the UI on purpose: the instance already declares its language, and a second control would be a second
-source of truth.
+**The chrome is English, always** — the framework is an international, English-language project, and
+the console speaks the framework's language like every other framework file. The *content* is never
+translated: an instance written in another language appears exactly as written. There is no locale
+machinery and no language switch on purpose — a translated chrome would be a second copy of the
+framework's vocabulary to keep in step, and `config.yaml → language` describes the instance's
+documents, not the console.
 
 ### Sharing a snapshot
 
@@ -251,7 +251,7 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 | The step rail | Where the cycle stands, and how far each of the six gates has closed. Pinned to the top with the tabs, so step and tab stay reachable however far you scroll; click a step to open it |
 | Overview | What this product is, in one thesis line and six figures; the six steps as a table; where the next pass goes; how the instance reads against the canon |
 | Step | The gate and what the active status asks, across the top; below them, full width, the step's sections as **accordions** — each opens to the section's full text, its confidence mix, gaps, proposals and register ids |
-| Artifacts | Section by section, with confidence tags, gaps and proposals highlighted |
+| Artifacts | One artifact whole — every section in order with its confidence tags, gaps and proposals; the TOC lists the files, and under the open one its worklogs (the workings each section projects from) |
 | Registers | Hypotheses / risks / metric nodes as filterable tables, with non-canon values flagged, a per-item trail, and a link to every artifact section that names the id |
 | Metrics | Latest readings as tiles, one chart per node with a dot on every reading, each node's full definition, the raw `metrics.csv` rows, and the nodes defined but never measured |
 | Open questions | Every `— to clarify —`, every gate item still open or unrecorded, every hypothesis in flight — each with a link to the section it sits in |
@@ -259,6 +259,7 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 | Skills | Every skill the agent can reach as a searchable table (one line each — kind, steps, origin); a row opens its full wiring and quality declaration below |
 | Change log | One timeline across all artifacts and registers — what moved and why, filterable by file |
 | Checks | The linter's findings plus the reader's `health` list — findings that differ only by which file they name collapse into one line — and an explicit list of what neither checks |
+| Guide | The framework explained in place: the one-direction write cycle, the seven-move operating loop, the rules the agent lives by, the nested cadences with this instance's six steps live, what lives where (three homes + the folder tab by tab), a legend of every mark the console uses, and how to phrase work for the agent |
 
 Deltas compare like with like — a reading is only compared to the previous reading on the same `basis`
 and `population`.
@@ -274,6 +275,5 @@ and `population`.
   useful for headless captures and smoke tests.
 - `tools/loops/yamlite.py` reads the small YAML subset the framework uses. Anything richer is out of
   scope on purpose: if the canon ever needs it, that is a change to the canon first.
-- All UI strings sit in one `STR` object in `app.js` — a locale is a translation of that object,
-  chosen from `config.yaml` → `language`. Instance content is never translated; it appears in the
-  language it was written in.
+- All UI strings sit in one `STR` object in `app.js`, in English — the framework's language.
+  Instance content is never translated; it appears in the language it was written in.

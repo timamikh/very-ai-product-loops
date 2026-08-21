@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="/app/app.css">
 </head>
 <body>
-<!-- Chrome is English, like every other framework file; the *content* stays in the instance's own
-     language, because it is read from the instance. All UI strings live in one STR object in app.js
-     so a locale can be added by translating that object.
+<!-- Chrome is English by design — the framework is an international, English-language project; the
+     *content* stays in the instance's own language, because it is read from the instance. All UI
+     strings live in one STR object in app.js.
      This same file is the shell of the exported snapshot: serve.py inlines app.css, app.js and the
      frozen model into one HTML file, so a shared page renders through exactly one renderer. -->
 <div id="snap"></div>

@@ -369,9 +369,6 @@ details.acc .accbody { padding:13px 15px 16px }
 .wlnav { position:sticky; top:calc(var(--navh) + 12px) }
 .toc { display:flex; flex-direction:column; gap:1px; position:sticky; top:calc(var(--navh) + 12px);
   max-height:calc(100vh - var(--navh) - 24px); overflow:auto }
-.toc .file { font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase;
-  color:var(--brand-ink); margin:14px 0 5px; padding:0 8px }
-.toc .file:first-child { margin-top:0 }
 .toc button {
   font:inherit; font-size:12.5px; text-align:left; background:none; border:0; cursor:pointer;
   color:var(--muted); padding:5px 8px; border-radius:4px; display:flex; justify-content:space-between;
@@ -381,8 +378,40 @@ details.acc .accbody { padding:13px 15px 16px }
 .toc button[aria-current="true"] { color:var(--ink); font-weight:650; border-left-color:var(--brand);
   background:var(--brand-soft) }
 .toc .dotcol { display:flex; gap:3px; align-items:center; flex-shrink:0 }
+/* the artifact row wears its filename (the projection is a file); the workings nest under the open one */
+.toc .fname { font-family:var(--mono); font-size:11px; letter-spacing:.03em }
+.toc button.tocwl { margin-left:13px; font-size:12px; padding:3px 8px }
+.toc .wldate { font-family:var(--mono); font-size:10px; color:var(--faint); flex-shrink:0 }
+/* one artifact reads as one document; each section keeps a target the hash can land on below the
+   pinned nav, and enough air between sections to see where one ends */
+.artsec { scroll-margin-top:calc(var(--navh) + 16px); margin-top:26px; padding-top:18px;
+  border-top:1px solid var(--line) }
 .pip { width:6px; height:6px; border-radius:50%; display:inline-block }
 .pip.gap { background:var(--warn) } .pip.gear { background:var(--brand) } .pip.empty { background:var(--line-2) }
+
+/* Step-6 item cards — one card per sprint item (the template's F-/A-/T- blocks), grouped by
+   direction. The left border carries the direction (dev = brand, go-to-market = navy, back-office
+   = neutral); everything inside keeps the labels the instance actually wrote. */
+.itdir { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin:8px 0 0 }
+.itgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:10px }
+.itcard { border:1px solid var(--line); border-left:3px solid var(--line-2); border-radius:10px;
+  background:var(--paper); padding:12px 15px 10px; display:flex; flex-direction:column; gap:7px;
+  min-width:0 }
+.itcard.it-dev { border-left-color:var(--brand) }
+.itcard.it-g2m { border-left-color:var(--navy) }
+.ithead { display:flex; gap:8px; align-items:baseline; flex-wrap:wrap }
+.itid { font-family:var(--mono); font-size:11px; color:var(--brand-ink);
+  border:1px solid var(--line-2); border-radius:4px; padding:1px 5px; flex-shrink:0 }
+.itname { font-size:13px; letter-spacing:-.01em; min-width:0 }
+.itdesc { font-size:12.5px; line-height:1.5; color:var(--ink-2); overflow-wrap:break-word }
+.itwiring { margin-top:0 }
+.itwiring .wrow { grid-template-columns:110px minmax(0,1fr); padding:6px 0 }
+.itwiring .wv { font-size:12px; line-height:1.5 }
+.itwiring .wv.md p, .itwiring .wv.md ul, .itwiring .wv.md ol { margin:0 0 4px }
+.itwiring .wv.md ul, .itwiring .wv.md ol { padding-left:16px }
+.itfoot { margin-top:auto; font-size:11.5px; color:var(--muted);
+  border-top:1px solid var(--line-2); padding-top:6px }
 
 /* Nothing in a body runs past its edge: a source path, a URL or an id with no space in it breaks
    rather than pushing the line out of the panel. */
@@ -522,11 +551,17 @@ details.acc .accbody { padding:13px 15px 16px }
 /* Fixed-width tiles: the grid never stretches a card to fill the row, so the canvas stays a tidy set
    of same-size cards; the hero (full width) sits outside this grid. */
 .cvrow { display:grid; grid-template-columns:repeat(auto-fill,272px); gap:12px; justify-content:start }
+/* No fixed min-height: a card is as tall as what it honestly carries. A faceless section (no
+   authored card line) folds to its title and tags instead of standing as an empty box; within one
+   grid row the cards still equalize, so a mixed row keeps its rhythm. */
 .cvcard {
   position:relative;
-  border:1px solid var(--line); border-radius:9px; background:var(--paper); padding:15px 17px;
-  display:flex; flex-direction:column; gap:9px; min-width:0; min-height:172px;
+  border:1px solid var(--line); border-radius:9px; background:var(--paper); padding:14px 17px 12px;
+  display:flex; flex-direction:column; gap:8px; min-width:0;
 }
+/* the sign-off state and the evidence mix share the second line; the strip takes what is left */
+.cvmeta { display:flex; gap:8px; align-items:center; min-height:14px }
+.cvmeta .evstrip { flex:1 }
 .cvcard.cv-link { cursor:pointer }
 .cvcard.cv-link:hover { border-color:var(--brand); background:var(--brand-soft) }
 .cvcard.cv-gap { border-style:dashed; background:var(--sunk) }
@@ -543,7 +578,6 @@ details.acc .accbody { padding:13px 15px 16px }
 @media (max-width:720px) { .casc-arrow { transform:rotate(90deg); padding:6px 0; width:100% } }
 /* the sprint's committed set beside its backlog */
 .board2 { display:grid; grid-template-columns:1fr 1fr; gap:12px }
-.board2 > .cvcard { min-height:200px }
 @media (max-width:720px) { .board2 { grid-template-columns:1fr } }
 .cvtop { display:flex; gap:9px; align-items:baseline; justify-content:space-between }
 .cvtop .tag { flex-shrink:0 }
@@ -561,8 +595,10 @@ details.acc .accbody { padding:13px 15px 16px }
 .cvcard.expanded { grid-column:1/-1 }
 .cascade > .cvcard.expanded { flex-basis:100% }
 .cvcard.expanded .cvex { display:none }
+/* No max-width on the container: prose inside is already capped by the .md line-length rules, and a
+   wide table deserves the whole card before it earns a scrollbar. */
 .cvfull { display:none; border-top:1px solid var(--line-2); margin-top:2px; padding-top:11px;
-  font-size:13px; max-width:88ch }
+  font-size:13px }
 .cvcard.expanded .cvfull { display:block }
 .cvex.cv-clar { color:var(--warn); background:var(--warn-soft); padding:2px 6px; border-radius:4px;
   align-self:flex-start; font-weight:600; display:inline-block; -webkit-line-clamp:none; max-height:none }
@@ -601,7 +637,7 @@ details.acc .accbody { padding:13px 15px 16px }
 .dring { display:block }
 /* Evidence heat strip — the section's confidence mix, in the same colours the .conf chips taught:
    sourced brand-red · validated green · assumption amber · refuted deep red. Hover names the counts. */
-.evstrip { display:flex; height:3px; border-radius:2px; overflow:hidden; background:var(--grid); gap:1px;
+.evstrip { display:flex; height:4px; border-radius:2px; overflow:hidden; background:var(--grid); gap:1px;
   flex-shrink:0 }
 .evstrip i { display:block; height:100% }
 .evstrip i.sourced { background:var(--brand) }
@@ -620,3 +656,70 @@ details.acc .accbody { padding:13px 15px 16px }
   gap:8px; color:var(--muted); padding:0 }
 .coverstep:hover { color:var(--ink) }
 .coverstep .cl { font-size:11.5px; font-weight:600; white-space:nowrap }
+
+/* ================================================================ guide
+   Diagrams as plain HTML on the house tokens — nothing an exported snapshot could fail to carry.
+   The flow: bordered nodes joined by labelled arrows; wraps on a narrow window. */
+.gflow { display:flex; align-items:stretch; gap:0; flex-wrap:wrap }
+.gnode { border:1px solid var(--line-2); border-radius:9px; background:var(--paper);
+  padding:12px 15px; min-width:150px; max-width:230px; flex:1 1 150px;
+  display:flex; flex-direction:column; gap:3px; justify-content:center }
+.gnode b { font-size:13px; letter-spacing:-.01em }
+.gnode span { font-size:11px; color:var(--muted); line-height:1.45 }
+/* the folder is the single source of truth — the one node that carries the accent */
+.gnode.gfiles { border-color:var(--brand); border-left-width:3px }
+/* the same node again, closing the loop — dashed: a repeat, not a fifth thing */
+.gnode.ghost { border-style:dashed; background:var(--sunk) }
+.gnode.gwide { max-width:none }
+.garrow { flex:0 0 auto; align-self:center; display:flex; flex-direction:column; align-items:center;
+  padding:0 9px; gap:1px }
+.garrow span { font-family:var(--mono); font-size:9px; letter-spacing:.05em; color:var(--muted);
+  white-space:nowrap }
+.garrow i { font-style:normal; color:var(--brand); font-size:17px; font-weight:700; line-height:1 }
+@media (max-width:720px) {
+  .gflow { flex-direction:column; align-items:stretch }
+  .gnode { max-width:none }
+  .garrow { flex-direction:row; padding:4px 0; gap:7px }
+  .garrow i { transform:rotate(90deg) }
+}
+
+/* the seven moves — a numbered chain with a spine, ending where it starts */
+.gmoves { display:flex; flex-direction:column }
+.gmove { display:grid; grid-template-columns:30px minmax(0,1fr); gap:13px; padding:9px 0;
+  position:relative }
+.gmove + .gmove { border-top:1px solid var(--line) }
+.gmove b { font-size:13px; letter-spacing:-.01em }
+.gnum { width:24px; height:24px; border-radius:50%; border:1px solid var(--line-2);
+  font-family:var(--mono); font-size:11px; font-weight:700; color:var(--brand-ink);
+  display:inline-flex; align-items:center; justify-content:center; margin-top:1px; flex-shrink:0 }
+.gmove.gloop .gnum { border-style:dashed; color:var(--muted) }
+.gphil { padding-left:20px; font-size:13px }
+.gphil li { margin:6px 0; max-width:88ch }
+
+/* nested loops — boxes inside boxes, cadence on each lip */
+.gnest .gring { border:1px solid var(--line-2); border-radius:10px; padding:13px 15px;
+  background:var(--paper) }
+.gnest .gring .gring { margin-top:11px; background:var(--sunk) }
+.gnest .gring .gring .gring { background:var(--paper) }
+.gnest .gring .gring .gring .gring { background:var(--brand-soft); border-color:var(--brand) }
+.grlab { font-size:12px; color:var(--muted) }
+.grlab b { font-family:var(--mono); font-size:11px; color:var(--brand-ink); margin-right:7px }
+
+/* the legend — one chip, one sentence, the exact elements the console uses elsewhere */
+.glegrow { display:grid; grid-template-columns:170px minmax(0,1fr); gap:14px; padding:8px 0;
+  align-items:center }
+.glegrow + .glegrow { border-top:1px solid var(--line) }
+.glchip { display:flex; align-items:center; min-width:0 }
+@media (max-width:600px) { .glegrow { grid-template-columns:120px minmax(0,1fr) } }
+/* the canon marks are styled inside .md bodies; the legend shows the same marks outside one */
+.glegend .conf { font-family:var(--mono); font-size:10.5px; padding:1px 5px; border-radius:4px }
+.glegend .conf.assumption { background:var(--warn-soft); color:var(--warn) }
+.glegend .conf.sourced { background:var(--brand-soft); color:var(--brand-ink) }
+.glegend .conf.validated { background:var(--ok-soft); color:var(--ok) }
+.glegend .conf.refuted { background:var(--err-soft); color:var(--err) }
+.glegend .gapmark { background:var(--warn-soft); color:var(--warn); font-weight:600; padding:1px 5px;
+  border-radius:4px; font-size:12px }
+.glegend .rid { font-family:var(--mono); font-size:12px; padding:0 3px; border-radius:3px }
+.glegend .rid.hyp { color:var(--hyp); background:var(--hyp-soft) }
+.glegend .rid.risk { color:var(--risk); background:var(--risk-soft) }
+.glegend .rid.met { color:var(--met); background:var(--met-soft) }

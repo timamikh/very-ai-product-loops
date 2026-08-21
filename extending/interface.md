@@ -2,8 +2,8 @@
 node_type: extending
 title: Change the interface — the local console
 status: draft
-version: 0.1.0
-updated: 2026-08-20
+version: 0.2.0
+updated: 2026-08-21
 ---
 
 # Change the interface
@@ -60,10 +60,10 @@ wild and handles badly.
    propose pinning the canon rather than adding an alias forever.
 4. **Expose it in [`../tools/ui/serve.py`](../tools/ui/serve.py)** — JSON, `127.0.0.1` only, read-only.
 5. **Render it in `tools/ui/app/`** — one HTML page, no build step.
-6. **Add the chrome strings for every locale** — one `STR` object per locale in `app.js`, and nothing
-   else in the app knows a language exists. **Chrome is translated; content is not.** No language switch
-   in the UI: the instance already declares its language, and a second control would be a second source
-   of truth.
+6. **Add the chrome strings to `STR` in `app.js` — in English.** The chrome is English by design
+   (the framework's language); **content is never translated**, it appears as the instance wrote it.
+   There is no locale machinery and none is added — a translated chrome would be a second copy of the
+   framework's vocabulary to keep in step.
 7. **Check the snapshot.** *Save as HTML* must still produce one self-contained file for the product
    currently open — and no other instance's data.
 8. **Run the linter to zero**, bump the versions, record it in [`../CHANGELOG.md`](../CHANGELOG.md).
@@ -75,7 +75,7 @@ wild and handles badly.
 - [ ] Nothing is stored twice that could be assembled.
 - [ ] Every deviation the reader meets lands in `health` — nothing crashes, nothing is swallowed.
 - [ ] No write path, no form, no text area, no second door for a decision.
-- [ ] Chrome strings exist for every locale; no content was translated.
+- [ ] Chrome strings are English and live in `STR`; no content was translated.
 - [ ] The snapshot still holds exactly one product.
 - [ ] `python3 tools/lint.py <instance>` — 0 errors, and the `instances checked:` line names your
       instance.

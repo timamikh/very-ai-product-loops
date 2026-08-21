@@ -15,8 +15,8 @@
  *     opened on machines we know nothing about, and a missing glyph renders as a tofu box. The
  *     canon's own ⚙️ marker becomes a word in a badge.
  *
- * Interface language follows the instance: `config.yaml` → `language`. Adding a locale means adding
- * one object to STR below — nothing else in this file knows a language exists.
+ * The chrome is English by design — the framework is an international, English-language project;
+ * the *content* (artifact text, register rows) appears in whatever language the instance wrote it.
  *
  * The same file renders the exported snapshot: when `window.__SNAPSHOT__` is present the model and
  * the linter's verdict are already embedded, and every fetch, the live reload and the folder picker
@@ -29,7 +29,7 @@ const STR = {
   en: {
     tabs: { overview: 'Overview', step: 'Step', artifacts: 'Artifacts', registers: 'Registers',
       metrics: 'Metrics', open: 'Open questions', sources: 'Sources', skills: 'Skills',
-      log: 'Change log', checks: 'Checks' },
+      log: 'Change log', checks: 'Checks', guide: 'Guide' },
     status: 'status', step: 'step', of: 'of', lastPass: 'last pass',
     noState: 'not recorded', theme: 'theme', themeauto: 'auto', themelight: 'light', themedark: 'dark',
     addFolder: 'Add a product folder', addHint: 'add a folder…',
@@ -70,8 +70,8 @@ const STR = {
     subProducts: 'Sub-products', umbrellaNote: 'This folder is an umbrella: the shared config and sources '
       + 'live here, and each product below keeps its own artifacts, state and registers.',
     openIt: 'open', plane: 'plane', vendored: 'framework', local: 'this product',
-    produces: 'produces', usedBy: 'steps', prerequisites: 'prerequisites', reads: 'reads', writes: 'writes',
-    inputs: 'inputs', interview: 'interview', fragment: 'section template',
+    usedBy: 'steps', prerequisites: 'prerequisites', reads: 'reads', writes: 'writes',
+    interview: 'interview', fragment: 'section template',
     addSkillHint: 'To add or change a skill, ask the agent — it writes the canon’s anatomy into this '
       + 'product’s own tool-skills folder, and a product-local skill wins over a vendored one of the '
       + 'same name. It appears here on the next read. See EXTENDING.md.',
@@ -114,98 +114,121 @@ const STR = {
     z5Goals: 'Goals & targets', z5Guard: 'Guardrails', z5Res: 'Resources & market',
     z5Test: 'Tests & blockers',
     z6Commit: 'Committed vs backlog', z6Excluded: 'Excluded — and why', z6Handoff: 'Handoff',
+    z6Items: 'Committed — must', z6Backlog: 'Backlog — ranked',
+    dirDev: 'Development — Features', dirG2m: 'Go-to-market — Activities',
+    dirBo: 'Back-office — Tasks',
     zOther: 'Other sections',
-  },
-  ru: {
-    tabs: { overview: 'Обзор', step: 'Шаг', artifacts: 'Артефакты', registers: 'Реестры',
-      metrics: 'Метрики', open: 'Открытые вопросы', sources: 'Источники', skills: 'Скиллы',
-      log: 'Журнал', checks: 'Проверки' },
-    status: 'статус', step: 'шаг', of: 'из', lastPass: 'последний проход',
-    noState: 'не зафиксирован', theme: 'тема', themeauto: 'авто', themelight: 'светлая', themedark: 'тёмная',
-    addFolder: 'Добавить папку продукта', addHint: 'добавить папку…',
-    saveHtml: 'Скачать HTML',
-    saveHint: 'Один файл по этому продукту, замороженный на этот момент. В нём есть всё, что есть в '
-      + 'артефактах, — отправляйте только тем, кому их можно читать.',
-    snapshot: 'Снимок', snapshotNote: 'замороженная копия — за папкой продукта не следит',
-    madeOn: 'снят', readOnlySnap: 'копия только для чтения',
-    cascade: 'Шесть шагов', instanceReading: 'Как читается инстанс', product: 'Продукт',
-    cadence: 'ритм', artifact: 'артефакт', filled: 'написано', sections: 'секций',
-    whatElseCol: 'что это',
-    colType: 'тип', colDefinition: 'определение', colStatement: 'формулировка',
-    gate: 'Гейт', gateItem: 'пункт гейта', gateDone: 'закрыто', gateOpen: 'открыто',
-    gateNa: 'не применимо', gateDeferred: 'отложено', gateUnknown: 'не зафиксировано',
-    gateClosed: 'гейт закрыт',
-    gaps: 'пробелов', proposals: 'предложения агента', proposalMark: 'предложение', validates: 'проверяет',
-    statusAsks: 'Что просит активный статус на этом шаге', emphasised: 'выделено для этой стадии',
-    rows: 'строк', state: 'состояние',
-    hypotheses: 'Гипотезы', risks: 'Риски', metricNodes: 'Узлы метрик', readings: 'показаний',
-    withReadings: 'измеряется', csvRows: 'строк в csv', referencedIn: 'упоминается в',
-    live: 'в работе', testing: 'на проверке', inFlightShort: 'в работе',
-    toClarify: 'На уточнение', openGates: 'Незакрытые пункты гейта', inFlight: 'Гипотезы в работе',
-    latest: 'Последние значения', series: 'Ряды', allReadings: 'Все показания',
-    trail: 'след', trailHint: 'все записи журналов, которые называют этот идентификатор',
-    trailEmpty: 'Ни одна запись журнала пока не называет этот идентификатор.',
-    observedNote: 'доля считается от observed_n, а не от всей популяции',
-    definedNotMeasured: 'Определены, но не измеряются', notInTree: 'нет определения в metric-tree.md',
-    noReadings: 'Пока нет ни одного показания: узлы определены, в metrics.csv нет строк. '
-      + 'Метрика без показаний не может ничего решить.',
-    vsPrev: 'к предыдущему', basisNote: 'сравнение внутри одного basis и одной population',
-    nothingOpen: 'Здесь всё закрыто.', nothingYet: 'Пока пусто.', all: 'все',
-    search: 'поиск…', lintTitle: 'Линтер канона', healthTitle: 'Чтение инстанса',
-    lintClean: 'Линтер не нашёл замечаний.', healthClean: 'Инстанс читается по канону без замечаний.',
-    notChecked: 'Не проверяет никто', notCheckedBody: 'Качество текста, правдивость значений в реестрах '
-      + '(проверяются только перечисления и идентификаторы), полнота предпосылок, точность адаптеров — '
-      + 'и ничто здесь не судит продуктовые решения. Консоль показывает, решает человек.',
-    changed: 'папка изменилась — перечитываю',
-    readOnly: 'только чтение — файлы пишет агент, здесь видно, что в них',
-    subProducts: 'Под-продукты', umbrellaNote: 'Эта папка — «зонтик»: общий конфиг и источники лежат '
-      + 'здесь, а у каждого продукта ниже свои артефакты, состояние и реестры.',
-    openIt: 'открыть', plane: 'плоскость', vendored: 'фреймворк', local: 'этот продукт',
-    produces: 'производит', usedBy: 'шаги', prerequisites: 'предпосылки', reads: 'читает',
-    writes: 'пишет', inputs: 'входы', interview: 'интервью', fragment: 'шаблон секции',
-    addSkillHint: 'Чтобы добавить или изменить скилл, попроси агента — он создаст каноническую '
-      + 'анатомию в папке скиллов этого продукта, и локальный скилл побеждает одноимённый '
-      + 'вендоренный. Здесь он появится при следующем чтении. См. EXTENDING.md.',
-    handoff: 'Передача сессии', sourcesTab: 'источников', deliverables: 'Поставляемое',
-    whatElse: 'Что ещё лежит в папке', nextPass: 'Куда идёт следующий проход',
-    nextPassNone: 'Все пункты гейтов зафиксированы и закрыты.',
-    goal: 'Цель', scope: 'Рамки', audience: 'Аудитория', directions: 'Направления',
-    openSection: 'открыть', file: 'файл', updated: 'обновлён', role: 'роль', indexed: 'в индексе',
-    sourceIndex: 'Индекс источников', sourceFiles: 'Файлы в sources/',
-    notIndexed: 'нет в INDEX.md', changeLog: 'Журнал изменений', entries: 'записей',
-    openHypotheses: 'открытых', of6: 'из 6',
-    colName: 'скилл', colKind: 'вид', origin: 'происхождение',
-    read: 'открыть', more: 'подробнее', cName: 'конкурент',
-    boardIdea: 'Канвас продукта', boardAnalysis: 'Анализ рынка',
-    zCustomer: 'Клиент', zProduct: 'Продукт', zValidation: 'Проверка',
-    dMarket: 'Объём рынка', dCompetitors: 'Конкуренты', dSubstitutes: 'Субституты',
-    dOpportunity: 'Возможность', dRisks: 'Риски ниши',
-    mTam: 'весь рынок', mSam: 'доступный — несущий', mSom: 'достижимый ~3 г', mCagr: 'рост / год',
-    cType: 'тип', cPlay: 'как играют', cMoat: 'ров против нас', cPrice: 'цена', cDyn: 'динамика',
-    rForce: 'сила', rLik: 'вероятность', rImp: 'влияние',
-    assembledFrom: 'Собрано из секций конкурентов ниже — прочерк значит «нет совпадения», а не ноль.',
-    gapDash: '— уточнить —',
-    expand: 'развернуть секцию целиком на месте', collapse: 'свернуть',
-    worklog: 'расчёт', worklogTip: 'открыть worklog, где это прорабатывалось',
-    worklogMissing: 'worklog не найден',
-    confirmed: 'подтверждён', pending: 'на подтверждение', confirmedOn: 'подтверждён человеком',
-    pendingTip: 'результат ещё не подтверждён человеком', sectionsShort: 'секций',
-    contested: 'возвращён', contestedTip: 'человек посмотрел и вернул на доработку',
-    restsOn: 'опора не подтверждена', restsTip: 'подтверждено, но опирается на неподтверждённые секции:',
-    daysAgo: 'дн. назад', daysOld: 'дн. давности',
-    wlNewer: 'расчёт новее',
-    wlNewerTip: 'worklog обновлён позже артефакта — проекция могла устареть',
-    navBack: 'назад', navFwd: 'вперёд', toTop: 'наверх',
-    boardStrategy: 'Канвас стратегии', boardStratPlan: 'Метрики и экономика',
-    boardTactical: 'Цели и гардрейлы', boardSprint: 'Доска спринта',
-    z3Cascade: 'Каскад стратегии', z3Commercial: 'Коммерция', z3Product: 'Продукт',
-    z3Bets: 'Ставки и риски', z3Open: 'Открытые вопросы',
-    z4North: 'Полярная звезда и дерево метрик', z4Econ: 'Экономика',
-    z4Instr: 'Инструментовка и риски', z4Hyp: 'Гипотезы',
-    z5Goals: 'Цели и таргеты', z5Guard: 'Гардрейлы', z5Res: 'Ресурсы и рынок',
-    z5Test: 'Проверки и блокеры',
-    z6Commit: 'Обязательное и бэклог', z6Excluded: 'Исключено — и почему', z6Handoff: 'Передача',
-    zOther: 'Остальные секции',
+    /* The guide tab — chrome, like every string here: it describes the canon, the canon itself
+       lives in the process/ files this text points at. */
+    g: {
+      how: 'How it works', cycle: 'The six steps', map: 'What lives where',
+      legend: 'Legend', ask: 'How to ask for work',
+      flowTitle: 'One direction of writing',
+      human: 'the human', humanSub: 'decides',
+      agent: 'any agent', agentSub: 'runs the loop, writes the files',
+      files: 'the instance folder', filesSub: 'markdown — the single source of truth',
+      console: 'this console', consoleSub: 'renders what the files say',
+      asks: 'asks for work', writes: 'writes', reads: 'read-only', looks: 'is read by',
+      noWrite: 'The console has no write path — not a deferred one, an absent one. A section needs '
+        + 'its method; a decision needs a dated change-log entry and a reason. Both go through the '
+        + 'same door: say it to the agent.',
+      loopTitle: 'The operating loop — seven moves, every pass',
+      loopSub: 'Every unit of work is one pass of this skeleton; what varies between passes is the '
+        + 'card it runs. The full runtime is process/OPERATING-LOOP.md.',
+      moves: [
+        ['Orient', 'read the active status (config.yaml) and the position (state.yaml)'],
+        ['Name the goal', 'find the goal-map row for the trigger, open its card before acting'],
+        ['Gather the inputs', 'check prerequisites, announce the read perimeter, size the pass'],
+        ['Close the gaps', 'a missing prerequisite or an open decision goes to the human — never a guess'],
+        ['Act', 'work in the worklog; the artifact section is its projection, every claim tagged'],
+        ['Record', 'a dated change-log entry, gate ticks, register rows, a sign-off proposal'],
+        ['Bubble', 'next item — and raise whatever this pass invalidated above or below'],
+      ],
+      nextPass: 'and the next pass begins at 0',
+      philTitle: 'The rules the agent lives by',
+      phil: [
+        'The agent prepares, the human decides — agent proposals wear the "proposed" badge.',
+        'Facts only from sources; missing data is "— to clarify —", never a guess.',
+        'Everything is dated, nothing is overwritten — every artifact keeps a change log.',
+        'Confidence is explicit: every claim carries a tag.',
+        'Gates guide, they do not lock — you can move on with gaps, and they stay flagged.',
+        'One writer of the canon: the orchestrating agent; subagents only return text.',
+      ],
+      nestTitle: 'Nested loops, different cadences',
+      nestSub: 'The lower the loop, the more often it turns — and the more it leans on data over '
+        + 'interview. Timeframes are indicative, not limits.',
+      n12: 'Concept · Analysis — revisited on pivot or major learning',
+      n34: 'Strategy · Strategic plan — ~3–12 mo, reviewed ~quarterly',
+      n5: 'Tactical plan — ~1–3 mo, stage-gate ~monthly',
+      n6: 'Sprint — ~1–2 wk, every sprint',
+      feed: 'The loops feed both ways: a sprint can refute a hypothesis and reopen tactics; a metric '
+        + 'ceiling can reopen strategy. Each step declares what it invalidates up and down.',
+      liveTitle: 'This instance, live',
+      homesTitle: 'A value lives in exactly one of three homes',
+      wl: 'worklog', wlSub: 'the source of truth — where a method works its inputs, reasoning and numbers out',
+      art: 'artifact', artSub: 'the projection of the worklog — the thesis a human reads and signs',
+      regs: 'registers', regsSub: 'the shared state: H- / R- / M- ids that flow across steps, cited by id from both sides',
+      projection: 'projection',
+      mapTitle: 'The folder, tab by tab',
+      what: 'what it is', where: 'shown in',
+      mapRows: [
+        ['config.yaml', 'the human’s decisions: product, active status, language, directions', 'overview'],
+        ['state.yaml', 'the position: current step, gate ticks, last pass — agent-written every pass', 'overview'],
+        ['1-… 6-….md', 'the six step artifacts — sections, confidence tags, change logs', 'artifacts'],
+        ['<step>/<method>.md', 'worklogs — the workings each section is projected from', 'artifacts'],
+        ['registers/', 'hypotheses · risks · metric tree; readings land in metrics.csv', 'registers'],
+        ['sources/', 'evidence in, with INDEX.md naming each file’s role', 'sources'],
+        ['tool-skills/ · skills/', 'the methods, operations and outputs the agent can reach', 'skills'],
+        ['HANDOFF.md', 'the session handoff — state to resume from, verified against the files', 'sources'],
+      ],
+      legConf: 'Confidence — on every claim',
+      legConfRows: [
+        ['assumption', 'a working guess, awaiting evidence'],
+        ['sourced', 'traced to a named source'],
+        ['validated', 'checked against reality — data, an experiment'],
+        ['refuted', 'checked and found false'],
+      ],
+      legTicks: 'Gate ticks — the process axis',
+      legTickRows: [
+        ['done', 'the checklist item is satisfied and recorded'],
+        ['open', 'still owed at this step'],
+        ['deferred', 'consciously postponed — a decision, not a gap'],
+        ['n/a', 'does not apply to this product'],
+        ['unknown', 'never recorded — state.yaml is silent about it'],
+      ],
+      legSign: 'Sign-off — the semantic axis',
+      legSignRows: [
+        ['confirmed', 'confirmed', 'a human approved this exact version, on the date shown'],
+        ['pending', 'to confirm', 'written, not yet reviewed by a human'],
+        ['contested', 'returned', 'reviewed and sent back for rework'],
+        ['aged', 'aged', 'the sign-off or reading is old enough to be a question again'],
+        ['restwarn', 'foundation unconfirmed', 'confirmed, but resting on sections that are not'],
+        ['wlnew', 'workings newer', 'the worklog changed after the artifact — the projection may be stale'],
+      ],
+      legIds: 'Register ids — one colour everywhere',
+      legIdRows: [['H-001', 'a hypothesis'], ['R-001', 'a risk'], ['M-nsm', 'a metric node']],
+      legMarks: 'Marks',
+      legGear: 'an agent proposal awaiting the human’s decision',
+      legGap: 'named missing data — the human owes an answer, the agent never fills it',
+      legStrip: 'the section’s confidence mix, in the tag colours above',
+      legRing: 'outer ring — gate items closed; inner — sections a human confirmed. Health is the '
+        + 'rings agreeing; the gap between them is the signal.',
+      legTrail: 'opens every change-log entry that names this id',
+      askLead: 'The console is a viewer. Each row below is a sentence said to the agent in chat — '
+        + 'the agent runs the loop and writes the files; the console shows the result on the next read.',
+      askWhen: 'situation', askSay: 'say to the agent',
+      askRows: [
+        ['a gate item is open', '"Run a pass on step 3 — close the gate item on pricing."'],
+        ['a metric was measured', '"Record a reading for M-nsm: 412 weekly editors, measured 2026-08-20, source: analytics."'],
+        ['a decision is made', '"Decision: we go with the freemium price. Write it down with the reason."'],
+        ['a section reads wrong', '"I contest #segments — the lead segment is stale. Send it back, here is why."'],
+        ['a number changed at the source', '"Update the market sizing from the new report in sources/."'],
+        ['a new method is needed', '"Add a skill that scores leads the way we do it."'],
+        ['starting a session', '"Start work." — the agent orients on the instance and proposes the next pass'],
+      ],
+      askNote: 'The router from a trigger to the exact card is process/goal-map.md; the rules the '
+        + 'agent follows are AGENTS.md and process/OPERATING-LOOP.md.',
+    },
   },
 };
 
@@ -214,15 +237,15 @@ const S = {
   model: null, lint: null, instances: [], rev: -1, snapshot: null,
   tab: 'overview', step: null, artifact: null, section: null, worklog: null,
   reg: 'hypotheses', regFilter: 'all', regSearch: '', regItem: null,
-  skillPlane: 'library', skillPick: null, skillFile: null, logFile: 'all',
+  skillPlane: 'library', skillPick: null, skillFile: null, logFile: 'all', guideSec: 'how',
   hist: [], histIdx: -1, navigating: false,
 };
 
-const L = () => (S.model && STR[S.model.language]) ? STR[S.model.language] : STR.en;
+/* The chrome is English-only (the framework's language); STR keeps the one-home-for-strings shape. */
+const L = () => STR.en;
 function t(key) {
-  const path = key.split('.');
-  const get = o => path.reduce((x, k) => (x || {})[k], o);
-  return get(L()) || get(STR.en) || key;
+  const get = o => key.split('.').reduce((x, k) => (x || {})[k], o);
+  return get(STR.en) || key;
 }
 
 /* ---------------------------------------------------------------- theme */
@@ -764,7 +787,7 @@ function viewOverview() {
     h('td', { class: 'act' }, h('button', { class: 'golink',
       onclick: () => { S.tab = 'sources'; render(); } }, t('openSection')))));
   if (m.deliverables.length) {
-    elseRows.push(h('tr', {}, h('td', { class: 'id' }, h('code', {}, 'deliverables/')),
+    elseRows.push(h('tr', {}, h('td', { class: 'id' }, h('code', {}, 'export-files/')),
       h('td', {}, m.deliverables.join(' · ')), h('td', {})));
   }
   if (m.directions.length) {
@@ -955,13 +978,17 @@ function cvCard(s, id, opts) {
     goSection(s.artifact_file, id, t('more'), meta.title || id),
     wlTool ? goWorklog(stem, wlTool) : null,
     wlTool ? wlNewerTag(s, wlTool) : null, xpand) : null;
+  // Two quiet lines above the face: the title with its gate tick (top-right, the process axis), then
+  // the sign-off state with the evidence strip stretched beside it (the semantic axis). Splitting the
+  // rows keeps a long title from shuffling the tags, and gives the strip a full line to be legible on.
+  const conf = confTag(meta);
+  const strip = live ? evStrip(meta.confidence) : null;
   const card = h('div', { class: 'cvcard' + (o.hero ? ' cv-hero' : '') + (o.warn ? ' cv-warn' : '')
     + (live ? ' cv-link' + (art ? ' can-expand' : '') : ' cv-gap') },
     h('div', { class: 'cvtop' },
       h('span', { class: 'cvttl' }, meta.title || id),
-      confTag(meta),
       tick ? tickTag(tick) : null),
-    live ? evStrip(meta.confidence) : null,
+    (conf || strip) ? h('div', { class: 'cvmeta' }, conf, strip) : null,
     face,
     foot);
   if (live && art) {
@@ -1064,15 +1091,60 @@ function canvasTacticalPlan(s) {
   });
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
-/* Step 6 — the sprint board: the sprint goal on top, the committed 'must' set beside the backlog,
-   what was excluded (and why), and the delivery handoff as a callout — where each item goes and how
-   its result loops back. */
+/* Step 6 — the sprint board. When the must-set parses into items (the template's F-/A-/T- blocks,
+   read by the shared layer into model.sprint_items), each item gets a card of its own, grouped by
+   direction — a feature shows its Description / Scope / Acceptance / values / stories, an activity
+   and a task their own formats, all with the labels the instance actually wrote. The backlog stays
+   what it is — a ranked table. An instance whose must-set the parser doesn't recognise falls back
+   to the two-section board, so drift degrades, never hides. */
+function itemCard(s, it) {
+  const lc = k => k.toLowerCase();
+  const fields = it.fields || [];
+  const get = name => (fields.find(([k]) => lc(k) === name) || [])[1];
+  const desc = get('description');
+  const groom = get('groom');
+  const foot = ['owner', 'estimate'].map(k => get(k)).filter(Boolean);
+  const rows = fields.filter(([k]) =>
+    !['description', 'owner', 'estimate', 'groom'].includes(lc(k)));
+  const dirCls = { development: 'it-dev', 'go-to-market': 'it-g2m', 'back-office': 'it-bo' }[it.direction] || '';
+  return h('div', { class: 'itcard ' + dirCls },
+    h('div', { class: 'ithead' },
+      h('code', { class: 'itid' }, it.id),
+      h('b', { class: 'itname' }, it.name),
+      groom ? h('span', { class: 'tag ' + (/^spec-ready/i.test(groom) ? 'done' : 'open') },
+        plain(groom).slice(0, 28)) : null),
+    (it.links || []).length ? h('div', { class: 'row', style: 'margin:2px 0 0' },
+      ridChips(it.links)) : null,
+    desc ? h('div', { class: 'itdesc', html: inline(desc) }) : null,
+    rows.length ? h('div', { class: 'wiring itwiring' }, rows.map(([k, v]) =>
+      h('div', { class: 'wrow' }, h('div', { class: 'wk' }, k),
+        h('div', { class: 'wv md', html: md(v) })))) : null,
+    foot.length ? h('div', { class: 'itfoot' }, foot.join(' · ')) : null);
+}
+
 function canvasSprintPlan(s) {
   const parts = [];
   const goal = cvCard(s, 'sprint-goal', { hero: true });
   if (goal) parts.push(goal);
-  const b2 = board2(s, 'must', 'backlog');
-  if (b2) parts.push(cvZone(t('z6Commit')), b2);
+  const items = S.model.sprint_items || [];
+  if (items.length) {
+    const must = s.sections.find(x => x.id === 'must');
+    parts.push(h('div', { class: 'cvzone' }, t('z6Items'), confTag(must),
+      goSection(s.artifact_file, 'must', t('more'))));
+    [['development', t('dirDev')], ['go-to-market', t('dirG2m')], ['back-office', t('dirBo')]]
+      .forEach(([key, label]) => {
+        const group = items.filter(x => x.direction === key);
+        if (!group.length) return;
+        parts.push(h('div', { class: 'itdir' }, label),
+          h('div', { class: 'itgrid' }, group.map(it => itemCard(s, it))));
+      });
+    const bl = mdBlock(s, 'backlog');
+    if (bl) parts.push(h('div', { class: 'cvzone' }, t('z6Backlog'),
+      goSection(s.artifact_file, 'backlog', t('more'))), bl);
+  } else {
+    const b2 = board2(s, 'must', 'backlog');
+    if (b2) parts.push(cvZone(t('z6Commit')), b2);
+  }
   const ex = cardZone(s, t('z6Excluded'), ['excluded']);
   if (ex) parts.push(...ex);
   const ho = mdBlock(s, 'delivery', 'callout');   // the template's anchor is {#delivery} — 'handoff' matched nothing
@@ -1277,44 +1349,70 @@ function viewStep() {
 }
 
 /* ---------------------------------------------------------------- artifacts */
+/* The reader opens a whole artifact — the projection is one document, and reading it in slices hid
+   the through-line. Under the open file the TOC lists its worklogs (worklog = source of truth,
+   artifact = projection — three homes), so the drill goes file → workings, not file → slice. A
+   section id arriving in the hash or from a cross-link still lands: the page scrolls to it. */
 function viewArtifacts() {
   const m = S.model;
   if (!m.artifacts.length) return h('div', { class: 'empty' }, t('nothingYet'));
   const art = m.artifacts.find(a => a.file === S.artifact) || m.artifacts[0];
   S.artifact = art.file;
-  const section = art.sections.find(x => x.id === S.section) || art.sections[0];
+  const stemOf = f => f.replace(/\.md$/, '');
 
-  const toc = h('div', { class: 'toc' }, m.artifacts.map(a => [
-    h('div', { class: 'file' }, a.file),
-    a.sections.map(x => h('button', {
-      'aria-current': a.file === art.file && section && x.id === section.id,
-      onclick: () => { S.artifact = a.file; S.section = x.id; render(); },
-    }, h('span', {}, x.title || x.id), h('span', { class: 'dotcol' },
-      x.gaps.length ? h('i', { class: 'pip gap', title: `${x.gaps.length} ${t('gaps')}` }) : null,
-      x.markers.proposals ? h('i', { class: 'pip gear', title: t('proposals') }) : null,
-      !x.words ? h('i', { class: 'pip empty' }) : null))),
-  ]));
+  const toc = h('div', { class: 'toc' }, m.artifacts.map(a => {
+    const open = a.file === art.file;
+    const logs = (m.worklogs || {})[stemOf(a.file)] || {};
+    const gaps = a.sections.reduce((n, x) => n + x.gaps.length, 0);
+    const gears = a.sections.reduce((n, x) => n + (x.markers.proposals || 0), 0);
+    return [
+      h('button', { 'aria-current': open,
+        onclick: () => { S.artifact = a.file; S.section = null; render(); } },
+        h('span', { class: 'fname' }, a.file), h('span', { class: 'dotcol' },
+          gaps ? h('i', { class: 'pip gap', title: `${gaps} ${t('gaps')}` }) : null,
+          gears ? h('i', { class: 'pip gear', title: t('proposals') }) : null)),
+      open ? Object.keys(logs).sort().map(tool => h('button', {
+        class: 'tocwl', title: logs[tool].file,
+        onclick: () => { S.tab = 'worklog'; S.worklog = stemOf(a.file) + '/' + tool; render(); },
+      }, h('span', {}, tool), h('span', { class: 'wldate' }, logs[tool].updated || ''))) : null,
+    ];
+  }));
 
-  const ids = section ? [].concat(section.markers.hypotheses, section.markers.risks, section.markers.metrics) : [];
   const stepOf = m.steps.find(x => x.artifact_file === art.file);
-  const body = section ? h('div', {},
+  const stem = stemOf(art.file);
+  const secBlocks = art.sections.map(x => {
+    const ids = [...new Set([].concat(x.markers.hypotheses, x.markers.risks, x.markers.metrics))];
+    const tool = worklogTool(stem, x.body);
+    return h('div', { class: 'artsec', id: 'sec-' + x.id },
+      h('div', { class: 'row', style: 'flex-wrap:wrap;margin:0 0 2px' },
+        h('h3', { style: 'font-size:16px;letter-spacing:-.02em;margin:0' }, x.title || x.id),
+        h('code', { class: 'tag' }, '#' + x.id),
+        confTag({ present: true, confirmed: x.confirmed, confirmed_by: x.confirmed_by,
+          contested: x.contested, open: x.open }),
+        restTag(x),
+        stepOf && tool ? wlNewerTag(stepOf, tool) : null,
+        confChips(x.markers.confidence),
+        x.markers.proposals ? h('span', { class: 'gear' },
+          `${t('proposalMark')} ×${x.markers.proposals}`) : null,
+        ridChips(ids)),
+      h('div', { class: 'md', html: md(x.body) }));
+  });
+
+  const body = h('div', {},
     h('div', { class: 'kick' }, `${art.file} · ${art.updated || ''}`),
-    h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, section.title || section.id),
-    h('div', { class: 'row', style: 'margin:9px 0 2px' },
-      h('code', { class: 'tag' }, '#' + section.id),
-      confTag({ present: true, confirmed: section.confirmed, confirmed_by: section.confirmed_by,
-        contested: section.contested, open: section.open }),
-      restTag(section),
-      stepOf ? (tool => tool ? wlNewerTag(stepOf, tool) : null)(
-        worklogTool(art.file.replace(/\.md$/, ''), section.body)) : null,
-      confChips(section.markers.confidence),
-      section.markers.proposals ? h('span', { class: 'gear' },
-        `${t('proposalMark')} ×${section.markers.proposals}`) : null,
-      ridChips([...new Set(ids)]),
-      stepOf ? goStep(stepOf.step) : null),
-    h('hr'),
-    h('div', { class: 'md', html: md(section.body) }))
-    : h('div', { class: 'empty' }, t('nothingYet'));
+    h('div', { class: 'spread' },
+      h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, art.title || art.file),
+      h('span', { class: 'row' },
+        art.status_stage ? h('span', { class: 'tag' }, art.status_stage) : null,
+        art.version ? h('span', { class: 'tag' }, 'v' + art.version) : null,
+        stepOf ? goStep(stepOf.step) : null)),
+    ...secBlocks);
+
+  // a cross-link or deep link names a section: scroll to it once the DOM is on the page
+  if (S.section) requestAnimationFrame(() => {
+    const el = document.getElementById('sec-' + S.section);
+    if (el) el.scrollIntoView({ block: 'start' });
+  });
 
   return h('div', { class: 'reader' }, toc, h('div', { class: 'panel' }, body));
 }
@@ -1619,7 +1717,7 @@ function viewSources() {
 function viewSkills() {
   const m = S.model;
   const skills = m.framework.skills || [];
-  const planes = ['library', 'operations', 'adapters'];
+  const planes = ['library', 'operations', 'outputs'];
   const shown = skills.filter(x => x.plane === S.skillPlane);
   const picked = shown.find(x => x.name === S.skillPick) || null;
 
@@ -1637,16 +1735,17 @@ function viewSkills() {
   function skillTable() {
     const q = (S.skillSearch || '').trim().toLowerCase();
     const rows = shown.filter(x => !q
-      || `${x.name} ${x.kind || ''} ${x.used_by_steps.join(',')}`.toLowerCase().includes(q));
+      || `${x.name} ${x.kind || ''} ${x.output_kind || ''} ${(x.steps || []).join(',')}`.toLowerCase().includes(q));
     return table([t('colName'), t('colKind'), t('usedBy'), t('origin')],
       rows.map(x => h('tr', {
         class: 'rowlink' + (picked && picked.name === x.name ? ' on' : ''),
         onclick: () => { S.skillPick = x.name; S.skillFile = null; render(); },
       },
         h('td', {}, h('b', {}, x.name),
-          x.homeless.length ? h('span', { class: 'tag err', style: 'margin-left:7px' }, 'homeless') : null),
-        h('td', {}, x.kind ? h('span', { class: 'tag' }, x.kind) : h('span', { class: 'faint' }, '—')),
-        h('td', { class: 'tiny mono' }, x.used_by_steps.length ? x.used_by_steps.join(', ') : '—'),
+          (x.homeless || []).length ? h('span', { class: 'tag err', style: 'margin-left:7px' }, 'homeless') : null),
+        h('td', {}, (x.kind || x.output_kind) ? h('span', { class: 'tag' }, x.kind || x.output_kind)
+          : h('span', { class: 'faint' }, '—')),
+        h('td', { class: 'tiny mono' }, (x.steps || []).length ? x.steps.join(', ') : '—'),
         h('td', {}, h('span', { class: 'tag ' + (x.origin === 'local' ? 'done' : '') },
           x.origin === 'local' ? t('local') : t('vendored'))))),
       { empty: t('nothingYet') });
@@ -1661,23 +1760,22 @@ function viewSkills() {
     picked.summary ? h('p', { class: 'small muted', style: 'margin-top:8px' },
       picked.summary.replace(/^#+\s*[^\s]*\s*/, '')) : null,
     h('div', { class: 'wiring' }, [
-      [t('produces'), picked.produces.join(' · ')],
-      [t('usedBy'), picked.used_by_steps.join(', ')],
-      [t('prerequisites'), picked.prerequisites.join(' · ')],
-      [t('reads'), picked.reads_registers.join(' · ')],
-      [t('writes'), picked.writes_registers.join(' · ')],
-      [t('inputs'), picked.inputs.join(' · ')],
+      [t('writes'), (picked.writes || []).join(' · ')],
+      [t('reads'), (picked.reads || []).join(' · ')],
+      [t('usedBy'), (picked.steps || []).join(', ')],
+      [t('prerequisites'), (picked.prerequisites || []).join(' · ')],
+      ['surfaces', (picked.surfaces || []).join(' · ')],
       ['method basis', picked.method_basis],
       ['evidence', picked.evidence_standard],
       ['volume rule', picked.volume_rule && picked.volume_rule !== 'n/a' ? picked.volume_rule : ''],
       ['selection rule', picked.selection_rule && picked.selection_rule !== 'n/a' ? picked.selection_rule : ''],
       ['shows rejects', picked.rejects_shown === 'required' ? 'required' : ''],
+      ['opinionated', picked.opinionated || ''],
     ].filter(([, v]) => v).map(([k, v]) => h('div', { class: 'wrow' },
       h('div', { class: 'wk' }, k), h('div', { class: 'wv' }, v)))),
     S.snapshot ? null : h('div', { class: 'row', style: 'margin-top:12px' },
       h('button', { class: 'btn small',
-        onclick: () => openSkillFile(picked, picked.plane === 'adapters' ? 'ADAPTER.md' : 'SKILL.md') },
-        picked.plane === 'adapters' ? 'ADAPTER.md' : 'SKILL.md'),
+        onclick: () => openSkillFile(picked, 'SKILL.md') }, 'SKILL.md'),
       picked.has_fragment ? h('button', { class: 'btn small',
         onclick: () => openSkillFile(picked, 'template-fragment.md') }, t('fragment')) : null,
       picked.has_questions ? h('button', { class: 'btn small',
@@ -1799,11 +1897,128 @@ function viewWorklog() {
   return h('div', { class: 'reader' }, aside, doc);
 }
 
+/* ---------------------------------------------------------------- guide
+ * Chrome, not content: this tab explains the canon — the schemas, the vocabulary, how to ask for
+ * work — so the console can be handed to someone who never opened process/. Everything here is a
+ * *description*; the canon itself lives in the files the strings point at. Nothing is read from the
+ * instance except the live six-step row, which reuses the model already loaded — so the tab renders
+ * identically inside an exported snapshot. Diagrams are plain HTML on the house tokens: no image,
+ * no web asset, nothing a frozen file could fail to carry. */
+const GUIDE_SECS = ['how', 'cycle', 'map', 'legend', 'ask'];
+
+const gNode = (name, sub, cls) => h('div', { class: 'gnode' + (cls ? ' ' + cls : '') },
+  h('b', {}, name), sub ? h('span', {}, sub) : null);
+const gArrow = label => h('div', { class: 'garrow', 'aria-hidden': 'true' },
+  h('span', {}, label), h('i', {}, '→'));
+
+function guideHow() {
+  // the write cycle: human → agent → files → console → human. The last node is the first one
+  // again (dashed): the loop closes through the human reading, never through the console writing.
+  const flow = h('div', { class: 'gflow' },
+    gNode(t('g.human'), t('g.humanSub')), gArrow(t('g.asks')),
+    gNode(t('g.agent'), t('g.agentSub')), gArrow(t('g.writes')),
+    gNode(t('g.files'), t('g.filesSub'), 'gfiles'), gArrow(t('g.reads')),
+    gNode(t('g.console'), t('g.consoleSub')), gArrow(t('g.looks')),
+    gNode(t('g.human'), t('g.humanSub'), 'ghost'));
+  const moves = h('div', { class: 'gmoves' },
+    L().g.moves.map((mv, i) => h('div', { class: 'gmove' },
+      h('span', { class: 'gnum' }, String(i)),
+      h('div', {}, h('b', {}, mv[0]), h('div', { class: 'small muted' }, mv[1])))),
+    h('div', { class: 'gmove gloop' }, h('span', { class: 'gnum' }, '0'),
+      h('div', { class: 'small muted' }, t('g.nextPass'))));
+  return h('div', {},
+    sec(t('g.flowTitle'), {}, flow,
+      h('div', { class: 'note warn', style: 'margin-top:12px' },
+        h('span', { class: 'who' }, 'read-only'), h('div', {}, t('g.noWrite')))),
+    sec(t('g.loopTitle'), {},
+      h('p', { class: 'small muted', style: 'margin-bottom:12px;max-width:80ch' }, t('g.loopSub')),
+      h('div', { class: 'panel' }, moves)),
+    sec(t('g.philTitle'), {}, h('div', { class: 'panel' },
+      h('ol', { class: 'gphil' }, L().g.phil.map(x => h('li', {}, x))))));
+}
+
+function guideCycle() {
+  const m = S.model;
+  const ring = (label, kid) => h('div', { class: 'gring' },
+    h('div', { class: 'grlab' }, label), kid);
+  const nest = h('div', { class: 'gnest' },
+    ring(t('g.n12'), ring(t('g.n34'), ring(t('g.n5'), ring(t('g.n6'), null)))));
+  const live = (m.steps || []).length ? h('div', { class: 'coversteps' }, m.steps.map(s =>
+    h('button', {
+      class: 'coverstep', title: gateSummary(s),
+      onclick: () => { S.tab = 'step'; S.step = s.step; render(); },
+    }, dualRing(s, 34), h('span', { class: 'cl' }, `${s.step} · ${shortTitle(s.title || s.name)}`)))) : null;
+  return h('div', {},
+    sec(t('g.nestTitle'), {},
+      h('p', { class: 'small muted', style: 'margin-bottom:12px;max-width:80ch' }, t('g.nestSub')),
+      nest,
+      h('p', { class: 'small muted', style: 'margin-top:12px;max-width:80ch' }, t('g.feed'))),
+    live ? sec(t('g.liveTitle'), {}, h('div', { class: 'panel' }, live)) : null);
+}
+
+function guideMap() {
+  const homes = h('div', {},
+    h('div', { class: 'gflow' },
+      gNode(t('g.wl'), t('g.wlSub')), gArrow(t('g.projection')),
+      gNode(t('g.art'), t('g.artSub'))),
+    h('div', { class: 'gflow', style: 'margin-top:10px' },
+      gNode(t('g.regs'), t('g.regsSub'), 'gwide')));
+  const rows = L().g.mapRows.map(r => h('tr', {},
+    h('td', { class: 'id' }, h('code', {}, r[0])),
+    h('td', {}, r[1]),
+    h('td', { class: 'act' }, r[2] ? h('button', { class: 'golink',
+      onclick: () => { S.tab = r[2]; render(); } }, t('tabs.' + r[2])) : null)));
+  return h('div', {},
+    sec(t('g.homesTitle'), {}, homes),
+    sec(t('g.mapTitle'), {}, table([t('file'), t('g.what'), t('g.where')], rows)));
+}
+
+function guideLegend() {
+  const row = (chip, text) => h('div', { class: 'glegrow' },
+    h('div', { class: 'glchip' }, chip), h('div', { class: 'small' }, text));
+  const conf = L().g.legConfRows.map(([k, txt]) => row(h('span', { class: 'conf ' + k }, k), txt));
+  const ticks = L().g.legTickRows.map(([k, txt]) => row(tickTag(k), txt));
+  const sign = L().g.legSignRows.map(([cls, lab, txt]) => row(h('span', { class: 'tag ' + cls }, lab), txt));
+  const ids = L().g.legIdRows.map(([id, txt]) => row(h('code', { class: 'rid ' + ridClass(id) }, id), txt));
+  const marks = [
+    row(h('span', { class: 'gear' }, t('proposalMark')), t('g.legGear')),
+    row(h('span', { class: 'gapmark' }, t('gapDash')), t('g.legGap')),
+    row(evStrip({ sourced: 3, validated: 2, assumption: 4, refuted: 1 }, 'inline'), t('g.legStrip')),
+    row(dualRing({ gate: [0, 0, 0, 0], gate_counts: { done: 3 }, sections: [] }, 26), t('g.legRing')),
+    row(h('span', { class: 'trailbtn' }, '+'), t('g.legTrail')),
+  ];
+  return h('div', { class: 'glegend' },
+    sec(t('g.legConf'), {}, h('div', { class: 'panel' }, conf)),
+    sec(t('g.legTicks'), {}, h('div', { class: 'panel' }, ticks)),
+    sec(t('g.legSign'), {}, h('div', { class: 'panel' }, sign)),
+    sec(t('g.legIds'), {}, h('div', { class: 'panel' }, ids)),
+    sec(t('g.legMarks'), {}, h('div', { class: 'panel' }, marks)));
+}
+
+function guideAsk() {
+  const rows = L().g.askRows.map(r => h('tr', {},
+    h('td', { style: 'min-width:170px' }, r[0]),
+    h('td', { class: 'prose' }, h('em', { class: 'muted' }, r[1]))));
+  return sec(t('g.ask'), {},
+    h('p', { class: 'small muted', style: 'margin-bottom:12px;max-width:80ch' }, t('g.askLead')),
+    table([t('g.askWhen'), t('g.askSay')], rows),
+    h('p', { class: 'small faint', style: 'margin-top:10px;max-width:80ch' }, t('g.askNote')));
+}
+
+function viewGuide() {
+  const subs = h('div', { class: 'filters' }, GUIDE_SECS.map(k => h('button', {
+    'aria-pressed': S.guideSec === k,
+    onclick: () => { S.guideSec = k; render(); },
+  }, t('g.' + k))));
+  const body = { how: guideHow, cycle: guideCycle, map: guideMap, legend: guideLegend, ask: guideAsk };
+  return h('div', {}, subs, (body[S.guideSec] || guideHow)());
+}
+
 const VIEWS = { overview: viewOverview, step: viewStep, artifacts: viewArtifacts, registers: viewRegisters,
   metrics: viewMetrics, open: viewOpen, sources: viewSources, skills: viewSkills, log: viewLog,
-  checks: viewChecks, worklog: viewWorklog };
+  checks: viewChecks, worklog: viewWorklog, guide: viewGuide };
 const TAB_ORDER = ['overview', 'artifacts', 'registers', 'metrics', 'open',
-  null, 'sources', 'skills', 'log', 'checks'];
+  null, 'sources', 'skills', 'log', 'checks', 'guide'];
 
 /* ---------------------------------------------------------------- shell */
 function renderInto(sel, node) {
@@ -1840,6 +2055,7 @@ function writeHash() {
   if (S.tab === 'worklog' && S.worklog) parts.push(S.worklog);
   if (S.tab === 'registers') parts.push(S.reg);
   if (S.tab === 'skills') parts.push(S.skillPlane, S.skillPick || '');
+  if (S.tab === 'guide') parts.push(S.guideSec);
   const want = '#' + parts.filter(x => x !== '' && x !== null && x !== undefined).join('/');
   if (location.hash !== want) history.replaceState(null, '', want);
 }
@@ -1852,12 +2068,13 @@ function readHash() {
   if (S.tab === 'worklog' && p[1]) S.worklog = p.slice(1).join('/');
   if (S.tab === 'registers' && p[1]) S.reg = p[1];
   if (S.tab === 'skills') { if (p[1]) S.skillPlane = p[1]; if (p[2]) S.skillPick = p[2]; }
+  if (S.tab === 'guide' && GUIDE_SECS.includes(p[1])) S.guideSec = p[1];
 }
 
 /* In-app history. The page is one hash-routed document, so the browser's own back/forward would leave
    the site; these buttons walk a stack the app keeps itself, so navigation stays inside the console.
    A location is only the "where", not the theme — toggling theme re-renders but adds no history step. */
-const LOC_KEYS = ['tab', 'step', 'artifact', 'section', 'worklog', 'reg', 'skillPlane', 'skillPick'];
+const LOC_KEYS = ['tab', 'step', 'artifact', 'section', 'worklog', 'reg', 'skillPlane', 'skillPick', 'guideSec'];
 const locSnap = () => LOC_KEYS.reduce((o, k) => (o[k] = S[k], o), {});
 const locKey = () => JSON.stringify(LOC_KEYS.map(k => S[k]));
 function pushHistory() {
@@ -1917,7 +2134,7 @@ function render() {
   if (!m) return;
   if (!S.navigating) pushHistory();
   writeHash();
-  document.documentElement.lang = m.language || 'en';
+  document.documentElement.lang = 'en';   // the chrome is English; content keeps its own language inline
   document.getElementById('product').textContent = m.product;
   document.getElementById('subline').textContent = S.snapshot
     ? `${m.name} · ${t('readOnlySnap')}` : `${m.name} · ${m.path}`;

@@ -175,7 +175,7 @@ def export_html(inst_path):
     blob = _js_string_safe(json.dumps(snap, ensure_ascii=False))
     title = "%s — very-ai-product-loops" % (model.get("product") or model.get("name") or "product")
     page = (
-        "<!doctype html>\n<html lang=\"%s\">\n<head>\n<meta charset=\"utf-8\">\n"
+        "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
         "<title>%s</title>\n<style>\n%s\n</style>\n</head>\n<body>\n"
         "<div id=\"snap\"></div>\n"
@@ -191,7 +191,7 @@ def export_html(inst_path):
         "<footer class=\"foot\"><span id=\"footpath\"></span><span class=\"dot\">\u00b7</span>"
         "<span id=\"footrev\"></span></footer>\n"
         "<script>window.__SNAPSHOT__ = %s;</script>\n<script>\n%s\n</script>\n</body>\n</html>\n"
-        % (model.get("language") or "en", escape(title), css, blob, js))
+        % (escape(title), css, blob, js))
     return page, model
 
 

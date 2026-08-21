@@ -573,6 +573,52 @@ def _worklogs(path):
     return out
 
 
+_ITEM_RE = re.compile(r"^\*\*([FAT]-\d+)\s*·\s*(.+?)\*\*\s*(?:—\s*(.*))?$")
+_ITEM_FIELD_RE = re.compile(r"\*\*([^*]+?):\*\*")
+
+
+def _sprint_items(artifacts):
+    """The sprint plan's items — the F-/A-/T- blocks of `{#must}` — parsed into rows the step-6
+    board can draw. Assembled from the already-read section body, stored nowhere else
+    (extending/interface.md: assemble, don't store twice). The shape is the template's own
+    convention (steps/6-sprint-plan/template.md): a `**F-1 · name** — links: …` head line, then
+    `- **Label:** value` bullets; the id prefix pins the direction. Field labels carry verbatim —
+    content is never translated, so the console shows whatever the instance wrote."""
+    art = next((a for a in artifacts if a.get("artifact") == "sprint-plan"), None)
+    sec = next((s for s in (art["sections"] if art else []) if s["id"] == "must"), None)
+    if not sec:
+        return []
+    direction = {"F": "development", "A": "go-to-market", "T": "back-office"}
+    items, cur = [], None
+    for raw_line in sec["body"].splitlines():
+        line = raw_line.strip()
+        m = _ITEM_RE.match(line)
+        if m:
+            cur = {"id": m.group(1), "direction": direction[m.group(1)[0]],
+                   "name": m.group(2).strip(),
+                   "links": re.findall(r"\b[HMRB]-[\w.-]+", m.group(3) or ""),
+                   "fields": []}
+            items.append(cur)
+            continue
+        if cur is None or not line or line.startswith(("<!--", "###")):
+            if line.startswith("###"):
+                cur = None                       # a direction heading closes the block
+            continue
+        if line.startswith("- **"):
+            # one bullet may carry several **Label:** pairs (… **Owner:** x · **Estimate:** y)
+            content = line[2:]
+            marks = list(_ITEM_FIELD_RE.finditer(content))
+            for i, mk in enumerate(marks):
+                end = marks[i + 1].start() if i + 1 < len(marks) else len(content)
+                cur["fields"].append([mk.group(1).strip(),
+                                      content[mk.end():end].strip().strip("·").strip()])
+        elif cur["fields"] and not line.startswith(("**", "_", "#")):
+            cur["fields"][-1][1] += "\n" + line  # continuation / nested list line of the last field
+        else:
+            cur = None                           # prose after the blocks — stop attributing to items
+    return items
+
+
 def load(path, framework_root=F.ROOT):
     """Read one instance into a single JSON-serialisable structure."""
     path = os.path.abspath(path)
@@ -638,7 +684,11 @@ def load(path, framework_root=F.ROOT):
     statuses = F.statuses(framework_root)
     status = next((s for s in statuses if s["name"] == active_status), None)
 
-    deliverables = [os.path.basename(f) for f in sorted(glob.glob(os.path.join(path, "deliverables", "*")))
+    # export-files/ is the canon home for what leaves the framework (tool-skills/outputs); the old
+    # deliverables/ name is still read so a pre-rename instance keeps showing its files
+    deliverables = [os.path.basename(f)
+                    for d in ("export-files", "deliverables")
+                    for f in sorted(glob.glob(os.path.join(path, d, "*")))
                     if not os.path.basename(f).startswith(".")]
 
     product = config.get("product")
@@ -685,6 +735,7 @@ def load(path, framework_root=F.ROOT):
         "sources": shared,
         "skills": skills,
         "worklogs": _worklogs(path),
+        "sprint_items": _sprint_items(artifacts),
         "handoff": _handoff(path),
         "deliverables": deliverables,
         "gaps": gaps,
