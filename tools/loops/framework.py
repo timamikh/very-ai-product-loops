@@ -256,6 +256,40 @@ def homed_sections(root=ROOT):
     return homed
 
 
+def norm_lines(body):
+    """A section body as whitespace-normalized, non-empty lines — the unit `worked` compares in."""
+    out = []
+    for ln in body.splitlines():
+        s = re.sub(r"\s+", " ", ln).strip()
+        if s:
+            out.append(s)
+    return out
+
+
+def template_section_lines(root=ROOT):
+    """{(step, section_id): frozenset(normalized lines)} — each step template section's placeholder shell.
+
+    Keyed by step **and** id: the cumulative sections (`hypotheses`, `to-clarify`) repeat their id
+    across several step templates, so a flat map would compare a step-2 shell against whichever
+    template glob happened to read last.
+
+    Steps 2–6 are instantiated as a whole shell (every `{#id}` anchor lands on disk before any pass
+    touches it), so *anchor present* stopped meaning *section written* — a live run showed a first
+    pass raising nine false move-5 warnings on untouched skeletons. A section counts as **worked**
+    only when it carries at least one line of its own beyond this shell; the subtraction is by
+    normalized line, so a verbatim copy is a placeholder and any real row or sentence is content.
+    A translated placeholder falls back to counting as worked — presence, the old signal.
+    """
+    out = {}
+    for tpl in glob.glob(os.path.join(root, "steps", "*", "template.md")):
+        m = re.match(r"^(\d+)-", os.path.basename(os.path.dirname(tpl)))
+        step = int(m.group(1)) if m else 0
+        for sec in T.sections(T.read(tpl)):
+            if sec["id"]:
+                out[(step, sec["id"])] = frozenset(norm_lines(sec["body"]))
+    return out
+
+
 # ---------------------------------------------------------------- canon enums
 
 # label -> (allowed values, canonical column key)

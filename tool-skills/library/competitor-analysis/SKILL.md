@@ -13,8 +13,8 @@ volume_rule: "≥5 named players, including ≥1 the team did not name first (re
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.2.1
-updated: 2026-08-16
+version: 0.2.2
+updated: 2026-08-22
 ---
 # Competitor Analysis
 
@@ -26,6 +26,13 @@ same competitor list as separate methods: the dated pricing scan is
 
 **Method basis.** For each competitor: the *game* they play (revenue / profit / market share /
 social capital — and how), compared against our moats.
+
+**No external source, no settled verdict.** This method declares `evidence_standard:
+external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
+capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
+`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
+missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
+section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 2, after framing the market.

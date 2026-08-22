@@ -15,6 +15,48 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Carriers from the second local-model run (Отклик / Qwen 3.8, steps 1–2 end-to-end)
+
+The run closed every finding of run 1 (wave 3.7 held) and surfaced a new class: rules whose carrier
+was an anchor, not the content. Everything below is a script or a card — nothing was added to the
+per-pass canon (it already runs over the word guideline; the subtraction rule stands).
+
+- **`written` = worked content, not a present anchor** (`tools/loops/framework.py` →
+  `template_section_lines`, used by the read model and check G2). Steps 2–6 instantiate their whole
+  artifact shell, so "anchor on disk" stopped meaning "section written": the first pass of step 2
+  raised nine false move-5 warnings on untouched skeletons, drowning the one real one. A section
+  now counts as written only when it carries at least one normalized line beyond its step template's
+  placeholder shell (keyed by step *and* id — the cumulative sections repeat their id across steps).
+- **A skipped optional section no longer poisons next-pass.** An optional gate item with no explicit
+  tick and no worked section defaults to `n/a` in the read model (`tick_defaulted: true`); an
+  explicit tick always wins, and writing the section revives the normal `open` flow. Before this, a
+  consciously skipped `concept#cjm` sat `open` forever and dragged "where the next pass goes" back
+  to a closed step.
+- **Check D2 — the confidence-tag vocabulary has a carrier.** CONVENTIONS declares the tags closed
+  (`[assumption]` · `[sourced: <where>]` · `[validated: …]` · `[refuted: …]`), but nothing held it:
+  a local model localized tags mid-artifact (`[Премия]`, `[Источники: …]`) and invented near-synonyms
+  (`[inference]`) that every consumer silently stops counting. D2 warns on off-grammar canon tags,
+  on localized tags in the trailing (tag) position, and on a curated near-synonym list — WARN for
+  now, promoted to ERROR once the shipped examples clean their pre-grammar tag debt.
+- **Check L2 — an external-sources method shows its evidence or declares its gap.** A worked section
+  of a method declaring `evidence_standard: external-sources` that carries neither one
+  `[sourced: …]` nor one `— to clarify —` is settled-looking analysis resting on nothing visible.
+  The six external-sources cards also state the gap-report rule in prose: **no external source, no
+  settled verdict** — load-bearing values degrade to `— to clarify —` naming the source that would
+  settle them, never to silent certainty.
+- **Market sizing grows a growth layer.** The run delivered TAM/SAM/SOM with no CAGR/trend anywhere —
+  silence about growth reads as "flat", a claim nobody made. The step-2 template, the fragment and
+  the card now carry Growth as a layer, not an option.
+- **Step 2's synthesis sections name their worklog.** The linter (check P) has always required
+  `2-analysis/synthesis.md` behind `#niche-risks` / `#opportunity`, but the step README's tool
+  column said "—", so both the driver and the agent read "no worklog needed" — documentation
+  contradicting a carrier is the same defect class G2/D2 close. The README and the template now
+  name `synthesis.md` explicitly.
+- **Console.** The STEP figure shows only the *date* of the last pass (the full move-5 narrative
+  inflated the card and broke the figs row); every figure is top-aligned (a UA button centers,
+  a div tops — one row had two baselines); the Checks tab separates findings about the framework
+  itself (the canon word-budget WARN) from findings about the product being read.
+
 ### Library & outputs — the dev-handoff chain (feature → groom → written instruction)
 
 - **`feature-grooming` (library, step 6).** The intermediate pass between a featured item and its

@@ -473,18 +473,35 @@ def _tick_map(state):
     return flat, per_step
 
 
-def _merge_steps(steps, artifacts, state, health):
+def _merge_steps(steps, artifacts, state, health, template_lines=None):
     ticks, _ = _tick_map(state)
     by_step = {a["step"]: a for a in artifacts}
+    template_lines = template_lines if template_lines is not None else F.template_section_lines()
     out = []
     for s in steps:
         art = by_step.get(s["step"])
-        present_sections = {sec["id"] for sec in (art or {}).get("sections", [])}
+        # `worked`, not merely present: steps 2–6 are instantiated as a whole shell, so an anchor on
+        # disk stops meaning the section was written. A section is worked when it carries at least
+        # one normalized line beyond its template placeholder (framework.template_section_lines);
+        # a section the templates never define falls back to presence — the only signal there is.
+        worked = {}
+        for sec in (art or {}).get("sections", []):
+            tpl = template_lines.get((s["step"], sec["id"]))
+            worked[sec["id"]] = (True if tpl is None
+                                 else any(ln not in tpl for ln in F.norm_lines(sec["body"])))
         gate = []
         for item in s["gate"]:
             tick = ticks.get(item["tick_id"]) if item["tick_id"] else None
-            written = bool(item["sections"]) and all(sid in present_sections for sid in item["sections"])
-            gate.append(dict(item, tick=tick or ("unknown" if not state else "open"), written=written))
+            written = bool(item["sections"]) and all(worked.get(sid) for sid in item["sections"])
+            # an optional gate item nobody wrote and nobody ticked reads as skipped (`n/a`), not
+            # `open` — otherwise a skipped optional section poisons next-pass and the completeness
+            # picture forever (live-run finding). An explicit tick in state.yaml always wins, and
+            # the moment its section is written the default stops applying.
+            defaulted = False
+            if tick is None and state and item.get("optional") and not written:
+                tick, defaulted = "n/a", True
+            gate.append(dict(item, tick=tick or ("unknown" if not state else "open"),
+                             written=written, tick_defaulted=defaulted))
         counts = {}
         for g in gate:
             counts[g["tick"]] = counts.get(g["tick"], 0) + 1
@@ -497,6 +514,7 @@ def _merge_steps(steps, artifacts, state, health):
                 "tools": sk["tools"],
                 "optional": sk["optional"],
                 "present": sec is not None,
+                "worked": bool(sec) and worked.get(sk["id"], False),
                 "words": sec["words"] if sec else 0,
                 "gaps": len(sec["gaps"]) if sec else 0,
                 "gap_lines": (sec["gaps"] if sec else []),
@@ -517,7 +535,8 @@ def _merge_steps(steps, artifacts, state, health):
         for sec in (art or {}).get("sections", []):
             if sec["id"] not in {x["id"] for x in sections} and sec["id"] != "change-log":
                 sections.append({"id": sec["id"], "what": "", "tools": [], "optional": False,
-                                 "present": True, "words": sec["words"], "gaps": len(sec["gaps"]),
+                                 "present": True, "worked": True,
+                                 "words": sec["words"], "gaps": len(sec["gaps"]),
                                  "gap_lines": sec["gaps"],
                                  "confidence": sec["markers"]["confidence"],
                                  "proposals": sec["markers"]["proposals"],
@@ -639,7 +658,8 @@ def load(path, framework_root=F.ROOT):
                             [check("metric kind"), check("metric instrumentation")])
     metrics = _metrics(path, metric_tree["rows"], health)
 
-    steps = _merge_steps(F.steps(framework_root), artifacts, state, health)
+    steps = _merge_steps(F.steps(framework_root), artifacts, state, health,
+                         F.template_section_lines(framework_root))
 
     # rests-on provenance: a confirmed thesis whose foundation section is not itself confirmed is a
     # silent staleness (CONVENTIONS → Section confirmation) — the ground under it moved or was never

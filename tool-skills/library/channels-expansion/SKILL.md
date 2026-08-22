@@ -13,8 +13,8 @@ volume_rule: "≥8 candidate channels across ≥3 channel-type categories before
 selection_rule: "reach × cost-to-test × testability (1/3/5); inner ring = the 3 highest, tested now"
 rejects_shown: required
 status: draft
-version: 0.2.1
-updated: 2026-08-16
+version: 0.2.2
+updated: 2026-08-22
 ---
 # Channels & Expansion
 
@@ -24,6 +24,13 @@ Rank the **acquisition / communication channels** to test now, and lay out the *
 **Method basis.** Weinberg & Mares' Bullseye: brainstorm across all channel types, rank into
 outer/middle/inner rings, then run cheap tests on the promising few before committing. Paired with
 expansion-path thinking: sequence the segments/markets we grow into once the first channel works.
+
+**No external source, no settled verdict.** This method declares `evidence_standard:
+external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
+capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
+`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
+missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
+section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 3, once segments and the UVP are set (a channel carries a message to a segment).

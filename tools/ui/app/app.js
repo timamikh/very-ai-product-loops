@@ -62,6 +62,7 @@ const STR = {
     nothingOpen: 'Nothing open here.', nothingYet: 'Nothing here yet.', all: 'all',
     search: 'search…', lintTitle: 'Canon linter', healthTitle: 'Instance reading',
     lintClean: 'The linter reports no findings.', healthClean: 'Reads cleanly against the canon.',
+    lintFramework: 'about the framework itself, not this product',
     notChecked: 'Checked by neither', notCheckedBody: 'Prose quality, whether register values are true '
       + '(only their enums and ids are checked), prerequisite completeness, adapter fidelity — and '
       + 'nothing here judges product decisions. The console reports; the human decides.',
@@ -704,6 +705,10 @@ function refIndex() {
 }
 
 /* ---------------------------------------------------------------- overview */
+function lastPassDate(m) {
+  return ((m.last_pass || '').match(/\d{4}-\d{2}-\d{2}/) || [''])[0];
+}
+
 function viewOverview() {
   const m = S.model;
   if (m.umbrella) return viewUmbrella();
@@ -727,7 +732,9 @@ function viewOverview() {
     m.goal ? h('p', { class: 'lead', style: 'margin-top:10px' }, m.goal) : null,
     h('div', { class: 'figs', style: 'margin-top:18px' },
       fig(t('step'), m.current_step ? String(m.current_step) : '—',
-        m.current_step ? `${t('of6')}${m.last_pass ? ' · ' + t('lastPass') + ' ' + m.last_pass : ''}`
+        // one label per element: only the DATE of the last pass — the full move-5 narrative in
+        // state.yaml is prose, and inlining it here blew the card up and broke the figs row
+        m.current_step ? `${t('of6')}${lastPassDate(m) ? ' · ' + t('lastPass') + ' ' + lastPassDate(m) : ''}`
           : t('noState'),
         m.current_step ? () => { S.tab = 'step'; S.step = m.current_step; render(); } : null),
       fig(t('gateClosed'), `${gateDone}`, `${t('of')} ${gateAll}`),
@@ -1850,13 +1857,22 @@ function healthNote(g) {
 
 function viewChecks() {
   const m = S.model, lint = S.lint;
+  // a finding with no [scope] is about the FRAMEWORK (canon word budget, template wiring), not
+  // this product — a PM reading their product's checks must not inherit the vendor's housekeeping
+  const own = lint && lint.ok ? lint.findings.filter(f => f.scope) : [];
+  const fw = lint && lint.ok ? lint.findings.filter(f => !f.scope) : [];
+  const note = f => h('div', { class: 'note ' + f.level },
+    h('span', { class: 'who' }, `${f.level} ${f.check}`),
+    h('div', {}, f.scope ? h('code', { class: 'tiny' }, f.scope + ' ') : null, f.message));
   const lintBox = !lint ? h('div', { class: 'empty' }, '…')
     : !lint.ok ? h('div', { class: 'note error' }, h('span', { class: 'who' }, 'error'), h('div', {}, lint.error))
-      : lint.findings.length ? h('div', { class: 'notes' }, lint.findings.map(f =>
-        h('div', { class: 'note ' + f.level },
-          h('span', { class: 'who' }, `${f.level} ${f.check}`),
-          h('div', {}, f.scope ? h('code', { class: 'tiny' }, f.scope + ' ') : null, f.message))))
+      : own.length ? h('div', { class: 'notes' }, own.map(note))
         : h('div', { class: 'note ok' }, h('span', { class: 'who' }, 'ok'), h('div', {}, t('lintClean')));
+  const fwBox = fw.length
+    ? h('details', { class: 'small' },
+      h('summary', { class: 'small muted' }, `${t('lintFramework')} (${fw.length})`),
+      h('div', { class: 'notes', style: 'margin-top:8px' }, fw.map(note)))
+    : null;
 
   return h('div', { class: 'grid cols-2' },
     sec(t('healthTitle'), { right: `${m.health.filter(x => x.level === 'error').length} error · `
@@ -1864,7 +1880,7 @@ function viewChecks() {
       m.health.length ? h('div', { class: 'notes' }, groupHealth(m.health).map(healthNote))
         : h('div', { class: 'note ok' }, h('span', { class: 'who' }, 'ok'), h('div', {}, t('healthClean')))),
     h('div', {},
-      sec(t('lintTitle'), {}, lintBox),
+      sec(t('lintTitle'), {}, lintBox, fwBox),
       sec(t('notChecked'), {}, h('p', { class: 'small muted' }, t('notCheckedBody')))));
 }
 

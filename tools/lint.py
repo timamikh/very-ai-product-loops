@@ -21,7 +21,16 @@ Checks (ERROR fails CI · WARN never does):
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
   G2 a gate item whose sections are all written but whose state.yaml tick is still `open` —
-     move 5 (Record) was not finished, the cycle's recorded position fell behind the disk  (WARN)
+     move 5 (Record) was not finished, the cycle's recorded position fell behind the disk  (WARN);
+     "written" means worked content beyond the template's placeholder shell, not a mere anchor —
+     an instantiated-whole step artifact (2–6) no longer trips this on untouched skeletons
+  D2 confidence/source tags in instance artifacts and worklogs come from the closed CONVENTIONS
+     vocabulary, verbatim and never localized: `[assumption]` bare · `[sourced: <where>]` ·
+     `[validated: <evidence>]` · `[refuted: <why>]` — a compounded, translated or near-synonym
+     (`[inference]`, `[estimate]`, …) tag WARNs (promote to ERROR once the examples are cleaned)
+  L2 a worked section of an `evidence_standard: external-sources` method that carries neither a
+     `[sourced: …]` citation nor a single `— to clarify —` — settled-looking external analysis
+     with no evidence shown and no gap declared  (WARN)
   H  instance config.yaml follows the pinned schema (required keys, one spelling, no aliases) and
      value shapes: `language` is a code, `directions` a list, `active_status` a real status file
   H2 an instance artifact's frontmatter carries the template's keys and invents none — an invented
@@ -1362,6 +1371,10 @@ def check_gate_ticks(inst):
     because both look at files, never at the tick. Only written-vs-tick can. A WARN, not an error:
     mid-pass, written-but-unticked is the legal in-between state; left across sessions it is debt,
     and session start (start-work step 1) is where a human sees this report.
+
+    "Written" is worked content, not a present anchor (framework.template_section_lines): steps 2–6
+    instantiate their whole shell up front, and v1 of this check fired on every untouched skeleton
+    of a first pass — nine false warnings drowning the one real one (live-run finding, run 2).
     """
     if not os.path.exists(os.path.join(inst, "state.yaml")):
         return  # instance health already reports a missing state.yaml on its own
@@ -1374,6 +1387,113 @@ def check_gate_ticks(inst):
                      "state.yaml (gates → %d-…) or the cycle's position stays behind the disk"
                      % (rel(inst), s["step"],
                         g.get("tick_id") or ",".join(g.get("sections") or []), s["step"]))
+
+
+CANON_TAG_WORDS = ("assumption", "sourced", "validated", "refuted")
+# near-synonyms a drifting model invents for the canon words — curated, so a deliberate prose
+# bracket (`[CONFLICT]`, `[why us]`) is not second-guessed; extend the list when a run teaches a new one
+TAG_SYNONYMS = {"inference", "inferred", "estimate", "estimated", "fact", "opinion",
+                "guess", "derived", "observed"}
+TAG_TOKEN_RE = re.compile(r"(?<!!)\[([^\[\]\n]+)\]")
+NON_LATIN_RE = re.compile(r"[^\x00-\x7F]")
+
+
+def check_tag_vocabulary(inst):
+    """D2 — confidence/source tags come from the closed vocabulary, verbatim, never localized.
+
+    CONVENTIONS → Confidence tags names exactly four: `[assumption]` (bare) · `[sourced: <where>]` ·
+    `[validated: <evidence>]` · `[refuted: <why>]`. The vocabulary is controlled and Latin — a local
+    model was observed translating it mid-artifact (`[Премия]`, `[Источники: …]`) and inventing
+    near-synonyms (`[inference]`), and every consumer keyed on the canon words (text.CONFIDENCE_RE,
+    the console's confidence digest) silently stops counting such a claim. Three tiers:
+
+    - a canon-word tag written off-grammar (compounded qualifier, missing argument) — the
+      compound-enum disease, one bracket over (a qualifier belongs in a note);
+    - a **trailing** bracket whose head word is non-Latin — a localized tag, unreadable to every
+      consumer. Trailing-position only (end of a claim line or table cell — where the canon puts
+      tags), because mid-sentence brackets are legitimate prose devices (`для [клиента]…`, a UVP
+      slot template) that must not be second-guessed;
+    - a trailing single-word bracket from the curated near-synonym list.
+
+    A markdown link, a fenced/inline-code example, and mid-sentence prose brackets are all skipped —
+    the check reads tags, it does not police prose. Every tier WARNs for now: the shipped examples
+    carry tag debt that predates this grammar; promote to ERROR once they are cleaned.
+    """
+    name = rel(inst)
+    files = sorted(glob.glob(os.path.join(inst, "[1-6]-*.md")))
+    for folder in sorted(glob.glob(os.path.join(inst, "[1-6]-*"))):
+        if os.path.isdir(folder):
+            files.extend(sorted(glob.glob(os.path.join(folder, "*.md"))))
+    for path in files:
+        text = _live(read(path))
+        base = os.path.relpath(path, inst)
+        for m in TAG_TOKEN_RE.finditer(text):
+            if text[m.end():m.end() + 1] == "(":
+                continue                                   # a markdown link, not a tag
+            inner = m.group(1).strip()
+            head = re.match(r"[^\s:,—–]+", inner)
+            head = head.group(0).rstrip(".;") if head else ""
+            lineno = text[:m.start()].count("\n") + 1
+            # trailing = the tag position: to the end of the line/cell, nothing but emphasis
+            # closers and further bracket tokens (a claim may end in several tags)
+            tail = text[m.end():].split("\n", 1)[0]
+            trailing = bool(re.match(r"[\s*_]*(\[[^\]\[]*\][\s*_]*)*(\||$)", tail))
+            if head.lower() in CANON_TAG_WORDS:
+                word = head.lower()
+                ok = (inner == "assumption") if word == "assumption" \
+                    else bool(re.fullmatch(r"%s:\s*\S.*" % word, inner, re.S))
+                if not ok:
+                    warn("D2 [%s] %s:%d: tag `[%s]` is off-grammar — the vocabulary is `[assumption]` "
+                         "bare · `[sourced: <where>]` · `[validated: <evidence>]` · `[refuted: <why>]`; "
+                         "a qualifier belongs in a note, never compounded into the tag "
+                         "(CONVENTIONS → Confidence tags)" % (name, base, lineno, inner))
+            elif trailing and head and NON_LATIN_RE.search(head) and (":" in inner or " " not in inner):
+                warn("D2 [%s] %s:%d: `[%s]` reads as a localized tag — the vocabulary is controlled "
+                     "and verbatim (`[assumption]` · `[sourced: <where>]` · `[validated: …]` · "
+                     "`[refuted: …]`), never translated into the instance language "
+                     "(CONVENTIONS → Confidence tags)" % (name, base, lineno, inner))
+            elif trailing and " " not in inner and head.lower() in TAG_SYNONYMS:
+                warn("D2 [%s] %s:%d: `[%s]` looks like an invented confidence tag — the vocabulary "
+                     "is closed (no tag = `assumption`; an inferred claim is `[assumption]` too, "
+                     "with its reasoning in the worklog)" % (name, base, lineno, inner))
+
+
+def check_evidence_shown(inst):
+    """L2 — an external-sources section shows its evidence or declares its gap.
+
+    A method with `evidence_standard: external-sources` (market-sizing, the competitor family,
+    substitutes, channels-expansion) rests on data from outside the founder's head. The machine
+    cannot know whether real research arrived — but it can see a *worked* section that carries
+    neither a single `[sourced: …]` citation nor a single `— to clarify —`: settled-looking
+    analysis with no evidence shown and no gap declared, which is the fabrication shape a run-2
+    finding predicted. WARN, not error — the judgment call stays with the reviewer.
+    """
+    name = rel(inst)
+    tools = F.load_tools(ROOT)
+    external = {t for t, d in tools.items()
+                if str(d["fm"].get("evidence_standard", "")).strip() == "external-sources"}
+    tpl_lines = F.template_section_lines(ROOT)
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        step = int(os.path.basename(art).split("-", 1)[0])
+        for sec in T.sections(read(art)):
+            if not sec["id"]:
+                continue
+            mm = TOOL_MARK_RE.search(sec["body"])
+            primary = mm.group(1).split(",")[0].strip() if mm else None
+            if primary not in external:
+                continue
+            tpl = tpl_lines.get((step, sec["id"]))
+            lines = F.norm_lines(sec["body"])
+            worked = True if tpl is None else any(ln not in tpl for ln in lines)
+            if not worked:
+                continue
+            body = _live(sec["body"])
+            if "[sourced:" not in body and not CLARIFY_RE.search(body):
+                warn("L2 [%s] %s#%s: written by `%s` (evidence_standard: external-sources) with no "
+                     "`[sourced: …]` and no `— to clarify —` — settled-looking analysis that shows "
+                     "no evidence and declares no gap; cite the source, dispatch research/"
+                     "source-intake, or mark the missing input" % (name, os.path.basename(art),
+                                                                   sec["id"], primary))
 
 
 def check_gates(homed):
@@ -1467,6 +1587,8 @@ def main(argv=()):
         check_card_home(inst)
         check_worklogs(inst)
         check_gate_ticks(inst)
+        check_tag_vocabulary(inst)
+        check_evidence_shown(inst)
         check_boundary(inst)
         check_instance_conformance(inst)
         check_confirm_dates(inst)

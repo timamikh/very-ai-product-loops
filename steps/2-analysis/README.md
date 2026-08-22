@@ -12,8 +12,8 @@ surfaces: [ticks, register:hypotheses, register:risks, sign-off, change-log]
 cadence: "~6–12 mo view; revisit ~quarterly or on a market shift"
 method_basis: "TAM/SAM/SOM (bottom-up preferred) · competitor 'what game are they playing' · substitutes incl. do-nothing · light Five Forces for niche risk"
 status: draft
-version: 0.2.0
-updated: 2026-07-18
+version: 0.2.1
+updated: 2026-08-22
 ---
 # Step 2 — Analysis
 
@@ -36,8 +36,8 @@ Recommended tools are soft; the active [status](../../statuses/README.md) sets w
 | `competitor-pricing` | Dated competitor pricing — input to our pricing (Step 3), sizing's price anchor & the financial model | `competitor-pricing` |
 | `competitor-dynamics` | How each competitor develops over time (revenue/headcount trend) — compares strategy effectiveness | `competitor-dynamics` |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | `substitutes` |
-| `niche-risks` | Structural risks of the niche (light Five Forces) | — (synthesis, light Five Forces) |
-| `opportunity` | The "so what" — where the white space / the threat is | — (synthesis) |
+| `niche-risks` | Structural risks of the niche (light Five Forces) | synthesis — no library method; its worklog is `2-analysis/synthesis.md` (check P requires it) |
+| `opportunity` | The "so what" — where the white space / the threat is | synthesis — projects from the same `2-analysis/synthesis.md` |
 
 ## Register touchpoints
 - **Risks** — seeds the risk register from `niche-risks` (`R-…`).

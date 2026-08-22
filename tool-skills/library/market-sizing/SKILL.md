@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.3.0
+updated: 2026-08-22
 ---
 # Market Sizing
 
@@ -25,6 +25,13 @@ explicit method and a source behind every number. Fills `{#market-sizing}`.
 **top-down** figure (published market reports, analogs) used only as a *cross-check*, not as the
 answer. Every input is a **named assumption** traced to its source; sizing assumptions become
 `H-…` (`type: viability`) so the business bet is testable, not asserted.
+
+**No external source, no settled verdict.** This method declares `evidence_standard:
+external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
+capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
+`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
+missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
+section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 2, once the arena / segment is defined (you can only size a market you can name).
@@ -48,14 +55,18 @@ answer. Every input is a **named assumption** traced to its source; sizing assum
    size" is a claim about the vendor's interest). If bottom-up and top-down diverge by more than
    ~20%, report **both** and mark it `[CONFLICT]`; do not average them and do not quietly pick the
    more convenient one. Reconciling is allowed only when you can say *why* one is wrong.
-3. **Name and trace every assumption.** Each input (segment size, adoption %, price, frequency)
+3. **Size the growth, not only the stock.** A market's direction changes the verdict as much as its
+   size: state the growth layer (CAGR or a defensible trend) with its source, or write
+   `— to clarify —` **naming the source that would settle it** — silence about growth reads as
+   "flat", which is a claim nobody made (live-run finding: the layer was simply absent).
+4. **Name and trace every assumption.** Each input (segment size, adoption %, price, frequency)
    gets a `[sourced: …]` or `[assumption]` tag. A number with no visible input is not a size.
-4. **Keep SAM honest.** SAM is who you can actually serve — the right segment, geography, channel,
+5. **Keep SAM honest.** SAM is who you can actually serve — the right segment, geography, channel,
    and regulatory reach — not "the whole market". SOM is the share you can realistically win in the
    horizon, with a stated rationale.
-5. **Avoid round-number theatre.** Derive figures from inputs; a clean "$1B" with no derivation is
+6. **Avoid round-number theatre.** Derive figures from inputs; a clean "$1B" with no derivation is
    a red flag, not a result.
-6. **Seed the register.** Each load-bearing sizing assumption → `H-…` (`type: viability`) so the
+7. **Seed the register.** Each load-bearing sizing assumption → `H-…` (`type: viability`) so the
    business viability of the bet can be tested, not just stated.
 
 ## Anti-patterns

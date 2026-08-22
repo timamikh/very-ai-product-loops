@@ -13,8 +13,8 @@ volume_rule: "one trend row per player in the {#competitors} detailed table (met
 selection_rule: "only numbers that survive the per-fact-type source test enter the table; sources consulted and failed go to the reject table with the reason"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-22
 ---
 # Competitor Dynamics
 
@@ -26,6 +26,13 @@ effectiveness can be compared — a static snapshot cannot say whose game is wor
 wrong most often. Every number is judged *per fact type*, carries an `as_of`, and any number that
 reaches a conclusion gets a second independent source. The rules live in
 [`../references/evidence-standards.md`](../references/evidence-standards.md).
+
+**No external source, no settled verdict.** This method declares `evidence_standard:
+external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
+capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
+`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
+missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
+section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 

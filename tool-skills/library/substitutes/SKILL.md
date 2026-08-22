@@ -13,8 +13,8 @@ volume_rule: "the three baseline substitutes (do nothing · do it manually · bu
 selection_rule: "a substitute that wins in a real segment is promoted to the risk register; the rest stay in the map"
 rejects_shown: required
 status: draft
-version: 0.1.3
-updated: 2026-08-09
+version: 0.1.4
+updated: 2026-08-22
 ---
 # Substitutes
 
@@ -27,6 +27,13 @@ category. Fills `{#substitutes}`.
 that incumbent way — however crude — is our real competitor. Paired with Porter's threat of
 substitutes: a substitute is any alternative that satisfies the same need, and a strong one caps
 our price and adoption regardless of how few "direct" rivals exist.
+
+**No external source, no settled verdict.** This method declares `evidence_standard:
+external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
+capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
+`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
+missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
+section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 2, once the job/segment is defined (competition is scored against a specific job).

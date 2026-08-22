@@ -13,8 +13,8 @@ volume_rule: "one row per player in the {#competitors} detailed table — a pric
 selection_rule: "only comparable, dated prices enter the table; a price that can't anchor a comparison goes to the reject table with the reason"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-08-22
 ---
 # Competitor Pricing
 
@@ -26,6 +26,13 @@ Step-4 financial model — it is **not our price**.
 **Method basis.** A per-competitor pricing scan from the competitor's own site or a web search,
 every figure dated: published pricing is the fastest-ageing fact in the analysis, and an undated
 price is a claim about an unknown month.
+
+**No external source, no settled verdict.** This method declares `evidence_standard:
+external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
+capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
+`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
+missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
+section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 

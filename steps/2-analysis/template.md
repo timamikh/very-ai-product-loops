@@ -4,8 +4,8 @@ artifact: analysis
 step: 2
 title: "Market & Competitive Analysis — <Product>"
 status: template
-version: 0.4.0
-updated: 2026-08-16
+version: 0.4.1
+updated: 2026-08-22
 ---
 
 <!--
@@ -39,6 +39,7 @@ is filled, revisit the sizing with the observed anchor._
 | TAM | … | bottom-up / top-down | … | … | [assumption] |
 | SAM | … | … | … | … | [assumption] |
 | SOM | … | … | … | … | [assumption] |
+| Growth | … (CAGR / trend — a layer, not an option; unknown = `— to clarify —` naming the source that would settle it) | … | … | … | [assumption] |
 
 ## Competitors {#competitors}
 <!-- tool: competitor-analysis -->
@@ -88,7 +89,9 @@ _Non-obvious competition incl. "do nothing / do it manually / self-build"._
 
 ## Niche risks {#niche-risks}
 <!-- synthesis: light Five Forces -->
-_Structural risks of the niche (light Five Forces): supplier/buyer power, entry barriers, rivalry, substitution._
+_Structural risks of the niche (light Five Forces): supplier/buyer power, entry barriers, rivalry, substitution.
+A synthesis section still projects from a worklog — `2-analysis/synthesis.md` (`node_type: worklog`,
+shared with `#opportunity`); the linter (check P) requires it._
 
 | Risk <!--c:risk--> | Force <!--c:force--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | → `R-…` <!--c:register--> | Confidence <!--c:conf--> |
 |------|-------|------------|--------|---------|------------|

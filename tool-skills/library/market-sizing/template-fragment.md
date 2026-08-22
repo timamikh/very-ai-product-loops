@@ -13,9 +13,11 @@
 | TAM (total addressable) | … | top-down figure / total demand | … | [sourced: …] / [assumption] |
 | SAM (serviceable addressable) | … | **bottom-up: units × price**; top-down as cross-check | … | [sourced: …] / [assumption] |
 | SOM (serviceable obtainable) | … | realistic share of SAM in horizon + rationale | … | [assumption] |
+| Growth (CAGR / trend) | … | published CAGR or defensible trend — or `— to clarify —` naming the source that would settle it | … | [sourced: …] / [assumption] |
 
 _SAM is the load-bearing number — bottom-up (units × price), top-down only to cross-check.
-SOM is what we can actually win, not the whole SAM._
+SOM is what we can actually win, not the whole SAM. Growth is a **layer, not an option** — silence
+about it reads as "flat", a claim nobody made._
 
 **Key assumptions (traced)**
 | Assumption | Value | Source | Confidence | → register |

@@ -276,7 +276,10 @@ select.pick {
 .figs { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:0;
   border:1px solid var(--line); border-radius:8px; background:var(--paper); overflow:hidden }
 .fig { padding:13px 16px; border:0; border-right:1px solid var(--line); text-align:left; font:inherit;
-  color:inherit; background:none; min-width:0 }
+  color:inherit; background:none; min-width:0;
+  /* a UA button centers its content vertically while a div tops it — one row, two baselines;
+     normalize every fig to top-aligned column flow */
+  display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start }
 .fig:last-child { border-right:0 }
 button.fig { cursor:pointer }
 button.fig:hover { background:var(--brand-soft) }
