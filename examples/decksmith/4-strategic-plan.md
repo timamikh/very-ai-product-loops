@@ -5,7 +5,7 @@ step: 4
 title: "Strategic Plan — Decksmith (fictional sample)"
 status: draft
 version: 0.1.2
-updated: 2026-08-17
+updated: 2026-08-23
 ---
 
 # Strategic Plan — Decksmith (fictional sample)
@@ -99,10 +99,10 @@ figure modelled. Full working incl. the `pricing-strategic-plan` verdict:
 
 | Metric <!--c:metric--> | Operational <!--c:operational--> | Honest (+depreciation / market compute) — own-compute only <!--c:honest--> | Assumptions <!--c:assumptions--> |
 |--------|-------------|------------------------------------------------------------|-------------|
-| Revenue per payer ($/mo) | ~$33 (→ `M-arppu`) | n/a (single basis — API compute) | [assumption: 60/35/5 Solo/Team/Studio mix] |
-| COGS per payer ($/mo) | ~$3–4 (inference ~$1.70 + infra ~$1.50; tail ~$13) | n/a | [assumption: ~10 decks/payer, power-law tail; inference $0.17/deck sourced as_of 2026-08-16] |
+| Revenue per payer ($/mo) | ~$33 (→ `M-arppu`) | n/a (single basis — API compute) | 60/35/5 Solo/Team/Studio mix [assumption] |
+| COGS per payer ($/mo) | ~$3–4 (inference ~$1.70 + infra ~$1.50; tail ~$13) | n/a | ~10 decks/payer, power-law tail [assumption]; $0.17/deck inference [sourced: OpenAI pricing, as_of 2026-08-16] |
 | Contribution ($/mo · %) | ~$29.5 · ~89% (→ `M-contribution`) | n/a | inference dwarfed by a $33 subscription |
-| CAC (by channel) | community ~$150 · paid ~$400 (→ `M-cac`) | n/a | [assumption: directional — report-mill only; — to clarify — own-funnel read] |
+| CAC (by channel) | community ~$150 · paid ~$400 (→ `M-cac`) | n/a | directional — report-mill only [assumption]; own-funnel read — to clarify — |
 | Payback | community ~5 mo · paid ~14 mo | n/a | ceiling ≤12 mo [sourced: Skok/Bessemer, as_of 2026-08-16] |
 | LTV | — churn 3/5/7% ⚙️ → ~$975 / ~$590 / ~$415 — | n/a | uses the `#retention` axis; LTV/CAC community 6.5×/3.9×/2.8× |
 
@@ -245,6 +245,13 @@ down it stops the next cycle from re-running it.
 | Can week-4 retention be measured now? | no — pre-launch, every cohort censored | absence of data, not a refutation | `M-w4-retention` marked not-instrumented; `H-003` untested until launch |
 
 ## Change log
+
+### 2026-08-23 — confidence-tag grammar normalized
+- **From → To:** compound tags (`[sourced, fact — high]`, `[assumption: …]`, bare `[sourced]`) →
+  canon grammar (`[sourced: <where>]` / `[assumption]`), qualifiers moved into notes
+- **Why:** the tag vocabulary check (lint D2) is promoted to ERROR; the shipped example must model
+  the grammar it teaches
+- **Trigger:** run-2 hardening — the local model copied the example's compound-tag style
 
 ### 2026-08-20 — decision line(s) keyed for machine reading
 - **From → To:** 1 `**Decided:**` line(s) as prose → each carrying `<!--d:date-->` ·

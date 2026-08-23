@@ -5,7 +5,7 @@ step: 2
 title: "Market & Competitive Analysis — Decksmith (fictional sample)"
 status: draft
 version: 0.1.1
-updated: 2026-08-17
+updated: 2026-08-23
 ---
 
 <!--
@@ -97,13 +97,13 @@ _Trend over time — whose strategy is working. Per-fact-type sourcing, `as_of` 
 
 | Competitor <!--c:name--> | Metric (revenue / headcount / …) <!--c:metric--> | Trend + period <!--c:trend--> | Source (+ date) <!--c:source--> | Confidence <!--c:conf--> |
 |------------|----------------------------------|----------------|-----------------|------------|
-| Gamma | valuation / ARR / users | $2.1B val (Nov 2025); ARR ~$100M up from ~$30M (2024); ~70M users | TechCrunch + SiliconANGLE + Sacra, cross-checked (as_of 2026-08-16; URLs in worklog) | [sourced: fact — high] |
-| Canva | valuation / ARR / users | ~$42B val (Aug 2025); ~$4B ARR run-rate, B2B ~2× YoY; 265M MAU | Sacra + TechCrunch (as_of 2026-08-16) | [sourced: fact — high] |
-| Microsoft Copilot | paid seats | M365 Copilot 15M seats +160% YoY (FY26 Q2) → 20M+ (FY26 Q3); PPT-specific not disclosed | Microsoft earnings via press, two quarters (URLs in worklog) | [sourced: fact — high] |
-| Beautiful.ai | revenue / funding | ~$13.5M rev (2025); funding CONFLICT $16M vs $61M | getlatka / tracxn (as_of 2026-08-16) | [sourced: estimate — low] |
-| Plus AI | funding / ARR | — to clarify — (bootstrapped, no disclosed round; one aggregator ~$47.5M ARR, unverified) | getlatka only (as_of 2026-08-16) | [assumption — low] |
-| Tome (exited) | status | shut down Mar 2025 (sunset date — to clarify —); pivoted to sales AI | Forbes (shutdown) + Semafor (2024 layoffs) | [sourced: fact — high] |
-| Pitch (exited) | status / ARR | Jan 2024 reset (~78% layoffs); ~$10M ARR (est.); → sales enablement | Sacra (single-source estimate) | [sourced: estimate — med-high] |
+| Gamma | valuation / ARR / users | $2.1B val (Nov 2025); ARR ~$100M up from ~$30M (2024); ~70M users | TechCrunch + SiliconANGLE + Sacra, cross-checked (as_of 2026-08-16; URLs in worklog) | [sourced: TechCrunch + SiliconANGLE + Sacra] fact — high |
+| Canva | valuation / ARR / users | ~$42B val (Aug 2025); ~$4B ARR run-rate, B2B ~2× YoY; 265M MAU | Sacra + TechCrunch (as_of 2026-08-16) | [sourced: Sacra + TechCrunch] fact — high |
+| Microsoft Copilot | paid seats | M365 Copilot 15M seats +160% YoY (FY26 Q2) → 20M+ (FY26 Q3); PPT-specific not disclosed | Microsoft earnings via press, two quarters (URLs in worklog) | [sourced: Microsoft earnings via press] fact — high |
+| Beautiful.ai | revenue / funding | ~$13.5M rev (2025); funding CONFLICT $16M vs $61M | getlatka / tracxn (as_of 2026-08-16) | [sourced: getlatka / tracxn] estimate — low |
+| Plus AI | funding / ARR | — to clarify — (bootstrapped, no disclosed round; one aggregator ~$47.5M ARR, unverified) | getlatka only (as_of 2026-08-16) | [assumption] low — single aggregator, unverified |
+| Tome (exited) | status | shut down Mar 2025 (sunset date — to clarify —); pivoted to sales AI | Forbes (shutdown) + Semafor (2024 layoffs) | [sourced: Forbes + Semafor] fact — high |
+| Pitch (exited) | status / ARR | Jan 2024 reset (~78% layoffs); ~$10M ARR (est.); → sales enablement | Sacra (single-source estimate) | [sourced: Sacra] estimate — med-high; single source |
 
 _Accelerating into our space: Gamma (clearest threat), Canva, Microsoft (bundle). Retreated: Tome,
 Pitch — validating the free-virality monetization trap (`R-005`), but retreating *toward* the
@@ -130,11 +130,11 @@ _Structural risks of the niche (light Five Forces). Seeded to the risk register 
 
 | Risk <!--c:risk--> | Force <!--c:force--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | → `R-…` <!--c:register--> | Confidence <!--c:conf--> |
 |------|-------|------------|--------|---------|------------|
-| Funded incumbents accelerating (Gamma, Canva) | rivalry | H | H | R-001 | [sourced] |
-| Bundled substitutes (Copilot/Gemini in-suite) | substitution | H | H | R-002 | [sourced] |
+| Funded incumbents accelerating (Gamma, Canva) | rivalry | H | H | R-001 | [sourced: competitor-dynamics, as_of 2026-08-16] |
+| Bundled substitutes (Copilot/Gemini in-suite) | substitution | H | H | R-002 | [sourced: substitutes, as_of 2026-08-16] |
 | Low entry barriers / thin moat unless corpus+taste holds | entry barriers | H | H | R-003 | [assumption] |
 | Foundation-model supplier power (price/access) | supplier power | M | M | R-004 | [assumption] |
-| Monetization trap (free virality kills — Tome/Pitch) | buyer power | M | H | R-005 | [sourced] |
+| Monetization trap (free virality kills — Tome/Pitch) | buyer power | M | H | R-005 | [sourced: competitor-dynamics, as_of 2026-08-16] |
 | Platform/format dependency (.pptx/.key owned by others) | substitution/dependency | L | M | R-006 | [assumption] |
 
 ## Opportunity {#opportunity}
@@ -153,9 +153,9 @@ _The "so what" — the point of the step._
   sales/marketing decks by **proving `H-001` faster than Gamma/Canva can make their export truly
   native**, and monetize deliberately to dodge the Tome/Pitch free-virality trap (`R-005`).
 - **Why now:** AI generation quality crossed the threshold where editable-and-designed is buildable
-  [assumption — this *is* `H-001`, not an evidenced fact]; the category is exploding (Gamma $0→$100M
+  [assumption] (this *is* `H-001`, not an evidenced fact); the category is exploding (Gamma $0→$100M
   ARR in ~2 yr) [sourced: competitor-dynamics, as_of 2026-08-16] yet nobody has solved it
-  [assumption — the scan-based inference above] — a real but narrow window before an incumbent closes
+  [assumption] (the scan-based inference above) — a real but narrow window before an incumbent closes
   the export gap [assumption].
 
 ## Seeded hypotheses {#hypotheses}
@@ -182,6 +182,13 @@ _Open items surfaced by the agent for the human to resolve._
   threat needs a primary source.
 
 ## Change log
+
+### 2026-08-23 — confidence-tag grammar normalized
+- **From → To:** compound tags (`[sourced, fact — high]`, `[assumption: …]`, bare `[sourced]`) →
+  canon grammar (`[sourced: <where>]` / `[assumption]`), qualifiers moved into notes
+- **Why:** the tag vocabulary check (lint D2) is promoted to ERROR; the shipped example must model
+  the grammar it teaches
+- **Trigger:** run-2 hardening — the local model copied the example's compound-tag style
 
 ### 2026-08-17 — human review pass: evidence findings returned and fixed
 - **From → To:** (1) the general-AI-chat substitute row `[sourced: competitor-dynamics]` →

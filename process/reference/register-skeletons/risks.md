@@ -3,7 +3,7 @@ node_type: register
 register: risks
 title: Risk register — <product>
 updated: <date>
-version: 0.1.0
+version: 0.2.0
 ---
 
 # Risk register
@@ -13,5 +13,5 @@ Living risks, born at Step 2 (niche) and refined at 3 (product) / 4 (capability 
 framework. One `category` per row; cross-cutting themes go in `tags`. Carried risks are ranked by
 likelihood × impact on the 5/3/1 tiers.
 
-| ID <!--c:id--> | Description <!--c:description--> | Category <!--c:category--> | Tags <!--c:tags--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Mitigation <!--c:mitigation--> | Owner <!--c:owner--> | Due <!--c:due--> | Status <!--c:status--> | Source <!--c:source--> |
-|----|-------------|----------|------|------------|--------|------------|-------|-----|--------|--------|
+| ID <!--c:id--> | Description <!--c:description--> | Category <!--c:category--> | Tags <!--c:tags--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Mitigation <!--c:mitigation--> | Owner <!--c:owner--> | Trigger <!--c:trigger--> | Due <!--c:due--> | Status <!--c:status--> | Source <!--c:source--> |
+|----|-------------|----------|------|------------|--------|------------|-------|---------|-----|--------|--------|

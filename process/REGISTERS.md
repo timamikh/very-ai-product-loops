@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks
 status: draft
-version: 0.10.0
-updated: 2026-08-20
+version: 0.11.0
+updated: 2026-08-23
 ---
 
 # Registers
@@ -74,6 +74,7 @@ operated at Step 5 by [`segment-cvp`](../tool-skills/library/segment-cvp/SKILL.m
 | `likelihood` | H/M/L, backed by 5/3/1 for ranking |
 | `impact` | H/M/L, same 5/3/1 backing |
 | `mitigation` | the plan (added Step 4) |
+| `trigger` | the observable act-now signal — fires the mitigation before the review date (added Step 4) |
 | `owner` / `due` | who, by when (added Step 4/5) |
 | `status` | `open` · `mitigating` · `contained` · `realized` · `closed` · `accepted` (carried un-mitigated on purpose) |
 | `source` | where it surfaced |

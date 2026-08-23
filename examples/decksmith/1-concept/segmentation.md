@@ -3,7 +3,7 @@ node_type: worklog
 tool: segmentation
 step: 1
 title: "segmentation — the working"
-updated: 2026-08-16
+updated: 2026-08-23
 version: 0.1.0
 ---
 
@@ -44,7 +44,7 @@ the demographic cuts (B, C) split people who share a need or lump people who don
   proposals, QBRs, campaign/brand decks. **Buyer/user:** often the same person; in larger orgs the
   buyer is a sales-enablement / marketing-ops lead with a team budget, the user is the IC. [assumption]
   **Why it matters:** highest **frequency × stakes**, and usually a **company budget** behind the
-  purchase. [assumption, founder bet] **Reach:** LinkedIn; sales/marketing communities (RevGenius,
+  purchase. [assumption] (founder bet) **Reach:** LinkedIn; sales/marketing communities (RevGenius,
   Pavilion, r/sales, marketing Slack/Discord); sales-enablement ecosystems; PLG via
   templates/SEO ("pitch deck template"). [assumption]
 - **S2: independent consultants / agencies / freelancers** who build client-facing decks for others.
@@ -86,6 +86,13 @@ register at step 7:
   (`type: viability`, `tags: segment`).
 
 ## Change log
+
+### 2026-08-23 — confidence-tag grammar normalized
+- **From → To:** compound tags (`[sourced, fact — high]`, `[assumption: …]`, bare `[sourced]`) →
+  canon grammar (`[sourced: <where>]` / `[assumption]`), qualifiers moved into notes
+- **Why:** the tag vocabulary check (lint D2) is promoted to ERROR; the shipped example must model
+  the grammar it teaches
+- **Trigger:** run-2 hardening — the local model copied the example's compound-tag style
 
 ### 2026-08-19 — sources layout migrated
 - **From → To:** `../sources/founder-brief.md` → `../sources/originals/founder-brief.md`

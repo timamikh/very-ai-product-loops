@@ -226,7 +226,12 @@ def write_export(inst, out):
     """
     page, model = export_html(inst["path"])
     name = export_filename(model)
-    if not out or os.path.isdir(out):
+    if not out:
+        # no target given: the snapshot is a file for outside use, so it lands in the instance's
+        # export-files/ (the mirror of sources/) — never in whatever folder the command ran from
+        out = os.path.join(inst["path"], "export-files")
+        os.makedirs(out, exist_ok=True)
+    if os.path.isdir(out):
         out = os.path.join(out, name)
     elif not os.path.exists(out) and not out.lower().endswith((".html", ".htm")):
         # a target that does not exist and does not name an .html file was meant as a folder:
@@ -404,7 +409,7 @@ def main(argv=None):
                     help="instance folder, or a folder to discover one in (default: current)")
     ap.add_argument("--export", nargs="?", const="", metavar="FILE_OR_DIR",
                     help="write the shareable snapshot and exit — no server, no port, no browser "
-                         "(default name: <product>-<date>.html in the current folder)")
+                         "(default: <product>-<date>.html in the instance's export-files/)")
     ap.add_argument("--port", type=int, default=7777)
     ap.add_argument("--host", default="127.0.0.1", help="loopback by default — this is a local tool")
     ap.add_argument("--no-open", action="store_true", help="don't open a browser")

@@ -3,7 +3,7 @@ node_type: worklog
 tool: where-to-play-how-to-win
 step: 3
 title: "where-to-play / how-to-win — the working"
-updated: 2026-08-16
+updated: 2026-08-23
 version: 0.1.0
 ---
 
@@ -50,7 +50,7 @@ agencies only" (the `#to-clarify` open item from Step 1) is **inside** arena A a
 | **Segments** | S1: sales & marketing client-facing deck-makers — agencies/consultancies, in-house sales/marketing deck teams, freelance deck designers. Sharpest proving ground: design-native agencies/consultants. | Students & education; internal-only / throwaway decks; investors making a one-off pitch deck; "everyone who makes slides". | [assumption] |
 | **Geographies / markets** | US-first (English; where the SAM was sized and WTP is highest). | Non-English markets until localisation ships (an expansion trigger, not a launch arena). | [assumption] |
 | **Channels** | Self-serve PLG + founder-led design community (see `channels-expansion.md`). | Top-down enterprise field sales; long-cycle procurement. | [assumption] |
-| **Product scope / value-chain stage** | AI generation → **native, fully-editable `.pptx`/`.key`** with on-brand design; brand-kit reuse. | Real-time collaboration; non-slide formats [sourced: founder brief out-of-scope, as_of 2026-08-16]; a locked web-only editor [assumption — our own differentiation stance, not in the brief]. | mixed (see cell) |
+| **Product scope / value-chain stage** | AI generation → **native, fully-editable `.pptx`/`.key`** with on-brand design; brand-kit reuse. | Real-time collaboration; non-slide formats [sourced: founder brief out-of-scope, as_of 2026-08-16]; a locked web-only editor [assumption] (our own differentiation stance, not in the brief). | mixed (see cell) |
 
 A where-to-play with nothing excluded is not a choice — the exclusions above are the choice.
 
@@ -84,6 +84,13 @@ The cascade's load-bearing assumptions, reconciled against the register (no dupl
   the export gap closes (the timing bet the cascade check exposed).
 
 ## Change log
+
+### 2026-08-23 — confidence-tag grammar normalized
+- **From → To:** compound tags (`[sourced, fact — high]`, `[assumption: …]`, bare `[sourced]`) →
+  canon grammar (`[sourced: <where>]` / `[assumption]`), qualifiers moved into notes
+- **Why:** the tag vocabulary check (lint D2) is promoted to ERROR; the shipped example must model
+  the grammar it teaches
+- **Trigger:** run-2 hardening — the local model copied the example's compound-tag style
 
 ### 2026-08-16 — cascade worked and projected
 - **From → To:** — → winning aspiration, ≥4 candidate cascades (1 chosen, 3+ rejected with reasons),

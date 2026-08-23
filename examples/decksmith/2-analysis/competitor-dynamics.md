@@ -3,7 +3,7 @@ node_type: worklog
 tool: competitor-dynamics
 step: 2
 title: "competitor-dynamics — the working"
-updated: 2026-08-17
+updated: 2026-08-23
 version: 0.1.1
 ---
 
@@ -17,13 +17,13 @@ per-fact-type, `as_of` on every number. Evidence from a `loops-research` brief, 
 
 | Player | Metric | Value + period | Trend | Source (class) | Conf |
 |--------|--------|----------------|-------|----------------|------|
-| **Gamma** | valuation / ARR / users | $2.1B val (Nov 2025 Series B, a16z); ARR ~$100M (Oct 2025) up from ~$30M end-2024; ~70M users, 600k+ paying, ~50 staff | ▲▲ accelerating hard | TechCrunch + SiliconANGLE (press) + Sacra (database), cross-checked | [sourced, fact — high] |
-| **Canva** | valuation / ARR / users | ~$42B val (Aug 2025) up from $32B; ~$3.5B rev 2025, ~$4B ARR run-rate, B2B ~$500M ARR (~2× YoY); 265M MAU | ▲ accelerating | Sacra (database) + TechCrunch (press), cross-checked | [sourced, fact — high] |
-| **Microsoft (Copilot)** | paid seats | M365 Copilot 15M paid seats +160% YoY (FY26 Q2, Jan 2026) → 20M+ (FY26 Q3, Apr 2026); PowerPoint-specific usage not disclosed | ▲ accelerating (bundled) | Microsoft earnings via press, two quarters (a time series, not a conflict) | [sourced, fact — high] |
-| **Beautiful.ai** | funding / revenue | ~$13.5M revenue (Oct 2025); funding **CONFLICT $16M vs $61M** (aggregators disagree) | → stable niche | getlatka / tracxn (database/estimate) | [sourced, estimate — low; funding CONFLICT unresolved] |
-| **Plus AI** | funding / ARR | `— to clarify —` — bootstrapped, no disclosed round; one aggregator estimates ~$47.5M ARR (unverified) | growing, undisclosed | getlatka (aggregator) only | [assumption — low] |
-| **Tome** *(exited)* | status | shut down Mar 2025, most of ~70 staff laid off (exact sunset date `— to clarify —`); 20% layoff Apr 2024; <$4M ARR on 20M users; pivoted to sales AI | ◼ retreated/pivoted | Forbes (press, Mar 2025 shutdown) + Semafor (press, Apr 2024 layoffs); tome.com unreachable (domain sold) | [sourced, fact — high] |
-| **Pitch** *(exited)* | status / ARR | Jan 2024 reset: ~78% layoffs (180→40), returned most VC, employees own ~80%; ARR ~$10M (Feb 2025, Sacra estimate) up from ~$5M; repositioned to sales enablement | ◼ retreated/reset | Sacra (database; single source on the ARR estimate) | [sourced, estimate — med-high] |
+| **Gamma** | valuation / ARR / users | $2.1B val (Nov 2025 Series B, a16z); ARR ~$100M (Oct 2025) up from ~$30M end-2024; ~70M users, 600k+ paying, ~50 staff | ▲▲ accelerating hard | TechCrunch + SiliconANGLE (press) + Sacra (database), cross-checked | [sourced: TechCrunch + SiliconANGLE + Sacra] fact — high |
+| **Canva** | valuation / ARR / users | ~$42B val (Aug 2025) up from $32B; ~$3.5B rev 2025, ~$4B ARR run-rate, B2B ~$500M ARR (~2× YoY); 265M MAU | ▲ accelerating | Sacra (database) + TechCrunch (press), cross-checked | [sourced: Sacra + TechCrunch] fact — high |
+| **Microsoft (Copilot)** | paid seats | M365 Copilot 15M paid seats +160% YoY (FY26 Q2, Jan 2026) → 20M+ (FY26 Q3, Apr 2026); PowerPoint-specific usage not disclosed | ▲ accelerating (bundled) | Microsoft earnings via press, two quarters (a time series, not a conflict) | [sourced: Microsoft earnings via press] fact — high |
+| **Beautiful.ai** | funding / revenue | ~$13.5M revenue (Oct 2025); funding **CONFLICT $16M vs $61M** (aggregators disagree) | → stable niche | getlatka / tracxn (database/estimate) | [sourced: getlatka / tracxn] estimate — low; funding CONFLICT unresolved |
+| **Plus AI** | funding / ARR | `— to clarify —` — bootstrapped, no disclosed round; one aggregator estimates ~$47.5M ARR (unverified) | growing, undisclosed | getlatka (aggregator) only | [assumption] low — single aggregator, unverified |
+| **Tome** *(exited)* | status | shut down Mar 2025, most of ~70 staff laid off (exact sunset date `— to clarify —`); 20% layoff Apr 2024; <$4M ARR on 20M users; pivoted to sales AI | ◼ retreated/pivoted | Forbes (press, Mar 2025 shutdown) + Semafor (press, Apr 2024 layoffs); tome.com unreachable (domain sold) | [sourced: Forbes + Semafor] fact — high |
+| **Pitch** *(exited)* | status / ARR | Jan 2024 reset: ~78% layoffs (180→40), returned most VC, employees own ~80%; ARR ~$10M (Feb 2025, Sacra estimate) up from ~$5M; repositioned to sales enablement | ◼ retreated/reset | Sacra (database; single source on the ARR estimate) | [sourced: Sacra] estimate — med-high; single source |
 
 ## Read (whose strategy is working)
 
@@ -56,6 +56,13 @@ Seeds `synthesis.md` niche-risks: rival acceleration (Gamma/Canva) and Microsoft
   no method shown; kept `[sourced, estimate — low]`.
 
 ## Change log
+
+### 2026-08-23 — confidence-tag grammar normalized
+- **From → To:** compound tags (`[sourced, fact — high]`, `[assumption: …]`, bare `[sourced]`) →
+  canon grammar (`[sourced: <where>]` / `[assumption]`), qualifiers moved into notes
+- **Why:** the tag vocabulary check (lint D2) is promoted to ERROR; the shipped example must model
+  the grammar it teaches
+- **Trigger:** run-2 hardening — the local model copied the example's compound-tag style
 
 ### 2026-08-17 — human review pass: openable URLs attached, three sub-facts corrected
 - **From → To:** publisher-level citations → per-player openable URLs (each fetched 2026-08-17);
