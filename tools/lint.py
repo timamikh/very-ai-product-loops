@@ -68,6 +68,9 @@ Checks (ERROR fails CI · WARN never does):
      (WARN); an instance exchange skill (<instance>/skills/<slug>/) has a SKILL.md, and a `cadence:`
      needs a `last_run` in state.yaml (WARN); a worklog links another STEP's worklog only when the
      reading method's card declares it (`worklog:<step>/<method>` in reads) — undeclared is an ERROR
+  S2 sources/INDEX.md rows carry a typed slot (`Type <!--c:type-->`) from the closed list
+     `cards.SOURCE_SLOTS` (kb · interview · research · metrics · git): unknown word ERRORs, an
+     untyped row or a keyless index header WARNs
   U  a library method serves exactly one step (`steps` has one entry)
   U2 every library method is named by at least one step-template `<!-- tool: … -->` marker — the
      law of ranks makes the marker the only reach, so an unnamed method is unreachable
@@ -1416,8 +1419,8 @@ def check_tag_vocabulary(inst):
     - a trailing single-word bracket from the curated near-synonym list.
 
     A markdown link, a fenced/inline-code example, and mid-sentence prose brackets are all skipped —
-    the check reads tags, it does not police prose. Every tier WARNs for now: the shipped examples
-    carry tag debt that predates this grammar; promote to ERROR once they are cleaned.
+    the check reads tags, it does not police prose. Every tier is an ERROR (promoted 2026-08-23,
+    once the shipped example cleaned its pre-grammar tag debt).
     """
     name = rel(inst)
     files = sorted(glob.glob(os.path.join(inst, "[1-6]-*.md")))
@@ -1443,19 +1446,62 @@ def check_tag_vocabulary(inst):
                 ok = (inner == "assumption") if word == "assumption" \
                     else bool(re.fullmatch(r"%s:\s*\S.*" % word, inner, re.S))
                 if not ok:
-                    warn("D2 [%s] %s:%d: tag `[%s]` is off-grammar — the vocabulary is `[assumption]` "
+                    err("D2 [%s] %s:%d: tag `[%s]` is off-grammar — the vocabulary is `[assumption]` "
                          "bare · `[sourced: <where>]` · `[validated: <evidence>]` · `[refuted: <why>]`; "
                          "a qualifier belongs in a note, never compounded into the tag "
                          "(CONVENTIONS → Confidence tags)" % (name, base, lineno, inner))
             elif trailing and head and NON_LATIN_RE.search(head) and (":" in inner or " " not in inner):
-                warn("D2 [%s] %s:%d: `[%s]` reads as a localized tag — the vocabulary is controlled "
+                err("D2 [%s] %s:%d: `[%s]` reads as a localized tag — the vocabulary is controlled "
                      "and verbatim (`[assumption]` · `[sourced: <where>]` · `[validated: …]` · "
                      "`[refuted: …]`), never translated into the instance language "
                      "(CONVENTIONS → Confidence tags)" % (name, base, lineno, inner))
             elif trailing and " " not in inner and head.lower() in TAG_SYNONYMS:
-                warn("D2 [%s] %s:%d: `[%s]` looks like an invented confidence tag — the vocabulary "
+                err("D2 [%s] %s:%d: `[%s]` looks like an invented confidence tag — the vocabulary "
                      "is closed (no tag = `assumption`; an inferred claim is `[assumption]` too, "
                      "with its reasoning in the worklog)" % (name, base, lineno, inner))
+
+
+def check_source_types(inst):
+    """S2 — every sources/INDEX.md row carries a typed slot from the closed list.
+
+    The index is the navigation map an agent reads first; the `type` column is what makes it
+    machine-checkable — a method's `reads: [source:research]` can only ever be verified against an
+    index that says which slot each source serves. The vocabulary has one machine home
+    (`cards.SOURCE_SLOTS`: kb · interview · research · metrics · git); this check holds index rows
+    to it. An index whose header carries no `<!--c:type-->` key predates typed slots — one WARN for
+    the file, not per-row noise. A word outside the list is an ERROR (the list is closed); an empty
+    cell or an explicit `— to clarify —` WARNs (the row is honestly untyped).
+    """
+    name = rel(inst)
+    idx = os.path.join(inst, "sources", "INDEX.md")
+    if not os.path.exists(idx):
+        return
+    # fences stripped (a documented example is not a live table), but inline code kept — the file
+    # column is backticked by convention, and _live would blank it out of every message
+    raw = re.sub(r"```.*?```", "", read(idx), flags=re.S)
+    for tbl in T.tables(raw):
+        keys = T.column_keys(tbl["headers"])
+        if len(tbl["headers"]) < 3:
+            continue                                       # not the index table
+        if "type" not in keys:
+            warn("S2 [%s] sources/INDEX.md: the index header carries no `Type <!--c:type-->` column "
+                 "— rows can't be matched against the source slots methods declare in `reads:` "
+                 "(the closed list: %s)" % (name, " · ".join(C.SOURCE_SLOTS)))
+            return
+        ti = keys.index("type")
+        fi = keys.index("file") if "file" in keys else 0
+        for i, row in enumerate(tbl["rows"]):
+            val = T.clean_cell(row[ti]) if ti < len(row) else ""
+            fname = T.clean_cell(row[fi]) if fi < len(row) else "?"
+            lineno = tbl["line"] + 2 + i
+            if not val or "to clarify" in val:
+                warn("S2 [%s] sources/INDEX.md:%d: `%s` has no typed slot — name which slot it "
+                     "serves (%s)" % (name, lineno, fname, " · ".join(C.SOURCE_SLOTS)))
+            elif val.lower() not in C.SOURCE_SLOTS:
+                err("S2 [%s] sources/INDEX.md:%d: `%s` names slot `%s` — not in the closed list "
+                    "%s (cards.SOURCE_SLOTS; a new slot is a framework change, not an index edit)"
+                    % (name, lineno, fname, val, " · ".join(C.SOURCE_SLOTS)))
+        return
 
 
 def check_evidence_shown(inst):
@@ -1589,6 +1635,7 @@ def main(argv=()):
         check_gate_ticks(inst)
         check_tag_vocabulary(inst)
         check_evidence_shown(inst)
+        check_source_types(inst)
         check_boundary(inst)
         check_instance_conformance(inst)
         check_confirm_dates(inst)

@@ -38,6 +38,25 @@ per-pass canon (it already runs over the word guideline; the subtraction rule st
   (`[inference]`) that every consumer silently stops counting. D2 warns on off-grammar canon tags,
   on localized tags in the trailing (tag) position, and on a curated near-synonym list — WARN for
   now, promoted to ERROR once the shipped examples clean their pre-grammar tag debt.
+  *Follow-up (2026-08-23):* the decksmith example cleaned its 24 pre-grammar tags (compound
+  qualifiers moved into notes, bare `[sourced]` given its where) and every D2 tier is an **ERROR**.
+- **The risk register carries the `trigger` it was always owed** (run-journal J-004). The
+  `risk-mitigation` method writes back mitigation · owner · **trigger** · due · status, but the
+  register had no trigger column — the act-now signal had nowhere to land (decksmith's `R-013` had
+  it parked inside the mitigation cell). REGISTERS 0.11.0 + skeleton 0.2.0 add `trigger`; the
+  decksmith register carries all 13 signals, copied from its step-4 artifact.
+- **`--export` lands in the instance, not the launch folder** (run-journal J-002). The default
+  destination for the console snapshot is now `<instance>/export-files/` — the convention home for
+  files that leave the instance — instead of whatever directory the command happened to run from.
+- **Check S2 — `sources/INDEX.md` rows carry a typed slot.** The index header is keyed
+  (`<!--c:file-->` … `<!--c:conf-->`) and gains a `Type` column naming which `reads:` slot each
+  source serves — `kb` · `interview` · `research` · `metrics` · `git`, the closed list that already
+  lived in `cards.SOURCE_SLOTS`. A word outside the list is an ERROR; an untyped row or a keyless
+  header WARNs. Carriers: the verbatim keyed header in `product-setup`, the slot line in
+  `source-intake` and `reference/boundary-layout.md` — the per-pass canon is untouched (the slot
+  vocabulary was already CONVENTIONS' — this wave only gives it a machine-checkable home in the
+  index). This is the groundwork for a mechanical evidence gate: an external-sources method can now
+  be matched against a typed evidence row instead of a heuristic.
 - **Check L2 — an external-sources method shows its evidence or declares its gap.** A worked section
   of a method declaring `evidence_standard: external-sources` that carries neither one
   `[sourced: …]` nor one `— to clarify —` is settled-looking analysis resting on nothing visible.

@@ -372,7 +372,8 @@ def _sources(path):
     if os.path.exists(idx):
         raw = T.read(idx)
         for t in T.tables(raw):
-            hs = [h.lower() for h in t["headers"]]
+            # header prose only — a `<!--c:key-->` mark is for machine readers (lint S2), not the console
+            hs = [re.sub(r"<!--.*?-->", "", h).strip().lower() for h in t["headers"]]
             if not hs or "|".join(hs).count("|") < 2:
                 continue
             first = hs[0]

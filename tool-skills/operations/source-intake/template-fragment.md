@@ -44,11 +44,11 @@ overwritten in place.>
 
 ## The index row it updates
 
-In `sources/INDEX.md`, the source's row records which worklog(s) absorbed it — so unrouted evidence is
-visible at a glance:
+In `sources/INDEX.md`, the source's row (role · typed slot · routing — abbreviated here) records
+which worklog(s) absorbed it, so unrouted evidence is visible at a glance:
 
 ```markdown
-| `market-research.md` | market/competitor evidence (dated, public) | → `2-analysis/market-sizing.md`, `2-analysis/competitor-analysis.md`, `2-analysis/competitor-pricing.md`, `2-analysis/competitor-dynamics.md`, `2-analysis/synthesis.md` |
+| `market-research.md` | evidence | research | → `2-analysis/market-sizing.md`, `2-analysis/competitor-analysis.md`, `2-analysis/competitor-pricing.md`, `2-analysis/competitor-dynamics.md`, `2-analysis/synthesis.md` |
 ```
 
 **Then:** write the change-log entry in each worklog touched (from → to · why · trigger), update

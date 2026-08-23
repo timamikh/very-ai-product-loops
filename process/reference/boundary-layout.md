@@ -2,8 +2,8 @@
 node_type: reference
 title: The boundary layer — sources, snapshots, access, and instance exchange skills
 status: draft
-version: 0.1.0
-updated: 2026-08-19
+version: 0.2.0
+updated: 2026-08-23
 ---
 
 # The boundary layer
@@ -24,7 +24,8 @@ An agent that would write its own thinking into `sources/` has picked the wrong 
 
 ```
 <instance>/sources/
-  INDEX.md      — every file across the subfolders, with its role and routing (orchestrator writes)
+  INDEX.md      — every file across the subfolders: role, typed slot (`type`: kb · interview ·
+                  research · metrics · git — the `reads:` slot it serves; lint S2), routing (orchestrator writes)
   originals/    — files the human brought, byte-for-byte as delivered
   snapshots/    — dated, immutable captures of the outside world
   access/       — one passport per external point: how to reach it

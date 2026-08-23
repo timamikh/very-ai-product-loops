@@ -10,8 +10,8 @@ description: >
   vs what's blank and proposing a gap-closing plan in step order — the point where the working loops
   begin. Step artifacts are NOT created here — each is born by its step's first pass.
 status: draft
-version: 0.8.0
-updated: 2026-08-20
+version: 0.9.0
+updated: 2026-08-23
 ---
 
 # Product Setup (onboarding)
@@ -81,11 +81,23 @@ and the human corrects it:
 | Column | What it captures |
 |--------|------------------|
 | File | `sources/originals/<name>.md` (or `snapshots/`, `access/`) |
+| Role | `access` · `evidence` — the trust class (see boundary-layout) |
+| Type | the slot this source serves for a method's `reads:` — one of `kb` · `interview` · `research` · `metrics` · `git` (closed list; lint check S2 holds rows to it) |
 | What it contains | 1–2 lines: the document's actual content |
 | In scope | Which parts apply to **this** product-loops/instance |
 | Out of scope | Which parts explicitly do **not** apply (e.g. "only the SaaS part; the infrastructure/GPU section is a different product") |
 | Feeds steps | Which process steps draw on it (1–6) |
 | Confidence / freshness | source date, staleness, `[assumption]` where the split is inferred |
+
+The header is **copied verbatim** — every column carries its `<!--c:key-->` mark (prose is not a
+carrier; the console and the linter read the keys, never the header words):
+
+```markdown
+| File <!--c:file--> | Role <!--c:role--> | Type <!--c:type--> | What it contains <!--c:what--> | In scope <!--c:in-scope--> | Out of scope <!--c:out-of-scope--> | Feeds steps <!--c:feeds--> | Dispatched into <!--c:dispatched--> | Confidence / freshness <!--c:conf--> |
+```
+
+(`Dispatched into` stays empty at setup — `source-intake` fills it as it routes each source into
+step worklogs.)
 
 The out-of-scope column is the point: it durably records boundary decisions (like "take only the
 service part of the strategy, not the infrastructure part") so they are never silently lost when a

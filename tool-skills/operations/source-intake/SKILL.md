@@ -12,8 +12,8 @@ surfaces: [file:sources/INDEX.md, worklog:*, change-log]
 opinionated: true
 method_basis: "Route, don't reason: every external source is dispatched into the step worklog(s) it informs and cited there, so no artifact ever reaches around a worklog to a raw file"
 status: draft
-version: 0.3.0
-updated: 2026-08-20
+version: 0.3.1
+updated: 2026-08-23
 ---
 # Source intake — dispatch a raw source into the step worklogs it feeds
 
@@ -68,7 +68,9 @@ re-dispatch rule (*a source changed*, above) has nothing to re-read. Make it a f
 1. **Fetch and extract** what the routing actually needs — the claims, numbers and wording, not the
    whole HTML — into a **dated extract** in `sources/snapshots/` (e.g.
    `sources/snapshots/competitor-pricing-2026-08-17.md`) whose header carries the URL and the capture date.
-2. **Index it** in `sources/INDEX.md` like any file: its role, the URL, and when it was captured.
+2. **Index it** in `sources/INDEX.md` like any file: its role, its typed slot (`type` — the
+   `reads:` slot it serves: `kb` · `interview` · `research` · `metrics` · `git`), the URL, and when
+   it was captured.
 3. **Route the extract** exactly as below. The worklog cites the extract; the extract carries the
    URL — so a claim stays checkable even after the page changes.
 
