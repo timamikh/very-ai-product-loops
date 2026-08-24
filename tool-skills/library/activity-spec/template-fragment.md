@@ -11,9 +11,12 @@
   - … (include the measurement/attribution step)
 - **Business value:** … (`M-…` / `H-…`)
 - **Audience value:** …
-- **Links:** surface = … (from product-surface) · tests `H-…` · moves `M-…` · launches `B-…` (the Step-5 bundle, if this activity runs one)
+- **Feature:** `F-…` (the campaign/content line this run advances)
+- **Links:** surface = `S-…` · tests `H-…` · moves `M-…` · launches `B-…` (the Step-5 bundle, if
+  this activity runs one) · shipped as: <external id — post/mailing — after the run>
+- **Expected impact:** `M-…` <baseline → expected> / tests `H-…` · check-by <sprint/date> [assumption]
 - **Owner:** …
-- **Estimate:** …
+- **Estimate:** <S | M | L> (~<range>) [assumption]
 
 **Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
 proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative

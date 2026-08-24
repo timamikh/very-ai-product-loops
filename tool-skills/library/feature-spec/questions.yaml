@@ -1,7 +1,19 @@
 # feature-spec — interview (development direction)
 tool: feature-spec
-writes: [section:backlog, section:must]
+writes: [section:backlog, section:must, register:features]
 questions:
+  - id: feature_row
+    ask: "Which F-… register row does this item advance? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves.)"
+    type: free_text
+    why: "The item is sprint-local; the F-… is its cross-sprint identity — without it the backlog dies with the sprint."
+  - id: expected_impact
+    ask: "Pre-registered expected impact: which M-… (baseline → expected, from metrics.csv) / R-… / H-…, and the check-by when it becomes readable?"
+    type: free_text
+    why: "Read at the next Step-5 gate by impact-readout; an expectation set after the numbers land is a negotiation, not a read."
+  - id: estimate_class
+    ask: "Estimate: size class S/M/L + a range?"
+    type: free_text
+    why: "[assumption] until the readout records the actual; misses calibrate the sizing."
   - id: description
     ask: "What is the feature? (one clear description)"
     type: free_text

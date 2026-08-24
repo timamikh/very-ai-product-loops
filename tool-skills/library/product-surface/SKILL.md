@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.3.0
+updated: 2026-08-23
 ---
 # Product Surface
 
@@ -33,7 +33,10 @@ with no instrumentation can't be judged; a metric with no collection point can't
 
 ## How to do it
 1. **List every surface** the user touches: acquisition/comms **channels**, **landing pages**,
-   **mailings/notifications**, in-product UI, the **admin panel**, integrations.
+   **mailings/notifications**, in-product UI, the **admin panel**, integrations. Each chosen
+   surface is a `S-…` row in `registers/surfaces.md` (the ledger; this section keeps the why and
+   cites the ids) — at pmf/growth, `product-baseline` reconciles the ledger against the real
+   product.
 2. **List every instrumentation point**: what **metrics** are collected, where, and the
    **behavior-study** tools (analytics, session capture, surveys, funnels).
 3. **Link surface → metric.** For each surface, what do we measure and can we? Gaps become

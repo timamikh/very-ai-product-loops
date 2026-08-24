@@ -433,7 +433,7 @@ def _history(timeline):
     out = {}
     for e in timeline:                                   # already newest-first
         mk = T.markers("%s\n%s" % (e["summary"], e["body"]))
-        for iid in mk["hypotheses"] + mk["risks"] + mk["metrics"]:
+        for iid in mk["hypotheses"] + mk["risks"] + mk["metrics"] + mk["features"] + mk["surfaces"]:
             out.setdefault(iid, []).append({"date": e["date"], "summary": e["summary"],
                                             "file": e["file"], "kind": e["kind"]})
     return out
@@ -593,28 +593,34 @@ def _worklogs(path):
     return out
 
 
-_ITEM_RE = re.compile(r"^\*\*([FAT]-\d+)\s*·\s*(.+?)\*\*\s*(?:—\s*(.*))?$")
+_ITEM_RE = re.compile(r"^\*\*(\d+|[FAT]-\d+)\s*·\s*(.+?)\*\*\s*(?:—\s*(.*))?$")
 _ITEM_FIELD_RE = re.compile(r"\*\*([^*]+?):\*\*")
+# the direction letters of the pre-v0.12 positional item ids (`F-1`/`A-1`/`T-1`), kept readable
+_LEGACY_DIRECTION = {"F": "development", "A": "go-to-market", "T": "back-office"}
 
 
-def _sprint_items(artifacts):
-    """The sprint plan's items — the F-/A-/T- blocks of `{#must}` — parsed into rows the step-6
+def _sprint_items(artifacts, directions=()):
+    """The sprint plan's items — the numbered blocks of `{#must}` — parsed into rows the step-6
     board can draw. Assembled from the already-read section body, stored nowhere else
     (extending/interface.md: assemble, don't store twice). The shape is the template's own
-    convention (steps/6-sprint-plan/template.md): a `**F-1 · name** — links: …` head line, then
-    `- **Label:** value` bullets; the id prefix pins the direction. Field labels carry verbatim —
-    content is never translated, so the console shows whatever the instance wrote."""
+    convention (steps/6-sprint-plan/template.md): a `**1 · name** — links: …` head line under a
+    `### <direction> — <format>` subsection, then `- **Label:** value` bullets. The direction comes
+    from the subsection heading matched against the instance's configured directions; the pre-v0.12
+    positional ids (`F-1`/`A-1`/`T-1`) still parse, their letter pinning the direction. Field labels
+    carry verbatim — content is never translated, so the console shows whatever the instance wrote."""
     art = next((a for a in artifacts if a.get("artifact") == "sprint-plan"), None)
     sec = next((s for s in (art["sections"] if art else []) if s["id"] == "must"), None)
     if not sec:
         return []
-    direction = {"F": "development", "A": "go-to-market", "T": "back-office"}
-    items, cur = [], None
+    items, cur, heading_dir = [], None, ""
     for raw_line in sec["body"].splitlines():
         line = raw_line.strip()
         m = _ITEM_RE.match(line)
         if m:
-            cur = {"id": m.group(1), "direction": direction[m.group(1)[0]],
+            iid = m.group(1)
+            direction = (_LEGACY_DIRECTION[iid[0]] if iid[0] in _LEGACY_DIRECTION
+                         else heading_dir)
+            cur = {"id": iid, "direction": direction,
                    "name": m.group(2).strip(),
                    "links": re.findall(r"\b[HMRB]-[\w.-]+", m.group(3) or ""),
                    "fields": []}
@@ -623,6 +629,8 @@ def _sprint_items(artifacts):
         if cur is None or not line or line.startswith(("<!--", "###")):
             if line.startswith("###"):
                 cur = None                       # a direction heading closes the block
+                low = line.lstrip("#").strip().lower()
+                heading_dir = next((d for d in directions if d.lower() in low), "")
             continue
         if line.startswith("- **"):
             # one bullet may carry several **Label:** pairs (… **Owner:** x · **Estimate:** y)
@@ -636,6 +644,11 @@ def _sprint_items(artifacts):
             cur["fields"][-1][1] += "\n" + line  # continuation / nested list line of the last field
         else:
             cur = None                           # prose after the blocks — stop attributing to items
+    for it in items:
+        # the item's feature-register row (v0.12): the F-… its `Feature:` line names, if any
+        val = next((v for k, v in it["fields"] if k.strip().lower() == "feature"), "")
+        fm = re.search(r"\bF-\d+\b", val)
+        it["feature"] = fm.group(0) if fm else ""
     return items
 
 
@@ -658,6 +671,9 @@ def load(path, framework_root=F.ROOT):
     metric_tree = _register(path, "metric-tree.md", "M-", health,
                             [check("metric kind"), check("metric instrumentation")])
     metrics = _metrics(path, metric_tree["rows"], health)
+    features = _register(path, "features.md", "F-", health,
+                         [check("feature state"), check("feature confidence")])
+    surfaces = _register(path, "surfaces.md", "S-", health, [check("surface state")])
 
     steps = _merge_steps(F.steps(framework_root), artifacts, state, health,
                          F.template_section_lines(framework_root))
@@ -689,7 +705,8 @@ def load(path, framework_root=F.ROOT):
     for a in artifacts:
         for e in a["change_log"]:
             timeline.append(dict(e, file=a["file"], kind="artifact"))
-    for reg, label in ((hypotheses, "hypotheses.md"), (risks, "risks.md"), (metric_tree, "metric-tree.md")):
+    for reg, label in ((hypotheses, "hypotheses.md"), (risks, "risks.md"), (metric_tree, "metric-tree.md"),
+                       (features, "features.md"), (surfaces, "surfaces.md")):
         if not reg["present"]:
             continue
         entries = T.change_log(T.read(os.path.join(path, "registers", reg["file"])))
@@ -751,12 +768,13 @@ def load(path, framework_root=F.ROOT):
         "statuses": [{"name": s["name"], "order": s["order"]} for s in statuses],
         "steps": steps,
         "artifacts": artifacts,
-        "registers": {"hypotheses": hypotheses, "risks": risks, "metric_tree": metric_tree},
+        "registers": {"hypotheses": hypotheses, "risks": risks, "metric_tree": metric_tree,
+                      "features": features, "surfaces": surfaces},
         "metrics": metrics,
         "sources": shared,
         "skills": skills,
         "worklogs": _worklogs(path),
-        "sprint_items": _sprint_items(artifacts),
+        "sprint_items": _sprint_items(artifacts, T.as_list(config.get("directions"))),
         "handoff": _handoff(path),
         "deliverables": deliverables,
         "gaps": gaps,

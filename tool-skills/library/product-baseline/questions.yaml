@@ -1,0 +1,24 @@
+# product-baseline — interview
+tool: product-baseline
+writes: [register:features, register:surfaces, section:product-surface]
+questions:
+  - id: trigger
+    ask: "What triggered this baseline — first pmf/growth pass, drift found, a major release? (No trigger → no pass; there is no calendar cadence.)"
+    type: free_text
+    why: "A refresh nothing asked for is paid work with no reader."
+  - id: source
+    ask: "sources/INDEX.md already holds <the rows under this method's slots> — what else do we read the product from: a walkthrough you narrate, an analytics export, a team interview, the codebase passport?"
+    type: list
+    why: "A row without evidence does not appear; the index is scanned first so the owner is asked to fill gaps, not to re-list what is already filed."
+  - id: surfaces
+    ask: "Walking the surfaces: what does the audience actually meet today (landing, in-product, admin, mailings, content channels, internal)? Anything shipped or killed since the register last looked?"
+    type: list
+    why: "Surfaces are the ledger's spine — features hang off S-… rows."
+  - id: features
+    ask: "Per live surface — which features are actually on it, at feature altitude (autopay, not its checkbox)? For each: direction, what it serves (M-…/R-…/H-…), owner."
+    type: per_item
+    why: "A serves-link unknown at inventory time is a finding, not a blank — mark it `— to clarify —`."
+  - id: reconcile
+    ask: "Diff vs the register: planned rows that turn out shipped? live rows the product no longer has? features the register never knew?"
+    type: list
+    why: "The pass edits states and adds rows — re-authoring loses the ids everything links to; a stray shipped feature is a process question."

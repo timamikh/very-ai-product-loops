@@ -44,7 +44,7 @@ wherever a bare word would be ambiguous: `metrics` is both a register and a sour
 
 | Atom | What it names | Legal in |
 |---|---|---|
-| `register:<name>` | a register — `hypotheses` · `risks` · `metrics` · `metric-tree` | reads · writes · surfaces |
+| `register:<name>` | a register — `hypotheses` · `risks` · `metrics` · `metric-tree` · `features` · `surfaces` | reads · writes · surfaces |
 | `source:<slot>` | an external input slot — `kb` · `interview` · `research` · `metrics` · `git` | reads |
 | `section:<anchor>` | an artifact section by its `{#anchor}` | reads · writes · surfaces |
 | `worklog` | bare: **its own** worklog; the path is resolved by [`worklog-resolution.md`](worklog-resolution.md), never restated here | reads · writes · surfaces |

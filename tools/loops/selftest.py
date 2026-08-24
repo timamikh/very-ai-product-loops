@@ -68,6 +68,14 @@ def main():
     check(len(m["registers"]["hypotheses"]["rows"]) >= 8, "the hypothesis register is read")
     check(len(m["registers"]["risks"]["rows"]) >= 8, "the risk register is read")
     check(len(m["registers"]["metric_tree"]["rows"]) >= 5, "the metric tree is read")
+    check(len(m["registers"]["features"]["rows"]) >= 8, "the feature register is read")
+    check(len(m["registers"]["surfaces"]["rows"]) >= 9, "the surface register is read")
+
+    # the product axis (v0.12): a 6#must item names its feature-register row on its `Feature:` line,
+    # and the reader lifts the F-… onto the item — the step-6 board and the Surfaces board key on it
+    items = m["sprint_items"]
+    check(items and all(it["feature"].startswith("F-") for it in items),
+          "every 6#must sprint item carries its feature-register F-id (got %d items)" % len(items))
 
     # a register's columns are addressed by their stable <!--c:key--> keys, not by header prose — the
     # register twin of a section {#anchor}, so the console and linter find the enum column the same way
@@ -141,6 +149,28 @@ def main():
               "a non-English register row reads by its canonical column key")
     finally:
         shutil.rmtree(ru_tmp, ignore_errors=True)
+
+    # -- the product-axis registers are guarded the same way: a feature `state` outside its enum
+    #    (planned/live/retired) is an error keyed on the row's id, and the good row still reads by
+    #    its <!--c:state--> column key
+    ft_tmp = tempfile.mkdtemp(prefix="loops-selftest-feat-")
+    try:
+        inst = os.path.join(ft_tmp, "product")
+        os.makedirs(os.path.join(inst, "registers"))
+        io.open(os.path.join(inst, "config.yaml"), "w", encoding="utf-8").write(
+            'product: "Axis"\nlanguage: en\nactive_status: pmf\ndirections: [development]\n')
+        io.open(os.path.join(inst, "registers", "features.md"), "w", encoding="utf-8").write(
+            "| ID <!--c:id--> | Name <!--c:name--> | State <!--c:state--> |\n"
+            "|----|------|-------|\n"
+            "| F-001 | first | planned |\n"
+            "| F-002 | second | shipped |\n")
+        fx = I.load(inst, ROOT)
+        check(any(hh["code"] == "enum" and "F-002" in hh["message"] for hh in fx["health"]),
+              "a feature state outside its enum is caught (feature state is validated)")
+        check(fx["registers"]["features"]["rows"][0].get("state") == "planned",
+              "a feature row reads its state by the canonical column key")
+    finally:
+        shutil.rmtree(ft_tmp, ignore_errors=True)
 
     # -- the trail of one item is assembled from the change logs that name its id — no second store
     hist = m["history"]

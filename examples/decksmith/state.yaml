@@ -67,6 +67,7 @@ gates:
     "tactical-plan#market-bundles": done
     "tactical-plan#hypotheses-to-test": done
     "tactical-plan#readouts": done           # none finished — Period 1 launches the first three (peeking refused)
+    "tactical-plan#item-readouts": done      # nothing shipped yet — S1 is the first sprint; stated, not skipped
     "tactical-plan#blockers": done
     "tactical-plan#to-clarify": done
   6-sprint-plan:
@@ -75,5 +76,6 @@ gates:
     "sprint-plan#backlog": done
     "item-format": done          # dev=Feature · g2m=Activity · back-office=Task+DoD
     "item-links": done           # every must/backlog item links an H-/M- (A-1 also its B-)
-    "rejects-shown": done        # F-5/A-3 excluded with reasons (#excluded)
+    "rejects-shown": done        # brand-kit storage / paid-ad probe excluded with reasons (#excluded)
+    "item-feature": done         # every must item names its F-… and pre-registers an Expected impact + check-by
     "sprint-plan#delivery": done

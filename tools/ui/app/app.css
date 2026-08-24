@@ -29,6 +29,8 @@
   --hyp:#06163E; --hyp-soft:rgba(6,22,62,.07);
   --risk:#CC0000; --risk-soft:rgba(204,0,0,.07);
   --met:#0F7B4F; --met-soft:rgba(15,123,79,.08);
+  --feat:#6B3FA0; --feat-soft:rgba(107,63,160,.08);
+  --surf:#8A5A00; --surf-soft:rgba(138,90,0,.09);
   --grid:#EDEDEE;
   --navh:104px;  /* combined height of the sticky rail + tabs; a table header parks below it */
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -48,6 +50,10 @@
     --hyp:#8FA6E0; --hyp-soft:rgba(143,166,224,.13);
     --risk:#FF7A70; --risk-soft:rgba(255,122,112,.13);
     --met:#3FB980; --met-soft:rgba(63,185,128,.13);
+  --feat:#B08FE0; --feat-soft:rgba(176,143,224,.13);
+  --surf:#D6A250; --surf-soft:rgba(214,162,80,.13);
+    --feat:#B08FE0; --feat-soft:rgba(176,143,224,.13);
+    --surf:#D6A250; --surf-soft:rgba(214,162,80,.13);
     --grid:#242427;
   }
 }
@@ -65,6 +71,8 @@
   --hyp:#8FA6E0; --hyp-soft:rgba(143,166,224,.13);
   --risk:#FF7A70; --risk-soft:rgba(255,122,112,.13);
   --met:#3FB980; --met-soft:rgba(63,185,128,.13);
+  --feat:#B08FE0; --feat-soft:rgba(176,143,224,.13);
+  --surf:#D6A250; --surf-soft:rgba(214,162,80,.13);
   --grid:#242427;
 }
 
@@ -205,6 +213,9 @@ hr { border:0; border-top:1px solid var(--line); margin:14px 0 }
 .tag.hyp { color:var(--hyp); border-color:currentColor; background:var(--hyp-soft) }
 .tag.risk { color:var(--risk); border-color:currentColor; background:var(--risk-soft) }
 .tag.met { color:var(--met); border-color:currentColor; background:var(--met-soft) }
+.tag.feat { color:var(--feat); border-color:currentColor; background:var(--feat-soft) }
+.tag.surf { color:var(--surf); border-color:currentColor; background:var(--surf-soft) }
+.tag.must { color:var(--brand-ink); border-color:currentColor; background:var(--brand-soft) }
 .tag.strong { border-color:var(--ink); color:var(--ink) }
 /* Human sign-off on a section's result (the semantic layer). Confirmed wears the sanctioned second
    hue — navy, distinct from the gate's green and the red that marks "active/next"; pending is faint
@@ -455,6 +466,8 @@ details.acc .accbody { padding:13px 15px 16px }
 .md .rid.hyp { color:var(--hyp); background:var(--hyp-soft) }
 .md .rid.risk { color:var(--risk); background:var(--risk-soft) }
 .md .rid.met { color:var(--met); background:var(--met-soft) }
+.md .rid.feat, .rid.feat { color:var(--feat); background:var(--feat-soft) }
+.md .rid.surf, .rid.surf { color:var(--surf); background:var(--surf-soft) }
 
 /* ================================================================ metrics */
 .kpis { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:0;
@@ -726,3 +739,20 @@ details.acc .accbody { padding:13px 15px 16px }
 .glegend .rid.hyp { color:var(--hyp); background:var(--hyp-soft) }
 .glegend .rid.risk { color:var(--risk); background:var(--risk-soft) }
 .glegend .rid.met { color:var(--met); background:var(--met-soft) }
+
+/* ------------------------------------------------ surface board (registers → Surfaces) */
+.sfboard { display:flex; gap:10px; overflow-x:auto; align-items:flex-start; padding-bottom:6px }
+.sfcol { flex:1; min-width:230px; max-width:340px; background:var(--sunk); border:1px solid var(--line);
+  border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px }
+.sfcol.sf-orphan { border-style:dashed }
+.sfhead { display:flex; align-items:center; gap:6px; flex-wrap:wrap }
+.sftype { margin-top:-4px }
+.sfcard { text-align:left; font:inherit; color:inherit; cursor:pointer; background:var(--paper);
+  border:1px solid var(--line); border-left:3px solid var(--met); border-radius:8px; padding:8px 10px }
+.sfcard:hover { border-color:var(--line-2) }
+.sfcard.sf-planned { border-left-color:var(--faint); border-style:solid solid solid solid }
+.sfcard.sf-planned .sfname { color:var(--ink-2) }
+.sfcard.sf-retired { border-left-color:var(--line-2); opacity:.55 }
+.sfcard.sf-retired .sfname { text-decoration:line-through }
+.sfcard.sf-unknown { border-left-color:var(--warn) }
+.sfname { font-weight:600; margin-top:4px }

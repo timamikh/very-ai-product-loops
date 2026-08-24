@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.30.2
-updated: 2026-08-20
+version: 0.31.0
+updated: 2026-08-23
 ---
 
 # Conventions
@@ -68,9 +68,11 @@ places it, how the line is chosen, and why a section may honestly stay unmarked 
 
 ## Links & register item IDs
 
-Register items have stable IDs — hypotheses `H-001`, risks `R-001`, metric nodes `M-northstar`
-(taxonomy and lifecycle — [`REGISTERS.md`](REGISTERS.md)). Reference one inline in brackets:
-"drives `M-activation`".
+Register items have stable IDs — hypotheses `H-001`, risks `R-001`, metric nodes `M-northstar`,
+features `F-001`, surfaces `S-01` (taxonomy and lifecycle — [`REGISTERS.md`](REGISTERS.md)).
+Numbered ids count **sequentially and are never reused**; the digit width is free — zero-padding
+is a style choice, not grammar (`F-01`, `F-001` and `F-1000` are all valid, a long-lived product
+outgrows any fixed width). Reference one inline in brackets: "drives `M-activation`".
 
 **Cross-artifact links are a relative file path + the target's stable `{#anchor}`** —
 `2-analysis.md#opportunity` (from a subdirectory: `../2-analysis.md#opportunity`). **Never** a

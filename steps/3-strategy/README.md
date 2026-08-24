@@ -6,14 +6,14 @@ step: 3
 title: "Step 3 — Strategy"
 output: 3-strategy.md
 prerequisites: [the concept and the analysis exist]
-reads: [file:1-concept.md, file:2-analysis.md, source:interview, source:kb]
+reads: [file:1-concept.md, file:2-analysis.md, register:features, register:surfaces, register:metrics, source:interview, source:metrics, source:git, source:kb]
 writes: [section:*]
-surfaces: [ticks, register:hypotheses, register:risks, sign-off, change-log]
+surfaces: [ticks, register:hypotheses, register:risks, register:features, register:surfaces, sign-off, change-log]
 cadence: "~3–12 mo; reviewed ~quarterly"
-method_basis: "Playing to Win (where-to-play / how-to-win) · Dunford positioning · UVP/CPV · value-based pricing & packaging · channels (Bullseye) · moats revisited (7 Powers) · product surface & instrumentation · C4-context architecture"
+method_basis: "Playing to Win (where-to-play / how-to-win) · Dunford positioning · UVP/CPV · value-based pricing & packaging · channels (Bullseye) · moats revisited (7 Powers) · product surface & instrumentation · as-is product baseline (source-fed inventory into the feature & surface registers) · C4-context architecture"
 status: draft
-version: 0.3.0
-updated: 2026-08-16
+version: 0.4.0
+updated: 2026-08-24
 ---
 # Step 3 — Strategy
 
@@ -39,7 +39,7 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 | `uvp-cpv` | Unique value proposition / customer-perceived value (per situation for the lead segment) | `uvp-cpv` |
 | `pricing` | Pricing model & packaging (value metric, tiers/fences, price vs the alternative) | `pricing-strategy` |
 | `channels-expansion` | Acquisition/comms channels + expansion paths | `channels-expansion` |
-| `product-surface` | Every user-interaction surface + instrumentation: channels, landings, mailings, admin, metric collection, behavior-study tools | `product-surface` |
+| `product-surface` | Every user-interaction surface + instrumentation: channels, landings, mailings, admin, metric collection, behavior-study tools | `product-surface`, `product-baseline` |
 | `architecture` | System architecture at **C4 Context** level (product, its users, external systems) | `architecture-c4` |
 | `bets` | The strategic hypotheses we're wagering on | `bets`, `value-definition-strategy` |
 | `product-risks` | Risks specific to this strategy | `pre-mortem` |
@@ -49,6 +49,11 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
   choices become `H-…` (`type: viability`).
 - **Risks** — `product-risks` extend the risk register (`R-…`).
 - **Value** — `value-definition-strategy` revisits the Step-1 moats here; **derivative moats** appear now (customers/scale exist from `pmf`).
+- **Features & surfaces** — this step **births the as-is**: `product-baseline` (from `pmf`) walks
+  the live product from sources and writes `S-…` rows and `live` `F-…` rows (with `direction`,
+  `surface`, `serves`, `[sourced: …]`); on later passes it reconciles the register against
+  reality instead of re-authoring. The strategic *why* stays in `3#product-surface`; the ledger
+  lives in the registers.
 
 ## Gate checklist (soft) — each item ↔ artifact section
 - [ ] winning aspiration stated → `strategy#winning-aspiration`
@@ -58,6 +63,7 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 - [ ] pricing model & packaging chosen, anchored to the alternative → `strategy#pricing`
 - [ ] channels & expansion path named → `strategy#channels-expansion`
 - [ ] product surface & instrumentation mapped → `strategy#product-surface`
+- [ ] surfaces ledgered as `S-…` rows; live features inventoried from sources (`product-baseline`, from `pmf`) → `strategy#product-surface` → feature & surface registers
 - [ ] C4-context architecture sketched → `strategy#architecture`
 - [ ] bets captured as typed hypotheses → `strategy#bets` → hypothesis register
 - [ ] product risks logged → `strategy#product-risks` → risk register

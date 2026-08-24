@@ -18,6 +18,16 @@ Checks (ERROR fails CI · WARN never does):
   D  register enums per instance (hypothesis type/status/confidence · post-test signal/decision ·
      risk category/status · metric kind/instrumentation; signal/decision enforced-if-present)
   E  metrics.csv ids are a subset of metric-tree.md ids
+  E2 a cited `F-…`/`S-…` id in an instance artifact or register has a definition row in
+     features.md/surfaces.md — the feature-register mirror of check E  (WARN)
+  E3 a worked `6#must` item at pmf/growth carries its full pre-registration: a `- **Feature:**`
+     line naming an `F-…` row (or a declared `— to clarify —` gap), an `**Expected impact:**`
+     with a check-by, and an `**Estimate:**` — everything the next impact-readout reads; the
+     backlog table's Feature column likewise; concept-viability is exempt  (WARN)
+  E4 a features.md/surfaces.md row has a non-empty `source` — a row without evidence is an
+     inventory from memory  (WARN)
+  E5 an id a features.md `serves` cell cites resolves to a row in its own register
+     (H-/R-/M-/F-/S-) — the cut rule and the impact-readout both read this link  (WARN)
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
   G2 a gate item whose sections are all written but whose state.yaml tick is still `open` —
@@ -470,6 +480,9 @@ def check_instance(inst):
         "risk status": os.path.join(reg, "risks.md"),
         "metric kind": os.path.join(reg, "metric-tree.md"),
         "metric instrumentation": os.path.join(reg, "metric-tree.md"),
+        "feature state": os.path.join(reg, "features.md"),
+        "feature confidence": os.path.join(reg, "features.md"),
+        "surface state": os.path.join(reg, "surfaces.md"),
     }
     for label, (allowed, key) in F.ENUMS.items():
         path = files[label]
@@ -778,7 +791,7 @@ def check_register_tables(inst):
                      % (name, os.path.basename(path), t["line"]))
 
 
-REGISTER_ID_RE = re.compile(r"\b(?:H-\d+|R-\d+|M-[a-z0-9][a-z0-9-]*)\b")
+REGISTER_ID_RE = re.compile(r"\b(?:H-\d+|R-\d+|F-\d+|S-\d+|M-[a-z0-9][a-z0-9-]*)\b")
 
 
 def check_register_ids(inst):
@@ -789,17 +802,212 @@ def check_register_ids(inst):
     other two point at nothing while the register looks complete.
     """
     name = rel(inst)
-    for filename in ("hypotheses.md", "risks.md", "metric-tree.md"):
+    for filename in ("hypotheses.md", "risks.md", "metric-tree.md", "features.md", "surfaces.md"):
         path = os.path.join(inst, "registers", filename)
         if not os.path.exists(path):
             continue
-        for v in (T.table_column(read(path), "id") or []):
+        text = read(path)
+        cells = T.column_key_values(text, "id")
+        if cells is None:  # a not-yet-keyed legacy register — header prose is the fallback
+            cells = T.table_column(text, "id")
+        for v in (cells or []):
             ids = REGISTER_ID_RE.findall(T.clean_cell(v))
             if len(ids) > 1:
                 err("K [%s] %s: id cell `%s` names %d ids — one row is one item, so only `%s` is "
                     "reachable and the rest have no definition; split it into %d rows (they may "
                     "repeat the definition text)"
                     % (name, filename, T.clean_cell(v), len(ids), ids[0], len(ids)))
+
+
+FS_ID_RE = re.compile(r"\b([FS]-\d+)\b")
+
+
+def _fs_defined(inst):
+    """The F-/S- ids the feature register defines, or None if neither file exists yet."""
+    reg = os.path.join(inst, "registers")
+    found_any, ids = False, set()
+    for filename in ("features.md", "surfaces.md"):
+        path = os.path.join(reg, filename)
+        if not os.path.exists(path):
+            continue
+        found_any = True
+        text = read(path)
+        cells = T.column_key_values(text, "id")
+        if cells is None:  # a not-yet-keyed legacy register — header prose is the fallback
+            cells = T.table_column(text, "id")
+        for v in (cells or []):
+            ids.update(FS_ID_RE.findall(T.clean_cell(v)))
+    return ids if found_any else None
+
+
+def check_feature_refs(inst):
+    """E2 — cited F-…/S-… ids resolve to a register row (the feature mirror of check E).
+
+    A citation with no definition row is a typo, a row deleted without retiring its references, or
+    an id minted in prose instead of the register (only the orchestrator mints ids).
+    """
+    name = rel(inst)
+    defined = _fs_defined(inst)
+    files = sorted(glob.glob(os.path.join(inst, "[1-6]-*.md")))
+    files += sorted(glob.glob(os.path.join(inst, "registers", "*.md")))
+    for path in files:
+        base = os.path.basename(path)
+        if base in ("features.md", "surfaces.md"):
+            continue  # definitions themselves are checked by D/K
+        # the change log is history — ids there may legitimately predate a rename or the register
+        # (the heading is a fixed machine-read literal, but match it case-insensitively)
+        text = re.split(r"\n## Change log\b", read(path), maxsplit=1, flags=re.I)[0]
+        cited = sorted(set(FS_ID_RE.findall(text)))
+        for cid in cited:
+            if defined is None:
+                warn("E2 [%s] %s cites `%s` but the instance has no features.md/surfaces.md — "
+                     "mint the row first (register-skeletons/), then reference it" % (name, base, cid))
+                break  # one warn per file is enough when the register is absent
+            if cid not in defined:
+                warn("E2 [%s] %s cites `%s` with no definition row in %s — a typo, or an id minted "
+                     "outside the register" % (name, base, cid,
+                                               "features.md" if cid.startswith("F-") else "surfaces.md"))
+
+
+ITEM_HEAD_RE = re.compile(r"^\*\*(?:\d+|[FAT]-\d+)\s*·\s*(.+?)\*\*", re.M)
+
+
+def check_item_features(inst):
+    """E3 — a worked must-item at pmf/growth carries its full pre-registration.
+
+    The item number is sprint-local; the `Feature:` line is its only cross-sprint identity — an
+    item without one ships work the next impact-readout cannot find. The same readout also needs
+    the item's `Expected impact` (with a check-by) and `Estimate` pre-registered — the gate line
+    (`item-feature`) names all three, so the check does too. The backlog table's Feature column is
+    the same identity one section over. concept-viability is exempt: the register is born at the
+    first pmf baseline.
+    """
+    name = rel(inst)
+    cfg = os.path.join(inst, "config.yaml")
+    if not os.path.exists(cfg):
+        cfg = os.path.join(os.path.dirname(inst), "config.yaml")
+    if not os.path.exists(cfg):
+        return
+    data, _ = yamlite.load(cfg)
+    if (data.get("active_status") or "") not in ("pmf", "growth"):
+        return
+    path = os.path.join(inst, "6-sprint-plan.md")
+    if not os.path.exists(path):
+        return
+    for sec in T.sections(read(path)):
+        if sec["id"] == "backlog":
+            feats = T.column_key_values(sec["body"], "feature")
+            items = T.column_key_values(sec["body"], "item") or []
+            for i, cell in enumerate(feats or []):
+                item = T.clean_cell(items[i]) if i < len(items) else ""
+                if "<" in item or item in ("", "…"):
+                    continue  # template sample row, not a worked one
+                cell = T.clean_cell(cell)
+                if not (FS_ID_RE.search(cell) or T.TO_CLARIFY_RE.search(cell)):
+                    warn("E3 [%s] 6-sprint-plan.md#backlog row `%s`: Feature cell names neither an "
+                         "`F-…` row nor a declared `— to clarify —` gap — a candidate without an id "
+                         "cannot re-enter a later ranking" % (name, item))
+            continue
+        if sec["id"] != "must":
+            continue
+        blocks = ITEM_HEAD_RE.split(sec["body"])
+        # split() yields [pre, name1, body1, name2, body2, …]
+        for item_name, body in zip(blocks[1::2], blocks[2::2]):
+            if "<" in item_name:
+                continue  # template placeholder, not a worked item
+            if "**Feature:**" not in body:
+                warn("E3 [%s] 6-sprint-plan.md#must item `%s` has no `- **Feature:** F-…` line — "
+                     "at %s every item names the register row it advances"
+                     % (name, item_name, data.get("active_status")))
+            else:
+                line = next((ln for ln in body.splitlines() if "**Feature:**" in ln), "")
+                if not (FS_ID_RE.search(line) or T.TO_CLARIFY_RE.search(line)):
+                    warn("E3 [%s] 6-sprint-plan.md#must item `%s`: the `**Feature:**` line names "
+                         "neither an `F-…` row nor a declared `— to clarify —` gap — a placeholder "
+                         "is not an identity" % (name, item_name))
+            if "**Expected impact:**" not in body:
+                warn("E3 [%s] 6-sprint-plan.md#must item `%s` pre-registers no `**Expected "
+                     "impact:**` — the next impact-readout has nothing to read the shipped work "
+                     "against" % (name, item_name))
+            elif "check-by" not in body.lower():
+                warn("E3 [%s] 6-sprint-plan.md#must item `%s`: Expected impact carries no "
+                     "`check-by` — without a read-date the readout can neither read it nor call it "
+                     "`pending`" % (name, item_name))
+            if "**Estimate:**" not in body:
+                warn("E3 [%s] 6-sprint-plan.md#must item `%s` pre-registers no `**Estimate:**` — "
+                     "the readout's calibration read (est → actual) has no baseline"
+                     % (name, item_name))
+
+
+def check_register_sources(inst):
+    """E4 — a feature/surface row shows where it came from.
+
+    The register is an inventory read from sources (a walkthrough, analytics, the codebase) — a
+    row with an empty `source` is a memory posing as evidence (product-baseline's first rule).
+    """
+    name = rel(inst)
+    for filename in ("features.md", "surfaces.md"):
+        path = os.path.join(inst, "registers", filename)
+        if not os.path.exists(path):
+            continue
+        text = read(path)
+        ids = T.column_key_values(text, "id") or []
+        srcs = T.column_key_values(text, "source") or []
+        for rid, src in zip(ids, srcs):
+            rid = T.clean_cell(rid)
+            if not FS_ID_RE.fullmatch(rid):
+                continue  # placeholder row of a fresh skeleton
+            if T.clean_cell(src) in ("", "…", "—"):
+                warn("E4 [%s] %s row `%s` has an empty source — name where the row was read from "
+                     "(a walkthrough, analytics, the codebase passport)" % (name, filename, rid))
+
+
+SERVES_ID_RE = re.compile(r"\b(H-\d+|R-\d+|F-\d+|S-\d+|M-[a-z0-9][a-z0-9-]*)\b")
+_SERVES_HOME = {"H": "hypotheses.md", "R": "risks.md", "M": "metric-tree.md",
+                "F": "features.md", "S": "surfaces.md"}
+
+
+def _register_id_set(inst, filename):
+    """All ids a register file defines, or None if the file does not exist."""
+    path = os.path.join(inst, "registers", filename)
+    if not os.path.exists(path):
+        return None
+    text = read(path)
+    cells = T.column_key_values(text, "id")
+    if cells is None:
+        cells = T.table_column(text, "id")
+    out = set()
+    for v in (cells or []):
+        out.update(SERVES_ID_RE.findall(T.clean_cell(v)))
+    return out
+
+
+def check_serves_links(inst):
+    """E5 — every id a features.md `serves` cell cites resolves to a row in its own register.
+
+    `serves` is the load-bearing link ("a feature serving nothing is a candidate to cut", and the
+    readout writes its verdict onto it) — a typo'd id silently detaches the feature from the
+    metric/hypothesis/risk it claims to move, and no downstream reader notices.
+    """
+    name = rel(inst)
+    path = os.path.join(inst, "registers", "features.md")
+    if not os.path.exists(path):
+        return
+    defined = {fam: _register_id_set(inst, fn) for fam, fn in _SERVES_HOME.items()}
+    text = read(path)
+    ids = T.column_key_values(text, "id") or T.table_column(text, "id") or []
+    serves = T.column_key_values(text, "serves") or T.table_column(text, "serves") or []
+    for rid, cell in zip(ids, serves):
+        rid = T.clean_cell(rid)
+        if not FS_ID_RE.fullmatch(rid):
+            continue  # placeholder row of a fresh skeleton
+        for cited in SERVES_ID_RE.findall(T.clean_cell(cell)):
+            home = defined.get(cited[0])
+            if home is None:
+                continue  # that register file is absent — E2/E4 surface that, not this check
+            if cited not in home:
+                warn("E5 [%s] features.md row `%s` serves `%s` with no such row in %s — a typo, or "
+                     "an id minted in prose" % (name, rid, cited, _SERVES_HOME[cited[0]]))
 
 
 CONFIG_REQUIRED = ("product", "language", "active_status", "directions")
@@ -1644,6 +1852,10 @@ def main(argv=()):
         check_rests_confirmed(inst)
         check_register_tables(inst)
         check_register_ids(inst)
+        check_feature_refs(inst)
+        check_item_features(inst)
+        check_register_sources(inst)
+        check_serves_links(inst)
     check_install(checked)
     check_links()
     check_gates(homed)

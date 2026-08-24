@@ -1,14 +1,14 @@
 ---
 node_type: registers
-title: Registers — metrics, hypotheses, risks
+title: Registers — metrics, hypotheses, risks, features
 status: draft
-version: 0.11.0
+version: 0.12.0
 updated: 2026-08-23
 ---
 
 # Registers
 
-Three living, vertical objects, shared across all steps — born once, refined downward, results
+Four living, vertical objects, shared across all steps — born once, refined downward, results
 flowing back up, **not re-authored per step**. In an instance: `registers/` at the instance root
 (the working area — `product-loops/` in a live product). IDs, confidence and change logs follow
 [`CONVENTIONS.md`](CONVENTIONS.md).
@@ -27,6 +27,7 @@ read), zero rows. Never retype a header from the field tables below: prose is no
 | Hypotheses | Steps 1 (concept) · 2 (sizing) · 3 (bets) | 4 (quantify) → 5 (test design) → 6 (experiment tasks) |
 | Risks | Steps 2 (niche) · 3 (product) · 4 (capability gaps) | 4 (mitigation) → 5 (period blockers) |
 | Metric tree | Step 4 | 5 (select nodes) → 6 (task ↔ metric) |
+| Features & surfaces | Steps 3 (surfaces + live features, via `product-baseline`) · 6 (planned candidates, via the item specs) | 5 (item readouts flip `planned → live`) → 6 (sprint items advance their `F-…`) |
 
 ## What earns a register — the four-sign test
 
@@ -128,3 +129,48 @@ id,period_start,period_end,measured_at,value,observed_n,population,basis,source,
 dated row at capture time**, even before Step 4 builds the tree. A raw capture in `sources/` is
 *evidence of the reading*, not its home: the csv holds the series, the source holds the context. The
 capture procedure — [`metrics-capture`](../tool-skills/operations/metrics-capture/SKILL.md).
+
+## Feature register (`features.md` + `surfaces.md`)
+
+What the product is made of — **as-is and to-be in one register, never two documents**: `state: live`
+rows are the current product, `state: planned` rows are the accumulating candidates (a backlog that
+survives between sprints because its items have ids). One register, two files, the metric register's
+own split: **features in `features.md`, the surfaces they live on in `surfaces.md`** — surfaces are
+few, long-lived, and referenced by id from features, sprint items and `3#product-surface`.
+
+**`features.md`:**
+
+| Field | Values / notes |
+|-------|----------------|
+| `id` | `F-001`, … (stable across sprints — a sprint item advances a feature, never replaces it) |
+| `name` | the feature at feature altitude — "autopay", "the AI content line" — never a sprint task ("post id 123" is an item, not a row) |
+| `direction` | which work direction owns it (instance config; default development · go-to-market · back-office) — **not** a linted enum, directions are config |
+| `surface` | the `S-…` it lives on |
+| `state` | `planned` · `live` · `retired` — as-is = `live`, to-be = `planned`; flipped by an item readout, never by hand mid-sprint |
+| `serves` | the `M-…` it moves / `R-…` it closes / `H-…` it tests — a feature serving nothing is a candidate to cut (the Step-6 rule, now with a home) |
+| `owner` | who is accountable |
+| `confidence` | `assumption` · `sourced` · `validated` · `refuted` — a `live` row needs a source; a `planned` row's expected impact is `[assumption]` until its readout |
+| `source` | where the row came from (baseline inventory, a spec's pass) |
+| `note` | qualifiers an enum cell may not carry |
+
+**`surfaces.md`:**
+
+| Field | Values / notes |
+|-------|----------------|
+| `id` | `S-01`, … |
+| `name` / `purpose` | the surface and why it exists |
+| `type` | free descriptor (landing · in-product · admin · mailing · content · channel · internal — or the product's own word); deliberately not an enum |
+| `state` | `planned` · `live` · `retired` (same lifecycle as features) |
+| `source` / `note` | provenance; qualifiers |
+
+Rows are **born from sources, not from the head**: `live` rows by
+[`product-baseline`](../tool-skills/library/product-baseline/SKILL.md) (Step 3 — product walkthrough,
+analytics, interview), `planned` rows by the Step-6 item specs
+([`feature-spec`](../tool-skills/library/feature-spec/SKILL.md) /
+[`activity-spec`](../tool-skills/library/activity-spec/SKILL.md) /
+[`task-spec`](../tool-skills/library/task-spec/SKILL.md)) when an item advances a feature the
+register does not yet hold. The readout that flips state —
+[`impact-readout`](../tool-skills/library/impact-readout/SKILL.md) (Step 5) — reads the item's
+pre-registered expected impact against the fact and writes the verdict onto the row's `serves`
+confidence. A cut candidate **stays** a `planned` row (with the cut noted), so prioritization never
+silently loses it.

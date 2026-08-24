@@ -15,3 +15,9 @@ likelihood × impact on the 5/3/1 tiers.
 
 | ID <!--c:id--> | Description <!--c:description--> | Category <!--c:category--> | Tags <!--c:tags--> | Likelihood <!--c:likelihood--> | Impact <!--c:impact--> | Mitigation <!--c:mitigation--> | Owner <!--c:owner--> | Trigger <!--c:trigger--> | Due <!--c:due--> | Status <!--c:status--> | Source <!--c:source--> |
 |----|-------------|----------|------|------------|--------|------------|-------|---------|-----|--------|--------|
+
+## Change log
+
+### <date> — register created
+- **From → To:** — → empty register (skeleton copied at setup)
+- **Why:** every register carries its own dated history (`process/CONVENTIONS.md` → Change logs); rows arrive by method passes, each pass adds an entry naming the ids it moved.

@@ -21,7 +21,7 @@ per_step:
       - Sharpen how-to-win around what actually RETAINS paying users, not just what attracts them
       - Turn the retention logic into a testable bet and name the moats it leverages
       - Set pricing & packaging that captures the repeatable value (value metric + fences), tested not assumed
-    tools: [where-to-play-how-to-win, uvp-cpv, value-definition-strategy, pricing-strategy, channels-expansion, product-surface, architecture-c4, bets, pre-mortem]
+    tools: [where-to-play-how-to-win, uvp-cpv, value-definition-strategy, pricing-strategy, channels-expansion, product-surface, product-baseline, architecture-c4, bets, pre-mortem]
   "4":  # Strategic Plan
     goals:
       - Build the metric tree with a North Star that ENCODES the strategy, not a vanity/lag metric
@@ -34,15 +34,15 @@ per_step:
       - Pick the few metric nodes whose movement would prove repeatable value this period
       - Design the smallest tests for the live bets; set guardrails so growth doesn't erode the economics
       - Compose & stage market-entry bundles for the go-to-market direction; test the strongest with pre-set decision rules
-    tools: [prioritization-tactical-plan, goal-targets, segment-cvp, hypothesis-test-design, ab-test, experiment-readout, guardrails, resource-check]
+    tools: [prioritization-tactical-plan, goal-targets, segment-cvp, hypothesis-test-design, ab-test, experiment-readout, impact-readout, guardrails, resource-check]
   "6":  # Sprint Plan
     goals:
       - Must-set = only what proves value/monetization or unblocks its measurement (instrumentation first if it's missing)
       - Every item moves a metric node or tests a hypothesis; defer scale-spend items to the backlog
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec, feature-grooming]
 status: draft
-version: 0.7.0
-updated: 2026-08-21
+version: 0.8.0
+updated: 2026-08-23
 ---
 
 # Status: pmf

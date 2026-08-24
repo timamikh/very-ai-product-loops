@@ -2,7 +2,7 @@
 """very-ai-product-loops — the local console for one product instance.
 
 Run it in a product folder; it opens a browser view of the instance: where the cycle stands, what each
-gate still has open, a canvas of every step's sections, the three registers, the metric series, every
+gate still has open, a canvas of every step's sections, the five registers, the metric series, every
 `— to clarify —`, the change-log timeline, the skills the agent can reach, and the linter's verdict.
 Dependency-free (Python 3 stdlib) — the framework's promise is "clone it and it runs on plain python3",
 and a product manager should not need npm to see their own product.

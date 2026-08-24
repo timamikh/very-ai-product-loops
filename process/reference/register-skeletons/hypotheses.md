@@ -15,3 +15,9 @@ in the vendored framework. One `type` per row; cross-cutting themes go in `tags`
 
 | ID <!--c:id--> | Statement <!--c:statement--> | Type <!--c:type--> | Tags <!--c:tags--> | Status <!--c:status--> | Born <!--c:born--> | Source <!--c:source--> | Test <!--c:test--> | Confidence <!--c:confidence--> | Signal <!--c:signal--> | Decision <!--c:decision--> |
 |----|-----------|------|------|--------|------|--------|------|------------|--------|----------|
+
+## Change log
+
+### <date> — register created
+- **From → To:** — → empty register (skeleton copied at setup)
+- **Why:** every register carries its own dated history (`process/CONVENTIONS.md` → Change logs); rows arrive by method passes, each pass adds an entry naming the ids it moved.

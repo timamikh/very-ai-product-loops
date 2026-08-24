@@ -2,8 +2,8 @@
 node_type: reference
 title: Glossary — the entities of very-ai-product-loops
 status: draft
-version: 0.5.0
-updated: 2026-08-19
+version: 0.6.0
+updated: 2026-08-23
 ---
 
 # Glossary
@@ -29,7 +29,7 @@ product stages). Most entities below belong to one side or the other; a few are 
 | Entity | Where | What it is |
 |--------|-------|------------|
 | **Process core** / **steps** | `steps/` | The thin, fixed skeleton: six gated steps. Each owns an artifact's structure and its gate — **no methods inside**. |
-| **Registers** | an instance's `registers/` | The vertical, living, shared state: the **metric**, **hypothesis**, and **risk** registers. Born once, refined down, results flow back up. |
+| **Registers** | an instance's `registers/` | The vertical, living, shared state: the **metric**, **hypothesis**, **risk**, and **feature** registers. Born once, refined down, results flow back up. |
 | **Library** | `tool-skills/library/` | Product **methods** as skills (segmentation, pricing-strategy, jtbd-concept, …). The plane meant to grow and be adapted per company. |
 | **Statuses** | `statuses/` | Product **stages** as config: `concept-viability` · `pmf` · `growth` (extensible). Each re-prioritises goals and tool emphasis per step. |
 
@@ -148,6 +148,16 @@ a human signs. A value lives in exactly one home.
 | **Subagent** | A spawned worker with a narrow write rule. `loops-draft` **writes exactly one file** — its method's worklog (the draft) — and nothing else; `loops-gather` / `loops-research` / `loops-verify` **write nothing** and return text. Enforced on Claude Code: only `loops-draft` carries a `Write` tool (linter check N). |
 | **Acceptance passport** (a.k.a. *return passport*) | The numbered checklist a subagent's return is scored against **before** its content is used. A return that fails its passport is not integrated. (This is the **only** meaning of "passport" in the framework — see Renames.) |
 | **Direction** | An execution stream in Steps 5–6 (default `development` · `go-to-market` · `back-office`), editable per instance. Named `go-to-market`, not `growth`, to avoid colliding with the `growth` **status**. |
+
+---
+
+## The product axis (Steps 3–6)
+
+| Entity | Notation | What it is |
+|--------|----------|------------|
+| **Surface** | `S-…` in `registers/surfaces.md` | Where the audience meets the product — a landing, the in-product UI, a mailing list, a content channel, an internal admin. The ledger's spine: features hang off surfaces. Not to be confused with a card's `surfaces:` frontmatter field (what a pass surfaces to the human) — same word, unrelated entity. |
+| **Feature** | `F-…` in `registers/features.md` | One durable unit of product composition on a surface — a capability, a campaign line, a content series — with `state: planned · live · retired` and a `serves` link (`M-…`/`R-…`/`H-…`). The cross-sprint identity of work: sprint items are numbered per sprint, the `F-…` row is what persists. Defined in [`REGISTERS.md`](../REGISTERS.md). |
+| **Sprint item** | `**<n> · <name>**` in `6#must` | One sprint's unit of work in a direction subsection — numbered 1, 2, 3 within its direction, sprint-local. Names its register row in a `Feature:` line and pre-registers its `Expected impact`, read at the next Step-5 gate by `impact-readout`. |
 
 ---
 

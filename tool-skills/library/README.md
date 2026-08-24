@@ -180,6 +180,7 @@ don't turn a tool into a literature review.
 | `pricing-strategy` | Pricing model & packaging | Value-based pricing — value metric, tiers/fences, WTP (van Westendorp), price vs the next-best alternative | 3 | draft |
 | `channels-expansion` | Channels, GTM motion & expansion | Bullseye framework (*Traction*, Weinberg/Mares) + GTM-motion choice + expansion-path thinking | 3 | draft |
 | `product-surface` | User-interaction surfaces + instrumentation sketch | Touchpoint mapping + instrumentation planning | 3 | draft |
+| `product-baseline` | As-is inventory of surfaces & live features | Source-backed inventory into the feature register (`live` rows); drift-triggered, never calendar | 3 | draft |
 | `architecture-c4` | System architecture (Context level) | C4 model — Context (Simon Brown) | 3 | draft |
 | `bets` | Strategy bets seeded as hypotheses | JTBD forces (pull > anxiety + habit) + moat linkage; dedup against cascade H-seeds | 3 | draft |
 | `value-definition-strategy` | Moat revisit: derivatives & trajectory | 7 Powers (Helmer) — derivative moats once customers/scale exist | 3 | draft |
@@ -203,6 +204,7 @@ don't turn a tool into a literature review.
 | `hypothesis-test-design` | Design a test for a hypothesis | Smallest viable test (metric · threshold · sample/duration · decision rule); thresholds referenced from Step 4 | 5 | draft |
 | `ab-test` | Run a controlled experiment | Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrails, MDE-driven sizing, no-peek stopping rule | 5 | draft |
 | `experiment-readout` | Read a finished test against its pre-registered rule | Pre-registered readout; signal/decision written back to the hypotheses register | 5 | draft |
+| `impact-readout` | Read shipped items against their pre-registered expectations | Expected impact vs fact + estimate vs actual; flips the feature register, `pending` until check-by | 5 | draft |
 | `prioritization-sprint-plan` | Rank must vs backlog, show excluded | RICE / ICE as ranking aid, ranked by contribution to the period gate; capacity-bounded must/backlog line | 6 | draft |
 | `feature-spec` | Development item as a Feature | Description/Scope/Acceptance criteria/Business value/User value/User stories | 6 | draft |
 | `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |

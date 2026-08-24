@@ -5,6 +5,8 @@
 
 ### Feature: <name>  ·  [must | backlog]  ·  moves `M-…` / tests `H-…`
 
+- **Feature:** `F-…` (existing `planned` row picked up / new row minted `planned` — direction ·
+  surface `S-…` · serves)
 - **Description:** …
 - **Scope:**
   - …
@@ -16,6 +18,9 @@
 - **User value:** …
 - **User stories:**
   - As a <role>, I want <capability>, so that <benefit>.
+- **Expected impact:** `M-…` <baseline → expected> / closes `R-…` / tests `H-…` · check-by
+  <sprint/date> [assumption]
+- **Estimate:** <S | M | L> (~<range>) [assumption]
 
 **Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
 proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative

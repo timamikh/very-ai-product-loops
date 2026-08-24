@@ -98,3 +98,16 @@ gap is fine; a qualifier belongs in a note or the worklog, never compounded into
 declaration binds to a key the section's table actually carries, and an empty vocabulary is an error
 (check O). Declare a vocabulary only where the method genuinely fixes it — a free-text column takes
 none, the same "no consumer, no key" restraint.
+
+## Fixed machine-read literals (not keys, still contracts)
+
+A few machine reads anchor to a **fixed English literal** instead of a key. These labels are part of
+the form, like a key: **they carry verbatim in any documentation language** — the value after them is
+written in the instance's language, the label itself is never translated (translating it silently
+detaches the linter and the console from the data):
+
+- the **`## Change log`** heading — the history cut every reader makes (check E2 excludes it, the
+  console builds trails from it);
+- the step-6 item field labels **`**Feature:**`**, **`**Expected impact:**`** (with its `check-by`
+  keyword) and **`**Estimate:**`** — the item's pre-registration, read by check E3, the console's
+  sprint-item view and `impact-readout`.

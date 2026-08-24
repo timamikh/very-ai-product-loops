@@ -11,7 +11,7 @@
 ```markdown
 # BRD: <Feature name> — <Product>
 
-> Source: sprint <n> · F-<n> · links `H-…` / `M-…` · groomed <date>
+> Source: sprint <n> · item <n> · feature `F-…` · links `H-…` / `M-…` · groomed <date>
 > (`6-sprint-plan/feature-grooming.md`). Product decisions below are fixed — agreed with the
 > product owner; open items are technical only.
 

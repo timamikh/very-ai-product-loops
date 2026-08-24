@@ -155,8 +155,9 @@ navy as the single second hue. The red is the only colour with energy — it mar
 what is next, and appears nowhere decorative. Everything else is carried by type, rule and space.
 
 Three deliberate exceptions, each earning its hue: **status** (open amber, error red — legible without
-reading the label), **registers** (hypotheses navy · risks red · metrics green, so an id keeps one
-colour everywhere), and **chart series**, which come from a validated categorical palette because one
+reading the label), **registers** (hypotheses navy · risks red · metrics green · features purple ·
+surfaces ochre — `--feat` / `--surf` in `app.css` — so an id keeps one colour everywhere), and
+**chart series**, which come from a validated categorical palette because one
 red and a grey scale cannot separate three lines for a colourblind reader.
 
 Pure `#FF0000` gives 4.0:1 on white — enough for marks, rules and large type, not for body text. So
@@ -192,11 +193,11 @@ sequence, and the rail is how you move between them (there is no separate "step"
 
 [`tools/loops/instance.py`](../loops/instance.py) reads one instance into a single JSON structure:
 config decisions, cycle state and gate ticks, artifacts split into sections (with confidence-tag
-counts, `— to clarify —` lines, ⚙️ proposals, referenced register ids), the three registers, the
+counts, `— to clarify —` lines, ⚙️ proposals, referenced register ids), the five registers, the
 metric series from `metrics.csv`, the sources index, the handoff, the change-log timeline, and a
 `health` list of every deviation from the canon it noticed.
 
-Two things it **assembles** rather than reads, because storing them twice is how two homes for one
+Three things it **assembles** rather than reads, because storing them twice is how two homes for one
 truth appear:
 
 - **The trail of one item.** Every register row carries a `⟲ n` control that opens the change-log
@@ -206,6 +207,14 @@ truth appear:
 - **A metric's comparable variants.** A series is split by `basis` **and** `population` — how the
   value was computed and who was counted. Two readings that differ in either are two lines, never two
   points of one, and the delta on a KPI tile is computed inside one variant only.
+- **The product, by surface.** The *Surfaces* tab draws the two product registers as a board: one
+  column per `S-…` row in file order, carrying the feature cards whose `surface` cell names that
+  `S-id` (a substring match, so `S-04 · S-05` lands on both). A card is coloured by the feature's
+  `state`, and a feature a current `6#must` item advances wears an *in this sprint's must* tag —
+  read off the sprint items, kept nowhere else. A feature naming no known surface lands in a dashed
+  *no surface named* column, which is a real signal, not an error. Clicking a card opens that
+  feature's row in the register table below — its trail and serves-links live there, so there is no
+  second detail view to keep in step.
 
 Two rules hold there:
 
@@ -252,7 +261,7 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 | Overview | What this product is, in one thesis line and six figures; the six steps as a table; where the next pass goes; how the instance reads against the canon |
 | Step | The gate and what the active status asks, across the top; below them, full width, the step's sections as **accordions** — each opens to the section's full text, its confidence mix, gaps, proposals and register ids |
 | Artifacts | One artifact whole — every section in order with its confidence tags, gaps and proposals; the TOC lists the files, and under the open one its worklogs (the workings each section projects from) |
-| Registers | Hypotheses / risks / metric nodes as filterable tables, with non-canon values flagged, a per-item trail, and a link to every artifact section that names the id |
+| Registers | Hypotheses / risks / metric nodes / features / surfaces as filterable tables, with non-canon values flagged, a per-item trail, and a link to every artifact section that names the id. The Surfaces tab opens with the board — the product by surface, one column per `S-…` row (see *The read model*) |
 | Metrics | Latest readings as tiles, one chart per node with a dot on every reading, each node's full definition, the raw `metrics.csv` rows, and the nodes defined but never measured |
 | Open questions | Every `— to clarify —`, every gate item still open or unrecorded, every hypothesis in flight — each with a link to the section it sits in |
 | Sources | The source index, every file in `sources/` with its role and whether the index knows it, the metric source slots, and the session handoff |

@@ -4,8 +4,8 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.4.1
-updated: 2026-08-19
+version: 0.5.0
+updated: 2026-08-23
 ---
 
 <!--
@@ -85,8 +85,11 @@ _Acquisition/comms channels (Bullseye) + the GTM motion + expansion paths._
 - Expansion path: …  [assumption]
 
 ## Product surface {#product-surface}
-<!-- tool: product-surface -->
-_Every user-interaction surface + instrumentation (sketched here, refined at Step 4)._
+<!-- tool: product-surface, product-baseline -->
+_Every user-interaction surface + instrumentation (sketched here, refined at Step 4). The strategic
+why lives here; the ledger lives in the surface register (`S-…`, `registers/surfaces.md`) — cite
+its ids in prose. At pmf/growth, `product-baseline` keeps the ledger honest against the real
+product (drift-triggered, from sources)._
 
 | Surface <!--c:surface--> | Purpose <!--c:purpose--> | Instrumentation (what/where data comes from) <!--c:instrumentation--> | Confidence <!--c:conf--> |
 |---------|---------|----------------------------------------------|------------|

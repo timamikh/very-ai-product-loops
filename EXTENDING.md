@@ -2,8 +2,8 @@
 node_type: extending
 title: Extending — which dial to turn, and where its instruction lives
 status: draft
-version: 0.7.0
-updated: 2026-08-20
+version: 0.8.0
+updated: 2026-08-23
 ---
 
 # Extending the framework
@@ -33,7 +33,7 @@ that fills a method is the failure this framework exists to prevent).
 | **change the work directions or the documentation language** | [`extending/config.md`](extending/config.md) | your product |
 | **write your product's own pull or push** across the instance boundary | [`process/reference/boundary-layout.md`](process/reference/boundary-layout.md) — an instance card the goal map routes to by trigger | your product |
 | **add a rule of your own** (a convention, a gate, a habit you want held) | [`extending/rules.md`](extending/rules.md) — classify it first: check · method · contract | your fork / upstream |
-| **add a fourth register** | [`extending/register.md`](extending/register.md) — the four-sign test. The three schemas themselves are canon, not a dial | canon |
+| **add a register** | [`extending/register.md`](extending/register.md) — the four-sign test. The four shipped schemas themselves are canon, not a dial | canon |
 | **change what a delegated subagent may do** (its tools, its instructions) | [`tool-skills/operations/orchestration/SKILL.md`](tool-skills/operations/orchestration/SKILL.md) → *On the runtime*. The **rule** is canon and not a dial: only the orchestrator writes ([`process/OPERATING-LOOP.md`](process/OPERATING-LOOP.md) → *Delegation*) | your fork / your setup |
 | **contribute a method to the framework itself** | [`extending/method.md`](extending/method.md) → *Contributing it upstream* + [`CONTRIBUTING.md`](CONTRIBUTING.md) | upstream |
 | **move to a newer framework version** | [`install/UPDATE.md`](install/UPDATE.md) | your product |

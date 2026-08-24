@@ -4,17 +4,17 @@ kind: method
 name: task-spec
 steps: [6]
 prerequisites: [period-goals]
-reads: [register:hypotheses, register:metrics, register:risks, source:interview, source:kb]
-writes: [worklog, section:must, section:backlog]
+reads: [register:hypotheses, register:metrics, register:risks, register:features, source:interview, source:kb]
+writes: [worklog, section:must, section:backlog, register:features]
 opinionated: false
-method_basis: "Back-office task description (Description / Why with an M-…/R-…/H-… link / binary DoD / Owner / Estimate)"
+method_basis: "Back-office task description (Description / Why with an M-…/R-…/H-… link / binary DoD / Owner / Estimate) + the register thread: the F-… (capability) it advances, a pre-registered Expected impact with a check-by, an S/M/L estimate"
 evidence_standard: decision
 volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-23
 ---
 # Task Spec (back-office direction)
 
@@ -35,12 +35,19 @@ it (linked, not asserted), a binary Definition of Done, who owns it, and what it
 ## The format
 Each task has exactly these fields (keep them tight):
 
+- **Feature** — the `F-…` register row this task advances (a lasting capability: "automated ticket
+  triage", not the migration script that builds it). A genuine one-off with no lasting row keeps
+  `— to clarify —` here — that is legal for tasks, and a run of such one-offs is a hint a
+  capability row is hiding.
 - **Description** — what needs doing.
 - **Why** — the business reason, as a link: the `M-…` it moves, the `R-…` it mitigates, or the
   `H-…` it serves.
 - **Definition of Done** — binary: answerable yes/no at sprint end.
+- **Expected impact** — pre-registered: the `M-…` it moves (baseline → expected) or the `R-…` →
+  target status, plus a **check-by**. Read at the next Step-5 gate by `impact-readout`.
 - **Owner** — who is accountable for it landing.
-- **Estimate** — the capacity it consumes.
+- **Estimate** — a size class **S/M/L + a range**, `[assumption]` until the readout records the
+  actual.
 
 ## Anti-patterns
 - **A DoD you can't answer yes/no to.** "Improve the onboarding docs" is a direction, not a DoD —

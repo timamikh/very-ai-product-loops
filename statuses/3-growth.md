@@ -22,7 +22,7 @@ per_step:
       - Sharpen how-to-win around DEFENDING the moats that make growth durable, plus the next expansion segment/market
       - Revisit pricing & packaging for expansion (new tiers/segments) without eroding the core
       - Frame expansion + defense as testable bets; watch for a segment shift signaling a new opportunity
-    tools: [where-to-play-how-to-win, value-definition-strategy, pricing-strategy, channels-expansion, uvp-cpv, product-surface, architecture-c4, pre-mortem]
+    tools: [where-to-play-how-to-win, value-definition-strategy, pricing-strategy, channels-expansion, uvp-cpv, product-surface, product-baseline, architecture-c4, pre-mortem]
   "4":  # Strategic Plan
     goals:
       - Re-forecast off a working model; optimize the metric tree around the levers with the best marginal return
@@ -34,7 +34,7 @@ per_step:
       - Pick the growth levers whose movement compounds this period; set guardrails so scale doesn't erode retention/economics/defensibility
       - Test expansion bundles (new segments/channels) with pre-set decision rules
       - Balance load across directions; surface scaling blockers early
-    tools: [prioritization-tactical-plan, goal-targets, guardrails, segment-cvp, hypothesis-test-design, ab-test, experiment-readout, resource-check]
+    tools: [prioritization-tactical-plan, goal-targets, guardrails, segment-cvp, hypothesis-test-design, ab-test, experiment-readout, impact-readout, resource-check]
   "6":  # Sprint Plan
     goals:
       - Must-set = scale-and-defend items that move a growth lever or hold a guardrail; instrument before optimizing
@@ -42,8 +42,8 @@ per_step:
       - Delivery includes the guardrail checks the team must watch during rollout
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec, feature-grooming]
 status: draft
-version: 0.7.0
-updated: 2026-08-21
+version: 0.8.0
+updated: 2026-08-23
 ---
 
 # Status: growth

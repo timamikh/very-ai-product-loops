@@ -4,16 +4,19 @@ artifact: sprint-plan
 step: 6
 title: "Sprint Plan — <Product> · Sprint <n> (<dates>)"
 status: template
-version: 0.4.0
-updated: 2026-08-21
+version: 0.5.0
+updated: 2026-08-23
 ---
 
 <!--
   6-sprint-plan.md assembly shell. Filled per steps/6-sprint-plan/README.md. Keep section IDs stable.
   Follow process/CONVENTIONS.md. Items are grouped by DIRECTION, each in its own format
-  (dev = Feature · go-to-market = Activity · back-office = Task+DoD). The minimal level of detail
-  is one feature/activity/task — not sub-tasks. Every item links to an H-… or M-…; an activity
-  that runs a Step-5 market-entry bundle also names its B-….
+  (dev = Feature · go-to-market = Activity · back-office = Task+DoD). Items are numbered 1, 2, 3
+  within their direction subsection — sprint-local, no letters: the cross-sprint identity is the
+  feature register's F-…, which every item names in its Feature line. The minimal level of detail
+  is one feature/activity/task — not sub-tasks. Every item pre-registers its Expected impact
+  (the M-… it moves / R-… it closes / H-… it tests, with a check-by) — read at the next Step-5
+  gate by impact-readout; an activity that runs a Step-5 market-entry bundle also names its B-….
   ⚙️ marks agent-proposed defaults awaiting human approval.
 -->
 
@@ -42,46 +45,53 @@ _Minimal mandatory items — without which the period goal is unreachable. Group
 
 ### Development — Features
 <!-- tool: feature-spec, prioritization-sprint-plan, feature-grooming -->
-**F-1 · <feature name>** — links: `H-…` / `M-…`
+**1 · <feature name>** — links: `H-…` / `M-…`
+- **Feature:** `F-…` (the register row this item advances; a new candidate mints a `planned` row)
 - **Description:** what the feature is
 - **Scope:** the tasks to implement it
 - **Acceptance criteria:** binary, checkable — how we know it's done (each answerable yes/no)
 - **Business value:** value to the business
 - **User value:** value to the user
 - **User stories:** (if applicable)
+- **Expected impact:** `M-…` <baseline → expected> / closes `R-…` / tests `H-…` · check-by <sprint/date> [assumption]
 - **Owner:** who is accountable for it landing
-- **Estimate:** the capacity it consumes
+- **Estimate:** class S/M/L + range — [assumption] until the readout reads the actual
 - **Groom:** spec-ready | blocked: <fork> — `6-sprint-plan/feature-grooming.md` (when groomed;
   the spec itself is authored by `outputs/feature-to-spec` into `export-files/<feature>-spec.md`)
 
 ### Go-to-market — Activities
 <!-- tool: activity-spec, prioritization-sprint-plan -->
-**A-1 · <activity name>** — links: `H-…` it tests / `M-…` it moves / `B-…` it launches
+**1 · <activity name>** — links: `H-…` it tests / `M-…` it moves / `B-…` it launches
+- **Feature:** `F-…` (the campaign/content line it advances; the shipped artifact's external id — a post, a mailing — lands here after the run)
 - **Description:** what the activity is
 - **Scope:** the steps to run it
 - **Business value:** the metric/hypothesis it moves
 - **Audience value:** why the audience cares
+- **Surface:** `S-…` it runs on
+- **Expected impact:** `M-…` <baseline → expected> / tests `H-…` · check-by <sprint/date> [assumption]
 - **Owner:** who is accountable for it landing
-- **Estimate:** the capacity it consumes
+- **Estimate:** class S/M/L + range — [assumption] until the readout reads the actual
 
 ### Back-office — Tasks
 <!-- tool: task-spec, prioritization-sprint-plan -->
-**T-1 · <task name>** — links: `M-…` / `R-…` / `H-…`
+**1 · <task name>** — links: `M-…` / `R-…` / `H-…`
+- **Feature:** `F-…` (the capability it advances; `— to clarify —` for a one-off with no lasting row)
 - **Description:** what needs doing
 - **Why:** the business reason (the `M-…` it moves / `R-…` it mitigates / `H-…` it serves)
 - **Definition of Done:** binary — answerable yes/no at sprint end
+- **Expected impact:** `M-…` <baseline → expected> / `R-…` → <status> · check-by <sprint/date> [assumption]
 - **Owner:** who is accountable for it landing
-- **Estimate:** the capacity it consumes
+- **Estimate:** class S/M/L + range — [assumption] until the readout reads the actual
 
 ## Backlog {#backlog}
 <!-- tool: prioritization-sprint-plan -->
 _The rest, prioritized (not a flat list), grouped by direction. Same item formats as above._
 
-| Rank <!--c:rank--> | Direction <!--c:direction--> | Item <!--c:item--> | Format <!--c:format--> | Links (`H-…`/`M-…`/`B-…`) <!--c:links--> | Est. <!--c:est--> | Confidence <!--c:conf--> |
-|------|-----------|------|--------|---------------------|------|------------|
-| 1 | development | … | Feature | H-… / M-… | … | [assumption] |
-| 2 | go-to-market | … | Activity | H-… / B-… | … | [assumption] |
-| 3 | back-office | … | Task+DoD | M-… / R-… | … | [assumption] |
+| Rank <!--c:rank--> | Direction <!--c:direction--> | Item <!--c:item--> | Format <!--c:format--> | Feature <!--c:feature--> | Links (`H-…`/`M-…`/`B-…`) <!--c:links--> | Est. <!--c:est--> | Confidence <!--c:conf--> |
+|------|-----------|------|--------|---------|---------------------|------|------------|
+| 1 | development | … | Feature | F-… | H-… / M-… | … | [assumption] |
+| 2 | go-to-market | … | Activity | F-… | H-… / B-… | … | [assumption] |
+| 3 | back-office | … | Task+DoD | F-… | M-… / R-… | … | [assumption] |
 
 ## Excluded {#excluded}
 <!-- tool: prioritization-sprint-plan -->
@@ -97,7 +107,9 @@ _What goes to the development process, and how (the framework ends here; work pr
 
 - Handed off: … (which items, to which board/process; a groomed feature hands off as its written
   instruction — `export-files/<feature>-spec.md`, authored by `outputs/feature-to-spec`)
-- Acceptance / how results flow back: … (a refuted `H-…` or missed `M-…` bubbles up to `5-tactical-plan.md`)
+- Acceptance / how results flow back: … (shipped items are read at the next Step-5 gate by
+  `impact-readout` against their pre-registered Expected impact — `F-…` rows flip `planned → live`;
+  a refuted `H-…` or missed expectation bubbles up to `5-tactical-plan.md`)
 
 ## To clarify {#to-clarify}
 <!-- open -->

@@ -15,6 +15,42 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### The product axis: surfaces → features → items, with an impact loop (v0.12)
+
+Steps 3–6 gain the register that was missing between them: what the product *is made of*. The
+framework's target action — issue items that move `R`/`H`/`M`, then check whether they did — now
+has both halves. Design: `DESIGN-product-axis.md`; migration: `install/UPDATE.md` → Migrating.
+
+- **Fourth register: features & surfaces** — `registers/features.md` (`F-001…`) +
+  `registers/surfaces.md` (`S-01…`), one schema in `process/REGISTERS.md`, skeletons in
+  `process/reference/register-skeletons/`. As-is and to-be in one table: `state: planned · live ·
+  retired` (new enums, linted like every other); `direction` stays instance vocabulary, not an
+  enum. Two files for the same reason the metric register is two: the reader takes one id-table
+  per file.
+- **Step-6 items lose their positional letters.** `F-1`/`A-1`/`T-1` looked like register ids and
+  died with the sprint. Items are now numbered `1, 2, …` inside their direction subsection; the
+  cross-sprint identity is the `- **Feature:** F-…` line every item carries (many items may
+  advance one row). Each item pre-registers `- **Expected impact:** … · check-by …` and an
+  `- **Estimate:**` class (S/M/L); the backlog gains a `feature` column.
+- **Two new library methods.** `product-baseline` (step 3, drift-triggered, not at
+  concept-viability): inventories live surfaces/features from sources into the register —
+  reconcile, never re-author. `impact-readout` (step 5, new `{#item-readouts}` section): reads
+  shipped items against their pre-registered expectations — `confirmed / missed / inconclusive /
+  pending`, flips `planned → live`, reads estimate-vs-actual for calibration; an `H-…` verdict is
+  cited from `experiment-readout`, never re-judged. Both named by the pmf/growth statuses.
+- **Linter: E2/E3/E4 (all WARN)** — a cited `F-…`/`S-…` resolves to a register row (mirror of E,
+  change logs exempt as history); a worked must item at pmf/growth names its `Feature:`; a
+  feature/surface row shows its `source`. Checks D/K/O2 extend to the new files/columns; the
+  step-6 gate gains `item-feature`.
+- **Console.** Registers view gains Features and Surfaces tabs (state enum-guarded, direction/type
+  as facets); the Surfaces tab opens with a board — one column per surface, feature cards coloured
+  by state, must-advanced features flagged, click-through to the row and its trail. The step-6
+  board parses the new numbered items (direction from the subsection heading; legacy `[FAT]-n`
+  still reads), and `F-…`/`S-…` ids get chips/trails everywhere `H-`/`R-`/`M-` had them.
+- **Examples.** `decksmith` migrated whole (F-001…F-008 / S-01…S-09 minted from its own specs,
+  items renumbered, empty item-readout stated); `tolmach` migrated minimally (skeleton registers,
+  renames, `item-feature: deferred`) — the two shapes an adopter can copy.
+
 ### Carriers from the second local-model run (Отклик / Qwen 3.8, steps 1–2 end-to-end)
 
 The run closed every finding of run 1 (wave 3.7 held) and surfaced a new class: rules whose carrier

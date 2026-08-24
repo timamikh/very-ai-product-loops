@@ -48,6 +48,9 @@ const STR = {
     statusAsks: 'What the active status asks here', emphasised: 'emphasised for this stage',
     rows: 'rows', state: 'state',
     hypotheses: 'Hypotheses', risks: 'Risks', metricNodes: 'Metric nodes', readings: 'readings',
+    features: 'Features', surfaces: 'Surfaces', surfaceBoard: 'The product, by surface',
+    surfaceBoardNote: 'each column is a surface; the cards are the features on it, coloured by state',
+    noSurfaceCol: 'no surface named', inMust: 'in this sprint’s must',
     withReadings: 'measured', csvRows: 'csv rows', referencedIn: 'referenced in',
     live: 'live', testing: 'in test', inFlightShort: 'in flight',
     toClarify: 'To clarify', openGates: 'Gate items still open', inFlight: 'Hypotheses in flight',
@@ -510,7 +513,8 @@ const tickTag = v => h('span', { class: 'tag ' + (v === 'n/a' ? 'na' : v) }, tic
 const gateSummary = s => `${(s.gate_counts || {}).done || 0}/${s.gate.length} ${t('gateDone')}`;
 const confChips = conf => Object.entries(conf || {}).map(([k, n]) =>
   h('span', { class: 'tag ' + k }, `${k} ×${n}`));
-const ridClass = x => /^H-/.test(x) ? 'hyp' : /^R-/.test(x) ? 'risk' : 'met';
+const ridClass = x => /^H-/.test(x) ? 'hyp' : /^R-/.test(x) ? 'risk'
+  : /^F-/.test(x) ? 'feat' : /^S-/.test(x) ? 'surf' : 'met';
 const ridChips = ids => (ids || []).map(x => h('span', { class: 'tag ' + ridClass(x) }, x));
 
 /* A section is a thesis the human signs off (CONVENTIONS → Section confirmation). `confirmed` carries
@@ -692,7 +696,8 @@ function refIndex() {
   const out = {};
   (S.model.artifacts || []).forEach(a => (a.sections || []).forEach(s => {
     const mk = s.markers || {};
-    [].concat(mk.hypotheses || [], mk.risks || [], mk.metrics || []).forEach(id => {
+    [].concat(mk.hypotheses || [], mk.risks || [], mk.metrics || [],
+      mk.features || [], mk.surfaces || []).forEach(id => {
       (out[id] = out[id] || []).push({ file: a.file, id: s.id, title: s.title || s.id });
     });
   }));
@@ -1093,7 +1098,7 @@ function canvasTacticalPlan(s) {
   const guard = cvCard(s, 'guardrails', { hero: true, warn: true });
   if (guard) parts.push(cvZone(t('z5Guard')), guard);
   [[t('z5Res'), ['resources', 'market-bundles']],
-   [t('z5Test'), ['hypotheses-to-test', 'readouts', 'blockers', 'to-clarify']]].forEach(([lab, ids]) => {
+   [t('z5Test'), ['hypotheses-to-test', 'readouts', 'item-readouts', 'blockers', 'to-clarify']]].forEach(([lab, ids]) => {
     const z = cardZone(s, lab, ids); if (z) parts.push(...z);
   });
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
@@ -1120,8 +1125,11 @@ function itemCard(s, it) {
       h('b', { class: 'itname' }, it.name),
       groom ? h('span', { class: 'tag ' + (/^spec-ready/i.test(groom) ? 'done' : 'open') },
         plain(groom).slice(0, 28)) : null),
-    (it.links || []).length ? h('div', { class: 'row', style: 'margin:2px 0 0' },
-      ridChips(it.links)) : null,
+    // the item's feature-register row (model.sprint_items[].feature) joins the head-line links as a
+    // chip — the F-… tie is register wiring, not just prose in the Feature field below
+    (chips => chips.length ? h('div', { class: 'row', style: 'margin:2px 0 0' },
+      ridChips(chips)) : null)(
+      (it.links || []).concat(it.feature && !(it.links || []).includes(it.feature) ? [it.feature] : [])),
     desc ? h('div', { class: 'itdesc', html: inline(desc) }) : null,
     rows.length ? h('div', { class: 'wiring itwiring' }, rows.map(([k, v]) =>
       h('div', { class: 'wrow' }, h('div', { class: 'wk' }, k),
@@ -1294,7 +1302,7 @@ const PLACED = {
   4: ['metric-tree', 'unit-economics', 'financial-model', 'retention', 'strategic-targets',
     'architecture-instrumentation', 'risk-mitigation', 'capabilities', 'global-hypotheses', 'open-questions'],
   5: ['period-goals', 'goal-targets', 'guardrails', 'resources', 'market-bundles',
-    'hypotheses-to-test', 'readouts', 'blockers', 'to-clarify'],
+    'hypotheses-to-test', 'readouts', 'item-readouts', 'blockers', 'to-clarify'],
   6: ['sprint-goal', 'must', 'backlog', 'excluded', 'delivery', 'to-clarify'],
 };
 
@@ -1388,7 +1396,8 @@ function viewArtifacts() {
   const stepOf = m.steps.find(x => x.artifact_file === art.file);
   const stem = stemOf(art.file);
   const secBlocks = art.sections.map(x => {
-    const ids = [...new Set([].concat(x.markers.hypotheses, x.markers.risks, x.markers.metrics))];
+    const ids = [...new Set([].concat(x.markers.hypotheses, x.markers.risks, x.markers.metrics,
+      x.markers.features || [], x.markers.surfaces || []))];
     const tool = worklogTool(stem, x.body);
     return h('div', { class: 'artsec', id: 'sec-' + x.id },
       h('div', { class: 'row', style: 'flex-wrap:wrap;margin:0 0 2px' },
@@ -1425,6 +1434,51 @@ function viewArtifacts() {
 }
 
 /* ---------------------------------------------------------------- registers */
+/* The product, by surface: one column per S-… row, carrying the features that name it — the
+   register drawn as the thing it describes. Colour is the row's state (live / planned / retired);
+   a feature a current must-item advances is flagged, and a card click opens the feature's row in
+   the register table below (its trail and serves-links live there — no second detail view). */
+function surfaceBoard(m) {
+  const feats = m.registers.features.rows;
+  const surfs = m.registers.surfaces.rows;
+  if (!feats.length && !surfs.length) return null;
+  const mustFeat = new Set((m.sprint_items || []).map(it => it.feature).filter(Boolean));
+  const named = new Set();
+  const card = f => {
+    const fid = stripMd(cell(f, 'id'));
+    const state = stripMd(cell(f, 'state')).split(/[\s·]/)[0];
+    const serves = String(cell(f, 'serves') || '').match(/\b(?:[HRBFS]-\d+|M-[a-z0-9][a-z0-9-]*)\b/g) || [];
+    return h('button', { class: 'sfcard sf-' + (state || 'unknown'),
+      onclick: () => { S.reg = 'features'; S.regItem = fid; S.regFilter = 'all'; render(); } },
+      h('div', { class: 'row' },
+        h('code', { class: 'rid feat' }, fid),
+        h('span', { class: 'tag ' + (state === 'live' ? 'done' : '') }, state || '—'),
+        mustFeat.has(fid) ? h('span', { class: 'tag must' }, t('inMust')) : null),
+      h('div', { class: 'sfname' }, stripMd(cell(f, 'name'))),
+      serves.length ? h('div', { class: 'row', style: 'margin-top:4px' }, ridChips(serves)) : null);
+  };
+  const cols = surfs.map(srow => {
+    const sid = stripMd(cell(srow, 'id'));
+    const mine = feats.filter(f => stripMd(cell(f, 'surface')).includes(sid));
+    mine.forEach(f => named.add(stripMd(cell(f, 'id'))));
+    const sstate = stripMd(cell(srow, 'state')).split(/[\s·]/)[0];
+    return h('div', { class: 'sfcol' },
+      h('div', { class: 'sfhead' },
+        h('code', { class: 'rid surf' }, sid),
+        h('b', {}, stripMd(cell(srow, 'name'))),
+        h('span', { class: 'tag ' + (sstate === 'live' ? 'done' : '') }, sstate || '—')),
+      h('div', { class: 'sftype tiny faint' }, stripMd(cell(srow, 'type'))),
+      mine.map(card));
+  });
+  const orphans = feats.filter(f => !named.has(stripMd(cell(f, 'id'))));
+  if (orphans.length) cols.push(h('div', { class: 'sfcol sf-orphan' },
+    h('div', { class: 'sfhead' }, h('b', {}, t('noSurfaceCol'))), orphans.map(card)));
+  return h('div', {},
+    h('div', { class: 'kick', style: 'margin-top:14px' }, t('surfaceBoard')),
+    h('div', { class: 'tiny faint', style: 'margin:2px 0 8px' }, t('surfaceBoardNote')),
+    h('div', { class: 'sfboard' }, cols));
+}
+
 function viewRegisters() {
   const m = S.model;
   const which = S.reg;
@@ -1433,6 +1487,8 @@ function viewRegisters() {
     ['hypotheses', `${t('hypotheses')} · ${m.registers.hypotheses.rows.length}`],
     ['risks', `${t('risks')} · ${m.registers.risks.rows.length}`],
     ['metrics', `${t('metricNodes')} · ${m.registers.metric_tree.rows.length}`],
+    ['features', `${t('features')} · ${m.registers.features.rows.length}`],
+    ['surfaces', `${t('surfaces')} · ${m.registers.surfaces.rows.length}`],
   ].map(([k, lab]) => h('button', {
     'aria-pressed': which === k,
     onclick: () => { S.reg = k; S.regFilter = 'all'; S.regItem = null; render(); },
@@ -1449,16 +1505,21 @@ function viewRegisters() {
   (reg.col_keys || []).forEach((k, i) => { if (k && reg.columns[i]) byKey[k] = reg.columns[i]; });
   const colOf = key => byKey[key] || key;   // key → the header prose it carries; no header-name fallback
   const idHeader = colOf('id');
-  const enumHeader = which === 'hypotheses' ? colOf('type')
-    : which === 'risks' ? colOf('category') : colOf('kind');
-  const statusHeader = colOf('status');
-  const allowed = which === 'hypotheses' ? enums['hypothesis type']
-    : which === 'risks' ? enums['risk category'] : enums['metric kind'];
-  // Status is a state machine (REGISTERS → the four-sign test), so it earns the same enum guard as
-  // the category axis — a stale or mistyped status would otherwise render silently. Metrics carry no
-  // status enum, so it is only checked for hypotheses and risks.
-  const statusAllowed = which === 'hypotheses' ? enums['hypothesis status']
-    : which === 'risks' ? enums['risk status'] : null;
+  // Per register: the facet column the filter buttons cut by (enum-guarded where the canon closes
+  // it — a feature's direction and a surface's type are instance vocabulary, not enums), and the
+  // state column. Status/state is a state machine (REGISTERS → the four-sign test), so it earns the
+  // enum guard — a stale or mistyped value would otherwise render silently.
+  const SPEC = {
+    hypotheses: { facet: 'type', facetEnum: 'hypothesis type', state: 'status', stateEnum: 'hypothesis status' },
+    risks: { facet: 'category', facetEnum: 'risk category', state: 'status', stateEnum: 'risk status' },
+    metrics: { facet: 'kind', facetEnum: 'metric kind', state: 'status', stateEnum: null },
+    features: { facet: 'direction', facetEnum: null, state: 'state', stateEnum: 'feature state' },
+    surfaces: { facet: 'type', facetEnum: null, state: 'state', stateEnum: 'surface state' },
+  }[which] || { facet: 'kind', facetEnum: null, state: 'status', stateEnum: null };
+  const enumHeader = colOf(SPEC.facet);
+  const statusHeader = colOf(SPEC.state);
+  const allowed = SPEC.facetEnum ? enums[SPEC.facetEnum] : null;
+  const statusAllowed = SPEC.stateEnum ? enums[SPEC.stateEnum] : null;
   const facets = [...new Set(reg.rows.map(r => stripMd(cell(r, enumHeader))).filter(Boolean))];
   const refs = refIndex();
 
@@ -1535,7 +1596,9 @@ function viewRegisters() {
       }))));
   }
 
-  return h('div', {}, tabs, filters, h('div', { id: 'regtable' }, regTable()));
+  return h('div', {}, tabs,
+    which === 'surfaces' ? surfaceBoard(m) : null,
+    filters, h('div', { id: 'regtable' }, regTable()));
 }
 
 /* ---------------------------------------------------------------- metrics */
@@ -2054,7 +2117,8 @@ function counts() {
   return {
     artifacts: m.artifacts.length || null,
     registers: m.registers.hypotheses.rows.length + m.registers.risks.rows.length
-      + m.registers.metric_tree.rows.length,
+      + m.registers.metric_tree.rows.length + m.registers.features.rows.length
+      + m.registers.surfaces.rows.length,
     metrics: Object.keys(m.metrics.series).length || null,
     open: m.gaps.length + openGates || null,
     sources: (m.sources.files || []).length || null,

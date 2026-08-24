@@ -4,8 +4,8 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — <Product> · <period>"
 status: template
-version: 0.3.2
-updated: 2026-08-16
+version: 0.4.0
+updated: 2026-08-23
 ---
 
 <!--
@@ -97,6 +97,17 @@ signal/decision flow to the register._
 | `H-…` <!--c:register--> | Test <!--c:test--> | Result vs rule <!--c:result--> | Signal <!--c:signal--> | Decision <!--c:decision--> | Follow-up <!--c:followup--> | Confidence <!--c:conf--> |
 |-------|------|----------------|--------|----------|-----------|------------|
 | H-… | … | … vs "≥ … / < …" → validated / refuted / inconclusive | weak / medium / strong | scale / iterate / reject / research | research → named learning item; refuted → section it invalidates | [sourced: …] |
+
+## Item readouts {#item-readouts}
+<!-- tool: impact-readout -->
+<!-- rests-on: 6#must -->
+_Shipped sprint items of the last period, read against the expectations pre-registered on them in
+`6#must`; verdicts flip the feature register (`planned → live`). A check-by not reached is
+`pending`, never skipped; an `H-…` verdict is cited from `{#readouts}`, never re-judged._
+
+| Item (sprint · №) <!--c:item--> | Feature <!--c:feature--> | Expected <!--c:expected--> | Fact <!--c:fact--> | Verdict <!--c:verdict--> | Estimate: est → actual <!--c:estimate--> | Follow-up <!--c:followup--> | Confidence <!--c:conf--> |
+|-------------------|---------|----------|------|---------|------------------------|-----------|------------|
+| S<n> · 1 | F-… | `M-…` … → … · check-by … | … [sourced: metrics.csv] | confirmed / missed / inconclusive / pending | M (~…) → … | missed → names the section it invalidates | [sourced: …] |
 
 ## Blockers {#blockers}
 <!-- open -->

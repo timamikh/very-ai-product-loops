@@ -1,0 +1,28 @@
+# impact-readout — interview
+tool: impact-readout
+writes: [section:item-readouts, register:features]
+questions:
+  - id: shipped
+    ask: "Which sprint items actually shipped last period (from 6#must, plus any backlog item that shipped)? Every shipped item gets a row."
+    type: list
+    why: "An unread shipped item is a paid answer left unopened; an unshipped one returns to ranking unread."
+  - id: expectation
+    ask: "For each — the pre-registered expectation, verbatim from the sprint plan: Feature F-…, expected impact (M-… direction/size / R-… status / H-… verdict), check-by, Estimate class+range."
+    type: per_item
+    why: "The read applies exactly what was registered — no post-hoc re-goaling."
+  - id: readable
+    ask: "For each — has its check-by arrived? Not reached → verdict `pending`, listed and re-read next gate."
+    type: per_item
+    why: "Reading a retention claim at launch week is peeking; skipping it silently loses the item."
+  - id: fact
+    ask: "For each readable item — the fact, with its citation: the metrics.csv rows / the R-… register status / the experiment-readout verdict for an H-…."
+    type: per_item
+    why: "A verdict without a citation is not reproducible; a hypothesis verdict is cited, never re-judged here."
+  - id: cost
+    ask: "For each shipped item — what did it actually cost vs its estimated class/range?"
+    type: per_item
+    why: "Misses are calibration data for the sizing table, not blame — hidden misses keep estimates fiction."
+  - id: follow_up
+    ask: "For each `missed` — which section or register row does the miss invalidate, by name? Which F-… rows flip planned→live / retire?"
+    type: per_item
+    why: "A miss bubbles up by name, like a refuted hypothesis; shipped is shipped — the state flips even when the impact missed."

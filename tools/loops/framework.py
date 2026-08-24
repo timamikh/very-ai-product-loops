@@ -321,6 +321,11 @@ ENUMS = {
     "risk status": ({"open", "mitigating", "contained", "realized", "closed", "accepted"}, "status"),
     "metric kind": ({"measured", "derived"}, "kind"),
     "metric instrumentation": ({"instrumented", "proxy", "not-instrumented"}, "instrumentation"),
+    # One lifecycle for both files of the feature register: as-is = `live`, to-be = `planned`.
+    # `direction` is NOT here on purpose — directions are instance config, not a framework enum.
+    "feature state": ({"planned", "live", "retired"}, "state"),
+    "feature confidence": (set(CONFIDENCE), "confidence"),
+    "surface state": ({"planned", "live", "retired"}, "state"),
 }
 
 TICK_VALUES = ["done", "open", "n/a", "deferred"]

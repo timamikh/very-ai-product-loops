@@ -88,3 +88,17 @@ flow is:
    ([`../extending/section.md`](../extending/section.md) → step 6).
 
 An off-form section is a visible, linted debt — not a blocker. The update may land while sections wait.
+
+**v0.12 (product axis) — what changed shape.** The feature register arrived
+(`registers/features.md` `F-001…` + `registers/surfaces.md` `S-01…`, skeletons in
+`process/reference/register-skeletons/`); Step-6 items lost their positional letters (`F-1`/`A-1`/
+`T-1` → `1, 2, …` within the direction subsection) and gained three lines — `Feature:` (the
+register row the item advances), `Expected impact:` (with a check-by), `Estimate:` (class S/M/L);
+the Step-6 backlog gained a `feature` column; Step 5 gained `{#item-readouts}` (`impact-readout`
+reads shipped items against their pre-registered expectations and flips `planned → live`). Typical
+migration, per the flow above: copy the two skeletons into `registers/`, renumber the current
+sprint's items (the linter's E2/E3 warnings and the O2 backlog-column report are the work list),
+mint rows for items the human confirms, tick `item-feature` — and never back-fill an Expected
+impact onto an already-shipped item (an item shipped without one gets exactly that said in its
+readout row). `examples/decksmith` shows the migrated form; `examples/tolmach`'s change log shows
+the minimal (register-skeleton + rename) variant with the rest deferred.

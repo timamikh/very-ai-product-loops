@@ -116,7 +116,7 @@ empty-template artifact fails the linter before the loop has run once). What set
 - Route each source to its steps in `INDEX.md` (**Feeds steps** column) — precise enough that the
   step's first pass finds its material without re-reading everything.
 - Where materials conflict, record the conflict in INDEX.md and the placement report.
-- Create the **registers** (hypotheses/risks/metrics) by **copying the four skeleton files from
+- Create the **registers** (hypotheses/risks/metrics/features/surfaces) by **copying the six skeleton files from
   `process/reference/register-skeletons/` verbatim** into `registers/` — they carry the keyed table
   headers (`<!--c:key-->`) check D and the console read; substitute only `<product>`/`<date>` in
   the frontmatter, never retype a header. No rows invented; registers carry no worklog obligation.

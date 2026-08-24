@@ -333,9 +333,13 @@ def table_rows(text, *required_headers):
 CONFIDENCE_RE = re.compile(r"\[(assumption|sourced|validated|refuted)(?::[^\]]*)?\]")
 TO_CLARIFY_RE = re.compile(r"—\s*to clarify\s*—|—\s*уточнить\s*—")
 PROPOSAL_RE = re.compile(r"⚙️")
-HYP_RE = re.compile(r"\bH-\d{3}\b")
-RISK_RE = re.compile(r"\bR-\d{3}\b")
+HYP_RE = re.compile(r"\bH-\d+\b")
+RISK_RE = re.compile(r"\bR-\d+\b")
 METRIC_RE = re.compile(r"\bM-[a-z0-9][a-z0-9-]*\b")
+# free width (CONVENTIONS → ids count sequentially, padding is style): a v0.12 instance has no
+# positional `F-<n>` item ids left to collide with — pre-v0.12 instances rename items on migration
+FEATURE_RE = re.compile(r"\bF-\d+\b")
+SURFACE_RE = re.compile(r"\bS-\d+\b")
 LINK_RE = re.compile(r"\[\[[^\]]+\]\]")
 
 
@@ -351,6 +355,8 @@ def markers(text):
         "hypotheses": sorted(set(HYP_RE.findall(text))),
         "risks": sorted(set(RISK_RE.findall(text))),
         "metrics": sorted(set(METRIC_RE.findall(text))),
+        "features": sorted(set(FEATURE_RE.findall(text))),
+        "surfaces": sorted(set(SURFACE_RE.findall(text))),
     }
 
 

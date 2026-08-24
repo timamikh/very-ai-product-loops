@@ -4,7 +4,7 @@ kind: method
 name: prioritization-sprint-plan
 steps: [6]
 prerequisites: [candidate items, the period gate/goal, available resources]
-reads: [register:metrics, register:hypotheses]
+reads: [register:metrics, register:hypotheses, register:features]
 writes: [worklog, section:must, section:backlog, section:excluded]
 opinionated: false
 method_basis: "RICE/ICE as a ranking aid, ranked by contribution to the period gate; capacity-bounded must/backlog line"
@@ -13,8 +13,8 @@ volume_rule: "every candidate current for the sprint enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the must/backlog line is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.1.1
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-23
 ---
 # Prioritization — Sprint Plan
 
@@ -36,8 +36,9 @@ scope.
 - Whenever candidate items exceed capacity and the line has to be drawn.
 
 ## Prerequisites
-- **Candidate items** — the features/activities/tasks to rank. *Missing → generate them from the
-  period goals, the metric tree and the hypothesis register.*
+- **Candidate items** — the features/activities/tasks to rank. The standing pool is the feature
+  register's `planned` rows — a candidate cut last sprint is still there, by id. *Missing → generate
+  them from the period goals, the metric tree, the hypothesis register and the `planned` rows.*
 - **The period gate / goal** — the target each item is ranked against. *Missing → run the Step 5
   gate (`period-goals` / `goal-targets`).*
 - **Available resources** — the capacity that sets the must/backlog line. *Missing → run
@@ -47,7 +48,8 @@ scope.
 1. **State the gate first.** Name the goal of the period (a metric node to move or a Definition of
    Done) and the sprint's contribution to it. Every item is ranked against *this*, not against a
    generic score.
-2. **List the candidates.** All of them, per direction — don't pre-cut before ranking. **Record the
+2. **List the candidates.** All of them, per direction — the feature register's `planned` rows
+   first (the pool that survives between sprints), then the new ideas. Don't pre-cut before ranking. **Record the
    count that entered the ranking (N).** A list with no N cannot be audited later: a candidate quietly
    dropped before scoring is invisible, and "we prioritized" reads the same whether ten items competed
    or three did.
@@ -60,7 +62,8 @@ scope.
    item that does neither is a candidate to cut — and a cut item is **recorded with its reason**, not
    deleted. Backlog is the visible reject of the must-set; an item excluded outright (no `M-…`/`H-…`
    link, out of scope, superseded) has nowhere else to be seen, so it gets its own line in
-   `{#excluded}`.
+   `{#excluded}` — and its `F-…` row **stays `planned`** in the register (with the cut noted), so
+   the pool never silently shrinks.
 6. **Pick the must-set.** The minimum without which the period goal is unreachable — nothing more.
 7. **Draw the line by capacity.** Fit the must-set inside the available capacity; everything past
    the line is backlog, ordered. If the must-set overflows capacity, cut scope or renegotiate the

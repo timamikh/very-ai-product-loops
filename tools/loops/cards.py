@@ -53,7 +53,7 @@ FORBIDDEN_BY_KIND = {
 # never routed to — honestly declares `surfaces: []`.
 NEEDS_SURFACES = ("step",)
 
-REGISTERS = ("hypotheses", "risks", "metrics", "metric-tree")
+REGISTERS = ("hypotheses", "risks", "metrics", "metric-tree", "features", "surfaces")
 SOURCE_SLOTS = ("kb", "interview", "research", "metrics", "git")
 OUTPUT_KINDS = ("rendered", "authored")
 DIRECTIONS = ("pull", "push")

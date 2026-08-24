@@ -4,8 +4,8 @@ artifact: tactical-plan
 step: 5
 title: "Tactical Plan — Decksmith (fictional sample) · Period 1"
 status: draft
-version: 0.1.1
-updated: 2026-08-17
+version: 0.2.0
+updated: 2026-08-23
 ---
 
 # Tactical Plan — Decksmith (fictional sample) · Period 1
@@ -137,6 +137,18 @@ reading now would be peeking. Stated, not skipped. `5-tactical-plan/experiment-r
 |-------|------|----------------|--------|----------|-----------|------------|
 | — | no test finished this period (P1 launches H-001 / H-011 / H-010) | n/a — reading before the pre-registered sample = peeking | — | — | the three readouts land at the Period-1 boundary → next period | n/a |
 
+## Item readouts {#item-readouts}
+<!-- tool: impact-readout -->
+<!-- rests-on: 6#must -->
+_Shipped sprint items read against the expectations pre-registered on them in `6#must`. **Period 1
+has none to read** — Sprint 1 is the first sprint, nothing has shipped; the four must-items'
+expectations (check-by Sprint-2 gate / end of period) are read at the next Step-5 gate, flipping
+their `F-…` rows `planned → live`. Stated, not skipped._
+
+| Item (sprint · №) <!--c:item--> | Feature <!--c:feature--> | Expected <!--c:expected--> | Fact <!--c:fact--> | Verdict <!--c:verdict--> | Estimate: est → actual <!--c:estimate--> | Follow-up <!--c:followup--> | Confidence <!--c:conf--> |
+|-------------------|---------|----------|------|---------|------------------------|-----------|------------|
+| — | — | no item shipped yet (S1 is the first sprint) | — | — | — | the four S1 expectations read at the next gate | n/a |
+
 ## Blockers {#blockers}
 <!-- open -->
 _Dependencies / blockers with an owner (link back to `R-…`)._
@@ -169,6 +181,14 @@ down so the next cycle doesn't re-run it.
 | Can the founder channel be tested cheaply now? | yes — a 2-wk recruit push needs no product | it designs the test; the *result* is `H-011`, still testing | `H-011` → testing (no verdict yet) |
 
 ## Change log
+
+### 2026-08-23 — migrated to the product axis (framework v0.12)
+- **From → To:** no item-level readout home → new `{#item-readouts}` section (`impact-readout`),
+  empty by design — Sprint 1 is the first sprint, its pre-registered expectations read at the next
+  Step-5 gate
+- **Why:** hypotheses had a readout loop (`{#readouts}`) but shipped items did not — the register's
+  `planned → live` flip and the estimate calibration need a home
+- **Trigger:** framework product-axis rework
 
 ### 2026-08-17 — card lines marked for the console board
 - **From → To:** no section carried a `<!-- card -->` mark → 5 section(s) with a natural headline

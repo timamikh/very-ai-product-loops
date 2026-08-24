@@ -2,8 +2,8 @@
 node_type: readme
 title: very-ai-product-loops — README
 status: released
-version: 0.9.0
-updated: 2026-08-17
+version: 0.10.0
+updated: 2026-08-23
 ---
 
 # very-ai-product-loops
@@ -18,7 +18,7 @@ from and how sure we are.
 > Idea → Analysis → Strategy → Strategic plan → Tactical plan → Sprint plan — as **nested loops**
 > that keep feeding back into each other, not a one-way waterfall.
 
-![very-ai-product-loops on one page — six steps, three living registers running through them, the working loop, and how the framework is built](docs/onepager.png)
+![very-ai-product-loops on one page — six steps, four living registers running through them, the working loop, and how the framework is built](docs/onepager.png)
 
 ---
 
@@ -29,7 +29,7 @@ strategy a **living, versioned working area in your repo** that an agent maintai
 
 - **Six steps**, from the product's whole-lifetime concept down to the next two-week sprint. Each
   step produces one artifact (a markdown file).
-- **Three living registers** — your hypotheses, your risks, your metrics — that are born at the
+- **Four living registers** — your hypotheses, your risks, your metrics, your features & surfaces — born at the
   step where they first matter and get sharpened as you descend. They are the product's memory.
 - **The agent prepares, you decide.** The agent drafts from sources and asks you concise
   questions (2–4 options + a recommended default) at genuine product decisions. It never fills a
@@ -96,7 +96,7 @@ and how each stage prioritizes them are swappable per company, without forking t
 **The fixed core** — the rules and the board; it changes rarely:
 
 - **Process core** (`steps/`) — thin skeleton per step: goal, gate checklist, movement rules, register touchpoints, artifact structure. No methods inside.
-- **Registers** — three living, vertical objects: metrics · hypotheses · risks.
+- **Registers** — four living, vertical objects: metrics · hypotheses · risks · features & surfaces.
 - **Statuses** (`statuses/`) — product stages as config (concept-viability · PMF · growth, extensible). See [`statuses/README.md`](statuses/README.md).
 - **Rules** (`process/`) — the normative model, loop, conventions, register schemas.
 
@@ -128,7 +128,7 @@ One rule sits under everything: **data lands in a draft first; the polished arti
 - **Sources** (`sources/`) — raw external material in three subfolders (`originals/` · `snapshots/` · `access/` — a founder brief, an export, a source passport). An archive; never rewritten.
 - **Worklog (draft)** — the working document for one method on one step, in the step's folder (e.g. `2-analysis/market-sizing.md`). All the working lives here: the numbers, the reasoning, the rejected options, the open questions. **The source of truth.**
 - **Artifact (clean copy)** — the step's output file (e.g. `2-analysis.md`). A **projection** of its worklogs — the conclusion in a fixed, readable shape, holding nothing the worklogs do not. It has two jobs: plain language the human signs off, and a template the console can render.
-- **Registers** — the three cross-step tables (hypotheses, risks, metric tree). The home of the IDs everything else references.
+- **Registers** — the four cross-step tables (hypotheses, risks, metric tree, features & surfaces). The home of the IDs everything else references.
 - **State** (`state.yaml`) — where the cycle stands, and what the human has signed.
 
 **Who acts**

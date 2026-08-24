@@ -2,17 +2,17 @@
 node_type: extending
 title: Add a register — the four-sign test
 status: draft
-version: 0.1.0
-updated: 2026-08-20
+version: 0.2.0
+updated: 2026-08-23
 ---
 
 # Add a register
 
 *Read this when something feels like it needs a register of its own. The dial table is in*
-[`../EXTENDING.md`](../EXTENDING.md); *the three shipped schemas are in*
+[`../EXTENDING.md`](../EXTENDING.md); *the four shipped schemas are in*
 [`../process/REGISTERS.md`](../process/REGISTERS.md).
 
-Three is not a magic number, but a fourth register is a change to the **load-bearing core** — it appears
+Four is not a magic number, but a new register is a change to the **load-bearing core** — it appears
 in the overview, the README, the diagram and every tool. So a candidate is **tested**, not argued.
 
 ## The four signs — all four, not three
@@ -38,6 +38,15 @@ keyed to the segment.
   content — see CONVENTIONS → *One mechanism, one way*.
 - **No halves.** An id plus a status inside an artifact *is* a register, hidden where nobody looks. Either
   it earns a register, or it stays prose in a section.
+
+## Adopted candidate (2026-08-23): features & surfaces
+
+The four signs, with evidence: **(1) stable cross-step id** — `F-…`/`S-…` cited by sprint items
+(Step 6), item readouts (Step 5), `3#product-surface` and the console board; **(2) enumerable
+lifecycle** — `planned · live · retired`; **(3) outlives its step** — a feature spans sprints (a
+sprint item advances it, never replaces it) and the surface list outlives every plan; **(4) state
+flows both ways** — `planned` rows flow down into sprint plans, item readouts flow the fact back up
+and flip the state. The schema lives in [`../process/REGISTERS.md`](../process/REGISTERS.md).
 
 ## Open candidate (not adopted): segments
 

@@ -1,6 +1,6 @@
 # Register skeletons — copy, don't retype
 
-These four files are the **copyable carriers** of the register schema: the frontmatter and the
+These six files are the **copyable carriers** of the register schema: the frontmatter and the
 keyed table header (`<!--c:key-->`), with **zero rows**. Semantics — what each field means, its
 enums, the four-sign test — live in `process/REGISTERS.md`; this folder only makes that schema
 copyable, because a header retyped from prose loses its keys (the test-run lesson: what is in a

@@ -2,8 +2,8 @@
 node_type: process-overview
 title: very-ai-product-loops — Process Overview
 status: draft
-version: 0.10.0
-updated: 2026-08-18
+version: 0.11.0
+updated: 2026-08-23
 ---
 
 # very-ai-product-loops
@@ -38,7 +38,7 @@ methods (a **library**) and pluggable product stages (**statuses**).
 ```
 ┌─ Process core (steps/) ── thin skeleton: step goal, gate checklist, movement rules,
 │                           register touchpoints, artifact structure. NO methods inside.
-├─ Registers ────────────── metrics · hypotheses · risks (vertical, living, shared state)
+├─ Registers ────────────── metrics · hypotheses · risks · features (vertical, living, shared state)
 ├─ Library (tool-skills/library/) ─ product methods as skills
 └─ Statuses (statuses/) ─── product stages as config: concept-viability · PMF · growth
 ```
