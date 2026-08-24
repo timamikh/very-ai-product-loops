@@ -14,11 +14,13 @@ would drift; one table with states cannot). Born at Step 3 (`product-baseline` i
 features from sources) and Step 6 (the item specs mint `planned` candidates); Step-5 item readouts
 flip `planned → live` against the pre-registered expectation. Schema: `process/REGISTERS.md` in the
 vendored framework. Each row names the surface it lives on (`S-…`, `surfaces.md`) and what it
-serves (`M-…` / `R-…` / `H-…`) — a feature serving nothing is a candidate to cut. A feature
-outlives its sprint items: the sprint item advances the row, it never replaces it.
+serves (`M-…` / `R-…` / `H-…`) — a feature serving nothing is a candidate to cut. `priority`
+(`now` · `next` · `later`) is the cascade's carrier: Step 4 seeds it from what the committed
+targets need, Step 5 finalizes it by period fit, Step 6 only ranks. A feature outlives its sprint
+items: the sprint item advances the row, it never replaces it.
 
-| ID <!--c:id--> | Name <!--c:name--> | Direction <!--c:direction--> | Surface <!--c:surface--> | State <!--c:state--> | Serves <!--c:serves--> | Owner <!--c:owner--> | Confidence <!--c:confidence--> | Source <!--c:source--> | Note <!--c:note--> |
-|----|------|-----------|---------|-------|--------|-------|------------|--------|------|
+| ID <!--c:id--> | Name <!--c:name--> | Direction <!--c:direction--> | Surface <!--c:surface--> | State <!--c:state--> | Priority <!--c:priority--> | Serves <!--c:serves--> | Owner <!--c:owner--> | Confidence <!--c:confidence--> | Source <!--c:source--> | Note <!--c:note--> |
+|----|------|-----------|---------|-------|--------|----------|-------|------------|--------|------|
 
 ## Change log
 

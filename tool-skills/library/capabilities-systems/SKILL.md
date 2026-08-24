@@ -4,7 +4,7 @@ kind: method
 name: capabilities-systems
 steps: [4]
 prerequisites: [strategy-cascade]
-reads: [register:risks, source:interview, source:kb]
+reads: [register:risks, register:features, register:surfaces, source:interview, source:kb]
 writes: [worklog, section:capabilities, register:risks]
 opinionated: true
 method_basis: "Playing to Win (Lafley/Martin) — choices 4 & 5 of the cascade: must-have capabilities and the management systems that build and measure them"
@@ -13,8 +13,8 @@ volume_rule: "every moat / winning-logic element in 3#how-to-win maps to ≥1 ca
 selection_rule: "a capability that serves no element of the winning logic is rejected as nice-to-have; kept in the reject table with why"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-24
 ---
 # Capabilities & Management Systems
 
@@ -45,7 +45,10 @@ capability named must serve the winning logic.
 1. **Walk the winning logic element by element.** For each moat or claim in `{#how-to-win}`
    ("we win on data quality", "we win on distribution through partners"), ask: *what must we be
    reliably great at for this to be true?* Every element gets ≥1 capability; an element with none
-   is an unbacked claim — flag it, don't paper over it.
+   is an unbacked claim — flag it, don't paper over it. Ground the walk in the feature register
+   (`registers/features.md` / `surfaces.md`): the `live` rows are what the team demonstrably can
+   build and run — a capability claim with no live feature or surface behind it starts as an
+   assumption, not a fact.
 2. **State each capability as an ability, not an asset.** "Ship a model-eval cycle in under a
    week" is a capability; "our dataset" is an asset (assets enable capabilities, they aren't one).
 3. **Rate honestly: `have` / `partial` / `missing`.** The rating is a decision-grade statement —

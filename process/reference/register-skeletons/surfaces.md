@@ -10,9 +10,10 @@ version: 0.1.0
 
 Every surface through which the product meets its audience — a landing page, the in-product UI, an
 admin panel, a mailing, a content channel, an internal system. Few and long-lived; features
-(`features.md`) reference them by `S-…`. Born at Step 3 (`product-surface` chooses them,
-`product-baseline` inventories them); the strategic *why* stays in `3#product-surface` — this file
-is the ledger. Schema: `process/REGISTERS.md` in the vendored framework. `type` is a free
+(`features.md`) reference them by `S-…`. Born at Step 3 (`product-surface` ledgers the designed
+ones as `planned`, `product-baseline` inventories the live ones) — and occasionally at Step 6, when
+an activity spec opens a new go-to-market surface; the strategic *why* stays in
+`3#product-surface` — this file is the ledger. Schema: `process/REGISTERS.md` in the vendored framework. `type` is a free
 descriptor (landing · in-product · admin · mailing · content · channel · internal — or the
 product's own word).
 

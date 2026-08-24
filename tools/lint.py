@@ -20,10 +20,10 @@ Checks (ERROR fails CI · WARN never does):
   E  metrics.csv ids are a subset of metric-tree.md ids
   E2 a cited `F-…`/`S-…` id in an instance artifact or register has a definition row in
      features.md/surfaces.md — the feature-register mirror of check E  (WARN)
-  E3 a worked `6#must` item at pmf/growth carries its full pre-registration: a `- **Feature:**`
-     line naming an `F-…` row (or a declared `— to clarify —` gap), an `**Expected impact:**`
-     with a check-by, and an `**Estimate:**` — everything the next impact-readout reads; the
-     backlog table's Feature column likewise; concept-viability is exempt  (WARN)
+  E3 a worked `6#must` item carries its full pre-registration: a `- **Feature:**` line naming an
+     `F-…` row (or a declared `— to clarify —` gap), an `**Expected impact:**` with a check-by,
+     and an `**Estimate:**` — everything the next impact-readout reads; the backlog table's
+     Feature column likewise; every status (setup births the registers)  (WARN)
   E4 a features.md/surfaces.md row has a non-empty `source` — a row without evidence is an
      inventory from memory  (WARN)
   E5 an id a features.md `serves` cell cites resolves to a row in its own register
@@ -174,7 +174,9 @@ QUALITY_KEYS = ("evidence_standard", "volume_rule", "selection_rule", "rejects_s
 
 # Register enum columns filled only after a test readout — validated when present, never
 # flagged as missing (check D). The gradation lives in the row; not every row has been read yet.
-OPTIONAL_ENUM_LABELS = {"hypothesis signal", "hypothesis decision"}
+# `feature priority` joins them: it is written by the Step-4/5 passes, so a register that
+# pre-dates the cascade (or a product that has not run those passes) legally lacks the column.
+OPTIONAL_ENUM_LABELS = {"hypothesis signal", "hypothesis decision", "feature priority"}
 
 
 def _blank(v):
@@ -481,6 +483,7 @@ def check_instance(inst):
         "metric kind": os.path.join(reg, "metric-tree.md"),
         "metric instrumentation": os.path.join(reg, "metric-tree.md"),
         "feature state": os.path.join(reg, "features.md"),
+        "feature priority": os.path.join(reg, "features.md"),
         "feature confidence": os.path.join(reg, "features.md"),
         "surface state": os.path.join(reg, "surfaces.md"),
     }
@@ -879,18 +882,10 @@ def check_item_features(inst):
     item without one ships work the next impact-readout cannot find. The same readout also needs
     the item's `Expected impact` (with a check-by) and `Estimate` pre-registered — the gate line
     (`item-feature`) names all three, so the check does too. The backlog table's Feature column is
-    the same identity one section over. concept-viability is exempt: the register is born at the
-    first pmf baseline.
+    the same identity one section over. Every status: setup births the registers, the specs mint
+    `planned` rows at any stage — a concept-viability sprint pre-registers like any other.
     """
     name = rel(inst)
-    cfg = os.path.join(inst, "config.yaml")
-    if not os.path.exists(cfg):
-        cfg = os.path.join(os.path.dirname(inst), "config.yaml")
-    if not os.path.exists(cfg):
-        return
-    data, _ = yamlite.load(cfg)
-    if (data.get("active_status") or "") not in ("pmf", "growth"):
-        return
     path = os.path.join(inst, "6-sprint-plan.md")
     if not os.path.exists(path):
         return
@@ -917,8 +912,7 @@ def check_item_features(inst):
                 continue  # template placeholder, not a worked item
             if "**Feature:**" not in body:
                 warn("E3 [%s] 6-sprint-plan.md#must item `%s` has no `- **Feature:** F-…` line — "
-                     "at %s every item names the register row it advances"
-                     % (name, item_name, data.get("active_status")))
+                     "every item names the register row it advances" % (name, item_name))
             else:
                 line = next((ln for ln in body.splitlines() if "**Feature:**" in ln), "")
                 if not (FS_ID_RE.search(line) or T.TO_CLARIFY_RE.search(line)):

@@ -216,6 +216,8 @@ hr { border:0; border-top:1px solid var(--line); margin:14px 0 }
 .tag.feat { color:var(--feat); border-color:currentColor; background:var(--feat-soft) }
 .tag.surf { color:var(--surf); border-color:currentColor; background:var(--surf-soft) }
 .tag.must { color:var(--brand-ink); border-color:currentColor; background:var(--brand-soft) }
+/* the cascade's `now` — the period said this row happens in the current period */
+.tag.prio-now { color:var(--feat); border-color:currentColor; background:var(--feat-soft); font-weight:600 }
 .tag.strong { border-color:var(--ink); color:var(--ink) }
 /* Human sign-off on a section's result (the semantic layer). Confirmed wears the sanctioned second
    hue — navy, distinct from the gate's green and the red that marks "active/next"; pending is faint

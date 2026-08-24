@@ -4,8 +4,8 @@ kind: method
 name: prioritization-tactical-plan
 steps: [5]
 prerequisites: [candidate items, the period gate/goal, available resources]
-reads: [register:metrics, register:hypotheses]
-writes: [worklog, section:period-goals]
+reads: [register:metrics, register:hypotheses, register:features]
+writes: [worklog, section:period-goals, register:features]
 opinionated: false
 method_basis: "RICE/ICE as a ranking aid, ranked by contribution to the period gate; capacity-bounded goal set"
 evidence_standard: derived
@@ -13,8 +13,8 @@ volume_rule: "every candidate current for the period enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the goal set is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.1.1
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-24
 ---
 # Prioritization — Tactical Plan
 
@@ -58,6 +58,12 @@ the minimum without which the period gate is unreachable, bounded by the availab
 6. **Bound the set by capacity.** Keep the goals that fit inside the capacity from `resource-check`;
    what doesn't fit is cut for the period, with the reason recorded. If the minimum set overflows
    capacity, cut scope or renegotiate the gate — do not inflate the period.
+7. **Finalize the feature priorities.** With the period's goals set, re-weigh `priority` in
+   `registers/features.md`: a `planned` row serving a goal of *this* period → `now`; structurally
+   heavy (Step-4 seed) but not this period → `next`; the rest → `later`. This is the cascade's
+   period pass — Step 4 said what the model needs, this step says what of it happens now, so the
+   Step-6 ranking starts from a weighted pool instead of a cold list. The method declares the
+   write, the orchestrator writes the cells.
 
 > **Boundary with `segment-cvp` (one mechanism, one way).** A market-entry bundle arrives here
 > **already scored for test-readiness** by `segment-cvp` — which bet is worth learning about first,

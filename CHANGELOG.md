@@ -15,6 +15,30 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### The axis on every status + the priority cascade (v0.13)
+
+Two rulings from the hub-saas test run's owner. First: the axis obeys the general principle —
+**a method is gated by its own prerequisites, not by the status**. A concept-viability product
+with a landing page already has an as-is to inventory; a shipped prototype slice is already an
+impact to read. Second: an item's priority is not born at Step 6 — the knowledge exists earlier,
+it just had no carrier.
+
+- **`product-baseline` and `impact-readout` run at `concept-viability`** (statuses/1 names both);
+  the skill's "not at concept-viability" clause is gone — with nothing shipped, baseline skips by
+  its own first prerequisite. Check E3 expects the item pre-registration on every status.
+- **Surfaces' three birth doors are canon** (`REGISTERS.md`): `product-surface` ledgers designed
+  surfaces as `planned` (Step 3, pre-build) · `product-baseline` inventories the live ones ·
+  `activity-spec` may mint a new g2m surface at Step 6 — the last two now declare the write.
+- **The priority cascade**: `features.md` gains an optional `priority` column (`now · next ·
+  later`). Step 4 (`strategic-targets`) seeds the structural weight — a feature whose `serves`
+  target is committed, or closes a top risk, outranks one moving a peripheral node; Step 5
+  (`prioritization-tactical-plan`) finalizes by period fit; Step 6 ranks a **weighted pool**
+  instead of a cold list, adding only cost/confidence. `capabilities-systems` grounds its
+  capability walk in the live rows. Optional column: a register that pre-dates the cascade is
+  legal until the first pass writes it (`OPTIONAL_ENUM_LABELS`, like signal/decision).
+- Baseline assembles its sources before walking: read `sources/INDEX.md` for the method's slots,
+  show the owner the list, ask what's missing — a gap is declared, never silent.
+
 ### The product axis: surfaces → features → items, with an impact loop (v0.12)
 
 Steps 3–6 gain the register that was missing between them: what the product *is made of*. The

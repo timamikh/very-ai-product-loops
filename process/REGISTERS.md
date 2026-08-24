@@ -2,8 +2,8 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks, features
 status: draft
-version: 0.12.0
-updated: 2026-08-23
+version: 0.13.0
+updated: 2026-08-24
 ---
 
 # Registers
@@ -27,7 +27,7 @@ read), zero rows. Never retype a header from the field tables below: prose is no
 | Hypotheses | Steps 1 (concept) · 2 (sizing) · 3 (bets) | 4 (quantify) → 5 (test design) → 6 (experiment tasks) |
 | Risks | Steps 2 (niche) · 3 (product) · 4 (capability gaps) | 4 (mitigation) → 5 (period blockers) |
 | Metric tree | Step 4 | 5 (select nodes) → 6 (task ↔ metric) |
-| Features & surfaces | Steps 3 (surfaces + live features, via `product-baseline`) · 6 (planned candidates, via the item specs) | 5 (item readouts flip `planned → live`) → 6 (sprint items advance their `F-…`) |
+| Features & surfaces | Steps 3 (surfaces: `product-surface` ledgers the designed ones `planned` pre-build, `product-baseline` inventories the live ones; live features via `product-baseline`) · 6 (planned feature candidates via the item specs; a new g2m surface via `activity-spec`) | 4 (strategic targets seed `priority`) → 5 (period goals finalize `priority`; item readouts flip `planned → live`) → 6 (sprint items advance their `F-…`) |
 
 ## What earns a register — the four-sign test
 
@@ -147,6 +147,7 @@ few, long-lived, and referenced by id from features, sprint items and `3#product
 | `direction` | which work direction owns it (instance config; default development · go-to-market · back-office) — **not** a linted enum, directions are config |
 | `surface` | the `S-…` it lives on |
 | `state` | `planned` · `live` · `retired` — as-is = `live`, to-be = `planned`; flipped by an item readout, never by hand mid-sprint |
+| `priority` | `now` · `next` · `later` — the cascade's carrier: Step 4 seeds the structural weight (a feature whose `serves` target is a committed strategic target or a top risk outranks one moving a peripheral node), Step 5 finalizes by period fit (`now` = serves this period's goals), Step 6 reads it as a ranking input and adds only cost/confidence; **optional until those passes run** — a register that pre-dates the cascade legally lacks the column |
 | `serves` | the `M-…` it moves / `R-…` it closes / `H-…` it tests — a feature serving nothing is a candidate to cut (the Step-6 rule, now with a home) |
 | `owner` | who is accountable |
 | `confidence` | `assumption` · `sourced` · `validated` · `refuted` — a `live` row needs a source; a `planned` row's expected impact is `[assumption]` until its readout |
@@ -169,7 +170,11 @@ analytics, interview), `planned` rows by the Step-6 item specs
 ([`feature-spec`](../tool-skills/library/feature-spec/SKILL.md) /
 [`activity-spec`](../tool-skills/library/activity-spec/SKILL.md) /
 [`task-spec`](../tool-skills/library/task-spec/SKILL.md)) when an item advances a feature the
-register does not yet hold. The readout that flips state —
+register does not yet hold. Surfaces have the same doors, one per stage of existence: pre-build,
+[`product-surface`](../tool-skills/library/product-surface/SKILL.md) (Step 3) ledgers the designed
+surfaces as `planned` rows; once something ships, `product-baseline` inventories the live ones; and
+a Step-6 `activity-spec` may mint a new go-to-market surface the strategy pass did not carry (a
+community, a channel). The readout that flips state —
 [`impact-readout`](../tool-skills/library/impact-readout/SKILL.md) (Step 5) — reads the item's
 pre-registered expected impact against the fact and writes the verdict onto the row's `serves`
 confidence. A cut candidate **stays** a `planned` row (with the cut noted), so prioritization never

@@ -49,11 +49,12 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
   choices become `H-…` (`type: viability`).
 - **Risks** — `product-risks` extend the risk register (`R-…`).
 - **Value** — `value-definition-strategy` revisits the Step-1 moats here; **derivative moats** appear now (customers/scale exist from `pmf`).
-- **Features & surfaces** — this step **births the as-is**: `product-baseline` (from `pmf`) walks
-  the live product from sources and writes `S-…` rows and `live` `F-…` rows (with `direction`,
-  `surface`, `serves`, `[sourced: …]`); on later passes it reconciles the register against
-  reality instead of re-authoring. The strategic *why* stays in `3#product-surface`; the ledger
-  lives in the registers.
+- **Features & surfaces** — this step **births the as-is**: `product-baseline` walks whatever is
+  live (even a landing + MVP at `concept-viability` — its own prerequisite gates it, not the
+  status) and writes `S-…` rows and `live` `F-…` rows (with `direction`, `surface`, `serves`,
+  `[sourced: …]`); on later passes it reconciles the register against reality instead of
+  re-authoring. Pre-build, `product-surface` ledgers the designed surfaces as `planned` rows. The
+  strategic *why* stays in `3#product-surface`; the ledger lives in the registers.
 
 ## Gate checklist (soft) — each item ↔ artifact section
 - [ ] winning aspiration stated → `strategy#winning-aspiration`
@@ -63,7 +64,7 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 - [ ] pricing model & packaging chosen, anchored to the alternative → `strategy#pricing`
 - [ ] channels & expansion path named → `strategy#channels-expansion`
 - [ ] product surface & instrumentation mapped → `strategy#product-surface`
-- [ ] surfaces ledgered as `S-…` rows; live features inventoried from sources (`product-baseline`, from `pmf`) → `strategy#product-surface` → feature & surface registers
+- [ ] surfaces ledgered as `S-…` rows; whatever is live inventoried from sources (`product-baseline` — skips itself only when nothing shipped) → `strategy#product-surface` → feature & surface registers
 - [ ] C4-context architecture sketched → `strategy#architecture`
 - [ ] bets captured as typed hypotheses → `strategy#bets` → hypothesis register
 - [ ] product risks logged → `strategy#product-risks` → risk register

@@ -50,7 +50,7 @@ const STR = {
     hypotheses: 'Hypotheses', risks: 'Risks', metricNodes: 'Metric nodes', readings: 'readings',
     features: 'Features', surfaces: 'Surfaces', surfaceBoard: 'The product, by surface',
     surfaceBoardNote: 'each column is a surface; the cards are the features on it, coloured by state',
-    noSurfaceCol: 'no surface named', inMust: 'in this sprint’s must',
+    noSurfaceCol: 'no surface named', inMust: 'in this sprint’s must', prioNow: 'now',
     withReadings: 'measured', csvRows: 'csv rows', referencedIn: 'referenced in',
     live: 'live', testing: 'in test', inFlightShort: 'in flight',
     toClarify: 'To clarify', openGates: 'Gate items still open', inFlight: 'Hypotheses in flight',
@@ -1447,12 +1447,14 @@ function surfaceBoard(m) {
   const card = f => {
     const fid = stripMd(cell(f, 'id'));
     const state = stripMd(cell(f, 'state')).split(/[\s·]/)[0];
+    const prio = stripMd(cell(f, 'priority')).split(/[\s·]/)[0];
     const serves = String(cell(f, 'serves') || '').match(/\b(?:[HRBFS]-\d+|M-[a-z0-9][a-z0-9-]*)\b/g) || [];
     return h('button', { class: 'sfcard sf-' + (state || 'unknown'),
       onclick: () => { S.reg = 'features'; S.regItem = fid; S.regFilter = 'all'; render(); } },
       h('div', { class: 'row' },
         h('code', { class: 'rid feat' }, fid),
         h('span', { class: 'tag ' + (state === 'live' ? 'done' : '') }, state || '—'),
+        prio === 'now' ? h('span', { class: 'tag prio-now' }, t('prioNow')) : null,
         mustFeat.has(fid) ? h('span', { class: 'tag must' }, t('inMust')) : null),
       h('div', { class: 'sfname' }, stripMd(cell(f, 'name'))),
       serves.length ? h('div', { class: 'row', style: 'margin-top:4px' }, ridChips(serves)) : null);

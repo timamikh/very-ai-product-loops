@@ -5,7 +5,7 @@ name: activity-spec
 steps: [6]
 prerequisites: [period-goals]
 reads: [register:hypotheses, register:metrics, register:features, register:surfaces, source:interview, source:kb]
-writes: [worklog, section:must, section:backlog, register:features]
+writes: [worklog, section:must, section:backlog, register:features, register:surfaces]
 opinionated: false
 method_basis: "Go-to-market activity at the same altitude as a feature (Description / Scope / Business value / Audience value / Links) + the register thread: the F-… (campaign/content line) it advances on an S-… surface, a pre-registered Expected impact with a check-by, an S/M/L estimate"
 evidence_standard: decision
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.0
-updated: 2026-08-23
+version: 0.5.0
+updated: 2026-08-24
 ---
 # Activity Spec (go-to-market direction)
 
@@ -41,7 +41,8 @@ directions read the same way and plug into the same must/backlog.
 - **Business value** — the `M-…` it moves or the `H-…` it tests.
 - **Audience value** — why the audience cares (not spam).
 - **Links** — `H-…` tested / `M-…` moved; the **surface** it runs on (`S-…`,
-  `registers/surfaces.md`); the `B-…` bundle it launches when the activity runs a Step-5
+  `registers/surfaces.md` — an activity opening a surface the register does not hold, a new
+  community or channel, declares a new `planned` `S-…` row: the same mint discipline as features); the `B-…` bundle it launches when the activity runs a Step-5
   market-entry bundle — without the link, the sprint doesn't say which bundle it is testing;
   the shipped artifact's external id (post, mailing) after the run.
 - **Expected impact** — pre-registered: the `M-…` it moves (baseline → expected) or the `H-…` it

@@ -102,3 +102,15 @@ mint rows for items the human confirms, tick `item-feature` — and never back-f
 impact onto an already-shipped item (an item shipped without one gets exactly that said in its
 readout row). `examples/decksmith` shows the migrated form; `examples/tolmach`'s change log shows
 the minimal (register-skeleton + rename) variant with the rest deferred.
+
+**v0.13 (the axis on every status + the priority cascade) — what changed shape.** The product axis
+lost its status switch: `product-baseline` and `impact-readout` now run at `concept-viability` too —
+each is gated by its own prerequisite (nothing live → baseline skips itself), and check E3 expects
+the item pre-registration on every status. Surfaces gained their three birth doors in canon
+(`product-surface` ledgers designed ones `planned` at Step 3; `product-baseline` inventories live
+ones; a Step-6 `activity-spec` may mint a g2m surface). `features.md` gained an **optional**
+`priority` column (`now · next · later` — Step 4 seeds the structural weight off the committed
+targets, Step 5 finalizes by period fit, Step 6 reads it as a ranking input). Typical migration:
+none required — a register without the column is legal until the first Step-4/5 pass writes it;
+add `Priority <!--c:priority-->` when that pass runs (the linter validates values only when the
+column exists).

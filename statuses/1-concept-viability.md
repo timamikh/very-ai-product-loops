@@ -23,7 +23,8 @@ per_step:
       - Choose ONE beachhead arena to win first (resist "for everyone")
       - State how-to-win as a testable positioning bet, not a finished position
       - Formulate the CVP per situation for the lead segment so the bet is concrete enough to test (bundles are composed at Step 5; WTP stays an open hypothesis, not a set price)
-    tools: [where-to-play-how-to-win, uvp-cpv, bets, value-definition-strategy, product-surface, architecture-c4, pre-mortem]
+      - Inventory the little that is already live (a landing, a waitlist, an MVP demo) from sources — cheap; with nothing shipped, product-baseline skips by its own prerequisite
+    tools: [where-to-play-how-to-win, uvp-cpv, bets, value-definition-strategy, product-surface, product-baseline, architecture-c4, pre-mortem]
   "4":  # Strategic Plan
     goals:
       - Keep the metric tree light — name the ONE activation/value metric that proves the concept works; defer the rest
@@ -35,7 +36,8 @@ per_step:
       - Set the period's ONE learning goal — the concept-killing assumption we test now
       - Stage 3–5 ready market-entry bundles; design the smallest test with a pre-set decision rule
       - Guard the little you have (runway, founder time) — don't over-invest before signal
-    tools: [prioritization-tactical-plan, goal-targets, segment-cvp, hypothesis-test-design, experiment-readout, resource-check, guardrails]
+      - Read shipped sprint items against their pre-registered expectations and flip their `planned` rows — a prototype slice that shipped is already an impact to read
+    tools: [prioritization-tactical-plan, goal-targets, segment-cvp, hypothesis-test-design, experiment-readout, impact-readout, resource-check, guardrails]
   "6":  # Sprint Plan
     goals:
       - Must-set = only what produces a learning signal this sprint (a prototype slice or a test launch)
@@ -43,8 +45,8 @@ per_step:
       - Keep the delivery lightweight — optimize for cycle speed with a small team
     tools: [prioritization-sprint-plan, feature-spec, activity-spec, task-spec, feature-grooming]
 status: draft
-version: 0.7.0
-updated: 2026-08-21
+version: 0.8.0
+updated: 2026-08-24
 ---
 
 # Status: concept-viability

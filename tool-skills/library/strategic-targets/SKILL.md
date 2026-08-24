@@ -4,8 +4,8 @@ kind: method
 name: strategic-targets
 steps: [4]
 prerequisites: [horizon, metric-tree, financial-model]
-reads: [register:metrics, source:interview, source:kb]
-writes: [worklog, section:strategic-targets]
+reads: [register:metrics, register:features, register:risks, source:interview, source:kb]
+writes: [worklog, section:strategic-targets, register:features]
 opinionated: false
 method_basis: "Horizon commitments read off the driver-based projection: 3–5 key metric nodes × value at the strategy horizon, scenario named, decision-attributed; Step-5 period targets ladder up to these"
 evidence_standard: decision
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: "3–5 nodes carry a horizon target; nodes considered and left untargeted are kept with why"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-24
 ---
 # Strategic Targets
 
@@ -58,6 +58,12 @@ turns 3–5 of them into dated, attributed commitments.
 5. **State the ladder rule downward.** Step-5 `goal-targets` sets each period target as a step
    toward these values; a period in which no horizon target moves is drift, visible at the Step-5
    gate — that check lives there, the commitment lives here.
+6. **Seed the priority cascade.** With the targets committed, sweep `registers/features.md` by each
+   row's `serves`: a feature moving a node that now carries a horizon target — or closing a
+   top-ranked risk — is a `priority: now`/`next` candidate; one moving a peripheral node is
+   `later`. This is the **structural** weight only (what the model needs, regardless of timing);
+   Step-5 `prioritization-tactical-plan` re-weighs it by period fit, Step 6 only adds cost. The
+   method declares the write, the orchestrator writes the cells.
 
 ## Anti-patterns
 - **A target no scenario produces.** Committed bravado — the model says it cannot happen and the

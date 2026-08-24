@@ -671,6 +671,8 @@ def load(path, framework_root=F.ROOT):
     metric_tree = _register(path, "metric-tree.md", "M-", health,
                             [check("metric kind"), check("metric instrumentation")])
     metrics = _metrics(path, metric_tree["rows"], health)
+    # `feature priority` is deliberately not checked here — like hypothesis signal/decision it is
+    # an optional pass-written column (Step 4/5 cascade); the linter validates it when present.
     features = _register(path, "features.md", "F-", health,
                          [check("feature state"), check("feature confidence")])
     surfaces = _register(path, "surfaces.md", "S-", health, [check("surface state")])

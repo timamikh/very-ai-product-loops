@@ -324,6 +324,10 @@ ENUMS = {
     # One lifecycle for both files of the feature register: as-is = `live`, to-be = `planned`.
     # `direction` is NOT here on purpose — directions are instance config, not a framework enum.
     "feature state": ({"planned", "live", "retired"}, "state"),
+    # The priority cascade: Step 4 seeds the structural weight (serves -> committed targets / top
+    # risks), Step 5 finalizes by period fit, Step 6 only adds cost. Period semantics on purpose:
+    # `now` = this period, not "high" in the abstract.
+    "feature priority": ({"now", "next", "later"}, "priority"),
     "feature confidence": (set(CONFIDENCE), "confidence"),
     "surface state": ({"planned", "live", "retired"}, "state"),
 }

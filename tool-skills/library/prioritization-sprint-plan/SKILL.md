@@ -13,8 +13,8 @@ volume_rule: "every candidate current for the sprint enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the must/backlog line is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-23
+version: 0.3.0
+updated: 2026-08-24
 ---
 # Prioritization — Sprint Plan
 
@@ -49,7 +49,9 @@ scope.
    Done) and the sprint's contribution to it. Every item is ranked against *this*, not against a
    generic score.
 2. **List the candidates.** All of them, per direction — the feature register's `planned` rows
-   first (the pool that survives between sprints), then the new ideas. Don't pre-cut before ranking. **Record the
+   first (the pool that survives between sprints, **already weighted**: its `priority` column
+   carries Step 4's structural seed re-weighed by Step 5's period fit — `now` rows lead, and a
+   `now` row left out of the must-set owes a written reason), then the new ideas. Don't pre-cut before ranking. **Record the
    count that entered the ranking (N).** A list with no N cannot be audited later: a candidate quietly
    dropped before scoring is invisible, and "we prioritized" reads the same whether ten items competed
    or three did.

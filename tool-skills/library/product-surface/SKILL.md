@@ -5,7 +5,7 @@ name: product-surface
 steps: [3]
 prerequisites: [product-concept, channels-draft]
 reads: [source:interview, source:kb, source:git]
-writes: [worklog, section:product-surface]
+writes: [worklog, section:product-surface, register:surfaces]
 opinionated: false
 method_basis: "Touchpoint mapping + instrumentation planning (every user-interaction surface and every behavior/metric collection point)"
 evidence_standard: decision
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
-updated: 2026-08-23
+version: 0.4.0
+updated: 2026-08-24
 ---
 # Product Surface
 
@@ -35,8 +35,9 @@ with no instrumentation can't be judged; a metric with no collection point can't
 1. **List every surface** the user touches: acquisition/comms **channels**, **landing pages**,
    **mailings/notifications**, in-product UI, the **admin panel**, integrations. Each chosen
    surface is a `S-…` row in `registers/surfaces.md` (the ledger; this section keeps the why and
-   cites the ids) — at pmf/growth, `product-baseline` reconciles the ledger against the real
-   product.
+   cites the ids) — a designed-but-unbuilt surface lands `planned` (the method declares the write,
+   the orchestrator mints); `product-baseline` inventories and reconciles the live ones against
+   the real product.
 2. **List every instrumentation point**: what **metrics** are collected, where, and the
    **behavior-study** tools (analytics, session capture, surveys, funnels).
 3. **Link surface → metric.** For each surface, what do we measure and can we? Gaps become

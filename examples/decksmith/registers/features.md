@@ -14,18 +14,24 @@ rows were minted by the Sprint-1 item specs (`6#must`, `6#backlog`, `6#excluded`
 `live` at the Step-5 gate once `impact-readout` reads them. A feature outlives its sprint items:
 the item advances the row, it never replaces it.
 
-| ID <!--c:id--> | Name <!--c:name--> | Direction <!--c:direction--> | Surface <!--c:surface--> | State <!--c:state--> | Serves <!--c:serves--> | Owner <!--c:owner--> | Confidence <!--c:confidence--> | Source <!--c:source--> | Note <!--c:note--> |
-|----|------|-----------|---------|-------|--------|-------|------------|--------|------|
-| F-001 | Native export engine (`.pptx`/`.key`/Slides) | development | S-04 | planned | H-001 · M-design-acceptance | founder-engineer ⚙️ | [assumption] | `6#must` (feature spec) | Sprint-1 item 1 builds the `.pptx` first slice |
-| F-002 | Design-acceptance / edit-behaviour instrumentation | development | S-05 | planned | M-design-acceptance · M-northstar · R-012 | engineer ⚙️ | [assumption] | `6#must` (feature spec) | Sprint-1 item 2 |
-| F-003 | Founder-community partner recruitment (campaign line) | go-to-market | S-09 | planned | H-011 · M-cac · M-activated | founder ⚙️ | [assumption] | `6#must` (activity spec) | Sprint-1 item 1 (g2m) runs B-01/B-05; shipped post id lands here after the run |
-| F-004 | Landing + waitlist + price page + analytics events | back-office | S-01 | planned | M-activated · M-paid-conv | back-office contractor ⚙️ | [assumption] | `6#must` (task spec) | Sprint-1 item 1 (b/o), lean scope |
-| F-005 | Eval harness (≥50 briefs × ≥5 verticals) | development | S-05 | planned | H-001 · M-design-acceptance | founder-engineer ⚙️ | [assumption] | `6#backlog` | backlog rank 1 — reads F-001's output |
-| F-006 | WTP price-talk script + prep | go-to-market | S-09 | planned | H-010 · M-paid-conv | founder ⚙️ | [assumption] | `6#backlog` | backlog rank 2 |
-| F-007 | Billing / seats integration | back-office | S-07 | planned | M-arppu · M-contribution | back-office contractor ⚙️ | [assumption] | `6#backlog` | backlog rank 4 |
-| F-008 | Brand-kit storage | development | S-06 | planned | H-012 | — to clarify — | [assumption] | `6#excluded` | cut at Step 5 — a cut candidate's row stays `planned`, it re-enters a later ranking |
+| ID <!--c:id--> | Name <!--c:name--> | Direction <!--c:direction--> | Surface <!--c:surface--> | State <!--c:state--> | Priority <!--c:priority--> | Serves <!--c:serves--> | Owner <!--c:owner--> | Confidence <!--c:confidence--> | Source <!--c:source--> | Note <!--c:note--> |
+|----|------|-----------|---------|-------|----------|--------|-------|------------|--------|------|
+| F-001 | Native export engine (`.pptx`/`.key`/Slides) | development | S-04 | planned | now | H-001 · M-design-acceptance | founder-engineer ⚙️ | [assumption] | `6#must` (feature spec) | Sprint-1 item 1 builds the `.pptx` first slice |
+| F-002 | Design-acceptance / edit-behaviour instrumentation | development | S-05 | planned | now | M-design-acceptance · M-northstar · R-012 | engineer ⚙️ | [assumption] | `6#must` (feature spec) | Sprint-1 item 2 |
+| F-003 | Founder-community partner recruitment (campaign line) | go-to-market | S-09 | planned | now | H-011 · M-cac · M-activated | founder ⚙️ | [assumption] | `6#must` (activity spec) | Sprint-1 item 1 (g2m) runs B-01/B-05; shipped post id lands here after the run |
+| F-004 | Landing + waitlist + price page + analytics events | back-office | S-01 | planned | now | M-activated · M-paid-conv | back-office contractor ⚙️ | [assumption] | `6#must` (task spec) | Sprint-1 item 1 (b/o), lean scope |
+| F-005 | Eval harness (≥50 briefs × ≥5 verticals) | development | S-05 | planned | next | H-001 · M-design-acceptance | founder-engineer ⚙️ | [assumption] | `6#backlog` | backlog rank 1 — reads F-001's output |
+| F-006 | WTP price-talk script + prep | go-to-market | S-09 | planned | next | H-010 · M-paid-conv | founder ⚙️ | [assumption] | `6#backlog` | backlog rank 2 |
+| F-007 | Billing / seats integration | back-office | S-07 | planned | later | M-arppu · M-contribution | back-office contractor ⚙️ | [assumption] | `6#backlog` | backlog rank 4 |
+| F-008 | Brand-kit storage | development | S-06 | planned | later | H-012 | — to clarify — | [assumption] | `6#excluded` | cut at Step 5 — a cut candidate's row stays `planned`, it re-enters a later ranking |
 
 ## Change log
+
+### 2026-08-24 — priority cascade backfilled (framework v0.13)
+- **From → To:** no `priority` column → `F-001`…`F-004` `now` · `F-005`/`F-006` `next` · `F-007`/`F-008` `later`
+- **Why:** the column carries the Step-4/5 cascade; values read off the instance's own Step-5
+  ranking (the must-set is the period's `now`, the backlog head `next`, the tail and the Step-5
+  cut `later`) — a backfill from recorded decisions, not a fresh pass.
 
 ### 2026-08-23 — register born (Sprint-1 item specs)
 - **From → To:** — → `F-001`…`F-008`, all `planned`

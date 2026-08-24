@@ -14,7 +14,7 @@ selection_rule: n/a
 rejects_shown: n/a
 status: draft
 version: 0.1.0
-updated: 2026-08-23
+updated: 2026-08-24
 ---
 # Product Baseline (as-is inventory)
 
@@ -31,13 +31,15 @@ snapshot (via the `git` source passport — structure and services, never conten
 **feature, not a control**: "autopay" is a row; the checkbox that enables it is not.
 
 ## When to apply
-- **First pass at `pmf`/`growth`** — the product exists, the register holds no `live` rows yet.
+- **Any status — the prerequisite gates it, not the status.** The method runs whenever *something*
+  is live to inventory; with nothing shipped it skips by its own first prerequisite. A
+  `concept-viability` product with a landing page, a waitlist or an MVP demo already has an as-is —
+  three rows read from sources beat a register that pretends the product doesn't exist yet.
+- **First full pass at `pmf`/`growth`** — the product exists, the register holds no `live` rows yet.
 - **On drift** — a pass finds the register disagreeing with the real product (a feature shipped
   outside the loop, a surface retired quietly). Drift is the trigger; there is no calendar cadence.
 - **After a major release** or when several sprints of `impact-readout` flips have accumulated and
   a reconciliation sweep is cheap insurance.
-- **Not at `concept-viability`** — nothing is live; the register starts as `planned` rows from the
-  Step-6 specs, and the first baseline runs when the first slice ships.
 
 ## Prerequisites
 - **Something live to inventory.** *Nothing shipped yet → skip; this method has no subject.*
