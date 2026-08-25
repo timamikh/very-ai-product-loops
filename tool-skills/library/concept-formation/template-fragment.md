@@ -5,7 +5,7 @@
 
 ## Idea {#idea}
 
-_<Product> is a <category> that <core thing> for <who>._  [sourced: … | assumption]
+_<Product> is a <category> that <core thing> for <who>._  [sourced: … | assumption] <!-- card -->
 
 **The shift:** today <current alternative>; with <Product>, <what becomes possible instead>.  [assumption]
 

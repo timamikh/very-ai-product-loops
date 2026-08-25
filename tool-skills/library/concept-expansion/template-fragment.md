@@ -11,6 +11,9 @@ _How the product solves each problem above. No orphan features._
 |---------|---------------------------|------------|
 | <tier-1 pain, ranking order> | <the mechanism, not the feature label> | [sourced: … | assumption] |
 
+**What the mapping shows:** ⚙️ _the one line the table adds up to — how far the top pains are
+actually closed, and what the concept leans on instead._ [assumption] <!-- card -->
+
 **Feasibility bets:** <mechanisms not built before> → `H-…` (`type: feasibility`)
 
 **Rejected (orphan features):**

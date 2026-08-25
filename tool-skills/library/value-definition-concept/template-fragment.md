@@ -8,7 +8,7 @@
 
 ## Value & Defensibility {#value-defensibility}
 
-**Core value (post-AI):** _what is valuable that a rebuilt-with-an-LLM clone would not have._
+**Core value (post-AI):** _what is valuable that a rebuilt-with-an-LLM clone would not have._ <!-- card -->
 
 - …  [assumption]
 

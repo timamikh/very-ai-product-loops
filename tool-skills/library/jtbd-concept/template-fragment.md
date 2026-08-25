@@ -8,7 +8,7 @@
 ## Job-to-be-Done {#jtbd}
 
 **Job statement.** _When_ <circumstance / trigger>, _I want to_ <make this progress>, _so that_
-<outcome / motivation>. [assumption]
+<outcome / motivation>. [assumption] <!-- card -->
 
 _The middle clause is progress, not a product or feature._
 

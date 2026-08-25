@@ -15,6 +15,24 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### The face is a slot: the method decides its card once
+
+- **The card slot lives in the fragment** (CONVENTIONS 0.33.0, projection 0.6.0): a method's
+  `template-fragment.md` carrying a live `<!-- card -->` has declared which element is the
+  section's face, and every projection places the instance's mark there — judgement remains only
+  where no slot is declared. Six step-1 fragments now carry slots (cjm waits for a live example);
+  `segment-pains` and `concept-expansion` gained the conclusion line both live instances had
+  already written for themselves.
+- **A face is text + table, full-width** (console): a card whose section has a `<!-- card -->`
+  line shows that line **plus the section's own first table** and takes the full row; an
+  `<!-- open -->` inbox section is shown whole — a list of open items has nothing to collapse.
+  Wide is the norm on a data-bearing step, not the exception.
+- **Duck test at projection** (projection step 2): a section must read without the pass's context —
+  fragment labels are translated, never renamed or multiplied; metaphors unfolded; code names
+  expanded at first use.
+- **Check C2** (lint, WARN): a fragment-declared slot with no `<!-- card -->` mark in the projected
+  section; whether the mark sits on the *right* element is semantic — step-close 0.3.0 audits it.
+
 ### The input perimeter + the card line names a block
 
 - **`reads` is a perimeter, not a hint** (card-schema): a method's **primary worklog pass** draws

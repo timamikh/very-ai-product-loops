@@ -15,6 +15,9 @@ Checks (ERROR fails CI · WARN never does):
      the old `produces:` spelling is an ERROR
   B  every written section is homed in some step's artifact (a step template `{#id}`)
   C  library index rows <-> tool folders, and index "Steps" <-> the card's `steps`
+  C2 a section whose method's template-fragment declares a card slot (a live `<!-- card -->` in the
+     fragment) carries a card mark of its own — the missing-mark half of the slot contract; whether
+     the mark sits on the *right* element is semantic, audited by step-close  (WARN)
   D  register enums per instance (hypothesis type/status/confidence · post-test signal/decision ·
      risk category/status · metric kind/instrumentation; signal/decision enforced-if-present)
   E  metrics.csv ids are a subset of metric-tree.md ids
@@ -1474,6 +1477,39 @@ CONFIRM_LOOSE_RE = re.compile(r"<!--\s*confirmed:\s*(.*?)\s*-->")
 CONTEST_LOOSE_RE = re.compile(r"<!--\s*contested:\s*(.*?)\s*-->")
 
 
+def check_card_slots(tools, inst):
+    """C2 (instance, WARN) — a fragment-declared card slot is honoured by the projected section.
+
+    CONVENTIONS → Card line: the mark's canonical home is the method's template-fragment — a fragment
+    carrying a live `<!-- card -->` has *declared the slot*, and every projection places the section's
+    mark on that element. Whether the mark sits on the right element is a semantic judgement
+    (step-close audits it); what a linter can see is the mark missing entirely — a face the method
+    decided on and the instance does not show. A fragment with no slot imposes nothing: a mark there
+    is projection judgement and an honestly faceless section is legal, so only declared-but-absent
+    warns.
+    """
+    slotted = set()
+    for name, t in tools.items():
+        frag = os.path.join(t["dir"], "template-fragment.md")
+        if os.path.exists(frag) and T.CARD_RE.search(_live(read(frag))):
+            slotted.add(name)
+    if not slotted:
+        return
+    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        for sec in T.sections(read(art)):
+            if not sec["id"]:
+                continue
+            m = TOOL_MARK_RE.search(sec["body"])
+            if not m:
+                continue
+            primary = m.group(1).split(",")[0].strip()
+            if primary in slotted and T.card_line(sec["body"]) is None:
+                warn("C2 [%s] %s#%s: the %s fragment declares a card slot, but the section carries "
+                     "no `<!-- card -->` mark — the face the method decided on once is not shown "
+                     "(CONVENTIONS → Card line; projection step 3)"
+                     % (rel(inst), os.path.basename(art), sec["id"], primary))
+
+
 def check_schema_not_confirmed():
     """Q (schema) — a template or fragment must never ship a `confirmed`/`contested` marker.
 
@@ -1960,6 +1996,7 @@ def main(argv=()):
         check_source_types(inst)
         check_boundary(inst)
         check_perimeter(inst)
+        check_card_slots(tools, inst)
         check_instance_conformance(inst)
         check_confirm_dates(inst)
         check_decision_lines(inst)

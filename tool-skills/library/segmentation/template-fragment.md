@@ -17,7 +17,7 @@ _Buyer / user: who pays vs who uses — "same" when it's one person. When they d
 hides two audiences: pains are scored for the user, but the CVP and the channel must also convince
 the buyer._
 
-**Lead segment:** ⚙️ _<segment>_ — _why we build for this one first._
+**Lead segment:** ⚙️ _<segment>_ — _why we build for this one first._ <!-- card -->
 
 **Seeded hypotheses:** H-… ("segment X exists and is reachable at Y") → hypothesis register.
 

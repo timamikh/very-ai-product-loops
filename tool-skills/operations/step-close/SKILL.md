@@ -11,8 +11,8 @@ surfaces: [ticks, change-log]
 opinionated: true
 method_basis: "The whole is a different reader: a step worked one section per pass is never read whole by anyone, so every conclusion that only the union shows — a link between two sections, a tension, a gap no single section could be missing — has no moment in which it can be found. This pass is that moment, and it lands what it finds through the ordinary channels"
 status: draft
-version: 0.2.0
-updated: 2026-08-20
+version: 0.3.0
+updated: 2026-08-25
 ---
 # Step close — read the step whole, land what only the whole shows
 
@@ -111,8 +111,11 @@ what to do with them; every line is **⚙️ or `[assumption]`** — this pass r
 
 **4 · The step's face.** Every section either carries one marked `<!-- card -->` headline or a
 recorded reason why it honestly has none (`projection` step 3) — *recorded* meaning written where
-that section's working lives: its worklog, or the change-log entry for a section that has none. A
-board where most sections show title-and-status is this pass's finding, not the board's problem.
+that section's working lives: its worklog, or the change-log entry for a section that has none. And
+where the method's `template-fragment.md` **declares a slot** (CONVENTIONS → *Card line*), the
+section's mark must sit on that same element — a mark drifted off its slot is this pass's finding,
+returned through the worklog. A board where most sections show title-and-status is this pass's
+finding, not the board's problem.
 
 **5 · Close.** The gate's derived items are ticked here if this pass is what closes them
 (`#to-clarify` is complete, `#hypotheses` carries what the step seeded), a dated **change-log** entry

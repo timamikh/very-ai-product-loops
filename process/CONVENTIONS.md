@@ -2,7 +2,7 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.32.0
+version: 0.33.0
 updated: 2026-08-25
 ---
 
@@ -68,8 +68,15 @@ A section may mark **one of its own blocks** as its headline — what a board ca
 `<!-- card -->` **trailing a line** points at the whole paragraph or bullet that line sits in;
 **alone on a line**, at the paragraph below. Both forms name a block, never a physical line — files
 hard-wrap prose, so a physical line is a soft-wrap accident, not a unit of meaning.
-The console shows the marked line verbatim — it never summarises; no mark = title + status. Who
-places it, how the line is chosen, and why a section may honestly stay unmarked — the
+The console shows the marked line verbatim — it never summarises; no mark = title + status. The
+face is text **and table**: alongside the marked block the console shows the section's first table,
+full-width — on a data-bearing step that is the norm, not the exception. A section declared
+`<!-- open -->` (an agent→human inbox) is shown whole: a list of open items has nothing to collapse.
+**The mark's canonical home is the method's own `template-fragment.md`** — a fragment carrying
+`<!-- card -->` on the line that states its conclusion has *declared the slot*, and every projection
+places the instance's mark on that same element; "no slot" is a legal fragment decision, and only
+there does choosing the headline fall to projection judgement. Who places it, how the line is
+chosen, and why a section may honestly stay unmarked — the
 [`projection`](../tool-skills/operations/projection/SKILL.md) operations skill.
 
 ## Links & register item IDs

@@ -630,6 +630,13 @@ details.acc .accbody { padding:13px 15px 16px }
 .cvxpand::before { content:'⌄'; margin-top:-3px }
 .cvcard.expanded .cvxpand::before { content:'⌃'; margin-top:3px }
 .cvcard.cv-link:hover .cvxpand { color:var(--brand-ink) }
+/* Wide face (step-1 walkthrough decision): a card whose face is text + the section's own first
+   table — or an <!-- open --> inbox shown whole — takes the full row, same as an expanded card. */
+.cvcard.cv-wide { grid-column:1/-1 }
+.cascade > .cvcard.cv-wide { flex-basis:100% }
+.cvftbl { margin-top:4px; font-size:12.5px }
+.cvcard.expanded .cvftbl { display:none }   /* the body shows the same table — it would read twice */
+.cvopen { font-size:12.5px; line-height:1.55 }
 
 /* market dashboard — sizing tiles, the load-bearing one carrying the brand wash */
 .mboard { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:0;

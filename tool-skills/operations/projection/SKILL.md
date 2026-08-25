@@ -11,7 +11,7 @@ surfaces: []
 opinionated: true
 method_basis: "Single-source publishing: the worklog is the source of truth, the artifact section is its projection — the conclusion re-shaped into the method's fixed fragment schema, every claim carrying its original tag, the section's own headline marked for display, and any human sign-off dropped because the thesis it signed no longer exists"
 status: draft
-version: 0.5.0
+version: 0.6.0
 updated: 2026-08-25
 ---
 # Projection — write an artifact section from its worklog
@@ -86,13 +86,19 @@ one-id thread (`<!-- tool: <tool> -->` names both).
 source, the agent's own proposals stay ⚙️-prefixed. A gap is `— to clarify —`, never a plausible
 fill; an open fork is written as options, never closed in transit. Keep the skeleton's `{#id}` and
 `<!-- tool: -->` / `<!-- synthesis -->` markers exactly — the id is how every reader and tool finds
-the section and its worklog.
+the section and its worklog. And write it to pass the **duck test**: a reader with no context of
+the pass must understand the section as it stands. The fragment's labels stay — translate them,
+never rename or multiply them ("The shift, re-read for segment Г" in place of "The shift" is a
+defect); a metaphor is unfolded into what it means; a code name is expanded at first use.
 
-**3 · Mark the section's headline.** Choose the one line a collapsed board card should show and mark
-it `<!-- card -->` (syntax — CONVENTIONS → *Card line*: trailing a line points at that line; alone on
-a line points at the paragraph below). Choosing the headline is projection judgement, same as
-ordering the section — and it is a *choice among the section's own lines*, never a new line written
-to be the headline. **The criterion is whether the section states its conclusion — not whether it is
+**3 · Mark the section's headline — on the slot, where one is declared.** The mark's canonical home
+is the method's own `template-fragment.md`: a fragment carrying `<!-- card -->` has **declared the
+slot**, and the projection places the section's mark on that same element — no judgement involved,
+the face is the method's decision made once (syntax — CONVENTIONS → *Card line*: trailing a line
+points at that line's whole block; alone on a line, at the paragraph below). "No slot" is a legal
+fragment decision — only then is choosing the headline projection judgement, same as ordering the
+section — and it is a *choice among the section's own lines*, never a new line written to be the
+headline. **The criterion is whether the section states its conclusion — not whether it is
 prose.** A table with the judgement its rows add up to written under it marks *that* line; a table
 whose judgement is only implied has lost a line it needed on its own merit, and that is a finding for
 [`step-close`](../step-close/SKILL.md), which returns it through the worklog — never a headline

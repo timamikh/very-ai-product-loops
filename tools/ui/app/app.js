@@ -925,6 +925,20 @@ function firstTable(body) {
   }
   return null;
 }
+/* The first markdown table in a body, returned as its raw markdown block — for a card face that
+   shows the section's own table verbatim (md() renders it), never a re-layout. Null when none. */
+function firstTableMd(body) {
+  const lines = String(body || '').split('\n');
+  for (let i = 0; i + 1 < lines.length; i++) {
+    const l = lines[i].trim(), nx = lines[i + 1].trim();
+    if (l.startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
+      let j = i + 1;
+      while (j < lines.length && lines[j].trim().startsWith('|')) j++;
+      return lines.slice(i, j).join('\n');
+    }
+  }
+  return null;
+}
 /* The index of a column by its stable <!--c:key--> mark on the header (survives translation and
    reordering), or -1 if the table does not carry it. The mark is the only join — no positional
    fallback and no header-prose alias, both being the language traps the key removes — so an instance
@@ -976,11 +990,19 @@ function cvCard(s, id, opts) {
   const tick = gate ? gate.tick : null;
   const live = meta.present && s.artifact_file;
   const art = live ? artSection(s.artifact_file, id) : null;
-  // The face is the author's `<!-- card -->` line, verbatim — or no face at all: an unmarked section
-  // shows just its title and tags. Only an unwritten section shows the gap mark.
+  // The face is authored, never composed — and it comes in three shapes. An `<!-- open -->` inbox
+  // section IS its face: a list of open items has nothing to collapse, so the body shows whole. A
+  // marked section shows its `<!-- card -->` line PLUS the section's own first table (the step-1
+  // walkthrough decision: a face is text + table, and such a card takes the full row — wide is the
+  // norm, not the exception). An unmarked section shows just its title and tags; only an unwritten
+  // section shows the gap mark.
+  const openFace = !!(art && art.open);
+  const faceTbl = art && !openFace && art.card ? firstTableMd(art.body) : null;
   const face = art
-    ? (art.card ? cvExcerpt({ text: art.card }, tick) : null)
+    ? (openFace ? h('div', { class: 'cvopen md', html: md(stripHead(art.body)) })
+      : art.card ? cvExcerpt({ text: art.card }, tick) : null)
     : cvExcerpt(null, tick);
+  const faceTblEl = faceTbl ? h('div', { class: 'cvftbl md', html: md(faceTbl) }) : null;
   // Interaction: the tile expands in place into the section itself, whole and verbatim (the card is a
   // collapsed section, not a summary of one); it widens to the full row (see .cvcard.expanded). The
   // "details" link is the one thing that leaves, for the section in the artifact.
@@ -997,14 +1019,16 @@ function cvCard(s, id, opts) {
   const conf = confTag(meta);
   const strip = live ? evStrip(meta.confidence) : null;
   const card = h('div', { class: 'cvcard' + (o.hero ? ' cv-hero' : '') + (o.warn ? ' cv-warn' : '')
-    + (live ? ' cv-link' + (art ? ' can-expand' : '') : ' cv-gap') },
+    + (openFace || faceTbl ? ' cv-wide' : '')
+    + (live ? (openFace ? '' : ' cv-link' + (art ? ' can-expand' : '')) : ' cv-gap') },
     h('div', { class: 'cvtop' },
       h('span', { class: 'cvttl' }, meta.title || id),
       tick ? tickTag(tick) : null),
     (conf || strip) ? h('div', { class: 'cvmeta' }, conf, strip) : null,
     face,
+    faceTblEl,
     foot);
-  if (live && art) {
+  if (live && art && !openFace) {
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
     card.setAttribute('aria-expanded', 'false');

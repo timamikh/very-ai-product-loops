@@ -17,4 +17,7 @@ irritation` / `already paying or improvising`. Same gradation as pain acuteness 
 `hypothesis-test-design` §Scales, so this column feeds the Step-3 CVP (`uvp-cpv`) and the Step-5
 priority score without translation._
 
+**Top pains forward:** ⚙️ _the judgement the rows add up to — which ranked pains go to `{#solution}`,
+and which of them actually differentiate rather than just qualify._ [assumption] <!-- card -->
+
 **Seeded hypotheses:** H-… (`type: desirability` — pain exists and matters) → hypothesis register.
