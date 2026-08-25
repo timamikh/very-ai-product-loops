@@ -556,6 +556,7 @@ details.acc .accbody { padding:13px 15px 16px }
   cursor:pointer; user-select:none; flex-shrink:0;
 }
 .idot:hover, .idot:focus-visible { border-color:var(--brand); color:var(--brand-ink); background:var(--brand-soft) }
+.tip p { margin:6px 0 0 }
 .tip ul { margin:6px 0 0; padding-left:16px }
 .tip li { margin:3px 0 }
 .tip .asktools { margin-top:7px }

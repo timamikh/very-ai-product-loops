@@ -46,6 +46,7 @@ const STR = {
     gateDeferred: 'deferred', gateUnknown: 'unrecorded', gateClosed: 'gate closed',
     gaps: 'gaps', proposals: 'agent proposals', proposalMark: 'proposed', validates: 'validates',
     statusAsks: 'What the active status asks here', emphasised: 'emphasised for this stage',
+    stepGoal: 'What this step is for',
     rows: 'rows', state: 'state',
     hypotheses: 'Hypotheses', risks: 'Risks', metricNodes: 'Metric nodes', readings: 'readings',
     features: 'Features', surfaces: 'Surfaces', surfaceBoard: 'The product, by surface',
@@ -946,8 +947,8 @@ function tipBelow(html, el) {
   tip.style.left = Math.min(window.innerWidth - w - 10, Math.max(8, r.left)) + 'px';
   tip.style.top = (r.bottom + 8) + 'px';
 }
-function infoDot(html) {
-  const b = h('span', { class: 'idot', tabindex: '0', role: 'button', 'aria-label': t('statusAsks') }, 'i');
+function infoDot(html, label) {
+  const b = h('span', { class: 'idot', tabindex: '0', role: 'button', 'aria-label': label || t('statusAsks') }, 'i');
   const show = () => tipBelow(html, b);
   b.addEventListener('mouseenter', show);
   b.addEventListener('focus', show);
@@ -1317,17 +1318,21 @@ function viewStep() {
   const gaps = s.sections.reduce((a, x) => a + (x.gaps || 0), 0);
   const proposals = s.sections.reduce((a, x) => a + (x.proposals || 0), 0);
 
-  // The active status rides next to the step title as a badge, and the block it used to occupy — what
-  // the status asks at this step — folds into an info dot beside it: reference, on demand, not a column.
+  // The active status rides next to the step title as a badge, and the two reference texts — the
+  // step's framework goal and what the status asks here — fold into info dots beside it: reference,
+  // on demand, not a column. The goal dot hugs the title (it describes the step); the asks dot hugs
+  // the status badge (it describes the stage).
   const asksHtml = perStep ? asksTip(perStep, m) : null;
+  const goalHtml = s.goal
+    ? `<div class="k">${esc(t('stepGoal'))}</div><p>${esc(s.goal)}</p>` : null;
   const head = h('div', { class: 'sec' },
     h('div', { class: 'kick' }, `${t('step')} ${s.step} ${t('of6')} · ${s.cadence || ''}`),
     h('div', { class: 'titlerow' },
       dualRing(s, 38),
       h('h2', { style: 'font-size:25px;letter-spacing:-.025em' }, shortTitle(s.title || s.name)),
+      goalHtml ? infoDot(goalHtml, t('stepGoal')) : null,
       m.active_status ? h('span', { class: 'tag stagebadge', title: t('status') }, m.active_status) : null,
       asksHtml ? infoDot(asksHtml) : null),
-    s.goal ? h('p', { class: 'lead', style: 'margin-top:9px' }, s.goal) : null,
     h('div', { class: 'figs', style: 'margin-top:16px' },
       fig(t('filled'), `${written}`, `${t('of')} ${s.sections.length} ${t('sections')}`),
       fig(t('gateClosed'), `${(s.gate_counts.done || 0)}`, `${t('of')} ${s.gate.length}`),
