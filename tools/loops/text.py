@@ -418,10 +418,12 @@ def card_line(body):
     """The paragraph a `<!-- card -->` mark designates as a section's showcase lead — returned
     verbatim, its markdown kept, so the interface shows the artifact's own words exactly.
 
-    Two forms are read: the mark alone on a line points at the paragraph below it (collected whole, so
-    a sentence wrapped across lines is never returned cut); the mark at the end of a line points at
-    that line — and when that line is (or sits within) a bullet, the **whole** bullet is returned, so a
-    bullet headline wrapped across physical lines is not cut off either. Within the collected lead, a
+    Two forms are read, and both name a **block**, never a physical line: the mark alone on a line
+    points at the paragraph below it; the mark at the end of a line points at the whole paragraph or
+    bullet that line sits in. Files hard-wrap prose at file width, so a physical line is a soft-wrap
+    accident — a mark trailing the last line of a wrapped paragraph used to surface just that tail
+    (mid-sentence) as the card face, which is the one thing this function must not do. Within the
+    collected lead, a
     markdown hard break (a line ending in `\\` or two spaces) is kept as a `\\n`, so an enumeration the
     author laid one-item-per-line reaches the card as separate lines; ordinary soft wraps still join
     with a space. The agent places the mark at projection time (choosing the headline is projection
@@ -435,27 +437,23 @@ def card_line(body):
             continue
         before = CARD_RE.sub("", raw).strip()
         if before:
-            # Trailing form. Walk back over any continuation lines to the block's start; if that block
-            # is a bullet, return the whole (possibly wrapped) bullet — else the mark points at its own
-            # prose line, as before.
+            # Trailing form. Walk back over any continuation lines to the block's start, then collect
+            # the whole block — paragraph and bullet alike, so a lead wrapped across physical lines is
+            # never returned cut at a soft wrap.
             top = i
             while top > 0 and lines[top].strip() and not _BULLET_RE.match(lines[top].strip()):
                 t = lines[top - 1].strip()
                 if not t or t[:1] in ("|", "#") or _BULLET_RE.match(t):
                     break
                 top -= 1
-            in_bullet = bool(_BULLET_RE.match(lines[top].strip())) or (
-                top > 0 and bool(_BULLET_RE.match(lines[top - 1].strip())))
             if top > 0 and _BULLET_RE.match(lines[top - 1].strip()):
                 top -= 1  # the bullet's own line sits one above the first continuation
-            if not in_bullet:
-                return _card_clean(before) or None
             raws = []
             for nxt in lines[top:]:
                 clean = CARD_RE.sub("", nxt)
                 t = clean.strip()
                 if raws and (not t or t[:1] in ("|", "#") or _BULLET_RE.match(t)):
-                    break  # one bullet only — stop at the next blank/list/table/heading
+                    break  # one block only — stop at the next blank/list/table/heading
                 if t:
                     raws.append(clean)
             return _card_clean(_join_card(raws)) or None

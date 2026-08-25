@@ -178,10 +178,10 @@ def main():
     check(all(e["date"] >= f["date"] for e, f in zip(hist["H-001"], hist["H-001"][1:])),
           "a trail reads newest first")
 
-    # -- a `<!-- card -->` mark names a section's showcase headline. Above-the-line collects the whole
-    #    paragraph; trailing on a bullet returns the WHOLE bullet even when it wraps (a real instance
-    #    wraps its bullets, and the cut fragment was showing up as the card face); trailing on prose
-    #    still points at just its line.
+    # -- a `<!-- card -->` mark names a section's showcase headline. Both forms name a BLOCK, never a
+    #    physical line: above-the-line collects the paragraph below, trailing collects the whole
+    #    paragraph or bullet the marked line sits in (real instances hard-wrap prose, and a mark on a
+    #    wrapped paragraph's last line was surfacing the mid-sentence tail as the card face).
     above = "<!-- card -->\nA statement wrapped\nacross two lines.\n\n- next\n"
     check(T.card_line(above) == "A statement wrapped across two lines.", "above-line card collects the paragraph")
     oneline = "- A single-line headline. <!-- card -->\n"
@@ -197,7 +197,11 @@ def main():
     check(T.card_line(adjacent) == "The marked item runs past the first line too.",
           "a mark on a bullet abutting a wrapped prior bullet returns its own bullet, not the prior one")
     prose = "First sentence. <!-- card -->\nSecond, separate sentence.\n"
-    check(T.card_line(prose) == "First sentence.", "trailing card on a prose line points at just that line")
+    check(T.card_line(prose) == "First sentence. Second, separate sentence.",
+          "trailing card on prose collects the whole paragraph, not one physical line")
+    tail = "A paragraph that wraps across\nthree physical lines and ends\nwith the mark. [assumption] <!-- card -->\n"
+    check(T.card_line(tail) == "A paragraph that wraps across three physical lines and ends with the mark. [assumption]",
+          "the mark on a wrapped paragraph's LAST line returns the whole paragraph (the hub-v012 case)")
     check(T.card_line("no mark here at all\n") is None, "no mark yields no card")
     # a hard break (trailing backslash) lays an enumeration one-item-per-line; soft wraps still join
     enum = "<!-- card -->\nFive doors: \\\nagent (A) \\\npipeline (B) \\\nwallet (C)\n"
