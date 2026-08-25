@@ -11,8 +11,8 @@ surfaces: []
 opinionated: true
 method_basis: "Single-source publishing: the worklog is the source of truth, the artifact section is its projection — the conclusion re-shaped into the method's fixed fragment schema, every claim carrying its original tag, the section's own headline marked for display, and any human sign-off dropped because the thesis it signed no longer exists"
 status: draft
-version: 0.4.0
-updated: 2026-08-20
+version: 0.5.0
+updated: 2026-08-25
 ---
 # Projection — write an artifact section from its worklog
 
@@ -64,7 +64,10 @@ move where text is re-written rather than carried.
 **0 · Add the orchestrator's conclusions — before anything is projected.** The orchestrator holds
 context no single pass or subagent saw: the other sections, the live registers, the returns side by
 side. Ask one question — *what does this working mean next to everything else in view?* — and
-append the answer to the **worklog** under a block titled **Orchestrator's conclusions**:
+append the answer to the **worklog** under a block titled **Orchestrator's conclusions** — the
+heading line carrying `<!-- orchestrator -->` (title prose is free and translatable; the marker is
+how tools find the block in any language, and it is what exempts the block from the input-perimeter
+check, since these conclusions are the sanctioned wide-context write):
 cross-section links, tensions with another artifact, a disqualifier, a card-line candidate. Every
 line is **⚙️ or `[assumption]`** — a conclusion is the agent's own reasoning and is never laundered
 into a sourced fact. *"No conclusions"* is a legal answer; **skipping the question is not.** This is

@@ -4,7 +4,7 @@ kind: method
 name: cjm-concept
 steps: [1]
 prerequisites: [the segment/persona whose journey this is, the job they are doing]
-reads: [register:hypotheses, source:interview, source:research]
+reads: [section:segments, section:jtbd, register:hypotheses, register:metrics, source:interview, source:research, source:kb]
 writes: [worklog, section:cjm, register:hypotheses]
 opinionated: false
 method_basis: "Journey mapping — stages · actions · touchpoints · thoughts/emotions · pains → opportunities; moments that matter"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-25
 ---
 # Customer Journey Map (concept)
 

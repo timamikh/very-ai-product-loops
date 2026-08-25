@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.31.0
-updated: 2026-08-23
+version: 0.32.0
+updated: 2026-08-25
 ---
 
 # Conventions
@@ -23,7 +23,11 @@ Agent-proposed defaults awaiting human approval are prefixed **⚙️**.
 ## Sources
 
 `[sourced: ...]` names the origin. Source slots a tool/step may draw from:
-`interview` · `metrics` · `git` · `kb` · `human-decision (dated)`.
+`kb` · `interview` · `research` · `metrics` · `git` — the machine home is `cards.SOURCE_SLOTS`,
+and a new slot is a framework change, never an index edit. A **dated human decision** is a legal
+`[sourced:]` origin but not a slot: it is an answer, not a file, and it reaches a method through
+its own questions — an ambient input every perimeter carries undeclared
+([`reference/card-schema.md`](reference/card-schema.md) → *reads is a perimeter*).
 Missing data is written literally as `— to clarify —`, never guessed.
 
 ## Section IDs
@@ -60,8 +64,10 @@ line is copied verbatim rather than adapted by meaning, so its keys travel with 
 
 ## Card line
 
-A section may mark **one of its own lines** as its headline — the line a board card shows collapsed:
-`<!-- card -->` **trailing a line** points at that line; **alone on a line**, at the paragraph below.
+A section may mark **one of its own blocks** as its headline — what a board card shows collapsed:
+`<!-- card -->` **trailing a line** points at the whole paragraph or bullet that line sits in;
+**alone on a line**, at the paragraph below. Both forms name a block, never a physical line — files
+hard-wrap prose, so a physical line is a soft-wrap accident, not a unit of meaning.
 The console shows the marked line verbatim — it never summarises; no mark = title + status. Who
 places it, how the line is chosen, and why a section may honestly stay unmarked — the
 [`projection`](../tool-skills/operations/projection/SKILL.md) operations skill.

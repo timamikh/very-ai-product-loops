@@ -2,8 +2,8 @@
 node_type: reference
 title: The card — the pinned schema for every instruction an agent acts on
 status: draft
-version: 0.2.1
-updated: 2026-08-20
+version: 0.3.0
+updated: 2026-08-25
 ---
 
 # The card — the pinned schema
@@ -69,6 +69,31 @@ stays with the method that owns it.
 
 An empty list is a **declaration that the card touches nothing there** (`orchestration` writes nothing
 of its own: `writes: []`), and is different from an absent field, which is an error.
+
+## `reads` is a perimeter, not a hint
+
+For a **method** card, `reads` is closed: the **primary working of the worklog** — the first pass
+that drafts the method's reasoning, inline or through a `draft` brief — draws on these atoms and
+nothing else. An input the perimeter names but the instance lacks is a **declared gap**
+(`— to clarify —` and `[assumption]` marks), never silently replaced by whatever else lay in reach —
+the hub run showed exactly this working: `source:interview` declared everywhere, empty everywhere,
+and every method honestly wrote assumptions instead of borrowing.
+
+Wider context enters through exactly two doors, both the orchestrator's and both **recorded**:
+
+- the *orchestrator's conclusions* block ([`projection`](../../tool-skills/operations/projection/SKILL.md)
+  step 0) — unrestricted, already ⚙️-tagged;
+- a **rework order**: sending a worklog back, the orchestrator may supplement the perimeter with
+  named inputs the quality of the result needs — the supplement is written into the worklog with
+  the rework entry, so an audit can tell a sanctioned widening from a leak.
+
+Four inputs are **ambient** — inside every perimeter, never declared: the card itself, the method's
+own worklog and prior section state, the instance's `config.yaml`/`state.yaml`, and the human's
+answers to the method's own questions. Declaring them would put the same four lines on every card.
+
+`prerequisites` names, in prose, the subset of the perimeter that must already exist for the pass
+to **start**; it never names an input `reads` does not carry — a prerequisite the atoms cannot
+express is the signal the `reads` list is incomplete, not a license to keep it in prose only.
 
 Two cases the prose used to carry, settled here so no card has to re-decide them: a **renderer**
 writes `file:export-files/*` and names its extensions in `formats:`; a **pull** writes

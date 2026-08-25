@@ -2,8 +2,8 @@
 node_type: template-fragment
 title: Task brief & return — the two halves of one contract
 status: draft
-version: 0.3.0
-updated: 2026-08-20
+version: 0.4.0
+updated: 2026-08-25
 ---
 
 # Task brief & return
@@ -64,7 +64,10 @@ the activity to perform.>
 - **Budget:** <how much reading/searching is proportionate — so "not found" arrives before exhaustion>
 
 ## 5 · What you are given
-- **Inputs:** <files, source access, the exact export, prior artifacts>
+- **Inputs:** <files, source access, the exact export, prior artifacts. For a `draft`: the method
+  card's `reads:`, resolved — the closed perimeter, nothing beyond it; a missing input is named
+  here as a gap to declare, never filled in. A rework brief lists its additions separately under
+  **Supplements:**, and the orchestrator records them in the worklog>
 - **Known context:** <the two or three facts without which the task is ambiguous — not your context
   dump; if it takes more than a short list, the task is not separable>
 - **Already known / do not re-derive:** <what exists, so the return does not repeat it>

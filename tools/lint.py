@@ -67,6 +67,10 @@ Checks (ERROR fails CI · WARN never does):
      placeholder; an English `**Decided:**` label with no keys WARNs (best-effort by construction)
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
      sections use; required — every artifact section that names a method (or synthesis) has its worklog
+  P2 the worklog inputs line (`<!--w:reads-->` · `<!--w:adds-->`): both keys or none, legal reads
+     atoms, and the primary working's citations (section anchors, register ids) stay inside the
+     declared perimeter — the change log and the orchestrator's-conclusions block are exempt;
+     worklogs predating the line get one aggregate WARN per instance  (all WARN)
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
      an artifact's `confirmed:` marker parses as a YYYY-MM-DD date (ERROR) else it silently means pending
   R  confirmation consistency: an `<!-- open -->` section (inbox) carries no `confirmed:`, and no
@@ -591,16 +595,22 @@ def check_worklogs(inst):
                  "never the artifact (see source-intake)" % (name, stem))
 
 
-def _declared_worklog_reads(tool, inst):
-    """The `reads` atoms of the card behind a worklog stem — framework planes, then instance skills."""
+def _card_atoms(tool, inst, field):
+    """One perimeter field's atoms of the card behind a worklog stem — framework planes, then
+    instance skills."""
     paths = [os.path.join(ROOT, "tool-skills", plane, tool, "SKILL.md")
              for plane in ("library", "operations", "outputs")]
     paths.append(os.path.join(inst, "skills", tool, "SKILL.md"))
     for path in paths:
         if os.path.isfile(path):
             fm, _ = T.frontmatter(path)
-            return {str(a).strip() for a in T.as_list(fm.get("reads"))}
+            return {str(a).strip() for a in T.as_list(fm.get(field))}
     return set()
+
+
+def _declared_worklog_reads(tool, inst):
+    """The `reads` atoms of the card behind a worklog stem — framework planes, then instance skills."""
+    return _card_atoms(tool, inst, "reads")
 
 
 def check_boundary(inst):
@@ -679,6 +689,116 @@ def check_boundary(inst):
                     "undeclared cross-step exchange goes through the registers and the signed "
                     "sections (CONVENTIONS -> Step folders & worklogs)"
                     % (name, step_a, os.path.basename(wl), m.group(1), atom))
+
+
+W_KEY_RE = re.compile(r"<!--\s*w:([a-z-]+)\s*-->")
+W_FIELDS = ("reads", "adds")
+# a citation of an artifact section: a link/mention `<n>-<slug>.md#anchor` or an inline `` `#anchor` ``
+ANCHOR_CITE_RE = re.compile(r"(?:[1-6]-[a-z][a-z0-9-]*\.md|`)#([a-z][a-z0-9-]*)")
+REG_ID_CITE_RE = re.compile(r"\b([HRFS])-\d+\b|\b(M)-[a-z][a-z0-9-]+\b")
+ID_FAMILY = {"H": "hypotheses", "R": "risks", "F": "features", "S": "surfaces"}
+ORCH_HEAD_RE = re.compile(r"<!--\s*orchestrator\s*-->|orchestrator|оркестратор", re.I)
+
+
+def _w_value(line, key):
+    """The text of one `w:` field on the inputs line — the next field's label cut off."""
+    parts = W_KEY_RE.split(line)
+    for i in range(1, len(parts), 2):
+        if parts[i] == key:
+            return re.sub(r"·\s*\*\*[^*]*:?\*\*\s*$", "", parts[i + 1]).strip(" ·")
+    return None
+
+
+def _primary_region(text):
+    """The worklog minus its two unrestricted zones — the change log and every orchestrator's-
+    conclusions block (projection step 0). Only what remains is held to the perimeter."""
+    body = text.split("\n## Change log")[0]
+    out, skip_level = [], None
+    for line in body.split("\n"):
+        m = re.match(r"^(#{2,6})\s", line)
+        if m:
+            if skip_level is not None and len(m.group(1)) <= skip_level:
+                skip_level = None
+            if skip_level is None and ORCH_HEAD_RE.search(line):
+                skip_level = len(m.group(1))
+                continue
+        if skip_level is None:
+            out.append(line)
+    return "\n".join(out)
+
+
+def check_perimeter(inst):
+    """P2 — the worklog's inputs line: keyed, legal atoms, citations inside the perimeter.
+
+    A method's primary working draws on its card's `reads` and nothing else (card-schema → *reads is
+    a perimeter*); the worklog records that perimeter on one keyed line — `w:reads` as the pass ran
+    under it, `w:adds` for what the orchestrator supplemented on a rework — so an audit can tell a
+    sanctioned widening from a leak. What the machine can see: the keys, the atoms' grammar, and the
+    two mechanical citation classes (section anchors, register ids) landing outside the declared
+    doors. What it cannot: whether an untagged claim came from outside — that stays with a `verify`
+    lens. All WARN: prose citation is heuristic, and a hard gate here would teach agents to cite
+    less, which is the opposite of the point. Worklogs predating the line get one aggregate WARN
+    per instance (the S2 introduction pattern).
+    """
+    name = rel(inst)
+    legacy = 0
+    for folder in sorted(glob.glob(os.path.join(inst, "[1-6]-*"))):
+        if not os.path.isdir(folder):
+            continue
+        step = os.path.basename(folder)
+        for wl in sorted(glob.glob(os.path.join(folder, "*.md"))):
+            base = os.path.basename(wl)
+            tool = base[:-3]
+            text = read(wl)
+            lineno, line = next(((i, l) for i, l in enumerate(text.split("\n"), 1)
+                                 if W_KEY_RE.search(l)), (0, None))
+            if line is None:
+                legacy += 1
+                continue
+            keys = W_KEY_RE.findall(line)
+            for k in sorted(set(keys) - set(W_FIELDS)):
+                warn("P2 [%s] %s/%s:%d: unknown inputs-line key `w:%s` — the two are `w:reads` and "
+                     "`w:adds` (worklog-skeleton)" % (name, step, base, lineno, k))
+            for k in (set(W_FIELDS) - set(keys)):
+                warn("P2 [%s] %s/%s:%d: inputs line is half-keyed — missing `w:%s`; both keys or "
+                     "none (worklog-skeleton)" % (name, step, base, lineno, k))
+            reads_val = _w_value(line, "reads") or ""
+            adds_val = _w_value(line, "adds") or ""
+            if "<" in reads_val + adds_val:
+                warn("P2 [%s] %s/%s:%d: the inputs line still holds a template placeholder — copy "
+                     "the card's `reads:` at pass time (worklog-skeleton)" % (name, step, base, lineno))
+                continue
+            atoms = [a.strip() for a in re.split(r"[·,]", reads_val) if a.strip()]
+            defects = C.atom_errors("reads", atoms)
+            for d in defects:
+                warn("P2 [%s] %s/%s:%d: %s (card-schema → One atom grammar)"
+                     % (name, step, base, lineno, d))
+            if defects:
+                continue
+            adds = [a.strip() for a in re.split(r"[·,]", adds_val) if a.strip()
+                    and ":" in a and not a.startswith("<")]
+            perimeter = [C.split_atom(a) for a in atoms + adds]
+            allowed_anchors = {arg for head, arg in perimeter if head == "section"}
+            allowed_anchors |= set(C.sections_written(_card_atoms(tool, inst, "writes")))
+            allowed_anchors.add("intake")
+            allowed_regs = {arg for head, arg in perimeter if head == "register"}
+            region = _primary_region(text)
+            for a in sorted(set(ANCHOR_CITE_RE.findall(region)) - allowed_anchors):
+                warn("P2 [%s] %s/%s: cites `#%s` outside the inputs line — a citation names its "
+                     "door: the card's `reads` (`section:%s`) or a recorded supplement (`w:adds`)"
+                     % (name, step, base, a, a))
+            fams = {m.group(1) or m.group(2) for m in REG_ID_CITE_RE.finditer(region)}
+            for fam in sorted(fams):
+                covered = ({"metrics", "metric-tree"} & allowed_regs if fam == "M"
+                           else ID_FAMILY[fam] in allowed_regs and {ID_FAMILY[fam]})
+                if not covered:
+                    reg = "metrics" if fam == "M" else ID_FAMILY[fam]
+                    warn("P2 [%s] %s/%s: cites `%s-…` ids but `register:%s` is not on the inputs "
+                         "line — declare the register in the card's `reads`, or record the "
+                         "supplement (`w:adds`)" % (name, step, base, fam, reg))
+    if legacy:
+        warn("P2 [%s] %d worklog(s) predate the `**Inputs:**` line — a new worklog copies it from "
+             "the skeleton; a rework pass adds it (worklog-skeleton)" % (name, legacy))
 
 
 QUESTION_TYPES = {"free_text", "list", "per_item", "single_select", "multi_select"}
@@ -1839,6 +1959,7 @@ def main(argv=()):
         check_evidence_shown(inst)
         check_source_types(inst)
         check_boundary(inst)
+        check_perimeter(inst)
         check_instance_conformance(inst)
         check_confirm_dates(inst)
         check_decision_lines(inst)

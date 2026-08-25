@@ -12,8 +12,8 @@ surfaces: []
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.5.1
-updated: 2026-08-20
+version: 0.6.0
+updated: 2026-08-25
 ---
 # Orchestration — running one pass with subagents
 
@@ -83,7 +83,7 @@ separable, not that the brief needs to be longer).
    |------|-----------------------|------------|
    | `gather` | one source + the question the number/fact must answer | dated tagged values + what it could not reach |
    | `research` | one question + its scope and stop condition | a sourced digest, every claim tagged |
-   | `draft` | one library method + the inputs it needs | its method's **worklog** (the draft), written by the subagent; ⚙️-marked — plus a summary + passport for the orchestrator to check before projecting |
+   | `draft` | one library method + its card's `reads:`, resolved (the closed perimeter) | its method's **worklog** (the draft), written by the subagent; ⚙️-marked — plus a summary + passport for the orchestrator to check before projecting |
    | `verify` | one artifact/section + **the lens**: a checklist to hold it against, or one claim to refute | findings: file · anchor · what fails · why — for a refutation, the case against the claim and what would settle it (*The two lenses*, below) |
 
    One brief = one kind = one deliverable. A brief that mixes kinds ("collect the data and also draft
@@ -102,6 +102,13 @@ separable, not that the brief needs to be longer).
      comparable without re-reading the briefs.
    - **The passport** — pasted into the brief, so the subagent is checked against the same list it
      was given. Nothing about the acceptance test is a surprise.
+   - **A `draft`'s inputs are assembled, not chosen.** Resolve the method card's `reads:`
+     mechanically — sections by their `{#anchor}`, register slices by theme, sources through the
+     typed slots of `sources/INDEX.md` — and hand over that and nothing else: the perimeter is
+     closed ([`card-schema.md`](../../../process/reference/card-schema.md) → *reads is a
+     perimeter*). An input the instance lacks stays in the brief as a named gap the draft must
+     declare, never quietly replaced by what the orchestrator happens to know — a first draft fed
+     the orchestrator's wider context is exactly the leak the perimeter exists to stop.
 
 4. **Launch.** Parallel where the parts are independent; sequential where one part's output is
    another's input (and then ask whether it is really two tasks). A subagent may spawn its own
@@ -122,7 +129,11 @@ separable, not that the brief needs to be longer).
    the sourcing" but "claims 2 and 5 have no source; the URL in claim 4 was never opened". After the
    second failure, stop: record what is missing as `— to clarify —` and surface it to the human,
    saying that the brief did not produce a usable return. A third attempt is nearly always the
-   brief's fault.
+   brief's fault. Sending a `draft` back, the orchestrator — whose context is wider than the
+   perimeter — may **supplement** it with named inputs the quality of the result needs: the
+   additions go into the rework brief *and* into the worklog's `Supplements:` field (`w:adds`,
+   dated), so an audit can tell the sanctioned widening from a leak. The first draft never gets
+   them; the supplement is a rework decision, made against a return that showed why it is needed.
 
 7. **Check the worklog, then project — this is the writing the orchestrator owns.** A `draft` return
    points at a **worklog the subagent wrote**; read it against the passport, then **project** it into
@@ -175,7 +186,9 @@ A `verify` brief names a lens, and there are two kinds.
 
 **Conformance** — the default, and what the shipped subagent does unbriefed: tags, sourcing, gaps,
 internal consistency, **decision lines** (an empty or bare-*none* alternatives field —
-[`library/README.md`](../../library/README.md) → *The rejected alternative*), gate coverage. It answers
+[`library/README.md`](../../library/README.md) → *The rejected alternative*), gate coverage, and the
+**input perimeter** — a worklog fact whose origin is neither on the inputs line (`w:reads`/`w:adds`)
+nor general method knowledge is the semantic leak the P2 lint cannot see. It answers
 *is this written correctly?*
 
 **Refutation** — the brief names **one conclusion** and asks for the strongest case that it is

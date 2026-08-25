@@ -2,8 +2,8 @@
 node_type: operating-loop
 title: Operating Loop — how the agent runs one pass
 status: draft
-version: 0.15.0
-updated: 2026-08-19
+version: 0.16.0
+updated: 2026-08-25
 ---
 
 # Operating Loop
@@ -36,14 +36,18 @@ checklist and the status's per-step goals, and an **empty `per_step`** never blo
 defaults, and at move 5 propose filling it). An event matching **two rows is two passes**.
 
 **2 · Gather the inputs — and size the pass.** Check the card's **`prerequisites`** against what
-exists, then take the read perimeter from its **`reads`**. Three laws hold over that list. Inputs
+exists, then take the read perimeter from its **`reads`**. Four laws hold over that list. Inputs
 resolve by **data, not guess** — the card names the *types*, the *instances* come from the section's
 theme (open `H-` on its theme, live `R-`, the metric nodes it touches — semantics in doubt →
 [`REGISTERS.md`](REGISTERS.md)). The perimeter is a **union**, never one card's list alone: add the
-target section's **rests-on** and the step README's input map. And **a worklog is an input only when
+target section's **rests-on** and the step README's input map. **A worklog is an input only when
 the card declares it** (`worklog:<step>/<method>` in `reads`; tags carry verbatim, sign-off stays on
 sections) — an *undeclared* need for another method's worklog means its projection has lagged, and
-re-projecting it is the debt. Announce the list. Volume is now visible: decide **here, aloud**, split across subagents or run
+re-projecting it is the debt. And for a method the perimeter is **closed**: the primary working of
+the worklog draws on this list and nothing else — an input the instance lacks is a declared gap
+(`— to clarify —`), never a substitute pulled from reach; wider context enters only through the
+orchestrator's two recorded doors ([`reference/card-schema.md`](reference/card-schema.md) →
+*reads is a perimeter*). Announce the list. Volume is now visible: decide **here, aloud**, split across subagents or run
 alone, and why (the split itself runs at move 4; the contract is *Delegation* below).
 
 **3 · Close the gaps — with the human.** A missing prerequisite → **ask** or offer to help obtain
@@ -102,6 +106,11 @@ it costs more tokens, never fewer.
   orchestrator.
 - **The return gate is hard.** Every return is scored against its **passport** before use; a failing
   one goes back **once** with named defects, then stop — record `— to clarify —` and surface it.
+- **A `draft` brief's inputs are the card's `reads`, resolved** — the closed perimeter, assembled
+  mechanically, never the orchestrator's context dump. Sending a draft back, the orchestrator may
+  **supplement** the perimeter with named inputs the quality of the result needs — the supplement is
+  written into the worklog's `Supplements` field, so an audit can tell a sanctioned widening from
+  a leak.
 - **`delegation: off`** (or a runtime that cannot spawn agents): the orchestrator runs every pass
   itself and writes the worklogs directly; the write rule is unchanged, and a tick needing a `verify`
   stays `open`, reason surfaced (move 5).

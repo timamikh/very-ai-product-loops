@@ -4,7 +4,7 @@ kind: method
 name: segmentation
 steps: [1]
 prerequisites: [concept, audience-knowledge-or-analytics]
-reads: [source:interview, source:kb, source:metrics]
+reads: [section:idea, section:value-defensibility, register:hypotheses, register:risks, register:metrics, source:interview, source:metrics, source:kb]
 writes: [worklog, section:segments, register:hypotheses]
 opinionated: false
 method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
@@ -13,8 +13,8 @@ volume_rule: "≥3 candidate cuts on different bases (situation · job · behavi
 selection_rule: "priority tiers 1–3 on need-difference × reachability × fit with the moat; ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.5.0
-updated: 2026-08-16
+version: 0.6.0
+updated: 2026-08-25
 ---
 # Segmentation
 

@@ -2,8 +2,8 @@
 node_type: reference
 title: Worklog skeleton — the copyable shape of a working document
 status: draft
-version: 0.1.0
-updated: 2026-08-20
+version: 0.2.0
+updated: 2026-08-25
 ---
 
 # Worklog skeleton
@@ -30,6 +30,8 @@ version: 0.1.0
 
 _Source of truth for `<step-slug>.md#<section>`; that section is the projection of this file._
 
+**Inputs:** <!--w:reads--> <the card's `reads:`, copied at pass time> · **Supplements:** <!--w:adds--> none
+
 ## Inputs dispatched from sources {#intake}
 
 _Each row is a fact the method works from; the analysis and conclusions are worked below and
@@ -47,6 +49,12 @@ Rules the skeleton encodes, so they survive the copy:
 - **The frontmatter is check P's contract** — `node_type: worklog` and a `tool` that matches the
   file name; a worklog with another `node_type`, or named for something no section marker names,
   is an orphan.
+- **The inputs line is the perimeter audit's anchor.** `w:reads` carries the card's `reads:` as the
+  primary pass ran under it — a later card edit does not rewrite history. `w:adds` starts as `none`
+  and grows only when the orchestrator supplements the perimeter on a rework: each supplement a
+  dated atom or concrete ref ([`card-schema.md`](card-schema.md) → *reads is a perimeter*). Label
+  prose is free and translatable; the keys are not — the decision-line pattern (CONVENTIONS →
+  *The decision line*).
 - **The intake table holds facts, never conclusions.** Conclusions are worked under *The working*
   and projected into the artifact section by the method (`projection`); the worklog keeps the
   reasoning, the section keeps the result.

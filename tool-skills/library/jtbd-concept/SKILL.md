@@ -4,7 +4,7 @@ kind: method
 name: jtbd-concept
 steps: [1]
 prerequisites: [a segment/customer]
-reads: [register:hypotheses, source:interview, source:kb]
+reads: [section:idea, section:segments, register:hypotheses, source:interview, source:kb]
 writes: [worklog, section:jtbd, register:hypotheses]
 opinionated: false
 method_basis: "Jobs-to-be-Done — Christensen 'progress' + Ulwick ODI: job statement · forces (push/pull/anxiety/habit) · desired outcomes"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-25
 ---
 # Jobs-to-be-Done (concept)
 

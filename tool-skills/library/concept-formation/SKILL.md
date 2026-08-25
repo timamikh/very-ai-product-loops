@@ -4,7 +4,7 @@ kind: method
 name: concept-formation
 steps: [1]
 prerequisites: [raw-idea]
-reads: [source:interview, source:kb]
+reads: [register:hypotheses, register:metrics, source:interview, source:kb]
 writes: [worklog, section:idea, register:hypotheses]
 opinionated: false
 method_basis: "April Dunford positioning ('the shift') + problem→solution articulation"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.1
-updated: 2026-08-19
+version: 0.4.0
+updated: 2026-08-25
 ---
 # Concept Formation
 

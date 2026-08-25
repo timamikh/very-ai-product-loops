@@ -15,6 +15,34 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### The input perimeter + the card line names a block
+
+- **`reads` is a perimeter, not a hint** (card-schema): a method's **primary worklog pass** draws
+  on the declared atoms and nothing else — a missing input is a declared gap, never a substitute.
+  Wider context enters through two **recorded** doors, both the orchestrator's: the conclusions
+  block (its heading now carries `<!-- orchestrator -->`, machine-findable in any language) and a
+  rework order that supplements the perimeter. Four ambient inputs stay undeclared: the card, its
+  own worklog, `config.yaml`/`state.yaml`, the human's answers to the method's own questions.
+  `prerequisites` names a prose subset of `reads`, never more. OPERATING-LOOP move 2 gains the
+  fourth law; a `draft` brief's inputs are **assembled, not chosen** (orchestration), and the
+  first draft never gets a supplement — that is a rework decision.
+- **The worklog records the perimeter it ran under**: the skeleton gains
+  `**Inputs:** <!--w:reads--> … · **Supplements:** <!--w:adds--> none` — keys canon, labels free
+  (the decision-line pattern). New check **P2** (all WARN) holds the keys, the atoms' grammar and
+  the two mechanical citation classes (section anchors, register ids) to that line; the change log
+  and the orchestrator's block are exempt; pre-perimeter worklogs get one aggregate WARN.
+- **Step-1 cards declare what the hub run showed they actually eat**: sections
+  (`section:jtbd`, `section:problems`, …) and registers enter `reads` on all seven method cards —
+  reverse-engineered from hub-v012's real consumption; the observed cross-step leaks stayed out,
+  they are exactly what a recorded supplement is for.
+- **One slot vocabulary**: CONVENTIONS aligns to `cards.SOURCE_SLOTS`
+  (kb · interview · research · metrics · git); a dated human decision is a legal `[sourced:]`
+  origin, not a slot.
+- **The card line names a block, never a physical line** (`card_line`): the trailing form collects
+  the whole paragraph or bullet across soft wraps — a lead marked on a hard-wrapped paragraph's
+  last line no longer returns one truncated line (the hub case, now a selftest).
+- **Console**: the step-goal boilerplate moves off the page into an ⓘ dot beside the step title.
+
 ### The axis on every status + the priority cascade (v0.13)
 
 Two rulings from the hub-saas test run's owner. First: the axis obeys the general principle —

@@ -4,7 +4,7 @@ kind: method
 name: value-definition-concept
 steps: [1]
 prerequisites: [concept, segments, what-we-have-or-can-build]
-reads: [source:interview, source:kb]
+reads: [section:idea, section:segments, register:hypotheses, register:risks, register:metrics, source:interview, source:kb]
 writes: [worklog, section:value-defensibility, register:hypotheses]
 opinionated: true
 method_basis: "7 Powers (Helmer) → base moats; post-AI lens (software isn't the moat, position is); derivative moats deferred to Step 3"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-25
 ---
 # Value & Defensibility (concept)
 
