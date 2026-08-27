@@ -35,6 +35,13 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
 
 ### The input perimeter + the card line names a block
 
+- **`cjm-concept` 0.3.0 — the skip is read off the evidence you have, not a source you lack**: the
+  apply triggers are step-1-native (stage-bound pains in interviews, a multi-actor path, a ranking
+  the interviews contradict; a measured drop-off only *when readings exist*), an explicit
+  when-to-skip clause requires the recorded return trigger to name an in-perimeter signal, and
+  "no funnel data" is named as the anti-pattern it is — a running-product signal imported into a
+  step that never had one. Step-1 template `{#cjm}` lead recut to match.
+
 - **`source-intake` 0.4.0 — dispatch respects the perimeter**: a fact is routed only into worklogs
   of methods whose `reads` carries the source's typed slot (the INDEX `type` column names it) — a
   `research` snapshot never lands in a step-1 method that reads only `kb`/`interview`, however close

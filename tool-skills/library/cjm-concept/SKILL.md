@@ -13,15 +13,15 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-25
+version: 0.3.0
+updated: 2026-08-27
 ---
 # Customer Journey Map (concept)
 
 Map **one segment's end-to-end journey doing the job, over time** — the stages, actions,
 touchpoints, and how it feels — to surface where it breaks and where value can be added. Fills
-`{#cjm}` at Step 1, as an **optional lens**: the temporal view behind `{#problems}`, filled when a
-flat pain list isn't enough (e.g. an unexplained drop-off).
+`{#cjm}` at Step 1, as an **optional lens**: the temporal view behind `{#problems}`, filled when
+the evidence ties pains to *moments* of the journey — a flat list would hide **where** they bite.
 
 **Method basis.** Classic journey mapping: lay the customer's experience out as a timeline of
 **stages**, and for each capture **actions · touchpoints · thoughts/emotions · pains**, then read
@@ -42,11 +42,22 @@ the **emotional curve** and the **moments that matter** to convert pains into op
 >   `pre-mortem`.
 
 ## When to apply
-- **Step 1, optionally**, to surface a segment's problems as they actually occur along the journey,
-  not as a flat list — especially when a drop-off or an abandonment needs explaining before the
-  concept's problems can be trusted.
+- **Step 1, optionally**, when the evidence in `reads` ties pains to **stages**: an interviewee
+  reports the deal or the usage stalling at a particular moment, or the path is long and
+  multi-actor (initiator → approver → payer) so *who* feels *which* pain *when* changes the
+  concept — a flat `{#problems}` list would average that away.
 - When interviews contradict the pain ranking: walking the journey often shows the pain sits at a
   different stage than reported.
+- When the instance **has** readings (`register:metrics`) and they show an unexplained drop-off —
+  one more stage-bound signal *when it exists*, never the defining trigger.
+
+**When to skip — and how to say it.** The apply/skip call is a statement about the evidence in
+`reads`, never about a source the instance lacks. A concept with no shipped product has no funnel;
+"no funnel data" as the skip reason imports a running-product signal into a step that never had
+one. Skip when nothing in the evidence ties pains to stages — or when the map would fail its own
+`evidence_standard` (primary research: with no interviews at all, every row is *Emotion theater*).
+The recorded return trigger names an **in-perimeter** signal ("first interviews report where the
+deal stalls"), not "when funnel data appears".
 
 ## Prerequisites
 - **The segment/persona whose journey this is** — one segment, not "the user" in the abstract.
@@ -77,6 +88,9 @@ the **emotional curve** and the **moments that matter** to convert pains into op
    exists to put at risk.
 
 ## Anti-patterns
+- **Skipping by a source you lack.** Justifying n/a with an absent funnel or dashboard — the
+  trigger and the skip are both read off the evidence in `reads`, and the return trigger names an
+  in-perimeter signal, not the arrival of a data source the concept never had.
 - **One map for all segments.** Averaging distinct journeys into a meaningless composite.
 - **Inside-out.** Mapping *your* process instead of *their* experience.
 - **Emotion theater.** An emotional curve drawn from imagination, not marked as assumption.
