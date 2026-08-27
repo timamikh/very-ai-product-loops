@@ -600,7 +600,7 @@ function dualRing(s, size) {
       // the faint arc continues where the closed arc ends — same hue so it reads as the same
       // journey, faint so it never counterfeits a closed gate
       el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: color, 'stroke-width': w,
-        opacity: '.3',
+        opacity: '.35',
         'stroke-dasharray': `${(c * Math.min(1, soft)).toFixed(2)} ${c.toFixed(2)}`,
         'stroke-dashoffset': (-c * Math.min(1, frac)).toFixed(2),
         transform: `rotate(-90 ${R} ${R})` }));
@@ -2238,17 +2238,22 @@ function renderRail() {
     const c = s.gate_counts || {};
     const total = s.gate.length || 1;
     const done = c.done || 0;
+    // written-but-unticked continues the closed segment faintly — drafted work must not
+    // read as an untouched step (same rule as the dual ring's faint tail)
+    const wr = (s.gate || []).filter(g =>
+      g.written && (g.tick === 'open' || g.tick === 'unknown')).length;
     const cc = confCounts(s);
     return h('button', {
       class: (S.tab === 'step' && S.step === s.step ? 'on ' : '') + (m.current_step === s.step ? 'here' : ''),
       onclick: () => { S.tab = 'step'; S.step = s.step; render(); },
-      title: `${s.title || s.name} — ${gateSummary(s)} · ${t('confirmed')} ${cc.done}/${cc.total}`,
+      title: `${s.title || s.name} — ${gateSummary(s)}${wr ? ` · ${t('gateWritten')} ${wr}` : ''} · ${t('confirmed')} ${cc.done}/${cc.total}`,
     },
       h('div', { class: 'rn' }, `${s.step}${m.current_step === s.step ? ' ·' : ''}`),
       h('div', { class: 'rt' }, shortTitle(s.title || s.name)),
       h('div', { class: 'rp' },
         h('i', { style: `width:${(done / total * 100).toFixed(1)}%` }),
-        h('i', { class: 'dim', style: `width:${((total - done) / total * 100).toFixed(1)}%` })),
+        wr ? h('i', { class: 'soft', style: `width:${(wr / total * 100).toFixed(1)}%` }) : null,
+        h('i', { class: 'dim', style: `width:${((total - done - wr) / total * 100).toFixed(1)}%` })),
       // the second axis under the first: gate progress (red) above, human sign-offs (navy) below
       cc.total ? h('div', { class: 'rp rp2' },
         h('i', { style: `width:${(cc.done / cc.total * 100).toFixed(1)}%` }),

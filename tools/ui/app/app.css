@@ -143,6 +143,7 @@ h1 { font-size:22px; letter-spacing:-.02em; font-weight:700; line-height:1.2 }
 .rail button.on .rt { color:var(--ink) }
 .rail .rp { height:3px; background:var(--grid); margin-top:7px; display:flex }
 .rail .rp i { display:block; height:100%; background:var(--brand) }
+.rail .rp i.soft { opacity:.35 }
 .rail .rp i.dim { background:var(--line-2) }
 /* the second axis under the first: gate progress above (red), human sign-offs below (navy) */
 .rail .rp.rp2 { margin-top:2px }
