@@ -4,7 +4,7 @@ kind: method
 name: uvp-cpv
 steps: [3]
 prerequisites: [segments, segment-pains, where-to-play]
-reads: [source:interview, source:kb]
+reads: [section:segments, section:problems, section:where-to-play, register:hypotheses, source:interview, source:kb]
 writes: [worklog, section:uvp-cpv, register:hypotheses]
 opinionated: false
 method_basis: "Dunford positioning + Value Proposition Canvas + customer-perceived value; CVP stated per situation (segment · situation · pain · CVP) for the lead segment before the one-liner"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.3.0
+updated: 2026-08-27
 ---
 # UVP & Customer-Perceived Value
 

@@ -4,8 +4,8 @@ artifact: strategy
 step: 3
 title: "Strategy — <Product>"
 status: template
-version: 0.5.0
-updated: 2026-08-23
+version: 0.6.0
+updated: 2026-08-27
 ---
 
 <!--
@@ -71,6 +71,13 @@ _What we charge and how we package it — anchored to value vs the alternative. 
 | better | … | … | … | … | … | [assumption] |
 | best | … | … | … | … | … | [assumption] |
 
+_Anchor to the alternative — prices are numbers in the buyer's currency per the value metric, never
+a word: a cell that cannot be placed on a price scale is a gap, written `— to clarify —`._
+
+| Segment <!--c:segment--> | Next-best alternative <!--c:alt--> | Their price <!--c:altprice--> | Our price <!--c:ourprice--> | Value gap that justifies the delta <!--c:gap--> | Confidence <!--c:conf--> |
+|---------|------------------------------------|-------------|-----------|--------------------------------|------------|
+| … | … | … | … | … | [assumption] |
+
 ## Channels & expansion {#channels-expansion}
 <!-- tool: channels-expansion -->
 <!-- rests-on: 1#segments -->
@@ -78,9 +85,11 @@ _Acquisition/comms channels (Bullseye) + the GTM motion + expansion paths._
 
 - **GTM motion:** product-led / sales-led / partner-led / community-led — why it fits how the segment buys  [assumption]
 
-| Channel <!--c:channel--> | Stage (traction / scale) <!--c:stage--> | Why it fits the segment <!--c:fit--> | Confidence <!--c:conf--> |
-|---------|--------------------------|-------------------------|------------|
-| … | … | … | [assumption] |
+| Channel <!--c:channel--> | Stage (traction / scale) <!--c:stage--> | Segment reached <!--c:segment--> | State <!--c:state--> | Why it fits the segment <!--c:fit--> | Confidence <!--c:conf--> |
+|---------|--------------------------|-----------------|-------|-------------------------|------------|
+| … | … | … | … | … | [assumption] |
+
+<!-- enum:c:state: live | building | leaking | untested -->
 
 - Expansion path: …  [assumption]
 
@@ -106,9 +115,9 @@ _System architecture at C4 **Context** level (product, its users, external syste
 <!-- rests-on: 1#jtbd, 2#opportunity -->
 _The strategic hypotheses we're wagering on (framed on the customer's job + forces)._
 
-| ID <!--c:id--> | Bet <!--c:bet--> | Type <!--c:type--> | Job / circumstance <!--c:job--> | Why it wins (pull > anxiety + habit) <!--c:whywins--> | Outcome it moves <!--c:outcome--> | Confidence <!--c:conf--> |
-|----|-----|------|--------------------|--------------------------------------|------------------|------------|
-| H-… | … | desirability / viability / … | … | … | … | [assumption] |
+| ID <!--c:id--> | Bet <!--c:bet--> | Type <!--c:type--> | Job / circumstance <!--c:job--> | Why it wins (pull > anxiety + habit) <!--c:whywins--> | Moat it leans on <!--c:moat--> | Outcome it moves <!--c:outcome--> | Play order <!--c:order--> | Confidence <!--c:conf--> |
+|----|-----|------|--------------------|--------------------------------------|------------------|------------------|------------|------------|
+| H-… | … | desirability / viability / … | … | … | … | … | 1 | [assumption] |
 
 ## Product risks {#product-risks}
 <!-- tool: pre-mortem -->

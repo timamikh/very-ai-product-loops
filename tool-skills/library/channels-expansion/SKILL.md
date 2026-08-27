@@ -4,7 +4,7 @@ kind: method
 name: channels-expansion
 steps: [3]
 prerequisites: [segments, uvp]
-reads: [source:interview, source:kb, source:research]
+reads: [section:segments, section:uvp-cpv, register:hypotheses, register:risks, source:interview, source:kb, source:research]
 writes: [worklog, section:channels-expansion, register:hypotheses, register:risks]
 opinionated: false
 method_basis: "Bullseye framework (Traction, Weinberg/Mares) + GTM-motion choice + expansion-path thinking"
@@ -13,8 +13,8 @@ volume_rule: "≥8 candidate channels across ≥3 channel-type categories before
 selection_rule: "reach × cost-to-test × testability (1/3/5); inner ring = the 3 highest, tested now"
 rejects_shown: required
 status: draft
-version: 0.2.2
-updated: 2026-08-22
+version: 0.3.0
+updated: 2026-08-27
 ---
 # Channels & Expansion
 

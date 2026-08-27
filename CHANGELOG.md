@@ -15,6 +15,29 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Step 3 joins the perimeter and the strategy canvas gets its boards
+
+- **The ten step-3 cards declare in `reads` what their prerequisites already demanded**:
+  `where-to-play-how-to-win` 0.3.0 reads the whole step-2 table (it is the step's synthesis method);
+  `value-definition-strategy` 0.2.0, `uvp-cpv` 0.3.0, `pricing-strategy` 0.2.0 (the step-2 price
+  anchor — the sizing-revisit door), `channels-expansion` 0.3.0, `product-surface` 0.5.0,
+  `architecture-c4` 0.3.0, `bets` 0.2.0, `pre-mortem` 0.2.0 each carry their named sections;
+  `cjm-strategy` 0.3.0 adds the cascade and channels it re-walks the map against. Register seeders
+  read the registers they seed.
+- **All ten step-3 fragments carry `<!-- card -->` slots with a prescribed line form** (aspiration ·
+  arena call · winning logic · moat read · one-liner · price stance · channel read · surface read ·
+  context read · lead bet · death read · journey read) — the face is authored by the method under a
+  stated form, not composed at projection; garbage cannot ride an unspecified slot.
+- **Widget-feeding cells become named requirements**: step-3 template 0.6.0 — keyed price-anchor
+  table (`altprice`/`ourprice`), channel `segment`+`state` (enum live · building · leaking ·
+  untested), bets `moat`+`order`; step-1 template 0.9.0 — keyed moats table (`moat`/`have`/
+  `rebuild`); fragments prescribe literal cells (H/M/L one letter; Emotion `▲/▼` plus `(was …)` on
+  revisit-changed rows; prices as numbers).
+- **Console: six strategy boards** (price ladder against every named anchor, journey emotion curve
+  in two layers, pre-mortem heatmap 3×3 with focusable dots, ordered bets board, moat shields,
+  channel → segment map) — each reads its columns by `<!--c:key-->` only and falls back to the
+  section's ordinary card when an instance lacks the keys.
+
 ### The face is a slot: the method decides its card once
 
 - **The card slot lives in the fragment** (CONVENTIONS 0.33.0, projection 0.6.0): a method's

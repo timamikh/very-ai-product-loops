@@ -25,6 +25,9 @@ different value — the one-liner compresses these)_
 |-------------------|--------------------------|------------|
 | … | — to clarify — | [assumption] |
 
-**One-liner:** ⚙️ _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], because [why us / moat]._
+<!-- card -->
+**One-liner:** ⚙️ _For [best-fit customer] who [job/pain], we [value] — unlike [alternative], because
+[why us / moat]. One sentence, every slot filled from the tables above — a slot filled from nowhere
+is invented value._
 
 **Seeded hypotheses:** H-… (value claim to validate) → hypothesis register.

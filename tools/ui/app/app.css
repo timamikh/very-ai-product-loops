@@ -767,3 +767,78 @@ details.acc .accbody { padding:13px 15px 16px }
 .sfcard.sf-retired .sfname { text-decoration:line-through }
 .sfcard.sf-unknown { border-left-color:var(--warn) }
 .sfname { font-weight:600; margin-top:4px }
+
+/* ------------------------------------------------ step-3 boards (strategy widgets) */
+/* Price ladder — one vertical scale, the brand rung is ours */
+.ladwrap { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:12px 14px }
+.ladder { position:relative; max-width:560px }
+.ladrail { position:absolute; left:96px; top:6px; bottom:6px; width:2px; background:var(--line-2) }
+.ladrung { position:absolute; left:0; right:0; display:flex; align-items:center; gap:10px }
+.ladrung::after { content:""; position:absolute; left:88px; width:18px; height:2px; background:var(--ink-2) }
+.ladprice { width:80px; text-align:right; font-family:var(--mono); font-size:12.5px; color:var(--ink-2) }
+.ladwho { margin-left:34px; font-size:12.5px; color:var(--muted); background:var(--paper);
+  border:1px solid var(--line); border-radius:6px; padding:1px 7px; max-width:70%;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.ladrung.lad-ours::after { background:var(--brand); height:3px }
+.ladrung.lad-ours .ladprice { color:var(--brand-ink); font-weight:700 }
+.ladrung.lad-ours .ladwho { color:var(--brand-ink); border-color:var(--brand-ink); font-weight:600 }
+
+/* Journey emotion curve — the Emotion column drawn literally */
+.jwrap { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+  overflow-x:auto }
+.jcurve { display:block; min-width:520px; width:100%; height:auto; max-height:250px }
+.jgrid { stroke:var(--grid); stroke-width:1 }
+.jline { fill:none; stroke-width:2 }
+.jnow { stroke:var(--ink-2) }
+.jwas { stroke:var(--faint); stroke-dasharray:5 4 }
+.jdot { fill:var(--paper); stroke:var(--ink-2); stroke-width:2 }
+.jdot.jlow { stroke:var(--brand); stroke-width:3 }
+.jdot.jsplit { stroke-dasharray:2 2 }
+.jstage { font-size:10.5px; fill:var(--muted); font-family:var(--sans) }
+.jkey { display:inline-block; width:22px; height:0; border-top:2px solid var(--ink-2); vertical-align:middle }
+.jkey-was { border-top:2px dashed var(--faint) }
+
+/* Pre-mortem heatmap — 3×3, hot corner tinted, dots focusable */
+.heatwrap { max-width:560px }
+.heatgrid { display:grid; grid-template-columns:auto repeat(3,1fr); gap:3px }
+.heatax { display:flex; align-items:center; justify-content:center; min-width:28px }
+.heatcell { min-height:64px; background:var(--sunk); border:1px solid var(--line); border-radius:8px;
+  padding:5px; display:flex; flex-wrap:wrap; gap:4px; align-content:flex-start }
+.heatcell.heat-hot { background:var(--err-soft); border-color:var(--err) }
+.heatdot { font:600 11px var(--mono); color:var(--risk); background:var(--risk-soft);
+  border:1px solid var(--risk); border-radius:99px; padding:2px 7px; cursor:pointer }
+.heatdot:hover, .heatdot:focus-visible { background:var(--risk); color:var(--paper); outline:none }
+.heataxes { margin:4px 0 0 }
+.heatdetail { margin-top:8px; background:var(--paper); border:1px solid var(--line); border-radius:8px;
+  padding:8px 10px; min-height:40px; font-size:13px }
+
+/* Bets board — ordered wagers */
+.betgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px }
+.betcard { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+  display:flex; flex-direction:column; gap:6px }
+.bethead { display:flex; align-items:center; gap:8px }
+.betorder { font:700 12px var(--mono); color:var(--paper); background:var(--ink); border-radius:99px;
+  min-width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center }
+.betbody { font-size:13.5px }
+.betwhy { color:var(--muted) }
+.betfoot { display:flex; flex-wrap:wrap; gap:10px; color:var(--ink-2) }
+.betmoat { border-left:3px solid var(--navy); padding-left:6px }
+
+/* Moat shields — state plates for the step-1 defensibility table */
+.shieldrow { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px }
+.shield { background:var(--sunk); border:1px solid var(--line); border-top:3px solid var(--faint);
+  border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; gap:6px }
+.shield.sh-done { border-top-color:var(--ok) }
+.shield.sh-open { border-top-color:var(--warn) }
+.shname { font-weight:600; font-size:13.5px }
+.shmeta { display:flex; align-items:center; gap:8px; flex-wrap:wrap }
+
+/* Channel map — channel → segment with a literal state */
+.chmap { display:flex; flex-direction:column; gap:8px; max-width:720px }
+.chrow { display:grid; grid-template-columns:minmax(120px,1fr) auto minmax(120px,1fr) auto; gap:10px;
+  align-items:center; background:var(--sunk); border:1px solid var(--line); border-radius:10px;
+  padding:8px 12px }
+.chname { font-weight:600; font-size:13.5px }
+.charr { color:var(--faint) }
+.chseg { font-size:13px; color:var(--ink-2) }
+.chfit { grid-column:1 / -1; margin-top:-2px }

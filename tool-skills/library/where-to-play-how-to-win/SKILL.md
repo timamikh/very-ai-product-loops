@@ -4,7 +4,7 @@ kind: method
 name: where-to-play-how-to-win
 steps: [3]
 prerequisites: [product-concept, market-analysis, value-moats]
-reads: [register:hypotheses, source:kb, source:interview]
+reads: [section:idea, section:segments, section:market-sizing, section:competitors, section:competitor-strategy, section:competitor-dynamics, section:substitutes, section:opportunity, section:value-defensibility, register:hypotheses, source:kb, source:interview]
 writes: [worklog, section:winning-aspiration, section:where-to-play, section:how-to-win, register:hypotheses]
 opinionated: true
 method_basis: "Playing to Win (Lafley/Martin) — winning aspiration, where-to-play, how-to-win cascade"
@@ -13,8 +13,8 @@ volume_rule: "≥3 distinct where-to-play / how-to-win possibilities before one 
 selection_rule: "the chosen cascade must be internally consistent end to end; the others are recorded with why they lose"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.3.0
+updated: 2026-08-27
 ---
 # Where to Play / How to Win
 

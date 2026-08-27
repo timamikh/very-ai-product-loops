@@ -20,16 +20,22 @@ scales with the value the customer gets. … [assumption]
 | … (better) | … | … | … | … | … | [assumption] |
 | … (best) | … | … | … | … | … | [assumption] |
 
-**Anchor to the alternative**
+**Anchor to the alternative** _(prices are numbers in the buyer's currency per the value metric,
+never a word — a price that cannot be placed on a scale next to ours is a gap, written
+`— to clarify —`, not a prose cell)_
 
-| Segment | Next-best alternative (what they'd pay/do) | Our price | Value gap that justifies the delta | Confidence |
-|---------|--------------------------------------------|-----------|------------------------------------|------------|
-| … | … | … | … | [assumption] |
+| Segment | Next-best alternative (what they'd pay/do) | Their price | Our price | Value gap that justifies the delta | Confidence |
+|---------|--------------------------------------------|-------------|-----------|------------------------------------|------------|
+| … | … | … | … | … | [assumption] |
 
 **Willingness-to-pay evidence:** van Westendorp bands / direct WTP / pilot price-talk — per
 segment, each tagged `[sourced: …]` or `[assumption]`. …
 
 **Trial / free mechanics:** how a free/trial entry converts to the first paid action. …
+
+<!-- card -->
+**Price stance:** <one sentence — the price point per value metric, the anchor it stands against,
+and why the delta reads as a gain to the lead segment (name the H-… that carries the claim)>.
 
 **Seeded registers:** each unproven price/packaging choice → hypothesis register (`H-…`,
 `type: viability`); the decision → Step 4 `pricing-strategic-plan` (margin check + projection).

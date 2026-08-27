@@ -17,8 +17,15 @@ assigned at Step 4 by `risk-mitigation`, on these same register entries):
 |----|-------------------------------|----------|------------|--------|------------|
 | R-… | … | market / product / execution / … (key-person → execution) | H/M/L | H/M/L | [assumption] |
 
-_Ranked by likelihood × impact on the 5/3/1 backing (H=5 · M=3 · L=1). Each carried risk is upserted
-into the R- register with `status: open` — handed to Step 4 unmanaged, on purpose._
+_Ranked by likelihood × impact on the 5/3/1 backing (H=5 · M=3 · L=1). Likelihood and Impact cells
+carry exactly `H`, `M` or `L` — one letter, no prose: the cell is read literally onto a 2×2, and a
+hedged cell lands nowhere. Each carried risk is upserted into the R- register with `status: open` —
+handed to Step 4 unmanaged, on purpose._
+
+<!-- card -->
+**Death read:** <one sentence — the single most probable cause of death (its R-…), the quadrant it
+sits in (likelihood × impact), and whether anything in the chosen strategy currently answers it —
+"nothing does" is a legal and load-bearing answer>.
 
 **Disposition of every risk surfaced** — including the ones not carried. A risk that simply fails to
 reappear in the next table is indistinguishable from one nobody raised, and the pre-mortem's whole

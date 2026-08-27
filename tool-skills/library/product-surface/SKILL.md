@@ -4,7 +4,7 @@ kind: method
 name: product-surface
 steps: [3]
 prerequisites: [product-concept, channels-draft]
-reads: [source:interview, source:kb, source:git]
+reads: [section:idea, section:solution, section:channels-expansion, section:cjm, register:surfaces, source:interview, source:kb, source:git]
 writes: [worklog, section:product-surface, register:surfaces]
 opinionated: false
 method_basis: "Touchpoint mapping + instrumentation planning (every user-interaction surface and every behavior/metric collection point)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.0
-updated: 2026-08-24
+version: 0.5.0
+updated: 2026-08-27
 ---
 # Product Surface
 

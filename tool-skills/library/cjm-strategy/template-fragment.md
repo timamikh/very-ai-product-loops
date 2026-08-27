@@ -9,7 +9,10 @@
 ## Customer Journey — <segment>, doing <job> {#cjm}
 
 _Scope: one segment, one job, start → end. Revised against the chosen strategy and channels
-(<which choices changed the map>). Evidence-anchored; mark unverified rows `[assumption]`._
+(<which choices changed the map>). Evidence-anchored; mark unverified rows `[assumption]`.
+The Emotion cell is read literally onto a curve: `▲` or `▼` (`▼▼` for the lowest point of the map),
+plus `(was ▲/▼)` on every row the revisit changed — that pair is the before/after layer. A split
+rating names its actor (`▲ admin / ▼ user`), never averages it away._
 
 | Stage | Actions | Touchpoints | Thoughts / emotions | Pains | Emotion (▲ high / ▼ low) | Confidence |
 |-------|---------|-------------|---------------------|-------|--------------------------|------------|
@@ -26,6 +29,11 @@ _Scope: one segment, one job, start → end. Revised against the chosen strategy
 |-----------------|--------------------|-------|
 | pain at … | … | `H-…` |
 | drop-off / dependency at … | … | `R-…` (checked against the register — no duplicate of a `pre-mortem` entry) |
+
+<!-- card -->
+**Journey read:** <one sentence — the lowest point of the revised map, and what the chosen strategy
+actually changed (a stage lifted, a drop-off closed) — or the honest "the strategy moved nothing on
+this map">.
 
 **Feeds:** step-3 `{#product-surface}` (the touchpoints the strategy commits to owning — landed in
 that section's worklog).

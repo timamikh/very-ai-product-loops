@@ -4,7 +4,7 @@ kind: method
 name: value-definition-strategy
 steps: [3]
 prerequisites: [the step-1 value-defensibility section, competitor-context, strategy choices (where-to-play / how-to-win)]
-reads: [register:hypotheses, source:interview, source:kb]
+reads: [section:value-defensibility, section:competitor-strategy, section:where-to-play, section:how-to-win, register:hypotheses, source:interview, source:kb]
 writes: [worklog, section:value-defensibility, register:hypotheses]
 opinionated: true
 method_basis: "7 Powers (Helmer) revisited at strategy — derivative moats once customers/scale exist, moat trajectory over time; post-AI lens (software isn't the moat, position is)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-27
 ---
 # Value & Defensibility (strategy revisit)
 

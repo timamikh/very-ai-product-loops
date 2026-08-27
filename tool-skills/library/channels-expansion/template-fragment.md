@@ -20,11 +20,17 @@ period it gets re-proposed from scratch._
 
 _Message (what we say) stays in `{#uvp-cpv}` — this table is where we reach them, not what we say.
 An inner-ring channel that cannot start the motion's first step is a recorded conflict, not a silent
-re-rank._
+re-rank. Each inner-ring row also states the channel's **state** — exactly one of `live · building ·
+leaking · untested` — and the segment it reaches: state is an observation with a source, never an
+intention._
 
 **Expansion path**
 | Order | Next segment / market / geography | Trigger that unlocks it | Confidence |
 |-------|-----------------------------------|-------------------------|------------|
 | 1 | … | e.g. channel X hits CAC < … | [assumption] |
+
+<!-- card -->
+**Channel read:** <one sentence — the one channel the motion stands on today, its state (live ·
+building · leaking · untested), and the sharpest gap the expansion path must close>.
 
 **Seeded registers:** H-… (channel bet) · R-… (expansion / dependency risk) → registers.

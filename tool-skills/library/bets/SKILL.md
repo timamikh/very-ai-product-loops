@@ -4,7 +4,7 @@ kind: method
 name: bets
 steps: [3]
 prerequisites: [the job and forces (jtbd), strategy choices (where-to-play / how-to-win), value & defensibility]
-reads: [register:hypotheses, source:interview, source:kb]
+reads: [section:jtbd, section:where-to-play, section:how-to-win, section:value-defensibility, register:hypotheses, source:interview, source:kb]
 writes: [worklog, section:bets, register:hypotheses]
 opinionated: false
 method_basis: "Strategic bets framed on the JTBD forces — '<segment> will hire us over <status quo> for <job> because pull > anxiety + habit' — each tied to a named moat; one bet = one typed hypothesis"
@@ -13,8 +13,8 @@ volume_rule: "3–7 bets; each names the segment, the job/circumstance, the stat
 selection_rule: "a bet must beat the status quo on the forces (pull > anxiety + habit) and lean on a named moat; candidates that can't say why they win are recorded, not carried"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-27
 ---
 # Strategic Bets
 

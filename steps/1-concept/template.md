@@ -4,8 +4,8 @@ artifact: concept
 step: 1
 title: "Product Concept — <Product>"
 status: template
-version: 0.8.1
-updated: 2026-08-19
+version: 0.9.0
+updated: 2026-08-27
 ---
 
 <!--
@@ -97,6 +97,12 @@ _The value and the moat(s). See the tool for the base/derivative taxonomy._
 
 - Intended moat(s): …  [assumption]
 - Why it holds post-AI: …
+
+| Moat <!--c:moat--> | Layer <!--c:layer--> | Have / Building / Aspiration <!--c:have--> | Survives an LLM rebuild? <!--c:rebuild--> | Confidence <!--c:conf--> |
+|------|-------|------------------------------|--------------------------|------------|
+| … | hard / soft | … | … | [assumption] |
+
+<!-- enum:c:have: Have | Building | Aspiration -->
 
 ## Seeded hypotheses {#hypotheses}
 _Everything above starts as an assumption. List the ones to carry into the hypothesis register._

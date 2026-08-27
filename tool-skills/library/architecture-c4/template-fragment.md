@@ -20,6 +20,10 @@
 %% keep at C4 Context level
 ```
 
+<!-- card -->
+**Context read:** <one sentence — the heaviest external dependency and what it costs us: COGS, a
+risk we seeded (R-…), or a moat we lean on but do not own>.
+
 **Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
 proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
 actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.

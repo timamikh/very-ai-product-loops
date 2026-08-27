@@ -4,7 +4,7 @@ kind: method
 name: architecture-c4
 steps: [3]
 prerequisites: [product-concept]
-reads: [source:interview, source:kb, source:git]
+reads: [section:idea, section:solution, register:risks, source:interview, source:kb, source:git]
 writes: [worklog, section:architecture, register:risks]
 opinionated: false
 method_basis: "C4 model — Context level (Simon Brown)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.3.0
+updated: 2026-08-27
 ---
 # Architecture (C4 Context)
 

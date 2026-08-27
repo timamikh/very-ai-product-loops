@@ -31,6 +31,10 @@ erodes meanwhile; the order of construction the strategy leans on._
 **Defensibility summary:** ⚙️ _lead moat = … ; durability = H/M/L ; why it holds = … ; leveraged in
 `{#how-to-win}` and named per bet in `{#bets}`._
 
+<!-- card -->
+**Moat read:** <one sentence — the lead moat, its durability (H/M/L), and which way the door swings:
+it brings the customer in, it holds them in place, or both — an asymmetry here is the finding>.
+
 **Seeded hypotheses:** H-… (moat / derivative-dependency claim to validate) → hypothesis register.
 
 **Candidates rejected as features, not moats** — what failed the post-AI rebuild test (including

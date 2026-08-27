@@ -14,6 +14,10 @@
 **Behavior-study tools:** … (analytics / session capture / surveys / funnels)
 **Infra implications (→ Step 4 costs):** …
 
+<!-- card -->
+**Surface read:** <one sentence — where the product meets the user first, and the widest
+instrumentation gap (the surface we own but cannot see into)>.
+
 **Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
 proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
 actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.

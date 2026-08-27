@@ -116,6 +116,11 @@ const STR = {
     boardTactical: 'Goals & guardrails', boardSprint: 'Sprint board',
     z3Cascade: 'Strategy cascade', z3Commercial: 'Commercial', z3Product: 'Product',
     z3Bets: 'Bets & risks', z3Open: 'Open',
+    z3Ladder: 'Price ladder', z3Channels: 'Channels → segments', z3Journey: 'Journey emotion curve',
+    z3Moats: 'Moat shields', z3Heat: 'Pre-mortem heatmap',
+    lOurs: 'our price', heatHint: 'hover or click a dot to read the risk',
+    curveWas: 'before (concept)', curveNow: 'after strategy', curveSplit: 'split rating',
+    shRebuild: 'LLM rebuild', betMoat: 'moat', ladderFrom: 'Anchors from this step’s pricing table and step 2’s competitor pricing.',
     z4North: 'North Star & metric tree', z4Econ: 'Economics',
     z4Instr: 'Instrumentation & risk', z4Hyp: 'Hypotheses',
     z5Goals: 'Goals & targets', z5Guard: 'Guardrails', z5Res: 'Resources & market',
@@ -1112,18 +1117,307 @@ function canvasIdea(s) {
   ].filter(Boolean).flat();
   return kids.length ? h('div', { class: 'canvas' }, kids) : null;
 }
-/* Step 3 — the strategy as a Playing-to-Win canvas: the aspiration→where→how cascade on top, then the
-   commercial, product and bets zones. */
+/* ---- step-3 boards: the strategy drawn from its keyed tables. Each board reads columns by their
+   <!--c:key--> marks only (colKey — no positional fallback), and returns null when the instance does
+   not carry the keys, so the section falls back to its ordinary card and nothing is invented. ---- */
+
+/* Every markdown table in a body — firstTable's shape, one entry per table, in document order.
+   A section can carry more than one keyed table (pricing: tiers, then anchors) and the key names
+   which one a board wants. */
+function allTables(body) {
+  const lines = String(body || '').split('\n');
+  const out = [];
+  let i = 0;
+  while (i < lines.length) {
+    const l = lines[i].trim(), nx = (lines[i + 1] || '').trim();
+    if (l.startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
+      const cells = l.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      out.push({
+        keys: cells.map(c => (c.match(COL_KEY_RE) || [])[1] || null),
+        head: cells.map(c => c.replace(COL_KEY_RE, '').trim()),
+        rows: [],
+      });
+      i += 2;
+      while (i < lines.length && lines[i].trim().startsWith('|')) {
+        out[out.length - 1].rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()));
+        i++;
+      }
+      continue;
+    }
+    i++;
+  }
+  return out;
+}
+/* Prices out of a cell — numbers anchored to a currency mark (₽ / руб / $ / € / £), one per rung
+   of a tier ladder. A number with no currency in a prose cell is noise (a token count, a read
+   date), never a price; a cell that is one bare number still counts; a cell carrying a gap mark
+   has no price by definition. Spaces/NBSPs are thousand separators (JS \s covers both). */
+const priceNums = c => {
+  const s = plain(c);
+  if (/—\s*(to clarify|уточнить)\s*—/i.test(s)) return [];
+  const out = [];
+  const re = /(?:[$€£]\s*(\d[\d\s]*(?:[.,]\d+)?))|(?:(\d[\d\s]*(?:[.,]\d+)?)\s*(?:₽|руб|[$€£]))/g;
+  let m;
+  while ((m = re.exec(s))) out.push(parseFloat((m[1] || m[2]).replace(/\s/g, '').replace(',', '.')));
+  if (!out.length && /^\d[\d\s]*(?:[.,]\d+)?$/.test(s.trim())) {
+    out.push(parseFloat(s.replace(/\s/g, '').replace(',', '.')));
+  }
+  return out.filter(n => !isNaN(n));
+};
+const anotherStep = n => (S.model.steps || []).find(x => x.step === n && x.artifact_file);
+
+/* Price ladder — our price against every anchor the instance names: the step-3 anchor table
+   (c:altprice / c:ourprice) plus step 2's competitor-pricing table (c:price, every rung of a tier
+   ladder). One vertical scale; the brand rung is ours. */
+function priceLadder(s) {
+  const a = bodyOf(s, 'pricing');
+  if (!a) return null;
+  const rungs = [];
+  const add = (label, cellRaw, one, ours) => {
+    const ns = priceNums(cellRaw);
+    (one ? ns.slice(0, 1) : ns).forEach(p => {
+      if (!rungs.some(r => r.price === p && r.label === label)) rungs.push({ label, price: p, ours: !!ours });
+    });
+  };
+  const anchor = allTables(a.body).find(tb => colKey(tb, 'altprice') >= 0);
+  if (anchor) {
+    const ai = colKey(anchor, 'alt'), pi = colKey(anchor, 'altprice'),
+      oi = colKey(anchor, 'ourprice'), si = colKey(anchor, 'segment');
+    anchor.rows.forEach(r => {
+      if (pi >= 0) add(plain(r[ai >= 0 ? ai : 0]), r[pi], true);
+      if (oi >= 0 && !rungs.some(x => x.ours)) {
+        add(t('lOurs') + (si >= 0 && plain(r[si]) ? ' · ' + plain(r[si]) : ''), r[oi], true, true);
+      }
+    });
+  }
+  const s2 = anotherStep(2);
+  const p2 = s2 ? artSection(s2.artifact_file, 'competitor-pricing') : null;
+  const t2 = p2 ? firstTable(p2.body) : null;
+  if (t2) {
+    const pi = colKey(t2, 'price');
+    if (pi >= 0) t2.rows.forEach(r => add(plain(r[0]), r[pi]));
+  }
+  if (rungs.length < 2 || !rungs.some(r => r.ours)) return null;
+  const max = Math.max(...rungs.map(r => r.price)) || 1;
+  rungs.sort((x, y) => y.price - x.price);
+  const H = 360;
+  let lastY = -99;
+  rungs.forEach(r => {
+    let y = 10 + (1 - r.price / max) * (H - 42);
+    if (y - lastY < 30) y = lastY + 30;
+    lastY = y;
+    r.y = y;
+  });
+  return h('div', { class: 'ladwrap' },
+    h('div', { class: 'ladder', style: `height:${Math.max(H, lastY + 36)}px` },
+      h('div', { class: 'ladrail', 'aria-hidden': 'true' }),
+      rungs.map(r => h('div', { class: 'ladrung' + (r.ours ? ' lad-ours' : ''), style: `top:${r.y}px` },
+        h('span', { class: 'ladprice' }, num(r.price)),
+        h('span', { class: 'ladwho', title: r.label }, r.label)))),
+    h('p', { class: 'small faint', style: 'margin:6px 0 0' }, t('ladderFrom')));
+}
+
+/* An Emotion cell → its levels: ▲ = 1, ▼ = −1, ▼▼ = −2; a split rating (▲ … ▼ naming two actors)
+   = 0, kept and labelled. The `(was …)` group is the layer the strategy revisit preserved. */
+function emoLevel(cellRaw) {
+  const cell = plain(cellRaw);
+  const wasM = cell.match(/\((?:was|было)\s*([^)]*)\)/i);
+  const cur = cell.replace(/\((?:was|было)[^)]*\)/i, '');
+  const lvl = tok => /▼▼/.test(tok) ? -2
+    : (/▼/.test(tok) && /▲/.test(tok)) ? 0
+      : /▼/.test(tok) ? -1 : /▲/.test(tok) ? 1 : null;
+  return { now: lvl(cur), was: wasM ? lvl(wasM[1]) : null, split: /▲/.test(cur) && /▼/.test(cur), raw: cell };
+}
+/* Journey emotion curve — the step-1 map's Emotion column drawn literally, one x per stage. Two
+   layers when the strategy revisit recorded `(was …)`: the concept layer dashed, the revised solid.
+   The lowest point of the current layer is the ring — that is where the journey breaks. */
+function journeyCurve() {
+  const s1 = anotherStep(1);
+  const a = s1 ? artSection(s1.artifact_file, 'cjm') : null;
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const si = colKey(tb, 'stage'), ei = colKey(tb, 'emotion');
+  if (ei < 0) return null;
+  const pts = tb.rows
+    .map(r => ({ stage: plain(r[si >= 0 ? si : 0]), ...emoLevel(r[ei]) }))
+    .filter(p => p.now !== null);
+  if (pts.length < 2) return null;
+  const X = i => 46 + i * 96, Y = l => 118 - l * 36;   // levels 1…−2 → y 82…190
+  const W = X(pts.length - 1) + 46;
+  const el = svg('svg', { viewBox: `0 0 ${W} 236`, class: 'jcurve', role: 'img' });
+  [1, 0, -1, -2].forEach(l => el.append(svg('line', { x1: 10, x2: W - 10, y1: Y(l), y2: Y(l), class: 'jgrid' })));
+  const hasWas = pts.some(p => p.was !== null);
+  if (hasWas) {
+    el.append(svg('polyline', {
+      points: pts.map((p, i) => `${X(i)},${Y(p.was === null ? p.now : p.was)}`).join(' '), class: 'jline jwas',
+    }));
+  }
+  el.append(svg('polyline', { points: pts.map((p, i) => `${X(i)},${Y(p.now)}`).join(' '), class: 'jline jnow' }));
+  const minNow = Math.min(...pts.map(p => p.now));
+  pts.forEach((p, i) => {
+    const c = svg('circle', {
+      cx: X(i), cy: Y(p.now), r: p.now === minNow ? 6 : 4,
+      class: 'jdot' + (p.now === minNow ? ' jlow' : '') + (p.split ? ' jsplit' : ''),
+    });
+    c.append(svg('title', {}));
+    c.lastChild.textContent = p.stage + ' · ' + p.raw;
+    el.append(c);
+    const lb = svg('text', { x: X(i), y: 222, class: 'jstage', 'text-anchor': 'middle' });
+    lb.textContent = p.stage.length > 14 ? p.stage.slice(0, 13) + '…' : p.stage;
+    el.append(lb);
+  });
+  return h('div', { class: 'jwrap' }, el,
+    hasWas ? h('p', { class: 'small faint', style: 'margin:4px 0 0' },
+      h('span', { class: 'jkey jkey-was' }), ' ' + t('curveWas') + '   ',
+      h('span', { class: 'jkey jkey-now' }), ' ' + t('curveNow')) : null);
+}
+
+/* Pre-mortem heatmap — likelihood × impact as a 3×3 grid read straight from the section's H/M/L
+   cells; each risk is a focusable dot, the panel under the grid shows the formulation on
+   hover/focus, a click pins it. The hot corner (H×H) is tinted: empty there is itself a reading. */
+function riskHeatmap(s) {
+  const a = bodyOf(s, 'product-risks');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const idi = colKey(tb, 'id'), ri = colKey(tb, 'risk'), li = colKey(tb, 'likelihood'), ii = colKey(tb, 'impact');
+  if (li < 0 || ii < 0) return null;
+  const lvl = v => /^h/i.test(plain(v)) ? 2 : /^m/i.test(plain(v)) ? 1 : /^l/i.test(plain(v)) ? 0 : null;
+  const items = tb.rows.map(r => ({
+    id: plain(r[idi >= 0 ? idi : 0]), risk: r[ri >= 0 ? ri : 1] || '', L: lvl(r[li]), I: lvl(r[ii]),
+  })).filter(x => x.L !== null && x.I !== null);
+  if (!items.length) return null;
+  const detail = h('div', { class: 'heatdetail' }, h('span', { class: 'small faint' }, t('heatHint')));
+  let pinned = null;
+  const show = it => {
+    detail.innerHTML = '';
+    detail.append(h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) }));
+  };
+  const grid = [h('div', { class: 'heatax' }), ['L', 'M', 'H'].map(x => h('div', { class: 'heatax' }, hlBadge(x)))];
+  for (let imp = 2; imp >= 0; imp--) {
+    grid.push(h('div', { class: 'heatax' }, hlBadge(['L', 'M', 'H'][imp])));
+    for (let lik = 0; lik <= 2; lik++) {
+      grid.push(h('div', { class: 'heatcell' + (lik === 2 && imp === 2 ? ' heat-hot' : '') },
+        items.filter(x => x.L === lik && x.I === imp).map(it =>
+          h('button', {
+            class: 'heatdot', title: it.id,
+            onmouseenter: () => { if (!pinned) show(it); },
+            onfocus: () => { if (!pinned) show(it); },
+            onclick: e => { e.stopPropagation(); pinned = pinned === it ? null : it; show(it); },
+          }, it.id.replace(/^R-0*/, '')))));
+    }
+  }
+  return h('div', { class: 'heatwrap' },
+    h('div', { class: 'heatgrid' }, grid.flat()),
+    h('div', { class: 'heataxes small faint' }, `${t('rImp')} ↑ · ${t('rLik')} →`),
+    detail);
+}
+
+/* Bets board — the wagers as ordered chips: play order, the H- id, the bet, the moat it leans on,
+   the outcome it moves. Sorted by the Play order column; a bet with no order sinks to the end. */
+function betsBoard(s) {
+  const a = bodyOf(s, 'bets');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const g = k => colKey(tb, k);
+  const bi = g('bet');
+  if (bi < 0) return null;
+  const rows = tb.rows.map(r => ({
+    id: plain(g('id') >= 0 ? r[g('id')] : ''), bet: r[bi] || '',
+    moat: g('moat') >= 0 ? r[g('moat')] : '', out: g('outcome') >= 0 ? r[g('outcome')] : '',
+    why: g('whywins') >= 0 ? r[g('whywins')] : '',
+    order: parseInt(plain(g('order') >= 0 ? r[g('order')] : ''), 10) || null,
+  })).filter(b => plain(b.bet));
+  if (!rows.length) return null;
+  rows.sort((x, y) => (x.order || 99) - (y.order || 99));
+  return h('div', { class: 'betgrid' }, rows.map(b => h('div', { class: 'betcard' },
+    h('div', { class: 'bethead' },
+      b.order ? h('span', { class: 'betorder' }, b.order) : null,
+      /^H-\d/.test(b.id) ? h('code', { class: 'rid hyp' }, b.id) : null),
+    h('div', { class: 'betbody', html: inline(b.bet) }),
+    plain(b.why) ? h('div', { class: 'betwhy small', html: inline(b.why) }) : null,
+    h('div', { class: 'betfoot small' },
+      plain(b.moat) ? h('span', { class: 'betmoat', html: t('betMoat') + ': ' + inline(b.moat) }) : null,
+      plain(b.out) ? h('span', { class: 'faint', html: '→ ' + inline(b.out) }) : null))));
+}
+
+/* Moat shields — the step-1 Value & Defensibility table as state plates: Have / Building /
+   Aspiration each in its own colour, with the LLM-rebuild verdict under the name. */
+function moatShields() {
+  const s1 = anotherStep(1);
+  const a = s1 ? artSection(s1.artifact_file, 'value-defensibility') : null;
+  const tb = a ? allTables(a.body).find(x => colKey(x, 'have') >= 0) : null;
+  if (!tb) return null;
+  const mi = colKey(tb, 'moat'), hi = colKey(tb, 'have'), ri = colKey(tb, 'rebuild');
+  if (mi < 0) return null;
+  const cls = v => /^have/i.test(plain(v)) ? 'done' : /^build/i.test(plain(v)) ? 'open' : 'na';
+  return h('div', { class: 'shieldrow' }, tb.rows.map(r => h('div', { class: 'shield sh-' + cls(r[hi]) },
+    h('div', { class: 'shname', html: inline(r[mi]) }),
+    h('div', { class: 'shmeta' },
+      h('span', { class: 'tag ' + cls(r[hi]) }, plain(r[hi]) || '—'),
+      ri >= 0 && plain(r[ri]) ? h('span', { class: 'small faint' }, t('shRebuild') + ': ' + plain(r[ri])) : null))));
+}
+
+/* Channel map — channel → segment rows with the state read literally from the State column
+   (live · building · leaking · untested), each in the status colour it earns. */
+function channelMap(s) {
+  const a = bodyOf(s, 'channels-expansion');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const ci = colKey(tb, 'channel'), si = colKey(tb, 'segment'), sti = colKey(tb, 'state'), fi = colKey(tb, 'fit');
+  if (ci < 0 || sti < 0) return null;
+  const stCls = v => /^live/i.test(plain(v)) ? 'done' : /^build/i.test(plain(v)) ? 'open'
+    : /^leak/i.test(plain(v)) ? 'err' : 'na';
+  return h('div', { class: 'chmap' }, tb.rows.map(r => h('div', { class: 'chrow' },
+    h('div', { class: 'chname', html: inline(r[ci]) }),
+    h('div', { class: 'charr', 'aria-hidden': 'true' }, '→'),
+    h('div', { class: 'chseg', html: si >= 0 ? inline(r[si]) : '' }),
+    h('span', { class: 'tag ' + stCls(r[sti]) }, plain(r[sti]) || '—'),
+    fi >= 0 && plain(r[fi]) ? h('div', { class: 'chfit small faint', html: inline(r[fi]) }) : null)));
+}
+
+/* Step 3 — the strategy as a Playing-to-Win canvas: the aspiration→where→how cascade on top, then
+   the commercial boards (price ladder · channel map), the two step-1 revisits drawn live (journey
+   curve · moat shields), the product cards, and the wager boards (bets · pre-mortem heatmap). Every
+   board falls back to the section's ordinary card when the instance lacks the keyed columns. */
 function canvasStrategy(s) {
   const parts = [];
+  const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
+  const push = (label, node, id) => {
+    const a = bodyOf(s, id);
+    const tool = a ? worklogTool(stem, a.body) : null;
+    const meta = s.sections.find(x => x.id === id);
+    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta),
+      meta ? evStrip(meta.confidence, 'inline') : null,
+      s.artifact_file ? goSection(s.artifact_file, id, t('more'), meta && meta.title) : null,
+      tool ? goWorklog(stem, tool) : null,
+      tool ? wlNewerTag(s, tool) : null), node);
+  };
+  const boardOrCard = (label, node, id) => {
+    if (node) { push(label, node, id); return; }
+    const z = cardZone(s, label, [id]);
+    if (z) parts.push(...z);
+  };
   const casc = cascade(s, ['winning-aspiration', 'where-to-play', 'how-to-win']);
   if (casc) parts.push(cvZone(t('z3Cascade')), casc);
-  [[t('z3Commercial'), ['uvp-cpv', 'pricing', 'channels-expansion']],
-   [t('z3Product'), ['product-surface', 'architecture']],
-   [t('z3Bets'), ['bets', 'product-risks']],
-   [t('z3Open'), ['to-clarify']]].forEach(([lab, ids]) => {
-    const z = cardZone(s, lab, ids); if (z) parts.push(...z);
-  });
+  const uvp = cardZone(s, t('z3Commercial'), ['uvp-cpv']);
+  if (uvp) parts.push(...uvp);
+  boardOrCard(t('z3Ladder'), priceLadder(s), 'pricing');
+  boardOrCard(t('z3Channels'), channelMap(s), 'channels-expansion');
+  // the two step-1 sections the strategy revisits, drawn live from their keyed tables
+  const s1 = anotherStep(1);
+  const revisit = (label, node, id) => {
+    if (!node || !s1) return;
+    parts.push(h('div', { class: 'cvzone' }, label,
+      goSection(s1.artifact_file, id, t('more'))), node);
+  };
+  revisit(t('z3Journey'), journeyCurve(), 'cjm');
+  revisit(t('z3Moats'), moatShields(), 'value-defensibility');
+  const zp = cardZone(s, t('z3Product'), ['product-surface', 'architecture']);
+  if (zp) parts.push(...zp);
+  boardOrCard(t('z3Bets'), betsBoard(s), 'bets');
+  boardOrCard(t('z3Heat'), riskHeatmap(s), 'product-risks');
+  const open = cardZone(s, t('z3Open'), ['to-clarify']);
+  if (open) parts.push(...open);
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
 /* Step 4 — the strategic plan around its metric tree: the North Star hero on top, then economics,

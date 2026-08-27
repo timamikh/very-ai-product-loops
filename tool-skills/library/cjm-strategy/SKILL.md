@@ -4,7 +4,7 @@ kind: method
 name: cjm-strategy
 steps: [3]
 prerequisites: [the step-1 journey map (cjm), strategy choices (where-to-play / how-to-win), channels]
-reads: [register:hypotheses, register:risks, source:interview, source:research, section:cjm, worklog:1-concept/cjm-concept]
+reads: [section:cjm, section:where-to-play, section:how-to-win, section:channels-expansion, worklog:1-concept/cjm-concept, register:hypotheses, register:risks, source:interview, source:research]
 writes: [worklog, section:cjm, register:hypotheses, register:risks]
 opinionated: false
 method_basis: "Journey mapping as a revisit lens — re-walk the step-1 map against the chosen strategy and channels; touchpoints → product-surface; drop-offs → risks (step 3 births risks)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-19
+version: 0.3.0
+updated: 2026-08-27
 ---
 # Customer Journey Map (strategy revisit)
 

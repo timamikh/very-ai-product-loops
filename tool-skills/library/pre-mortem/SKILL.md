@@ -4,7 +4,7 @@ kind: method
 name: pre-mortem
 steps: [3]
 prerequisites: [strategy-choices]
-reads: [register:risks, source:interview, source:kb]
+reads: [section:where-to-play, section:how-to-win, section:bets, register:risks, source:interview, source:kb]
 writes: [worklog, section:product-risks, register:risks]
 opinionated: false
 method_basis: "Pre-mortem (Klein) on the chosen strategy + risk-register triage (probability × impact); disposition of every candidate"
@@ -13,8 +13,8 @@ volume_rule: "≥8 named failure modes from the pre-mortem before any triage"
 selection_rule: "probability × impact; every candidate carried · parked · dropped, each with the reason"
 rejects_shown: required
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.2.0
+updated: 2026-08-27
 ---
 # Pre-mortem
 
