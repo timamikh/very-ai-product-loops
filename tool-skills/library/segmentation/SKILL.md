@@ -4,17 +4,17 @@ kind: method
 name: segmentation
 steps: [1]
 prerequisites: [concept, audience-knowledge-or-analytics]
-reads: [section:idea, section:value-defensibility, register:hypotheses, register:risks, register:metrics, source:interview, source:metrics, source:kb]
+reads: [section:idea, register:hypotheses, register:risks, register:metrics, source:interview, source:metrics, source:kb]
 writes: [worklog, section:segments, register:hypotheses]
 opinionated: false
 method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
 evidence_standard: primary-research
 volume_rule: "≥3 candidate cuts on different bases (situation · job · behaviour · buying trigger) before one is chosen"
-selection_rule: "priority tiers 1–3 on need-difference × reachability × fit with the moat; ⚙️ proposed, human decides; lower tiers kept, never deleted"
+selection_rule: "priority tiers 1–3 on need-difference × reachability (moat-fit deferred — the moat is stated later in the step, so it re-cuts segments on a later pass, not this one); ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.6.0
-updated: 2026-08-25
+version: 0.7.0
+updated: 2026-08-27
 ---
 # Segmentation
 
@@ -56,20 +56,22 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
    choice: the first cut anyone proposes is almost always the one the org is already structured
    around (industry, company size), which is the cut least likely to predict need.
 2. **Name 1–3 segments** on that cut. For each: a one-line description, *why it matters*
-   (size, urgency, fit with the moat), and **who pays vs who uses** — the buyer and the user,
+   (size, urgency), and **who pays vs who uses** — the buyer and the user,
    "same" when it's one person. When they differ, the segment hides two audiences: pains are
    scored for the user (`segment-pains`), but the CVP and the channel must also convince the
    buyer — a plan that names only one of them will stall at whichever it ignored.
 3. **State reachability** — where each segment is found (a channel, a place, a community).
-4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …) on three
-   stated grounds: **how sharply its needs differ** from the others (a tier that needs the same thing
-   as tier 1 is not a separate segment), **reachability** (can we get in front of it at all), and
-   **fit with the intended moat** from `{#value-defensibility}` (`value-definition-concept`) — which
-   runs **later in the step**, so on the first pass this ground is usually empty: **skip it, rank on
-   the other two, mark the ranking ⚙️, and revisit it once the moat is stated**. Say which ground decided each placement; a tier
-   order with no stated ground is a preference. ⚙️ the agent proposes the lead; the human decides.
-   Everything downstream (problems, solution, value) leads with the priority-1 segment; lower tiers
-   are kept, not dropped.
+4. **Rank into priority tiers** — assign each segment a priority (1 = lead, 2 = next, …) on two
+   stated grounds at concept stage: **how sharply its needs differ** from the others (a tier that
+   needs the same thing as tier 1 is not a separate segment) and **reachability** (can we get in
+   front of it at all). Say which ground decided each placement; a tier order with no stated ground
+   is a preference. ⚙️ the agent proposes the lead; the human decides. **Fit with the moat is not a
+   ground here** — the moat (`{#value-defensibility}`, `value-definition-concept`) is stated *later*
+   in the step, so it is not an input to this pass. When the moat later argues for a different cut,
+   that is a **re-run** of segmentation with `{#value-defensibility}` recorded as a `<!--w:adds-->`
+   addition in that pass's worklog (a recorded door, not a standing input), or the Step-3
+   `where-to-play-how-to-win` revisit. Everything downstream (problems, solution, value) leads with
+   the priority-1 segment; lower tiers are kept, not dropped.
 5. **Tag confidence & seed hypotheses — and name which evidence the cut rests on.** Say plainly
    whether this segmentation comes from customer conversations, from usage data, or from desk
    research, because the three fail differently and a reader cannot tell them apart from the table.
@@ -88,7 +90,7 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 The working is done in the step's **worklog** `<step-folder>/segmentation.md` (`node_type: worklog`,
 e.g. `1-concept/segmentation.md`): the ≥3 candidate cuts on different bases with the ones **rejected
 and why**, the 1–3 named segments with their reachability, and the priority-tier ranking with the
-ground (need-difference · reachability · fit with the moat) that decided each placement. That worklog
+ground (need-difference · reachability) that decided each placement. That worklog
 is the **source of truth**; the artifact section `{#segments}` is its **projection** into the fixed
 shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and
 the step's change-log history lives in the worklog, not the section

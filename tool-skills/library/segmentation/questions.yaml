@@ -36,5 +36,5 @@ questions:
     ask: "Which segment do you build for first?"
     type: single_select
     from: segments
-    default: null   # ⚙️ agent proposes the highest urgency × reachability × moat-fit
+    default: null   # ⚙️ agent proposes the highest need-difference × reachability (moat-fit deferred — stated later in the step)
     why: "The lead segment leads problems, solution, and value downstream."

@@ -35,6 +35,12 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
 
 ### The input perimeter + the card line names a block
 
+- **`segmentation` 0.7.0 — the perimeter loses its one forward edge**: `section:value-defensibility`
+  is out of `reads` — the moat is stated *later* in the step, so it cannot be an input to the
+  primary pass. Tier ranking at concept stage runs on need-difference × reachability; a moat-driven
+  re-cut is a later re-run with `<!--w:adds-->` recording the door, or the Step-3 revisit. The
+  daisy step-1 orchestrator hit this edge independently on the same day the perimeter rule shipped.
+
 - **`reads` is a perimeter, not a hint** (card-schema): a method's **primary worklog pass** draws
   on the declared atoms and nothing else — a missing input is a declared gap, never a substitute.
   Wider context enters through two **recorded** doors, both the orchestrator's: the conclusions
