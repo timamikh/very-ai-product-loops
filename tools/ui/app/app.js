@@ -45,6 +45,7 @@ const STR = {
     gate: 'The gate', gateItem: 'gate item', gateDone: 'closed', gateOpen: 'open', gateNa: 'n/a',
     gateDeferred: 'deferred', gateUnknown: 'unrecorded', gateClosed: 'gate closed',
     gateWritten: 'written, unverified',
+    faceMore: 'more rows — expand for all',
     gaps: 'gaps', proposals: 'agent proposals', proposalMark: 'proposed', validates: 'validates',
     statusAsks: 'What the active status asks here', emphasised: 'emphasised for this stage',
     stepGoal: 'What this step is for',
@@ -943,14 +944,20 @@ function firstTable(body) {
 }
 /* The first markdown table in a body, returned as its raw markdown block — for a card face that
    shows the section's own table verbatim (md() renders it), never a re-layout. Null when none. */
-function firstTableMd(body) {
+function firstTableMd(body, cap) {
   const lines = String(body || '').split('\n');
   for (let i = 0; i + 1 < lines.length; i++) {
     const l = lines[i].trim(), nx = lines[i + 1].trim();
     if (l.startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
       let j = i + 1;
       while (j < lines.length && lines[j].trim().startsWith('|')) j++;
-      return lines.slice(i, j).join('\n');
+      // a face is a glance, not the section: past `cap` data rows the table is previewed —
+      // header + first rows + an explicit remainder count; expanding shows every row
+      const dataRows = j - i - 2;
+      if (cap && dataRows > cap) {
+        return { md: lines.slice(i, i + 2 + cap).join('\n'), more: dataRows - cap };
+      }
+      return { md: lines.slice(i, j).join('\n'), more: 0 };
     }
   }
   return null;
@@ -1013,12 +1020,14 @@ function cvCard(s, id, opts) {
   // norm, not the exception). An unmarked section shows just its title and tags; only an unwritten
   // section shows the gap mark.
   const openFace = !!(art && art.open);
-  const faceTbl = art && !openFace && art.card ? firstTableMd(art.body) : null;
+  const faceTbl = art && !openFace && art.card ? firstTableMd(art.body, 5) : null;
   const face = art
     ? (openFace ? h('div', { class: 'cvopen md', html: md(stripHead(art.body)) })
       : art.card ? cvExcerpt({ text: art.card }, tick) : null)
     : cvExcerpt(null, tick);
-  const faceTblEl = faceTbl ? h('div', { class: 'cvftbl md', html: md(faceTbl) }) : null;
+  const faceTblEl = faceTbl ? h('div', { class: 'cvftbl md', html: md(faceTbl.md) },
+    faceTbl.more ? h('div', { class: 'tiny muted', style: 'margin-top:4px' },
+      `+${faceTbl.more} ${t('faceMore')}`) : null) : null;
   // Interaction: the tile expands in place into the section itself, whole and verbatim (the card is a
   // collapsed section, not a summary of one); it widens to the full row (see .cvcard.expanded). The
   // "details" link is the one thing that leaves, for the section in the artifact.
