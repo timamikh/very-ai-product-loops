@@ -12,8 +12,8 @@ surfaces: [file:sources/INDEX.md, worklog:*, change-log]
 opinionated: true
 method_basis: "Route, don't reason: every external source is dispatched into the step worklog(s) it informs and cited there, so no artifact ever reaches around a worklog to a raw file"
 status: draft
-version: 0.3.1
-updated: 2026-08-23
+version: 0.4.0
+updated: 2026-08-27
 ---
 # Source intake — dispatch a raw source into the step worklogs it feeds
 
@@ -104,11 +104,18 @@ and an **open question the web must answer** is a `research` brief for a subagen
 what decision or method this material serves. If nothing in the six steps consumes it, it is a source
 worth removing rather than routing.
 
-**2 · Route each fact to a tool, not a step.** Read the target step's artifact for its section markers
-(`<!-- tool: X -->`, and `<!-- synthesis -->` → `synthesis`). Map each fact in the source to the worklog
-whose method works from it: market figures → `market-sizing`, competitor prices → `competitor-pricing`,
-a cross-cutting read → `synthesis`. A fact that maps to no declared tool goes to the human as a routing
-question; it does not conjure a new worklog.
+**2 · Route each fact to a tool, not a step — and only to a tool whose perimeter admits it.** Read the
+target step's artifact for its section markers (`<!-- tool: X -->`, and `<!-- synthesis -->` →
+`synthesis`). Map each fact in the source to the worklog whose method works from it: market figures →
+`market-sizing`, competitor prices → `competitor-pricing`, a cross-cutting read → `synthesis`. Two
+filters, both hard: the step template must **declare the tool**, and the method's card must **carry the
+source's typed slot in `reads`** — the INDEX `type` column names the slot, so a `research` snapshot may
+reach only methods reading `source:research`, never a method whose perimeter holds only `source:kb`,
+however close the topic. `reads` is the closed perimeter of the primary pass (card-schema): dispatching
+past it plants evidence the method must ignore, and the index and the cards fall out of agreement. A
+fact that maps to no declared tool — or whose type no in-step method reads — goes to the human as a
+routing question; it does not conjure a new worklog. The filter is **forward-only**: rows dispatched
+before it existed are a record of what happened, not an error, and nothing is re-worked retroactively.
 
 **3 · Dispatch into the worklog, dated and tagged.** For each target `<step-folder>/<tool>.md`:
 
@@ -145,6 +152,10 @@ decoding each id and file in the same sentence, and name any source left unroute
   reasoning is the method's *Act* pass, from the worklog this skill seeded.
 - **The blended copy.** Pasting a whole source into every worklog that might touch it. Each fact is
   dispatched once, to the method that works from it; other worklogs cite it by reference.
+- **Dispatch past the perimeter.** Routing a fact into a topically-related worklog whose method does
+  not read the source's typed slot — a `research` snapshot pushed into a step-1 method that reads only
+  `kb`/`interview`. The method's primary pass must ignore it, so the intake row is dead weight that
+  makes `sources/INDEX.md` disagree with the cards.
 - **A metric as prose.** Filing a number that belongs in `metrics.csv` as an intake row — its home is the
   register (`metrics-capture`); the worklog cites the register id.
 - **The live link.** A worklog citing a bare URL with no dated extract in `sources/` — when the page

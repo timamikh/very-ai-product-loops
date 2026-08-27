@@ -44,6 +44,7 @@ const STR = {
     colType: 'type', colDefinition: 'definition', colStatement: 'statement',
     gate: 'The gate', gateItem: 'gate item', gateDone: 'closed', gateOpen: 'open', gateNa: 'n/a',
     gateDeferred: 'deferred', gateUnknown: 'unrecorded', gateClosed: 'gate closed',
+    gateWritten: 'written, unverified',
     gaps: 'gaps', proposals: 'agent proposals', proposalMark: 'proposed', validates: 'validates',
     statusAsks: 'What the active status asks here', emphasised: 'emphasised for this stage',
     stepGoal: 'What this step is for',
@@ -216,8 +217,9 @@ const STR = {
       legGear: 'an agent proposal awaiting the human’s decision',
       legGap: 'named missing data — the human owes an answer, the agent never fills it',
       legStrip: 'the section’s confidence mix, in the tag colours above',
-      legRing: 'outer ring — gate items closed; inner — sections a human confirmed. Health is the '
-        + 'rings agreeing; the gap between them is the signal.',
+      legRing: 'outer ring — gate items closed, its faint tail — sections written but not yet '
+        + 'verified/ticked; inner — sections a human confirmed. Health is the rings agreeing; '
+        + 'the gap between them is the signal.',
       legTrail: 'opens every change-log entry that names this id',
       askLead: 'The console is a viewer. Each row below is a sentence said to the agent in chat — '
         + 'the agent runs the loop and writes the files; the console shows the result on the next read.',
@@ -574,24 +576,38 @@ function wlNewerTag(step, tool) {
    between them is the signal — a closed gate nobody signed, or signed work with its gate unticked. */
 function dualRing(s, size) {
   const gt = s.gate.length, gd = (s.gate_counts || {}).done || 0;
+  // written-but-unticked: work that exists on disk and has not passed move 5 / verify. It must
+  // read as different from closed, not as absent — an all-open step full of worked sections
+  // otherwise shows the same zero as an untouched one.
+  const gw = (s.gate || []).filter(g =>
+    g.written && (g.tick === 'open' || g.tick === 'unknown')).length;
   const cc = confCounts(s);
   const R = size / 2, w = Math.max(2.4, size / 11);
   const el = svg('svg', { viewBox: `0 0 ${size} ${size}`, width: size, height: size,
     class: 'dring', role: 'img' });
-  [[R - w / 2 - 0.5, gt ? gd / gt : 0, 'var(--ok)'],
-   [R - w * 2 - 1.5, cc.total ? cc.done / cc.total : 0, 'var(--navy)']].forEach(([r, frac, color]) => {
+  [[R - w / 2 - 0.5, gt ? gd / gt : 0, 'var(--ok)', gt ? gw / gt : 0],
+   [R - w * 2 - 1.5, cc.total ? cc.done / cc.total : 0, 'var(--navy)', 0]].forEach(([r, frac, color, soft]) => {
     // the empty track in --line-2, not --grid: an unfilled ring must still read as a ring, or the
     // figure disappears exactly where its message ("nothing closed yet") matters most
     el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: 'var(--line-2)', 'stroke-width': w }));
+    const c = 2 * Math.PI * r;
     if (frac > 0) {
-      const c = 2 * Math.PI * r;
       el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: color, 'stroke-width': w,
         'stroke-dasharray': `${(c * Math.min(1, frac)).toFixed(2)} ${c.toFixed(2)}`,
         'stroke-linecap': frac < 1 ? 'round' : 'butt', transform: `rotate(-90 ${R} ${R})` }));
     }
+    if (soft > 0) {
+      // the faint arc continues where the closed arc ends — same hue so it reads as the same
+      // journey, faint so it never counterfeits a closed gate
+      el.append(svg('circle', { cx: R, cy: R, r, fill: 'none', stroke: color, 'stroke-width': w,
+        opacity: '.3',
+        'stroke-dasharray': `${(c * Math.min(1, soft)).toFixed(2)} ${c.toFixed(2)}`,
+        'stroke-dashoffset': (-c * Math.min(1, frac)).toFixed(2),
+        transform: `rotate(-90 ${R} ${R})` }));
+    }
   });
   return h('span', { class: 'dringwrap',
-    title: `${t('gateClosed')} ${gd}/${gt} · ${t('confirmed')} ${cc.done}/${cc.total}` }, el);
+    title: `${t('gateClosed')} ${gd}/${gt}${gw ? ` · ${t('gateWritten')} ${gw}` : ''} · ${t('confirmed')} ${cc.done}/${cc.total}` }, el);
 }
 
 /* The section's confidence mix as one thin strip — same classes and colours as the .conf chips, so

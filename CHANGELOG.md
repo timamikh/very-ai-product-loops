@@ -35,6 +35,16 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
 
 ### The input perimeter + the card line names a block
 
+- **`source-intake` 0.4.0 — dispatch respects the perimeter**: a fact is routed only into worklogs
+  of methods whose `reads` carries the source's typed slot (the INDEX `type` column names it) — a
+  `research` snapshot never lands in a step-1 method that reads only `kb`/`interview`, however close
+  the topic. Forward-only: rows dispatched before the rule are a record, not an error. New
+  anti-pattern *Dispatch past the perimeter*. Found by the daisy step-1 re-run: the old intake had
+  routed research snapshots into six step-1 worklogs their methods had to ignore.
+- **The step ring shows written-but-unverified** (console): the outer gate arc gains a faint tail —
+  gate items whose sections are worked but not yet ticked/verified. An all-open step full of drafted
+  sections no longer shows the same zero as an untouched one; the faint arc never counterfeits a
+  closed gate. Tooltip and legend updated.
 - **`segmentation` 0.7.0 — the perimeter loses its one forward edge**: `section:value-defensibility`
   is out of `reads` — the moat is stated *later* in the step, so it cannot be an input to the
   primary pass. Tier ranking at concept stage runs on need-difference × reachability; a moat-driven
