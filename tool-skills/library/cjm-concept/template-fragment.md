@@ -17,6 +17,7 @@ and say how many people each stage rests on._
 | habitual use | … | … | … | … | … | … |
 | renew / expand | … | … | … | … | … | … |
 
+<!-- card -->
 **Moments that matter:** <the make-or-break points where the journey is won or lost>.
 
 **Pains → opportunities**

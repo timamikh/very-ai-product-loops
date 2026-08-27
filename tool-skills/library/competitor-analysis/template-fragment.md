@@ -8,6 +8,10 @@
 |------------|-----------------|-----------------|------------|
 | … | direct | … | [sourced: …] |
 
+<!-- card -->
+**Field read:** <one sentence — how crowded the arena is, who actually shares our segment and job,
+and who was the player the team did not name first>.
+
 **Players considered and excluded** — found in the sweep, kept out of the detailed table, with the
 reason. An excluded player with no reason is indistinguishable from one nobody thought of.
 
@@ -19,3 +23,7 @@ reason. An excluded player with no reason is indistinguishable from one nobody t
 | Competitor | Game (revenue/profit/share/social capital) | How they play it | Their moats vs ours | Confidence |
 |------------|--------------------------------------------|------------------|---------------------|------------|
 | … | … | … | … | [assumption] |
+
+<!-- card -->
+**Strategy read:** <one sentence — what game the field is playing, and where our intended moat
+does or does not overlap theirs>.

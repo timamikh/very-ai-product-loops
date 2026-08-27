@@ -35,12 +35,31 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
 
 ### The input perimeter + the card line names a block
 
-- **`cjm-concept` 0.3.0 — the skip is read off the evidence you have, not a source you lack**: the
-  apply triggers are step-1-native (stage-bound pains in interviews, a multi-actor path, a ranking
-  the interviews contradict; a measured drop-off only *when readings exist*), an explicit
-  when-to-skip clause requires the recorded return trigger to name an in-perimeter signal, and
-  "no funnel data" is named as the anti-pattern it is — a running-product signal imported into a
-  step that never had one. Step-1 template `{#cjm}` lead recut to match.
+- **Step 2 joins the perimeter**: the five step-2 cards now declare in `reads` everything their
+  prerequisites already demanded — `market-sizing` 0.4.0 reads the concept, the segments and the
+  step-1 value work (its first-pass price); `competitor-analysis` 0.3.0 reads the concept, the
+  segments and the **sized arena** (`section:market-sizing` — the SAM cut names where to sweep);
+  `competitor-pricing` 0.2.0 and `competitor-dynamics` 0.2.0 read `section:competitors` (the list
+  they scan is made by a neighbour, not conjured); `substitutes` 0.2.0 reads the job, the segments
+  and the sized arena (what the segment already spends is where substitutes hide). Register
+  seeders now read the registers they seed.
+- **Step-2 sections get faces**: all five step-2 fragments (plus `cjm-concept`'s, its live example
+  arriving) gained `<!-- card -->` slots — a one-sentence read (sizing read · field read · strategy
+  read · price anchor · momentum read · strongest substitute) above/beside the section's first
+  table. Column keys stay on the **step template** per canon (check O reverted an attempt to plant
+  them in fragments — the draft is matched by meaning). Console: `substitutes` and `opportunity`
+  now render as cards with faces (collapse/expand, 5-row table cap) instead of raw markdown dumps.
+
+- **`cjm-concept` 0.4.0 — the map produces the interview plan, it does not wait for one**: the
+  apply trigger is the journey's time structure mattering to the concept (a long multi-actor path,
+  pains living at different stages); an assumption-tagged map is a legal first pass whose breakage
+  points seed `H-…` — the sprint's interviews are planned against those rows. Skip only when the
+  journey is trivial for the concept; the call is never about a source the instance lacks ("no
+  interviews yet" waits for what this map produces; "no funnel data" imports a running-product
+  signal into a step that never had one — both named anti-patterns). `evidence_standard` clarified
+  as an honesty bar for `[sourced]` tags, not an entry bar. Step-1 template `{#cjm}` lead recut to
+  match; the fragment gained its `<!-- card -->` slot (face = *Moments that matter* + the journey
+  table).
 
 - **`source-intake` 0.4.0 — dispatch respects the perimeter**: a fact is routed only into worklogs
   of methods whose `reads` carries the source's typed slot (the INDEX `type` column names it) — a

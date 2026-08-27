@@ -4,7 +4,7 @@ kind: method
 name: competitor-dynamics
 steps: [2]
 prerequisites: [competitor-list]
-reads: [source:research, source:kb]
+reads: [section:competitors, register:risks, source:research, source:kb]
 writes: [worklog, section:competitor-dynamics, register:risks]
 opinionated: false
 method_basis: "growth-dynamics per competitor from public sources — per-fact-type sourcing, as_of on every number, jurisdiction-neutral"
@@ -13,8 +13,8 @@ volume_rule: "one trend row per player in the {#competitors} detailed table (met
 selection_rule: "only numbers that survive the per-fact-type source test enter the table; sources consulted and failed go to the reject table with the reason"
 rejects_shown: required
 status: draft
-version: 0.1.1
-updated: 2026-08-22
+version: 0.2.0
+updated: 2026-08-27
 ---
 # Competitor Dynamics
 

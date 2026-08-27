@@ -71,11 +71,12 @@ _Each segment's problems, scored by severity × frequency._
 
 ## Customer Journey {#cjm}
 <!-- tool: cjm-concept, cjm-strategy -->
-_Optional lens — the temporal view behind `#problems`; fill when the evidence ties pains to
-moments of the journey (a reported stall, a ranking the interviews contradict). One segment's
-end-to-end journey doing the job over time — the stages and where it breaks. Its pains feed
-`#problems`; its touchpoints feed Step-3 `#product-surface`. Skipping is a statement about the
-evidence in the method's `reads`, never about a source the instance lacks — it is not a required
+_Optional lens — the temporal view behind `#problems`; fill when the journey's time structure
+matters to the concept (a long multi-actor path, pains living at different stages). One segment's
+end-to-end journey doing the job over time — the stages and where it breaks; an assumption-tagged
+map is a legal first pass, and the breakage points it finds seed `H-…` for the sprint's interviews
+to test. Its pains feed `#problems`; its touchpoints feed Step-3 `#product-surface`. Skipping is a
+statement about the concept, never about a source the instance lacks — it is not a required
 concept section._
 
 | Stage <!--c:stage--> | Actions <!--c:actions--> | Touchpoints <!--c:touchpoints--> | Thoughts / emotions <!--c:thoughts--> | Pains <!--c:pains--> | Emotion (▲/▼) <!--c:emotion--> | Confidence <!--c:conf--> |

@@ -4,7 +4,7 @@ kind: method
 name: market-sizing
 steps: [2]
 prerequisites: [arena/segment defined, price input (assumption on first pass)]
-reads: [source:research, source:kb]
+reads: [section:idea, section:segments, section:value-defensibility, register:hypotheses, source:research, source:kb]
 writes: [worklog, section:market-sizing, register:hypotheses]
 opinionated: false
 method_basis: "TAM/SAM/SOM — bottom-up preferred, top-down cross-check, named assumptions"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
-updated: 2026-08-22
+version: 0.4.0
+updated: 2026-08-27
 ---
 # Market Sizing
 
@@ -42,8 +42,9 @@ section that shows no `[sourced: …]` and declares no gap.
   *Missing → run `segmentation` / `where-to-play-how-to-win` first.*
 - **A price input** — bottom-up sizing is *units × price*. The observed anchor comes from
   `{#competitor-pricing}` (`competitor-pricing`), which is filled later in this step; the first pass
-  carries an `[assumption]` price from Step-1 value work and the sizing is **revisited** once the
-  scan lands. *Neither available → the price is a named `[assumption]`, never an implied one.*
+  carries an `[assumption]` price from Step-1 value work (`section:value-defensibility` in `reads`)
+  and the sizing is **revisited** once the scan lands — a recorded-door re-run, not a wider first
+  pass. *Neither available → the price is a named `[assumption]`, never an implied one.*
 
 ## How to do it
 1. **Build SAM bottom-up.** Estimate *units × price*: number of reachable customers/accounts in the

@@ -4,7 +4,7 @@ kind: method
 name: substitutes
 steps: [2]
 prerequisites: [the job/segment]
-reads: [source:interview, source:kb, source:research]
+reads: [section:jtbd, section:segments, section:market-sizing, register:risks, source:interview, source:kb, source:research]
 writes: [worklog, section:substitutes, register:risks]
 opinionated: false
 method_basis: "JTBD-competition — alternatives incl. do-nothing / do-it-manually / self-build; Porter threat-of-substitutes"
@@ -13,8 +13,8 @@ volume_rule: "the three baseline substitutes (do nothing · do it manually · bu
 selection_rule: "a substitute that wins in a real segment is promoted to the risk register; the rest stay in the map"
 rejects_shown: required
 status: draft
-version: 0.1.4
-updated: 2026-08-22
+version: 0.2.0
+updated: 2026-08-27
 ---
 # Substitutes
 
@@ -43,6 +43,9 @@ section that shows no `[sourced: …]` and declares no gap.
 ## Prerequisites
 - **The job/segment** — whose job, and which job, we score substitutes against. *Missing → run
   `segmentation` / `jtbd`.*
+- **The sized arena** — `{#market-sizing}`'s volume and price frame which alternatives are live:
+  what the segment already spends, and on what, is where the substitutes hide. *Missing → run
+  `market-sizing` first; it comes earlier in this step.*
 
 ## How to do it
 1. **Frame by the job, not the category.** Start from the customer's job-to-be-done and ask "what

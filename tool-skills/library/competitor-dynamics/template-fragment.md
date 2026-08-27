@@ -12,6 +12,10 @@ lookups are provided by a regional/company adapter, not the base.)_
 |------------|----------------------------------|----------------|------------------|------------|
 | … | revenue | … | public financials / registry (<YYYY-MM-DD>) | [sourced: …] |
 
+<!-- card -->
+**Momentum read:** <one sentence — whose strategy is visibly working (growing) and whose is
+stalling, on the metrics that survived the source test>.
+
 **Sources consulted and rejected** — with the reason; a number that failed the per-fact-type test
 is shown here, not silently kept.
 

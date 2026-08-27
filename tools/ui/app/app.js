@@ -1322,8 +1322,12 @@ function canvasAnalysis(s) {
   };
   push(t('dMarket'), marketBoard(s), 'market-sizing');
   push(t('dCompetitors'), competitorTable(s), 'competitors');
-  push(t('dSubstitutes'), mdBlock(s, 'substitutes'), 'substitutes');
-  push(t('dOpportunity'), mdBlock(s, 'opportunity', 'callout'), 'opportunity');
+  // substitutes and opportunity carry authored faces now — they render as cards (collapsed face =
+  // card line + first table, expand in place), not as raw markdown dumps.
+  const subs = cardZone(s, t('dSubstitutes'), ['substitutes']);
+  if (subs) parts.push(...subs);
+  const opp = cardZone(s, t('dOpportunity'), ['opportunity']);
+  if (opp) parts.push(...opp);
   push(t('dRisks'), riskBoard(s), 'niche-risks');
   // the two sections the dashboard widgets don't draw — as ordinary cards, so nothing goes missing
   const hyp = cardZone(s, t('z4Hyp'), ['hypotheses']);

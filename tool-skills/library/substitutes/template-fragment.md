@@ -23,4 +23,8 @@ trivial._
 **Switching friction:** what keeps a customer on the substitute — habit / sunk cost / integration /
 trust. [assumption]
 
+<!-- card -->
+**Strongest substitute:** <one sentence — which alternative actually wins in a real segment, and
+under what condition it beats us>.
+
 **Seeded registers:** R-… (each strong substitute — one that wins in a real segment) → risk register.

@@ -11,6 +11,10 @@ Step-4 financial model — not our price. Every price carries the date it was re
 |------------|--------------|---------------------|--------|------------|
 | … | per-seat / usage / flat | … (<YYYY-MM-DD>) | site / search | [sourced: …] |
 
+<!-- card -->
+**Price anchor:** <one sentence — the comparable price range and model that anchors our sizing
+revisit and Step-3 pricing; or why no anchor was found>.
+
 **Prices found but rejected as inputs** — with the reason; a dropped price with no reason is
 indistinguishable from one nobody found.
 

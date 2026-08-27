@@ -4,7 +4,7 @@ kind: method
 name: competitor-analysis
 steps: [2]
 prerequisites: [product-concept, competitor-list-seed]
-reads: [source:research, source:kb, source:interview]
+reads: [section:idea, section:segments, section:market-sizing, register:risks, register:hypotheses, source:research, source:kb, source:interview]
 writes: [worklog, section:competitors, section:competitor-strategy, register:risks, register:hypotheses]
 opinionated: false
 method_basis: "'What game are they playing' + moat comparison (pricing scan and growth-dynamics are separate methods)"
@@ -13,8 +13,8 @@ volume_rule: "≥5 named players, including ≥1 the team did not name first (re
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.2.2
-updated: 2026-08-22
+version: 0.3.0
+updated: 2026-08-27
 ---
 # Competitor Analysis
 
@@ -40,6 +40,9 @@ section that shows no `[sourced: …]` and declares no gap.
 
 ## Prerequisites
 - **Product concept** — to judge relevance and moat overlap. *Missing → run `concept-formation`.*
+- **The sized arena** — `{#market-sizing}`'s SAM cut names *where* to sweep for players; a list
+  drawn without it hunts in a market nobody sized. *Missing → run `market-sizing` first; it comes
+  earlier in this step.*
 - **Competitor list seed** — at least a few names to start. *Missing → gather it yourself: a scoped
   desk-research pass (a `loops-research` brief), discipline per
   [`../references/evidence-standards.md`](../references/evidence-standards.md), findings landing in

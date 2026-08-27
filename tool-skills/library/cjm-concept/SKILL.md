@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
+version: 0.4.0
 updated: 2026-08-27
 ---
 # Customer Journey Map (concept)
@@ -21,7 +21,10 @@ updated: 2026-08-27
 Map **one segment's end-to-end journey doing the job, over time** — the stages, actions,
 touchpoints, and how it feels — to surface where it breaks and where value can be added. Fills
 `{#cjm}` at Step 1, as an **optional lens**: the temporal view behind `{#problems}`, filled when
-the evidence ties pains to *moments* of the journey — a flat list would hide **where** they bite.
+the journey's **time structure matters to the concept** — a flat list would hide **where** pains
+bite. An assumption-tagged map is a legal first pass: the map is drawn from what the step already
+has, and the breakage points it finds become `H-…` rows — **the map produces the interview plan,
+it does not wait for one**. Interviews are sprint work planned against those hypotheses.
 
 **Method basis.** Classic journey mapping: lay the customer's experience out as a timeline of
 **stages**, and for each capture **actions · touchpoints · thoughts/emotions · pains**, then read
@@ -42,22 +45,22 @@ the **emotional curve** and the **moments that matter** to convert pains into op
 >   `pre-mortem`.
 
 ## When to apply
-- **Step 1, optionally**, when the evidence in `reads` ties pains to **stages**: an interviewee
-  reports the deal or the usage stalling at a particular moment, or the path is long and
-  multi-actor (initiator → approver → payer) so *who* feels *which* pain *when* changes the
-  concept — a flat `{#problems}` list would average that away.
-- When interviews contradict the pain ranking: walking the journey often shows the pain sits at a
-  different stage than reported.
+- **Step 1, optionally**, when the journey's **time structure matters to the concept**: the path
+  is long and multi-actor (initiator → approver → payer), the pains live at different stages, or a
+  stall somewhere along the path is suspected — a flat `{#problems}` list would average that away.
+- When interviews exist and contradict the pain ranking: walking the journey often shows the pain
+  sits at a different stage than reported.
 - When the instance **has** readings (`register:metrics`) and they show an unexplained drop-off —
   one more stage-bound signal *when it exists*, never the defining trigger.
 
-**When to skip — and how to say it.** The apply/skip call is a statement about the evidence in
-`reads`, never about a source the instance lacks. A concept with no shipped product has no funnel;
-"no funnel data" as the skip reason imports a running-product signal into a step that never had
-one. Skip when nothing in the evidence ties pains to stages — or when the map would fail its own
-`evidence_standard` (primary research: with no interviews at all, every row is *Emotion theater*).
-The recorded return trigger names an **in-perimeter** signal ("first interviews report where the
-deal stalls"), not "when funnel data appears".
+**When to skip — and how to say it.** Skip when the journey is trivial or its time structure
+changes nothing in the concept — a short single-actor path whose pains mean the same whenever they
+occur. The call is a statement about the **concept and the evidence in `reads`**, never about a
+source the instance lacks: "no interviews yet" is not a skip reason, because producing the
+interview plan is this map's job; "no funnel data" imports a running-product signal into a step
+that never had one. The `evidence_standard` governs when a row may claim `[sourced]` — it is an
+honesty bar for the tags, not an entry bar for the method: an all-`[assumption]` map is a legal
+first pass. A recorded skip names an **in-perimeter** return trigger.
 
 ## Prerequisites
 - **The segment/persona whose journey this is** — one segment, not "the user" in the abstract.
@@ -84,8 +87,9 @@ deal stalls"), not "when funnel data appears".
 6. **Seed the hypothesis register — not the risk register.** Opportunity bets and drop-off findings
    → `H-…` (`type: desirability` — "customers get past stage X", "removing pain Y changes the
    decision"). A drop-off that can't yet be phrased as a testable claim goes to `— to clarify —`.
-   Risks are not born at Step 1 — the Step-3 revisit (`cjm-strategy`) seeds `R-…` once a strategy
-   exists to put at risk.
+   These `H-…` rows are what the sprint's interviews are planned against — the map's output *is*
+   the interview plan. Risks are not born at Step 1 — the Step-3 revisit (`cjm-strategy`) seeds
+   `R-…` once a strategy exists to put at risk.
 
 ## Anti-patterns
 - **Skipping by a source you lack.** Justifying n/a with an absent funnel or dashboard — the

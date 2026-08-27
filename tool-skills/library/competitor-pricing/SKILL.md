@@ -4,7 +4,7 @@ kind: method
 name: competitor-pricing
 steps: [2]
 prerequisites: [competitor-list]
-reads: [source:research, source:kb]
+reads: [section:competitors, source:research, source:kb]
 writes: [worklog, section:competitor-pricing]
 opinionated: false
 method_basis: "dated pricing scan per competitor — published price with a read-date, never a guess"
@@ -13,8 +13,8 @@ volume_rule: "one row per player in the {#competitors} detailed table — a pric
 selection_rule: "only comparable, dated prices enter the table; a price that can't anchor a comparison goes to the reject table with the reason"
 rejects_shown: required
 status: draft
-version: 0.1.1
-updated: 2026-08-22
+version: 0.2.0
+updated: 2026-08-27
 ---
 # Competitor Pricing
 
