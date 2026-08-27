@@ -546,6 +546,28 @@ CLARIFY_RE = re.compile(r"to clarify")
 SOURCES_SUBFOLDERS = {"originals", "snapshots", "access"}
 
 
+def _na_sections(inst):
+    """{(step, section_id)} whose gate tick is `n/a` — a consciously skipped section.
+
+    An explicit `n/a` (or the defaulted one on an unwritten optional item) says the instance chose
+    not to work this section this cycle. A skipped section owes neither a worklog (check P) nor its
+    template keys (check O2): both checks guard *filled* projections, and demanding the paperwork of
+    a pass that never ran turns an honest skip into two permanent errors (live-run finding, daisy)."""
+    if not os.path.exists(os.path.join(inst, "state.yaml")):
+        return set()
+    try:
+        snap = I.load(inst, ROOT)
+    except Exception:
+        return set()
+    out = set()
+    for st in snap["steps"]:
+        for g in st["gate"]:
+            if g.get("tick") == "n/a":
+                for sid in (g.get("sections") or []):
+                    out.add((st["step"], sid))
+    return out
+
+
 def check_worklogs(inst):
     """P — a step's worklogs live in a folder named for the step and named for the tools it uses.
 
@@ -566,7 +588,14 @@ def check_worklogs(inst):
         # only the FIRST tool of a marker owes a worklog up front; any named tool may own one
         # (a second tool's pass creates its worklog when that pass actually runs)
         named = {t.strip() for m in TOOL_MARK_RE.findall(text) for t in m.split(",")}
-        expected = {m.split(",")[0].strip() for m in TOOL_MARK_RE.findall(text)}
+        # a section consciously skipped (`n/a` tick) owes no worklog — only live sections do;
+        # a tool also named by a live section stays owed
+        na = {sid for (st, sid) in _na_sections(inst) if str(st) == stem[0]}
+        expected = set()
+        for sec in T.sections(text):
+            if sec["id"] in na:
+                continue
+            expected.update(m.split(",")[0].strip() for m in TOOL_MARK_RE.findall(sec["body"]))
         if SYNTH_MARK_RE.search(text):
             expected.add("synthesis")
             named.add("synthesis")
@@ -1445,9 +1474,13 @@ def check_instance_conformance(inst):
         bodies = {sec["id"]: sec["body"] for sec in T.sections(text) if sec["id"]}
         present = set(bodies)
         inst_keys = _section_keys(text)   # {sid: [keys]} for keyed instance tables only
+        na = {sid for (st, sid) in _na_sections(inst)
+              if str(st) == os.path.basename(art)[0]}
         for sid, tks in tkeys.items():
             if sid not in present:
                 continue                  # section not in this artifact (or step not reached)
+            if sid in na:
+                continue                  # consciously skipped (`n/a` tick) — no projection owed
             iks = inst_keys.get(sid)
             if iks is None:
                 err("O2 %s#%s: the template keys this section but the instance carries no column keys — "

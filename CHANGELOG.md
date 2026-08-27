@@ -41,6 +41,9 @@ Bullets are theses; the reasoning for any item lives in its commit and in the `p
   the topic. Forward-only: rows dispatched before the rule are a record, not an error. New
   anti-pattern *Dispatch past the perimeter*. Found by the daisy step-1 re-run: the old intake had
   routed research snapshots into six step-1 worklogs their methods had to ignore.
+- **A skipped section owes no paperwork** (lint P/O2): a gate item ticked `n/a` — the conscious
+  skip — no longer demands a worklog (P) or template keys (O2) for its section; both checks guard
+  filled projections. Found on daisy: an honestly skipped `#cjm` sat as two permanent errors.
 - **The step ring shows written-but-unverified** (console): the outer gate arc gains a faint tail —
   gate items whose sections are worked but not yet ticked/verified. An all-open step full of drafted
   sections no longer shows the same zero as an untouched one; the faint arc never counterfeits a
