@@ -124,6 +124,17 @@ const STR = {
     shRebuild: 'LLM rebuild', betMoat: 'moat', ladderFrom: 'Anchors from this step’s pricing table and step 2’s competitor pricing.',
     z4North: 'North Star & metric tree', z4Econ: 'Economics',
     z4Instr: 'Instrumentation & risk', z4Hyp: 'Hypotheses',
+    z4Targets: 'Horizon targets', z4Caps: 'Capabilities & systems', z4Mit: 'Risk mitigation',
+    z4Retention: 'Retention curve',
+    mtNorth: 'North Star', mtInstr: 'data source', mtInputs: 'inputs',
+    mtInstrOn: 'instrumented', mtInstrProxy: 'proxy', mtInstrOff: 'not instrumented',
+    mtLegend: 'Border = data source: green instrumented · amber proxy · grey none. Chip = metric family.',
+    tgHorizon: 'horizon', tgScenario: 'scenario', tgWhy: '',
+    ueRev: 'revenue', ueCogs: 'COGS', ueContrib: 'contribution', ueFrom: 'per payer / month, operational basis',
+    capServes: 'serves', capOwner: 'owner', capLevelHave: 'have', capLevelPartial: 'partial', capLevelMissing: 'missing',
+    thSuccess: 'success', thFailure: 'failure', thInconcl: 'inconclusive', thLegend: 'Pre-registered read: pass bar · conscious inconclusive zone · fail bar.',
+    mitHint: 'hover or click a risk to read its mitigation', mitOwner: 'owner', mitTrigger: 'trigger', mitDue: 'due',
+    mitOpen: 'open', mitMitigating: 'mitigating', retFlattens: 'flattens at',
     z5Goals: 'Goals & targets', z5Guard: 'Guardrails', z5Res: 'Resources & market',
     z5Test: 'Tests & blockers',
     z6Commit: 'Committed vs backlog', z6Excluded: 'Excluded — and why', z6Handoff: 'Handoff',
@@ -1480,17 +1491,351 @@ function canvasStrategy(s) {
   if (open) parts.push(...open);
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
-/* Step 4 — the strategic plan around its metric tree: the North Star hero on top, then economics,
-   instrumentation & risk, and the quantified hypotheses. */
+/* ---- step-4 boards: the strategic plan drawn from its keyed tables. Same contract as step 3 —
+   every board reads columns by their <!--c:key--> marks only and returns null when the instance does
+   not carry them, so the section falls back to its ordinary card and nothing is invented. ---- */
+
+/* First money figure in a cell → a number. Currency-anchored ($ € £ ₽ / руб) OR a bare `~$33` /
+   `$3–4` (first of a range); a percentage or a token count is not money. `~`, thousands spaces and
+   `,`/`.` decimals tolerated; a gap cell yields null. */
+function moneyNum(cellRaw) {
+  const s = plain(cellRaw);
+  if (/—\s*(to clarify|уточнить)\s*—/i.test(s)) return null;
+  const m = s.match(/[$€£]\s*~?\s*(\d[\d\s]*(?:[.,]\d+)?)|(\d[\d\s]*(?:[.,]\d+)?)\s*(?:₽|руб)/i);
+  if (!m) return null;
+  const n = parseFloat((m[1] || m[2]).replace(/\s/g, '').replace(',', '.'));
+  return isNaN(n) ? null : n;
+}
+/* First percentage in a cell → a number in 0…100, or null. `45% (n=120)` → 45; `—` → null. */
+function pctNum(cellRaw) {
+  const m = plain(cellRaw).match(/(\d+(?:[.,]\d+)?)\s*%/);
+  if (!m) return null;
+  const n = parseFloat(m[1].replace(',', '.'));
+  return isNaN(n) ? null : n;
+}
+/* A metric-tree driver cell → its family token (AARRR + engagement · quality · cost). Reads the
+   canonical enum token where the instance carries one, else infers from EN/RU prose so the board
+   still groups a pre-enum instance. Null when nothing matches — the raw label is shown instead. */
+function metricFamily(driverRaw) {
+  const s = plain(driverRaw).toLowerCase();
+  const has = re => re.test(s);
+  if (has(/acquisit|привлеч/)) return 'acquisition';
+  if (has(/activat|актив/)) return 'activation';
+  if (has(/engag|deepen|вовлеч|углуб/)) return 'engagement';
+  if (has(/retent|удержан/)) return 'retention';
+  if (has(/referr|реферал|рекоменд|виральн/)) return 'referral';
+  if (has(/conver|revenue|monet|выручк|конверс|монет|оплат|payment/)) return 'revenue';
+  if (has(/qualit|feasib|usab|privac|качеств|осуществим|юзабилит|приватн|надёжн/)) return 'quality';
+  if (has(/\bcost|cogs|стоим|себестоим|инфра/)) return 'cost';
+  return null;
+}
+const FAMILY_STR = {
+  acquisition: 'acquisition', activation: 'activation', engagement: 'engagement',
+  retention: 'retention', referral: 'referral', revenue: 'revenue', quality: 'quality', cost: 'cost',
+};
+/* An instrumentation cell → the best data source it names: instrumented > proxy > none. "Best"
+   because a node wired one way and proxied another still has the real source; grey means no data at
+   all, which is the reading the border colour must not overstate. */
+function instrClass(cellRaw) {
+  const s = plain(cellRaw).toLowerCase();
+  const netOfNot = s.replace(/not[\s-]?instrument\w*/g, '').replace(/не[\s-]?инструмент\w*/g, '');
+  if (/instrument|инструмент/.test(netOfNot)) return 'on';
+  if (/proxy|прокси/.test(s)) return 'proxy';
+  return 'off';
+}
+
+/* Metric tree — the North Star over its drivers, drawn from #metric-tree. The hero names the North
+   Star (from the `**North Star:** \`M-…\` — name` line); each driver node sits under it, its border
+   the data source (instrumented / proxy / none) and its chip the metric family. Inputs read beneath.
+   This is the board that answers "what does this product measure, and can it see it yet". */
+function metricTree(s) {
+  const a = bodyOf(s, 'metric-tree');
+  if (!a) return null;
+  const tb = allTables(a.body).find(x => colKey(x, 'driver') >= 0 && colKey(x, 'node') >= 0);
+  if (!tb) return null;
+  const di = colKey(tb, 'driver'), ni = colKey(tb, 'node'),
+    ii = colKey(tb, 'inputs'), si = colKey(tb, 'instrumentation');
+  const nsm = a.body.match(/\*\*North Star:?\*\*\s*`([^`]+)`\s*[—–-]\s*([^·\n[]+)/);
+  const ns = nsm ? { id: nsm[1].trim(), name: nsm[2].trim() } : null;
+  const nodes = tb.rows.map(r => {
+    const fam = metricFamily(r[di]);
+    return {
+      driver: plain(r[di]), fam,
+      node: plain(r[ni]) || '—',
+      inputs: ii >= 0 ? plain(r[ii]) : '',
+      instr: si >= 0 ? instrClass(r[si]) : 'off',
+    };
+  }).filter(n => n.node && n.node !== '—');
+  if (!nodes.length) return null;
+  const hero = h('div', { class: 'mt-ns' },
+    h('div', { class: 'mt-ns-lab' }, t('mtNorth')),
+    ns ? h('div', { class: 'mt-ns-name' }, ns.name) : null,
+    ns ? h('code', { class: 'rid met' }, ns.id) : null);
+  const cards = nodes.map(n => h('div', { class: 'mt-node mt-' + n.instr },
+    h('div', { class: 'mt-node-top' },
+      n.fam ? h('span', { class: 'mt-fam mt-fam-' + n.fam }, FAMILY_STR[n.fam]) : h('span', { class: 'mt-fam mt-fam-x' }, n.driver.slice(0, 18)),
+      h('span', { class: 'mt-src mt-src-' + n.instr }, t(n.instr === 'on' ? 'mtInstrOn' : n.instr === 'proxy' ? 'mtInstrProxy' : 'mtInstrOff'))),
+    h('div', { class: 'mt-node-id', html: inline(n.node) }),
+    n.inputs && !/^—/.test(n.inputs) ? h('div', { class: 'mt-inputs small faint' }, t('mtInputs') + ': ' + n.inputs) : null));
+  return h('div', { class: 'mtree' }, hero,
+    h('div', { class: 'mt-drivers' }, cards),
+    h('p', { class: 'small faint', style: 'margin:8px 0 0' }, t('mtLegend')));
+}
+
+/* Horizon targets — the 3–5 nodes the strategy commits to, from #strategic-targets: each a tile with
+   the target value large, the node id, the scenario it was read off, and the why. The horizon date
+   (from the `**Horizon:**` line) heads the row. The cockpit of the plan. */
+function targetTiles(s) {
+  const a = bodyOf(s, 'strategic-targets');
+  if (!a) return null;
+  const tb = allTables(a.body).find(x => colKey(x, 'node') >= 0 && colKey(x, 'target') >= 0);
+  if (!tb) return null;
+  const ni = colKey(tb, 'node'), ti = colKey(tb, 'target'),
+    sci = colKey(tb, 'scenario'), wi = colKey(tb, 'why');
+  const rows = tb.rows.map(r => ({
+    node: plain(r[ni]), target: plain(r[ti]),
+    scen: sci >= 0 ? plain(r[sci]) : '', why: wi >= 0 ? r[wi] : '',
+  })).filter(x => x.node && x.target && !/^—/.test(x.target));
+  if (!rows.length) return null;
+  const hm = a.body.match(/\*\*Horizon:?\*\*\s*([^\n]+)/);
+  const horizon = hm ? plain(hm[1]).replace(/\s*[—–-].*$/, '').trim() : '';
+  return h('div', { class: 'tgwrap' },
+    horizon ? h('div', { class: 'tghorizon small faint' }, t('tgHorizon') + ': ' + horizon) : null,
+    h('div', { class: 'tggrid' }, rows.map(r => h('div', { class: 'tgtile' },
+      h('div', { class: 'tgval' }, r.target),
+      h('code', { class: 'rid met' }, r.node),
+      r.scen ? h('div', { class: 'tgscen small' }, t('tgScenario') + ': ' + r.scen.replace(/\s*[—–,(].*$/, '')) : null,
+      plain(r.why) ? h('div', { class: 'tgwhy small faint', html: inline(r.why) }) : null))));
+}
+
+/* Unit economics — the contribution waterfall: revenue per payer, minus COGS, to contribution, read
+   from the operational column of #unit-economics; CAC / payback / LTV ride below as tiles with their
+   text verbatim. Returns null unless revenue and contribution both resolve to numbers. */
+function econWaterfall(s) {
+  const a = bodyOf(s, 'unit-economics');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const mi = colKey(tb, 'metric'), oi = colKey(tb, 'operational');
+  if (mi < 0 || oi < 0) return null;
+  const find = re => { const r = tb.rows.find(x => re.test(plain(x[mi]))); return r ? r[oi] : null; };
+  const rev = moneyNum(find(/revenue per|выручк|revenue/i));
+  const cogs = moneyNum(find(/cogs|себестоим/i));
+  const contrib = moneyNum(find(/contribution|contrib|маржа|вклад/i));
+  if (rev === null || contrib === null) return null;
+  const max = Math.max(rev, contrib + (cogs || 0)) || 1;
+  const bar = (lab, val, cls, from) => h('div', { class: 'ue-bar-row' },
+    h('div', { class: 'ue-bar-lab small' }, lab),
+    h('div', { class: 'ue-bar-track' },
+      h('div', { class: 'ue-bar ue-' + cls, style: `width:${Math.max(2, Math.round((val / max) * 100))}%` },
+        h('span', { class: 'ue-bar-val' }, (from ? '−$' : '$') + num(val)))));
+  const bars = [
+    bar(t('ueRev'), rev, 'rev'),
+    cogs !== null ? bar(t('ueCogs'), cogs, 'cogs', true) : null,
+    bar(t('ueContrib'), contrib, 'contrib'),
+  ];
+  const tileRe = [[/cac/i, 'CAC'], [/payback|окуп/i, 'Payback'], [/ltv/i, 'LTV']];
+  const tiles = tileRe.map(([re, lab]) => {
+    const v = find(re);
+    return v && plain(v) && !/^n\/?a|^—/i.test(plain(v)) ? h('div', { class: 'ue-tile' },
+      h('div', { class: 'ue-tile-lab small faint' }, lab),
+      h('div', { class: 'ue-tile-val small', html: inline(v) })) : null;
+  }).filter(Boolean);
+  return h('div', { class: 'uewrap' },
+    h('div', { class: 'ue-bars' }, bars),
+    h('div', { class: 'ue-from small faint' }, t('ueFrom')),
+    tiles.length ? h('div', { class: 'ue-tiles' }, tiles) : null);
+}
+
+/* Retention curves — one polyline per cohort over P1/P3/P6/P12 from #retention; a censored cell (`—`)
+   is a gap in the line, not a zero. Null when no cohort carries two readable points (pre-launch, every
+   cell censored → the section shows its ordinary card, which is the honest state). */
+function retentionCurve(s) {
+  const a = bodyOf(s, 'retention');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const ci = colKey(tb, 'cohort'), fi = colKey(tb, 'flattens');
+  const cols = [['p1', 1], ['p3', 3], ['p6', 6], ['p12', 12]].map(([k, x]) => [colKey(tb, k), x]);
+  if (cols.some(([i]) => i < 0)) return null;
+  const lines = tb.rows.map(r => ({
+    label: plain(r[ci >= 0 ? ci : 0]),
+    flat: fi >= 0 ? plain(r[fi]) : '',
+    pts: cols.map(([i, x]) => [x, pctNum(r[i])]).filter(([, y]) => y !== null),
+  })).filter(l => l.pts.length >= 2);
+  if (!lines.length) return null;
+  const W = 460, H = 180, P = { t: 14, r: 14, b: 26, l: 34 };
+  const X = x => P.l + (x - 1) / 11 * (W - P.l - P.r);
+  const Y = y => P.t + (1 - y / 100) * (H - P.t - P.b);
+  const el = svg('svg', { viewBox: `0 0 ${W} ${H}`, class: 'retcurve', role: 'img' });
+  [0, 25, 50, 75, 100].forEach(g => {
+    el.append(svg('line', { x1: P.l, x2: W - P.r, y1: Y(g), y2: Y(g), class: 'jgrid' }));
+    const tx = svg('text', { x: P.l - 6, y: Y(g) + 3.5, class: 'jstage', 'text-anchor': 'end' });
+    tx.textContent = g + '%'; el.append(tx);
+  });
+  [1, 3, 6, 12].forEach(x => {
+    const tx = svg('text', { x: X(x), y: H - 8, class: 'jstage', 'text-anchor': 'middle' });
+    tx.textContent = 'P' + x; el.append(tx);
+  });
+  lines.forEach((l, k) => {
+    el.append(svg('polyline', { points: l.pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' '), class: 'retline ret-' + (k % 4) }));
+    l.pts.forEach(([x, y]) => el.append(svg('circle', { cx: X(x), cy: Y(y), r: 3, class: 'retdot ret-' + (k % 4) })));
+  });
+  return h('div', { class: 'jwrap' }, el,
+    h('div', { class: 'retlegend small faint' }, lines.map(l =>
+      h('span', { class: 'retkey' }, l.label + (l.flat && !/^—/.test(l.flat) ? ' · ' + t('retFlattens') + ' ' + l.flat : '')))));
+}
+
+/* Capability shields — #capabilities as state plates, the moat-shield form reused: the band is the
+   level (have / partial / missing, each its colour), the capability name bold, what it serves and its
+   owner in the footer. A missing capability is a red band — the gap the plan must close. */
+function capabilityShields(s) {
+  const a = bodyOf(s, 'capabilities');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const ci = colKey(tb, 'capability'), sei = colKey(tb, 'serves'),
+    li = colKey(tb, 'level'), oi = colKey(tb, 'owner');
+  if (ci < 0) return null;
+  const cls = v => /^have|есть/i.test(plain(v)) ? 'done' : /^partial|частич/i.test(plain(v)) ? 'open'
+    : /^missing|нет|unproven/i.test(plain(v)) ? 'miss' : 'na';
+  const lab = v => /^have|есть/i.test(plain(v)) ? t('capLevelHave') : /^partial|частич/i.test(plain(v)) ? t('capLevelPartial')
+    : /^missing|нет|unproven/i.test(plain(v)) ? t('capLevelMissing') : plain(v);
+  return h('div', { class: 'shieldrow' }, tb.rows.map(r => {
+    const raw = String(r[ci] || '');
+    const lead = leadDash(raw);
+    const rest = raw.slice(lead.length).replace(/^\s*[—–]\s*/, '');
+    return h('div', { class: 'shield sh-' + cls(li >= 0 ? r[li] : '') },
+      h('div', { class: 'shhead' },
+        h('span', {}, li >= 0 && plain(r[li]) ? lab(r[li]) : '—'),
+        oi >= 0 && plain(r[oi]) ? h('span', { class: 'shlayer' }, plain(r[oi])) : null),
+      h('div', { class: 'shbody' },
+        h('div', { class: 'shname', html: inline(lead) }),
+        rest ? h('div', { class: 'shdesc small', html: inline(rest) }) : null,
+        sei >= 0 && plain(r[sei]) ? h('div', { class: 'small faint' }, t('capServes') + ': ' + plain(r[sei])) : null));
+  }));
+}
+
+/* Threshold gauges — #global-hypotheses as pre-registered reads: each bet a bar with a red fail zone,
+   a grey conscious-inconclusive gap, and a green success zone, the two bars' text verbatim. The shape
+   is the point — a bet with no gap between pass and fail has no honest inconclusive room. */
+function thresholdGauges(s) {
+  const a = bodyOf(s, 'global-hypotheses');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const idi = colKey(tb, 'register'), bi = colKey(tb, 'bet'), ni = colKey(tb, 'node'),
+    su = colKey(tb, 'success'), fa = colKey(tb, 'failure');
+  if (bi < 0 || su < 0 || fa < 0) return null;
+  const rows = tb.rows.map(r => ({
+    id: plain(r[idi >= 0 ? idi : 0]), bet: r[bi], node: ni >= 0 ? plain(r[ni]) : '',
+    success: r[su], failure: r[fa],
+  })).filter(r => plain(r.bet) && (plain(r.success) || plain(r.failure)));
+  if (!rows.length) return null;
+  return h('div', { class: 'thwrap' }, [
+    ...rows.map(r => h('div', { class: 'thcard' },
+      h('div', { class: 'thhead' },
+        /^H-\d/.test(r.id) ? h('code', { class: 'rid hyp' }, r.id) : null,
+        r.node && !/^—/.test(r.node) ? h('code', { class: 'rid met' }, r.node) : null),
+      h('div', { class: 'thbet', html: inline(r.bet) }),
+      h('div', { class: 'thbar' },
+        h('div', { class: 'thzone th-fail' }),
+        h('div', { class: 'thzone th-gap' }),
+        h('div', { class: 'thzone th-pass' })),
+      h('div', { class: 'thlabs small' },
+        h('span', { class: 'th-fail-t', html: t('thFailure') + ' ' + inline(r.failure) }),
+        h('span', { class: 'th-pass-t', html: t('thSuccess') + ' ' + inline(r.success) })))),
+    h('p', { class: 'small faint', style: 'grid-column:1/-1;margin:0' }, t('thLegend')),
+  ]);
+}
+
+/* Risk mitigation heatmap — the step-3 pre-mortem grid, now with answers: the same likelihood × impact
+   2×2 from #risk-mitigation, each dot coloured by lifecycle status (open red · mitigating amber), the
+   panel showing the owned mitigation, owner, trigger and due. Continuity with step 3 is the point. */
+function mitigationHeatmap(s) {
+  const a = bodyOf(s, 'risk-mitigation');
+  const tb = a ? firstTable(a.body) : null;
+  if (!tb) return null;
+  const idi = colKey(tb, 'register'), ri = colKey(tb, 'risk'), li = colKey(tb, 'likelihood'),
+    ii = colKey(tb, 'impact'), mi = colKey(tb, 'mitigation'), oi = colKey(tb, 'owner'),
+    ti = colKey(tb, 'trigger'), di = colKey(tb, 'due'), sti = colKey(tb, 'status');
+  if (li < 0 || ii < 0) return null;
+  const lvl = v => /^h/i.test(plain(v)) ? 2 : /^m/i.test(plain(v)) ? 1 : /^l/i.test(plain(v)) ? 0 : null;
+  const statCls = v => /^open|открыт/i.test(plain(v)) ? 'open' : /^mitigat|митигир|снижа/i.test(plain(v)) ? 'mit' : 'na';
+  const items = tb.rows.map(r => ({
+    id: plain(r[idi >= 0 ? idi : 0]), risk: r[ri >= 0 ? ri : 1] || '',
+    L: lvl(r[li]), I: lvl(r[ii]), stat: sti >= 0 ? statCls(r[sti]) : 'na',
+    mit: mi >= 0 ? r[mi] : '', owner: oi >= 0 ? plain(r[oi]) : '',
+    trig: ti >= 0 ? plain(r[ti]) : '', due: di >= 0 ? plain(r[di]) : '',
+  })).filter(x => x.L !== null && x.I !== null);
+  if (!items.length) return null;
+  const detail = h('div', { class: 'heatdetail' }, h('span', { class: 'small faint' }, t('mitHint')));
+  let pinned = null;
+  const show = it => {
+    detail.innerHTML = '';
+    const foot = [it.owner && t('mitOwner') + ': ' + it.owner, it.trig && t('mitTrigger') + ': ' + it.trig, it.due && t('mitDue') + ': ' + it.due].filter(Boolean);
+    detail.append(
+      h('div', {}, h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) })),
+      plain(it.mit) ? h('div', { class: 'small', style: 'margin-top:5px', html: inline(it.mit) }) : null,
+      foot.length ? h('div', { class: 'small faint', style: 'margin-top:5px' }, foot.join(' · ')) : null);
+  };
+  const grid = [h('div', { class: 'heatax' }), ['L', 'M', 'H'].map(x => h('div', { class: 'heatax' }, hlBadge(x)))];
+  for (let imp = 2; imp >= 0; imp--) {
+    grid.push(h('div', { class: 'heatax' }, hlBadge(['L', 'M', 'H'][imp])));
+    for (let lik = 0; lik <= 2; lik++) {
+      grid.push(h('div', { class: 'heatcell' + (lik === 2 && imp === 2 ? ' heat-hot' : '') },
+        items.filter(x => x.L === lik && x.I === imp).map(it =>
+          h('button', {
+            class: 'heatdot mit-' + it.stat, title: it.id,
+            onmouseenter: () => { if (!pinned) show(it); },
+            onfocus: () => { if (!pinned) show(it); },
+            onclick: e => {
+              e.stopPropagation();
+              const btn = e.currentTarget;
+              if (pinned) pinned.btn.classList.remove('on');
+              pinned = (pinned && pinned.btn === btn) ? null : { btn };
+              if (pinned) btn.classList.add('on');
+              show(it);
+            },
+          }, it.id.replace(/^R-0*/, '')))));
+    }
+  }
+  return h('div', { class: 'heatwrap' },
+    h('div', { class: 'heatbody' },
+      h('div', { class: 'heatgrid' }, grid.flat()),
+      h('div', { class: 'heataxes small faint' }, `${t('rImp')} ↑ · ${t('rLik')} →`)),
+    detail);
+}
+
+/* Step 4 — the strategic plan around its metric tree: the North Star tree as the hero, the horizon
+   targets as the cockpit beside it, then economics (contribution waterfall + retention curve),
+   capabilities and risk mitigation as the execution band, and the quantified hypotheses as gauges.
+   Every board falls back to its section's ordinary card when the keys aren't there. */
 function canvasStrategicPlan(s) {
   const parts = [];
-  const hero = cvCard(s, 'metric-tree', { hero: true });
-  if (hero) parts.push(cvZone(t('z4North')), hero);
-  [[t('z4Econ'), ['unit-economics', 'financial-model', 'retention', 'strategic-targets']],
-   [t('z4Instr'), ['architecture-instrumentation', 'risk-mitigation', 'capabilities']],
-   [t('z4Hyp'), ['global-hypotheses', 'open-questions']]].forEach(([lab, ids]) => {
-    const z = cardZone(s, lab, ids); if (z) parts.push(...z);
-  });
+  const push = (label, node, id) => {
+    const a = bodyOf(s, id);
+    const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
+    const tool = a ? worklogTool(stem, a.body) : null;
+    const meta = s.sections.find(x => x.id === id);
+    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta),
+      meta ? evStrip(meta.confidence, 'inline') : null,
+      s.artifact_file ? goSection(s.artifact_file, id, t('more'), meta && meta.title) : null,
+      tool ? goWorklog(stem, tool) : null,
+      tool ? wlNewerTag(s, tool) : null), node);
+  };
+  const boardOrCard = (label, node, id) => {
+    if (node) { push(label, node, id); return; }
+    const z = cardZone(s, label, [id]);
+    if (z) parts.push(...z);
+  };
+  boardOrCard(t('z4North'), metricTree(s), 'metric-tree');
+  boardOrCard(t('z4Targets'), targetTiles(s), 'strategic-targets');
+  boardOrCard(t('z4Econ'), econWaterfall(s), 'unit-economics');
+  boardOrCard(t('z4Retention'), retentionCurve(s), 'retention');
+  const fin = cardZone(s, t('z4Econ') + ' — ' + t('z4Instr'), ['financial-model', 'architecture-instrumentation']);
+  if (fin) parts.push(...fin);
+  boardOrCard(t('z4Caps'), capabilityShields(s), 'capabilities');
+  boardOrCard(t('z4Mit'), mitigationHeatmap(s), 'risk-mitigation');
+  boardOrCard(t('z4Hyp'), thresholdGauges(s), 'global-hypotheses');
+  const open = cardZone(s, t('z3Open'), ['open-questions']);
+  if (open) parts.push(...open);
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
 /* Step 5 — the tactical plan: goals & targets on top, the guardrails as a red-lined band of their own

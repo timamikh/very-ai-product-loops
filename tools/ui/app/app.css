@@ -852,3 +852,95 @@ details.acc .accbody { padding:13px 15px 16px }
 .charr { color:var(--faint) }
 .chseg { font-size:13px; color:var(--ink-2) }
 .chfit { grid-column:1 / -1; margin-top:-2px }
+
+/* ---- step-4 boards ---- */
+/* rid chips used outside .md (tree/targets/gauges): the base + colours .md already gives inside prose */
+.rid { font-family:var(--mono); font-size:12px; padding:0 3px; border-radius:3px; border:0 }
+.rid.met { color:var(--met); background:var(--met-soft) }
+.rid.hyp { color:var(--hyp); background:var(--hyp-soft) }
+.rid.risk { color:var(--risk); background:var(--risk-soft) }
+
+/* Metric tree — North Star hero over its driver nodes; node border = data source, chip = family */
+.mtree { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:14px }
+.mt-ns { text-align:center; max-width:520px; margin:0 auto 4px; background:var(--paper);
+  border:1px solid var(--met); border-radius:10px; padding:10px 14px }
+.mt-ns-lab { font:600 10px var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--met) }
+.mt-ns-name { font-weight:700; font-size:15px; margin:2px 0 3px }
+.mt-drivers { position:relative; display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+  margin-top:14px; padding-top:14px; border-top:1px solid var(--line-2) }
+.mt-node { flex:1 1 180px; max-width:240px; background:var(--paper); border:1.5px solid var(--line-2);
+  border-radius:9px; padding:8px 10px; display:flex; flex-direction:column; gap:5px }
+.mt-node.mt-on { border-color:var(--ok) }
+.mt-node.mt-proxy { border-color:var(--warn) }
+.mt-node.mt-off { border-style:dashed; border-color:var(--line-2) }
+.mt-node-top { display:flex; justify-content:space-between; align-items:center; gap:6px }
+.mt-fam { font:600 9.5px var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2);
+  padding:1px 5px 1px 6px; border-left:3px solid var(--faint); border-radius:2px; background:var(--sunk);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.mt-fam-acquisition { border-left-color:#3B82F6 } .mt-fam-activation { border-left-color:#06B6A4 }
+.mt-fam-engagement { border-left-color:#8B5CF6 } .mt-fam-retention { border-left-color:#10B981 }
+.mt-fam-referral { border-left-color:#F59E0B } .mt-fam-revenue { border-left-color:#EC4899 }
+.mt-fam-quality { border-left-color:#6366F1 } .mt-fam-cost { border-left-color:#EF4444 }
+.mt-src { font:600 9px var(--mono); letter-spacing:.04em; text-transform:uppercase; white-space:nowrap }
+.mt-src-on { color:var(--ok) } .mt-src-proxy { color:var(--warn) } .mt-src-off { color:var(--faint) }
+.mt-node-id { font-family:var(--mono); font-size:12px; color:var(--ink) }
+.mt-inputs { line-height:1.3 }
+
+/* Horizon targets — the committed nodes as cockpit tiles */
+.tghorizon { margin-bottom:8px; font-family:var(--mono); letter-spacing:.04em }
+.tggrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px }
+.tgtile { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:11px 13px;
+  display:flex; flex-direction:column; gap:4px }
+.tgval { font-weight:700; font-size:18px; line-height:1.15; color:var(--met) }
+.tgscen { color:var(--muted); font-family:var(--mono); font-size:11px }
+.tgwhy { line-height:1.35 }
+
+/* Unit economics — the contribution waterfall + CAC/payback/LTV tiles */
+.uewrap { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:12px 14px }
+.ue-bars { display:flex; flex-direction:column; gap:7px; max-width:560px }
+.ue-bar-row { display:grid; grid-template-columns:84px 1fr; gap:10px; align-items:center }
+.ue-bar-lab { text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-family:var(--mono) }
+.ue-bar-track { background:var(--canvas); border-radius:6px; overflow:hidden }
+.ue-bar { height:26px; border-radius:6px; display:flex; align-items:center; justify-content:flex-end;
+  padding:0 8px; min-width:34px }
+.ue-rev { background:var(--met-soft); border:1px solid var(--met) }
+.ue-cogs { background:var(--err-soft); border:1px solid var(--err) }
+.ue-contrib { background:var(--ok-soft); border:1px solid var(--ok) }
+.ue-bar-val { font:600 12px var(--mono); color:var(--ink) }
+.ue-from { margin:6px 0 0 }
+.ue-tiles { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px }
+.ue-tile { flex:1 1 150px; background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 10px }
+.ue-tile-lab { text-transform:uppercase; letter-spacing:.08em; font-family:var(--mono) }
+.ue-tile-val { color:var(--ink-2); margin-top:2px }
+
+/* Retention curves — one polyline per cohort */
+.retcurve { display:block; min-width:420px; width:100%; height:auto; max-height:220px }
+.retline { fill:none; stroke-width:2 }
+.retdot { stroke-width:0 }
+.ret-0 { stroke:#3B82F6; fill:#3B82F6 } .ret-1 { stroke:#10B981; fill:#10B981 }
+.ret-2 { stroke:#EC4899; fill:#EC4899 } .ret-3 { stroke:#F59E0B; fill:#F59E0B }
+.retlegend { display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:4px }
+
+/* Capability shields — reuse .shield; the missing-level band is red */
+.shield.sh-miss .shhead { color:var(--err); background:var(--err-soft); border-bottom-color:var(--err) }
+
+/* Threshold gauges — pre-registered reads: fail zone · inconclusive gap · pass zone */
+.thwrap { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; align-items:start }
+.thcard { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+  display:flex; flex-direction:column; gap:6px }
+.thhead { display:flex; gap:6px; align-items:center }
+.thbet { font-size:13px; line-height:1.35 }
+.thbar { display:flex; height:10px; border-radius:99px; overflow:hidden; border:1px solid var(--line) }
+.thzone.th-fail { flex:0 0 30%; background:var(--err-soft); border-right:1px solid var(--err) }
+.thzone.th-gap { flex:0 0 25%; background:var(--canvas) }
+.thzone.th-pass { flex:1 1 auto; background:var(--ok-soft); border-left:1px solid var(--ok) }
+.thlabs { display:flex; justify-content:space-between; gap:10px; line-height:1.3 }
+.th-fail-t { color:var(--err) } .th-pass-t { color:var(--ok); text-align:right }
+
+/* Risk-mitigation heatmap — reuse .heat*; dots coloured by lifecycle status */
+.heatdot.mit-open { color:var(--err); background:var(--err-soft); border-color:var(--err) }
+.heatdot.mit-open:hover, .heatdot.mit-open:focus-visible, .heatdot.mit-open.on { background:var(--err); color:var(--paper) }
+.heatdot.mit-mit { color:var(--warn); background:var(--warn-soft); border-color:var(--warn) }
+.heatdot.mit-mit:hover, .heatdot.mit-mit:focus-visible, .heatdot.mit-mit.on { background:var(--warn); color:var(--paper) }
+.heatdot.mit-na { color:var(--muted); background:var(--sunk); border-color:var(--line-2) }
+.heatdot.mit-na:hover, .heatdot.mit-na:focus-visible, .heatdot.mit-na.on { background:var(--muted); color:var(--paper) }
