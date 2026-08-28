@@ -786,7 +786,7 @@ details.acc .accbody { padding:13px 15px 16px }
 /* Journey emotion curve — the Emotion column drawn literally */
 .jwrap { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:10px 12px;
   overflow-x:auto }
-.jcurve { display:block; min-width:520px; width:100%; height:auto; max-height:250px }
+.jcurve { display:block; min-width:560px; width:100%; height:auto; max-height:300px }
 .jgrid { stroke:var(--grid); stroke-width:1 }
 .jline { fill:none; stroke-width:2 }
 .jnow { stroke:var(--ink-2) }
@@ -798,19 +798,22 @@ details.acc .accbody { padding:13px 15px 16px }
 .jkey { display:inline-block; width:22px; height:0; border-top:2px solid var(--ink-2); vertical-align:middle }
 .jkey-was { border-top:2px dashed var(--faint) }
 
-/* Pre-mortem heatmap — 3×3, hot corner tinted, dots focusable */
-.heatwrap { max-width:560px }
-.heatgrid { display:grid; grid-template-columns:auto repeat(3,1fr); gap:3px }
+/* Pre-mortem heatmap — 3×3, hot corner tinted, dots focusable; a click pins the dot filled.
+   The grid and the reading panel sit side by side and share the row's full width; on a narrow
+   screen the panel wraps under the grid. */
+.heatwrap { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:stretch }
+.heatbody { flex:2 1 460px; min-width:340px; max-width:680px }
+.heatgrid { display:grid; grid-template-columns:auto repeat(3,1fr); gap:4px }
 .heatax { display:flex; align-items:center; justify-content:center; min-width:28px }
-.heatcell { min-height:64px; background:var(--sunk); border:1px solid var(--line); border-radius:8px;
-  padding:5px; display:flex; flex-wrap:wrap; gap:4px; align-content:flex-start }
+.heatcell { min-height:76px; background:var(--sunk); border:1px solid var(--line); border-radius:8px;
+  padding:6px; display:flex; flex-wrap:wrap; gap:5px; align-content:flex-start }
 .heatcell.heat-hot { background:var(--err-soft); border-color:var(--err) }
 .heatdot { font:600 11px var(--mono); color:var(--risk); background:var(--risk-soft);
   border:1px solid var(--risk); border-radius:99px; padding:2px 7px; cursor:pointer }
-.heatdot:hover, .heatdot:focus-visible { background:var(--risk); color:var(--paper); outline:none }
-.heataxes { margin:4px 0 0 }
-.heatdetail { margin-top:8px; background:var(--paper); border:1px solid var(--line); border-radius:8px;
-  padding:8px 10px; min-height:40px; font-size:13px }
+.heatdot:hover, .heatdot:focus-visible, .heatdot.on { background:var(--risk); color:var(--paper); outline:none }
+.heataxes { margin:6px 0 0 }
+.heatdetail { flex:1 1 260px; min-width:240px; margin-top:0; background:var(--paper);
+  border:1px solid var(--line); border-radius:8px; padding:10px 12px; min-height:40px; font-size:13px }
 
 /* Bets board — ordered wagers */
 .betgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px }
@@ -824,14 +827,21 @@ details.acc .accbody { padding:13px 15px 16px }
 .betfoot { display:flex; flex-wrap:wrap; gap:10px; color:var(--ink-2) }
 .betmoat { border-left:3px solid var(--navy); padding-left:6px }
 
-/* Moat shields — state plates for the step-1 defensibility table */
-.shieldrow { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px }
-.shield { background:var(--sunk); border:1px solid var(--line); border-top:3px solid var(--faint);
-  border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; gap:6px }
-.shield.sh-done { border-top-color:var(--ok) }
-.shield.sh-open { border-top-color:var(--warn) }
+/* Moat shields — state plates for the step-1 defensibility table: the state is the band across
+   the top (its colour is the reading), the name/description below, the rebuild verdict the footer */
+.shieldrow { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px }
+.shield { background:var(--sunk); border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  display:flex; flex-direction:column }
+.shhead { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:6px 12px;
+  font:600 11px var(--mono); letter-spacing:.08em; text-transform:uppercase;
+  color:var(--faint); border-bottom:1px solid var(--line) }
+.shield.sh-done .shhead { color:var(--ok); background:var(--ok-soft); border-bottom-color:var(--ok) }
+.shield.sh-open .shhead { color:var(--warn); background:var(--warn-soft); border-bottom-color:var(--warn) }
+.shlayer { font-weight:500; letter-spacing:.04em; text-transform:none; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis }
+.shbody { display:flex; flex-direction:column; gap:6px; padding:10px 12px }
 .shname { font-weight:600; font-size:13.5px }
-.shmeta { display:flex; align-items:center; gap:8px; flex-wrap:wrap }
+.shdesc { color:var(--ink-2) }
 
 /* Channel map — channel → segment with a literal state */
 .chmap { display:flex; flex-direction:column; gap:8px; max-width:720px }

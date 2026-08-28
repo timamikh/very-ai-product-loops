@@ -120,6 +120,7 @@ const STR = {
     z3Moats: 'Moat shields', z3Heat: 'Pre-mortem heatmap',
     lOurs: 'our price', heatHint: 'hover or click a dot to read the risk',
     curveWas: 'before (concept)', curveNow: 'after strategy', curveSplit: 'split rating',
+    curveAxis: 'Y — emotion at each stage: ▲ high · ▲▼ split · ▼ low · ▼▼ lowest',
     shRebuild: 'LLM rebuild', betMoat: 'moat', ladderFrom: 'Anchors from this step’s pricing table and step 2’s competitor pricing.',
     z4North: 'North Star & metric tree', z4Econ: 'Economics',
     z4Instr: 'Instrumentation & risk', z4Hyp: 'Hypotheses',
@@ -1228,6 +1229,32 @@ function emoLevel(cellRaw) {
       : /▼/.test(tok) ? -1 : /▲/.test(tok) ? 1 : null;
   return { now: lvl(cur), was: wasM ? lvl(wasM[1]) : null, split: /▲/.test(cur) && /▼/.test(cur), raw: cell };
 }
+/* A cell's lead: the text up to the first free ` — ` (outside any parentheses), so a dash inside
+   a bracketed aside never cuts the lead short. The canon writes `name — qualifier` cells; the lead
+   is the name, the rest is the qualifier. */
+function leadDash(s) {
+  const str = String(s || '');
+  let depth = 0;
+  for (let i = 0; i < str.length - 2; i++) {
+    const ch = str[i];
+    if (ch === '(') depth++;
+    else if (ch === ')') depth = Math.max(0, depth - 1);
+    else if (!depth && ch === ' ' && /[—–]/.test(str[i + 1]) && str[i + 2] === ' ') return str.slice(0, i);
+  }
+  return str;
+}
+/* Greedy word-wrap into at most `max` lines of ~`width` characters; the tail past the last line is
+   an ellipsis, never a mid-word cut of every line. */
+function wrapLabel(s, width, max) {
+  const lines = [];
+  for (const w of String(s).split(/\s+/).filter(Boolean)) {
+    const last = lines[lines.length - 1];
+    if (last !== undefined && (last + ' ' + w).length <= width) lines[lines.length - 1] = last + ' ' + w;
+    else lines.push(w.length > width ? w.slice(0, width - 1) + '…' : w);
+  }
+  if (lines.length > max) { lines.length = max; lines[max - 1] = lines[max - 1].replace(/…?$/, '…'); }
+  return lines;
+}
 /* Journey emotion curve — the step-1 map's Emotion column drawn literally, one x per stage. Two
    layers when the strategy revisit recorded `(was …)`: the concept layer dashed, the revised solid.
    The lowest point of the current layer is the ring — that is where the journey breaks. */
@@ -1242,10 +1269,16 @@ function journeyCurve() {
     .map(r => ({ stage: plain(r[si >= 0 ? si : 0]), ...emoLevel(r[ei]) }))
     .filter(p => p.now !== null);
   if (pts.length < 2) return null;
-  const X = i => 46 + i * 96, Y = l => 118 - l * 36;   // levels 1…−2 → y 82…190
-  const W = X(pts.length - 1) + 46;
-  const el = svg('svg', { viewBox: `0 0 ${W} 236`, class: 'jcurve', role: 'img' });
-  [1, 0, -1, -2].forEach(l => el.append(svg('line', { x1: 10, x2: W - 10, y1: Y(l), y2: Y(l), class: 'jgrid' })));
+  const X = i => 78 + i * 104, Y = l => 118 - l * 36;   // levels 1…−2 → y 82…190
+  const W = X(pts.length - 1) + 52;
+  const el = svg('svg', { viewBox: `0 0 ${W} 246`, class: 'jcurve', role: 'img' });
+  // the y scale, spelled in the canon's own glyphs: what a point's height means
+  [[1, '▲'], [0, '▲▼'], [-1, '▼'], [-2, '▼▼']].forEach(([l, lab]) => {
+    el.append(svg('line', { x1: 54, x2: W - 12, y1: Y(l), y2: Y(l), class: 'jgrid' }));
+    const ax = svg('text', { x: 44, y: Y(l) + 3.5, class: 'jstage', 'text-anchor': 'end' });
+    ax.textContent = lab;
+    el.append(ax);
+  });
   const hasWas = pts.some(p => p.was !== null);
   if (hasWas) {
     el.append(svg('polyline', {
@@ -1262,14 +1295,24 @@ function journeyCurve() {
     c.append(svg('title', {}));
     c.lastChild.textContent = p.stage + ' · ' + p.raw;
     el.append(c);
-    const lb = svg('text', { x: X(i), y: 222, class: 'jstage', 'text-anchor': 'middle' });
-    lb.textContent = p.stage.length > 14 ? p.stage.slice(0, 13) + '…' : p.stage;
+    // the label is the stage's short name — the lead before its ` — ` qualifier, the trailing
+    // actor list dropped — wrapped whole; the full cell stays in the hover title
+    const lead = leadDash(p.stage).replace(/\s*\([^)]*\)\s*$/, '');
+    const lb = svg('text', { x: X(i), y: 214, class: 'jstage', 'text-anchor': 'middle' });
+    wrapLabel(lead, 18, 3).forEach((line, k) => {
+      const ts = svg('tspan', { x: X(i), dy: k ? 12 : 0 });
+      ts.textContent = line;
+      lb.append(ts);
+    });
+    lb.append(svg('title', {}));
+    lb.lastChild.textContent = p.stage;
     el.append(lb);
   });
   return h('div', { class: 'jwrap' }, el,
-    hasWas ? h('p', { class: 'small faint', style: 'margin:4px 0 0' },
-      h('span', { class: 'jkey jkey-was' }), ' ' + t('curveWas') + '   ',
-      h('span', { class: 'jkey jkey-now' }), ' ' + t('curveNow')) : null);
+    h('p', { class: 'small faint', style: 'margin:4px 0 0' },
+      t('curveAxis'),
+      hasWas ? [' · ', h('span', { class: 'jkey jkey-was' }), ' ' + t('curveWas') + '   ',
+        h('span', { class: 'jkey jkey-now' }), ' ' + t('curveNow')] : null));
 }
 
 /* Pre-mortem heatmap — likelihood × impact as a 3×3 grid read straight from the section's H/M/L
@@ -1287,7 +1330,7 @@ function riskHeatmap(s) {
   })).filter(x => x.L !== null && x.I !== null);
   if (!items.length) return null;
   const detail = h('div', { class: 'heatdetail' }, h('span', { class: 'small faint' }, t('heatHint')));
-  let pinned = null;
+  let pinned = null;   // the pinned dot keeps its filled state until unpinned, so the choice is visible
   const show = it => {
     detail.innerHTML = '';
     detail.append(h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) }));
@@ -1302,13 +1345,21 @@ function riskHeatmap(s) {
             class: 'heatdot', title: it.id,
             onmouseenter: () => { if (!pinned) show(it); },
             onfocus: () => { if (!pinned) show(it); },
-            onclick: e => { e.stopPropagation(); pinned = pinned === it ? null : it; show(it); },
+            onclick: e => {
+              e.stopPropagation();
+              const btn = e.currentTarget;
+              if (pinned) pinned.btn.classList.remove('on');
+              pinned = (pinned && pinned.btn === btn) ? null : { btn };
+              if (pinned) btn.classList.add('on');
+              show(it);
+            },
           }, it.id.replace(/^R-0*/, '')))));
     }
   }
   return h('div', { class: 'heatwrap' },
-    h('div', { class: 'heatgrid' }, grid.flat()),
-    h('div', { class: 'heataxes small faint' }, `${t('rImp')} ↑ · ${t('rLik')} →`),
+    h('div', { class: 'heatbody' },
+      h('div', { class: 'heatgrid' }, grid.flat()),
+      h('div', { class: 'heataxes small faint' }, `${t('rImp')} ↑ · ${t('rLik')} →`)),
     detail);
 }
 
@@ -1340,21 +1391,30 @@ function betsBoard(s) {
       plain(b.out) ? h('span', { class: 'faint', html: '→ ' + inline(b.out) }) : null))));
 }
 
-/* Moat shields — the step-1 Value & Defensibility table as state plates: Have / Building /
-   Aspiration each in its own colour, with the LLM-rebuild verdict under the name. */
+/* Moat shields — the step-1 Value & Defensibility table as state plates. The band across the top
+   is the state (Have / Building / Aspiration, each in its own colour) with the layer on the right;
+   the moat cell reads as `name — description` (leadDash), the LLM-rebuild verdict is the footer. */
 function moatShields() {
   const s1 = anotherStep(1);
   const a = s1 ? artSection(s1.artifact_file, 'value-defensibility') : null;
   const tb = a ? allTables(a.body).find(x => colKey(x, 'have') >= 0) : null;
   if (!tb) return null;
-  const mi = colKey(tb, 'moat'), hi = colKey(tb, 'have'), ri = colKey(tb, 'rebuild');
+  const mi = colKey(tb, 'moat'), hi = colKey(tb, 'have'), ri = colKey(tb, 'rebuild'), li = colKey(tb, 'layer');
   if (mi < 0) return null;
   const cls = v => /^have/i.test(plain(v)) ? 'done' : /^build/i.test(plain(v)) ? 'open' : 'na';
-  return h('div', { class: 'shieldrow' }, tb.rows.map(r => h('div', { class: 'shield sh-' + cls(r[hi]) },
-    h('div', { class: 'shname', html: inline(r[mi]) }),
-    h('div', { class: 'shmeta' },
-      h('span', { class: 'tag ' + cls(r[hi]) }, plain(r[hi]) || '—'),
-      ri >= 0 && plain(r[ri]) ? h('span', { class: 'small faint' }, t('shRebuild') + ': ' + plain(r[ri])) : null))));
+  return h('div', { class: 'shieldrow' }, tb.rows.map(r => {
+    const raw = String(r[mi] || '');
+    const lead = leadDash(raw);
+    const rest = raw.slice(lead.length).replace(/^\s*[—–]\s*/, '');
+    return h('div', { class: 'shield sh-' + cls(r[hi]) },
+      h('div', { class: 'shhead' },
+        h('span', {}, plain(r[hi]) || '—'),
+        li >= 0 && plain(r[li]) ? h('span', { class: 'shlayer' }, plain(r[li])) : null),
+      h('div', { class: 'shbody' },
+        h('div', { class: 'shname', html: inline(lead) }),
+        rest ? h('div', { class: 'shdesc small', html: inline(rest) }) : null,
+        ri >= 0 && plain(r[ri]) ? h('div', { class: 'small faint' }, t('shRebuild') + ': ' + plain(r[ri])) : null));
+  }));
 }
 
 /* Channel map — channel → segment rows with the state read literally from the State column
