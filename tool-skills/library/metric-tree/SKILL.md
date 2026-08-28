@@ -16,8 +16,8 @@ volume_rule: "2–4 candidate North Stars, each run through all three filters (l
 selection_rule: "the candidate passing all three filters becomes the North Star; 3–5 drivers under it, not more"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-16
+version: 0.4.0
+updated: 2026-08-28
 ---
 # Metric tree — North Star → drivers → inputs
 

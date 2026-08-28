@@ -15,6 +15,24 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Step 4 gets its canvas and the metric tree keys its families
+
+- **Console: seven strategic-plan boards** — the metric tree drawn (North Star over its driver nodes,
+  each node's border its data source: instrumented / proxy / none; each node's chip its metric
+  family), horizon-target cockpit tiles, the unit-economics contribution waterfall + CAC/payback/LTV
+  tiles, per-cohort retention curves (a censored cell is a gap, not a zero), capability shields
+  (reusing the moat plates with a red missing-band), the risk-mitigation heatmap (the pre-mortem 2×2
+  now with answers — dots coloured by lifecycle status, the panel showing mitigation · owner ·
+  trigger · due), and hypothesis threshold gauges (fail zone · conscious inconclusive gap · pass
+  zone). Each reads its columns by `<!--c:key-->` only and falls back to the section's ordinary card.
+- **The metric-tree Driver column is the metric's family**: step-4 template 0.6.0 declares
+  `enum:c:driver: acquisition · activation · engagement · retention · referral · revenue · quality ·
+  cost` — AARRR plus the behavioural, product-health and COGS families AARRR has no slot for. One
+  token per cell, read literally onto the console's family grouping; cohorts and funnels are *views*
+  of these families, not families. `metric-tree` 0.4.0 prescribes the one-token cell and gains a
+  `<!-- card -->` face on the North Star line. The board still infers a family from prose so a
+  pre-enum instance groups too.
+
 ### Step 3 joins the perimeter and the strategy canvas gets its boards
 
 - **The ten step-3 cards declare in `reads` what their prerequisites already demanded**:

@@ -4,8 +4,8 @@ artifact: strategic-plan
 step: 4
 title: "Strategic Plan — <Product>"
 status: template
-version: 0.5.2
-updated: 2026-08-20
+version: 0.6.0
+updated: 2026-08-28
 ---
 
 <!--
@@ -48,9 +48,11 @@ _Why this one: leading · value-repeating · strategy-encoding (one line each)._
 
 | Driver <!--c:driver--> | Node <!--c:node--> | Inputs (nodes) <!--c:inputs--> | Instrumentation <!--c:instrumentation--> |
 |--------|------|----------------|-----------------|
-| acquisition / activation | `M-…` | `M-…` | instrumented / proxy / not |
-| conversion | … | … | … |
+| activation | `M-…` | `M-…` | instrumented / proxy / not |
+| revenue | … | … | … |
 | retention | `M-…` | … | … |
+
+<!-- enum:c:driver: acquisition | activation | engagement | retention | referral | revenue | quality | cost -->
 
 **Not instrumented (→ Steps 5–6):** nodes + how to close them.
 

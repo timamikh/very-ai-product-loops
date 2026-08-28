@@ -8,15 +8,24 @@
 _Method: North Star Framework. Nodes live in the metric register (`registers/metric-tree.md` —
 definitions; `registers/metrics.csv` — values). This section is the shape + rationale, not a value store._
 
+<!-- card -->
 **North Star:** `M-…` — <formula> · [decision: ⚙️ / approved <who, when>]
 _Why this one: leading · value-repeating · strategy-encoding (one line each)._
 
 | Driver | Node | Inputs (nodes) | Instrumentation |
 |--------|------|----------------|-----------------|
-| acquisition / activation | `M-…` | `M-…` | instrumented / proxy / not-instrumented |
-| conversion | … | … | … |
-| deepening (strategy axis) | … | … | … |
+| activation | `M-…` | `M-…` | instrumented / proxy / not-instrumented |
+| revenue | … | … | … |
+| engagement | … | … | … |
 | retention | `M-…` | … | … |
+
+_The **Driver** cell carries exactly one family token — `acquisition · activation · engagement ·
+retention · referral · revenue · quality · cost` — the metric's role in the growth loop (AARRR, plus
+the behavioural `engagement`, product-health `quality` and COGS `cost` families that AARRR has no slot
+for). One token, read literally onto the console's family grouping; a qualifier ("proves the concept",
+"risk #1") lives in the node's rationale or the worklog, never compounded into the cell. Cohorts and
+funnels are **views** of these families, not families — a cohort is retention read by join period, a
+funnel is acquisition→revenue in order; neither is a driver token._
 
 **Guardrails:** `M-…` — <what must not drop and why>.
 **Not instrumented (→ Steps 5–6):** list of nodes + how to close each.

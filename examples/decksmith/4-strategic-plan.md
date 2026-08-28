@@ -57,9 +57,9 @@ promise; a design-led rival's tree would top out at "decks generated" — the me
 
 | Driver <!--c:driver--> | Node <!--c:node--> | Inputs (nodes) <!--c:inputs--> | Instrumentation <!--c:instrumentation--> |
 |--------|------|----------------|-----------------|
-| acquisition / activation | `M-activated` | signup→first-export funnel | instrumented |
-| conversion | `M-paid-conv` | trial starts, paid starts | instrumented |
-| deepening (engagement) | `M-exports-per-acct` | export events × design-acceptance | proxy |
+| activation | `M-activated` | signup→first-export funnel | instrumented |
+| revenue | `M-paid-conv` | trial starts, paid starts | instrumented |
+| engagement | `M-exports-per-acct` | export events × design-acceptance | proxy |
 | retention | `M-w4-retention` | cohort export recurrence | not-instrumented |
 
 Guardrails: `M-design-acceptance` (quality — proxy), `M-contribution` (finance — instrumented),
@@ -245,6 +245,15 @@ down it stops the next cycle from re-running it.
 | Can week-4 retention be measured now? | no — pre-launch, every cohort censored | absence of data, not a refutation | `M-w4-retention` marked not-instrumented; `H-003` untested until launch |
 
 ## Change log
+
+### 2026-08-28 — metric-tree Driver column keyed to the family enum
+- **From → To:** free-text drivers (`acquisition / activation`, `conversion`, `deepening (engagement)`)
+  → one family token each (`activation`, `revenue`, `engagement`, `retention`) from the template's
+  new `enum:c:driver` — AARRR plus engagement / quality / cost
+- **Why:** the driver **is** the metric's family; keying it lets the console group the tree by family
+  without a second column, and the enum holds the vocabulary closed (linter O3). The dropped qualifiers
+  ("acquisition" upstream of `M-activated`; "deepening") are already carried by the node id + inputs
+- **Trigger:** Step-4 console rework — the metric-tree board reads the family off this token
 
 ### 2026-08-23 — confidence-tag grammar normalized
 - **From → To:** compound tags (`[sourced, fact — high]`, `[assumption: …]`, bare `[sourced]`) →
