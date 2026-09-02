@@ -61,7 +61,7 @@ Six things, and each one is a real failure if it is missing:
       environment silently falls back to working solo.
 - [ ] **The session was restarted once.** Agent definitions and skills vendored mid-session are picked up
       only at the next start.
-- [ ] **`python3 tools/lint.py` runs.** At this point `instances checked: none` is the *correct* answer —
+- [ ] **`python3 tools/lint.py` runs.** At this point `instances checked: 0` is the *correct* answer —
       no product is set up yet. After setup, that line must name your instance.
 - [ ] **No `product-loops/` folder yet.** If one appeared, a product was set up in the same breath as the
       install, and the two phases were meant to stay apart.

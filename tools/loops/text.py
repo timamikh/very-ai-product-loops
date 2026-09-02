@@ -1,6 +1,6 @@
 """Markdown & frontmatter primitives — the canon's notation, parsed in one place.
 
-Deliberately minimal (stdlib only, single-line frontmatter values, no markdown AST): the canon is
+Deliberately minimal (stdlib only, scalar / inline-list / block-list frontmatter values, no markdown AST): the canon is
 written to be greppable, and every consumer must see the *same* interpretation of it.
 """
 import os
@@ -30,7 +30,7 @@ def parse_scalar(v):
 
 
 def frontmatter(path):
-    """Minimal `key: value` frontmatter parse (top-level, single-line values only).
+    """Minimal `key: value` frontmatter parse (top-level; scalars, inline and block lists).
 
     Returns (dict, full_text) — callers usually want both.
     """
@@ -39,13 +39,26 @@ def frontmatter(path):
 
 
 def frontmatter_from(text):
+    """Top-level `key: value` pairs; a value is a scalar, an inline `[a, b]` list, or a block list
+    (`key:` alone, then `  - item` lines). Every other YAML form is out of the canon's notation."""
     m = re.match(r"^---\n(.*?)\n---", text, re.S)
     fm = {}
-    if m:
-        for line in m.group(1).splitlines():
-            mm = re.match(r"^([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$", line)
-            if mm:
-                fm[mm.group(1)] = parse_scalar(mm.group(2))
+    if not m:
+        return fm
+    key = None
+    for line in m.group(1).splitlines():
+        mm = re.match(r"^([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$", line)
+        if mm:
+            key = mm.group(1)
+            fm[key] = parse_scalar(mm.group(2))
+            continue
+        # a block-list item under the last key — the empty-string scalar becomes a list
+        mi = re.match(r"^\s+-\s+(.*)$", line)
+        if mi and key is not None:
+            if fm[key] == "":
+                fm[key] = []
+            if isinstance(fm[key], list):
+                fm[key].append(mi.group(1).strip().strip('"').strip("'"))
     return fm
 
 

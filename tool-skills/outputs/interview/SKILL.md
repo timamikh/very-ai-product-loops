@@ -5,7 +5,7 @@ name: interview
 output_kind: authored
 prerequisites: [the decision or hypothesis the interview must inform, a candidate segment/persona to talk to]
 reads: [register:hypotheses]
-writes: [file:product-loops/export-files/<slug>-interview-guide.md]
+writes: [file:export-files/<slug>-interview-guide.md]
 surfaces: [file:export-files/*]
 opinionated: false
 method_basis: "Continuous discovery (Torres) + The Mom Test (Fitzpatrick) — non-leading questions, past behaviour over hypotheticals"

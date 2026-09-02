@@ -40,7 +40,7 @@ players in that arena — not a list of things we'd like to be good at.
 - **Market analysis** — arenas, sizes, each player's game and whether it works (`2#competitor-strategy`,
   `2#competitor-dynamics`). *Missing → run `market-sizing` + `competitor-analysis` (+ the
   `competitor-dynamics` scan for the trend read).*
-- **Value & moats** — what we can actually win with. *Missing → run `value-definition`.*
+- **Value & moats** — what we can actually win with. *Missing → run `value-definition-concept`.*
 
 ## How to do it
 1. **Winning aspiration.** State what winning *means* here — not "be a player", but a specific
@@ -54,7 +54,7 @@ players in that arena — not a list of things we'd like to be good at.
    stage of value chain. **List the exclusions explicitly** — the segments/arenas we deliberately
    will NOT pursue. A where-to-play with nothing excluded is not a choice.
 4. **How to win.** State the coherent logic for beating the specific competitors in that arena.
-   **Name which moats** (from `value-definition`) this logic leverages — cost, differentiation,
+   **Name which moats** (from `value-definition-concept`, revisited by `value-definition-strategy`) this logic leverages — cost, differentiation,
    data, distribution, lock-in — and how each translates into an advantage a rival can't cheaply
    copy. If the "how" doesn't connect to a named moat, it's a hope, not a strategy.
 5. **Check integration.** The three choices must reinforce each other: does the how-to-win
@@ -77,7 +77,7 @@ exclusions, the how-to-win logic naming the moats it leverages, and the integrat
 three choices. This method keeps **one** worklog, and all three sections `{#winning-aspiration}`,
 `{#where-to-play}`, `{#how-to-win}` are its **projections** into the fixed shape of
 [`template-fragment.md`](template-fragment.md); it is the **primary** tool of the multi-tool marker
-`tool: where-to-play-how-to-win, value-definition` on `{#how-to-win}`, so it **owns** that worklog. The
+`tool: where-to-play-how-to-win, value-definition-strategy` on `{#how-to-win}`, so it **owns** that worklog. The
 worklog is the **source of truth**, the sections hold nothing it does not, and the step's change-log
 history lives in the worklog, not the sections (`process/CONVENTIONS.md` → *Step folders & worklogs*).
 External figures arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never

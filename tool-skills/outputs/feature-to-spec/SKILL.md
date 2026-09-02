@@ -5,7 +5,7 @@ name: feature-to-spec
 output_kind: authored
 prerequisites: [a spec-ready groomed feature (its feature-grooming block, zero open product forks), the feature's register row (`F-…`) and links (`H-…` / `M-…`)]
 reads: [worklog:6-sprint-plan/feature-grooming, worklog:6-sprint-plan/feature-spec, register:features, register:hypotheses, register:metrics, source:kb]
-writes: [file:product-loops/export-files/<feature>-spec.md]
+writes: [file:export-files/<feature>-spec.md]
 surfaces: [file:export-files/*]
 formats: [md]
 opinionated: true

@@ -5,7 +5,7 @@ name: brief
 output_kind: authored
 prerequisites: [the problem or opportunity this frames, who it is for, how success will be judged]
 reads: [register:hypotheses, register:metrics, register:risks]
-writes: [file:product-loops/export-files/<slug>-brief.md]
+writes: [file:export-files/<slug>-brief.md]
 surfaces: [file:export-files/*]
 opinionated: false
 method_basis: "Structured brief — problem · goal · target metric · scope in/out · constraints · success criteria · decision owner"

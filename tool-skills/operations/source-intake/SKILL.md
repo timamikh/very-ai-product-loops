@@ -7,7 +7,7 @@ prerequisites:
   - the target step's **template** (`steps/<n>-*/template.md`), whose `<!-- tool: X -->` markers name the worklogs a source may feed — the instance's artifact need not exist yet, and at setup it must not (`product-setup` creates none)
   - a decision, when a source could feed more than one step, on which it primarily informs — proposed by the agent, confirmed by the human
 reads: [source:kb]
-writes: [file:product-loops/<step-folder>/<tool>.md]
+writes: [file:<step-folder>/<tool>.md]
 surfaces: [file:sources/INDEX.md, worklog:*, change-log]
 opinionated: true
 method_basis: "Route, don't reason: every external source is dispatched into the step worklog(s) it informs and cited there, so no artifact ever reaches around a worklog to a raw file"

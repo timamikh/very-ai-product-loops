@@ -118,6 +118,7 @@ recommended by none (reason in the row).
 | `source-intake` | a raw file lands in `sources/` | dispatch it into the step worklog(s) it feeds, cite it there | routed citations + `sources/INDEX.md` entry |
 | `metrics-capture` | a number arrives | source → dated register row with population, window, derivation | `metrics-capture` worklog + M row |
 | `theses` | operating-loop move 5 (scope: step) · before a step change (scope: instance) | walk the human through the sections, record the sign-off | `confirmed:` / `contested:` markers |
+| `step-close` | every gate section of a step is projected, before the gate is ticked | read the step whole — links, tensions and gaps no single section shows — and land them through the ordinary channels | section / worklog / register edits + change-log entry |
 | `handoff` | session boundary | carry state and next-actions to the next session | `HANDOFF.md` |
 
 ### `outputs/` — files that leave the framework, on a delivery request
@@ -125,6 +126,7 @@ recommended by none (reason in the row).
 | Skill | What leaves |
 |-------|-------------|
 | `brief` | an authored brief compiled from the instance (`export-files/<slug>-brief.md`) |
+| `feature-to-spec` | a development instruction for one F-item, compiled from its spec and its registers (`export-files/<feature>-spec.md`) |
 | `interview` | an interview guide for steps 1–2 primary research; the notes come back as a source |
 | `to-deck` | a self-contained HTML slide deck (+ PDF companion once approved) |
 | `to-document` | a compiled `.docx` — one-pager · full doc · report · status update |

@@ -6,7 +6,7 @@ prerequisites:
   - the step's sections are worked (projected from their worklogs), so there is a result to sign off
   - the human is present — a confirmation is theirs to give and is never delegated or self-issued
 reads: [source:kb]
-writes: [file:section confirmation markers]
+writes: [sign-off]
 surfaces: [sign-off]
 opinionated: true
 method_basis: "Human sign-off as the semantic gate: the agent presents the section's thesis in plain language, the human confirms THIS version, and the confirmation is stamped on the section and dropped when the section changes. Runs at scope step (one step) or instance (every step, plus cross-step rests-on provenance)"

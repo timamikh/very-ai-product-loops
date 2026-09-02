@@ -15,6 +15,30 @@ The version you pin to is the **git tag**; this file is its human-readable story
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Audit batch 0 — what was broken now, mechanics only
+
+- **Read layer**: frontmatter block lists (`prerequisites:` then `- item` lines) parse as lists — ten
+  cards had been reading as empty, and a block-form `reads:` was a silently empty perimeter.
+  `products:` in a multi-product `config.yaml` is documented in block form (the reader never accepted a
+  `{ … }` flow map); a flow-map entry now surfaces a health warning instead of crashing the load.
+- **Cards**: a `file:` atom's argument is validated — a path without spaces, instance-relative (never
+  `product-loops/…` or absolute); `theses` writes the bare `sign-off` atom; six cards drop the
+  host-relative prefix. `where-to-play-how-to-win` names the two real value-definition methods.
+- **Linter**: `--help` prints usage instead of "not a folder"; the no-instance hint says
+  `product-loops`; one `instance.load` per instance per run (1.56 s → 0.24 s on the example).
+- **Console**: the hypotheses-in-flight table reads `c:statement` (the register's key); a step-2 board
+  that cannot draw its section falls back to the section's card, and the three competitor readings
+  render as cards; the `**North Star:**` and `**Horizon:**` lines are read as blocks, not physical
+  lines; metric-family and retention-series hues are theme tokens; `--faint` reaches AA at small
+  sizes; the strategy cascade draws its arrows on the cards (no arrow ever wraps alone) and stacks
+  when any card is wide; the four NUL bytes are gone from `app.js`.
+- **Server**: requests must carry a loopback (or bound) `Host`, and an `Origin` when present must
+  match — DNS rebinding sees 403; `/api/file` serves instance files and skill-folder files only,
+  paths resolved through `realpath`.
+- **Docs**: product-setup's boundary-layout link resolves; README and tool-skills/README list all
+  seven operations and `feature-to-spec`; install/README quotes the linter's real `instances checked:
+  0` line.
+
 ### Step 4 gets its canvas and the metric tree keys its families
 
 - **Console: seven strategic-plan boards** — the metric tree drawn (North Star over its driver nodes,

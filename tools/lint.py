@@ -546,6 +546,17 @@ CLARIFY_RE = re.compile(r"to clarify")
 SOURCES_SUBFOLDERS = {"originals", "snapshots", "access"}
 
 
+_SNAPSHOTS = {}
+
+
+def _snapshot(inst):
+    """One `instance.load` per instance per run — the linter never writes, so the model cannot go stale
+    underneath it, and the reader is the slowest thing here (it was read 13 times per run)."""
+    if inst not in _SNAPSHOTS:
+        _SNAPSHOTS[inst] = I.load(inst, ROOT)
+    return _SNAPSHOTS[inst]
+
+
 def _na_sections(inst):
     """{(step, section_id)} whose gate tick is `n/a` — a consciously skipped section.
 
@@ -556,7 +567,7 @@ def _na_sections(inst):
     if not os.path.exists(os.path.join(inst, "state.yaml")):
         return set()
     try:
-        snap = I.load(inst, ROOT)
+        snap = _snapshot(inst)
     except Exception:
         return set()
     out = set()
@@ -1772,7 +1783,7 @@ def check_gate_ticks(inst):
     """
     if not os.path.exists(os.path.join(inst, "state.yaml")):
         return  # instance health already reports a missing state.yaml on its own
-    snap = I.load(inst, ROOT)
+    snap = _snapshot(inst)
     for s in snap["steps"]:
         for g in s["gate"]:
             if g.get("written") and g.get("tick") == "open":
@@ -1996,7 +2007,18 @@ def check_word_budget():
              % (total, BUDGET_GUIDELINE_WORDS))
 
 
+USAGE = """usage: python3 tools/lint.py [instance-folder ...]
+
+Checks the framework's wiring (tools, canon, links) and every instance it can find.
+With no arguments, instances are discovered from the framework root by marker
+(config.yaml / state.yaml / registers/); in a vendored install pass the instance
+folder, e.g. `python3 tools/lint.py product-loops`. Exit code 1 on any ERROR."""
+
+
 def main(argv=()):
+    if any(a in ("-h", "--help") for a in argv):
+        print(USAGE)
+        return 0
     tools = F.load_tools(ROOT)
     homed = F.homed_sections(ROOT)
 
@@ -2050,7 +2072,7 @@ def main(argv=()):
     # Say what was covered: "0 instances" must read as a problem, not as a clean run.
     print("instances checked: %d%s\n"
           % (len(checked), (" — " + ", ".join(rel(c) for c in checked)) if checked else
-             " (none found — pass a path, e.g. `python3 tools/lint.py product`)"))
+             " (none found — pass a path, e.g. `python3 tools/lint.py product-loops`)"))
     for w in WARNS:
         print("  WARN  " + w)
     if WARNS:

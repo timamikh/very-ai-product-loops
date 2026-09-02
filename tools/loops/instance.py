@@ -171,6 +171,14 @@ def _read_config(path, health):
         products = parent.get("products") or {}
         if isinstance(products, dict):
             entry = products.get(os.path.basename(path)) or {}
+            if not isinstance(entry, dict):
+                # a `{ path, title }` flow map comes back from the reader as a string: config-schema
+                # asks for the block form — say so instead of failing on `.get`
+                health.append({"level": "warn", "code": "config-products",
+                               "message": "../config.yaml `products.%s` is not a nested block map — "
+                                          "write it as indented `path:` / `title:` lines (config-schema)"
+                                          % os.path.basename(path)})
+                entry = {}
 
     if not own and not parent:
         health.append({"level": "warn", "code": "no-config",

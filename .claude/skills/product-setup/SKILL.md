@@ -70,7 +70,7 @@ preserving the original reference. Put the converted copies in **`product-loops/
 (the human's brought material — a format conversion, never a reinterpretation), one file per original,
 with a short header noting the original filename/date. Do not edit the originals. Access facts the
 human gives (where a tool lives, how to reach it) go to `sources/access/<slug>.md` as a **passport**,
-recorded from their answers — never invented (see [`boundary-layout`](../../process/reference/boundary-layout.md)).
+recorded from their answers — never invented (see [`boundary-layout`](../../../process/reference/boundary-layout.md)).
 
 ### 3b. Write the sources index (navigation file)
 Create **`product-loops/sources/INDEX.md`** — a navigation map the agent reads *first* on every future

@@ -326,7 +326,7 @@ function inline(src) {
   // A `<!-- comment -->` inside a line (e.g. a trailing card mark) is not content — drop it before
   // escaping, or it would print literally as `&lt;!-- … --&gt;`.
   let s = esc(String(src === null || src === undefined ? '' : src).replace(/<!--[\s\S]*?-->/g, ''));
-  s = s.replace(/`([^`]+)`/g, (_, c) => { code.push(c); return ` ${code.length - 1} `; });
+  s = s.replace(/`([^`]+)`/g, (_, c) => { code.push(c); return `\uE000${code.length - 1}\uE000`; });
   s = s.replace(/\[([^\]]+)\]\((#?[^)\s]+)\)/g, (_, x, u) => `<a href="${u}" target="_blank" rel="noopener">${x}</a>`);
   s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(^|[\s(])\*([^*]+)\*/g, '$1<em>$2</em>');
   s = s.replace(/(^|[\s(])_([^_]+)_(?=$|[\s.,;:)])/g, '$1<em>$2</em>');
@@ -336,7 +336,7 @@ function inline(src) {
   // the canon's agent-proposal marker, rendered as a word: an emoji is a font gamble, and this page
   // is also read as an exported file on a machine whose fonts we know nothing about
   s = s.replace(/⚙️?\s*/g, `<span class="gear">${esc(t('proposalMark'))}</span> `);
-  s = s.replace(/ (\d+) /g, (_, i) => {
+  s = s.replace(/\uE000(\d+)\uE000/g, (_, i) => {
     const c = code[+i];
     const cls = /^H-\d/.test(c) ? 'hyp' : /^R-\d/.test(c) ? 'risk' : /^M-[a-z]/.test(c) ? 'met' : '';
     return cls ? `<code class="rid ${cls}">${c}</code>` : `<code>${c}</code>`;
@@ -1105,12 +1105,8 @@ function cardZone(s, label, ids) {
 function cascade(s, ids) {
   const cards = ids.map(id => cvCard(s, id)).filter(Boolean);
   if (!cards.length) return null;
-  const row = [];
-  cards.forEach((c, i) => {
-    if (i) row.push(h('div', { class: 'casc-arrow', 'aria-hidden': 'true' }, '→'));
-    row.push(c);
-  });
-  return h('div', { class: 'cascade' }, row);
+  // the arrow is drawn by CSS on each card after the first, so it can never wrap onto its own row
+  return h('div', { class: 'cascade', style: '--n:' + cards.length }, cards);
 }
 /* Two sections side by side — the sprint's committed set against its backlog. */
 function board2(s, leftId, rightId) {
@@ -1548,6 +1544,21 @@ function instrClass(cellRaw) {
    Star (from the `**North Star:** \`M-…\` — name` line); each driver node sits under it, its border
    the data source (instrumented / proxy / none) and its chip the metric family. Inputs read beneath.
    This is the board that answers "what does this product measure, and can it see it yet". */
+/* A marker line names a block, not a physical line (CONVENTIONS): the paragraph that opens with the
+   marker runs to the next blank line, table row, heading, list item or another `**Label:**` line.
+   Files hard-wrap prose, so reading one physical line truncates the sentence mid-way. */
+function markedBlock(body, re) {
+  const lines = String(body || '').split('\n');
+  const i = lines.findIndex(l => re.test(l));
+  if (i < 0) return null;
+  const out = [lines[i].trim()];
+  for (let j = i + 1; j < lines.length; j++) {
+    const l = lines[j];
+    if (!l.trim() || /^\s*(\||#|<!--|\*\*[^*]+:\*\*|[-*]\s|\d+\.\s)/.test(l)) break;
+    out.push(l.trim());
+  }
+  return out.join(' ');
+}
 function metricTree(s) {
   const a = bodyOf(s, 'metric-tree');
   if (!a) return null;
@@ -1555,7 +1566,8 @@ function metricTree(s) {
   if (!tb) return null;
   const di = colKey(tb, 'driver'), ni = colKey(tb, 'node'),
     ii = colKey(tb, 'inputs'), si = colKey(tb, 'instrumentation');
-  const nsm = a.body.match(/\*\*North Star:?\*\*\s*`([^`]+)`\s*[—–-]\s*([^·\n[]+)/);
+  const nsLine = markedBlock(a.body, /\*\*North Star:?\*\*/);
+  const nsm = nsLine ? nsLine.match(/\*\*North Star:?\*\*\s*`([^`]+)`\s*[—–-]\s*([^·[]+)/) : null;
   const ns = nsm ? { id: nsm[1].trim(), name: nsm[2].trim() } : null;
   const nodes = tb.rows.map(r => {
     const fam = metricFamily(r[di]);
@@ -1597,7 +1609,8 @@ function targetTiles(s) {
     scen: sci >= 0 ? plain(r[sci]) : '', why: wi >= 0 ? r[wi] : '',
   })).filter(x => x.node && x.target && !/^—/.test(x.target));
   if (!rows.length) return null;
-  const hm = a.body.match(/\*\*Horizon:?\*\*\s*([^\n]+)/);
+  const hl = markedBlock(a.body, /\*\*Horizon:?\*\*/);
+  const hm = hl ? hl.match(/\*\*Horizon:?\*\*\s*(.+)$/) : null;
   const horizon = hm ? plain(hm[1]).replace(/\s*[—–-].*$/, '').trim() : '';
   return h('div', { class: 'tgwrap' },
     horizon ? h('div', { class: 'tghorizon small faint' }, t('tgHorizon') + ': ' + horizon) : null,
@@ -2010,7 +2023,13 @@ function canvasAnalysis(s) {
   // step 2's custom boards don't go through cvCard, so the worklog drill-through is hung on the zone
   // header here: the primary section `id` behind the board names its method, and goWorklog opens it.
   const push = (label, node, id) => {
-    if (!node) return;
+    if (!node) {
+      // the board found nothing it can draw (a table in another shape, an instance's own form) — the
+      // section still exists, so it falls back to its card instead of vanishing from the step
+      const fb = id && bodyOf(s, id) ? cardZone(s, label, [id]) : null;
+      if (fb) parts.push(...fb);
+      return;
+    }
     const a = id ? bodyOf(s, id) : null;
     const tool = a ? worklogTool(stem, a.body) : null;
     const meta = id ? s.sections.find(x => x.id === id) : null;
@@ -2021,6 +2040,9 @@ function canvasAnalysis(s) {
   };
   push(t('dMarket'), marketBoard(s), 'market-sizing');
   push(t('dCompetitors'), competitorTable(s), 'competitors');
+  // the three competitor readings the template carries beside the table — cards, no widget draws them
+  const comp = cardZone(s, '', ['competitor-strategy', 'competitor-pricing', 'competitor-dynamics']);
+  if (comp) parts.push(...comp);
   // substitutes and opportunity carry authored faces now — they render as cards (collapsed face =
   // card line + first table, expand in place), not as raw markdown dumps.
   const subs = cardZone(s, t('dSubstitutes'), ['substitutes']);
@@ -2494,7 +2516,7 @@ function viewOpen() {
     const rid = stripMd(cell(r, 'id'));
     return h('tr', {},
       h('td', { class: 'id' }, h('code', { class: 'rid hyp' }, rid)),
-      h('td', { class: 'prose', html: inline(stripMd(cell(r, 'hypothesis'))) }),
+      h('td', { class: 'prose', html: inline(stripMd(cell(r, 'statement'))) }),
       h('td', { class: 'tiny' }, h('span', { class: 'tag' }, stripMd(cell(r, 'type')) || '—')),
       h('td', { class: 'tiny' }, h('span', { class: 'tag ' + stripMd(cell(r, 'status')).split(/[\s·]/)[0] },
         stripMd(cell(r, 'status')) || '—')),

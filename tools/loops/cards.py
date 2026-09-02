@@ -121,6 +121,13 @@ def atom_errors(field, values):
             out.append("`%s` is not in the %s vocabulary (%s)" % (atom, head, " · ".join(vocab)))
         if head == "section" and arg != "*" and not ANCHOR_RE.match(arg):
             out.append("`%s` is not a kebab-case section anchor" % atom)
+        if head == "file" and arg != "*":
+            if re.search(r"\s", arg):
+                out.append("`%s` — a `file:` argument is a path, not a phrase (no spaces); a sign-off "
+                           "marker is the bare atom `sign-off`" % atom)
+            elif arg.startswith(("/", "product-loops/", "./", "../")):
+                out.append("`%s` — a `file:` path is instance-relative (`export-files/…`, "
+                           "`<step-folder>/…`), never host-relative or absolute" % atom)
         if head == "worklog" and arg != "*":
             if field != "reads":
                 out.append("`%s` — a foreign worklog is a declared READ; only its own method "

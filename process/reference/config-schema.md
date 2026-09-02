@@ -26,7 +26,7 @@ one way. A second spelling is a place two readers diverge, so the linter enforce
 | `scope_note` | no | text (block scalar) | what is in and out of this instance's scope, in prose |
 | `metric_source_slots` | no | map | names each metric source; the *how to reach it* (URL, owner, recovery) lives in its passport `sources/access/<slug>.md`, **never a secret value** |
 | `sources` | no | list of paths | the origin documents this instance was built from |
-| `products` | no | map | **multi-product instance only**: `<name>: { path, title, goal, users, active_status }`, one sub-folder per product, each with its own artifacts, `state.yaml` and `registers/`; the sub-products inherit everything above from this file |
+| `products` | no | map of maps | **multi-product instance only**: one nested block per product (`<name>:` then indented `path` · `title` · `goal` · `users` · `active_status` lines — block form, never a `{ … }` flow map: the framework's YAML reader does not accept one), one sub-folder per product, each with its own artifacts, `state.yaml` and `registers/`; the sub-products inherit everything above from this file |
 
 Rules:
 

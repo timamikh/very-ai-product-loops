@@ -19,7 +19,7 @@
 :root {
   color-scheme: light;
   --paper:#FFFFFF; --canvas:#F4F4F5; --sunk:#FAFAFA; --chrome:#0B0B0C;
-  --ink:#0B0B0C; --ink-2:#3A3A3E; --muted:#6E6E73; --faint:#A6A6AB;
+  --ink:#0B0B0C; --ink-2:#3A3A3E; --muted:#6E6E73; --faint:#7C7C82;
   --line:#E5E5E5; --line-2:#D2D2D4;
   --brand:#FF0000; --brand-ink:#CC0000; --brand-soft:rgba(255,0,0,.055);
   --navy:#06163E;
@@ -32,6 +32,9 @@
   --feat:#6B3FA0; --feat-soft:rgba(107,63,160,.08);
   --surf:#8A5A00; --surf-soft:rgba(138,90,0,.09);
   --grid:#EDEDEE;
+  /* metric families (tree node bands, retention series) — one hue per family, in both themes */
+  --fam-acquisition:#2F6FD6; --fam-activation:#0E9C8E; --fam-engagement:#7B4FD1; --fam-retention:#149C6B;
+  --fam-referral:#C27A0A; --fam-revenue:#D0357C; --fam-quality:#5054C9; --fam-cost:#D93B3B;
   --navh:104px;  /* combined height of the sticky rail + tabs; a table header parks below it */
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
@@ -40,7 +43,7 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
     --paper:#141416; --canvas:#0B0B0C; --sunk:#1A1A1C; --chrome:#000000;
-    --ink:#F2F2F3; --ink-2:#C9C9CC; --muted:#9A9AA0; --faint:#6E6E73;
+    --ink:#F2F2F3; --ink-2:#C9C9CC; --muted:#9A9AA0; --faint:#85858B;
     --line:#2A2A2D; --line-2:#3A3A3E;
     --brand:#FF3B30; --brand-ink:#FF7A70; --brand-soft:rgba(255,59,48,.12);
     --navy:#8FA6E0;
@@ -50,18 +53,18 @@
     --hyp:#8FA6E0; --hyp-soft:rgba(143,166,224,.13);
     --risk:#FF7A70; --risk-soft:rgba(255,122,112,.13);
     --met:#3FB980; --met-soft:rgba(63,185,128,.13);
-  --feat:#B08FE0; --feat-soft:rgba(176,143,224,.13);
-  --surf:#D6A250; --surf-soft:rgba(214,162,80,.13);
     --feat:#B08FE0; --feat-soft:rgba(176,143,224,.13);
     --surf:#D6A250; --surf-soft:rgba(214,162,80,.13);
     --grid:#242427;
+    --fam-acquisition:#6FA0F0; --fam-activation:#3FC9BA; --fam-engagement:#AE8CF0; --fam-retention:#4DC994;
+    --fam-referral:#E6B05A; --fam-revenue:#F07AB4; --fam-quality:#8C8FF0; --fam-cost:#F07070;
   }
 }
 /* the in-app toggle must win in both directions, so the same tokens are stamped on data-theme */
 :root[data-theme="dark"] {
   color-scheme: dark;
   --paper:#141416; --canvas:#0B0B0C; --sunk:#1A1A1C; --chrome:#000000;
-  --ink:#F2F2F3; --ink-2:#C9C9CC; --muted:#9A9AA0; --faint:#6E6E73;
+  --ink:#F2F2F3; --ink-2:#C9C9CC; --muted:#9A9AA0; --faint:#85858B;
   --line:#2A2A2D; --line-2:#3A3A3E;
   --brand:#FF3B30; --brand-ink:#FF7A70; --brand-soft:rgba(255,59,48,.12);
   --navy:#8FA6E0;
@@ -74,6 +77,8 @@
   --feat:#B08FE0; --feat-soft:rgba(176,143,224,.13);
   --surf:#D6A250; --surf-soft:rgba(214,162,80,.13);
   --grid:#242427;
+  --fam-acquisition:#6FA0F0; --fam-activation:#3FC9BA; --fam-engagement:#AE8CF0; --fam-retention:#4DC994;
+  --fam-referral:#E6B05A; --fam-revenue:#F07AB4; --fam-quality:#8C8FF0; --fam-cost:#F07070;
 }
 
 * { box-sizing:border-box; margin:0; padding:0 }
@@ -591,11 +596,22 @@ details.acc .accbody { padding:13px 15px 16px }
 .cv-warn { border-left-color:var(--warn) }
 .cv-warn .cvex :where(b, strong) { color:var(--warn) }
 /* the Playing-to-Win cascade — cards read left→right with an arrow between; they size to fill the row */
-.cascade { display:flex; align-items:stretch; gap:0; flex-wrap:wrap }
-.cascade > .cvcard { flex:1 1 210px; min-width:0 }
-.casc-arrow { flex:0 0 auto; align-self:center; padding:0 10px; color:var(--brand); font-size:20px;
-  font-weight:700 }
-@media (max-width:720px) { .casc-arrow { transform:rotate(90deg); padding:6px 0; width:100% } }
+.cascade { display:grid; grid-template-columns:repeat(var(--n,3), minmax(0,1fr)); gap:12px 28px }
+.cascade > .cvcard + .cvcard::before { content:'→'; position:absolute; left:-23px; top:50%;
+  transform:translateY(-50%); color:var(--brand); font-size:19px; font-weight:700; line-height:1 }
+/* a card that takes the whole row is not "after" anything on that row — no arrow into it */
+.cascade > .cvcard.expanded::before, .cascade > .cvcard.cv-wide::before { content:none }
+/* once any card in the cascade is wide (face = line + table), the row cannot hold three abreast —
+   the whole cascade stacks and reads top→down, arrows turned; the same on a narrow screen */
+.cascade:has(> .cv-wide) { grid-template-columns:1fr; gap:24px 12px }
+.cascade:has(> .cv-wide) > .cvcard + .cvcard::before { content:'→'; left:50%; top:-21px;
+  transform:translateX(-50%) rotate(90deg) }
+.cascade:has(> .cv-wide) > .cvcard.expanded::before { content:none }
+@media (max-width:720px) {
+  .cascade { grid-template-columns:1fr; gap:24px 12px }
+  .cascade > .cvcard + .cvcard::before { content:'→'; left:50%; top:-21px; transform:translateX(-50%) rotate(90deg) }
+  .cascade > .cvcard.expanded::before { content:none }
+}
 /* the sprint's committed set beside its backlog */
 .board2 { display:grid; grid-template-columns:1fr 1fr; gap:12px }
 @media (max-width:720px) { .board2 { grid-template-columns:1fr } }
@@ -613,7 +629,7 @@ details.acc .accbody { padding:13px 15px 16px }
 /* Expanded, the card IS the section: it widens to the full row and shows the body whole; the face
    line hides (it is a line of that same body, and would read twice). */
 .cvcard.expanded { grid-column:1/-1 }
-.cascade > .cvcard.expanded { flex-basis:100% }
+.cascade > .cvcard.expanded { grid-column:1/-1 }
 .cvcard.expanded .cvex { display:none }
 /* No max-width on the container: prose inside is already capped by the .md line-length rules, and a
    wide table deserves the whole card before it earns a scrollbar. */
@@ -634,7 +650,7 @@ details.acc .accbody { padding:13px 15px 16px }
 /* Wide face (step-1 walkthrough decision): a card whose face is text + the section's own first
    table — or an <!-- open --> inbox shown whole — takes the full row, same as an expanded card. */
 .cvcard.cv-wide { grid-column:1/-1 }
-.cascade > .cvcard.cv-wide { flex-basis:100% }
+.cascade > .cvcard.cv-wide { grid-column:1/-1 }
 .cvftbl { margin-top:4px; font-size:12.5px }
 .cvcard.expanded .cvftbl { display:none }   /* the body shows the same table — it would read twice */
 .cvopen { font-size:12.5px; line-height:1.55 }
@@ -877,10 +893,10 @@ details.acc .accbody { padding:13px 15px 16px }
 .mt-fam { font:600 9.5px var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2);
   padding:1px 5px 1px 6px; border-left:3px solid var(--faint); border-radius:2px; background:var(--sunk);
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-.mt-fam-acquisition { border-left-color:#3B82F6 } .mt-fam-activation { border-left-color:#06B6A4 }
-.mt-fam-engagement { border-left-color:#8B5CF6 } .mt-fam-retention { border-left-color:#10B981 }
-.mt-fam-referral { border-left-color:#F59E0B } .mt-fam-revenue { border-left-color:#EC4899 }
-.mt-fam-quality { border-left-color:#6366F1 } .mt-fam-cost { border-left-color:#EF4444 }
+.mt-fam-acquisition { border-left-color:var(--fam-acquisition) } .mt-fam-activation { border-left-color:var(--fam-activation) }
+.mt-fam-engagement { border-left-color:var(--fam-engagement) } .mt-fam-retention { border-left-color:var(--fam-retention) }
+.mt-fam-referral { border-left-color:var(--fam-referral) } .mt-fam-revenue { border-left-color:var(--fam-revenue) }
+.mt-fam-quality { border-left-color:var(--fam-quality) } .mt-fam-cost { border-left-color:var(--fam-cost) }
 .mt-src { font:600 9px var(--mono); letter-spacing:.04em; text-transform:uppercase; white-space:nowrap }
 .mt-src-on { color:var(--ok) } .mt-src-proxy { color:var(--warn) } .mt-src-off { color:var(--faint) }
 .mt-node-id { font-family:var(--mono); font-size:12px; color:var(--ink) }
@@ -917,8 +933,8 @@ details.acc .accbody { padding:13px 15px 16px }
 .retcurve { display:block; min-width:420px; width:100%; height:auto; max-height:220px }
 .retline { fill:none; stroke-width:2 }
 .retdot { stroke-width:0 }
-.ret-0 { stroke:#3B82F6; fill:#3B82F6 } .ret-1 { stroke:#10B981; fill:#10B981 }
-.ret-2 { stroke:#EC4899; fill:#EC4899 } .ret-3 { stroke:#F59E0B; fill:#F59E0B }
+.ret-0 { stroke:var(--fam-acquisition); fill:var(--fam-acquisition) } .ret-1 { stroke:var(--fam-retention); fill:var(--fam-retention) }
+.ret-2 { stroke:var(--fam-revenue); fill:var(--fam-revenue) } .ret-3 { stroke:var(--fam-referral); fill:var(--fam-referral) }
 .retlegend { display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:4px }
 
 /* Capability shields — reuse .shield; the missing-level band is red */

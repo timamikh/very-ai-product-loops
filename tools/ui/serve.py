@@ -249,12 +249,36 @@ def write_export(inst, out):
 
 
 def safe_path(candidate, roots):
-    """Resolve a requested file, refusing anything outside the instance or the framework."""
-    p = os.path.abspath(candidate)
+    """Resolve a requested file, refusing anything outside the given roots (symlinks resolved)."""
+    p = os.path.realpath(candidate)
     for r in roots:
-        if p == r or p.startswith(os.path.abspath(r) + os.sep):
+        rr = os.path.realpath(r)
+        if p == rr or p.startswith(rr + os.sep):
             return p
     return None
+
+
+LOOPBACK_HOSTS = {"127.0.0.1", "localhost", "::1", "[::1]"}
+
+
+def host_allowed(handler):
+    """The browser must be talking to *this* server by a name we bound — a page on another origin
+    (DNS rebinding, a hostile tab) that reaches the port sees 403, not the instance."""
+    bound = handler.server.server_address[0]
+    ok = LOOPBACK_HOSTS | {bound}
+    host = (handler.headers.get("Host") or "").strip()
+    if host.startswith("["):
+        host = host.split("]")[0] + "]"
+    else:
+        host = host.rsplit(":", 1)[0] if ":" in host else host
+    if host not in ok:
+        return False
+    origin = (handler.headers.get("Origin") or "").strip()
+    if origin:
+        oh = urlparse(origin).hostname or ""
+        if oh not in ok and ("[%s]" % oh) not in ok:
+            return False
+    return True
 
 
 # ---------------------------------------------------------------- server
@@ -288,6 +312,8 @@ class Handler(BaseHTTPRequestHandler):
         u = urlparse(self.path)
         q = parse_qs(u.query)
         route = u.path
+        if not host_allowed(self):
+            return self._json({"error": "this is a local console — reach it by the address it was bound to"}, 403)
         try:
             if route == "/":
                 return self._static("index.html")
@@ -347,10 +373,12 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json({"error": "instance outside the served roots"}, 403)
                 return self._json(run_lint(p))
             if route == "/api/file":
+                # two legal shapes: a path inside the instance, or a skill folder's file (the console
+                # opens SKILL.md / fragments from `skill.dir`) — never an arbitrary framework file
                 rel = q.get("path", [""])[0]
                 p = safe_path(os.path.join(self.server.instance_path, rel),
-                              [self.server.instance_path, ROOT])
-                if not p or not os.path.isfile(p):
+                              [self.server.instance_path, os.path.join(ROOT, "tool-skills")])
+                if not p or not os.path.isfile(p) or not p.endswith((".md", ".yaml", ".csv", ".txt")):
                     return self._json({"error": "not found"}, 404)
                 return self._send(200, T.read(p), "text/plain; charset=utf-8")
             if route == "/api/events":
@@ -366,6 +394,8 @@ class Handler(BaseHTTPRequestHandler):
         return safe_path(path, roots)
 
     def do_POST(self):
+        if not host_allowed(self):
+            return self._json({"error": "this is a local console — reach it by the address it was bound to"}, 403)
         # The console has no write path: every change to the instance goes through the agent and the
         # operating loop. Answering here (instead of leaving the verb unhandled) makes that explicit.
         return self._json({"error": "the console is read-only — the agent writes the files"}, 405)
