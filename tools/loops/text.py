@@ -390,8 +390,18 @@ def markers(text):
 
 
 def to_clarify_lines(text):
-    """The actual lines carrying a `— to clarify —` gap, for the open-questions view."""
-    return [ln.strip() for ln in text.splitlines() if TO_CLARIFY_RE.search(ln)]
+    """The BLOCKS carrying a `— to clarify —` gap, for the open-questions view — each a wrapped bullet or
+    paragraph joined into one line, never the physical line the marker happens to sit on (a file
+    hard-wraps prose, so the marker's line is a soft-wrap accident; `block_at` is the one primitive)."""
+    out, seen = [], set()
+    for n, ln in enumerate(text.split("\n"), 1):
+        if TO_CLARIFY_RE.search(ln):
+            first, _, lines = block_at(text, n)
+            if first in seen:
+                continue
+            seen.add(first)
+            out.append(re.sub(r"\s+", " ", " ".join(x.strip() for x in lines)).strip())
+    return out
 
 
 MARKUP_RE = re.compile(r"\*\*|__|`|\{#[a-z0-9-]+\}|<!--.*?-->", re.S)
@@ -508,8 +518,11 @@ def digest(body, max_bullets=3, width=190):
     """
     lead, caption, bullets, table_rows, table_head = "", "", [], 0, []
     in_table = False
-    for raw in body.splitlines():
-        line = raw.strip()
+    raw_lines = body.split("\n")
+    n = 0
+    while n < len(raw_lines):
+        n += 1
+        line = raw_lines[n - 1].strip()
         if not line:
             continue
         if line.startswith("|"):
@@ -523,16 +536,18 @@ def digest(body, max_bullets=3, width=190):
                 table_rows += 1
             continue
         in_table = False
-        if line.startswith("<!--"):
+        if line.startswith("#"):
             continue
-        p = _plain(line)
+        # prose is read by BLOCK, never by physical line (CONVENTIONS -> Card line; `block_at` is the
+        # one primitive): a hard-wrapped bullet's continuation is part of the bullet, not a new lead
+        _, last, blines = block_at(body, n)
+        n = last
+        p = re.sub(r"\s+", " ", " ".join(_plain(x.strip()) for x in blines)).strip()
         if not p or len(p) < 2:
             continue
         if re.match(r"^[-*+]\s", line) or re.match(r"^\d+\.\s", line):
             if len(bullets) < max_bullets:
                 bullets.append(p[:width])
-            continue
-        if line.startswith("#"):
             continue
         # `_… _` on its own line is the step template's caption for the section — keep it apart so the
         # card's lead line is the product's own text, not the shell's instruction

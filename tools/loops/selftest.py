@@ -225,6 +225,22 @@ def synthetic_side():
     check(T.card_line(tail) == "A paragraph that wraps across three physical lines and ends with the mark. [assumption]",
           "the mark on a wrapped paragraph's LAST line returns the whole paragraph (the hub-v012 case)")
     check(T.card_line("no mark here at all\n") is None, "no mark yields no card")
+
+    # -- the section digest and the to-clarify view read the same BLOCKS the card reader does: a
+    #    hard-wrapped bullet is one bullet, and its continuation line never becomes the section's lead
+    #    (the decksmith-v013 case: `{#to-clarify}` surfaced "until signed — *the human chooses*..." as
+    #    the card face)
+    wrapped_sec = ("<!-- open -->\n_Open items for the human._\n\n"
+                   "- The concept sentence is a draft, and is tagged until signed — *the human\n"
+                   "  chooses*: confirm it — to clarify — or reword it.\n"
+                   "- Second item that also\n  wraps.\n")
+    dg = T.digest(wrapped_sec)
+    check(dg["lead"] == "Open items for the human.", "a wrapped bullet's continuation is not the digest lead")
+    check(len(dg["bullets"]) == 2 and dg["bullets"][0].endswith("or reword it."),
+          "a hard-wrapped bullet is one whole bullet in the digest (got %r)" % dg["bullets"])
+    tc = T.to_clarify_lines(wrapped_sec)
+    check(len(tc) == 1 and tc[0].startswith("- The concept sentence") and tc[0].endswith("or reword it."),
+          "a to-clarify gap is returned as its whole block, not the marker's physical line")
     # a hard break (trailing backslash) lays an enumeration one-item-per-line; soft wraps still join
     enum = "<!-- card -->\nFive doors: \\\nagent (A) \\\npipeline (B) \\\nwallet (C)\n"
     check(T.card_line(enum) == "Five doors:\nagent (A)\npipeline (B)\nwallet (C)",
