@@ -333,6 +333,10 @@ tr:last-child td { border-bottom:0 }
 tr.rowlink { cursor:pointer }
 tr.rowlink.on td { background:var(--brand-soft) }
 tr.rowlink.on td:first-child { box-shadow:inset 2px 0 0 var(--brand) }
+/* the row is focusable (Enter / Space open it); a collapsed-border table swallows an outline on the
+   row itself, so the focus ring is drawn on its cells */
+tr.rowlink:focus-visible { outline:none }
+tr.rowlink:focus-visible td { background:var(--brand-soft); box-shadow:inset 0 -2px 0 var(--brand) }
 /* an empty section here is good news (nothing open); a quiet line says so without a table */
 .clear { font-size:12.5px; color:var(--muted); padding:10px 13px; border:1px solid var(--line);
   border-radius:8px; background:var(--paper) }
@@ -420,8 +424,10 @@ details.acc .accbody { padding:13px 15px 16px }
 .itcard { border:1px solid var(--line); border-left:3px solid var(--line-2); border-radius:10px;
   background:var(--paper); padding:12px 15px 10px; display:flex; flex-direction:column; gap:7px;
   min-width:0 }
-.itcard.it-dev { border-left-color:var(--brand) }
-.itcard.it-g2m { border-left-color:var(--navy) }
+/* the hue follows the direction's position in config.yaml (first · second · third), not its spelling */
+.itcard.it-d0 { border-left-color:var(--brand) }
+.itcard.it-d1 { border-left-color:var(--navy) }
+.itcard.it-d2 { border-left-color:var(--muted) }
 .ithead { display:flex; gap:8px; align-items:baseline; flex-wrap:wrap }
 .itid { font-family:var(--mono); font-size:11px; color:var(--brand-ink);
   border:1px solid var(--line-2); border-radius:4px; padding:1px 5px; flex-shrink:0 }
@@ -559,7 +565,7 @@ details.acc .accbody { padding:13px 15px 16px }
 .idot {
   width:18px; height:18px; border-radius:50%; border:1px solid var(--line-2); color:var(--muted);
   font-family:var(--mono); font-size:11px; font-style:italic; line-height:16px; text-align:center;
-  cursor:pointer; user-select:none; flex-shrink:0;
+  cursor:pointer; user-select:none; flex-shrink:0; background:transparent; padding:0;
 }
 .idot:hover, .idot:focus-visible { border-color:var(--brand); color:var(--brand-ink); background:var(--brand-soft) }
 .tip p { margin:6px 0 0 }
@@ -641,9 +647,11 @@ details.acc .accbody { padding:13px 15px 16px }
 .cvex.cv-muted { color:var(--faint); display:inline-block; -webkit-line-clamp:none; max-height:none }
 /* footer row: the "details" link on the left, the expand-state chevron on the right, on one baseline */
 .cvfoot { margin-top:auto; padding-top:2px; display:flex; align-items:center; justify-content:space-between; gap:8px }
-/* expand / collapse chevron — a state hint (the whole tile is the click target), on every live card */
-.cvxpand { display:none; height:21px; line-height:1; color:var(--muted); font-size:15px; user-select:none }
+/* expand / collapse — a real button (the accessible path; a pointer click on the tile does the same) */
+.cvxpand { display:none; height:21px; min-width:21px; line-height:1; color:var(--muted); font-size:15px;
+  user-select:none; background:transparent; border:1px solid transparent; border-radius:4px; padding:0 3px; cursor:pointer }
 .cvcard.can-expand .cvxpand { display:inline-flex; align-items:center; justify-content:center }
+.cvxpand:hover, .cvxpand:focus-visible { border-color:var(--brand); color:var(--brand-ink) }
 .cvxpand::before { content:'⌄'; margin-top:-3px }
 .cvcard.expanded .cvxpand::before { content:'⌃'; margin-top:3px }
 .cvcard.cv-link:hover .cvxpand { color:var(--brand-ink) }
@@ -666,6 +674,8 @@ details.acc .accbody { padding:13px 15px 16px }
   overflow-wrap:anywhere; font-variant-numeric:tabular-nums }
 .mtile-key .mv { color:var(--brand-ink) }
 .mtile.cv-gap .mv { color:var(--warn); font-size:14px }
+/* a cell the author did not reduce to one bold figure is shown whole, at reading size — never cut */
+.mv.mv-long { font-size:13px; font-weight:500; letter-spacing:0; line-height:1.4; overflow-wrap:anywhere }
 .ms { font-size:11px; color:var(--muted); margin-top:5px }
 
 /* the opportunity, as a callout rather than a plain section */
@@ -889,6 +899,10 @@ details.acc .accbody { padding:13px 15px 16px }
 .mt-node.mt-on { border-color:var(--ok) }
 .mt-node.mt-proxy { border-color:var(--warn) }
 .mt-node.mt-off { border-style:dashed; border-color:var(--line-2) }
+.mt-node.mt-na { border-style:dotted; border-color:var(--line-2) }   /* a source word outside the enum: shown verbatim */
+.mt-src-na { color:var(--muted); text-transform:none; white-space:normal }
+.mt-fam.mt-fam-x { white-space:normal; overflow:visible; text-overflow:clip }   /* a driver outside the enum, whole */
+.mt-ns-name.md { font-weight:500; font-size:13.5px; line-height:1.45; text-align:left }
 .mt-node-top { display:flex; justify-content:space-between; align-items:center; gap:6px }
 .mt-fam { font:600 9.5px var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2);
   padding:1px 5px 1px 6px; border-left:3px solid var(--faint); border-radius:2px; background:var(--sunk);
@@ -952,6 +966,34 @@ details.acc .accbody { padding:13px 15px 16px }
 .thzone.th-pass { flex:1 1 auto; background:var(--ok-soft); border-left:1px solid var(--ok) }
 .thlabs { display:flex; justify-content:space-between; gap:10px; line-height:1.3 }
 .th-fail-t { color:var(--err) } .th-pass-t { color:var(--ok); text-align:right }
+
+/* Key-missing state — a board that found the section's table but not the column keys it reads says
+   so beside the section's card, in words: an explicit state, never a guessed column */
+.keymiss { display:block; margin:4px 0 0; color:var(--warn); font-family:var(--sans); letter-spacing:0;
+  text-transform:none; font-weight:500 }
+.keymiss code { font-size:11px; padding:0 4px; border:1px solid var(--warn); border-radius:3px; margin:0 2px }
+.canvas .k { color:var(--muted) }
+
+/* Step-5 boards */
+/* period goals — one lane per direction, the lane head is the direction token itself */
+.lanes { display:grid; grid-template-columns:repeat(var(--n,3), minmax(0,1fr)); gap:12px }
+@media (max-width:820px) { .lanes { grid-template-columns:1fr } }
+.lane { background:var(--sunk); border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+  display:flex; flex-direction:column; gap:8px; min-width:0 }
+.lanehead { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); font-weight:600 }
+.lanecard { background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:9px 11px;
+  font-size:12.5px; line-height:1.45; overflow-wrap:break-word }
+/* goal targets — the tile's value is a sentence or an id, not always a number */
+.tgval.tgval-text { font-size:13.5px; line-height:1.4; color:var(--ink) }
+/* guardrails — plates with the floor (green) and the red line (red) as labelled rows */
+.shield.sh-guard .shhead { color:var(--met); background:var(--met-soft); border-bottom-color:var(--met) }
+.grrow { display:flex; gap:8px; align-items:baseline; font-size:12.5px; line-height:1.45; margin:0 0 5px }
+.grrow .tag { flex-shrink:0 }
+/* bundles — B-… ids in the register-id form, their own hue */
+.rid.bund, .md .rid.bund { color:var(--navy); background:var(--brand-soft); white-space:nowrap }
+.betcard .itwiring .wrow { grid-template-columns:78px minmax(0,1fr); padding:4px 0 }
+.betcard .itwiring .wk { font-size:10px }
 
 /* Risk-mitigation heatmap — reuse .heat*; dots coloured by lifecycle status */
 .heatdot.mit-open { color:var(--err); background:var(--err-soft); border-color:var(--err) }

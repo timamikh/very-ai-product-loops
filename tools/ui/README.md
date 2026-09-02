@@ -133,10 +133,14 @@ the product manager uses, and it needs no terminal. Otherwise one command that w
 exits, with no port, no browser and nothing left running:
 
 ```bash
-python3 tools/ui/serve.py path/to/product --export           # ./<product>-<date>.html
+python3 tools/ui/serve.py path/to/product --export           # <instance>/export-files/<product>-<date>.html
 python3 tools/ui/serve.py path/to/product --export ~/Desktop # into a folder, same name
 python3 tools/ui/serve.py path/to/product --export share.html
 ```
+
+With no target, `--export` writes into the instance's own `export-files/` — the canon home for what
+leaves the framework (the mirror of `sources/`), the same folder the outputs skills write their
+deliverables to. It creates the folder if needed and never touches any other file of the instance.
 
 Both routes call the same function, so the two files are byte-identical apart from the timestamp. The
 export cannot be built without the read layer that builds the model, which is why there is no way to
@@ -147,6 +151,14 @@ It is a **copy of the reading, not a deliverable**. A deck or a document for a s
 outputs skill's job ([`tool-skills/outputs/`](../../tool-skills/outputs/README.md)); this is the console
 itself, handed to someone who does not have the folder. And it is still product material: it carries
 whatever the artifacts carry, so it goes to people who may read them.
+
+**What the file carries — and what it does not.** The embedded model is the snapshot shape, not the
+live one: the instance is named by its folder name, never by its absolute path (which would name the
+user's home directory); the **worklog bodies are left out** — a worklog is private to its method
+(CONVENTIONS → *Step folders & worklogs*), and the artifact sections are the projections a reader is
+meant to see, so the snapshot keeps each worklog's title and date (the *workings newer* flag still
+reads) and the worklog view says the body is not carried; the linter's verdict ships as its structured
+findings and their counts, not its raw output.
 
 ### Theme and visual language
 
@@ -278,8 +290,9 @@ and `population`.
 - `--host` defaults to loopback; the console reads nothing outside the instance folder and the
   framework root, and has no write path at all (`POST` answers 405 by design). The HTML export is not
   an exception: the server writes no file, it answers one `GET` with a page, and the browser saves it
-  wherever the human's downloads go. `--export` does write a file — where the human named it, never
-  into the instance, and the server is not running at all.
+  wherever the human's downloads go. `--export` does write a file — where the human named it, or by
+  default into the instance's `export-files/` (the canon home for outbound files; nothing else in the
+  instance is touched) — and the server is not running at all.
 - The change stream is a 1.5s poll (stdlib, identical on every platform). `?live=0` disables it —
   useful for headless captures and smoke tests.
 - `tools/loops/yamlite.py` reads the small YAML subset the framework uses. Anything richer is out of

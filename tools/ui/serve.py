@@ -157,16 +157,66 @@ def _js_string_safe(payload):
             .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029"))
 
 
+def snapshot_model(model):
+    """The model as a snapshot may carry it: instance-relative paths, section projections only.
+
+    A shared file leaves the machine, so three things the live console reads must not ride along:
+    the absolute instance path (it names the user's home folder), the worklog bodies (a worklog is
+    private to its method — CONVENTIONS → Step folders & worklogs; the artifact sections are the
+    projections a reader is meant to see), and the framework's on-disk location. The worklogs keep
+    their title, file name and date so the board's "workings newer" flag still reads; the body is
+    simply absent, and the console says so where it would have shown it.
+    """
+    m = dict(model)
+    m["path"] = m.get("name") or "."
+    m["config_inherited_from"] = os.path.basename(m["config_inherited_from"]) if m.get("config_inherited_from") else None
+    m["children"] = list(m.get("children") or [])
+    m["worklogs"] = {stem: {tool: {k: v for k, v in wl.items() if k != "body"}
+                            for tool, wl in logs.items()}
+                     for stem, logs in (m.get("worklogs") or {}).items()}
+    fw = dict(m.get("framework") or {})
+    fw.pop("root", None)
+    fw["skills"] = [{k: v for k, v in sk.items() if k != "dir"} for sk in (fw.get("skills") or [])]
+    m["framework"] = fw
+    # whatever else names a location on this machine (a tool card's file, a skill folder) is made
+    # relative to the framework root or the instance — the snapshot names files, never the disk
+    inst = model.get("path") or ""
+    roots = [(inst + os.sep, ""), (ROOT + os.sep, "")]
+
+    def rel(x):
+        if isinstance(x, str):
+            for prefix, repl in roots:
+                if prefix and x.startswith(prefix):
+                    return repl + x[len(prefix):]
+            return x
+        if isinstance(x, list):
+            return [rel(v) for v in x]
+        if isinstance(x, dict):
+            return {k: rel(v) for k, v in x.items()}
+        return x
+    return rel(m)
+
+
+def snapshot_lint(lint):
+    """The linter's verdict without its raw stdout: the structured findings plus their counts."""
+    findings = lint.get("findings") or []
+    return {"ok": lint.get("ok"), "exit": lint.get("exit"), "error": lint.get("error"),
+            "findings": findings,
+            "counts": {"error": sum(1 for f in findings if f["level"] == "error"),
+                       "warn": sum(1 for f in findings if f["level"] == "warn")}}
+
+
 def export_html(inst_path):
     """One self-contained page for one product: the app, its stylesheet, and a frozen model.
 
     Same renderer, same stylesheet, same read layer — the only difference is that the data is baked
     in instead of fetched, so a shared file cannot drift from what the console shows. Nothing is
     loaded from the network: no web font, no script, no image. It opens on a machine that has never
-    heard of this framework, offline, and looks identical.
+    heard of this framework, offline, and looks identical. The embedded model is the snapshot shape
+    (snapshot_model): no absolute path, no worklog bodies, no raw linter output.
     """
-    model = model_payload(inst_path)
-    lint = run_lint(inst_path)
+    model = snapshot_model(model_payload(inst_path))
+    lint = snapshot_lint(run_lint(inst_path))
     with open(os.path.join(APP_DIR, "app.css"), encoding="utf-8") as f:
         css = f.read()
     with open(os.path.join(APP_DIR, "app.js"), encoding="utf-8") as f:

@@ -24,6 +24,55 @@
  */
 'use strict';
 
+/* ================================================================ TEMPLATE-KEY-DEBT
+ * Every board reads a table by its `<!--c:key-->` column keys (colKey) — never by position, never
+ * by header prose. A *value* is read the same way: where the step template declares a vocabulary
+ * (`<!-- enum:c:key: … -->`) the console matches the token exactly. The reads listed here are the
+ * ones the templates do NOT yet key or declare (the templates are frozen until the D7 migration), so
+ * each keeps the smallest possible fallback — the cell's first word, matched exactly against a fixed
+ * token list, in English only, no prefix/substring guessing — and every such fallback lives in THIS
+ * table so the migration can delete them in one place. Nothing outside this block guesses.
+ *
+ *   wanted from the template                      | template · section            | used by
+ *   ----------------------------------------------|-------------------------------|------------------
+ *   enum:c:likelihood / enum:c:impact: H | M | L  | 2#niche-risks 3#product-risks | hlBadge, heatmaps
+ *                                                 | 4#risk-mitigation             |
+ *   enum:c:level: have | partial | missing        | 4#capabilities                | capabilityShields
+ *   enum:c:status = register `risk status`        | 4#risk-mitigation             | mitigationHeatmap
+ *   enum:c:instrumentation = register enum        | 4#metric-tree                 | metricTree
+ *   row vocabulary for c:metric (revenue · cogs · | 4#unit-economics              | econWaterfall
+ *     contribution · cac · payback · ltv)         |                               |
+ *   enum:c:layer: TAM | SAM | SOM | Growth        | 2#market-sizing               | marketBoard
+ *   a keyed line for the North Star (`**North     | 4#metric-tree                 | metricTree
+ *     Star:**` is a fixed literal today)          |                               |
+ *   a keyed line for the horizon (`**Horizon:**`) | 4#strategic-targets           | targetTiles
+ *   enum:c:verdict: confirmed | missed |          | 5#item-readouts               | itemReadouts
+ *     inconclusive | pending                      |                               |
+ *   `**Groom:**` value spec-ready | blocked       | 6#must                        | itemCard
+ *   one statement key per register (today         | registers/*.md                | viewRegisters
+ *     `statement` vs `hypothesis`, `description`) |                               |
+ */
+const DEBT = {
+  level: { h: 'H', high: 'H', m: 'M', medium: 'M', l: 'L', low: 'L' },
+  capLevel: { have: 'have', partial: 'partial', missing: 'missing' },
+  instrumentation: { instrumented: 'instrumented', proxy: 'proxy', 'not-instrumented': 'not-instrumented' },
+  ueRows: { revenue: 'revenue', cogs: 'cogs', contribution: 'contribution', cac: 'cac', payback: 'payback', ltv: 'ltv' },
+  sizingLayers: { tam: 'TAM', sam: 'SAM', som: 'SOM', growth: 'growth' },
+  verdict: { confirmed: 'done', missed: 'err', inconclusive: 'open', pending: 'na' },
+  groomReady: 'spec-ready',
+  northStar: /\*\*North Star:?\*\*/,
+  horizon: /\*\*Horizon:?\*\*/,
+  statementKeys: { hypotheses: ['statement', 'hypothesis'], risks: ['description', 'risk'],
+    metrics: ['name'], features: ['name'], surfaces: ['name'] },
+};
+/* The one matching rule every DEBT fallback uses: the cell's first word, lowercased, looked up
+   exactly. `— to clarify —`, an empty cell or an unknown word → null (the raw text is shown instead). */
+const debtToken = (map, cellRaw) => {
+  const w = plain(cellRaw).toLowerCase().split(/[\s·,;:(]+/)[0] || '';
+  return Object.prototype.hasOwnProperty.call(map, w) ? map[w] : null;
+};
+/* ================================================================ end TEMPLATE-KEY-DEBT */
+
 /* ---------------------------------------------------------------- strings */
 const STR = {
   en: {
@@ -55,7 +104,7 @@ const STR = {
     surfaceBoardNote: 'each column is a surface; the cards are the features on it, coloured by state',
     noSurfaceCol: 'no surface named', inMust: 'in this sprint’s must', prioNow: 'now',
     withReadings: 'measured', csvRows: 'csv rows', referencedIn: 'referenced in',
-    live: 'live', testing: 'in test', inFlightShort: 'in flight',
+    live: 'live', testing: 'in test', 
     toClarify: 'To clarify', openGates: 'Gate items still open', inFlight: 'Hypotheses in flight',
     latest: 'Latest readings', series: 'Series', allReadings: 'All readings',
     trail: 'trail', trailHint: 'every change-log entry that names this id',
@@ -82,24 +131,22 @@ const STR = {
     addSkillHint: 'To add or change a skill, ask the agent — it writes the canon’s anatomy into this '
       + 'product’s own tool-skills folder, and a product-local skill wins over a vendored one of the '
       + 'same name. It appears here on the next read. See EXTENDING.md.',
-    handoff: 'Session handoff', sourcesTab: 'sources', deliverables: 'Deliverables',
+    handoff: 'Session handoff', sourcesTab: 'sources', 
     whatElse: 'What else is in this folder', nextPass: 'Where the next pass goes',
     nextPassNone: 'Every gate item is recorded and closed.',
-    goal: 'Goal', scope: 'Scope', audience: 'Audience', directions: 'Directions',
+    goal: 'Goal', scope: 'Scope', directions: 'Directions',
     openSection: 'open', file: 'file', updated: 'updated', role: 'role', indexed: 'in the index',
     sourceIndex: 'The source index', sourceFiles: 'Files in sources/',
     notIndexed: 'not in INDEX.md', changeLog: 'Change log', entries: 'entries',
     openHypotheses: 'open', of6: 'of 6',
     colName: 'skill', colKind: 'kind', origin: 'origin',
-    read: 'open', more: 'details', cName: 'competitor',
+    more: 'details',
     boardIdea: 'Product canvas', boardAnalysis: 'Market analysis',
     zCustomer: 'Customer', zProduct: 'Product', zValidation: 'Validation',
     dMarket: 'Market sizing', dCompetitors: 'Competitors', dSubstitutes: 'Substitutes',
     dOpportunity: 'Opportunity', dRisks: 'Niche risks',
     mTam: 'total addressable', mSam: 'serviceable — load-bearing', mSom: 'obtainable ~3 yr', mCagr: 'growth / yr',
-    cType: 'type', cPlay: 'how they play', cMoat: 'moat vs us', cPrice: 'price', cDyn: 'dynamics',
     rForce: 'force', rLik: 'likelihood', rImp: 'impact',
-    assembledFrom: 'Assembled from the competitor sections below — a dash is “no match”, not zero.',
     gapDash: '— to clarify —',
     expand: 'expand the whole section in place', collapse: 'collapse',
     worklog: 'workings', worklogTip: 'open the worklog this section was worked out in',
@@ -118,30 +165,42 @@ const STR = {
     z3Bets: 'Bets & risks', z3Open: 'Open',
     z3Ladder: 'Price ladder', z3Channels: 'Channels → segments', z3Journey: 'Journey emotion curve',
     z3Moats: 'Moat shields', z3Heat: 'Pre-mortem heatmap',
-    lOurs: 'our price', heatHint: 'hover or click a dot to read the risk',
-    curveWas: 'before (concept)', curveNow: 'after strategy', curveSplit: 'split rating',
+    lOurs: 'our price',
+    curveWas: 'before (concept)', curveNow: 'after strategy', 
     curveAxis: 'Y — emotion at each stage: ▲ high · ▲▼ split · ▼ low · ▼▼ lowest',
     shRebuild: 'LLM rebuild', betMoat: 'moat', ladderFrom: 'Anchors from this step’s pricing table and step 2’s competitor pricing.',
     z4North: 'North Star & metric tree', z4Econ: 'Economics',
     z4Instr: 'Instrumentation & risk', z4Hyp: 'Hypotheses',
     z4Targets: 'Horizon targets', z4Caps: 'Capabilities & systems', z4Mit: 'Risk mitigation',
     z4Retention: 'Retention curve',
-    mtNorth: 'North Star', mtInstr: 'data source', mtInputs: 'inputs',
+    mtNorth: 'North Star', mtInputs: 'inputs',
     mtInstrOn: 'instrumented', mtInstrProxy: 'proxy', mtInstrOff: 'not instrumented',
     mtLegend: 'Border = data source: green instrumented · amber proxy · grey none. Chip = metric family.',
-    tgHorizon: 'horizon', tgScenario: 'scenario', tgWhy: '',
+    tgHorizon: 'horizon', tgScenario: 'scenario', 
     ueRev: 'revenue', ueCogs: 'COGS', ueContrib: 'contribution', ueFrom: 'per payer / month, operational basis',
-    capServes: 'serves', capOwner: 'owner', capLevelHave: 'have', capLevelPartial: 'partial', capLevelMissing: 'missing',
-    thSuccess: 'success', thFailure: 'failure', thInconcl: 'inconclusive', thLegend: 'Pre-registered read: pass bar · conscious inconclusive zone · fail bar.',
-    mitHint: 'hover or click a risk to read its mitigation', mitOwner: 'owner', mitTrigger: 'trigger', mitDue: 'due',
-    mitOpen: 'open', mitMitigating: 'mitigating', retFlattens: 'flattens at',
-    z5Goals: 'Goals & targets', z5Guard: 'Guardrails', z5Res: 'Resources & market',
+    capServes: 'serves', capLevelHave: 'have', capLevelPartial: 'partial', capLevelMissing: 'missing',
+    thSuccess: 'success', thFailure: 'failure', thLegend: 'Pre-registered read: pass bar · conscious inconclusive zone · fail bar.',
+    mitHint: 'hover, focus or click a risk to read its mitigation', mitOwner: 'owner', mitTrigger: 'trigger', mitDue: 'due',
+    retFlattens: 'flattens at',
+    z5Guard: 'Guardrails', z5Res: 'Resources & market',
     z5Test: 'Tests & blockers',
     z6Commit: 'Committed vs backlog', z6Excluded: 'Excluded — and why', z6Handoff: 'Handoff',
     z6Items: 'Committed — must', z6Backlog: 'Backlog — ranked',
-    dirDev: 'Development — Features', dirG2m: 'Go-to-market — Activities',
-    dirBo: 'Back-office — Tasks',
     zOther: 'Other sections',
+    dirNone: 'direction not named', 
+    keyMissing: 'board not drawn — the section’s table lacks the column key(s):',
+    keyMissingCard: 'shown as its card instead',
+    z5Lanes: 'Period goals, by direction', z5Targets: 'Goal targets', z5Bundles: 'Market-entry bundles',
+    z5Hyp: 'Hypotheses to test', z5Readouts: 'Readouts', z5ItemReadouts: 'Item readouts',
+    grMust: 'must stay', grRed: 'red line', rsConstraint: 'constraint',
+    bdSegment: 'segment', bdChannel: 'channel', bdOffer: 'offer', bdSignal: 'signal', 
+    roTest: 'test', roResult: 'result vs rule', roSignal: 'signal', roDecision: 'decision', roFollow: 'follow-up',
+    irItem: 'item', irFeature: 'feature', irExpected: 'expected', irFact: 'fact', irVerdict: 'verdict', irEstimate: 'estimate',
+    thSample: 'sample', thRule: 'decision rule',
+    expandBtn: 'expand', collapseBtn: 'collapse', openRow: 'open this row', closeRow: 'close this row',
+    keyboardHint: 'hover, focus or click a dot to read the risk',
+    wlNotInSnapshot: 'A worklog is private to its method (CONVENTIONS → Step folders & worklogs) and is not carried in a snapshot — only its title and date are.',
+    readingAt: 'reading',
     /* The guide tab — chrome, like every string here: it describes the canon, the canon itself
        lives in the process/ files this text points at. */
     g: {
@@ -267,7 +326,6 @@ const S = {
 };
 
 /* The chrome is English-only (the framework's language); STR keeps the one-home-for-strings shape. */
-const L = () => STR.en;
 function t(key) {
   const get = o => key.split('.').reduce((x, k) => (x || {})[k], o);
   return get(STR.en) || key;
@@ -411,7 +469,7 @@ function md(src) {
 }
 
 /* ---------------------------------------------------------------- tooltip */
-const tip = h('div', { class: 'tip' });
+const tip = h('div', { class: 'tip', id: 'tip', role: 'tooltip' });
 document.body.append(tip);
 function showTip(html, x, y) {
   tip.innerHTML = html;
@@ -502,17 +560,26 @@ function lineChart(groups, opts) {
       'font-size': 10, 'font-family': 'var(--mono)' });
     lab.textContent = num(last.r.value);
     s.append(lab);
+    // Each reading is a focusable hit target: the tooltip opens on hover AND on keyboard focus, and
+    // the same values sit in the "All readings" table below — the hover is a shortcut, never the
+    // only way to the number.
     pts.forEach(p => {
-      const hit = svg('circle', { cx: p.x, cy: p.y, r: 9, fill: 'transparent', style: 'cursor:crosshair' });
-      hit.addEventListener('mouseenter', () => p.dot.setAttribute('r', p.baseR + 2));
-      hit.addEventListener('mousemove', ev => showTip(
-        `<b>${esc(num(p.r.value))}</b> ${esc(opts.unit || '')}<br>`
+      const hit = svg('circle', { cx: p.x, cy: p.y, r: 9, fill: 'transparent', style: 'cursor:crosshair',
+        tabindex: '0', role: 'button', 'aria-describedby': 'tip',
+        'aria-label': `${t('readingAt')} ${dateOf(p.r)}: ${num(p.r.value)} ${opts.unit || ''}` });
+      const html = `<b>${esc(num(p.r.value))}</b> ${esc(opts.unit || '')}<br>`
         + `<span class="k">${esc(dateOf(p.r))}</span>`
         + (p.r.period_start ? ` <span class="k">(${esc(p.r.period_start)} → ${esc(p.r.period_end)})</span>` : '')
         + (g.label && groups.length > 1 ? `<br><span class="k">basis</span> ${esc(g.label)}` : '')
         + (p.r.source ? `<br><span class="k">source</span> ${esc(p.r.source)}` : '')
-        + (p.r.note ? `<br>${esc(p.r.note)}` : ''), ev.clientX, ev.clientY));
-      hit.addEventListener('mouseleave', () => { p.dot.setAttribute('r', p.baseR); hideTip(); });
+        + (p.r.note ? `<br>${esc(p.r.note)}` : '');
+      const grow = () => p.dot.setAttribute('r', p.baseR + 2);
+      const shrink = () => { p.dot.setAttribute('r', p.baseR); hideTip(); };
+      hit.addEventListener('mouseenter', grow);
+      hit.addEventListener('mousemove', ev => showTip(html, ev.clientX, ev.clientY));
+      hit.addEventListener('focus', () => { grow(); const b = hit.getBoundingClientRect(); showTip(html, b.left + b.width / 2, b.top); });
+      hit.addEventListener('mouseleave', shrink);
+      hit.addEventListener('blur', shrink);
       s.append(hit);
     });
   });
@@ -544,13 +611,14 @@ const ridChips = ids => (ids || []).map(x => h('span', { class: 'tag ' + ridClas
 const confTag = m => {
   if (!m || !m.present || m.open) return null;   // an open section (inbox) has no result to sign
   if (m.confirmed) {
-    // an old sign-off is not wrong, but it is a question again — the tag turns amber past the threshold
+    // an old sign-off is not wrong, but it is a question again — the tag turns amber past the
+    // threshold and says the age in its own text: what the tag means is never only in a hover title
     const age = daysSince(m.confirmed);
     const old = age !== null && age > STALE_SIGNED;
     return h('span', { class: 'tag confirmed' + (old ? ' aged' : ''),
-        title: t('confirmedOn') + ' ' + m.confirmed + (m.confirmed_by ? ' · ' + m.confirmed_by : '')
-          + (old ? ` · ${age} ${t('daysAgo')}` : '') },
-      t('confirmed') + ' ' + m.confirmed);
+        title: t('confirmedOn') + ' ' + m.confirmed + (m.confirmed_by ? ' · ' + m.confirmed_by : '') },
+      t('confirmed') + ' ' + m.confirmed + (m.confirmed_by ? ' · ' + m.confirmed_by : '')
+        + (old ? ` · ${age} ${t('daysAgo')}` : ''));
   }
   if (m.contested)   // a human looked and sent it back — distinct from never-reviewed pending
     return h('span', { class: 'tag contested', title: t('contestedTip') }, t('contested'));
@@ -565,8 +633,9 @@ const confCounts = s => {
    confirmed section — an unconfirmed one resting on unconfirmed is just not-done-yet, not a risk. */
 const restTag = s => {
   if (!s || !s.confirmed || !(s.rests_on_unconfirmed || []).length) return null;
-  return h('span', { class: 'tag restwarn', title: t('restsTip') + ' ' + s.rests_on_unconfirmed.join(', ') },
-    t('restsOn'));
+  // the sections it rests on are the meaning of the tag — in its text, not only in a hover title
+  return h('span', { class: 'tag restwarn', title: t('restsTip') },
+    t('restsOn') + ': ' + s.rests_on_unconfirmed.join(', '));
 };
 
 /* -- freshness. Age is read against the viewer's clock (also in a snapshot: "how stale is this NOW"
@@ -585,8 +654,8 @@ function wlNewerTag(step, tool) {
   const stem = step.artifact_file ? step.artifact_file.replace(/\.md$/, '') : '';
   const wl = ((S.model.worklogs || {})[stem] || {})[tool];
   if (!wl || !wl.updated || !step.artifact_updated || wl.updated <= step.artifact_updated) return null;
-  return h('span', { class: 'tag wlnew',
-    title: `${t('wlNewerTip')} (${wl.updated} > ${step.artifact_updated})` }, t('wlNewer'));
+  return h('span', { class: 'tag wlnew', title: t('wlNewerTip') },
+    `${t('wlNewer')} · ${wl.updated} > ${step.artifact_updated}`);
 }
 
 /* The step's two axes drawn as one figure: outer ring = gate items closed (the process axis), inner
@@ -601,8 +670,9 @@ function dualRing(s, size) {
     g.written && (g.tick === 'open' || g.tick === 'unknown')).length;
   const cc = confCounts(s);
   const R = size / 2, w = Math.max(2.4, size / 11);
+  const label = `${t('gateClosed')} ${gd}/${gt}${gw ? ` · ${t('gateWritten')} ${gw}` : ''} · ${t('confirmed')} ${cc.done}/${cc.total}`;
   const el = svg('svg', { viewBox: `0 0 ${size} ${size}`, width: size, height: size,
-    class: 'dring', role: 'img' });
+    class: 'dring', role: 'img', 'aria-label': label });
   [[R - w / 2 - 0.5, gt ? gd / gt : 0, 'var(--ok)', gt ? gw / gt : 0],
    [R - w * 2 - 1.5, cc.total ? cc.done / cc.total : 0, 'var(--navy)', 0]].forEach(([r, frac, color, soft]) => {
     // the empty track in --line-2, not --grid: an unfilled ring must still read as a ring, or the
@@ -624,8 +694,7 @@ function dualRing(s, size) {
         transform: `rotate(-90 ${R} ${R})` }));
     }
   });
-  return h('span', { class: 'dringwrap',
-    title: `${t('gateClosed')} ${gd}/${gt}${gw ? ` · ${t('gateWritten')} ${gw}` : ''} · ${t('confirmed')} ${cc.done}/${cc.total}` }, el);
+  return h('span', { class: 'dringwrap', title: label }, el);
 }
 
 /* The section's confidence mix as one thin strip — same classes and colours as the .conf chips, so
@@ -636,8 +705,8 @@ function evStrip(conf, extra) {
   const c = conf || {};
   const total = EV_ORDER.reduce((a, k) => a + (c[k] || 0), 0);
   if (!total) return null;
-  return h('div', { class: 'evstrip' + (extra ? ' ' + extra : ''),
-    title: EV_ORDER.filter(k => c[k]).map(k => `${k} ×${c[k]}`).join(' · ') },
+  const label = EV_ORDER.filter(k => c[k]).map(k => `${k} ×${c[k]}`).join(' · ');
+  return h('div', { class: 'evstrip' + (extra ? ' ' + extra : ''), title: label, role: 'img', 'aria-label': label },
     EV_ORDER.filter(k => c[k]).map(k =>
       h('i', { class: k, style: `width:${(c[k] / total * 100).toFixed(1)}%` })));
 }
@@ -702,7 +771,6 @@ function acc(summaryKids, bodyKids, open) {
     h('summary', {}, ...summaryKids),
     h('div', { class: 'accbody' }, ...bodyKids));
 }
-const figures = tiles => h('div', { class: 'figs' }, tiles.filter(Boolean));
 function fig(label, value, sub, onclick, alert) {
   return h(onclick ? 'button' : 'div', { class: 'fig' + (alert ? ' alert' : ''), onclick },
     h('div', { class: 'l' }, label),
@@ -757,10 +825,11 @@ function viewOverview() {
   const gateDone = m.steps.reduce((a, s) => a + (s.gate_counts.done || 0), 0);
   const openGates = m.steps.reduce((a, s) =>
     a + s.gate.filter(g => g.tick === 'open' || g.tick === 'unknown').length, 0);
+  // status cells are register enums (framework.enums) — counted by exact token, never by prose
   const hStatus = k => reg.hypotheses.rows.filter(r =>
-    stripMd(cell(r, 'status')).toLowerCase().startsWith(k)).length;
+    debtToken(enumMap('hypothesis status'), cell(r, 'status')) === k).length;
   const risksLive = reg.risks.rows.filter(r =>
-    /open|mitigat|открыт|митиг/i.test(stripMd(cell(r, 'status')))).length;
+    ['open', 'mitigating'].includes(debtToken(enumMap('risk status'), cell(r, 'status')))).length;
   const measured = Object.keys(m.metrics.series).length;
   const nextStep = m.steps.find(s => (s.gate_counts.open || 0) + (s.gate_counts.unknown || 0) > 0);
   const nextItem = nextStep && nextStep.gate.find(g => g.tick === 'open' || g.tick === 'unknown');
@@ -923,73 +992,109 @@ function cvExcerpt(fd, tick) {
       : h('p', { class: 'cvex cv-clar' }, t('gapDash'));
   }
   const full = fd.text.replace(CONF_TAG_RE, '').trim();
-  // A marked face laid across hard breaks is an enumeration: the first line leads, each line below is
-  // an item, so give every continuation line a bullet where it has none — the tile reads as a list.
-  const parts = full.split('\n');
-  const html = parts
-    .map((ln, k) => inline(k > 0 && !/^\s*[-*•·–—]\s/.test(ln) ? '• ' + ln : ln))
-    .join('<br>');
-  return h('p', { class: 'cvex', title: full.length > 120 ? plain(full) : null, html });
+  // The face is the author's block verbatim: hard breaks kept as line breaks, nothing prepended —
+  // a bullet the author did not write is a third text, and the board renders only the two authored
+  // layers. The full text is one click away (the card expands), so no hover copy of it either.
+  return h('p', { class: 'cvex', html: inlineBr(full) });
 }
 const stripHead = b => String(b || '').replace(/^\s*#{1,6}\s.*\n?/, '');
 
-/* The first markdown table in a body → { head:[…], rows:[[…]] }, or null. */
+/* ---- the one table parser. Mirrors tools/loops/text.py → tables(): a header row over a divider
+   opens a table; rows run until prose, a heading or a new header+divider; a BLANK LINE INSIDE A TABLE
+   DOES NOT END IT — the rows resume past the blank (the linter reads such a table as one table, with
+   `broken` set, and the console must read the same one table, not half of it). Every board and card
+   face reads through this function; there is no second table reader in this file. */
 /* A hidden column key on a header cell — `Price <!--c:price-->` — names what the column *means*, so a
    board can read the column across any language and any reordering instead of guessing from the prose.
    It is the same "mark, don't guess" idea a heading's `{#anchor}` already applies to sections. */
 const COL_KEY_RE = /<!--\s*c(?:ol)?:\s*([\w-]+)\s*-->/i;
-function firstTable(body) {
+const isDivider = l => /^\s*\|?[\s:|-]+\|?\s*$/.test(l) && /-/.test(l);
+const splitRow = l => l.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+function tablesOf(body) {
   const lines = String(body || '').split('\n');
+  const out = [];
   let i = 0;
   while (i < lines.length) {
-    const l = lines[i].trim(), nx = (lines[i + 1] || '').trim();
-    if (l.startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
-      const cells = l.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
-      const keys = cells.map(c => (c.match(COL_KEY_RE) || [])[1] || null);   // one per column, null if unmarked
-      const head = cells.map(c => c.replace(COL_KEY_RE, '').trim());          // display text, the mark stripped
-      const rows = [];
-      i += 2;
-      while (i < lines.length && lines[i].trim().startsWith('|')) {
-        rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()));
-        i++;
+    const l = lines[i].trim();
+    if (l.startsWith('|') && i + 1 < lines.length && isDivider(lines[i + 1])) {
+      const cells = splitRow(l);
+      const tb = {
+        keys: cells.map(c => (c.match(COL_KEY_RE) || [])[1] || null),   // one per column, null if unmarked
+        head: cells.map(c => c.replace(COL_KEY_RE, '').trim()),          // display text, the mark stripped
+        rows: [], raw: [lines[i], lines[i + 1]], broken: false,
+      };
+      let j = i + 2;
+      while (j < lines.length) {
+        const cur = lines[j].trim();
+        if (cur.startsWith('|')) {
+          if (isDivider(lines[j])) break;                 // a divider mid-table: a new table's, not ours
+          tb.rows.push(splitRow(cur)); tb.raw.push(lines[j]); j++;
+          continue;
+        }
+        if (cur) break;                                   // any other prose ends the table
+        let k = j;                                        // blank line(s): look past them
+        while (k < lines.length && !lines[k].trim()) k++;
+        if (k < lines.length && lines[k].trim().startsWith('|')
+            && !(k + 1 < lines.length && isDivider(lines[k + 1]))) {
+          tb.broken = true; j = k; continue;              // same table, accidentally split
+        }
+        break;
       }
-      return { head, keys, rows };
-    }
-    i++;
+      out.push(tb);
+      i = j;
+    } else i++;
   }
-  return null;
+  return out;
 }
-/* The first markdown table in a body, returned as its raw markdown block — for a card face that
-   shows the section's own table verbatim (md() renders it), never a re-layout. Null when none. */
+const firstTable = body => tablesOf(body)[0] || null;
+const allTables = tablesOf;
+/* The first table as its markdown block — for a card face that shows the section's own table verbatim
+   (md() renders it), never a re-layout. Past `cap` data rows the face previews header + first rows and
+   says how many more there are; expanding shows every row. A blank-split table is rejoined here, so
+   the face shows the one table the linter sees. Null when none. */
 function firstTableMd(body, cap) {
-  const lines = String(body || '').split('\n');
-  for (let i = 0; i + 1 < lines.length; i++) {
-    const l = lines[i].trim(), nx = lines[i + 1].trim();
-    if (l.startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
-      let j = i + 1;
-      while (j < lines.length && lines[j].trim().startsWith('|')) j++;
-      // a face is a glance, not the section: past `cap` data rows the table is previewed —
-      // header + first rows + an explicit remainder count; expanding shows every row
-      const dataRows = j - i - 2;
-      if (cap && dataRows > cap) {
-        return { md: lines.slice(i, i + 2 + cap).join('\n'), more: dataRows - cap };
-      }
-      return { md: lines.slice(i, j).join('\n'), more: 0 };
-    }
-  }
-  return null;
+  const tb = firstTable(body);
+  if (!tb) return null;
+  const more = cap && tb.rows.length > cap ? tb.rows.length - cap : 0;
+  return { md: tb.raw.slice(0, 2 + (more ? cap : tb.rows.length)).join('\n'), more };
 }
 /* The index of a column by its stable <!--c:key--> mark on the header (survives translation and
    reordering), or -1 if the table does not carry it. The mark is the only join — no positional
    fallback and no header-prose alias, both being the language traps the key removes — so an instance
    the console reads must key its columns (enforced by linter check O2). */
 const colKey = (tbl, key) => (tbl ? (tbl.keys || []).indexOf(key) : -1);
-/* A competitor's join key across the four competitor tables: first significant word, lowercased. */
-const compKey = s => (plain(s).toLowerCase().split(/[\s(/,]+/).filter(Boolean)[0] || '');
-/* An H / M / L cell that carries its own colour, so likelihood and impact read without the header. */
+/* A keyed read of a section body: the first table carrying every `need` key, its rows as objects
+   keyed by column key (optional keys present when the table has them, else ''). When no table carries
+   the keys, `missing` names the ones the nearest table lacks — the board then shows an explicit
+   key-missing state instead of guessing a column. `null` only when the body has no table at all. */
+function keyed(body, need, opt) {
+  const tbs = tablesOf(body);
+  if (!tbs.length) return null;
+  const has = (tb, k) => colKey(tb, k) >= 0;
+  const tb = tbs.find(x => need.every(k => has(x, k)));
+  if (!tb) {
+    const best = tbs.slice().sort((a, b) => need.filter(k => has(b, k)).length - need.filter(k => has(a, k)).length)[0];
+    return { missing: need.filter(k => !has(best, k)) };
+  }
+  const all = need.concat(opt || []);
+  const rows = tb.rows.map(r => {
+    const o = {};
+    all.forEach(k => { const i = colKey(tb, k); o[k] = i >= 0 ? (r[i] || '') : ''; });
+    return o;
+  });
+  return { tb, rows, hasKey: k => has(tb, k) };
+}
+/* The explicit "key missing" state a board shows when the section has a table but not the keys the
+   board reads — the card face is shown beside it, so nothing vanishes and nothing is guessed. */
+const keyMissing = keys => h('p', { class: 'keymiss small', 'data-keymiss': '' },
+  `${t('keyMissing')} `, keys.flatMap((k, i) => [i ? ', ' : null, h('code', {}, `c:${k}`)]), ` — ${t('keyMissingCard')}`);
+const isKeyMiss = node => !!(node && node.hasAttribute && node.hasAttribute('data-keymiss'));
+/* An H / M / L cell that carries its own colour, so likelihood and impact read without the header.
+   The level is the cell's exact token (DEBT.level); anything else shows in the neutral colour, verbatim. */
+const levelOf = v => debtToken(DEBT.level, v);
 const hlBadge = v => {
-  const s = String(v || '').trim();
-  const k = /^h/i.test(s) ? 'err' : /^m/i.test(s) ? 'open' : /^l/i.test(s) ? 'done' : 'na';
+  const s = plain(v);
+  const k = { H: 'err', M: 'open', L: 'done' }[levelOf(s)] || 'na';
   return h('span', { class: 'tag ' + k }, s || '—');
 };
 
@@ -1002,7 +1107,8 @@ function tipBelow(html, el) {
   tip.style.top = (r.bottom + 8) + 'px';
 }
 function infoDot(html, label) {
-  const b = h('span', { class: 'idot', tabindex: '0', role: 'button', 'aria-label': label || t('statusAsks') }, 'i');
+  const b = h('button', { class: 'idot', type: 'button', 'aria-label': label || t('statusAsks'),
+    'aria-describedby': 'tip' }, 'i');
   const show = () => tipBelow(html, b);
   b.addEventListener('mouseenter', show);
   b.addEventListener('focus', show);
@@ -1050,7 +1156,11 @@ function cvCard(s, id, opts) {
   // "details" link is the one thing that leaves, for the section in the artifact.
   const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
   const wlTool = live && art ? worklogTool(stem, art.body) : null;
-  const xpand = h('span', { class: 'cvxpand', 'aria-hidden': 'true' });
+  // The expand control is a real button — the one interactive element for the tile's own action, so
+  // the "details" and "workings" links beside it are siblings, never interactives nested in another.
+  const canExpand = !!(live && art && !openFace);
+  const xpand = canExpand ? h('button', { class: 'cvxpand', type: 'button', 'aria-expanded': 'false',
+    'aria-label': t('expandBtn') + ' — ' + (meta.title || id), title: t('expand') }) : null;
   const foot = live ? h('div', { class: 'cvfoot' },
     goSection(s.artifact_file, id, t('more'), meta.title || id),
     wlTool ? goWorklog(stem, wlTool) : null,
@@ -1070,22 +1180,19 @@ function cvCard(s, id, opts) {
     face,
     faceTblEl,
     foot);
-  if (live && art && !openFace) {
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('role', 'button');
-    card.setAttribute('aria-expanded', 'false');
-    card.title = t('expand');
+  if (canExpand) {
     let full = null;
     const toggle = () => {
       // built once, on first open — the section body rendered whole, above the footer
       if (!full) { full = h('div', { class: 'cvfull md', html: md(stripHead(art.body)) }); card.insertBefore(full, foot); }
-      card.setAttribute('aria-expanded', card.classList.toggle('expanded') ? 'true' : 'false');
+      const on = card.classList.toggle('expanded');
+      xpand.setAttribute('aria-expanded', on ? 'true' : 'false');
+      xpand.setAttribute('aria-label', (on ? t('collapseBtn') : t('expandBtn')) + ' — ' + (meta.title || id));
     };
-    // A click anywhere on the tile expands/collapses it — except on the "details" link, which navigates.
-    card.addEventListener('click', e => { if (!e.target.closest('.golink')) toggle(); });
-    card.addEventListener('keydown', e => {
-      if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.golink')) { e.preventDefault(); toggle(); }
-    });
+    xpand.addEventListener('click', e => { e.stopPropagation(); toggle(); });
+    // A pointer click anywhere else on the tile is a convenience that does the same — the button is
+    // the accessible path; the tile itself carries no role, so nothing interactive nests in it.
+    card.addEventListener('click', e => { if (!e.target.closest('.golink, .cvxpand, a')) toggle(); });
   }
   return card;
 }
@@ -1126,36 +1233,10 @@ function canvasIdea(s) {
   return kids.length ? h('div', { class: 'canvas' }, kids) : null;
 }
 /* ---- step-3 boards: the strategy drawn from its keyed tables. Each board reads columns by their
-   <!--c:key--> marks only (colKey — no positional fallback), and returns null when the instance does
-   not carry the keys, so the section falls back to its ordinary card and nothing is invented. ---- */
+   <!--c:key--> marks only (colKey — no positional fallback). A section whose table lacks a key the
+   board needs gets the explicit key-missing note beside its card; a section with no table at all
+   falls back to its ordinary card. Nothing is invented either way. ---- */
 
-/* Every markdown table in a body — firstTable's shape, one entry per table, in document order.
-   A section can carry more than one keyed table (pricing: tiers, then anchors) and the key names
-   which one a board wants. */
-function allTables(body) {
-  const lines = String(body || '').split('\n');
-  const out = [];
-  let i = 0;
-  while (i < lines.length) {
-    const l = lines[i].trim(), nx = (lines[i + 1] || '').trim();
-    if (l.startsWith('|') && /-/.test(nx) && /^\|?[\s:|-]+\|?$/.test(nx)) {
-      const cells = l.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
-      out.push({
-        keys: cells.map(c => (c.match(COL_KEY_RE) || [])[1] || null),
-        head: cells.map(c => c.replace(COL_KEY_RE, '').trim()),
-        rows: [],
-      });
-      i += 2;
-      while (i < lines.length && lines[i].trim().startsWith('|')) {
-        out[out.length - 1].rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()));
-        i++;
-      }
-      continue;
-    }
-    i++;
-  }
-  return out;
-}
 /* Prices out of a cell — numbers anchored to a currency mark (₽ / руб / $ / € / £), one per rung
    of a tier ladder. A number with no currency in a prose cell is noise (a token count, a read
    date), never a price; a cell that is one bare number still counts; a cell carrying a gap mark
@@ -1187,24 +1268,21 @@ function priceLadder(s) {
       if (!rungs.some(r => r.price === p && r.label === label)) rungs.push({ label, price: p, ours: !!ours });
     });
   };
-  const anchor = allTables(a.body).find(tb => colKey(tb, 'altprice') >= 0);
-  if (anchor) {
-    const ai = colKey(anchor, 'alt'), pi = colKey(anchor, 'altprice'),
-      oi = colKey(anchor, 'ourprice'), si = colKey(anchor, 'segment');
+  // the anchor table is the second table of #pricing (tiers, then anchors): the one carrying c:altprice
+  const anchor = keyed(a.body, ['alt', 'altprice', 'ourprice'], ['segment']);
+  if (anchor && anchor.missing && allTables(a.body).some(tb => colKey(tb, 'altprice') >= 0)) {
+    return keyMissing(anchor.missing);
+  }
+  if (anchor && anchor.rows) {
     anchor.rows.forEach(r => {
-      if (pi >= 0) add(plain(r[ai >= 0 ? ai : 0]), r[pi], true);
-      if (oi >= 0 && !rungs.some(x => x.ours)) {
-        add(t('lOurs') + (si >= 0 && plain(r[si]) ? ' · ' + plain(r[si]) : ''), r[oi], true, true);
-      }
+      add(plain(r.alt), r.altprice, true);
+      if (!rungs.some(x => x.ours)) add(t('lOurs') + (plain(r.segment) ? ' · ' + plain(r.segment) : ''), r.ourprice, true, true);
     });
   }
   const s2 = anotherStep(2);
   const p2 = s2 ? artSection(s2.artifact_file, 'competitor-pricing') : null;
-  const t2 = p2 ? firstTable(p2.body) : null;
-  if (t2) {
-    const pi = colKey(t2, 'price');
-    if (pi >= 0) t2.rows.forEach(r => add(plain(r[0]), r[pi]));
-  }
+  const k2 = p2 ? keyed(p2.body, ['name', 'price']) : null;
+  if (k2 && k2.rows) k2.rows.forEach(r => add(plain(r.name), r.price));
   if (rungs.length < 2 || !rungs.some(r => r.ours)) return null;
   const max = Math.max(...rungs.map(r => r.price)) || 1;
   rungs.sort((x, y) => y.price - x.price);
@@ -1250,16 +1328,16 @@ function leadDash(s) {
   }
   return str;
 }
-/* Greedy word-wrap into at most `max` lines of ~`width` characters; the tail past the last line is
-   an ellipsis, never a mid-word cut of every line. */
-function wrapLabel(s, width, max) {
+/* Greedy word-wrap into lines of ~`width` characters, on word boundaries only: a word is never cut
+   and no tail is dropped — the label carries the author's whole text, and the drawing grows to fit
+   however many lines that takes. */
+function wrapLabel(s, width) {
   const lines = [];
   for (const w of String(s).split(/\s+/).filter(Boolean)) {
     const last = lines[lines.length - 1];
     if (last !== undefined && (last + ' ' + w).length <= width) lines[lines.length - 1] = last + ' ' + w;
-    else lines.push(w.length > width ? w.slice(0, width - 1) + '…' : w);
+    else lines.push(w);
   }
-  if (lines.length > max) { lines.length = max; lines[max - 1] = lines[max - 1].replace(/…?$/, '…'); }
   return lines;
 }
 /* Journey emotion curve — the step-1 map's Emotion column drawn literally, one x per stage. Two
@@ -1268,17 +1346,20 @@ function wrapLabel(s, width, max) {
 function journeyCurve() {
   const s1 = anotherStep(1);
   const a = s1 ? artSection(s1.artifact_file, 'cjm') : null;
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const si = colKey(tb, 'stage'), ei = colKey(tb, 'emotion');
-  if (ei < 0) return null;
-  const pts = tb.rows
-    .map(r => ({ stage: plain(r[si >= 0 ? si : 0]), ...emoLevel(r[ei]) }))
+  const k = a ? keyed(a.body, ['stage', 'emotion']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const pts = k.rows
+    .map(r => ({ stage: plain(r.stage), ...emoLevel(r.emotion) }))
     .filter(p => p.now !== null);
   if (pts.length < 2) return null;
+  // the stage label is the lead of the cell (before its ` — ` qualifier), wrapped whole on word
+  // boundaries; the drawing is as tall as the longest label needs
+  const labels = pts.map(p => wrapLabel(leadDash(p.stage).replace(/\s*\([^)]*\)\s*$/, ''), 18));
+  const maxLines = Math.max(1, ...labels.map(l => l.length));
   const X = i => 78 + i * 104, Y = l => 118 - l * 36;   // levels 1…−2 → y 82…190
-  const W = X(pts.length - 1) + 52;
-  const el = svg('svg', { viewBox: `0 0 ${W} 246`, class: 'jcurve', role: 'img' });
+  const W = X(pts.length - 1) + 52, HH = 214 + maxLines * 12 + 8;
+  const el = svg('svg', { viewBox: `0 0 ${W} ${HH}`, class: 'jcurve', role: 'img' });
   // the y scale, spelled in the canon's own glyphs: what a point's height means
   [[1, '▲'], [0, '▲▼'], [-1, '▼'], [-2, '▼▼']].forEach(([l, lab]) => {
     el.append(svg('line', { x1: 54, x2: W - 12, y1: Y(l), y2: Y(l), class: 'jgrid' }));
@@ -1302,11 +1383,8 @@ function journeyCurve() {
     c.append(svg('title', {}));
     c.lastChild.textContent = p.stage + ' · ' + p.raw;
     el.append(c);
-    // the label is the stage's short name — the lead before its ` — ` qualifier, the trailing
-    // actor list dropped — wrapped whole; the full cell stays in the hover title
-    const lead = leadDash(p.stage).replace(/\s*\([^)]*\)\s*$/, '');
     const lb = svg('text', { x: X(i), y: 214, class: 'jstage', 'text-anchor': 'middle' });
-    wrapLabel(lead, 18, 3).forEach((line, k) => {
+    labels[i].forEach((line, k) => {
       const ts = svg('tspan', { x: X(i), dy: k ? 12 : 0 });
       ts.textContent = line;
       lb.append(ts);
@@ -1325,23 +1403,15 @@ function journeyCurve() {
 /* Pre-mortem heatmap — likelihood × impact as a 3×3 grid read straight from the section's H/M/L
    cells; each risk is a focusable dot, the panel under the grid shows the formulation on
    hover/focus, a click pins it. The hot corner (H×H) is tinted: empty there is itself a reading. */
-function riskHeatmap(s) {
-  const a = bodyOf(s, 'product-risks');
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const idi = colKey(tb, 'id'), ri = colKey(tb, 'risk'), li = colKey(tb, 'likelihood'), ii = colKey(tb, 'impact');
-  if (li < 0 || ii < 0) return null;
-  const lvl = v => /^h/i.test(plain(v)) ? 2 : /^m/i.test(plain(v)) ? 1 : /^l/i.test(plain(v)) ? 0 : null;
-  const items = tb.rows.map(r => ({
-    id: plain(r[idi >= 0 ? idi : 0]), risk: r[ri >= 0 ? ri : 1] || '', L: lvl(r[li]), I: lvl(r[ii]),
-  })).filter(x => x.L !== null && x.I !== null);
-  if (!items.length) return null;
-  const detail = h('div', { class: 'heatdetail' }, h('span', { class: 'small faint' }, t('heatHint')));
+/* One heatmap for both risk boards (step 3 pre-mortem, step 4 mitigation): likelihood × impact as a
+   3×3 grid read from the exact H/M/L tokens; each risk a focusable dot (its id and text in the
+   aria-label, so the grid reads without the pointer), the panel under the grid shows the row on
+   hover/focus, a click pins it. `items` carry {id, risk, L, I, cls?, detail?()}; the hot corner (H×H)
+   is tinted — empty there is itself a reading. */
+function heatmap(items, hint, renderDetail) {
+  const detail = h('div', { class: 'heatdetail' }, h('span', { class: 'small faint' }, hint));
   let pinned = null;   // the pinned dot keeps its filled state until unpinned, so the choice is visible
-  const show = it => {
-    detail.innerHTML = '';
-    detail.append(h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) }));
-  };
+  const show = it => { detail.innerHTML = ''; detail.append(...renderDetail(it)); };
   const grid = [h('div', { class: 'heatax' }), ['L', 'M', 'H'].map(x => h('div', { class: 'heatax' }, hlBadge(x)))];
   for (let imp = 2; imp >= 0; imp--) {
     grid.push(h('div', { class: 'heatax' }, hlBadge(['L', 'M', 'H'][imp])));
@@ -1349,7 +1419,8 @@ function riskHeatmap(s) {
       grid.push(h('div', { class: 'heatcell' + (lik === 2 && imp === 2 ? ' heat-hot' : '') },
         items.filter(x => x.L === lik && x.I === imp).map(it =>
           h('button', {
-            class: 'heatdot', title: it.id,
+            class: 'heatdot' + (it.cls ? ' ' + it.cls : ''), type: 'button',
+            'aria-label': `${it.id} — ${plain(it.risk)}`,
             onmouseenter: () => { if (!pinned) show(it); },
             onfocus: () => { if (!pinned) show(it); },
             onclick: e => {
@@ -1368,6 +1439,19 @@ function riskHeatmap(s) {
       h('div', { class: 'heatgrid' }, grid.flat()),
       h('div', { class: 'heataxes small faint' }, `${t('rImp')} ↑ · ${t('rLik')} →`)),
     detail);
+}
+const levelIdx = v => ({ L: 0, M: 1, H: 2 })[levelOf(v)] ?? null;
+/* Pre-mortem heatmap — #product-risks, id · risk · likelihood · impact by key. */
+function riskHeatmap(s) {
+  const a = bodyOf(s, 'product-risks');
+  const k = a ? keyed(a.body, ['id', 'risk', 'likelihood', 'impact']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const items = k.rows.map(r => ({ id: plain(r.id), risk: r.risk, L: levelIdx(r.likelihood), I: levelIdx(r.impact) }))
+    .filter(x => x.L !== null && x.I !== null);
+  if (!items.length) return null;
+  return heatmap(items, t('keyboardHint'), it => [
+    h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) })]);
 }
 
 /* Bets board — the wagers as ordered chips: play order, the H- id, the bet, the moat it leans on,
@@ -1404,23 +1488,31 @@ function betsBoard(s) {
 function moatShields() {
   const s1 = anotherStep(1);
   const a = s1 ? artSection(s1.artifact_file, 'value-defensibility') : null;
-  const tb = a ? allTables(a.body).find(x => colKey(x, 'have') >= 0) : null;
-  if (!tb) return null;
-  const mi = colKey(tb, 'moat'), hi = colKey(tb, 'have'), ri = colKey(tb, 'rebuild'), li = colKey(tb, 'layer');
-  if (mi < 0) return null;
-  const cls = v => /^have/i.test(plain(v)) ? 'done' : /^build/i.test(plain(v)) ? 'open' : 'na';
-  return h('div', { class: 'shieldrow' }, tb.rows.map(r => {
-    const raw = String(r[mi] || '');
+  const k = a ? keyed(a.body, ['moat', 'have'], ['rebuild', 'layer']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  // the state is the template's declared enum (enum:c:have: Have | Building | Aspiration) — exact token
+  const HAVE = { have: 'done', building: 'open', aspiration: 'na' };
+  return shieldRow(k.rows.map(r => ({
+    cls: debtToken(HAVE, r.have) || 'na', band: plain(r.have) || '—', right: plain(r.layer),
+    name: r.moat, foot: plain(r.rebuild) ? t('shRebuild') + ': ' + plain(r.rebuild) : '',
+  })));
+}
+/* State plates shared by the moat and capability boards: a coloured band (state · a right-hand
+   label), the `name — description` cell split at its lead dash, one footer line. */
+function shieldRow(plates) {
+  return h('div', { class: 'shieldrow' }, plates.map(p => {
+    const raw = String(p.name || '');
     const lead = leadDash(raw);
     const rest = raw.slice(lead.length).replace(/^\s*[—–]\s*/, '');
-    return h('div', { class: 'shield sh-' + cls(r[hi]) },
+    return h('div', { class: 'shield sh-' + p.cls },
       h('div', { class: 'shhead' },
-        h('span', {}, plain(r[hi]) || '—'),
-        li >= 0 && plain(r[li]) ? h('span', { class: 'shlayer' }, plain(r[li])) : null),
+        h('span', {}, p.band),
+        p.right ? h('span', { class: 'shlayer' }, p.right) : null),
       h('div', { class: 'shbody' },
         h('div', { class: 'shname', html: inline(lead) }),
         rest ? h('div', { class: 'shdesc small', html: inline(rest) }) : null,
-        ri >= 0 && plain(r[ri]) ? h('div', { class: 'small faint' }, t('shRebuild') + ': ' + plain(r[ri])) : null));
+        p.foot ? h('div', { class: 'small faint' }, p.foot) : null));
   }));
 }
 
@@ -1428,42 +1520,50 @@ function moatShields() {
    (live · building · leaking · untested), each in the status colour it earns. */
 function channelMap(s) {
   const a = bodyOf(s, 'channels-expansion');
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const ci = colKey(tb, 'channel'), si = colKey(tb, 'segment'), sti = colKey(tb, 'state'), fi = colKey(tb, 'fit');
-  if (ci < 0 || sti < 0) return null;
-  const stCls = v => /^live/i.test(plain(v)) ? 'done' : /^build/i.test(plain(v)) ? 'open'
-    : /^leak/i.test(plain(v)) ? 'err' : 'na';
-  return h('div', { class: 'chmap' }, tb.rows.map(r => h('div', { class: 'chrow' },
-    h('div', { class: 'chname', html: inline(r[ci]) }),
+  const k = a ? keyed(a.body, ['channel', 'state'], ['segment', 'fit']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  // the template's declared enum (enum:c:state: live | building | leaking | untested) — exact token
+  const STATE = { live: 'done', building: 'open', leaking: 'err', untested: 'na' };
+  return h('div', { class: 'chmap' }, k.rows.map(r => h('div', { class: 'chrow' },
+    h('div', { class: 'chname', html: inline(r.channel) }),
     h('div', { class: 'charr', 'aria-hidden': 'true' }, '→'),
-    h('div', { class: 'chseg', html: si >= 0 ? inline(r[si]) : '' }),
-    h('span', { class: 'tag ' + stCls(r[sti]) }, plain(r[sti]) || '—'),
-    fi >= 0 && plain(r[fi]) ? h('div', { class: 'chfit small faint', html: inline(r[fi]) }) : null)));
+    h('div', { class: 'chseg', html: inline(r.segment) }),
+    h('span', { class: 'tag ' + (debtToken(STATE, r.state) || 'na') }, plain(r.state) || '—'),
+    plain(r.fit) ? h('div', { class: 'chfit small faint', html: inline(r.fit) }) : null)));
 }
 
+/* A board, or the section's card when the board has nothing to draw. A board that found the table
+   but not its keys returns the key-missing note: the card zone is drawn and the note rides under its
+   label, so the reader sees both the section and why it is not a board — an explicit state, never a
+   guessed column. */
+function boardOrCardInto(parts, s, push, label, node, id) {
+  if (node && !isKeyMiss(node)) { push(label, node, id); return; }
+  const z = cardZone(s, label, [id]);
+  if (z) { if (node) z[0].append(node); parts.push(...z); }
+}
+/* The zone header a custom board hangs under: the label, the section's sign-off and evidence strip,
+   the link to the section and the drill-through to its worklog — the same header every step's
+   canvas uses, built once. */
+const zonePush = (parts, s) => (label, node, id) => {
+  const a = bodyOf(s, id);
+  const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
+  const tool = a ? worklogTool(stem, a.body) : null;
+  const meta = s.sections.find(x => x.id === id);
+  parts.push(h('div', { class: 'cvzone' }, label, confTag(meta),
+    meta ? evStrip(meta.confidence, 'inline') : null,
+    s.artifact_file ? goSection(s.artifact_file, id, t('more'), meta && meta.title) : null,
+    tool ? goWorklog(stem, tool) : null,
+    tool ? wlNewerTag(s, tool) : null), node);
+};
 /* Step 3 — the strategy as a Playing-to-Win canvas: the aspiration→where→how cascade on top, then
    the commercial boards (price ladder · channel map), the two step-1 revisits drawn live (journey
    curve · moat shields), the product cards, and the wager boards (bets · pre-mortem heatmap). Every
    board falls back to the section's ordinary card when the instance lacks the keyed columns. */
 function canvasStrategy(s) {
   const parts = [];
-  const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
-  const push = (label, node, id) => {
-    const a = bodyOf(s, id);
-    const tool = a ? worklogTool(stem, a.body) : null;
-    const meta = s.sections.find(x => x.id === id);
-    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta),
-      meta ? evStrip(meta.confidence, 'inline') : null,
-      s.artifact_file ? goSection(s.artifact_file, id, t('more'), meta && meta.title) : null,
-      tool ? goWorklog(stem, tool) : null,
-      tool ? wlNewerTag(s, tool) : null), node);
-  };
-  const boardOrCard = (label, node, id) => {
-    if (node) { push(label, node, id); return; }
-    const z = cardZone(s, label, [id]);
-    if (z) parts.push(...z);
-  };
+  const push = zonePush(parts, s);
+  const boardOrCard = (label, node, id) => boardOrCardInto(parts, s, push, label, node, id);
   const casc = cascade(s, ['winning-aspiration', 'where-to-play', 'how-to-win']);
   if (casc) parts.push(cvZone(t('z3Cascade')), casc);
   const uvp = cardZone(s, t('z3Commercial'), ['uvp-cpv']);
@@ -1474,6 +1574,8 @@ function canvasStrategy(s) {
   const s1 = anotherStep(1);
   const revisit = (label, node, id) => {
     if (!node || !s1) return;
+    // a cross-step board (the section lives in step 1) has no card here to fall back on: the
+    // key-missing note stands under the zone label on its own, with the link to the section
     parts.push(h('div', { class: 'cvzone' }, label,
       goSection(s1.artifact_file, id, t('more'))), node);
   };
@@ -1491,16 +1593,17 @@ function canvasStrategy(s) {
    every board reads columns by their <!--c:key--> marks only and returns null when the instance does
    not carry them, so the section falls back to its ordinary card and nothing is invented. ---- */
 
-/* First money figure in a cell → a number. Currency-anchored ($ € £ ₽ / руб) OR a bare `~$33` /
-   `$3–4` (first of a range); a percentage or a token count is not money. `~`, thousands spaces and
+/* First money figure in a cell → { n, sym }: the number and the currency mark the AUTHOR wrote next
+   to it ($ € £ ₽ / руб), so the board never stamps a currency of its own. A bare `~$33` / `$3–4`
+   reads the first of a range; a percentage or a token count is not money. `~`, thousands spaces and
    `,`/`.` decimals tolerated; a gap cell yields null. */
-function moneyNum(cellRaw) {
+function money(cellRaw) {
   const s = plain(cellRaw);
   if (/—\s*(to clarify|уточнить)\s*—/i.test(s)) return null;
-  const m = s.match(/[$€£]\s*~?\s*(\d[\d\s]*(?:[.,]\d+)?)|(\d[\d\s]*(?:[.,]\d+)?)\s*(?:₽|руб)/i);
+  const m = s.match(/([$€£])\s*~?\s*(\d[\d\s]*(?:[.,]\d+)?)|(\d[\d\s]*(?:[.,]\d+)?)\s*(₽|руб)/i);
   if (!m) return null;
-  const n = parseFloat((m[1] || m[2]).replace(/\s/g, '').replace(',', '.'));
-  return isNaN(n) ? null : n;
+  const n = parseFloat((m[2] || m[3]).replace(/\s/g, '').replace(',', '.'));
+  return isNaN(n) ? null : { n, sym: m[1] || m[4] || '' };
 }
 /* First percentage in a cell → a number in 0…100, or null. `45% (n=120)` → 45; `—` → null. */
 function pctNum(cellRaw) {
@@ -1509,36 +1612,19 @@ function pctNum(cellRaw) {
   const n = parseFloat(m[1].replace(',', '.'));
   return isNaN(n) ? null : n;
 }
-/* A metric-tree driver cell → its family token (AARRR + engagement · quality · cost). Reads the
-   canonical enum token where the instance carries one, else infers from EN/RU prose so the board
-   still groups a pre-enum instance. Null when nothing matches — the raw label is shown instead. */
-function metricFamily(driverRaw) {
+/* The metric-tree Driver column is an enum the template declares (4#metric-tree →
+   `enum:c:driver: acquisition | activation | engagement | retention | referral | revenue | quality |
+   cost`): the cell IS the family token, matched exactly. A cell outside the vocabulary is shown
+   verbatim, uncoloured — the linter (check O3) is where it becomes a finding, not here. */
+const FAMILIES = ['acquisition', 'activation', 'engagement', 'retention', 'referral', 'revenue', 'quality', 'cost'];
+const metricFamily = driverRaw => {
   const s = plain(driverRaw).toLowerCase();
-  const has = re => re.test(s);
-  if (has(/acquisit|привлеч/)) return 'acquisition';
-  if (has(/activat|актив/)) return 'activation';
-  if (has(/engag|deepen|вовлеч|углуб/)) return 'engagement';
-  if (has(/retent|удержан/)) return 'retention';
-  if (has(/referr|реферал|рекоменд|виральн/)) return 'referral';
-  if (has(/conver|revenue|monet|выручк|конверс|монет|оплат|payment/)) return 'revenue';
-  if (has(/qualit|feasib|usab|privac|качеств|осуществим|юзабилит|приватн|надёжн/)) return 'quality';
-  if (has(/\bcost|cogs|стоим|себестоим|инфра/)) return 'cost';
-  return null;
-}
-const FAMILY_STR = {
-  acquisition: 'acquisition', activation: 'activation', engagement: 'engagement',
-  retention: 'retention', referral: 'referral', revenue: 'revenue', quality: 'quality', cost: 'cost',
+  return FAMILIES.includes(s) ? s : null;
 };
-/* An instrumentation cell → the best data source it names: instrumented > proxy > none. "Best"
-   because a node wired one way and proxied another still has the real source; grey means no data at
-   all, which is the reading the border colour must not overstate. */
-function instrClass(cellRaw) {
-  const s = plain(cellRaw).toLowerCase();
-  const netOfNot = s.replace(/not[\s-]?instrument\w*/g, '').replace(/не[\s-]?инструмент\w*/g, '');
-  if (/instrument|инструмент/.test(netOfNot)) return 'on';
-  if (/proxy|прокси/.test(s)) return 'proxy';
-  return 'off';
-}
+/* An instrumentation cell → the register enum token it carries (instrumented · proxy ·
+   not-instrumented — DEBT: the column does not declare the enum yet), or null: shown verbatim, grey. */
+const instrToken = cellRaw => debtToken(DEBT.instrumentation, cellRaw);
+const INSTR_CLS = { instrumented: 'on', proxy: 'proxy', 'not-instrumented': 'off' };
 
 /* Metric tree — the North Star over its drivers, drawn from #metric-tree. The hero names the North
    Star (from the `**North Star:** \`M-…\` — name` line); each driver node sits under it, its border
@@ -1554,41 +1640,41 @@ function markedBlock(body, re) {
   const out = [lines[i].trim()];
   for (let j = i + 1; j < lines.length; j++) {
     const l = lines[j];
-    if (!l.trim() || /^\s*(\||#|<!--|\*\*[^*]+:\*\*|[-*]\s|\d+\.\s)/.test(l)) break;
+    // a `_caption_` line (the template's own italic note under a marker) opens a block of its own
+    if (!l.trim() || /^\s*(\||#|<!--|\*\*[^*]+:\*\*|[-*]\s|\d+\.\s|_[^_])/.test(l)) break;
     out.push(l.trim());
   }
   return out.join(' ');
 }
+/* The text of a marked block with its `**Label:**` removed — the author's whole sentence, never a
+   regex-cut fragment of it (rule 1 of this file). */
+const afterLabel = (block, re) => String(block || '').replace(re, '').trim();
 function metricTree(s) {
   const a = bodyOf(s, 'metric-tree');
-  if (!a) return null;
-  const tb = allTables(a.body).find(x => colKey(x, 'driver') >= 0 && colKey(x, 'node') >= 0);
-  if (!tb) return null;
-  const di = colKey(tb, 'driver'), ni = colKey(tb, 'node'),
-    ii = colKey(tb, 'inputs'), si = colKey(tb, 'instrumentation');
-  const nsLine = markedBlock(a.body, /\*\*North Star:?\*\*/);
-  const nsm = nsLine ? nsLine.match(/\*\*North Star:?\*\*\s*`([^`]+)`\s*[—–-]\s*([^·[]+)/) : null;
-  const ns = nsm ? { id: nsm[1].trim(), name: nsm[2].trim() } : null;
-  const nodes = tb.rows.map(r => {
-    const fam = metricFamily(r[di]);
-    return {
-      driver: plain(r[di]), fam,
-      node: plain(r[ni]) || '—',
-      inputs: ii >= 0 ? plain(r[ii]) : '',
-      instr: si >= 0 ? instrClass(r[si]) : 'off',
-    };
-  }).filter(n => n.node && n.node !== '—');
+  const k = a ? keyed(a.body, ['driver', 'node'], ['inputs', 'instrumentation']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  // the North Star line (DEBT: a fixed `**North Star:**` literal, not a key yet) — shown whole
+  const nsBlock = markedBlock(a.body, DEBT.northStar);
+  const nsText = nsBlock ? afterLabel(nsBlock, DEBT.northStar) : '';
+  const nodes = k.rows.map(r => ({
+    driver: plain(r.driver), fam: metricFamily(r.driver), node: plain(r.node) || '—',
+    inputs: plain(r.inputs), instr: instrToken(r.instrumentation), instrRaw: plain(r.instrumentation),
+  })).filter(n => n.node && n.node !== '—');
   if (!nodes.length) return null;
   const hero = h('div', { class: 'mt-ns' },
     h('div', { class: 'mt-ns-lab' }, t('mtNorth')),
-    ns ? h('div', { class: 'mt-ns-name' }, ns.name) : null,
-    ns ? h('code', { class: 'rid met' }, ns.id) : null);
-  const cards = nodes.map(n => h('div', { class: 'mt-node mt-' + n.instr },
-    h('div', { class: 'mt-node-top' },
-      n.fam ? h('span', { class: 'mt-fam mt-fam-' + n.fam }, FAMILY_STR[n.fam]) : h('span', { class: 'mt-fam mt-fam-x' }, n.driver.slice(0, 18)),
-      h('span', { class: 'mt-src mt-src-' + n.instr }, t(n.instr === 'on' ? 'mtInstrOn' : n.instr === 'proxy' ? 'mtInstrProxy' : 'mtInstrOff'))),
-    h('div', { class: 'mt-node-id', html: inline(n.node) }),
-    n.inputs && !/^—/.test(n.inputs) ? h('div', { class: 'mt-inputs small faint' }, t('mtInputs') + ': ' + n.inputs) : null));
+    nsText ? h('div', { class: 'mt-ns-name md', html: inline(nsText) }) : null);
+  const cards = nodes.map(n => {
+    const cls = INSTR_CLS[n.instr] || 'na';
+    return h('div', { class: 'mt-node mt-' + cls },
+      h('div', { class: 'mt-node-top' },
+        n.fam ? h('span', { class: 'mt-fam mt-fam-' + n.fam }, n.fam) : h('span', { class: 'mt-fam mt-fam-x' }, n.driver || '—'),
+        h('span', { class: 'mt-src mt-src-' + cls },
+          n.instr ? t({ instrumented: 'mtInstrOn', proxy: 'mtInstrProxy', 'not-instrumented': 'mtInstrOff' }[n.instr]) : (n.instrRaw || '—'))),
+      h('div', { class: 'mt-node-id', html: inline(n.node) }),
+      n.inputs && !/^—/.test(n.inputs) ? h('div', { class: 'mt-inputs small faint' }, t('mtInputs') + ': ' + n.inputs) : null);
+  });
   return h('div', { class: 'mtree' }, hero,
     h('div', { class: 'mt-drivers' }, cards),
     h('p', { class: 'small faint', style: 'margin:8px 0 0' }, t('mtLegend')));
@@ -1599,25 +1685,20 @@ function metricTree(s) {
    (from the `**Horizon:**` line) heads the row. The cockpit of the plan. */
 function targetTiles(s) {
   const a = bodyOf(s, 'strategic-targets');
-  if (!a) return null;
-  const tb = allTables(a.body).find(x => colKey(x, 'node') >= 0 && colKey(x, 'target') >= 0);
-  if (!tb) return null;
-  const ni = colKey(tb, 'node'), ti = colKey(tb, 'target'),
-    sci = colKey(tb, 'scenario'), wi = colKey(tb, 'why');
-  const rows = tb.rows.map(r => ({
-    node: plain(r[ni]), target: plain(r[ti]),
-    scen: sci >= 0 ? plain(r[sci]) : '', why: wi >= 0 ? r[wi] : '',
-  })).filter(x => x.node && x.target && !/^—/.test(x.target));
+  const k = a ? keyed(a.body, ['node', 'target'], ['scenario', 'why']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const rows = k.rows.filter(r => plain(r.node) && plain(r.target) && !/^—/.test(plain(r.target)));
   if (!rows.length) return null;
-  const hl = markedBlock(a.body, /\*\*Horizon:?\*\*/);
-  const hm = hl ? hl.match(/\*\*Horizon:?\*\*\s*(.+)$/) : null;
-  const horizon = hm ? plain(hm[1]).replace(/\s*[—–-].*$/, '').trim() : '';
+  // the horizon line (DEBT: a fixed `**Horizon:**` literal) — the author's whole line, not its first clause
+  const hz = markedBlock(a.body, DEBT.horizon);
+  const horizon = hz ? afterLabel(hz, DEBT.horizon) : '';
   return h('div', { class: 'tgwrap' },
-    horizon ? h('div', { class: 'tghorizon small faint' }, t('tgHorizon') + ': ' + horizon) : null,
+    horizon ? h('div', { class: 'tghorizon small faint md', html: t('tgHorizon') + ': ' + inline(horizon) }) : null,
     h('div', { class: 'tggrid' }, rows.map(r => h('div', { class: 'tgtile' },
-      h('div', { class: 'tgval' }, r.target),
-      h('code', { class: 'rid met' }, r.node),
-      r.scen ? h('div', { class: 'tgscen small' }, t('tgScenario') + ': ' + r.scen.replace(/\s*[—–,(].*$/, '')) : null,
+      h('div', { class: 'tgval', html: inline(r.target) }),
+      h('code', { class: 'rid met' }, plain(r.node)),
+      plain(r.scenario) ? h('div', { class: 'tgscen small', html: t('tgScenario') + ': ' + inline(r.scenario) }) : null,
       plain(r.why) ? h('div', { class: 'tgwhy small faint', html: inline(r.why) }) : null))));
 }
 
@@ -1626,31 +1707,32 @@ function targetTiles(s) {
    text verbatim. Returns null unless revenue and contribution both resolve to numbers. */
 function econWaterfall(s) {
   const a = bodyOf(s, 'unit-economics');
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const mi = colKey(tb, 'metric'), oi = colKey(tb, 'operational');
-  if (mi < 0 || oi < 0) return null;
-  const find = re => { const r = tb.rows.find(x => re.test(plain(x[mi]))); return r ? r[oi] : null; };
-  const rev = moneyNum(find(/revenue per|выручк|revenue/i));
-  const cogs = moneyNum(find(/cogs|себестоим/i));
-  const contrib = moneyNum(find(/contribution|contrib|маржа|вклад/i));
-  if (rev === null || contrib === null) return null;
-  const max = Math.max(rev, contrib + (cogs || 0)) || 1;
+  const k = a ? keyed(a.body, ['metric', 'operational']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  // rows by their first word (DEBT.ueRows — the template's own row labels, no row key yet)
+  const rowOf = tok => k.rows.find(r => debtToken(DEBT.ueRows, r.metric) === tok);
+  const val = tok => { const r = rowOf(tok); return r ? money(r.operational) : null; };
+  const rev = val('revenue'), cogs = val('cogs'), contrib = val('contribution');
+  if (!rev || !contrib) return null;
+  const sym = rev.sym || contrib.sym || (cogs && cogs.sym) || '';   // the author's mark, or none
+  const max = Math.max(rev.n, contrib.n + (cogs ? cogs.n : 0)) || 1;
   const bar = (lab, val, cls, from) => h('div', { class: 'ue-bar-row' },
     h('div', { class: 'ue-bar-lab small' }, lab),
     h('div', { class: 'ue-bar-track' },
       h('div', { class: 'ue-bar ue-' + cls, style: `width:${Math.max(2, Math.round((val / max) * 100))}%` },
-        h('span', { class: 'ue-bar-val' }, (from ? '−$' : '$') + num(val)))));
+        h('span', { class: 'ue-bar-val' }, (from ? '−' : '') + sym + num(val)))));
   const bars = [
-    bar(t('ueRev'), rev, 'rev'),
-    cogs !== null ? bar(t('ueCogs'), cogs, 'cogs', true) : null,
-    bar(t('ueContrib'), contrib, 'contrib'),
+    bar(t('ueRev'), rev.n, 'rev'),
+    cogs ? bar(t('ueCogs'), cogs.n, 'cogs', true) : null,
+    bar(t('ueContrib'), contrib.n, 'contrib'),
   ];
-  const tileRe = [[/cac/i, 'CAC'], [/payback|окуп/i, 'Payback'], [/ltv/i, 'LTV']];
-  const tiles = tileRe.map(([re, lab]) => {
-    const v = find(re);
-    return v && plain(v) && !/^n\/?a|^—/i.test(plain(v)) ? h('div', { class: 'ue-tile' },
-      h('div', { class: 'ue-tile-lab small faint' }, lab),
+  // the CAC / payback / LTV rows as tiles — the row's own label and its cell, verbatim
+  const tiles = ['cac', 'payback', 'ltv'].map(tok => {
+    const r = rowOf(tok);
+    const v = r ? r.operational : '';
+    return plain(v) && !/^n\/?a$|^—/i.test(plain(v)) ? h('div', { class: 'ue-tile' },
+      h('div', { class: 'ue-tile-lab small faint' }, plain(r.metric)),
       h('div', { class: 'ue-tile-val small', html: inline(v) })) : null;
   }).filter(Boolean);
   return h('div', { class: 'uewrap' },
@@ -1664,15 +1746,12 @@ function econWaterfall(s) {
    cell censored → the section shows its ordinary card, which is the honest state). */
 function retentionCurve(s) {
   const a = bodyOf(s, 'retention');
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const ci = colKey(tb, 'cohort'), fi = colKey(tb, 'flattens');
-  const cols = [['p1', 1], ['p3', 3], ['p6', 6], ['p12', 12]].map(([k, x]) => [colKey(tb, k), x]);
-  if (cols.some(([i]) => i < 0)) return null;
-  const lines = tb.rows.map(r => ({
-    label: plain(r[ci >= 0 ? ci : 0]),
-    flat: fi >= 0 ? plain(r[fi]) : '',
-    pts: cols.map(([i, x]) => [x, pctNum(r[i])]).filter(([, y]) => y !== null),
+  const k = a ? keyed(a.body, ['cohort', 'p1', 'p3', 'p6', 'p12'], ['flattens']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const lines = k.rows.map(r => ({
+    label: plain(r.cohort), flat: plain(r.flattens),
+    pts: [['p1', 1], ['p3', 3], ['p6', 6], ['p12', 12]].map(([key, x]) => [x, pctNum(r[key])]).filter(([, y]) => y !== null),
   })).filter(l => l.pts.length >= 2);
   if (!lines.length) return null;
   const W = 460, H = 180, P = { t: 14, r: 14, b: 26, l: 34 };
@@ -1702,58 +1781,48 @@ function retentionCurve(s) {
    owner in the footer. A missing capability is a red band — the gap the plan must close. */
 function capabilityShields(s) {
   const a = bodyOf(s, 'capabilities');
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const ci = colKey(tb, 'capability'), sei = colKey(tb, 'serves'),
-    li = colKey(tb, 'level'), oi = colKey(tb, 'owner');
-  if (ci < 0) return null;
-  const cls = v => /^have|есть/i.test(plain(v)) ? 'done' : /^partial|частич/i.test(plain(v)) ? 'open'
-    : /^missing|нет|unproven/i.test(plain(v)) ? 'miss' : 'na';
-  const lab = v => /^have|есть/i.test(plain(v)) ? t('capLevelHave') : /^partial|частич/i.test(plain(v)) ? t('capLevelPartial')
-    : /^missing|нет|unproven/i.test(plain(v)) ? t('capLevelMissing') : plain(v);
-  return h('div', { class: 'shieldrow' }, tb.rows.map(r => {
-    const raw = String(r[ci] || '');
-    const lead = leadDash(raw);
-    const rest = raw.slice(lead.length).replace(/^\s*[—–]\s*/, '');
-    return h('div', { class: 'shield sh-' + cls(li >= 0 ? r[li] : '') },
-      h('div', { class: 'shhead' },
-        h('span', {}, li >= 0 && plain(r[li]) ? lab(r[li]) : '—'),
-        oi >= 0 && plain(r[oi]) ? h('span', { class: 'shlayer' }, plain(r[oi])) : null),
-      h('div', { class: 'shbody' },
-        h('div', { class: 'shname', html: inline(lead) }),
-        rest ? h('div', { class: 'shdesc small', html: inline(rest) }) : null,
-        sei >= 0 && plain(r[sei]) ? h('div', { class: 'small faint' }, t('capServes') + ': ' + plain(r[sei])) : null));
+  const k = a ? keyed(a.body, ['capability', 'level'], ['serves', 'owner']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  // the level token (DEBT.capLevel: have | partial | missing — the template hints it, declares no enum)
+  const CLS = { have: 'done', partial: 'open', missing: 'miss' };
+  const LAB = { have: 'capLevelHave', partial: 'capLevelPartial', missing: 'capLevelMissing' };
+  return shieldRow(k.rows.map(r => {
+    const tok = debtToken(DEBT.capLevel, r.level);
+    return { cls: CLS[tok] || 'na', band: tok ? t(LAB[tok]) : (plain(r.level) || '—'), right: plain(r.owner),
+      name: r.capability, foot: plain(r.serves) ? t('capServes') + ': ' + plain(r.serves) : '' };
   }));
 }
 
 /* Threshold gauges — #global-hypotheses as pre-registered reads: each bet a bar with a red fail zone,
    a grey conscious-inconclusive gap, and a green success zone, the two bars' text verbatim. The shape
    is the point — a bet with no gap between pass and fail has no honest inconclusive room. */
-function thresholdGauges(s) {
-  const a = bodyOf(s, 'global-hypotheses');
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const idi = colKey(tb, 'register'), bi = colKey(tb, 'bet'), ni = colKey(tb, 'node'),
-    su = colKey(tb, 'success'), fa = colKey(tb, 'failure');
-  if (bi < 0 || su < 0 || fa < 0) return null;
-  const rows = tb.rows.map(r => ({
-    id: plain(r[idi >= 0 ? idi : 0]), bet: r[bi], node: ni >= 0 ? plain(r[ni]) : '',
-    success: r[su], failure: r[fa],
-  })).filter(r => plain(r.bet) && (plain(r.success) || plain(r.failure)));
+/* Both pre-registered-read tables draw as gauges: 4#global-hypotheses (register · bet · node ·
+   success · failure) and 5#hypotheses-to-test (register · node · success · failure · sample ·
+   decision). `textKey` names the column that is the card's sentence; `extra` the small lines under
+   the bar. */
+function thresholdGauges(s, sectionId, textKey, extra) {
+  const a = bodyOf(s, sectionId);
+  const k = a ? keyed(a.body, ['register', textKey, 'success', 'failure'], ['node'].concat(extra || [])) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const rows = k.rows.filter(r => plain(r[textKey]) && (plain(r.success) || plain(r.failure)));
   if (!rows.length) return null;
   return h('div', { class: 'thwrap' }, [
     ...rows.map(r => h('div', { class: 'thcard' },
       h('div', { class: 'thhead' },
-        /^H-\d/.test(r.id) ? h('code', { class: 'rid hyp' }, r.id) : null,
-        r.node && !/^—/.test(r.node) ? h('code', { class: 'rid met' }, r.node) : null),
-      h('div', { class: 'thbet', html: inline(r.bet) }),
+        /^H-\d/.test(plain(r.register)) ? h('code', { class: 'rid hyp' }, plain(r.register)) : null,
+        plain(r.node) && !/^—/.test(plain(r.node)) ? h('span', { class: 'md small', html: inline(r.node) }) : null),
+      h('div', { class: 'thbet', html: inline(r[textKey]) }),
       h('div', { class: 'thbar' },
         h('div', { class: 'thzone th-fail' }),
         h('div', { class: 'thzone th-gap' }),
         h('div', { class: 'thzone th-pass' })),
       h('div', { class: 'thlabs small' },
         h('span', { class: 'th-fail-t', html: t('thFailure') + ' ' + inline(r.failure) }),
-        h('span', { class: 'th-pass-t', html: t('thSuccess') + ' ' + inline(r.success) })))),
+        h('span', { class: 'th-pass-t', html: t('thSuccess') + ' ' + inline(r.success) })),
+      (extra || []).filter(key => plain(r[key])).map(key => h('div', { class: 'small faint md',
+        html: `<span class="k">${esc(t({ sample: 'thSample', decision: 'thRule' }[key] || key))}:</span> ` + inline(r[key]) })))),
     h('p', { class: 'small faint', style: 'grid-column:1/-1;margin:0' }, t('thLegend')),
   ]);
 }
@@ -1763,58 +1832,37 @@ function thresholdGauges(s) {
    panel showing the owned mitigation, owner, trigger and due. Continuity with step 3 is the point. */
 function mitigationHeatmap(s) {
   const a = bodyOf(s, 'risk-mitigation');
-  const tb = a ? firstTable(a.body) : null;
-  if (!tb) return null;
-  const idi = colKey(tb, 'register'), ri = colKey(tb, 'risk'), li = colKey(tb, 'likelihood'),
-    ii = colKey(tb, 'impact'), mi = colKey(tb, 'mitigation'), oi = colKey(tb, 'owner'),
-    ti = colKey(tb, 'trigger'), di = colKey(tb, 'due'), sti = colKey(tb, 'status');
-  if (li < 0 || ii < 0) return null;
-  const lvl = v => /^h/i.test(plain(v)) ? 2 : /^m/i.test(plain(v)) ? 1 : /^l/i.test(plain(v)) ? 0 : null;
-  const statCls = v => /^open|открыт/i.test(plain(v)) ? 'open' : /^mitigat|митигир|снижа/i.test(plain(v)) ? 'mit' : 'na';
-  const items = tb.rows.map(r => ({
-    id: plain(r[idi >= 0 ? idi : 0]), risk: r[ri >= 0 ? ri : 1] || '',
-    L: lvl(r[li]), I: lvl(r[ii]), stat: sti >= 0 ? statCls(r[sti]) : 'na',
-    mit: mi >= 0 ? r[mi] : '', owner: oi >= 0 ? plain(r[oi]) : '',
-    trig: ti >= 0 ? plain(r[ti]) : '', due: di >= 0 ? plain(r[di]) : '',
+  const k = a ? keyed(a.body, ['register', 'risk', 'likelihood', 'impact'], ['mitigation', 'owner', 'trigger', 'due', 'status']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  // the status is the register's `risk status` enum (DEBT: undeclared on this column) — exact token;
+  // open and mitigating get their colours, every other lifecycle token the neutral one
+  const STAT = { open: 'mit-open', mitigating: 'mit-mit' };
+  const items = k.rows.map(r => ({
+    id: plain(r.register), risk: r.risk, L: levelIdx(r.likelihood), I: levelIdx(r.impact),
+    cls: STAT[debtToken(enumMap('risk status'), r.status)] || 'mit-na',
+    mit: r.mitigation, owner: plain(r.owner), trig: plain(r.trigger), due: plain(r.due),
   })).filter(x => x.L !== null && x.I !== null);
   if (!items.length) return null;
-  const detail = h('div', { class: 'heatdetail' }, h('span', { class: 'small faint' }, t('mitHint')));
-  let pinned = null;
-  const show = it => {
-    detail.innerHTML = '';
-    const foot = [it.owner && t('mitOwner') + ': ' + it.owner, it.trig && t('mitTrigger') + ': ' + it.trig, it.due && t('mitDue') + ': ' + it.due].filter(Boolean);
-    detail.append(
+  return heatmap(items, t('mitHint'), it => {
+    const foot = [it.owner && t('mitOwner') + ': ' + it.owner, it.trig && t('mitTrigger') + ': ' + it.trig,
+      it.due && t('mitDue') + ': ' + it.due].filter(Boolean);
+    return [
       h('div', {}, h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) })),
       plain(it.mit) ? h('div', { class: 'small', style: 'margin-top:5px', html: inline(it.mit) }) : null,
-      foot.length ? h('div', { class: 'small faint', style: 'margin-top:5px' }, foot.join(' · ')) : null);
-  };
-  const grid = [h('div', { class: 'heatax' }), ['L', 'M', 'H'].map(x => h('div', { class: 'heatax' }, hlBadge(x)))];
-  for (let imp = 2; imp >= 0; imp--) {
-    grid.push(h('div', { class: 'heatax' }, hlBadge(['L', 'M', 'H'][imp])));
-    for (let lik = 0; lik <= 2; lik++) {
-      grid.push(h('div', { class: 'heatcell' + (lik === 2 && imp === 2 ? ' heat-hot' : '') },
-        items.filter(x => x.L === lik && x.I === imp).map(it =>
-          h('button', {
-            class: 'heatdot mit-' + it.stat, title: it.id,
-            onmouseenter: () => { if (!pinned) show(it); },
-            onfocus: () => { if (!pinned) show(it); },
-            onclick: e => {
-              e.stopPropagation();
-              const btn = e.currentTarget;
-              if (pinned) pinned.btn.classList.remove('on');
-              pinned = (pinned && pinned.btn === btn) ? null : { btn };
-              if (pinned) btn.classList.add('on');
-              show(it);
-            },
-          }, it.id.replace(/^R-0*/, '')))));
-    }
-  }
-  return h('div', { class: 'heatwrap' },
-    h('div', { class: 'heatbody' },
-      h('div', { class: 'heatgrid' }, grid.flat()),
-      h('div', { class: 'heataxes small faint' }, `${t('rImp')} ↑ · ${t('rLik')} →`)),
-    detail);
+      foot.length ? h('div', { class: 'small faint', style: 'margin-top:5px' }, foot.join(' · ')) : null,
+    ].filter(Boolean);
+  });
 }
+/* A register enum (model.framework.enums) as a token→token map for debtToken: the value list the
+   linter validates against, read from the model so the console can never carry a second copy. */
+const enumMap = label => Object.fromEntries(((((S.model || {}).framework || {}).enums || {})[label] || []).map(v => [v, v]));
+/* An enum-valued cell as a tag: coloured by its exact token (`cls` maps token → tag class), the cell's
+   own text shown verbatim; a value outside the enum is a neutral tag, not a guess. */
+const enumTag = (map, cls, cellRaw) => {
+  const tok = debtToken(map, cellRaw);
+  return h('span', { class: 'tag ' + ((tok && cls[tok]) || '') }, plain(cellRaw) || '—');
+};
 
 /* Step 4 — the strategic plan around its metric tree: the North Star tree as the hero, the horizon
    targets as the cockpit beside it, then economics (contribution waterfall + retention curve),
@@ -1822,22 +1870,8 @@ function mitigationHeatmap(s) {
    Every board falls back to its section's ordinary card when the keys aren't there. */
 function canvasStrategicPlan(s) {
   const parts = [];
-  const push = (label, node, id) => {
-    const a = bodyOf(s, id);
-    const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
-    const tool = a ? worklogTool(stem, a.body) : null;
-    const meta = s.sections.find(x => x.id === id);
-    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta),
-      meta ? evStrip(meta.confidence, 'inline') : null,
-      s.artifact_file ? goSection(s.artifact_file, id, t('more'), meta && meta.title) : null,
-      tool ? goWorklog(stem, tool) : null,
-      tool ? wlNewerTag(s, tool) : null), node);
-  };
-  const boardOrCard = (label, node, id) => {
-    if (node) { push(label, node, id); return; }
-    const z = cardZone(s, label, [id]);
-    if (z) parts.push(...z);
-  };
+  const push = zonePush(parts, s);
+  const boardOrCard = (label, node, id) => boardOrCardInto(parts, s, push, label, node, id);
   boardOrCard(t('z4North'), metricTree(s), 'metric-tree');
   boardOrCard(t('z4Targets'), targetTiles(s), 'strategic-targets');
   boardOrCard(t('z4Econ'), econWaterfall(s), 'unit-economics');
@@ -1846,23 +1880,156 @@ function canvasStrategicPlan(s) {
   if (fin) parts.push(...fin);
   boardOrCard(t('z4Caps'), capabilityShields(s), 'capabilities');
   boardOrCard(t('z4Mit'), mitigationHeatmap(s), 'risk-mitigation');
-  boardOrCard(t('z4Hyp'), thresholdGauges(s), 'global-hypotheses');
+  boardOrCard(t('z4Hyp'), thresholdGauges(s, 'global-hypotheses', 'bet'), 'global-hypotheses');
   const open = cardZone(s, t('z3Open'), ['open-questions']);
   if (open) parts.push(...open);
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
-/* Step 5 — the tactical plan: goals & targets on top, the guardrails as a red-lined band of their own
-   (what must not break), then resources & market, tests & blockers. */
+/* ---- step-5 boards: the tactical plan drawn from its keyed tables (steps/5-tactical-plan/template.md).
+   Same contract as steps 3–4: columns by key only; a table without the keys → the explicit note
+   beside the section's card; no table → the card. ---- */
+
+/* The directions a board lays out, in the instance's configured order first (config.yaml →
+   directions), then any other token the rows carry — a lane is never dropped for an unexpected
+   word, and the labels are the tokens themselves, never a translation the console made up. */
+function laneOrder(tokens) {
+  const cfg = (S.model.directions || []).map(String);
+  const seen = new Set();
+  return cfg.filter(d => tokens.includes(d)).concat(tokens.filter(d => !cfg.includes(d)))
+    .filter(d => !seen.has(d) && seen.add(d));
+}
+/* Period goals — one lane per direction; each card is the Goal cell whole, the why-now beneath. */
+function goalLanes(s) {
+  const a = bodyOf(s, 'period-goals');
+  const k = a ? keyed(a.body, ['direction', 'goal'], ['why']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const rows = k.rows.filter(r => plain(r.goal));
+  if (!rows.length) return null;
+  const lanes = laneOrder(rows.map(r => plain(r.direction)));
+  return h('div', { class: 'lanes', style: '--n:' + lanes.length }, lanes.map(d => h('div', { class: 'lane' },
+    h('div', { class: 'lanehead' }, d || t('dirNone')),
+    rows.filter(r => plain(r.direction) === d).map(r => h('div', { class: 'lanecard' },
+      h('div', { class: 'md', html: inline(r.goal) }),
+      plain(r.why) ? h('div', { class: 'small faint md', style: 'margin-top:4px', html: inline(r.why) }) : null)))));
+}
+/* Goal targets — a tile per goal: the target (an `M-…` or a DoD) large, baseline → target under it. */
+function goalTargets(s) {
+  const a = bodyOf(s, 'goal-targets');
+  const k = a ? keyed(a.body, ['goal', 'target'], ['direction', 'baseline']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const rows = k.rows.filter(r => plain(r.goal) || plain(r.target));
+  if (!rows.length) return null;
+  return h('div', { class: 'tggrid' }, rows.map(r => h('div', { class: 'tgtile' },
+    h('div', { class: 'row', style: 'gap:6px;align-items:baseline;flex-wrap:wrap' },
+      h('b', { class: 'md', html: inline(r.goal) }),
+      plain(r.direction) ? h('span', { class: 'tag' }, plain(r.direction)) : null),
+    h('div', { class: 'tgval tgval-text md', html: inline(r.target) }),
+    plain(r.baseline) ? h('div', { class: 'tgscen small md', html: inline(r.baseline) }) : null)));
+}
+/* Guardrails — a plate per protected metric: the floor it must hold (green) and the red line (red),
+   the why beneath. What must not break, drawn as the limits the author wrote. */
+function guardrailPlates(s) {
+  const a = bodyOf(s, 'guardrails');
+  const k = a ? keyed(a.body, ['guardrail', 'muststay', 'redline'], ['why']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const rows = k.rows.filter(r => plain(r.guardrail));
+  if (!rows.length) return null;
+  return h('div', { class: 'shieldrow' }, rows.map(r => h('div', { class: 'shield sh-guard' },
+    h('div', { class: 'shhead' }, h('span', { class: 'md', html: inline(r.guardrail) })),
+    h('div', { class: 'shbody' },
+      h('div', { class: 'grrow' }, h('span', { class: 'tag done' }, t('grMust')), h('span', { class: 'md', html: inline(r.muststay) })),
+      h('div', { class: 'grrow' }, h('span', { class: 'tag err' }, t('grRed')), h('span', { class: 'md', html: inline(r.redline) })),
+      plain(r.why) ? h('div', { class: 'small faint md', html: inline(r.why) }) : null))));
+}
+/* Resources — a tile per resource: what is available this period, its constraint beneath. */
+function resourcePlates(s) {
+  const a = bodyOf(s, 'resources');
+  const k = a ? keyed(a.body, ['resource', 'available'], ['constraint']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const rows = k.rows.filter(r => plain(r.resource));
+  if (!rows.length) return null;
+  return h('div', { class: 'tggrid' }, rows.map(r => h('div', { class: 'tgtile' },
+    h('div', { class: 'ue-tile-lab small faint' }, plain(r.resource)),
+    h('div', { class: 'md', html: inline(r.available) }),
+    plain(r.constraint) ? h('div', { class: 'small faint md',
+      html: `<span class="k">${esc(t('rsConstraint'))}:</span> ` + inline(r.constraint) }) : null)));
+}
+/* Market-entry bundles — a card per bundle: its id, the H-… it seeds, the readiness cell as the
+   author wrote it, the CVP as the headline, then segment · pain · offer · channel · signal as rows. */
+function bundleCards(s) {
+  const a = bodyOf(s, 'market-bundles');
+  const k = a ? keyed(a.body, ['id', 'segment'], ['pain', 'cvp', 'offer', 'channel', 'signal', 'readiness', 'register']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const rows = k.rows.filter(r => plain(r.id));
+  if (!rows.length) return null;
+  const line = (lab, v) => plain(v) ? h('div', { class: 'wrow' }, h('div', { class: 'wk' }, lab), h('div', { class: 'wv md', html: inline(v) })) : null;
+  return h('div', { class: 'betgrid' }, rows.map(r => h('div', { class: 'betcard' },
+    h('div', { class: 'bethead' },
+      h('code', { class: 'rid bund' }, plain(r.id)),
+      ridChips(plain(r.register).match(/\bH-\d+\b/g) || []),
+      plain(r.readiness) ? h('span', { class: 'tag', style: 'margin-left:auto', html: inline(r.readiness) }) : null),
+    plain(r.cvp) ? h('div', { class: 'betbody md', html: inline(r.cvp) }) : null,
+    h('div', { class: 'wiring itwiring' },
+      line(t('bdSegment'), r.segment), line(t('bdChannel'), r.channel), line(t('bdOffer'), r.offer),
+      line(t('bdSignal'), r.signal)))));
+}
+/* Readouts — the verdicts of finished tests, one row each; signal and decision are the register's
+   own enums, coloured by exact token. */
+function readoutTable(s) {
+  const a = bodyOf(s, 'readouts');
+  const k = a ? keyed(a.body, ['register', 'test', 'result'], ['signal', 'decision', 'followup']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  const SIG = { strong: 'done', medium: 'open', weak: 'err' }, DEC = { scale: 'done', iterate: 'open', reject: 'err', research: 'na' };
+  return table(['H-…', t('roTest'), t('roResult'), t('roSignal'), t('roDecision'), t('roFollow')], k.rows.map(r => h('tr', {},
+    h('td', { class: 'id' }, ridChips(plain(r.register).match(/\bH-\d+\b/g) || []).length
+      ? ridChips(plain(r.register).match(/\bH-\d+\b/g)) : (plain(r.register) || '—')),
+    h('td', { class: 'prose', html: inline(r.test) }),
+    h('td', { class: 'prose', html: inline(r.result) }),
+    h('td', {}, enumTag(enumMap('hypothesis signal'), SIG, r.signal)),
+    h('td', {}, enumTag(enumMap('hypothesis decision'), DEC, r.decision)),
+    h('td', { class: 'prose', html: inline(r.followup) }))));
+}
+/* Item readouts — shipped sprint items read against their pre-registered expectation; the verdict
+   token (DEBT.verdict) colours the row's tag, the cells are verbatim. */
+function itemReadouts(s) {
+  const a = bodyOf(s, 'item-readouts');
+  const k = a ? keyed(a.body, ['item', 'verdict'], ['feature', 'expected', 'fact', 'estimate', 'followup']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  return table([t('irItem'), t('irFeature'), t('irExpected'), t('irFact'), t('irVerdict'), t('irEstimate'), t('roFollow')],
+    k.rows.map(r => h('tr', {},
+      h('td', { class: 'id', html: inline(r.item) }),
+      h('td', { class: 'id' }, ridChips(plain(r.feature).match(/\bF-\d+\b/g) || []).length
+        ? ridChips(plain(r.feature).match(/\bF-\d+\b/g)) : (plain(r.feature) || '—')),
+      h('td', { class: 'prose', html: inline(r.expected) }),
+      h('td', { class: 'prose', html: inline(r.fact) }),
+      h('td', {}, enumTag(DEBT.verdict, DEBT.verdict, r.verdict)),
+      h('td', { class: 'tiny mono', html: inline(r.estimate) }),
+      h('td', { class: 'prose', html: inline(r.followup) }))));
+}
+/* Step 5 — the tactical plan as a cockpit: goals by direction, their targets, the guardrails as a
+   red-lined band, resources, the staged bundles, the pre-registered tests as gauges, then the
+   readouts; blockers (an inbox) and to-clarify as cards. */
 function canvasTacticalPlan(s) {
   const parts = [];
-  const goals = cardZone(s, t('z5Goals'), ['period-goals', 'goal-targets']);
-  if (goals) parts.push(...goals);
-  const guard = cvCard(s, 'guardrails', { hero: true, warn: true });
-  if (guard) parts.push(cvZone(t('z5Guard')), guard);
-  [[t('z5Res'), ['resources', 'market-bundles']],
-   [t('z5Test'), ['hypotheses-to-test', 'readouts', 'item-readouts', 'blockers', 'to-clarify']]].forEach(([lab, ids]) => {
-    const z = cardZone(s, lab, ids); if (z) parts.push(...z);
-  });
+  const push = zonePush(parts, s);
+  const boardOrCard = (label, node, id) => boardOrCardInto(parts, s, push, label, node, id);
+  boardOrCard(t('z5Lanes'), goalLanes(s), 'period-goals');
+  boardOrCard(t('z5Targets'), goalTargets(s), 'goal-targets');
+  boardOrCard(t('z5Guard'), guardrailPlates(s), 'guardrails');
+  boardOrCard(t('z5Res'), resourcePlates(s), 'resources');
+  boardOrCard(t('z5Bundles'), bundleCards(s), 'market-bundles');
+  boardOrCard(t('z5Hyp'), thresholdGauges(s, 'hypotheses-to-test', 'decision', ['sample']), 'hypotheses-to-test');
+  boardOrCard(t('z5Readouts'), readoutTable(s), 'readouts');
+  boardOrCard(t('z5ItemReadouts'), itemReadouts(s), 'item-readouts');
+  const rest = cardZone(s, t('z5Test'), ['blockers', 'to-clarify']);
+  if (rest) parts.push(...rest);
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
 /* Step 6 — the sprint board. When the must-set parses into items (the template's F-/A-/T- blocks,
@@ -1871,7 +2038,7 @@ function canvasTacticalPlan(s) {
    and a task their own formats, all with the labels the instance actually wrote. The backlog stays
    what it is — a ranked table. An instance whose must-set the parser doesn't recognise falls back
    to the two-section board, so drift degrades, never hides. */
-function itemCard(s, it) {
+function itemCard(s, it, dirIdx) {
   const lc = k => k.toLowerCase();
   const fields = it.fields || [];
   const get = name => (fields.find(([k]) => lc(k) === name) || [])[1];
@@ -1880,18 +2047,21 @@ function itemCard(s, it) {
   const foot = ['owner', 'estimate'].map(k => get(k)).filter(Boolean);
   const rows = fields.filter(([k]) =>
     !['description', 'owner', 'estimate', 'groom'].includes(lc(k)));
-  const dirCls = { development: 'it-dev', 'go-to-market': 'it-g2m', 'back-office': 'it-bo' }[it.direction] || '';
-  return h('div', { class: 'itcard ' + dirCls },
+  // the lane colour follows the direction's position in config.yaml (first three get a hue), not
+  // the token's spelling — an instance's own directions colour the same way as the defaults
+  const dirCls = dirIdx >= 0 && dirIdx < 3 ? ' it-d' + dirIdx : '';
+  // the F-… ties: the head-line links, the read layer's `feature`, and every `F-<n>` id found in any
+  // field's VALUE — resolved by id pattern, so the tie holds whatever language the labels are in
+  const feats = fields.flatMap(([, v]) => String(v || '').match(/\bF-\d+\b/g) || []);
+  const chips = [...new Set((it.links || []).concat(it.feature ? [it.feature] : [], feats))];
+  return h('div', { class: 'itcard' + dirCls },
     h('div', { class: 'ithead' },
       h('code', { class: 'itid' }, it.id),
       h('b', { class: 'itname' }, it.name),
-      groom ? h('span', { class: 'tag ' + (/^spec-ready/i.test(groom) ? 'done' : 'open') },
-        plain(groom).slice(0, 28)) : null),
-    // the item's feature-register row (model.sprint_items[].feature) joins the head-line links as a
-    // chip — the F-… tie is register wiring, not just prose in the Feature field below
-    (chips => chips.length ? h('div', { class: 'row', style: 'margin:2px 0 0' },
-      ridChips(chips)) : null)(
-      (it.links || []).concat(it.feature && !(it.links || []).includes(it.feature) ? [it.feature] : [])),
+      // the groom state (DEBT.groomReady: the template's `spec-ready | blocked: <fork>` literal) — whole
+      groom ? h('span', { class: 'tag ' + (debtToken({ [DEBT.groomReady]: 'done' }, groom) || 'open') },
+        plain(groom)) : null),
+    chips.length ? h('div', { class: 'row', style: 'margin:2px 0 0' }, ridChips(chips)) : null,
     desc ? h('div', { class: 'itdesc', html: inline(desc) }) : null,
     rows.length ? h('div', { class: 'wiring itwiring' }, rows.map(([k, v]) =>
       h('div', { class: 'wrow' }, h('div', { class: 'wk' }, k),
@@ -1908,13 +2078,15 @@ function canvasSprintPlan(s) {
     const must = s.sections.find(x => x.id === 'must');
     parts.push(h('div', { class: 'cvzone' }, t('z6Items'), confTag(must),
       goSection(s.artifact_file, 'must', t('more'))));
-    [['development', t('dirDev')], ['go-to-market', t('dirG2m')], ['back-office', t('dirBo')]]
-      .forEach(([key, label]) => {
-        const group = items.filter(x => x.direction === key);
-        if (!group.length) return;
-        parts.push(h('div', { class: 'itdir' }, label),
-          h('div', { class: 'itgrid' }, group.map(it => itemCard(s, it))));
-      });
+    // every item is drawn, grouped by the direction token it carries (config order first, then any
+    // other token, then the items whose subsection named none) — no fixed three-token filter, and the
+    // group labels are the instance's own words
+    const cfg = (S.model.directions || []).map(String);
+    laneOrder(items.map(x => x.direction || '')).forEach(d => {
+      const group = items.filter(x => (x.direction || '') === d);
+      parts.push(h('div', { class: 'itdir' }, d || t('dirNone')),
+        h('div', { class: 'itgrid' }, group.map(it => itemCard(s, it, cfg.indexOf(d)))));
+    });
     const bl = mdBlock(s, 'backlog');
     if (bl) parts.push(h('div', { class: 'cvzone' }, t('z6Backlog'),
       goSection(s.artifact_file, 'backlog', t('more'))), bl);
@@ -1931,72 +2103,33 @@ function canvasSprintPlan(s) {
   return parts.length ? h('div', { class: 'canvas' }, parts) : null;
 }
 
-/* Step 2 — the analysis as a market dashboard: sizing tiles, one competitor table assembled from the
-   four competitor sections, substitutes on their own, the opportunity as a callout, risks compact. */
+/* Step 2 — the analysis as a market dashboard: sizing tiles by layer, the four competitor sections
+   as cards (four tables of four shapes — each its own, nothing joined across them by a guessed name),
+   substitutes, the opportunity, risks compact. */
 function marketBoard(s) {
   const a = bodyOf(s, 'market-sizing');
-  const tbl = a ? firstTable(a.body) : null;
-  const money = c => (String(c).match(/[$€£]\s?[\d.,]+(?:\s*[–—-]\s*[$€£]?[\d.,]+)?\s*(?:[KMB]|bn|trn|млрд|млн)?/i) || [])[0];
-  const est = key => {
-    if (!tbl) return null;
-    const i = colKey(tbl, 'value');
-    const row = tbl.rows.find(r => new RegExp('^' + key, 'i').test(plain(r[0])));
-    if (!row) return null;
-    const cell = row[i >= 0 ? i : 1] || '';
+  const k = a ? keyed(a.body, ['layer', 'value']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  // rows by their layer token (DEBT.sizingLayers — TAM | SAM | SOM | Growth, the template's own rows)
+  const byLayer = {};
+  k.rows.forEach(r => { const tok = debtToken(DEBT.sizingLayers, r.layer); if (tok && !byLayer[tok]) byLayer[tok] = r; });
+  if (!Object.keys(byLayer).length) return null;
+  const tile = (tok, sub, key) => {
+    const r = byLayer[tok];
+    // the figure is what the author bolded in the cell, else the cell whole — never a cut of it
+    const cell = r ? r.value : '';
     const bold = (cell.match(/\*\*([^*]+)\*\*/) || [])[1];
-    let v = plain(bold || '') || money(cell) || plain(cell);
-    if (v.length > 22) v = v.slice(0, 22).replace(/\s+\S*$/, '') + '…';
-    return v || null;
-  };
-  const cagr = a ? (a.body.match(/CAGR[^0-9]*([0-9][0-9.,]*(?:\s*[–—-]\s*[0-9.,]+)?\s*%)/i) || [])[1] : null;
-  const tile = (lab, key, sub, key2) => {
-    const v = est(key);
-    return h('div', { class: 'mtile' + (key2 ? ' mtile-key' : '') + (v ? '' : ' cv-gap') },
-      h('div', { class: 'ml' }, lab),
-      h('div', { class: 'mv' }, v || t('gapDash')),
+    const gap = !plain(cell) || /—\s*(to clarify|уточнить)\s*—/i.test(plain(cell));
+    return h('div', { class: 'mtile' + (key ? ' mtile-key' : '') + (gap ? ' cv-gap' : '') },
+      h('div', { class: 'ml' }, r ? plain(r.layer) : tok),
+      h('div', { class: 'mv' + (bold ? '' : ' mv-long'), html: gap ? esc(t('gapDash')) : inline(bold || cell) }),
       h('div', { class: 'ms' }, sub));
   };
-  const tiles = [
-    tile('TAM', 'TAM', t('mTam')),
-    tile('SAM', 'SAM', t('mSam'), true),
-    tile('SOM', 'SOM', t('mSom')),
-    cagr ? h('div', { class: 'mtile' }, h('div', { class: 'ml' }, 'CAGR'),
-      h('div', { class: 'mv' }, cagr), h('div', { class: 'ms' }, t('mCagr'))) : null,
-  ].filter(Boolean);
-  return tiles.length ? h('div', { class: 'mboard' }, tiles) : null;
-}
-function competitorTable(s) {
-  const tbl = id => { const a = bodyOf(s, id); return a ? firstTable(a.body) : null; };
-  const base = tbl('competitors');
-  if (!base) return null;
-  // Each column is read by its stable <!--c:key--> mark (colKey) — no header-prose alias, no positional
-  // fallback; the mark is the only join, so it holds in any language.
-  const mapBy = (t2, key) => {
-    const map = {};
-    if (t2) { const ci = colKey(t2, key); if (ci >= 0) t2.rows.forEach(r => { const k = compKey(r[0]); if (k && !(k in map)) map[k] = r[ci]; }); }
-    return map;
-  };
-  const strat = tbl('competitor-strategy'), price = tbl('competitor-pricing'), dyn = tbl('competitor-dynamics');
-  const play = mapBy(strat, 'play'),
-    moat = mapBy(strat, 'moat'),
-    pr = mapBy(price, 'price'),
-    dy = mapBy(dyn, 'trend');
-  const ti = colKey(base, 'type'),
-    oi = colKey(base, 'offer');
-  const dash = x => (x && x.trim()) ? inline(x) : '—';
-  const rows = base.rows.map(r => {
-    const k = compKey(r[0]);
-    return h('tr', {},
-      h('td', { html: inline(r[0]) }),
-      h('td', { html: dash(ti >= 0 ? r[ti] : '') }),
-      h('td', { class: 'prose', html: dash(play[k] || (oi >= 0 ? r[oi] : '')) }),
-      h('td', { class: 'prose', html: dash(moat[k]) }),
-      h('td', { html: dash(pr[k]) }),
-      h('td', { class: 'prose', html: dash(dy[k]) }));
-  });
-  return h('div', {},
-    table([t('cName'), t('cType'), t('cPlay'), t('cMoat'), t('cPrice'), t('cDyn')], rows),
-    h('p', { class: 'small faint', style: 'margin-top:7px' }, t('assembledFrom')));
+  return h('div', { class: 'mboard' }, [
+    tile('TAM', t('mTam')), tile('SAM', t('mSam'), true), tile('SOM', t('mSom')),
+    byLayer.growth ? tile('growth', t('mCagr')) : null,
+  ].filter(Boolean));
 }
 function mdBlock(s, id, cls) {
   const a = bodyOf(s, id);
@@ -2004,44 +2137,23 @@ function mdBlock(s, id, cls) {
 }
 function riskBoard(s) {
   const a = bodyOf(s, 'niche-risks');
-  const tbl = a ? firstTable(a.body) : null;
-  if (!tbl) return null;
-  const ri = colKey(tbl, 'risk'), fi = colKey(tbl, 'force'),
-    li = colKey(tbl, 'likelihood'), ii = colKey(tbl, 'impact'),
-    idi = colKey(tbl, 'register');
-  const rows = tbl.rows.map(r => h('tr', {},
-    h('td', { class: 'prose', html: inline(r[ri >= 0 ? ri : 0]) }),
-    h('td', { html: inline(fi >= 0 ? r[fi] : '') }),
-    h('td', {}, hlBadge(li >= 0 ? plain(r[li]) : '')),
-    h('td', {}, hlBadge(ii >= 0 ? plain(r[ii]) : '')),
-    h('td', { html: idi >= 0 ? inline(r[idi]) : '' })));
-  return table([t('risks'), t('rForce'), t('rLik'), t('rImp'), 'R-…'], rows);
+  const k = a ? keyed(a.body, ['risk', 'likelihood', 'impact'], ['force', 'register']) : null;
+  if (!k) return null;
+  if (k.missing) return keyMissing(k.missing);
+  return table([t('risks'), t('rForce'), t('rLik'), t('rImp'), 'R-…'], k.rows.map(r => h('tr', {},
+    h('td', { class: 'prose', html: inline(r.risk) }),
+    h('td', { html: inline(r.force) }),
+    h('td', {}, hlBadge(r.likelihood)),
+    h('td', {}, hlBadge(r.impact)),
+    h('td', { html: inline(r.register) }))));
 }
 function canvasAnalysis(s) {
   const parts = [];
-  const stem = s.artifact_file ? s.artifact_file.replace(/\.md$/, '') : '';
-  // step 2's custom boards don't go through cvCard, so the worklog drill-through is hung on the zone
-  // header here: the primary section `id` behind the board names its method, and goWorklog opens it.
-  const push = (label, node, id) => {
-    if (!node) {
-      // the board found nothing it can draw (a table in another shape, an instance's own form) — the
-      // section still exists, so it falls back to its card instead of vanishing from the step
-      const fb = id && bodyOf(s, id) ? cardZone(s, label, [id]) : null;
-      if (fb) parts.push(...fb);
-      return;
-    }
-    const a = id ? bodyOf(s, id) : null;
-    const tool = a ? worklogTool(stem, a.body) : null;
-    const meta = id ? s.sections.find(x => x.id === id) : null;
-    parts.push(h('div', { class: 'cvzone' }, label, confTag(meta),
-      meta ? evStrip(meta.confidence, 'inline') : null,
-      tool ? goWorklog(stem, tool) : null,
-      tool ? wlNewerTag(s, tool) : null), node);
-  };
-  push(t('dMarket'), marketBoard(s), 'market-sizing');
-  push(t('dCompetitors'), competitorTable(s), 'competitors');
-  // the three competitor readings the template carries beside the table — cards, no widget draws them
-  const comp = cardZone(s, '', ['competitor-strategy', 'competitor-pricing', 'competitor-dynamics']);
+  const push = zonePush(parts, s);
+  const boardOrCard = (label, node, id) => boardOrCardInto(parts, s, push, label, node, id);
+  boardOrCard(t('dMarket'), marketBoard(s), 'market-sizing');
+  // the four competitor sections — each a card: face = card line + its own table, whole on expand
+  const comp = cardZone(s, t('dCompetitors'), ['competitors', 'competitor-strategy', 'competitor-pricing', 'competitor-dynamics']);
   if (comp) parts.push(...comp);
   // substitutes and opportunity carry authored faces now — they render as cards (collapsed face =
   // card line + first table, expand in place), not as raw markdown dumps.
@@ -2049,7 +2161,7 @@ function canvasAnalysis(s) {
   if (subs) parts.push(...subs);
   const opp = cardZone(s, t('dOpportunity'), ['opportunity']);
   if (opp) parts.push(...opp);
-  push(t('dRisks'), riskBoard(s), 'niche-risks');
+  boardOrCard(t('dRisks'), riskBoard(s), 'niche-risks');
   // the two sections the dashboard widgets don't draw — as ordinary cards, so nothing goes missing
   const hyp = cardZone(s, t('z4Hyp'), ['hypotheses']);
   if (hyp) parts.push(...hyp);
@@ -2318,8 +2430,11 @@ function viewRegisters() {
   // table that scrolled sideways and grew rows ten lines tall. So the table carries what a reader
   // scans by (the id, the statement, its type, its state, where it is argued) and the row opens to
   // the rest: every remaining column in full, then the item's trail.
-  const mainCol = reg.columns[1] || reg.columns[0];
-  const shownCols = new Set([idHeader, mainCol, enumHeader, statusHeader]);
+  // the statement column by its key (DEBT.statementKeys: the register keys still drift between
+  // `statement`/`hypothesis` and `description`/`risk`) — never "the second column"
+  const mainKey = (DEBT.statementKeys[which] || []).find(k => byKey[k]);
+  const mainCol = mainKey ? byKey[mainKey] : null;
+  const shownCols = new Set([idHeader, mainCol, enumHeader, statusHeader].filter(Boolean));
 
   function detail(r, rid, span) {
     const es = history[rid] || [];
@@ -2341,7 +2456,7 @@ function viewRegisters() {
   }
 
   function regTable() {
-    const heads = [idHeader, mainCol, enumHeader, statusHeader];
+    const heads = [idHeader, mainCol || `c:${(DEBT.statementKeys[which] || [])[0] || '?'}`, enumHeader, statusHeader];
     const rows = reg.rows.filter(r => {
       if (S.regFilter !== 'all' && stripMd(cell(r, enumHeader)) !== S.regFilter) return false;
       if (S.regSearch && !Object.values(r).join(' ').toLowerCase().includes(S.regSearch.toLowerCase())) return false;
@@ -2358,9 +2473,11 @@ function viewRegisters() {
         const toggle = () => { S.regItem = open ? null : rid; render(); };
         const main = h('tr', { class: bad ? 'flagged' : '' },
           h('td', { class: 'id' }, h('code', { class: 'rid ' + ridClass(rid) }, rid),
-            h('button', { class: 'trailbtn', 'aria-pressed': open, title: t('trailHint'), onclick: toggle },
+            h('button', { class: 'trailbtn', type: 'button', 'aria-pressed': open, 'aria-expanded': open,
+              'aria-label': `${open ? t('closeRow') : t('openRow')} ${rid}`, title: t('trailHint'), onclick: toggle },
               open ? '–' : '+')),
-          h('td', { class: 'prose', html: inline(r[mainCol] || '') }),
+          mainCol ? h('td', { class: 'prose', html: inline(r[mainCol] || '') })
+            : h('td', { class: 'prose' }, keyMissing((DEBT.statementKeys[which] || []).slice(0, 1))),
           h('td', {}, h('span', { class: 'tag ' + (bad ? 'err' : '') }, val || '—'),
             bad ? h('div', { class: 'tiny faint' }, allowed.join(' · ')) : null),
           (() => {
@@ -2371,7 +2488,8 @@ function viewRegisters() {
           })(),
           h('td', { class: 'refs' }, (refs[rid] || []).slice(0, 2).map(x =>
             goSection(x.file, x.id, refLabel(x), x.title)),
-          (refs[rid] || []).length > 2 ? h('button', { class: 'trailbtn', onclick: toggle },
+          (refs[rid] || []).length > 2 ? h('button', { class: 'trailbtn', type: 'button', onclick: toggle,
+            'aria-label': `${t('openRow')} ${rid} — ${t('referencedIn')} ${(refs[rid] || []).length}` },
             `+${(refs[rid] || []).length - 2}`) : null));
         return open ? [main, detail(r, rid, span)] : [main];
       }))));
@@ -2497,7 +2615,7 @@ function viewOpen() {
   const openGate = m.steps.flatMap(s => s.gate.filter(g => g.tick === 'open' || g.tick === 'unknown')
     .map(g => ({ step: s, g })));
   const hyp = m.registers.hypotheses.rows.filter(r =>
-    /open|testing/i.test(stripMd(cell(r, 'status'))));
+    ['open', 'testing'].includes(debtToken(enumMap('hypothesis status'), cell(r, 'status'))));
 
   const gapsTable = table([t('artifact'), t('toClarify'), ''], m.gaps.map(g => h('tr', {},
     h('td', { class: 'id' }, h('code', {}, g.file.replace(/\.md$/, '') + '#' + g.section)),
@@ -2588,9 +2706,12 @@ function viewSkills() {
     const rows = shown.filter(x => !q
       || `${x.name} ${x.kind || ''} ${x.output_kind || ''} ${(x.steps || []).join(',')}`.toLowerCase().includes(q));
     return table([t('colName'), t('colKind'), t('usedBy'), t('origin')],
+      // the row is the link to its detail — focusable, and Enter / Space open it like a click
       rows.map(x => h('tr', {
         class: 'rowlink' + (picked && picked.name === x.name ? ' on' : ''),
+        tabindex: '0', 'aria-current': picked && picked.name === x.name ? 'true' : null,
         onclick: () => { S.skillPick = x.name; S.skillFile = null; render(); },
+        onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); S.skillPick = x.name; S.skillFile = null; render(); } },
       },
         h('td', {}, h('b', {}, x.name),
           (x.homeless || []).length ? h('span', { class: 'tag err', style: 'margin-left:7px' }, 'homeless') : null),
@@ -2749,11 +2870,15 @@ function viewWorklog() {
     h('div', { class: 'row', style: 'margin:12px 0 2px;flex-wrap:wrap' },
       h('code', { class: 'tag' }, 'worklog'),
       confChips(wl.markers.confidence)));
+  // a snapshot carries the worklog's title and date, not its body (the worklog is private to its
+  // method; the export ships section projections only) — say so instead of showing an empty page
   const doc = h('div', { class: 'panel' }, h('div', {},
     h('div', { class: 'kick' }, `${wl.file} · ${wl.updated || ''}`),
     h('h2', { style: 'font-size:20px;letter-spacing:-.02em' }, wl.title),
     h('hr'),
-    h('div', { class: 'md', html: md(wl.body) })));
+    wl.body === undefined || wl.body === null
+      ? h('div', { class: 'note warn' }, h('span', { class: 'who' }, t('snapshot')), h('div', {}, t('wlNotInSnapshot')))
+      : h('div', { class: 'md', html: md(wl.body) })));
   return h('div', { class: 'reader' }, aside, doc);
 }
 
@@ -2781,7 +2906,7 @@ function guideHow() {
     gNode(t('g.console'), t('g.consoleSub')), gArrow(t('g.looks')),
     gNode(t('g.human'), t('g.humanSub'), 'ghost'));
   const moves = h('div', { class: 'gmoves' },
-    L().g.moves.map((mv, i) => h('div', { class: 'gmove' },
+    STR.en.g.moves.map((mv, i) => h('div', { class: 'gmove' },
       h('span', { class: 'gnum' }, String(i)),
       h('div', {}, h('b', {}, mv[0]), h('div', { class: 'small muted' }, mv[1])))),
     h('div', { class: 'gmove gloop' }, h('span', { class: 'gnum' }, '0'),
@@ -2794,7 +2919,7 @@ function guideHow() {
       h('p', { class: 'small muted', style: 'margin-bottom:12px;max-width:80ch' }, t('g.loopSub')),
       h('div', { class: 'panel' }, moves)),
     sec(t('g.philTitle'), {}, h('div', { class: 'panel' },
-      h('ol', { class: 'gphil' }, L().g.phil.map(x => h('li', {}, x))))));
+      h('ol', { class: 'gphil' }, STR.en.g.phil.map(x => h('li', {}, x))))));
 }
 
 function guideCycle() {
@@ -2823,7 +2948,7 @@ function guideMap() {
       gNode(t('g.art'), t('g.artSub'))),
     h('div', { class: 'gflow', style: 'margin-top:10px' },
       gNode(t('g.regs'), t('g.regsSub'), 'gwide')));
-  const rows = L().g.mapRows.map(r => h('tr', {},
+  const rows = STR.en.g.mapRows.map(r => h('tr', {},
     h('td', { class: 'id' }, h('code', {}, r[0])),
     h('td', {}, r[1]),
     h('td', { class: 'act' }, r[2] ? h('button', { class: 'golink',
@@ -2836,10 +2961,10 @@ function guideMap() {
 function guideLegend() {
   const row = (chip, text) => h('div', { class: 'glegrow' },
     h('div', { class: 'glchip' }, chip), h('div', { class: 'small' }, text));
-  const conf = L().g.legConfRows.map(([k, txt]) => row(h('span', { class: 'conf ' + k }, k), txt));
-  const ticks = L().g.legTickRows.map(([k, txt]) => row(tickTag(k), txt));
-  const sign = L().g.legSignRows.map(([cls, lab, txt]) => row(h('span', { class: 'tag ' + cls }, lab), txt));
-  const ids = L().g.legIdRows.map(([id, txt]) => row(h('code', { class: 'rid ' + ridClass(id) }, id), txt));
+  const conf = STR.en.g.legConfRows.map(([k, txt]) => row(h('span', { class: 'conf ' + k }, k), txt));
+  const ticks = STR.en.g.legTickRows.map(([k, txt]) => row(tickTag(k), txt));
+  const sign = STR.en.g.legSignRows.map(([cls, lab, txt]) => row(h('span', { class: 'tag ' + cls }, lab), txt));
+  const ids = STR.en.g.legIdRows.map(([id, txt]) => row(h('code', { class: 'rid ' + ridClass(id) }, id), txt));
   const marks = [
     row(h('span', { class: 'gear' }, t('proposalMark')), t('g.legGear')),
     row(h('span', { class: 'gapmark' }, t('gapDash')), t('g.legGap')),
@@ -2856,7 +2981,7 @@ function guideLegend() {
 }
 
 function guideAsk() {
-  const rows = L().g.askRows.map(r => h('tr', {},
+  const rows = STR.en.g.askRows.map(r => h('tr', {},
     h('td', { style: 'min-width:170px' }, r[0]),
     h('td', { class: 'prose' }, h('em', { class: 'muted' }, r[1]))));
   return sec(t('g.ask'), {},
