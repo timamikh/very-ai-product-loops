@@ -4,7 +4,7 @@ kind: method
 name: goal-targets
 steps: [5]
 prerequisites: [period goals, the metric tree, baselines in metrics.csv]
-reads: [register:metrics, source:metrics]
+reads: [section:period-goals, section:metric-tree, section:strategic-targets, register:metrics]
 writes: [worklog, section:goal-targets]
 opinionated: false
 method_basis: "Per-goal target setting: go-to-market goals steer an existing metric node (baseline from metrics.csv → target with reasoned size); technical & back-office goals get a binary DoD; every target traces to the period gate"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Goal Targets
 
@@ -75,14 +75,7 @@ DoD** instead — done or not, no percentages of done.
   the period doesn't need.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/goal-targets.md` (`node_type: worklog`,
-e.g. `5-tactical-plan/goal-targets.md`): each period goal, the `M-…` node selected for it (or the
-binary DoD), the baseline with its `metrics.csv` citation, the target with the reasoning for its
-size, and the trace to the period gate. That worklog is the **source of truth**; the artifact
-section `{#goal-targets}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*).
+Worklog: `5-tactical-plan/goal-targets.md` — per goal the `M-…` selected or the binary DoD, the baseline with its `metrics.csv` citation, the target with the reasoning for its size, the trace to the gate and up the ladder. Projects `{#goal-targets}`; face: the **Trace to the gate** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#goal-targets}` (Step 5) via [`template-fragment.md`](template-fragment.md) from the

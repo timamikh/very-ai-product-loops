@@ -4,7 +4,7 @@ kind: method
 name: guardrails
 steps: [5]
 prerequisites: [metric-tree, period-goals]
-reads: [register:metrics, register:risks, source:interview, source:metrics]
+reads: [section:metric-tree, section:period-goals, register:metrics, register:risks]
 writes: [worklog, section:guardrails, register:risks]
 opinionated: false
 method_basis: "Guardrail metrics + red lines (steering-committee reconciliation pattern)"
@@ -13,8 +13,8 @@ volume_rule: "all 7 break-categories checked against every period goal before an
 selection_rule: "a category becomes a guardrail only with an M- node and a stated floor/ceiling; the rest are logged as considered"
 rejects_shown: required
 status: draft
-version: 0.1.4
-updated: 2026-08-09
+version: 0.1.5
+updated: 2026-09-02
 ---
 # Guardrails
 
@@ -53,16 +53,7 @@ reconciliation: each cycle names the gate it moves *and* the things it protects.
 - **Threshold-free.** A protected metric named but no floor/ceiling to breach.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/guardrails.md` (`node_type: worklog`,
-e.g. `5-tactical-plan/guardrails.md`): the seven break-categories checked against each period goal
-(including the ones cleared), the picked guardrail `M-…` metrics with their floors/ceilings, the
-qualitative red lines, the monitoring assignments, and the categories logged as considered-not-
-guardrailed with the reason. That worklog is the **source of truth**; the artifact section
-`{#guardrails}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `5-tactical-plan/guardrails.md` — the seven break-categories checked per goal (cleared ones included), the guardrail `M-…` with floors/ceilings, the red lines, the monitoring, the considered-not-guardrailed with reasons. Projects `{#guardrails}`; face: the **Guardrail read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#guardrails}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs

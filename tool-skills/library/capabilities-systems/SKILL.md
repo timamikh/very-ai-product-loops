@@ -4,7 +4,7 @@ kind: method
 name: capabilities-systems
 steps: [4]
 prerequisites: [strategy-cascade]
-reads: [register:risks, register:features, register:surfaces, source:interview, source:kb]
+reads: [section:where-to-play, section:how-to-win, register:risks, register:features, register:surfaces]
 writes: [worklog, section:capabilities, register:risks]
 opinionated: true
 method_basis: "Playing to Win (Lafley/Martin) — choices 4 & 5 of the cascade: must-have capabilities and the management systems that build and measure them"
@@ -13,8 +13,8 @@ volume_rule: "every moat / winning-logic element in 3#how-to-win maps to ≥1 ca
 selection_rule: "a capability that serves no element of the winning logic is rejected as nice-to-have; kept in the reject table with why"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-24
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Capabilities & Management Systems
 
@@ -72,16 +72,7 @@ capability named must serve the winning logic.
 - **Systemless capabilities.** Named, hired for once, never measured — eroded by the next quarter.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/capabilities-systems.md`
-(`node_type: worklog`, e.g. `4-strategic-plan/capabilities-systems.md`): the element-by-element walk
-of the winning logic, each capability with its have/partial/missing rating and who confirmed it, the
-gap-and-close per shortfall with the `R-…` it seeds, the management system per capability, and the
-rejected nice-to-haves with why. That worklog is the **source of truth**; the artifact section
-`{#capabilities}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/capabilities-systems.md` — the element-by-element walk of the winning logic, each capability's rating with who confirmed it, the gap-and-close with the `R-…` it seeds, the management system per capability, the rejected nice-to-haves. Projects `{#capabilities}`; face: the **Capability read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#capabilities}` via [`template-fragment.md`](template-fragment.md) from the worklog;

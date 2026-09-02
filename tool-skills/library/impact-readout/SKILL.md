@@ -4,7 +4,7 @@ kind: method
 name: impact-readout
 steps: [5]
 prerequisites: [shipped sprint items carrying a Feature link and a pre-registered Expected impact with a check-by, the measured fact landed (metrics.csv / register statuses)]
-reads: [register:features, register:metrics, register:risks, register:hypotheses, source:metrics, section:must]
+reads: [section:must, section:readouts, register:features, register:metrics, register:risks, register:hypotheses]
 writes: [worklog, section:item-readouts, register:features]
 opinionated: false
 method_basis: "Pre-registered read of shipped items: expected impact vs the fact (metrics.csv / register state) and estimate vs actual cost — verdict flips the feature's state, no post-hoc re-goaling; a check-by not reached is `pending`, never skipped"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-23
+version: 0.1.1
+updated: 2026-09-02
 ---
 # Impact Readout (items)
 
@@ -31,6 +31,12 @@ an `Expected impact` (which id, which direction/size, `check-by` when it becomes
 post-hoc re-goaling**: an expectation softened after the numbers land is not a read, it's a
 negotiation. The fact comes from `metrics.csv` rows, register statuses, and `experiment-readout`
 verdicts — never from memory.
+
+> **A declared forward edge.** `reads` names `section:must` of Step 6 — the one place a Step-5
+> method reads a later step's section. It is deliberate, not an accident of wiring: the sprint plan
+> pre-registers what this gate reads, so the edge runs from the *previous* period's sprint plan
+> into *this* period's gate — backward in time, forward in step number. It is legal only because
+> the card declares it; no other method may read ahead.
 
 ## When to apply
 - Step 5, at the period gate: every item shipped last period gets a row — read, `pending`
@@ -83,13 +89,7 @@ verdicts — never from memory.
   review; hide the misses and the estimates stay fiction.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/impact-readout.md` (`node_type:
-worklog`, e.g. `5-tactical-plan/impact-readout.md`): each shipped item, its expectation restated
-verbatim, the fact with its citation, the verdict zone, the estimate-vs-actual note, the register
-flips, and the section a miss invalidates. That worklog is the **source of truth**; the artifact
-section `{#item-readouts}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) (`process/CONVENTIONS.md` → *Step folders &
-worklogs*).
+Worklog: `5-tactical-plan/impact-readout.md` — each shipped item, its expectation verbatim, the fact with its citation, the verdict, the estimate-vs-actual note, the register flips, the section a miss invalidates. Projects `{#item-readouts}`; face: the **Impact read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#item-readouts}` (Step 5) via [`template-fragment.md`](template-fragment.md) from the

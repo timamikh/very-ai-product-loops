@@ -12,8 +12,12 @@ sets the period value — three values, three owners._
 
 **Horizon:** <date> — from `3#winning-aspiration` (never minted here).
 
-| Node (`M-…`) | Target at horizon | From scenario | Why this node carries a commitment | Confidence |
-|--------------|-------------------|---------------|-------------------------------------|------------|
+<!-- card -->
+**Commitment:** <one sentence — the North Star value promised at the horizon date, the scenario it is
+read off, and the driver that must move most to get there>.
+
+| Node (`M-…`) | Target at horizon | From scenario | Why this node | Confidence |
+|--------------|-------------------|---------------|---------------|------------|
 | M-… (North Star) | … | base / conservative / optimistic (`#financial-model`) | the winning logic leans on it: … | [assumption] |
 | M-… | … | … | … | [assumption] |
 

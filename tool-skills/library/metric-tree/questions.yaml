@@ -4,6 +4,7 @@ questions:
   - id: north-star-candidates
     ask: "The 2–4 candidate North Stars, each run through the three filters (⚙️ agent drafts them from the worklog — confirm or amend the list)"
     type: list
+    min: 2
     why: "The choice is made among named candidates, with the losers and their failed filter recorded."
   - id: north-star-choice
     ask: "Which North Star candidate do you approve (or who approves it — e.g. a steering committee)?"

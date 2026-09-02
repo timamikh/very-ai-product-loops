@@ -4,7 +4,7 @@ kind: method
 name: experiment-readout
 steps: [5]
 prerequisites: [a finished test, its pre-registered decision rule, the measured result]
-reads: [register:hypotheses, register:metrics, source:metrics]
+reads: [section:hypotheses-to-test, register:hypotheses, register:metrics]
 writes: [worklog, section:readouts, register:hypotheses]
 opinionated: false
 method_basis: "Pre-registered read: result vs the decision rule fixed at design time — signal grade + decision (scale · iterate · reject · research) written back to the hypothesis register; no post-hoc re-thresholding"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-09-02
 ---
 # Experiment Readout
 
@@ -28,8 +28,14 @@ result **reads itself** — this method is where that promise is kept or broken.
 metric node · success and failure thresholds · sample/duration · the verdict each zone triggers.
 The readout applies that rule and nothing else — **no post-hoc re-thresholding**: a bar moved after
 the numbers land is not a read, it's a negotiation. The scales it operates — signal grade and
-decision — are defined once, in [`hypothesis-test-design`](../hypothesis-test-design/SKILL.md)
-§Scales and `process/REGISTERS.md`; this method applies them, it does not redefine them.
+decision — are defined once, in [`process/reference/scales.md`](../../../process/reference/scales.md) (and carried as enums by
+`process/REGISTERS.md`); this method applies them, it does not redefine them.
+
+> **Handoff to `impact-readout` (one read per verdict).** The sibling method reads *shipped sprint
+> items* against their pre-registered `Expected impact`; when an item's claim is an `H-…`, it
+> **cites the verdict written here** and never re-judges it. So a refuted `H-…` reaches the sprint
+> items through `{#readouts}` and the register row, and this method must finish — decision on the
+> row — before the item gate runs.
 
 ## When to apply
 - Step 5, at the period boundary: every test that finished this period gets a readout — none
@@ -87,18 +93,11 @@ decision — are defined once, in [`hypothesis-test-design`](../hypothesis-test-
   next period, and the same bet returns unimproved.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/experiment-readout.md` (`node_type:
-worklog`, e.g. `5-tactical-plan/experiment-readout.md`): each finished test, its pre-registered
-rule restated verbatim, the measured result with its `metrics.csv` citation, the verdict zone it
-landed in, the signal grade, the decision with the named learning item for any `research`, and the
-section a refuted `H-…` invalidates. That worklog is the **source of truth**; the artifact section
-`{#readouts}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*).
+Worklog: `5-tactical-plan/experiment-readout.md` — each finished test, its rule restated verbatim, the result with its `metrics.csv` citation, the verdict zone, the signal, the decision with the named learning item, the section a refuted `H-…` invalidates. Projects `{#readouts}`; face: the **Verdict read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#readouts}` (Step 5) via [`template-fragment.md`](template-fragment.md) from the worklog;
 inputs via [`questions.yaml`](questions.yaml). Writes `signal` / `decision` / `status` back to the
 hypothesis register; a `research` decision feeds a named learning item into the next period's
-goals; a refuted `H-…` triggers the upward revisit of the section it names.
+goals; a refuted `H-…` triggers the upward revisit of the section it names; `impact-readout` cites
+these verdicts for shipped items whose claim is an `H-…`.

@@ -4,7 +4,7 @@ kind: method
 name: segment-pains
 steps: [1]
 prerequisites: [segments, evidence-source]
-reads: [section:segments, section:jtbd, register:hypotheses, register:metrics, source:interview, source:metrics, source:kb]
+reads: [section:segments, section:jtbd, register:hypotheses, register:metrics, source:interview, source:metrics, source:research, source:kb]
 writes: [worklog, section:problems, register:hypotheses]
 opinionated: false
 method_basis: "Jobs-to-be-Done + Value Proposition Canvas (jobs/pains/gains), scored by severity × frequency, cost of inaction named per pain, classified differentiator vs table-stakes"
@@ -13,8 +13,8 @@ volume_rule: "≥5 candidate pains per segment before any is ranked"
 selection_rule: "severity × frequency; differentiator vs table-stakes; the top 3 carry forward, the rest stay ranked in the table"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-25
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Segment Pains
 
@@ -52,7 +52,7 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
    `nice-to-have` / `recurring irritation` / `already paying or improvising` — tokens exactly as
    written: the step template declares this vocabulary (`<!-- enum:c:inaction -->`) and the linter
    holds it (check O3); a truncated or compounded token is an error, not a nuance. This is the same
-   gradation `hypothesis-test-design` §Scales uses for pain acuteness, so the column feeds the
+   gradation [`process/reference/scales.md`](../../../process/reference/scales.md) fixes for pain acuteness, so the column feeds the
    Step-3 CVP (`uvp-cpv`) and the Step-5 priority score without translation. Severity says how much
    it hurts; cost of inaction says what they *do* about it — a vivid pain nobody pays or improvises
    around sells nothing, and it is cheaper to learn that here than at Step 5.
@@ -75,17 +75,7 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
 - **Guessed severity.** Numbers with no source, tagged as fact.
 
 ## Worklog & projection
-
-The working is done in the step's **worklog** `<step-folder>/segment-pains.md` (`node_type: worklog`,
-e.g. `1-concept/segment-pains.md`): the stated job, the ≥5 candidate pains per segment each scored
-**severity × frequency**, its **cost of inaction** (nice-to-have / recurring irritation / already
-paying or improvising) and classified **differentiator vs table-stakes**, and the ranking — the top
-3 carried forward, the rest kept in the table with their rank. That worklog is the **source of
-truth**; the artifact section `{#problems}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `1-concept/segment-pains.md` — the job, the ≥5 pains per segment scored severity × frequency with cost of inaction and class, the top 3 carried and the rest kept ranked. Projects `{#problems}`; face: the **Top pains forward** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

@@ -27,6 +27,3 @@ questions:
   - id: owner
     ask: "Who owns it landing? (a named person, not 'the team')"
     type: free_text
-  - id: estimate
-    ask: "What's the estimate — the capacity it consumes?"
-    type: free_text

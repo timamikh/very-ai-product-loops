@@ -4,7 +4,7 @@ kind: method
 name: risk-mitigation
 steps: [4]
 prerequisites: [carried risks in the R- register]
-reads: [register:risks, source:interview, source:kb]
+reads: [register:risks]
 writes: [worklog, section:risk-mitigation, register:risks]
 opinionated: false
 method_basis: "Risk-register upkeep: mitigation + owner + observable trigger + review date per carried risk; lifecycle status written back"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.0
-updated: 2026-08-16
+version: 0.4.1
+updated: 2026-09-02
 ---
 # Risk Mitigation
 
@@ -57,19 +57,11 @@ who acts, what signal says "act now", and when the plan is next reviewed.
    status into the **same** R- row — one row per risk, upserted, never forked into a step-local
    copy. The register is the single home; this section projects it.
 
-## Scales — the shared gradations
-
-One ordinal scale travels with a risk here. It is a **gradation**, orthogonal to the confirmation
-marker a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*).
-
-- **Lifecycle — `open` → `mitigating` → `contained` → `realized` → `closed`, plus `accepted`.**
-  `contained` = a live risk whose mitigation is in place; `realized` = it fired (the mitigation and
-  the fallout are now the story); `closed` = no longer credible. `accepted` is **off-cycle** — a
-  decision to carry the risk un-mitigated on purpose, not a stage. Written back to the register's
-  `status`.
-
-(The likelihood × impact scale — H/M/L backed 5/3/1 — belongs to the triage upstream in
-`pre-mortem`; the score arrives here on the row and is not re-derived.)
+## Scales
+The risk **lifecycle** — `open` → `mitigating` → `contained` → `realized` → `closed`, plus the
+off-cycle `accepted` — is defined in [`process/reference/scales.md`](../../../process/reference/scales.md) and written back to the
+register's `status` from here. The likelihood × impact scale (H/M/L backed 5/3/1) belongs to the
+triage upstream in `pre-mortem`; the score arrives on the row and is not re-derived.
 
 ## Anti-patterns
 - **No owner / no trigger.** A risk logged but unassigned, with nothing that says when to act.
@@ -83,15 +75,7 @@ marker a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmatio
   `pre-mortem`'s worklog, where the dispositions and reasons live.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/risk-mitigation.md`
-(`node_type: worklog`, e.g. `4-strategic-plan/risk-mitigation.md`): the carried set pulled from the
-R- register, and per risk the mitigation, owner, observable trigger, review date, and lifecycle
-status with the reasoning behind each. That worklog is the **source of truth**; the artifact section
-`{#risk-mitigation}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/risk-mitigation.md` — the carried set pulled from the R- register and, per risk, mitigation · owner · trigger · due · status with the reasoning. Projects `{#risk-mitigation}`; face: the **Exposure read** line, via [`template-fragment.md`](template-fragment.md). The register row is the home; the section projects it. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#risk-mitigation}` via [`template-fragment.md`](template-fragment.md) from the worklog;

@@ -4,7 +4,7 @@ kind: method
 name: feature-grooming
 steps: [6]
 prerequisites: [featured development items exist (feature-spec rows in `{#must}` / `{#backlog}`)]
-reads: [worklog:6-sprint-plan/feature-spec, register:hypotheses, register:metrics, source:kb]
+reads: [worklog:6-sprint-plan/feature-spec, section:product-surface, section:value-defensibility, register:hypotheses, register:metrics, register:features, source:kb]
 writes: [worklog, section:must, section:backlog]
 opinionated: true
 method_basis: "Grooming to spec-readiness — every product/UX/business fork is closed by the product owner BEFORE a spec is written; technical forks are recorded for the tech lead; WHAT-not-HOW discipline"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-21
+version: 0.1.1
+updated: 2026-09-02
 ---
 # Feature Grooming (spec-readiness)
 
@@ -74,7 +74,8 @@ moment for it. Hence the hard rule: **no spec while a product fork is open.**
    - **cardinality** — "one or many" for every entity the feature touches (themes, templates,
      formats, accounts);
    - **inputs the developer can't produce** — token sets, definitions, example/test sets, copy:
-     each named, with an owner and a due. An unowned input blocks readiness;
+     each named, with an owner and a due (one already filed in `sources/` is `source:kb`). An
+     unowned input blocks readiness;
    - **check targets** — what "works in X" means concretely (which product, which version/build).
      The *target* is the PO's decision; the *verification method* is the tech lead's;
    - **trigger boundaries** — every behaviour keyed on a classification ("a styling request",
@@ -114,13 +115,7 @@ moment for it. Hence the hard rule: **no spec while a product fork is open.**
 - **Deferred means done.** Treating a deferred fork as closed. Deferred blocks readiness.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `6-sprint-plan/feature-grooming.md`
-(`node_type: worklog`): one groom block per feature ([`template-fragment.md`](template-fragment.md)) —
-scope items, forks with their kind, the owner's decisions dated, the technical forks, the doc type,
-the readiness line. That worklog is the **source of truth**; the feature blocks in `{#must}` /
-`{#backlog}` carry only the readiness annotation (this card is named second on those markers —
-`feature-spec` owns the blocks). External facts arrive dispatched from `sources/`, cited in the
-worklog, never linked from the artifact.
+Worklog: `6-sprint-plan/feature-grooming.md` — one groom block per feature (the fragment is this worklog's shape): the scope 1:1, the forks by kind, the owner's decisions dated, the technical forks, the doc type, the readiness line. Projects only the **Groom** line of the feature's block in `{#must}` / `{#backlog}` (named after `feature-spec` on those markers); no card slot, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 A groomed, spec-ready feature per block. Hands off to

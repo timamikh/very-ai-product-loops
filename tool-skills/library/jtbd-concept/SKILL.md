@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-25
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Jobs-to-be-Done (concept)
 
@@ -92,15 +92,7 @@ habit.
   skill supplies the job and forces they are framed on, nothing more.
 
 ## Worklog & projection
-
-The working is done in the step's **worklog** `1-concept/jtbd-concept.md` (`node_type: worklog`):
-the job statement (`when… I want… so that…`), the four forces (push · pull · anxiety · habit) with
-their sources, and the measurable desired outcomes. That worklog is the **source of truth**; the
-artifact section `{#jtbd}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `1-concept/jtbd-concept.md` — the job statement, the four forces with their sources, the desired outcomes. Projects `{#jtbd}`; face: the **Job statement** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

@@ -4,7 +4,7 @@ kind: method
 name: concept-formation
 steps: [1]
 prerequisites: [raw-idea]
-reads: [register:hypotheses, register:metrics, source:interview, source:kb]
+reads: [register:hypotheses, source:interview, source:kb]
 writes: [worklog, section:idea, register:hypotheses]
 opinionated: false
 method_basis: "April Dunford positioning ('the shift') + problem→solution articulation"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.0
-updated: 2026-08-25
+version: 0.4.1
+updated: 2026-09-02
 ---
 # Concept Formation
 
@@ -33,7 +33,8 @@ versus the current alternative, not by its features) + explicit problem→soluti
 
 ## Prerequisites
 
-- **Raw idea** — the founder's/PO's description, however rough. *Missing → interview to elicit it.*
+- **Raw idea** — the founder's/PO's description, however rough: a filed pitch or notes (`source:kb`),
+  a founder conversation returned as notes (`source:interview`). *Missing → interview to elicit it.*
 
 ## How to do it
 
@@ -59,15 +60,7 @@ versus the current alternative, not by its features) + explicit problem→soluti
 - **Hiding the bet.** Not stating the riskiest assumption, so it never gets tested.
 
 ## Worklog & projection
-
-The working is done in the step's **worklog** `<step-folder>/concept-formation.md`
-(`node_type: worklog`, e.g. `1-concept/concept-formation.md`): the one-line concept sentence, the
-**shift** it names versus the current alternative, the riskiest assumption the concept depends on,
-and the solution stub. That worklog is the **source of truth**; the artifact section `{#idea}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md), holding nothing
-the worklog does not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `1-concept/concept-formation.md` — the one-line concept, the shift versus the current alternative, the riskiest assumption, the solution stub (`concept-expansion` reads it as a declared worklog input). Projects `{#idea}`; face: the concept sentence, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

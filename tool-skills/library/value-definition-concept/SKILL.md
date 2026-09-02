@@ -4,7 +4,7 @@ kind: method
 name: value-definition-concept
 steps: [1]
 prerequisites: [concept, segments, what-we-have-or-can-build]
-reads: [section:idea, section:segments, register:hypotheses, register:risks, register:metrics, source:interview, source:kb]
+reads: [section:idea, section:segments, register:hypotheses, source:interview, source:kb]
 writes: [worklog, section:value-defensibility, register:hypotheses]
 opinionated: true
 method_basis: "7 Powers (Helmer) → base moats; post-AI lens (software isn't the moat, position is); derivative moats deferred to Step 3"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-25
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Value & Defensibility (concept)
 
@@ -69,7 +69,8 @@ missing, the agent asks for it or offers to help produce it — it does not gues
 - **Concept** — what the product is (from `{#idea}`). *Missing → run `concept-formation` first.*
 - **Segments** — who it's for (from `{#segments}`). *Missing → run `segmentation` first.*
 - **What we have or can build** — honest inventory of data / algorithms / access / audience /
-  brand / expertise. *Missing → agent interviews the human to elicit it.*
+  brand / expertise, read from filed materials (`source:kb`) or elicited from the human
+  (`source:interview`). *Missing → agent interviews the human to elicit it.*
 
 ## How to do it
 
@@ -103,13 +104,7 @@ missing, the agent asks for it or offers to help produce it — it does not gues
   lens; allow substitution.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `1-concept/value-definition-concept.md`
-(`node_type: worklog`): the base value(s) named, each tested against the post-AI premise **with the
-killed candidates and their reasons** (the step's most valuable output), the defensibility/confidence
-ratings, the one-line derivative deferral, and the seeded hypotheses. That worklog is the **source of
-truth**; the artifact section `{#value-defensibility}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, with the
-change-log history in the worklog (`process/CONVENTIONS.md` → *Step folders & worklogs*).
+Worklog: `1-concept/value-definition-concept.md` — the base values tested against the post-AI premise with the killed candidates and reasons, the ratings, the one-line derivative deferral. Projects `{#value-defensibility}`; face: the **Moat read** line, via [`template-fragment.md`](template-fragment.md). Revisited at Step 3 by `value-definition-strategy` from its own worklog, same slot; the marker names both. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

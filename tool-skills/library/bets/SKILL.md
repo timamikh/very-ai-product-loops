@@ -4,7 +4,7 @@ kind: method
 name: bets
 steps: [3]
 prerequisites: [the job and forces (jtbd), strategy choices (where-to-play / how-to-win), value & defensibility]
-reads: [section:jtbd, section:where-to-play, section:how-to-win, section:value-defensibility, register:hypotheses, source:interview, source:kb]
+reads: [section:jtbd, section:where-to-play, section:how-to-win, section:value-defensibility, register:hypotheses]
 writes: [worklog, section:bets, register:hypotheses]
 opinionated: false
 method_basis: "Strategic bets framed on the JTBD forces — '<segment> will hire us over <status quo> for <job> because pull > anxiety + habit' — each tied to a named moat; one bet = one typed hypothesis"
@@ -13,8 +13,8 @@ volume_rule: "3–7 bets; each names the segment, the job/circumstance, the stat
 selection_rule: "a bet must beat the status quo on the forces (pull > anxiety + habit) and lean on a named moat; candidates that can't say why they win are recorded, not carried"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-27
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Strategic Bets
 
@@ -33,8 +33,8 @@ is testable; "we will win on quality" is not. The moat (from `value-definition-s
 > - **`jtbd-concept` (Step 1)** states the job and the four forces — this skill *wagers on* that
 >   job, it does not restate it. If the job or forces are missing or stale, fix them there first.
 > - **`value-definition-strategy`** contributes the moats: it is the second tool on the `{#bets}`
->   marker, and its contribution lands in *this* skill's worklog (the first tool in a
->   `<!-- tool: A, B -->` marker owns the section's worklog — `process/CONVENTIONS.md`).
+>   marker, works in its own worklog, and its moats reach this skill through the re-projected
+>   `{#value-defensibility}` and `{#how-to-win}` — no method writes another's worklog (N6).
 > - **`where-to-play-how-to-win`** seeds the cascade's load-bearing assumptions as `H-…` when the
 >   arena is chosen. A bet here often *is* one of those assumptions made concrete — **reconcile
 >   before minting** (see step 4 below); a duplicate `H-` for the same claim splits its evidence.
@@ -95,16 +95,7 @@ is testable; "we will win on quality" is not. The moat (from `value-definition-s
 - **Ten bets.** A wager list nobody can be held to. Cut to 3–7; the cuts stay visible.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `3-strategy/bets.md` (`node_type: worklog`): every
-candidate bet with its segment · status quo · job · forces · moat, the register reconciliation
-(which `H-…` each bet reuses or newly mints, and why), the carried 3–7, and every candidate cut with
-the reason. `value-definition-strategy`'s moat contribution lands **here** — bets is the primary of
-the `<!-- tool: bets, value-definition-strategy -->` marker and so owns the section's worklog. That
-worklog is the **source of truth**; the artifact section `{#bets}` is its **projection** into the
-fixed shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does
-not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `3-strategy/bets.md` — every candidate with segment · status quo · job · forces · moat, the register reconciliation (which `H-…` each reuses or mints), the carried 3–7, every cut with its reason. Projects `{#bets}`; face: the **Lead bet** line, via [`template-fragment.md`](template-fragment.md). Primary of the `{#bets}` marker; `value-definition-strategy`'s moats reach it through the re-projected `{#value-defensibility}` and `{#how-to-win}`, never through this worklog. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#bets}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

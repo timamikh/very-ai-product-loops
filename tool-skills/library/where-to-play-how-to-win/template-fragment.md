@@ -12,17 +12,25 @@ _What winning means here — who we serve, what result, by when. Not a slogan._
 **Aspiration:** <one sentence — who we serve, what result, by when; a slogan or a mission statement
 here is a defect>.
 
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <one alternative weighed and why it lost, or what makes
+the choice forced — a bare "none" is a defect>
+
 ## Where to play {#where-to-play}
-| Dimension | We play in | We deliberately exclude | Confidence |
-|-----------|------------|-------------------------|------------|
-| Segments | … | … | [assumption] |
-| Geographies / markets | … | … | [assumption] |
-| Channels | … | … | [assumption] |
-| Product scope / value-chain stage | … | … | [assumption] |
+| Chosen arena | Why | Excluded (and why) | Confidence |
+|--------------|-----|--------------------|------------|
+| Segments — … | … | … | [assumption] |
+| Geographies / markets — … | … | … | [assumption] |
+| Channels — … | … | … | [assumption] |
+| Product scope / value-chain stage — … | … | … | [assumption] |
 
 <!-- card -->
 **Arena call:** <one sentence — the arena chosen and the sharpest exclusion; naming what we walk
 away from is what makes it a choice>.
+
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <one alternative weighed and why it lost, or what makes
+the choice forced — a bare "none" is a defect>
 
 ## How to win {#how-to-win}
 _The coherent logic for beating the specific players in this arena. Each row names the moat it leverages._
@@ -46,7 +54,6 @@ at directly is indistinguishable from the only option that was ever on the table
 |-------------------------------------|--------------|
 | … | no moat we hold applies here · the arena is reachable but not winnable · wins but does not meet the aspiration |
 
-**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
-proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
-actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.
-Weighed none? Order a refutation — `operations/orchestration` → *The two lenses of a `verify`*>
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <one alternative weighed and why it lost, or what makes
+the choice forced — a bare "none" is a defect>

@@ -4,7 +4,7 @@ kind: method
 name: activity-spec
 steps: [6]
 prerequisites: [period-goals]
-reads: [register:hypotheses, register:metrics, register:features, register:surfaces, source:interview, source:kb]
+reads: [section:period-goals, section:market-bundles, register:hypotheses, register:metrics, register:features, register:surfaces]
 writes: [worklog, section:must, section:backlog, register:features, register:surfaces]
 opinionated: false
 method_basis: "Go-to-market activity at the same altitude as a feature (Description / Scope / Business value / Audience value / Links) + the register thread: the F-… (campaign/content line) it advances on an S-… surface, a pre-registered Expected impact with a check-by, an S/M/L estimate"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.5.0
-updated: 2026-08-24
+version: 0.5.1
+updated: 2026-09-02
 ---
 # Activity Spec (go-to-market direction)
 
@@ -57,17 +57,7 @@ directions read the same way and plug into the same must/backlog.
 - **No measurement step.** An activity with no way to tell if it worked (attribution first).
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/activity-spec.md` (`node_type: worklog`,
-e.g. `6-sprint-plan/activity-spec.md`): for each go-to-market item, its Description, Scope, Business
-value (the `M-…` it moves / `H-…` it tests), Audience value, and Links (the `H-…` tested / `M-…`
-moved and the surface it runs on). That worklog is the **source of truth** for this method's rows; the
-Activities subsections of `{#must}` / `{#backlog}`
-(`### … Activities <!-- tool: activity-spec, prioritization-sprint-plan -->`) are its **projection** into the
-fixed shape of [`template-fragment.md`](template-fragment.md) — those sections are co-filled (the
-ranking comes from `prioritization-sprint-plan`), but this method owns its worklog for its own activity rows. The
-projection holds nothing the worklog does not, and the step's change-log history lives in the worklog,
-not the section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
-dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `6-sprint-plan/activity-spec.md` — one block per go-to-market item with every field of the format. Projects item blocks into the Activities subsections of `{#must}` / `{#backlog}` (primary of their marker; the ranking comes from `prioritization-sprint-plan`); no card slot — the section's face is the ranking's, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects one block per activity into the Activities subsections of `{#must}` / `{#backlog}` via

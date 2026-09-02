@@ -13,8 +13,8 @@ volume_rule: "the three baseline substitutes (do nothing · do it manually · bu
 selection_rule: "a substitute that wins in a real segment is promoted to the risk register; the rest stay in the map"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-27
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Substitutes
 
@@ -27,13 +27,6 @@ category. Fills `{#substitutes}`.
 that incumbent way — however crude — is our real competitor. Paired with Porter's threat of
 substitutes: a substitute is any alternative that satisfies the same need, and a strong one caps
 our price and adoption regardless of how few "direct" rivals exist.
-
-**No external source, no settled verdict.** This method declares `evidence_standard:
-external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
-capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
-`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
-missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
-section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 2, once the job/segment is defined (competition is scored against a specific job).
@@ -81,16 +74,7 @@ section that shows no `[sourced: …]` and declares no gap.
   compared, defended against, or triaged into the risk register.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/substitutes.md` (`node_type: worklog`,
-e.g. `2-analysis/substitutes.md`): the job framed by JTBD, the three baseline substitutes (do nothing ·
-do it manually · build/host it themselves) plus the ≥2 adjacent ones, each with its *why the customer
-chooses it* and *when it wins*, the self-build threshold, the switching friction, and which strong
-substitutes were promoted to the risk register. That worklog is the **source of truth**; the artifact
-section `{#substitutes}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `2-analysis/substitutes.md` — the baseline three plus ≥2 adjacent, each with why the customer chooses it and when it wins, the self-build threshold, the switching friction, the promoted `R-…`. Projects `{#substitutes}`; face: the **Strongest substitute** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#substitutes}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

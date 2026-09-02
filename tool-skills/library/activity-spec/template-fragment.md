@@ -1,24 +1,24 @@
 <!--
-  template-fragment: activity-spec → one item in {#must} / {#backlog} (go-to-market direction)
-  Follow process/CONVENTIONS.md.
+  template-fragment: activity-spec → one item block in {#must} / {#backlog}, go-to-market direction
+  (the "### Go-to-market — Activities" subsection). Item form = steps/6-sprint-plan/template.md, field
+  for field, in its order; items are numbered 1, 2, 3 within their subsection. No card slot: the
+  section's face is the ranking's (prioritization-sprint-plan). The Decided line closes each item block.
+  Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
 -->
 
-### Activity: <name>  ·  [must | backlog]  ·  moves `M-…` / tests `H-…`
-
-- **Description:** …
-- **Scope:**
+**<n> · <activity name>** — links: `H-…` it tests / `M-…` it moves / `B-…` it launches
+- **Feature:** `F-…` (the campaign/content line this run advances; the shipped artifact's external id —
+  a post, a mailing — lands here after the run)
+- **Description:** what the activity is
+- **Scope:** the steps to run it (draft copy · pick audience · schedule · publish · measure — the
+  attribution step is not optional)
   - …
-  - … (include the measurement/attribution step)
-- **Business value:** … (`M-…` / `H-…`)
-- **Audience value:** …
-- **Feature:** `F-…` (the campaign/content line this run advances)
-- **Links:** surface = `S-…` · tests `H-…` · moves `M-…` · launches `B-…` (the Step-5 bundle, if
-  this activity runs one) · shipped as: <external id — post/mailing — after the run>
+- **Business value:** the `M-…` it moves / `H-…` it tests
+- **Audience value:** why the audience cares (not spam)
+- **Surface:** `S-…` it runs on (a surface the register does not hold → a new `planned` `S-…` row)
 - **Expected impact:** `M-…` <baseline → expected> / tests `H-…` · check-by <sprint/date> [assumption]
-- **Owner:** …
-- **Estimate:** <S | M | L> (~<range>) [assumption]
+- **Owner:** who is accountable for it landing
+- **Estimate:** class <S | M | L> + range (~…) — [assumption] until the readout reads the actual
 
-**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
-proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
-actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.
-Weighed none? Order a refutation — `operations/orchestration` → *The two lenses of a `verify`*>
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <the channel, audience or offer not chosen and why — a bare "none" is a defect>

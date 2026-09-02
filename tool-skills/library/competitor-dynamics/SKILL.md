@@ -13,8 +13,8 @@ volume_rule: "one trend row per player in the {#competitors} detailed table (met
 selection_rule: "only numbers that survive the per-fact-type source test enter the table; sources consulted and failed go to the reject table with the reason"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-27
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Competitor Dynamics
 
@@ -26,13 +26,6 @@ effectiveness can be compared — a static snapshot cannot say whose game is wor
 wrong most often. Every number is judged *per fact type*, carries an `as_of`, and any number that
 reaches a conclusion gets a second independent source. The rules live in
 [`../references/evidence-standards.md`](../references/evidence-standards.md).
-
-**No external source, no settled verdict.** This method declares `evidence_standard:
-external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
-capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
-`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
-missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
-section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 
@@ -69,15 +62,7 @@ section that shows no `[sourced: …]` and declares no gap.
 - **Momentum from one point.** A single dated number narrated as a trend.
 
 ## Worklog & projection
-
-The working is done in the step's **worklog** `<step-folder>/competitor-dynamics.md`
-(`node_type: worklog`, e.g. `2-analysis/competitor-dynamics.md`): the trend read per player with
-source + `as_of`, the sources consulted and rejected with reasons, and the seeded `R-…`. That
-worklog is the **source of truth**; the artifact section `{#competitor-dynamics}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md), holding
-nothing the worklog does not, and the step's change-log history lives in the worklog, not the
-section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
-dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `2-analysis/competitor-dynamics.md` — the trend per player with source and `as_of`, the sources rejected with reasons, the seeded `R-…`. Projects `{#competitor-dynamics}`; face: the **Momentum read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

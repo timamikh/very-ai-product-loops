@@ -38,7 +38,6 @@ blank page.
 |-----------|----------|------------------|--------------------|---------|
 | `M-…` | ✅/❌ | ✅/❌ | ✅/❌ | chosen · rejected: <which filter and why> |
 
-**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
-proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
-actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.
-Weighed none? Order a refutation — `operations/orchestration` → *The two lenses of a `verify`*>
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <one alternative weighed and why it lost, or what makes
+the choice forced — a bare "none" is a defect>

@@ -4,7 +4,7 @@ kind: method
 name: where-to-play-how-to-win
 steps: [3]
 prerequisites: [product-concept, market-analysis, value-moats]
-reads: [section:idea, section:segments, section:market-sizing, section:competitors, section:competitor-strategy, section:competitor-dynamics, section:substitutes, section:opportunity, section:value-defensibility, register:hypotheses, source:kb, source:interview]
+reads: [section:idea, section:segments, section:market-sizing, section:competitors, section:competitor-strategy, section:competitor-dynamics, section:substitutes, section:opportunity, section:value-defensibility, register:hypotheses]
 writes: [worklog, section:winning-aspiration, section:where-to-play, section:how-to-win, register:hypotheses]
 opinionated: true
 method_basis: "Playing to Win (Lafley/Martin) — winning aspiration, where-to-play, how-to-win cascade"
@@ -13,8 +13,8 @@ volume_rule: "≥3 distinct where-to-play / how-to-win possibilities before one 
 selection_rule: "the chosen cascade must be internally consistent end to end; the others are recorded with why they lose"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-27
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Where to Play / How to Win
 
@@ -70,18 +70,7 @@ players in that arena — not a list of things we'd like to be good at.
 - **Disconnected cascade.** A winning logic that doesn't actually win in the chosen arena.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/where-to-play-how-to-win.md`
-(`node_type: worklog`, e.g. `3-strategy/where-to-play-how-to-win.md`): the winning aspiration, the ≥3
-distinct candidate cascades with why the losers lose, the chosen where-to-play with its explicit
-exclusions, the how-to-win logic naming the moats it leverages, and the integration check across the
-three choices. This method keeps **one** worklog, and all three sections `{#winning-aspiration}`,
-`{#where-to-play}`, `{#how-to-win}` are its **projections** into the fixed shape of
-[`template-fragment.md`](template-fragment.md); it is the **primary** tool of the multi-tool marker
-`tool: where-to-play-how-to-win, value-definition-strategy` on `{#how-to-win}`, so it **owns** that worklog. The
-worklog is the **source of truth**, the sections hold nothing it does not, and the step's change-log
-history lives in the worklog, not the sections (`process/CONVENTIONS.md` → *Step folders & worklogs*).
-External figures arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never
-linked from the artifact.
+Worklog: `3-strategy/where-to-play-how-to-win.md` — one worklog for three sections: the aspiration, the ≥3 candidate cascades with why the losers lose, the arena with its exclusions, the winning logic with the moats it leverages, the integration check. Projects `{#winning-aspiration}` (face: **Aspiration**), `{#where-to-play}` (face: **Arena call**) and `{#how-to-win}` (face: **Winning logic**), each ending in its own Decided line, via [`template-fragment.md`](template-fragment.md). Primary of the `{#how-to-win}` marker; `value-definition-strategy`'s moat contribution reaches that section at re-projection, from its own worklog. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#winning-aspiration}`, `{#where-to-play}`, `{#how-to-win}` via

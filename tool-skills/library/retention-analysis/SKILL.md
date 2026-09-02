@@ -4,7 +4,7 @@ kind: method
 name: retention-analysis
 steps: [4]
 prerequisites: [usage metrics with a per-user/per-account timestamp, the activation/active definition]
-reads: [register:metrics, register:hypotheses, source:metrics, source:kb]
+reads: [section:metric-tree, register:metrics, register:hypotheses, source:metrics]
 writes: [worklog, section:retention, register:hypotheses, register:metrics]
 opinionated: true
 method_basis: "Cohort retention curve (does it flatten?) + usage-frequency / engagement-loop analysis + resurrection; the flattening retention curve is the PMF signal and the real input to LTV/churn — not an assumed churn %"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
-updated: 2026-08-09
+version: 0.2.3
+updated: 2026-09-02
 ---
 # Retention Analysis
 
@@ -99,16 +99,7 @@ metric that judges a monthly product on daily use lies), and paired with the **e
   retention input, it doesn't own the economics.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/retention-analysis.md`
-(`node_type: worklog`, e.g. `4-strategic-plan/retention-analysis.md`): the "active" definition and the
-product's natural frequency, the cohort retention curve and its shape (does it flatten above zero?),
-the censoring / `observed_n` accounting, the curves split by segment, the engagement-loop map
-(trigger → action → reward → investment), and the drop-off and resurrection points. That worklog is
-the **source of truth**; the artifact section `{#retention}` is its **projection** into the fixed
-shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and
-the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/retention-analysis.md` — the "active" definition and natural frequency, the cohort curve with `observed_n` per cell, the splits, the engagement loop, the drop-off and resurrection points. Projects `{#retention}`; face: the **Headline** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#retention}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

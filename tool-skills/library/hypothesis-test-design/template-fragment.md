@@ -8,8 +8,12 @@
 **Test designs** — one row per `H-…` we test this period. Each is a pre-registered read:
 metric node · success/failure threshold · sample or duration · decision rule fixed *before* running.
 
-| Hypothesis (`H-…`) | Metric node (`M-…`) | Success threshold | Failure threshold | Sample / duration | Decision rule | Confidence |
-|--------------------|---------------------|-------------------|-------------------|-------------------|---------------|------------|
+<!-- card -->
+**Test read:** <one sentence — which `H-…` are under test this period, the bar each must clear, and
+the smallest test that can reach it>.
+
+| `H-…` | Metric node (`M-…`) | Success | Failure | Sample / duration | Decision rule | Confidence |
+|-------|---------------------|---------|---------|-------------------|---------------|------------|
 | H-… — <what the bet claims> | M-… | ≥ … | < … | e.g. n = … / … weeks | ≥ success → `validated`; < failure → `refuted`; between → `inconclusive` → <next action> | [assumption] |
 
 _The threshold and `M-…` link come from `hypothesis-thresholds` at Step 4 and are referenced, never

@@ -4,7 +4,7 @@ kind: method
 name: strategic-targets
 steps: [4]
 prerequisites: [horizon, metric-tree, financial-model]
-reads: [register:metrics, register:features, register:risks, source:interview, source:kb]
+reads: [section:winning-aspiration, section:metric-tree, section:financial-model, register:metrics, register:features, register:risks]
 writes: [worklog, section:strategic-targets, register:features]
 opinionated: false
 method_basis: "Horizon commitments read off the driver-based projection: 3–5 key metric nodes × value at the strategy horizon, scenario named, decision-attributed; Step-5 period targets ladder up to these"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: "3–5 nodes carry a horizon target; nodes considered and left untargeted are kept with why"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-24
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Strategic Targets
 
@@ -75,15 +75,7 @@ turns 3–5 of them into dated, attributed commitments.
   hides a strategy gap.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/strategic-targets.md`
-(`node_type: worklog`, e.g. `4-strategic-plan/strategic-targets.md`): the horizon taken from the
-aspiration, the 3–5 nodes chosen with why each carries a commitment, the scenario each value is
-read off with the model citation, the nodes considered and left untargeted with why, and the
-decision line per target. That worklog is the **source of truth**; the artifact section
-`{#strategic-targets}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*).
+Worklog: `4-strategic-plan/strategic-targets.md` — the horizon taken from the aspiration, the 3–5 nodes with why each carries a commitment, the scenario per value with the model citation, the untargeted nodes with why, the decision. Projects `{#strategic-targets}`; face: the **Commitment** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#strategic-targets}` via [`template-fragment.md`](template-fragment.md) from the

@@ -4,7 +4,7 @@ kind: method
 name: ab-test
 steps: [5]
 prerequisites: [a hypothesis with a threshold and its metric node, enough traffic/sample to detect the effect, a way to randomize and instrument both arms]
-reads: [register:hypotheses, register:metrics, source:metrics]
+reads: [section:guardrails, register:hypotheses, register:metrics, source:metrics]
 writes: [worklog, section:hypotheses-to-test, register:hypotheses, register:metrics]
 opinionated: false
 method_basis: "Online controlled experiments (Kohavi/Tang/Xu) — OEC + guardrail metrics, MDE-driven sizing, pre-registered stopping rule (no peeking)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.2
-updated: 2026-08-09
+version: 0.1.3
+updated: 2026-09-02
 ---
 # A/B Test
 
@@ -83,16 +83,7 @@ test selection, it executes one kind of test.
 - **Ignoring SRM.** Unequal arms signal a broken assignment; the result is void, not "close enough".
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/ab-test.md` (`node_type: worklog`,
-e.g. `5-tactical-plan/ab-test.md`): the OEC and its guardrail metrics, the randomization unit and
-arms with the allocation split, the MDE-driven sample and run-length sizing with the stated
-population, the pre-registered stopping rule, the pitfall checks (SRM, novelty, cross-arm
-contamination), and the verdict with the measured effect. That worklog is the **source of truth**;
-the artifact section `{#hypotheses-to-test}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `5-tactical-plan/ab-test.md` — the OEC and guardrails, the unit / arms / split, the MDE sizing with the stated population, the stopping rule, the pitfall checks, the verdict with the measured effect. Projects the experiment block of `{#hypotheses-to-test}` (second tool of the marker; `hypothesis-test-design` is primary); face: the **Test read** line, the same slot, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#hypotheses-to-test}` (the experiment design + read) via

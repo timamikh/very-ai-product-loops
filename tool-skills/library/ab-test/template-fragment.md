@@ -3,7 +3,17 @@
   Follow process/CONVENTIONS.md. ⚙️ = agent proposal awaiting approval.
 -->
 
-### Experiment — <name> {#hypotheses-to-test}
+## Hypotheses to test {#hypotheses-to-test}
+
+<!-- card -->
+**Test read:** <one sentence — the `H-…` under experiment, the OEC bar it must clear, and the n / run
+length that can reach it> _(the same slot `hypothesis-test-design` declares — one face per section)_.
+
+| `H-…` | Metric node (`M-…`) | Success | Failure | Sample / duration | Decision rule | Confidence |
+|-------|---------------------|---------|---------|-------------------|---------------|------------|
+| H-… — <what has to be true> | M-… (the OEC) | ≥ … | < … | n = … / arm · … weeks | ≥ success → `validated`; < failure → `refuted`; between → `inconclusive`; any guardrail breach → `refuted` | [assumption] |
+
+### Experiment — <name>
 
 - **Hypothesis:** `H-…` — <what has to be true> · **reads against:** `M-…`
 - **OEC (primary metric):** `M-…` — <the one metric the decision hangs on>

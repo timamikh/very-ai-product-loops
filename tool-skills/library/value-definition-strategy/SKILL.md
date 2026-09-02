@@ -4,7 +4,7 @@ kind: method
 name: value-definition-strategy
 steps: [3]
 prerequisites: [the step-1 value-defensibility section, competitor-context, strategy choices (where-to-play / how-to-win)]
-reads: [section:value-defensibility, worklog:1-concept/value-definition-concept, section:competitor-strategy, section:where-to-play, section:how-to-win, register:hypotheses, source:interview, source:kb]
+reads: [section:value-defensibility, worklog:1-concept/value-definition-concept, section:competitor-strategy, section:where-to-play, section:how-to-win, register:hypotheses]
 writes: [worklog, section:value-defensibility, register:hypotheses]
 opinionated: true
 method_basis: "7 Powers (Helmer) revisited at strategy — derivative moats once customers/scale exist, moat trajectory over time; post-AI lens (software isn't the moat, position is)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-27
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Value & Defensibility (strategy revisit)
 
@@ -34,8 +34,8 @@ not create a second one.
 >   This skill *extends* that work — it never re-derives the base layer from scratch; a base moat
 >   that no longer holds is updated in place, with the change logged.
 > - **`where-to-play-how-to-win`** owns `{#how-to-win}`; **`bets`** owns `{#bets}`. This skill is
->   the *second* tool on both markers — its moat contribution lands in those primaries' worklogs,
->   not in files of its own.
+>   the *second* tool on both markers — its contribution is worked in its own worklog and reaches
+>   those sections when their primaries re-project; it never writes another method's worklog (N6).
 > - **`competitor-analysis` (Step 2)** supplies the context that decides whether a moat is actually
 >   differentiated — a moat every rival also has is table stakes.
 
@@ -71,9 +71,11 @@ not create a second one.
    contracts expire)? State the order of construction — the strategy leans on the moats in the
    sequence they will actually exist, not all at once.
 4. **Contribute to `{#how-to-win}` and `{#bets}`.** The winning logic names the moats it leverages;
-   each bet names the moat it leans on. That working lands in the **primaries' worklogs**
-   (`3-strategy/where-to-play-how-to-win.md` and `3-strategy/bets.md`) — the first tool in a
-   `<!-- tool: A, B -->` marker owns the section's worklog (`process/CONVENTIONS.md`).
+   each bet names the moat it leans on. That working stays in **this method's worklog**; the
+   primaries (`where-to-play-how-to-win`, `bets`) read the re-projected `{#value-defensibility}`
+   and pick the moats up when they re-project — the first tool in a `<!-- tool: A, B -->` marker
+   owns the section's thread, each named tool owns its own file
+   (`process/reference/worklog-resolution.md`).
 5. **Keep the kills current.** Candidates the rebuild test kills at this pass — including
    derivatives that turned out to have no dependency path — join the rejected table with reasons.
 6. **Update the Step-1 section — and say what that costs.** Project the revised picture back into
@@ -97,23 +99,11 @@ not create a second one.
   standing — a signed-off thesis that no longer says what was signed.
 
 ## Worklog & projection
-This method **revisits** a section owned at Step 1 — `{#value-defensibility}`, marker
-`<!-- tool: value-definition-concept, value-definition-strategy -->`, second tool. A revisit works
-in **its own worklog** in its own step's folder: `3-strategy/value-definition-strategy.md`
-(`node_type: worklog`) — the re-tested base moats, the derivative table with dependencies, the
-trajectory, the new kills, with a dated change-log entry. The Step-1 working it builds on is a
-**declared worklog input** (`worklog:1-concept/value-definition-concept` in `reads`) — read, never
-written: no method writes another method's worklog (the write rule, N6). `{#value-defensibility}`
-is re-projected from this worklog via [`template-fragment.md`](template-fragment.md), which drops
-the section's stale `confirmed:` marker. The method is also named second on `{#how-to-win}`: that
-contribution is worked in this same worklog and reaches the section when its primary
-(`where-to-play-how-to-win`) re-projects; `{#bets}` reads the re-projected sections and the
-registers (`process/reference/worklog-resolution.md` → *Several methods → one section*). External
-inputs arrive dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from
-the artifact.
+Worklog: `3-strategy/value-definition-strategy.md` — a **revisit** in its own step's folder: the re-tested base moats, the derivatives with their dependencies, the trajectory, the new kills, a dated change-log entry; the Step-1 working is a declared read (`worklog:1-concept/value-definition-concept`), never written. Re-projects `{#value-defensibility}` (which drops the section's `confirmed:` marker); face: the **Moat read** line — the same slot as `value-definition-concept`, via [`template-fragment.md`](template-fragment.md). Named second on `{#how-to-win}`: that contribution is worked here and reaches the section when `where-to-play-how-to-win` re-projects. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+
 ## Output
 Re-projects the Step-1 `{#value-defensibility}` via [`template-fragment.md`](template-fragment.md)
 (the update drops the section's `confirmed:` marker — it awaits re-confirmation); contributes moats
-to `{#how-to-win}` / `{#bets}` through their primary methods' worklogs. Inputs via
+to `{#how-to-win}` / `{#bets}` through their primary methods' re-projection. Inputs via
 [`questions.yaml`](questions.yaml); each unproven derivative/dependency seeds `H-…`. Deeper notes:
 [`moat-taxonomy.md`](../value-definition-concept/references/moat-taxonomy.md).

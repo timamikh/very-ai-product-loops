@@ -4,7 +4,7 @@ kind: method
 name: channels-expansion
 steps: [3]
 prerequisites: [segments, uvp]
-reads: [section:segments, section:uvp-cpv, register:hypotheses, register:risks, source:interview, source:kb, source:research]
+reads: [section:segments, section:uvp-cpv, section:pricing, register:hypotheses, register:risks, source:kb, source:research]
 writes: [worklog, section:channels-expansion, register:hypotheses, register:risks]
 opinionated: false
 method_basis: "Bullseye framework (Traction, Weinberg/Mares) + GTM-motion choice + expansion-path thinking"
@@ -13,8 +13,8 @@ volume_rule: "≥8 candidate channels across ≥3 channel-type categories before
 selection_rule: "reach × cost-to-test × testability (1/3/5); inner ring = the 3 highest, tested now"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-27
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Channels & Expansion
 
@@ -24,13 +24,6 @@ Rank the **acquisition / communication channels** to test now, and lay out the *
 **Method basis.** Weinberg & Mares' Bullseye: brainstorm across all channel types, rank into
 outer/middle/inner rings, then run cheap tests on the promising few before committing. Paired with
 expansion-path thinking: sequence the segments/markets we grow into once the first channel works.
-
-**No external source, no settled verdict.** This method declares `evidence_standard:
-external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
-capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
-`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
-missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
-section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 3, once segments and the UVP are set (a channel carries a message to a segment).
@@ -53,7 +46,8 @@ section that shows no `[sourced: …]` and declares no gap.
    **outer** — kept with the reason they lost, never deleted. A claim about a channel's reach is an
    external claim: source it per
    [`../references/evidence-standards.md`](../references/evidence-standards.md), or tag it
-   `[assumption]` and say so.
+   `[assumption]` and say so. A channel already running takes its `state` from a filed channel
+   report (`source:kb`), never from intention.
 3. **Choose the GTM motion — how this segment buys.** `product-led` (self-serve: try → buy) ·
    `sales-led` (a human sells: demo → contract) · `partner-led` (someone else's channel sells) ·
    `community-led` (adoption spreads through a shared space). The economics decide, not taste:
@@ -79,18 +73,7 @@ section that shows no `[sourced: …]` and declares no gap.
 - **Expansion with no trigger.** A wish-list of markets with nothing gating the next step.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/channels-expansion.md`
-(`node_type: worklog`, e.g. `3-strategy/channels-expansion.md`): the full brainstorm (≥8 candidates
-across ≥3 channel-type categories), the 1·3·5 reach × cost-to-test × testability scores ranked into
-outer / middle / inner rings with every loser kept and its reason, the chosen GTM motion with the
-price-vs-touch reasoning and the coherence check against the inner ring, the measurable test (metric,
-cost, threshold) per inner-ring channel, and the sequenced expansion path with the trigger gating each
-step.
-That worklog is the **source of truth**; the artifact section `{#channels-expansion}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds nothing
-the worklog does not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `3-strategy/channels-expansion.md` — the ≥8 candidates scored and ringed with every loser's reason, the GTM motion with its price-vs-touch reasoning and coherence check, the measurable test per inner-ring channel, the expansion path with its triggers. Projects `{#channels-expansion}`; face: the **Channel read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#channels-expansion}` via [`template-fragment.md`](template-fragment.md) from the worklog;

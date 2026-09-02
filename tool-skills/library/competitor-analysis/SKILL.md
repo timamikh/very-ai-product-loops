@@ -4,7 +4,7 @@ kind: method
 name: competitor-analysis
 steps: [2]
 prerequisites: [product-concept, competitor-list-seed]
-reads: [section:idea, section:segments, section:market-sizing, register:risks, register:hypotheses, source:research, source:kb, source:interview]
+reads: [section:idea, section:segments, section:market-sizing, register:risks, register:hypotheses, source:research, source:kb]
 writes: [worklog, section:competitors, section:competitor-strategy, register:risks, register:hypotheses]
 opinionated: false
 method_basis: "'What game are they playing' + moat comparison (pricing scan and growth-dynamics are separate methods)"
@@ -13,8 +13,8 @@ volume_rule: "≥5 named players, including ≥1 the team did not name first (re
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-27
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Competitor Analysis
 
@@ -26,13 +26,6 @@ same competitor list as separate methods: the dated pricing scan is
 
 **Method basis.** For each competitor: the *game* they play (revenue / profit / market share /
 social capital — and how), compared against our moats.
-
-**No external source, no settled verdict.** This method declares `evidence_standard:
-external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
-capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
-`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
-missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
-section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 2, after framing the market.
@@ -72,16 +65,7 @@ section that shows no `[sourced: …]` and declares no gap.
 - **A game with no evidence.** Asserting what a competitor is chasing without a move that shows it.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/competitor-analysis.md`
-(`node_type: worklog`, e.g. `2-analysis/competitor-analysis.md`): the competitor list (≥5 named,
-including one the team did not name first), the excluded players each with its reason, each player's
-*game* and moat comparison, and the white-space / threat conclusion. This method keeps **one**
-worklog, and both sections `{#competitors}` and `{#competitor-strategy}` are its **projections** into
-the fixed shape of [`template-fragment.md`](template-fragment.md) — the worklog is the **source of
-truth**, the sections hold nothing it does not, and the step's change-log history lives in the
-worklog, not the sections (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures
-arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from
-the artifact.
+Worklog: `2-analysis/competitor-analysis.md` — one worklog for two sections: the ≥5 players with the excluded ones and why, each player's game and the moat comparison, the white-space / threat read. Projects `{#competitors}` (face: **Field read**) and `{#competitor-strategy}` (face: **Strategy read**) via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#competitors}` and `{#competitor-strategy}` via

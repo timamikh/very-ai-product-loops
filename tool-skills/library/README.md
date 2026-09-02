@@ -2,8 +2,8 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.12.0
-updated: 2026-08-21
+version: 0.12.1
+updated: 2026-09-02
 ---
 
 # Library
@@ -110,6 +110,13 @@ polite options, all of them survivors, and no selection actually happened. A vol
 number that makes the selection real. **The questionnaire carries the rule**: the question that
 gathers the set states the floor (`min:` on the `list` question) and runs *before* any choice
 question — an interview that opens with "pick one" has already broken its own method.
+
+**The questionnaire's vocabulary** (check Y holds `type`): each question carries `id` · `ask` · `type`
+(`free_text` · `list` · `per_item` · `single_select` · `multi_select`) · `why`; a `list` question may
+carry `min:` — the floor the `volume_rule` states — and `max:` — the ceiling the `selection_rule`
+states (`segmentation`: at most 3 segments; `strategic-targets`: at most 5 nodes); a select carries
+`options:` or `from: <question-id>`. No `writes:` — the write perimeter lives in the card header only
+(check A2).
 
 **`selection_rule`** — how the set is cut down: the criteria, the scale, and how many survive. `n/a`
 where the method produces one thing rather than a set. A method with a `volume_rule` and no

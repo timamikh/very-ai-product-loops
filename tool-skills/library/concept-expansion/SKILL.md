@@ -4,7 +4,7 @@ kind: method
 name: concept-expansion
 steps: [1]
 prerequisites: [concept, ranked-problems]
-reads: [section:idea, section:problems, worklog:1-concept/concept-formation, register:hypotheses, register:risks, source:interview, source:kb]
+reads: [section:idea, section:problems, worklog:1-concept/concept-formation, register:hypotheses, source:kb]
 writes: [worklog, section:solution, register:hypotheses]
 opinionated: false
 method_basis: "problem→solution mapping — every ranked pain gets its mechanism; no orphan features"
@@ -13,8 +13,8 @@ volume_rule: "one row per problem carried forward from {#problems} — the tier-
 selection_rule: "a feature that answers no ranked problem is an orphan — dropped to the reject table, not kept"
 rejects_shown: required
 status: draft
-version: 0.4.0
-updated: 2026-08-25
+version: 0.4.1
+updated: 2026-09-02
 ---
 # Concept Expansion
 
@@ -50,7 +50,8 @@ must point back at a pain or be rejected as an orphan.
    mechanism a stranger could paraphrase ("matches X against Y so Z never happens"), not a feature
    label ("smart matching"). The solution stub from `concept-formation` seeds this; the pains
    discipline it.
-3. **Run the orphan check.** Any capability in the stub / backlog / founder's head that maps to no
+3. **Run the orphan check.** Any capability in the stub, a filed backlog or feature list
+   (`source:kb`), or the founder's head that maps to no
    ranked problem goes to the reject table with the reason (`no ranked pain`, `tier-3 only`,
    `duplicate mechanism`). Orphans are dropped from the concept, not silently kept.
 4. **Surface the feasibility bets.** A mechanism the team has not built before, or one that leans
@@ -71,15 +72,7 @@ must point back at a pain or be rejected as an orphan.
   build bet stays hidden and never gets tested.
 
 ## Worklog & projection
-
-The working is done in the step's **worklog** `<step-folder>/concept-expansion.md`
-(`node_type: worklog`, e.g. `1-concept/concept-expansion.md`): the carried problem ranking, the
-mechanism per pain with its feasibility read, the orphan table with reasons, and the seeded `H-…`.
-That worklog is the **source of truth**; the artifact section `{#solution}` is its **projection**
-into the fixed shape of [`template-fragment.md`](template-fragment.md), holding nothing the worklog
-does not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `1-concept/concept-expansion.md` — the carried ranking, the mechanism per pain with its feasibility read, the orphan table, the seeded `H-…`. Projects `{#solution}`; face: the **What the mapping shows** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

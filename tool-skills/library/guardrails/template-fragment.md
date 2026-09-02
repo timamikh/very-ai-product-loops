@@ -5,13 +5,20 @@
 
 ## Guardrails {#guardrails}
 
-**Protected metrics (must not cross the threshold while hitting goals):**
-| Guardrail metric (`M-…`) | Threshold (floor/ceiling) | Watched where / how often | Confidence |
-|--------------------------|---------------------------|---------------------------|------------|
-| e.g. `M-retention-d30` | floor 35% | analytics, weekly | [sourced: …] |
+<!-- card -->
+**Guardrail read:** <one sentence — the protected metric most exposed to this period's goals, its
+floor or ceiling, and where it is watched>.
 
-**Red lines (qualitative "never"):**
-- …
+**Protected metrics** (must not cross the threshold while hitting goals):
+
+| Guardrail (`M-…`) | Must stay | Red line | Why | Confidence |
+|-------------------|-----------|----------|-----|------------|
+| e.g. `M-retention-d30` | ≥ 35 % | < 30 % for two weeks | the goal's acquisition push must not buy churn | [sourced: …] |
+
+_**Must stay** is the floor / ceiling the metric holds; the **red line** is the crossing that stops the
+work. Qualitative red lines ("never a dark pattern") take a row with `—` in the metric cell._
+
+**Watched where / how often:** <guardrail → dashboard or query · cadence>, one line each.
 
 **Breach = risk:** logged as `R-…`.
 
@@ -22,7 +29,6 @@ category nobody looked at and one that was looked at and cleared are indistingui
 |----------|------------------|---------------------|
 | retention · unit economics · CAC · quality · brand/trust · support load · churn | … | no metric node yet (→ instrumentation task) · no plausible mechanism this period · already covered by <other guardrail> |
 
-**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
-proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
-actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.
-Weighed none? Order a refutation — `operations/orchestration` → *The two lenses of a `verify`*>
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <one alternative weighed and why it lost, or what makes
+the choice forced — a bare "none" is a defect>

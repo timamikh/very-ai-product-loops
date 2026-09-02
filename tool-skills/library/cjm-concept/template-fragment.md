@@ -17,7 +17,6 @@ and say how many people each stage rests on._
 | habitual use | … | … | … | … | … | … |
 | renew / expand | … | … | … | … | … | … |
 
-<!-- card -->
 **Moments that matter:** <the make-or-break points where the journey is won or lost>.
 
 **Pains → opportunities**
@@ -25,6 +24,10 @@ and say how many people each stage rests on._
 |--------------|-------------------|-------|
 | … | … | `H-…` |
 | drop-off at … | "customers get past <stage>" as a testable claim | `H-…` (or — to clarify — if not yet phrasable) |
+
+<!-- card -->
+**Journey read:** <one sentence — the lowest point of the map and the moment that matters most, and
+the drop-off that seeds the first `H-…`> _(the same slot `cjm-strategy` re-projects into)_.
 
 **Feeds:** step-1 `{#problems}` (pains, scored there) · step-3 `cjm-strategy` (re-walks this map
 against the chosen strategy; touchpoints → `{#product-surface}`).

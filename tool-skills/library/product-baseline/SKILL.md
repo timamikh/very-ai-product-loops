@@ -4,7 +4,7 @@ kind: method
 name: product-baseline
 steps: [3]
 prerequisites: [something is live to inventory, a source to read it from (walkthrough / analytics / interview / git passport)]
-reads: [register:features, register:surfaces, register:metrics, source:interview, source:metrics, source:git, source:kb]
+reads: [section:product-surface, register:features, register:surfaces, register:metrics, source:interview, source:metrics, source:git, source:kb]
 writes: [worklog, section:product-surface, register:features, register:surfaces]
 opinionated: false
 method_basis: "As-is inventory from sources — every live surface and every live feature landed as `live` register rows with a source; drift against the register is the trigger, not a calendar"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-24
+version: 0.1.1
+updated: 2026-09-02
 ---
 # Product Baseline (as-is inventory)
 
@@ -80,12 +80,7 @@ snapshot (via the `git` source passport — structure and services, never conten
 - **Calendar ritual.** Refreshing on schedule when nothing drifted is paid work with no reader.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/product-baseline.md` (`node_type:
-worklog`, e.g. `3-strategy/product-baseline.md`): the source(s) read, the walkthrough notes, the
-surface and feature inventories with their evidence, the reconciliation diff (flips, retirements,
-strays), and the open `— to clarify —` serves-links. That worklog is the **source of truth**; the
-register rows and the refreshed `{#product-surface}` lines are its projections
-(`process/CONVENTIONS.md` → *Step folders & worklogs*).
+Worklog: `3-strategy/product-baseline.md` — the sources read, the surface and feature inventories with their evidence, the reconciliation diff, the open serves-links; the fragment is this worklog's shape. Projects no section of its own — the register rows and the refreshed `{#product-surface}` lines (through its primary, `product-surface`) are its projections; no card slot, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 `live` rows in `registers/features.md` / `registers/surfaces.md` (each `[sourced: …]`), the

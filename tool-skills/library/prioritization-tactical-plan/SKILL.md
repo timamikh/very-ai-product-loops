@@ -4,7 +4,7 @@ kind: method
 name: prioritization-tactical-plan
 steps: [5]
 prerequisites: [candidate items, the period gate/goal, available resources]
-reads: [register:metrics, register:hypotheses, register:features]
+reads: [section:metric-tree, section:resources, section:market-bundles, register:metrics, register:hypotheses, register:features]
 writes: [worklog, section:period-goals, register:features]
 opinionated: false
 method_basis: "RICE/ICE as a ranking aid, ranked by contribution to the period gate; capacity-bounded goal set"
@@ -13,8 +13,8 @@ volume_rule: "every candidate current for the period enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the goal set is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-24
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Prioritization — Tactical Plan
 
@@ -22,6 +22,11 @@ Rank the period's candidate goals by their **contribution to the gate of the per
 abstract score — and keep only what **fits the period's capacity**. Fills `{#period-goals}` (Step 5).
 The sprint-level split of items into must/backlog is the sibling method
 [`prioritization-sprint-plan`](../prioritization-sprint-plan/SKILL.md) (Step 6) — one step, one skill.
+
+**Goal vs item.** A *goal* is a period-level outcome per direction — a measurable movement of an
+`M-…` or a Definition of Done, sized by `goal-targets` — and is what this method ranks. An *item* is
+one sprint-level piece of work (a Feature, Activity or Task carrying an `F-…`) that advances a goal;
+items are ranked at Step 6 by `prioritization-sprint-plan`, never here.
 
 **Method basis.** RICE/ICE scoring (Reach · Impact · Confidence · Effort) used as a *ranking* aid,
 not an oracle: the ordering key is how much each candidate moves the period gate. The goal set is
@@ -82,14 +87,7 @@ the minimum without which the period gate is unreachable, bounded by the availab
   next pass re-derives it and no one can audit the selection.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/prioritization-tactical-plan.md`
-(`node_type: worklog`, e.g. `5-tactical-plan/prioritization-tactical-plan.md`): the period gate
-stated first, the full candidate list **with N recorded**, the RICE/ICE scores, the re-rank by gate
-contribution, the goal set bounded at the capacity line, and every **cut candidate with its
-reason**. That worklog is the **source of truth**; the artifact section `{#period-goals}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md), holding
-nothing the worklog does not, with the change-log history in the worklog
-(`process/CONVENTIONS.md` → *Step folders & worklogs*).
+Worklog: `5-tactical-plan/prioritization-tactical-plan.md` — the gate stated first, the full candidate list with N, the RICE/ICE scores, the re-rank by gate contribution, the goal set bounded at the capacity line, every cut with its reason. Projects `{#period-goals}`; face: the **Gate of the period** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#period-goals}` (Step 5) via [`template-fragment.md`](template-fragment.md) from its

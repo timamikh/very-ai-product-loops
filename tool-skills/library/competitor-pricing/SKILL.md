@@ -13,8 +13,8 @@ volume_rule: "one row per player in the {#competitors} detailed table — a pric
 selection_rule: "only comparable, dated prices enter the table; a price that can't anchor a comparison goes to the reject table with the reason"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-27
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Competitor Pricing
 
@@ -26,13 +26,6 @@ Step-4 financial model — it is **not our price**.
 **Method basis.** A per-competitor pricing scan from the competitor's own site or a web search,
 every figure dated: published pricing is the fastest-ageing fact in the analysis, and an undated
 price is a claim about an unknown month.
-
-**No external source, no settled verdict.** This method declares `evidence_standard:
-external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
-capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
-`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
-missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
-section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 
@@ -67,15 +60,7 @@ section that shows no `[sourced: …]` and declares no gap.
   are not commensurable.
 
 ## Worklog & projection
-
-The working is done in the step's **worklog** `<step-folder>/competitor-pricing.md`
-(`node_type: worklog`, e.g. `2-analysis/competitor-pricing.md`): the dated scan per player, the
-prices found but rejected as inputs with reasons, and the not-public `— to clarify —` list. That
-worklog is the **source of truth**; the artifact section `{#competitor-pricing}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md), holding
-nothing the worklog does not, and the step's change-log history lives in the worklog, not the
-section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
-dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `2-analysis/competitor-pricing.md` — the dated scan per player, the prices rejected as inputs with reasons, the not-public `— to clarify —` list. Projects `{#competitor-pricing}`; face: the **Price anchor** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

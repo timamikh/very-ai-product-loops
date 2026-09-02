@@ -4,7 +4,7 @@ kind: method
 name: segment-cvp
 steps: [5]
 prerequisites: [segments, segment-pains]
-reads: [register:hypotheses, source:interview, source:kb, source:research]
+reads: [section:segments, section:problems, section:uvp-cpv, section:channels-expansion, register:hypotheses, source:interview, source:research]
 writes: [worklog, section:market-bundles, register:hypotheses]
 opinionated: true
 method_basis: "Market-entry bundle (segment · situation · pain · CVP · offer · first action · channel · signal) with a 6-filter readiness gate and a qualified-action signal scale; one bundle = one testable go-to-market hypothesis"
@@ -13,8 +13,8 @@ volume_rule: "≥3 distinct situations per priority segment and ≥8 bundles in 
 selection_rule: "6-filter readiness gate (binary) → among the ready, 5 criteria × 1/3/5 = 5–25 → top 3–5 staged"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-16
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Segment–CVP bundle
 
@@ -93,7 +93,7 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
 5. **Score the ready bundles and stage the top 3–5.** The 6-filter gate is binary — it says which
    bundles are *testable at all*. It does not say which are worth a test slot, and with eight or more
    ready bundles that question does not answer itself. Score each ready bundle on the **priority
-   score** — the scale is *defined* in `hypothesis-test-design` §Scales and *operated* here —
+   score** — the scale is *defined* in [`process/reference/scales.md`](../../../process/reference/scales.md) and *operated* here —
    **1 · 3 · 5** on its five criteria, sum to **5–25**, stage the top 3–5:
 
    | Criterion | 1 | 3 | 5 |
@@ -115,7 +115,9 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
    why the boundary is stated in both files.
 
    A score is `⚙️` until the human confirms it, and a criterion you cannot judge is a `— to clarify —`,
-   not a 3.
+   not a 3. The evidence behind a score is the evidence the composed sections already carry; a
+   reachability or willingness-to-pay claim new to this pass is sourced (`source:interview` /
+   `source:research`) or tagged `[assumption]`.
 6. **Tag confidence & source, then seed the register.** Each ready bundle → an `H-…`
    (`type: desirability`) whose statement carries the whole bundle. Bundles are the register's
    go-to-market entries; a validated bundle is a proven positioning, a refuted one is a guard.
@@ -152,16 +154,7 @@ meeting with a real decision-maker / trial / price talk / pilot / payment) — c
   `— to clarify —`, and a bundle scored mostly on shrugs should not be staged.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/segment-cvp.md` (`node_type: worklog`,
-e.g. `5-tactical-plan/segment-cvp.md`): every bundle composed (segment · situation · pain · CVP ·
-offer · channel · signal), its verdict on the 6-filter readiness gate with the reason, the 1·3·5
-scores on the five criteria for the ready ones, the top 3–5 staged, and every not-ready or
-lost-on-score bundle kept with the filter it failed or its score. That worklog is the **source of
-truth**; the artifact section `{#market-bundles}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `5-tactical-plan/segment-cvp.md` — every bundle composed, its 6-filter verdict with the reason, the 1·3·5 scores of the ready ones, the staged top 3–5, every not-ready or lost-on-score bundle with its filter or score. Projects `{#market-bundles}`; face: the **Staged for test this period** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#market-bundles}` (Step 5) via [`template-fragment.md`](template-fragment.md) from the

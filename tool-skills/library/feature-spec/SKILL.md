@@ -4,7 +4,7 @@ kind: method
 name: feature-spec
 steps: [6]
 prerequisites: [period-goals]
-reads: [register:hypotheses, register:metrics, register:features, source:interview, source:kb]
+reads: [section:period-goals, register:hypotheses, register:metrics, register:risks, register:features]
 writes: [worklog, section:must, section:backlog, register:features]
 opinionated: false
 method_basis: "Feature description at grooming altitude (Description / Scope / Acceptance criteria / Business value / User value / User stories) + the register thread: the F-… it advances, a pre-registered Expected impact with a check-by, an S/M/L estimate"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.0
-updated: 2026-08-23
+version: 0.4.1
+updated: 2026-09-02
 ---
 # Feature Spec (development direction)
 
@@ -65,17 +65,7 @@ Each feature has exactly these fields (keep them tight):
   or a Scope list restated as criteria; done stays negotiable.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/feature-spec.md` (`node_type: worklog`,
-e.g. `6-sprint-plan/feature-spec.md`): for each development item, its Description, Scope, Acceptance
-criteria, Business value (the `M-…` it moves / `H-…` it tests), User value, and User stories. That
-worklog is the **source of truth** for this method's rows; the Features subsections of `{#must}` /
-`{#backlog}` (`### … Features <!-- tool: feature-spec, prioritization-sprint-plan -->`) are its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — those
-sections are co-filled (the ranking comes from `prioritization-sprint-plan`), but this method owns
-its worklog for its own feature rows. The
-projection holds nothing the worklog does not, and the step's change-log history lives in the worklog,
-not the section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
-dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `6-sprint-plan/feature-spec.md` — one block per development item with every field of the format. Projects item blocks into the Features subsections of `{#must}` / `{#backlog}` (primary of their marker; the ranking comes from `prioritization-sprint-plan`, the Groom line from `feature-grooming`); no card slot — the section's face is the ranking's, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects one block per feature into the Features subsections of `{#must}` / `{#backlog}` via

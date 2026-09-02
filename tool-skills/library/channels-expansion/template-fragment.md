@@ -8,7 +8,14 @@
 **GTM motion:** product-led / sales-led / partner-led / community-led — _why this fits how the
 segment buys: price per account vs the cost of the motion's touch._ [assumption]
 
-**Channel ranking (Bullseye rings)**
+**Channels** (the section's form — the inner ring, one row per channel we run or test now)
+
+| Channel | Stage (traction / scale) | Segment reached | State | Why it fits the segment | Confidence |
+|---------|--------------------------|-----------------|-------|-------------------------|------------|
+| … | traction | … | live / building / leaking / untested | … | [assumption] |
+
+**Channel ranking (Bullseye rings)** — the draft's working: every candidate that entered
+
 | Channel | Reach 1/3/5 | Cost to test 1/3/5 | Testability 1/3/5 | Sum | Ring | Why it lost | Segment reached | Metric | Cost | Success threshold | Confidence |
 |---------|-------------|--------------------|-------------------|-----|------|-------------|-----------------|--------|------|-------------------|------------|
 | … | 5 | 3 | 5 | 13 | inner | — | … | e.g. CAC | … | … | [assumption] |

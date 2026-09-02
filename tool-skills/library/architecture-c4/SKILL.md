@@ -4,7 +4,7 @@ kind: method
 name: architecture-c4
 steps: [3]
 prerequisites: [product-concept]
-reads: [section:idea, section:solution, register:risks, source:interview, source:kb, source:git]
+reads: [section:idea, section:solution, register:risks, source:kb, source:git]
 writes: [worklog, section:architecture, register:risks]
 opinionated: false
 method_basis: "C4 model — Context level (Simon Brown)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
-updated: 2026-08-27
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Architecture (C4 Context)
 
@@ -36,7 +36,9 @@ enough to reason about integrations, dependencies, and cost, not to design the b
 1. **The system** — one box: the product.
 2. **Actors** — who uses it (map to segments).
 3. **External systems** — what it integrates with or depends on (auth, payments, LLM providers,
-   analytics, email, data sources). Each is a potential cost, dependency, and moat/lock-in.
+   analytics, email, data sources). Each is a potential cost, dependency, and moat/lock-in. For an
+   existing system read them from architecture docs (`source:kb`) or the codebase passport
+   (`source:git`).
 4. **Relationships** — who talks to what, and why.
 5. **Feed downstream** — external LLM/infra → Step-4 COGS; critical dependencies → `R-…` risks;
    exclusive integrations → a moat in `value-definition`.
@@ -48,15 +50,7 @@ Express as a simple list or a Mermaid diagram — keep it Context-level.
 - **Hiding dependencies.** Omitting the external systems that carry cost and risk.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/architecture-c4.md`
-(`node_type: worklog`): the C4 Context sketch — the system box, the actors mapped to segments, the
-external systems it integrates with or depends on, the relationships between them, and the downstream
-feeds (external LLM/infra → Step-4 COGS, critical dependencies → `R-…` risks, exclusive integrations
-→ a moat). That worklog is the **source of truth**; the artifact section `{#architecture}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds
-nothing the worklog does not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `3-strategy/architecture-c4.md` — the system, the actors mapped to segments, the external systems, the relationships, the downstream feeds (COGS · `R-…` · moat). Projects `{#architecture}`; face: the **Context read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#architecture}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs

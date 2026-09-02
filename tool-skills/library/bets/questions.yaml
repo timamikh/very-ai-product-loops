@@ -4,6 +4,7 @@ questions:
   - id: candidates
     ask: "Candidate bets — for each chosen arena/segment: who hires us over what status quo, for which job? (⚙️ agent drafts from where-to-play + jtbd)"
     type: list
+    min: 3
     why: "A bet against 'the market' displaces nothing; name the segment, the status quo, and the job."
   - id: forces
     ask: "For each candidate — why does the pull beat the anxiety + habit? Name what holds them back, not just what attracts them."

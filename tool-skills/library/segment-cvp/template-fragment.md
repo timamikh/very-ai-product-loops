@@ -10,8 +10,8 @@ _One row = one testable go-to-market hypothesis: a segment, in a situation, with
 CVP + offer through a channel, proven by a qualified-action signal. Bundles seed the hypothesis
 register (`type: desirability`)._
 
-| ID | Segment | Situation / trigger | Pain (cost of inaction) | CVP (promised result) | Offer (first step) | Channel (where, exactly) | Target signal · tier | Readiness | `H-…` | Confidence |
-|----|---------|---------------------|-------------------------|-----------------------|--------------------|--------------------------|----------------------|-----------|-------|------------|
+| ID | Segment | Situation (trigger) | Pain (cost of inaction) | CVP (promised result) | Offer (first step) | Channel (where, exactly) | Signal · tier | Readiness | `H-…` | Confidence |
+|----|---------|---------------------|-------------------------|-----------------------|--------------------|--------------------------|---------------|-----------|-------|------------|
 | B-01 | … | … | … | … | demo / diagnostic / trial / pilot | named community / base / partner | e.g. trial request · **strong** | ready / `not-ready: <filter>` | H-… | [assumption] |
 
 **6-filter readiness gate** (a bundle is `ready` only if all pass):
@@ -44,6 +44,7 @@ never reached.
 | B-07 | readiness gate — **Find** | no named place this segment is reachable | a partner/community is identified |
 | B-04 | score 11 of 25 | slow to a signal (needs a 3-week pilot to learn anything) | the offer can be cut down to a 2-day diagnostic |
 
+<!-- card -->
 **Staged for test this period** (top 3–5 by the score above; `prioritization-tactical-plan` then
 decides whether they fit the period's capacity and does not re-score them; test designed by
 `hypothesis-test-design`): B-…, B-…

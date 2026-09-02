@@ -4,7 +4,7 @@ kind: method
 name: hypothesis-test-design
 steps: [5]
 prerequisites: [a hypothesis with a threshold, its metric node]
-reads: [register:hypotheses, register:metrics, source:metrics]
+reads: [section:global-hypotheses, section:market-bundles, register:hypotheses, register:metrics]
 writes: [worklog, section:hypotheses-to-test, register:hypotheses]
 opinionated: false
 method_basis: "Assumption mapping (Bland/Osterwalder) + smallest viable test: metric · threshold · sample/duration · decision rule"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.1
-updated: 2026-08-16
+version: 0.3.2
+updated: 2026-09-02
 ---
 # Hypothesis Test Design
 
@@ -58,46 +58,15 @@ re-decided here** — this method designs the smallest test that can reach that 
    this design, and record the metric node, threshold, and rule so the result later flips
    `confidence` to `validated` / `refuted` on its own.
 
-## Scales — the shared gradations
-
-Four ordinal scales travel with a hypothesis. They are **gradations**, orthogonal to the confirmation
-marker a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*). This method is
-their canonical home; other skills **operate** them — `segment-cvp` runs the readiness gate and the
-priority score over bundles at Step 5, `experiment-readout` reads the signal and records the
-decision — but the definitions live here so there is one of each.
-
-- **Readiness gate (before a test) — 6 filters, pass/fail.** A hypothesis is test-ready only if each
-  filter has a concrete answer, not a hand-wave:
-
-  | Filter | Question it must answer | Fails on |
-  |--------|-------------------------|----------|
-  | Find | Where exactly do we reach this segment? | "somewhere in small business" |
-  | Recognize | Would the person recognize themselves in it? | "everyone who wants AI" |
-  | Pain | Is there a cost of inaction? | "would be nice" |
-  | Alternative | How do they solve it today? | "no idea / they don't" |
-  | CVP | Do we promise a concrete result? | "gets more efficient" |
-  | Action | What signal will we get? | "interest / reactions" |
-
-  A hypothesis missing a channel, a priced pain, a current alternative, or a target action is **not
-  ready to test** — fix it before designing the test, don't run it.
-
-- **Priority score (selecting what to test) — 1 / 3 / 5 on five criteria:** pain acuteness — the
-  cost of inaction (`nice-to-have` / `recurring irritation` / `already paying or improvising`) ·
-  reachability (`no named place` / `a place we could get into` / `a named community/base/partner
-  reachable this week`) · deliverability (`needs a product we don't have` / `needs work we could do` /
-  `deliverable today, even manually`) · evidence of willingness to pay (`none` / `they pay for
-  something adjacent` / `they pay for this problem today`) · speed to a signal (`>2 weeks` / `about
-  a week` / `1–2 days`). Sum to 5–25 and rank; the top few enter the test. Operated at Step 5 by
-  `segment-cvp` over ready bundles — one definition, one operator, defined only here.
-
-- **Signal strength (the result) — `weak` / `medium` / `strong`.** `weak` (click · like · page-view) is
-  **channel diagnostics, not a result**; `medium` (lead · sign-up · reply · details request); `strong`
-  (meeting with a real DM · trial access · price talk · pilot · pre-pay · sale). Success means a
-  qualified action, so the decision rule reads against the signal grade, not raw clicks.
-
-- **Decision (after the readout) — `scale` / `iterate` / `reject` / `research`.** The call the result
-  drives, written back to the hypothesis register's `decision`. A test with no decision recorded is not
-  finished.
+## Scales
+The four gradations a hypothesis travels with — the **readiness gate** (6 filters), the **priority
+score** (1/3/5 on five criteria), **signal strength** (`weak` / `medium` / `strong`) and the
+**decision** (`scale` / `iterate` / `reject` / `research`) — are defined once, in
+[`process/reference/scales.md`](../../../process/reference/scales.md). This method applies the readiness gate and reads against
+the bars; `segment-cvp` operates the gate and the score over bundles, `experiment-readout` grades
+the signal and records the decision. Nothing here redefines a scale; a hypothesis missing a channel,
+a priced pain, a current alternative or a target action is **not ready to test** — fix it before
+designing the test, don't run it.
 
 ## Anti-patterns
 - **No threshold set in advance.** Running a test with no pre-declared bar — any result can be
@@ -114,15 +83,7 @@ decision — but the definitions live here so there is one of each.
   so the result can't be compared or trusted.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/hypothesis-test-design.md` (`node_type:
-worklog`, e.g. `5-tactical-plan/hypothesis-test-design.md`): the named `H-…` and its riskiest
-assumption, the bound `M-…` metric node, the success and failure thresholds, the smallest-sufficient
-test sizing (sample / duration), and the pre-registered decision rule. That worklog is the **source of
-truth**; the artifact section `{#hypotheses-to-test}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `5-tactical-plan/hypothesis-test-design.md` — the `H-…` and its riskiest assumption, the bound `M-…`, the referenced bars, the smallest-sufficient sizing, the pre-registered decision rule. Projects `{#hypotheses-to-test}`; face: the **Test read** line, via [`template-fragment.md`](template-fragment.md). Primary of the marker; `ab-test` fills the same section for the experiment case with the same slot. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#hypotheses-to-test}` via [`template-fragment.md`](template-fragment.md) from the worklog;

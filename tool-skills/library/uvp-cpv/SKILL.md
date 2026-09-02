@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
-updated: 2026-08-27
+version: 0.3.1
+updated: 2026-09-02
 ---
 # UVP & Customer-Perceived Value
 
@@ -58,7 +58,8 @@ when it compresses situational CVPs that were actually written out.
    gets and why it beats the alternative. Map to the Value Proposition Canvas: our pain-relievers
    and gain-creators against their pains and gains.
 5. **Capture customer-perceived value.** Phrase it as the customer would — the benefit they
-   believe they receive. Back it with a signal and say what the signal was: a quote is evidence of one
+   believe they receive. Back it with a signal and say what the signal was — interview notes
+   (`source:interview`), a filed survey or sales log (`source:kb`): a quote is evidence of one
    person (name the sample), and **money beats words** — what they pay for today, or agreed to pay,
    outranks what they said they would value. Absent a signal, tag `[assumption]`; "customers tell us
    they love it" with no behaviour behind it is one.
@@ -78,16 +79,7 @@ when it compresses situational CVPs that were actually written out.
   `segment-cvp` at Step 5; this skill articulates the value the bundle is built around.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/uvp-cpv.md` (`node_type: worklog`,
-e.g. `3-strategy/uvp-cpv.md`): the best-fit customer, the named alternative, the lead segment's
-situations each with its pain (cost of inaction) and situational CVP, the value stated against
-their top jobs/pains via the Value Proposition Canvas, the customer-perceived value in the customer's
-own words with the signal behind it (money beats words), and the positioning one-liner. That worklog is
-the **source of truth**; the artifact section `{#uvp-cpv}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `3-strategy/uvp-cpv.md` — the best-fit customer, the alternative, the per-situation CVPs, the value against the top jobs/pains, the perceived value with its signal, the one-liner. Projects `{#uvp-cpv}`; face: the **One-liner** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#uvp-cpv}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

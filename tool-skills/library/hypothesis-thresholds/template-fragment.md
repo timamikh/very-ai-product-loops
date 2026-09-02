@@ -9,6 +9,10 @@
 an existing `M-…` node from the metric tree, never a number invented for the test. The gap between
 success and failure is the conscious inconclusive zone.
 
+<!-- card -->
+**Bars read:** <one sentence — how many bets now carry both bars against a node, the widest inconclusive
+zone and why it is that wide, and any bet still without a node>.
+
 | Bet (what it claims) | `H-…` | Metric node (`M-…`) | Success threshold | Failure threshold | Why these numbers | Confidence |
 |----------------------|-------|---------------------|-------------------|-------------------|-------------------|------------|
 | <the strategy bet, in one line> | H-… | M-… | ≥ … | < … | <where each bar comes from: economics / benchmark / ambition> | [assumption] |

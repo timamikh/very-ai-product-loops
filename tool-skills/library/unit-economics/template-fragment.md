@@ -9,6 +9,10 @@ _Method: contribution margin, LLM inference as an explicit COGS line. **The "hon
 two bases collapse, so use a single column. LTV uses the retention curve from `{#retention}`, not an
 assumed churn %._
 
+<!-- card -->
+**Contribution read:** <one sentence — does one payer pay for themselves in the operational basis
+(and the honest one, if own-compute), and which line decides it>.
+
 | Metric | Operational | Honest (+depreciation / market compute) — own-compute only | Assumptions |
 |--------|-------------|------------------------------------------------------------|-------------|
 | Revenue per payer (blended, $/mo) | | | |

@@ -8,7 +8,7 @@ prerequisites:
   - unit economics computed (ARPPU, contribution, both bases)
   - current run-rate (MRR/revenue/cost lines) from the metric register
   - capacity constraints (slot caps, registration caps, compute limits) — explicit
-reads: [register:metrics, register:hypotheses, register:risks, source:metrics]
+reads: [section:market-sizing, section:pricing, section:metric-tree, section:unit-economics, register:metrics, register:hypotheses]
 writes: [worklog, section:financial-model, register:metrics]
 opinionated: true
 method_basis: "Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint"
@@ -17,8 +17,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
-updated: 2026-08-09
+version: 0.2.3
+updated: 2026-09-02
 ---
 # Financial model — a simple projection off the metric tree
 
@@ -56,15 +56,7 @@ cost-per-usage), never a hand-drawn revenue curve. At pmf the model is 10 lines,
 - A model detached from the tree's node IDs.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/financial-model.md` (`node_type: worklog`,
-e.g. `4-strategic-plan/financial-model.md`): the driver values pulled from `metrics.csv`, the churn
-scenario axis, the compounded 12-month projection across 2–4 scenarios, where each capacity cap binds,
-both cost bases carried to breakeven, and the invalidation triggers. That worklog is the **source of
-truth**; the artifact section `{#financial-model}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the step's
-change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/financial-model.md` — the driver values from `metrics.csv`, the churn scenario axis, the 12-month projection per scenario, where each cap binds, break-even per basis, the invalidation triggers. Projects `{#financial-model}`; face: the **Break-even** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#financial-model}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs

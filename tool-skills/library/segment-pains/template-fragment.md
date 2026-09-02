@@ -6,15 +6,18 @@
 ## Problems {#problems}
 _For the lead segment. Job-to-be-done: <what they're really trying to get done>._
 
-| Rank | Problem (pain in the job) | Severity | Frequency | Cost of inaction | Class | Confidence |
-|------|---------------------------|----------|-----------|------------------|-------|------------|
-| 1 | … | H/M/L | H/M/L | already paying or improvising | differentiator | [assumption] |
-| 2 | … | H/M/L | H/M/L | recurring irritation | differentiator | [assumption] |
-| — | … | H/M/L | H/M/L | nice-to-have | table-stakes | [assumption] |
+| Problem (pain in the job) | Severity | Frequency | Cost of inaction | Class | Confidence |
+|---------------------------|----------|-----------|------------------|-------|------------|
+| … (rank 1) | H/M/L | H/M/L | already paying or improvising | differentiator | [assumption] |
+| … (rank 2) | H/M/L | H/M/L | recurring irritation | differentiator | [assumption] |
+| … (kept, not carried) | H/M/L | H/M/L | nice-to-have | table-stakes | [assumption] |
+
+_Rows are in rank order — the ranking is the order, not a column; the top 3 carry forward, the rest
+stay ranked here._
 
 _Cost of inaction — what the segment does about the pain today: `nice-to-have` / `recurring
 irritation` / `already paying or improvising`. Same gradation as pain acuteness in
-`hypothesis-test-design` §Scales, so this column feeds the Step-3 CVP (`uvp-cpv`) and the Step-5
+`process/reference/scales.md`, so this column feeds the Step-3 CVP (`uvp-cpv`) and the Step-5
 priority score without translation._
 
 **Top pains forward:** ⚙️ _the judgement the rows add up to — which ranked pains go to `{#solution}`,

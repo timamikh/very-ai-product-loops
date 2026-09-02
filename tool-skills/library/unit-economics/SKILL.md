@@ -8,7 +8,7 @@ prerequisites:
   - cost lines incl. LLM inference (fact external spend AND own-compute cost: server + hardware depreciation)
   - acquisition channel costs (or an explicit CAC≈0 claim with its source)
   - churn/retention if instrumented — otherwise model as scenarios, never as a guessed constant
-reads: [register:metrics, register:hypotheses, source:metrics]
+reads: [section:pricing, section:retention, section:architecture-instrumentation, register:metrics]
 writes: [worklog, section:unit-economics, register:metrics]
 opinionated: true
 method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
@@ -17,8 +17,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.5
-updated: 2026-08-09
+version: 0.2.6
+updated: 2026-09-02
 ---
 # Unit economics — does one customer pay for themselves?
 
@@ -66,15 +66,7 @@ compute a single basis and say so.
 - Ignoring free-tier burn because "they don't pay".
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/unit-economics.md`
-(`node_type: worklog`, e.g. `4-strategic-plan/unit-economics.md`): the stated reading window, revenue
-per paying account (blended and by tariff), COGS per account in both bases (operational / honest) with
-the inference-allocation rule, the contribution margin, CAC and payback per channel, and the LTV
-scenarios. That worklog is the **source of truth**; the artifact section `{#unit-economics}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds
-nothing the worklog does not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/unit-economics.md` — the reading window, revenue per payer blended and by tariff, COGS per basis with the allocation rule, contribution, CAC and payback per channel, the LTV scenarios. Projects `{#unit-economics}`; face: the **Contribution read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#unit-economics}` via [`template-fragment.md`](template-fragment.md) from the worklog;

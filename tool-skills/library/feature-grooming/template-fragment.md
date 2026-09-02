@@ -1,7 +1,8 @@
 <!--
   template-fragment: feature-grooming → one groom block per featured item, in the worklog
   6-sprint-plan/feature-grooming.md. The artifact carries only the readiness annotation on the
-  feature's block in {#must} / {#backlog}. Follow process/CONVENTIONS.md.
+  feature's block in {#must} / {#backlog} (the Groom line). No card slot — the section's face is the
+  ranking's. Follow process/CONVENTIONS.md.
 -->
 
 ## Groom: F-<n> · <feature name>  ·  doc type: [BRD | tech spec | both]

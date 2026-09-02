@@ -4,7 +4,7 @@ kind: method
 name: task-spec
 steps: [6]
 prerequisites: [period-goals]
-reads: [register:hypotheses, register:metrics, register:risks, register:features, source:interview, source:kb]
+reads: [section:period-goals, section:goal-targets, register:hypotheses, register:metrics, register:risks, register:features]
 writes: [worklog, section:must, section:backlog, register:features]
 opinionated: false
 method_basis: "Back-office task description (Description / Why with an M-…/R-…/H-… link / binary DoD / Owner / Estimate) + the register thread: the F-… (capability) it advances, a pre-registered Expected impact with a check-by, an S/M/L estimate"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-23
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Task Spec (back-office direction)
 
@@ -58,17 +58,7 @@ Each task has exactly these fields (keep them tight):
 - **Ownerless task.** No named owner — "the team" delivers nothing on time.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/task-spec.md` (`node_type: worklog`,
-e.g. `6-sprint-plan/task-spec.md`): for each back-office item, its Description, Why (the `M-…` /
-`R-…` / `H-…` link), binary Definition of Done, Owner, and Estimate. That worklog is the **source
-of truth** for this method's rows; the Tasks subsection of `{#must}` / `{#backlog}`
-(`### … Tasks <!-- tool: task-spec, prioritization-sprint-plan -->`) is its **projection** into the
-fixed shape of [`template-fragment.md`](template-fragment.md) — those sections are co-filled (the
-ranking comes from `prioritization-sprint-plan`), but this method owns its worklog for its own task
-rows. The projection holds nothing the worklog does not, and the step's change-log history lives in
-the worklog, not the section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External
-figures arrive here dispatched from `sources/` by `source-intake`, cited in the worklog, never
-linked from the artifact.
+Worklog: `6-sprint-plan/task-spec.md` — one block per back-office item with every field of the format. Projects item blocks into the Tasks subsections of `{#must}` / `{#backlog}` (primary of their marker; the ranking comes from `prioritization-sprint-plan`); no card slot — the section's face is the ranking's, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects one block per task into the Tasks subsections of `{#must}` / `{#backlog}` via

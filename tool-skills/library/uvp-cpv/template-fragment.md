@@ -9,6 +9,12 @@
 
 **Alternative they use today:** _rival / substitute / do-nothing — …_  [assumption]
 
+**Positioning** (the section's form — one row per best-fit customer, compressed from the tables below)
+
+| Best-fit customer | Job / pain | Value (outcome) | vs alternative | Customer-perceived value | Confidence |
+|-------------------|------------|-----------------|----------------|--------------------------|------------|
+| … | … | … | … | … | [assumption] |
+
 **Value per situation (lead segment)** _(the same buyer in a different trigger perceives a
 different value — the one-liner compresses these)_
 | Situation / trigger | Pain (cost of inaction) | CVP (outcome promised in this situation) | Confidence |

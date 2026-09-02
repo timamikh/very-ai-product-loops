@@ -8,7 +8,7 @@
 
 ## Value & Defensibility {#value-defensibility}
 
-**Core value (post-AI):** _what is valuable that a rebuilt-with-an-LLM clone would not have._ <!-- card -->
+**Core value (post-AI):** _what is valuable that a rebuilt-with-an-LLM clone would not have._
 
 - …  [assumption]
 
@@ -23,6 +23,11 @@
 customer/scale; considered, not forgotten._
 
 **Defensibility summary:** ⚙️ _lead moat = … ; durability = H/M/L ; why it holds = …_
+
+<!-- card -->
+**Moat read:** <one sentence — the lead moat, its durability (H/M/L), and whether it survives the LLM
+rebuild; at concept stage an honest "aspiration, not yet a moat" is a legal read> _(the same slot
+`value-definition-strategy` re-projects into)_.
 
 **Seeded hypotheses:** H-… (moat claim to validate) → hypothesis register.
 

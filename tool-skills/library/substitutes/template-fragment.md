@@ -10,12 +10,22 @@ _Competition is scored against the customer's **job**, not our product category.
 trivial._
 
 **Substitute map**
-| Substitute | Whose job it does | Why the customer chooses it | When it wins against us | → Risk | Confidence |
-|------------|-------------------|-----------------------------|-------------------------|--------|------------|
-| Do nothing (status quo) | … | … | e.g. problem not painful enough yet | R-… | [assumption] |
-| Do it manually | … | … | e.g. low volume / one-off | R-… | [assumption] |
-| Build / host it themselves | … | … | e.g. past volume or data-sensitivity threshold | R-… | [assumption] |
-| … (adjacent tool / service) | … | … | … | — | [assumption] |
+
+| Substitute | How it does the job today | Why a customer would stay with it | Confidence |
+|------------|---------------------------|-----------------------------------|------------|
+| Do nothing (status quo) | … | … | [assumption] |
+| Do it manually | … | … | [assumption] |
+| Build / host it themselves | … | … | [assumption] |
+| … (adjacent tool / service) | … | … | [assumption] |
+
+**When each wins against us** (the draft's working — the condition, and the risk it seeds):
+
+| Substitute | When it wins against us | → Risk |
+|------------|-------------------------|--------|
+| Do nothing (status quo) | e.g. problem not painful enough yet | R-… |
+| Do it manually | e.g. low volume / one-off | R-… |
+| Build / host it themselves | e.g. past volume or data-sensitivity threshold | R-… |
+| … (adjacent tool / service) | … | — |
 
 **Self-build threshold:** … — the point where "just build it ourselves" beats buying from us
 (team capability · volume · data sensitivity · cost crossover). [assumption]

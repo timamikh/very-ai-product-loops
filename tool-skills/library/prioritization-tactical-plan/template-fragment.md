@@ -7,15 +7,27 @@
 
 _Measurable goals for the period, grouped by direction, ranked by contribution to the gate._
 
-**Gate of the period:** … (metric node to move `M-…`, or a Definition of Done) [assumption]
-**Capacity (from `resource-check`):** … (people · budget · time) [sourced: tactical-plan#resources]
+<!-- card -->
+**Gate of the period:** … (metric node to move `M-…`, or a Definition of Done) — <one clause: the goal
+set that carries it this period> [assumption]
+
+**Capacity (from `resource-check`):** … (people · budget · time) [sourced: tactical-plan#resources] ·
 **Candidates that entered the ranking:** N = …
 
-**Ranking**
-| Direction | Goal (measurable) | Contribution to the gate | Score (RICE or ICE) | In the period? | Moves / tests |
-|-----------|-------------------|--------------------------|---------------------|----------------|---------------|
-| development | … | how it moves the period gate | e.g. RICE 8.4 · [assumption] | yes ⚙️ | M-… / H-… |
-| go-to-market | … | … | e.g. ICE 6 · [assumption] | yes ⚙️ | H-… |
+**Goals in the period** (the section's form — one row per goal that made it):
+
+| Direction | Goal (measurable) | Why now | Confidence |
+|-----------|-------------------|---------|------------|
+| development | … | how it moves the period gate | [assumption] |
+| go-to-market | … | … | [assumption] |
+| back-office | … | … | [assumption] |
+
+**Ranking** (the draft's working — every candidate that entered):
+
+| Goal | Direction | Contribution to the gate | Score (RICE or ICE) | In the period? | Moves / tests |
+|------|-----------|--------------------------|---------------------|----------------|---------------|
+| … | development | how it moves the period gate | e.g. RICE 8.4 · [assumption] | yes ⚙️ | M-… / H-… |
+| … | go-to-market | … | e.g. ICE 6 · [assumption] | yes ⚙️ | H-… |
 
 _Rank is by gate contribution; the score only aids ordering. A goal with no `M-…`/`H-…` is a cut
 candidate. The set is bounded by capacity — if the minimum overflows, cut scope or renegotiate the

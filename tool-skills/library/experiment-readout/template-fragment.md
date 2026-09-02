@@ -9,6 +9,10 @@
 _Verdicts of tests that finished this period, read against their pre-registered rules;
 signal/decision flow to the hypothesis register._
 
+<!-- card -->
+**Verdict read:** <one sentence — how many tests finished, the verdict that changes the most (which
+`H-…`, validated / refuted), and the section it bubbles up to>.
+
 | `H-…` | Test | Result vs rule | Signal | Decision | Follow-up | Confidence |
 |-------|------|----------------|--------|----------|-----------|------------|
 | H-… | <the test as designed> | measured … vs rule "≥ … / < …" → `validated` / `refuted` / `inconclusive` [sourced: metrics.csv] | weak / medium / strong | scale / iterate / reject / research | research → named learning item; refuted → names the section it invalidates | [sourced: …] |

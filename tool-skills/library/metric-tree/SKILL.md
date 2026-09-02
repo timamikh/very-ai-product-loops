@@ -7,7 +7,7 @@ prerequisites:
   - strategy exists (how-to-win logic — the tree must encode it, not generic SaaS)
   - metric register seeded with captured readings (metrics.csv) and instrumentation status per node
   - the product's paying/value base numbers (who pays, what they do)
-reads: [register:metrics, register:hypotheses, source:metrics, source:kb]
+reads: [section:how-to-win, section:bets, section:architecture-instrumentation, register:metrics, register:hypotheses]
 writes: [worklog, section:metric-tree, register:metrics]
 opinionated: true
 method_basis: "North Star Framework (Amplitude); anti-lamppost — right metric over measurable"
@@ -16,8 +16,8 @@ volume_rule: "2–4 candidate North Stars, each run through all three filters (l
 selection_rule: "the candidate passing all three filters becomes the North Star; 3–5 drivers under it, not more"
 rejects_shown: required
 status: draft
-version: 0.4.0
-updated: 2026-08-28
+version: 0.4.1
+updated: 2026-09-02
 ---
 # Metric tree — North Star → drivers → inputs
 
@@ -49,11 +49,16 @@ Thin, in order:
 2. **Pick drivers (3–5, not more):** acquisition-side (new accounts reaching value), conversion,
    deepening (the strategy's engagement axis), retention. Every driver is a register node with
    `parent` = the North Star.
-3. **Attach inputs** under each driver — the operational metrics teams can move weekly.
+3. **Attach inputs** under each driver — the operational metrics teams can move weekly. Then read
+   the hypothesis register: every `H-…` carried from `3#bets` needs a node here for
+   `hypothesis-thresholds` to bind its bars to — a bet no node can measure is a gap this tree
+   closes now, not one Step 4's thresholds discover later.
 4. **Declare guardrails** (finance/cost/quality metrics that cap the pursuit): margin on honest
    costs, product churn, unit cost levers.
-5. **Mark every node** `instrumented | proxy | not-instrumented`. The not-instrumented list is a
-   first-class output of Step 4 — it feeds Steps 5–6 as instrumentation tasks.
+5. **Mark every node** `instrumented | proxy | not-instrumented` — read off
+   `{#architecture-instrumentation}` (`instrumentation-plan`), never asserted here. The
+   not-instrumented list is a first-class output of Step 4 — it feeds Steps 5–6 as instrumentation
+   tasks.
 6. **Update the register:** new nodes get IDs + definitions in `metric-tree.md`; parents set;
    targets ⚙️ where the human hasn't decided.
 
@@ -65,16 +70,7 @@ Thin, in order:
 - A tree that would fit any SaaS (it must smell of this product's strategy).
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/metric-tree.md` (`node_type: worklog`):
-the 2–4 candidate North Stars each run through the three filters (leading / value-repeating /
-strategy-encoding), the losing candidates and which filter each failed, the chosen North Star, the
-3–5 drivers and their inputs, the guardrails, and each node's instrumentation status
-(instrumented / proxy / not-instrumented). That worklog is the **source of truth**; the artifact
-section `{#metric-tree}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/metric-tree.md` — the 2–4 candidates through the three filters with the losers and the filter each failed, the drivers and inputs, the guardrails, the instrumentation status per node. Projects `{#metric-tree}`; face: the **North Star** line, via [`template-fragment.md`](template-fragment.md). Node definitions land in `registers/metric-tree.md`, values in `metrics.csv` — the section is shape and rationale only. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#metric-tree}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs

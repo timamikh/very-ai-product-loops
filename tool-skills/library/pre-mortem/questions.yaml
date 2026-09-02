@@ -4,6 +4,7 @@ questions:
   - id: premortem
     ask: "It's 12 months from now and the chosen strategy failed — why? (≥8 concrete failure stories; include execution & key-person risks, not just external ones)"
     type: list
+    min: 8
     why: "The first three failure modes are always the ones already being discussed; the killer is rarely among them."
   - id: existing_risks
     ask: "Any risks already in the R- register to fold in — e.g. cjm-strategy's journey risks? (⚙️ agent pulls them; no duplicate R- for the same failure)"

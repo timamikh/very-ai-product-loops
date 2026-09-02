@@ -4,7 +4,7 @@ kind: method
 name: cjm-strategy
 steps: [3]
 prerequisites: [the step-1 journey map (cjm), strategy choices (where-to-play / how-to-win), channels]
-reads: [section:cjm, section:where-to-play, section:how-to-win, section:channels-expansion, worklog:1-concept/cjm-concept, register:hypotheses, register:risks, source:interview, source:research]
+reads: [section:cjm, section:where-to-play, section:how-to-win, section:channels-expansion, worklog:1-concept/cjm-concept, register:hypotheses, register:risks, source:interview]
 writes: [worklog, section:cjm, register:hypotheses, register:risks]
 opinionated: false
 method_basis: "Journey mapping as a revisit lens — re-walk the step-1 map against the chosen strategy and channels; touchpoints → product-surface; drop-offs → risks (step 3 births risks)"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.0
-updated: 2026-08-27
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Customer Journey Map (strategy revisit)
 
@@ -89,19 +89,8 @@ is asked *does the chosen strategy change what happens here?*
   triage are `pre-mortem`'s method.
 
 ## Worklog & projection
-This method **revisits** a section owned at Step 1 — `{#cjm}`, marker
-`<!-- tool: cjm-concept, cjm-strategy -->`, second tool. A revisit works in **its own worklog** in
-its own step's folder: `3-strategy/cjm-strategy.md` (`node_type: worklog`) — the stages re-walked
-against the chosen arena and channels, what changed and why, the drop-offs converted to `R-…`, with
-a dated change-log entry. The Step-1 working it builds on is a **declared worklog input**
-(`worklog:1-concept/cjm-concept` in `reads`) — read, never written: no method writes another
-method's worklog (the write rule, N6). `{#cjm}` is re-projected from this worklog via
-[`template-fragment.md`](template-fragment.md); the section's marker names both worklogs, so a
-reader finds the concept pass and the strategy pass without a guess
-(`process/reference/worklog-resolution.md` → *A revisit from a later step*). The touchpoint list
-reaches `{#product-surface}` through the re-projected section, never through that method's worklog.
-External inputs arrive dispatched from `sources/` by `source-intake`, cited in the worklog, never
-linked from the artifact.
+Worklog: `3-strategy/cjm-strategy.md` — a **revisit** in its own step's folder: the stages re-walked against the chosen arena and channels, what changed and why, the drop-offs converted to `R-…`, a dated change-log entry; the Step-1 working is a declared read (`worklog:1-concept/cjm-concept`), never written. Re-projects `{#cjm}` (which drops the section's `confirmed:` marker); face: the **Journey read** line — the same slot as `cjm-concept`, via [`template-fragment.md`](template-fragment.md). The touchpoint list reaches `{#product-surface}` through the re-projected section, never through that method's worklog. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+
 ## Output
 Re-projects the Step-1 `{#cjm}` via [`template-fragment.md`](template-fragment.md) (the update drops
 the section's `confirmed:` marker — it awaits re-confirmation); inputs via

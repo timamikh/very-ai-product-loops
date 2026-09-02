@@ -11,6 +11,10 @@
 _Shipped items of the last period, read against their pre-registered expectations; verdicts flip
 the feature register._
 
+<!-- card -->
+**Impact read:** <one sentence — of the items shipped, how many confirmed vs missed vs pending, and
+the miss that names a section>.
+
 | Item (sprint · №) | Feature | Expected (verbatim) | Fact | Verdict | Estimate: est → actual | Follow-up | Confidence |
 |-------------------|---------|---------------------|------|---------|------------------------|-----------|------------|
 | S<N> · 1 | `F-…` | `M-…` <baseline → expected> · check-by <…> | <reading> [sourced: metrics.csv] | confirmed / missed / inconclusive / pending | M (~…) → … | missed → names the section/row it invalidates | [sourced: …] |

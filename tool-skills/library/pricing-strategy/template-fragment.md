@@ -14,8 +14,8 @@ scales with the value the customer gets. … [assumption]
 
 **Packaging (tiers & fences)**
 
-| Tier | For which segment | What's included | Fence (why this segment picks it) | Price point | Model | Confidence |
-|------|-------------------|-----------------|-----------------------------------|-------------|-------|------------|
+| Tier | For which segment | Included | Fence (why this segment picks it) | Price point | Model | Confidence |
+|------|-------------------|----------|-----------------------------------|-------------|-------|------------|
 | … (good) | … | … | … | … $/… | subscription / usage / hybrid / one-off | [assumption] |
 | … (better) | … | … | … | … | … | [assumption] |
 | … (best) | … | … | … | … | … | [assumption] |
@@ -40,7 +40,6 @@ and why the delta reads as a gain to the lead segment (name the H-… that carri
 **Seeded registers:** each unproven price/packaging choice → hypothesis register (`H-…`,
 `type: viability`); the decision → Step 4 `pricing-strategic-plan` (margin check + projection).
 
-**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while the agent's
-proposal is unconfirmed> · **alternatives considered:** <!--d:alts--> <at least one alternative
-actually weighed and why it lost — or what makes the choice forced; a bare "none" is a defect.
-Weighed none? Order a refutation — `operations/orchestration` → *The two lenses of a `verify`*>
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <one alternative weighed and why it lost, or what makes
+the choice forced — a bare "none" is a defect>

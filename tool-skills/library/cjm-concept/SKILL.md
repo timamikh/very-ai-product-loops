@@ -4,7 +4,7 @@ kind: method
 name: cjm-concept
 steps: [1]
 prerequisites: [the segment/persona whose journey this is, the job they are doing]
-reads: [section:segments, section:jtbd, register:hypotheses, register:metrics, source:interview, source:research, source:kb]
+reads: [section:segments, section:jtbd, register:hypotheses, register:metrics, source:interview, source:kb]
 writes: [worklog, section:cjm, register:hypotheses]
 opinionated: false
 method_basis: "Journey mapping — stages · actions · touchpoints · thoughts/emotions · pains → opportunities; moments that matter"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.0
-updated: 2026-08-27
+version: 0.4.1
+updated: 2026-09-02
 ---
 # Customer Journey Map (concept)
 
@@ -105,16 +105,7 @@ first pass. A recorded skip names an **in-perimeter** return trigger.
   feeling — if that's all you need, that tool exists at Step 3.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `1-concept/cjm-concept.md` (`node_type: worklog`): the
-scoped journey (one segment, one job, defined start and end), the real stages each filled with
-actions · touchpoints · thoughts/emotions · pains and the evidence behind them, the emotional curve
-and the moments that matter, and the conversion of pains into opportunities and drop-offs into
-hypotheses (or `— to clarify —` items). That worklog is the **source of truth**; the artifact
-section `{#cjm}` is its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `1-concept/cjm-concept.md` — the scoped journey, the stages with their evidence and n, the emotional curve and moments that matter, pains → opportunities, drop-offs → `H-…` or `— to clarify —`. Projects `{#cjm}`; face: the **Journey read** line, via [`template-fragment.md`](template-fragment.md). Revisited at Step 3 by `cjm-strategy` from its own worklog, same slot; the marker names both. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#cjm}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

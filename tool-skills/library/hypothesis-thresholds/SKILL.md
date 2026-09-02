@@ -4,7 +4,7 @@ kind: method
 name: hypothesis-thresholds
 steps: [4]
 prerequisites: [strategy bets (H-…), the metric tree]
-reads: [register:hypotheses, register:metrics, source:metrics]
+reads: [section:bets, section:metric-tree, register:hypotheses, register:metrics]
 writes: [worklog, section:global-hypotheses, register:hypotheses]
 opinionated: false
 method_basis: "Pre-registered read (Bland/Osterwalder assumption mapping): success bar · failure bar · conscious inconclusive zone, each bound to an existing metric node"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-09-02
 ---
 # Hypothesis Thresholds
 
@@ -78,15 +78,7 @@ the bars; it does not design the experiment.
   until someone asks.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/hypothesis-thresholds.md`
-(`node_type: worklog`, e.g. `4-strategic-plan/hypothesis-thresholds.md`): each bet taken from
-`3-strategy.md#bets`, the `M-…` node it binds to (or the flagged gap), the success and failure
-thresholds with the width of the inconclusive zone, and the one-line provenance of every number.
-That worklog is the **source of truth**; the artifact section `{#global-hypotheses}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds
-nothing the worklog does not, and the step's change-log history lives in the worklog, not the
-section (`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here
-dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/hypothesis-thresholds.md` — each bet from `3#bets`, the `M-…` it binds to or the flagged gap, both bars with the width of the inconclusive zone, the provenance of every number. Projects `{#global-hypotheses}`; face: the **Bars read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#global-hypotheses}` via [`template-fragment.md`](template-fragment.md) from the worklog;

@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.0
-updated: 2026-08-27
+version: 0.4.1
+updated: 2026-09-02
 ---
 # Market Sizing
 
@@ -25,13 +25,6 @@ explicit method and a source behind every number. Fills `{#market-sizing}`.
 **top-down** figure (published market reports, analogs) used only as a *cross-check*, not as the
 answer. Every input is a **named assumption** traced to its source; sizing assumptions become
 `H-…` (`type: viability`) so the business bet is testable, not asserted.
-
-**No external source, no settled verdict.** This method declares `evidence_standard:
-external-sources`: if by pass time nothing external has arrived (no dispatched research, no dated
-capture in `sources/`), the section is written as an **explicit gap report** — load-bearing values
-`— to clarify —`, each naming the source that would settle it — and the move-5 note names the
-missing input. It is never delivered as settled analysis; the linter (check L2) flags a worked
-section that shows no `[sourced: …]` and declares no gap.
 
 ## When to apply
 - Step 2, once the arena / segment is defined (you can only size a market you can name).
@@ -79,14 +72,7 @@ section that shows no `[sourced: …]` and declares no gap.
   reconciling why they disagree.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/market-sizing.md` (`node_type: worklog`,
-e.g. `2-analysis/market-sizing.md`): the arena sized, the **bottom-up arithmetic** (units × price), the
-top-down cross-check, every named assumption with its source tag, and the open items. That worklog is
-the **source of truth**; the artifact section `{#market-sizing}` is its **projection** into the fixed
-shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and the
-step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `2-analysis/market-sizing.md` — the bottom-up arithmetic, the top-down cross-check, the growth layer, every assumption with its tag — or the explicit gap report when nothing external has landed. Projects `{#market-sizing}`; face: the **Sizing read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#market-sizing}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs

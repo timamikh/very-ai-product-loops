@@ -4,7 +4,7 @@ kind: method
 name: segmentation
 steps: [1]
 prerequisites: [concept, audience-knowledge-or-analytics]
-reads: [section:idea, register:hypotheses, register:risks, register:metrics, source:interview, source:metrics, source:kb]
+reads: [section:idea, register:hypotheses, register:metrics, source:interview, source:metrics, source:research, source:kb]
 writes: [worklog, section:segments, register:hypotheses]
 opinionated: false
 method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
@@ -13,8 +13,8 @@ volume_rule: "≥3 candidate cuts on different bases (situation · job · behavi
 selection_rule: "priority tiers 1–3 on need-difference × reachability (moat-fit deferred — the moat is stated later in the step, so it re-cuts segments on a later pass, not this one); ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.7.0
-updated: 2026-08-27
+version: 0.7.1
+updated: 2026-09-02
 ---
 # Segmentation
 
@@ -86,16 +86,7 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 - **Too many too early.** Five segments before there's a single validated one.
 
 ## Worklog & projection
-
-The working is done in the step's **worklog** `<step-folder>/segmentation.md` (`node_type: worklog`,
-e.g. `1-concept/segmentation.md`): the ≥3 candidate cuts on different bases with the ones **rejected
-and why**, the 1–3 named segments with their reachability, and the priority-tier ranking with the
-ground (need-difference · reachability) that decided each placement. That worklog
-is the **source of truth**; the artifact section `{#segments}` is its **projection** into the fixed
-shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and
-the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External inputs arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `1-concept/segmentation.md` — the ≥3 candidate cuts with the rejected ones and why, the 1–3 segments with reachability, the tier ranking with the ground that decided each placement. Projects `{#segments}`; face: the **Lead segment** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

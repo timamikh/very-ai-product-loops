@@ -22,7 +22,8 @@ observable yet)
 |----------------------|----------|----|----|----|----|-----|-------------|------------|------------|
 | … | … | …% (n=…) | …% (n=…) | …% (n=…) | — | — | …% floor / decays to 0 | flattening (value recurs) / decaying | [sourced: metrics …] |
 
-_Headline: does the curve flatten above zero (PMF signal) or decay to zero (no retained value)?_
+**Headline:** <one sentence — does the curve flatten above zero (value recurs) or decay to zero, at what
+floor, and for which cohort>. <!-- card -->
 
 **By segment / plan / channel** — the cohort that retains best (often the real target):
 

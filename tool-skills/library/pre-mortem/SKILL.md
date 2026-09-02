@@ -4,7 +4,7 @@ kind: method
 name: pre-mortem
 steps: [3]
 prerequisites: [strategy-choices]
-reads: [section:where-to-play, section:how-to-win, section:bets, register:risks, source:interview, source:kb]
+reads: [section:where-to-play, section:how-to-win, section:channels-expansion, section:bets, register:risks, source:interview]
 writes: [worklog, section:product-risks, register:risks]
 opinionated: false
 method_basis: "Pre-mortem (Klein) on the chosen strategy + risk-register triage (probability × impact); disposition of every candidate"
@@ -13,8 +13,8 @@ volume_rule: "≥8 named failure modes from the pre-mortem before any triage"
 selection_rule: "probability × impact; every candidate carried · parked · dropped, each with the reason"
 rejects_shown: required
 status: draft
-version: 0.2.0
-updated: 2026-08-27
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Pre-mortem
 
@@ -46,7 +46,8 @@ disposition — carried · parked · dropped — for every failure mode surfaced
    strategy failed. Ask *why* — force concrete failure stories, not abstract worries. Cover execution
    and key-person risks, not just external/market ones. Stopping at three is the pre-mortem's
    characteristic failure: the first three are always the ones already being discussed, and the risk
-   that kills the plan is rarely among them.
+   that kills the plan is rarely among them. Failure stories gathered in a team session arrive as
+   filed notes (`source:interview`); the owner's own answers are the questionnaire.
 2. **Pull existing risks.** Read the R- register for risks already logged — e.g. journey risks
    seeded by `cjm-strategy` — and fold them into the triage; don't re-invent them, and don't mint a
    duplicate `R-` for a failure the register already carries.
@@ -59,18 +60,11 @@ disposition — carried · parked · dropped — for every failure mode surfaced
    Step 4, which extends these same register entries. Note in the section that the carried set is
    handed to Step 4 unmanaged, on purpose.
 
-## The scale — likelihood × impact
-
-One ordinal scale travels with a risk here. It is a **gradation**, orthogonal to the confirmation
-marker a human signs (see `process/CONVENTIONS.md` → *Gradation vs confirmation*).
-
-- **Likelihood × impact — H/M/L, backed 5/3/1.** The tiers stay human-readable (`H`/`M`/`L`), but the
-  triage ranks by the **product on the 5/3/1 backing** (H=5 · M=3 · L=1): five "high"s with no numbers
-  behind them is not an ordering. Rank the carried set by likelihood × impact, top-product first.
-
-The risk **lifecycle** scale (`open` → `mitigating` → `contained` → …) is written from Step 4 —
-everything carried from here enters the register as `open`; the readout of the later stages belongs
-to `risk-mitigation`.
+## The scale
+**Likelihood × impact — H/M/L, backed 5/3/1**, defined in [`process/reference/scales.md`](../../../process/reference/scales.md). The
+tiers stay human-readable, the triage ranks by the **product on the 5/3/1 backing** (H=5 · M=3 ·
+L=1): five "high"s with no numbers behind them is not an ordering. The lifecycle scale is written
+from Step 4 — everything carried from here enters the register as `open`.
 
 ## Anti-patterns
 - **Stopping at three.** The first three failure modes are the ones already being discussed; the
@@ -85,14 +79,7 @@ to `risk-mitigation`.
 - **Register drift.** Risks triaged here but never written back to R-.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `3-strategy/pre-mortem.md` (`node_type: worklog`): the
-pre-mortem's ≥8 named failure modes, the likelihood × impact triage with every surfaced risk's
-disposition (carried · parked · dropped) and reason, and the ranked carried set. That worklog is the
-**source of truth**; the artifact section `{#product-risks}` is its **projection** into the fixed
-shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does not, and
-the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `3-strategy/pre-mortem.md` — the ≥8 failure modes, the likelihood × impact triage, the disposition of every risk with its reason, the ranked carried set. Projects `{#product-risks}`; face: the **Death read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#product-risks}` via [`template-fragment.md`](template-fragment.md) from the worklog;

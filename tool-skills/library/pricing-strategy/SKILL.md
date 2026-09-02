@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.0
-updated: 2026-08-27
+version: 0.2.1
+updated: 2026-09-02
 ---
 # Pricing & Packaging (strategy)
 
@@ -63,7 +63,9 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
 3. **Anchor to the next-best alternative.** For each segment, price relative to what they'd pay/do
    instead (rival, substitute, do-nothing). State the value gap that justifies the delta.
 4. **Estimate willingness-to-pay.** Use the evidence you have — van Westendorp bands (too cheap /
-   cheap / expensive / too expensive), direct WTP, or observed pilot behaviour. Tag each price
+   cheap / expensive / too expensive), direct WTP, or observed pilot behaviour: WTP interviews and
+   price talks (`source:interview`), pilot records filed in `sources/` (`source:kb`), published
+   WTP benchmarks (`source:research`). Tag each price
    point `[sourced: …]` or `[assumption]`; at Step 3 most are `[assumption]`, and that is fine —
    `pricing-strategic-plan` firms them up at Step 4.
 5. **Set price points and the model.** Subscription / usage / hybrid / one-off; the actual numbers
@@ -87,15 +89,7 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
   price is chosen — a failed check iterates here.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `3-strategy/pricing-strategy.md` (`node_type: worklog`):
-the chosen value metric, the packaging and tiers with their fences (good-better-best), the anchoring
-of each segment's price to its next-best alternative, the willingness-to-pay evidence (van Westendorp
-bands / direct WTP) with its `[sourced: …]`/`[assumption]` tags, and the price points and pricing
-model. That worklog is the **source of truth**; the artifact section `{#pricing}` is its
-**projection** into the fixed shape of [`template-fragment.md`](template-fragment.md) — it holds
-nothing the worklog does not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched from
-`sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `3-strategy/pricing-strategy.md` — the value metric, the tiers and fences, the anchoring per segment, the WTP evidence with its tags, the price points and model. Projects `{#pricing}`; face: the **Price stance** line, via [`template-fragment.md`](template-fragment.md). Primary of the `{#pricing}` marker; `pricing-strategic-plan` (Step 4) re-projects the section from its own worklog with the same slot. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#pricing}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

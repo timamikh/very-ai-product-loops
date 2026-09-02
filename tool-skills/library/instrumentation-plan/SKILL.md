@@ -4,7 +4,7 @@ kind: method
 name: instrumentation-plan
 steps: [4]
 prerequisites: [the step-3 architecture sketch, the step-3 product-surface map]
-reads: [register:metrics, source:interview, source:kb, source:git]
+reads: [section:architecture, section:product-surface, section:unit-economics, register:metrics, source:kb, source:git]
 writes: [worklog, section:architecture-instrumentation]
 opinionated: false
 method_basis: "Instrumentation mapping: component → instrumented/proxy/not-instrumented → data yielded → infra cost driven; every metric node needs a data source or an explicit gap"
@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.0
-updated: 2026-08-16
+version: 0.1.1
+updated: 2026-09-02
 ---
 # Instrumentation Plan
 
@@ -58,13 +58,15 @@ touch it) and answers, per component: can we measure it, with what fidelity, at 
 2. **Mark each: `instrumented` / `proxy` / `not-instrumented`.** Exactly these three.
    `instrumented` = the event/measure exists and lands somewhere queryable; `proxy` = an indirect
    stand-in exists (name what it actually measures and where it lies); `not-instrumented` = no
-   signal today.
+   signal today. The mark comes from the analytics configuration or filed instrumentation docs
+   (`source:kb`) or the codebase passport (`source:git`) — never from memory.
 3. **Name the data each yields.** What events/measures the component produces (or would). This is
    the supply side of the metric tree: every future `M-…` node must trace to a row here — a node
    with no source row is an **explicit gap**, written down, not glossed.
 4. **Name the infra cost each drives.** What the component costs to run and to instrument (LLM
    inference, analytics stack, session capture, email provider…). These drivers must reconcile with
-   `unit-economics`' COGS lines — flag any driver missing there, and any COGS line with no
+   `unit-economics`' COGS lines (`{#unit-economics}`, when it already exists — on the first pass
+   the check runs from that side) — flag any driver missing there, and any COGS line with no
    component here.
 5. **Emit the not-instrumented list as work.** The `not-instrumented` rows (and the proxies worth
    upgrading) are a first-class output — they feed Steps 5–6 as instrumentation work items, sized
@@ -83,16 +85,7 @@ touch it) and answers, per component: can we measure it, with what fidelity, at 
   line (or a COGS line with no component driving it) — the two must reconcile.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/instrumentation-plan.md`
-(`node_type: worklog`, e.g. `4-strategic-plan/instrumentation-plan.md`): the component list unioned
-from `#architecture` + `#product-surface`, each component's instrumented/proxy/not-instrumented
-mark with what a proxy actually measures, the data each yields, the infra cost each drives with its
-COGS reconciliation, and the not-instrumented work list for Steps 5–6. That worklog is the **source
-of truth**; the artifact section `{#architecture-instrumentation}` is its **projection** into the
-fixed shape of [`template-fragment.md`](template-fragment.md) — it holds nothing the worklog does
-not, and the step's change-log history lives in the worklog, not the section
-(`process/CONVENTIONS.md` → *Step folders & worklogs*). External figures arrive here dispatched
-from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
+Worklog: `4-strategic-plan/instrumentation-plan.md` — the component union from `3#architecture` + `3#product-surface`, each mark with what a proxy measures, the data yielded, the cost drivers with their COGS reconciliation, the not-instrumented work list. Projects `{#architecture-instrumentation}`; face: the **Measurability read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#architecture-instrumentation}` via [`template-fragment.md`](template-fragment.md) from

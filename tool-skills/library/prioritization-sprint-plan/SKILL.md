@@ -4,7 +4,7 @@ kind: method
 name: prioritization-sprint-plan
 steps: [6]
 prerequisites: [candidate items, the period gate/goal, available resources]
-reads: [register:metrics, register:hypotheses, register:features]
+reads: [section:period-goals, section:goal-targets, section:resources, register:metrics, register:hypotheses, register:features]
 writes: [worklog, section:must, section:backlog, section:excluded]
 opinionated: false
 method_basis: "RICE/ICE as a ranking aid, ranked by contribution to the period gate; capacity-bounded must/backlog line"
@@ -13,8 +13,8 @@ volume_rule: "every candidate current for the sprint enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the must/backlog line is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.3.0
-updated: 2026-08-24
+version: 0.3.1
+updated: 2026-09-02
 ---
 # Prioritization — Sprint Plan
 
@@ -23,6 +23,15 @@ abstract score — and draw the **must / backlog line by capacity**. Fills `{#mu
 `{#excluded}` (Step 6). The period-level ranking of goals is the sibling method
 [`prioritization-tactical-plan`](../prioritization-tactical-plan/SKILL.md) (Step 5) — one step, one
 skill.
+
+**Goal vs item.** An *item* is one sprint-level piece of work — a Feature, Activity or Task carrying
+an `F-…`, a pre-registered `Expected impact` and an `Estimate` — and is what this method ranks and
+lines. A *goal* is the period-level outcome the item advances (`5#period-goals`, sized by
+`goal-targets`); goals are ranked at Step 5 by `prioritization-tactical-plan`, never here. **One
+notion of estimate:** the spec's `Estimate` field — a size class S/M/L plus a range, `[assumption]`
+until `impact-readout` reads the actual. This method sums those classes against the capacity
+carried from `5#resources` to draw the must/backlog line; it never re-estimates an item, and the
+backlog's `Est.` column repeats the spec's class.
 
 **Method basis.** RICE/ICE scoring (Reach · Impact · Confidence · Effort) used as a *ranking* aid,
 not an oracle: the ordering key is how much each item moves the period gate. The must-set is the
@@ -88,20 +97,7 @@ scope.
   re-proposes it and the selection can't be audited.
 
 ## Worklog & projection
-The working is done in the step's **worklog** `<step-folder>/prioritization-sprint-plan.md`
-(`node_type: worklog`, e.g. `6-sprint-plan/prioritization-sprint-plan.md`): the period gate stated
-first, the full candidate list **with N recorded**, the RICE/ICE scores, the re-rank by gate
-contribution, the must-set drawn at the capacity line, the ordered backlog, and every **excluded
-item with its reason**. That worklog is the **source of truth** — this method is a full primary with
-its own worklog, same mechanics as every skill; the artifact sections `{#must}` / `{#backlog}` /
-`{#excluded}` are its **projection** into the fixed shape of
-[`template-fragment.md`](template-fragment.md), holding nothing the worklog does not, with the
-change-log history in the worklog (`process/CONVENTIONS.md` → *Step folders & worklogs*).
-
-In `{#must}`'s per-direction subsections this method is co-marked with the item specs
-(`<!-- tool: feature-spec, prioritization-sprint-plan -->` etc.) — the spec named first is the
-subsection's primary for the item blocks; the ranking and the line still live in **this** method's
-worklog.
+Worklog: `6-sprint-plan/prioritization-sprint-plan.md` — the gate stated first, the full candidate list with N, the RICE/ICE scores, the re-rank by gate contribution, the must-set at the capacity line, the ordered backlog, every excluded item with its reason. Projects `{#must}` (face: **Gate of the period**), `{#backlog}` (face: **Backlog read**) and `{#excluded}` (face: **Excluded read**) via [`template-fragment.md`](template-fragment.md). In `{#must}`'s per-direction subsections the spec named first owns the item blocks; the ranking and the line live here. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#must}` / `{#backlog}` / `{#excluded}` (Step 6) via

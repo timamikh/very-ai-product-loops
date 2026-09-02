@@ -8,8 +8,8 @@
 **Arena / segment sized:** … _(who · where · which job)_
 
 **TAM / SAM / SOM**
-| Level | Estimate | How it was calculated | Key assumptions | Source | Confidence |
-|-------|----------|-----------------------|-----------------|--------|------------|
+| Layer | Value | Method | Key assumptions | Source | Confidence |
+|-------|-------|--------|-----------------|--------|------------|
 | TAM (total addressable) | … | top-down figure / total demand | … | … | [sourced: …] / [assumption] |
 | SAM (serviceable addressable) | … | **bottom-up: units × price**; top-down as cross-check | … | … | [sourced: …] / [assumption] |
 | SOM (serviceable obtainable) | … | realistic share of SAM in horizon + rationale | … | … | [assumption] |
