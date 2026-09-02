@@ -1,0 +1,6 @@
+# Lint test fixture — a tiny instance with KNOWN defects (tools/tests/test_lint.py names each).
+product: "Fixture (lint test)"
+language: en
+active_status: concept-viability
+directions:
+  - development

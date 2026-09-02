@@ -16,6 +16,33 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Audit batch 4 — one read layer, tested
+
+- **The linter reads everything through `tools/loops`.** `metrics.csv` via the new
+  `instance.metric_rows` (field-count and comment-line errors — hub F-01/F-05); registers via
+  `instance.load` health; one `worked` definition (`framework.worked`, placeholder-shaped lines
+  ignored in any language); change logs located by `text.without_change_log` in any language. No
+  second parser remains.
+- **A line names a block.** `text.block_after` / `block_at` / `marked_block` are the primitive; P2
+  reads the Inputs block (daisy F-02), ignores ids in code and fences, covers ids quoted from declared
+  sections and declared-atom rows (daisy F-03, hub F-09), reads `M-7d`-style ids.
+- **Gate ticks have states** (`framework.GATE_READINGS`): G2 warns only on an unrecorded `open`; a
+  recorded reopen for re-sign is silent (hub F-10). G3 validates tick values, G4 that a tick names a
+  real gate item. Check P tells a missing worklog, a wrong step folder and a true orphan apart
+  (daisy F-05).
+- **New checks.** C1 (a section a method works from is a `reads` atom; hand-off mentions exempt),
+  C3 (decision-standard method ships a Decided line), C4 (step ≥ 4 section fragment declares its
+  card), C4b (one card face per shared section), C6 (numeric `volume_rule` floor carries `min:`),
+  C9 (template ↔ fragment column parity by header), W2 ("Worklog & projection" ≤ 120 words), T2
+  (`sources/snapshots/` gitignored), T3 (secret scan — ERROR), H3 (handoff names a register), G5
+  (content script vs `config.language`), Y2 (`yamlite.unsupported`: flow maps and lists of maps
+  reported with file:line). D missing key is WARN on a product instance, ERROR under `examples/`.
+- **Tests.** `tools/tests/test_lint.py` (58 cases) runs the linter on a defect fixture and a fake
+  library; every hub/daisy finding with a code fix has a regression case. CI runs it next to
+  selftest.
+- **`lint.py --ci`** skips gitignored instances and names them, so the local verdict matches CI.
+  `.gitignore` gains `sources/snapshots/`. Lint on the example runs in 0.3 s.
+
 ### Audit batch 5 — one home per rule
 
 - **The always-loaded core is deduplicated.** `AGENTS.md` is a door: reading order plus the

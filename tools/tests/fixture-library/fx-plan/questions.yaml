@@ -1,0 +1,5 @@
+tool: fx-plan
+questions:
+  - id: nodes
+    type: list
+    ask: "Which nodes?"

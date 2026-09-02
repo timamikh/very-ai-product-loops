@@ -292,27 +292,36 @@ def _register(path, filename, id_prefix, health, enum_checks=()):
         return {"present": False, "file": filename, "columns": [], "col_keys": [], "rows": []}
     raw = T.read(f)
     headers, col_keys, rows = None, [], []
+    # EVERY table carrying an id column is the register (text.table_column's doctrine): a register
+    # naturally grows a second table — inherited nodes above, newly instrumented ones below — and a
+    # first-table-only reader validated the top half while the linter read both (hub F-01's twin).
     for t in T.tables(raw):
         keys = T.column_keys(t["headers"])
         hs = [T.header_name(h).lower() for h in t["headers"]]
-        if "id" in hs or "id" in keys:          # the id column, by header prose or by its <!--c:id--> key
+        if "id" not in hs and "id" not in keys:  # the id column, by header prose or by its <!--c:id--> key
+            continue
+        if headers is None:
             headers, col_keys = hs, keys
-            for r in t["rows"]:
-                row = {}
-                for i in range(len(hs)):
-                    v = r[i] if i < len(r) else ""
-                    row[hs[i]] = v
-                    if keys[i]:
-                        row[keys[i]] = v          # also addressable by its stable column key
-                if T.clean_cell(row.get("id", "")).startswith(id_prefix):
-                    rows.append(row)
-            break
-    for allowed, label, key in enum_checks:
+        for r in t["rows"]:
+            row = {}
+            for i in range(len(hs)):
+                v = r[i] if i < len(r) else ""
+                row[hs[i]] = v
+                if keys[i]:
+                    row[keys[i]] = v              # also addressable by its stable column key
+            rid = T.clean_cell(row.get("id", ""))
+            if rid.startswith(id_prefix):
+                rows.append(row)
+        col_keys = list(col_keys) + [k for k in keys if k and k not in col_keys]
+    for spec in enum_checks:
+        allowed, label, key = spec[:3]
+        optional = len(spec) > 3 and spec[3]      # a post-readout column: validated only when present
         if key not in col_keys:
-            health.append({"level": "warn", "code": "register-column",
-                           "message": "%s has no column keyed `<!--c:%s-->` — %s cannot be validated "
-                                      "(a register the console reads must key its columns)"
-                                      % (filename, key, label)})
+            if not optional:
+                health.append({"level": "warn", "code": "register-column",
+                               "message": "%s has no column keyed `<!--c:%s-->` — %s cannot be validated "
+                                          "(a register the console reads must key its columns)"
+                                          % (filename, key, label)})
             continue
         for r in rows:
             v = T.enum_value(r.get(key, ""))
@@ -328,17 +337,69 @@ def _register(path, filename, id_prefix, health, enum_checks=()):
     return {"present": True, "file": filename, "columns": headers or [], "col_keys": col_keys, "rows": rows}
 
 
+METRICS_CSV_HEADER = ("id", "period_start", "period_end", "measured_at", "value", "observed_n",
+                      "population", "basis", "source", "note")
+
+
+def metric_rows(path):
+    """The ONE reader of `registers/metrics.csv` — rows as dicts plus the file's defects.
+
+    Returns {header, rows: [{...fields, _line}], issues: [{line, code, message}]}. The linter's check E
+    and the console's series both read through here (hub F-01: two parsers gave "0 errors" in CI and
+    three `metric-undefined` in the console on the same file). What is a defect is decided once:
+    a data row whose field count differs from the header's (an unquoted comma — hub F-05), a row
+    whose `id` is not an `M-…` (a `# comment` separator: the canon gives every row a `note` column
+    and no comment syntax), a header missing the canon columns (REGISTERS → metrics.csv).
+    """
+    out = {"header": [], "rows": [], "issues": []}
+    if not os.path.exists(path):
+        return out
+    with io.open(path, encoding="utf-8", newline="") as fh:
+        reader = csv.reader(fh)
+        header = None
+        for lineno, rec in enumerate(reader, 1):
+            if header is None:
+                header = [c.strip() for c in rec]
+                out["header"] = header
+                for col in ("id", "measured_at", "value"):
+                    if col not in header:
+                        out["issues"].append({"line": 1, "code": "metrics-header",
+                                              "message": "metrics.csv header has no `%s` column — the canon "
+                                                         "header is `%s`" % (col, ",".join(METRICS_CSV_HEADER))})
+                continue
+            if not any(c.strip() for c in rec):
+                continue                                   # a blank line is not a row
+            if len(rec) != len(header):
+                out["issues"].append({"line": lineno, "code": "metrics-fields",
+                                      "message": "metrics.csv:%d has %d field(s), the header %d — an unquoted "
+                                                 "comma shifts every later column (quote the cell)"
+                                                 % (lineno, len(rec), len(header))})
+                continue
+            row = {header[i]: rec[i].strip() for i in range(len(header))}
+            row["_line"] = lineno
+            mid = row.get("id", "")
+            if not T.METRIC_RE.fullmatch(mid):
+                out["issues"].append({"line": lineno, "code": "metrics-id",
+                                      "message": "metrics.csv:%d `id` is `%s`, not an `M-…` — a comment or "
+                                                 "separator line has no place in the file (context goes to "
+                                                 "the row's `note` or metric-tree.md prose)"
+                                                 % (lineno, mid[:40] or "(empty)")})
+                continue
+            out["rows"].append(row)
+    return out
+
+
 def _metrics(path, tree_rows, health):
     f = os.path.join(path, "registers", "metrics.csv")
     defined = {T.clean_cell(r.get("id", "")) for r in tree_rows}
     series, rows_n, undefined = {}, 0, set()
     if not os.path.exists(f):
-        return {"present": False, "series": {}, "rows": 0, "undefined": []}
-    with io.open(f, encoding="utf-8", newline="") as fh:
-        for row in csv.DictReader(fh):
+        return {"present": False, "series": {}, "rows": 0, "undefined": [], "issues": []}
+    read = metric_rows(f)
+    for issue in read["issues"]:
+        health.append({"level": "error", "code": issue["code"], "message": issue["message"]})
+    for row in read["rows"]:
             mid = (row.get("id") or "").strip()
-            if not mid:
-                continue
             rows_n += 1
             if defined and mid not in defined:
                 undefined.add(mid)
@@ -367,7 +428,8 @@ def _metrics(path, tree_rows, health):
                        "message": "metrics.csv carries readings for `%s`, which has no definition in "
                                   "metric-tree.md — an orphan series nobody can interpret "
                                   "(REGISTERS → the md file is the authority on which ids exist)" % mid})
-    return {"present": True, "series": series, "rows": rows_n, "undefined": sorted(undefined)}
+    return {"present": True, "series": series, "rows": rows_n, "undefined": sorted(undefined),
+            "issues": read["issues"]}
 
 
 def _sources(path):
@@ -482,22 +544,39 @@ def _tick_map(state):
     return flat, per_step
 
 
+def _recorded_sections(art, last_pass):
+    """Section ids whose reopen the artifact change log RECORDS: named (`#sid`) in an entry dated on or
+    after `state.last_pass`, with no entry newer than `last_pass` (a later pass would have re-ticked).
+    The move-5 trace that tells "reopened for re-sign" from "Record never ran" (framework.GATE_READINGS)."""
+    if not art or not last_pass:
+        return set()
+    lp = str(last_pass)[:10]
+    log = art.get("change_log") or []
+    if any(e["date"] > lp for e in log):
+        return set()
+    out = set()
+    for e in log:
+        if e["date"] >= lp:
+            out.update(re.findall(r"#([a-z][a-z0-9-]*)", "%s\n%s" % (e["summary"], e["body"])))
+    return out
+
+
 def _merge_steps(steps, artifacts, state, health, template_lines=None):
     ticks, _ = _tick_map(state)
     by_step = {a["step"]: a for a in artifacts}
     template_lines = template_lines if template_lines is not None else F.template_section_lines()
+    last_pass = (state or {}).get("last_pass")
     out = []
     for s in steps:
         art = by_step.get(s["step"])
         # `worked`, not merely present: steps 2–6 are instantiated as a whole shell, so an anchor on
-        # disk stops meaning the section was written. A section is worked when it carries at least
-        # one normalized line beyond its template placeholder (framework.template_section_lines);
-        # a section the templates never define falls back to presence — the only signal there is.
+        # disk stops meaning the section was written. One definition for every reader —
+        # framework.worked: a line beyond the template shell that is not placeholder-shaped (so a
+        # translated shell is still a shell).
         worked = {}
         for sec in (art or {}).get("sections", []):
-            tpl = template_lines.get((s["step"], sec["id"]))
-            worked[sec["id"]] = (True if tpl is None
-                                 else any(ln not in tpl for ln in F.norm_lines(sec["body"])))
+            worked[sec["id"]] = F.worked(sec["body"], template_lines.get((s["step"], sec["id"])))
+        recorded = _recorded_sections(art, last_pass)
         gate = []
         for item in s["gate"]:
             tick = ticks.get(item["tick_id"]) if item["tick_id"] else None
@@ -509,8 +588,10 @@ def _merge_steps(steps, artifacts, state, health, template_lines=None):
             defaulted = False
             if tick is None and state and item.get("optional") and not written:
                 tick, defaulted = "n/a", True
-            gate.append(dict(item, tick=tick or ("unknown" if not state else "open"),
-                             written=written, tick_defaulted=defaulted))
+            tick = tick or ("unknown" if not state else "open")
+            trace = bool(item["sections"]) and all(sid in recorded for sid in item["sections"])
+            gate.append(dict(item, tick=tick, written=written, tick_defaulted=defaulted,
+                             reading=F.gate_reading(tick, written, trace)))
         counts = {}
         for g in gate:
             counts[g["tick"]] = counts.get(g["tick"], 0) + 1
@@ -544,7 +625,7 @@ def _merge_steps(steps, artifacts, state, health, template_lines=None):
         for sec in (art or {}).get("sections", []):
             if sec["id"] not in {x["id"] for x in sections} and sec["id"] != "change-log":
                 sections.append({"id": sec["id"], "what": "", "tools": [], "optional": False,
-                                 "present": True, "worked": True,
+                                 "present": True, "worked": worked.get(sec["id"], False),
                                  "words": sec["words"], "gaps": len(sec["gaps"]),
                                  "gap_lines": sec["gaps"],
                                  "confidence": sec["markers"]["confidence"],
@@ -668,21 +749,24 @@ def load(path, framework_root=F.ROOT):
     state, state_present = _read_state(path, health)
     artifacts = _artifacts(path, health)
 
-    def check(label):
+    def check(label, optional=False):
         allowed, key = F.ENUMS[label]
-        return (allowed, label, key)
+        return (allowed, label, key, optional)
 
+    # the post-readout grades (signal/decision) and the Step-4/5 `priority` are pass-written columns:
+    # validated when present, never reported missing (F.OPTIONAL_ENUM_LABELS) — the linter's check D
+    # reads these health entries, so the two verdicts are one
     hypotheses = _register(path, "hypotheses.md", "H-", health,
                            [check("hypothesis type"), check("hypothesis status"),
-                            check("hypothesis confidence")])
+                            check("hypothesis confidence"),
+                            check("hypothesis signal", True), check("hypothesis decision", True)])
     risks = _register(path, "risks.md", "R-", health, [check("risk category"), check("risk status")])
     metric_tree = _register(path, "metric-tree.md", "M-", health,
                             [check("metric kind"), check("metric instrumentation")])
     metrics = _metrics(path, metric_tree["rows"], health)
-    # `feature priority` is deliberately not checked here — like hypothesis signal/decision it is
-    # an optional pass-written column (Step 4/5 cascade); the linter validates it when present.
     features = _register(path, "features.md", "F-", health,
-                         [check("feature state"), check("feature confidence")])
+                         [check("feature state"), check("feature confidence"),
+                          check("feature priority", True)])
     surfaces = _register(path, "surfaces.md", "S-", health, [check("surface state")])
 
     steps = _merge_steps(F.steps(framework_root), artifacts, state, health,
@@ -774,6 +858,9 @@ def load(path, framework_root=F.ROOT):
         "state_present": state_present,
         "current_step": (state or {}).get("current_step"),
         "last_pass": (state or {}).get("last_pass"),
+        "ticks": _tick_map(state)[0],                    # {tick_id: value} as state.yaml records it
+        "last_run": ((state or {}).get("last_run") if isinstance((state or {}).get("last_run"), dict)
+                     else {}),
         "status": status,
         "statuses": [{"name": s["name"], "order": s["order"]} for s in statuses],
         "steps": steps,
@@ -792,3 +879,48 @@ def load(path, framework_root=F.ROOT):
         "history": _history(timeline),
         "health": health,
     }
+
+
+# ---------------------------------------------------------------- git
+
+
+def gitignored(paths, repo_root):
+    """Which of `paths` git would ignore under `repo_root` — the linter's `--ci` view of the tree.
+
+    Asks `git check-ignore` when git is there (the same answer CI's checkout gives); otherwise reads
+    the root `.gitignore` and matches its directory rules (`instances/`, `examples/tolmach/`) by
+    prefix — enough for the folder-level rules the framework uses. Returns the ignored subset.
+    """
+    import subprocess
+    paths = [os.path.abspath(p) for p in paths]
+    if not paths:
+        return set()
+    try:
+        rels = [os.path.relpath(p, repo_root) for p in paths]
+        res = subprocess.run(["git", "-C", repo_root, "check-ignore", "--stdin"],
+                             input="\n".join(rels) + "\n", capture_output=True, text=True, timeout=10)
+        if res.returncode in (0, 1):                 # 1 = nothing ignored; anything else = git unusable
+            hit = {ln.strip() for ln in res.stdout.splitlines() if ln.strip()}
+            return {p for p, r in zip(paths, rels) if r in hit}
+    except (OSError, subprocess.SubprocessError):
+        pass
+    gi = os.path.join(repo_root, ".gitignore")
+    if not os.path.exists(gi):
+        return set()
+    rules = []
+    for ln in T.read(gi).splitlines():
+        ln = ln.strip()
+        if ln and not ln.startswith("#") and not ln.startswith("!") and "*" not in ln:
+            rules.append(ln.strip("/"))
+    out = set()
+    for p in paths:
+        rel = os.path.relpath(p, repo_root).replace(os.sep, "/")
+        parts = rel.split("/")
+        for r in rules:
+            rparts = r.split("/")
+            if len(rparts) == 1:
+                if r in parts:
+                    out.add(p)
+            elif parts[:len(rparts)] == rparts:
+                out.add(p)
+    return out

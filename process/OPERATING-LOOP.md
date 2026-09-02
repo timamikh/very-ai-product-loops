@@ -60,28 +60,28 @@ artifact. An open fork is an unresolved risk: close it, or escalate it with an o
 
 **4 · Act.** Do the working in the pass's **worklog** (`<step-folder>/<tool>.md`) — the **source of
 truth**; the **artifact section is its projection**, holding nothing the worklog does not, every
-claim tagged, proposals ⚙️. The moves available here are cards of their own, never run bare:
+claim tagged, proposals ⚙️. These moves are cards of their own, never run bare:
 **projection** ([`projection`](../tool-skills/operations/projection/SKILL.md) — the only way a
 section is ever written), **delegation** (a split from move 2: one **brief** per part, **every return
 scored against its passport before use** — [`orchestration`](../tool-skills/operations/orchestration/SKILL.md)),
 external search (`gather`/`research`). Two obligations **before anything lands on disk**: **show
-reasoning first** (a section resting mainly on the agent's own reasoning or a spoken answer is
+reasoning first** (a section resting mainly on the agent's reasoning or a spoken answer is
 previewed in chat, in full), and **declare the write perimeter** — the card's **`writes`** resolved
-to actual paths, one message naming every file the pass will touch.
+to paths, one message naming every file touched.
 
 **5 · Record.** **Unconditionally:** a dated **change-log** entry (from → to · why · trigger) and
 the **open items** surfaced. Then **every surface in the card's `surfaces`**:
 **tick** the satisfied gate items in `state.yaml` and set `current_step`/`last_pass` — **the tick is
 conditional**: on a section resting mainly on the agent's own reasoning it waits for a `verify`
-subagent that did not write it (the human may waive); **seed/update the registers** with stable ids (read [`REGISTERS.md`](REGISTERS.md)
-first) — a captured metric value lands in `metrics.csv` as a dated row **at capture time**, a
-`sources/` snapshot is evidence, not the home; **propose sign-off** via
+subagent that did not write it (the human may waive); **seed/update the registers** with stable ids ([`REGISTERS.md`](REGISTERS.md)) — a captured
+metric value lands in `metrics.csv` as a dated row **at capture time**, a `sources/` snapshot is
+evidence, not the home; **propose sign-off** via
 [`theses`](../tool-skills/operations/theses/SKILL.md) (`scope: step`; a big re-projection → `instance`).
-An `open` tick on a written section has one legal meaning besides "Record not finished": the section was **reopened for re-sign** — its content changed and the owner's sign-off is awaited. A reopen is recorded, never implied: the artifact's change-log entry names the section (`#<id>`) and is dated on or after `last_pass`; without that entry the linter reads the tick as an unfinished Record (check G2).
-A gathering-only errand is still a pass, and ends here.
+A written section left `open` is a **recorded reopen for re-sign**, else unfinished (G2).
+A gathering-only errand is a pass too, and ends here.
 
-**6 · Bubble.** Next item or step. If the pass **invalidated** a higher or lower artifact (a refuted
-hypothesis, a changed segment), raise it per the step's cadence and invalidation rules.
+**6 · Bubble.** Next item or step. If the pass **invalidated** another artifact (a refuted hypothesis, a
+changed segment), raise it per the step's cadence and invalidation rules.
 
 ## Session handoff
 

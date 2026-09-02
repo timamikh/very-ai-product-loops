@@ -19,7 +19,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Run the wiring/enum linter
-        run: python3 tools/lint.py
+      - name: Run the wiring/enum linter (tracked instances only — the tree this checkout holds)
+        run: python3 tools/lint.py --ci
       - name: Smoke-test the shared read layer (tools/loops)
         run: python3 tools/loops/selftest.py
+      - name: Regression-test the linter on the defect fixture (tools/tests)
+        run: python3 tools/tests/test_lint.py

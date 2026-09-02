@@ -266,6 +266,66 @@ def norm_lines(body):
     return out
 
 
+# a table cell that says nothing yet: the template's `…`, an angle-bracket slot, a dash, a bare
+# confidence tag, a bare id pattern (`H-…`, `M-…`) — in any language, because none of these are words
+_PLACEHOLDER_CELL_RE = re.compile(
+    r"^(?:…|\.\.\.|—|–|-|\?|<[^>]*>|\[(?:assumption|sourced|validated|refuted)[^\]]*\]"
+    r"|[HRMFSB]-(?:…|\.\.\.|<[^>]*>)|\d+(?:\s*\(lead\))?)?$", re.I)
+_DIVIDER_RE = re.compile(r"^\s*\|?[\s:|-]+\|?\s*$")
+
+
+def is_placeholder_line(line, next_line=None):
+    """True when a line carries no content of its own — only the shell's shape.
+
+    The shape a step template ships is language-independent even when its words are not: a `_…_`
+    caption, an HTML comment (tool marker, card mark, keys), a heading, a table header (the row a
+    divider follows — pass `next_line`) or divider, a table row whose every cell is a slot (`…`,
+    `<…>`, `—`, a bare tag, an id pattern), a line made only of `<…>` slots. An instance that
+    **translated** the shell (a Russian caption over the same table) used to count as worked by the
+    old verbatim-line test — ten false "written" sections on one run.
+    """
+    s = line.strip()
+    if not s:
+        return True
+    if s.startswith("<!--") and s.endswith("-->"):
+        return True
+    if s.startswith("#"):
+        return True
+    if re.match(r"^_.*_$", s) and "**" not in s:
+        return True                                   # an italic caption line — the shell's instruction
+    if s.startswith("|"):
+        if _DIVIDER_RE.match(s):
+            return True                               # divider
+        if next_line is not None and _DIVIDER_RE.match(next_line.strip() or "x"):
+            return True                               # header row (a divider follows) — in any language
+        cells = [c.strip() for c in s.strip("|").split("|")]
+        return all(_PLACEHOLDER_CELL_RE.match(T.clean_cell(re.sub(r"<!--.*?-->", "", c))) for c in cells)
+    if re.fullmatch(r"(?:<[^>]*>|[\s·,;:.—–-]|\*\*|\[assumption\])+", s):
+        return True                                   # a line made of slots and punctuation only
+    return False
+
+
+def worked(body, template_lines=None):
+    """Whether a section carries content of its own beyond the template's shell.
+
+    The one definition every reader shares (the console's step view, the linter's G2/L2/P). A line
+    counts when it is neither a verbatim template line (`template_lines`, from
+    `template_section_lines`) nor placeholder-shaped in any language (`is_placeholder_line`). A
+    section the templates never define (no `template_lines`) still needs one content-shaped line —
+    presence alone was the old, weaker signal.
+    """
+    tpl = template_lines or frozenset()
+    lines = [re.sub(r"\s+", " ", ln).strip() for ln in body.splitlines()]
+    lines = [ln for ln in lines if ln]
+    for i, ln in enumerate(lines):
+        if ln in tpl:
+            continue
+        if is_placeholder_line(ln, lines[i + 1] if i + 1 < len(lines) else None):
+            continue
+        return True
+    return False
+
+
 def template_section_lines(root=ROOT):
     """{(step, section_id): frozenset(normalized lines)} — each step template section's placeholder shell.
 
@@ -278,7 +338,7 @@ def template_section_lines(root=ROOT):
     pass raising nine false move-5 warnings on untouched skeletons. A section counts as **worked**
     only when it carries at least one line of its own beyond this shell; the subtraction is by
     normalized line, so a verbatim copy is a placeholder and any real row or sentence is content.
-    A translated placeholder falls back to counting as worked — presence, the old signal.
+    A translated placeholder is caught by shape (`is_placeholder_line`), not by these lines.
     """
     out = {}
     for tpl in glob.glob(os.path.join(root, "steps", "*", "template.md")):
@@ -333,3 +393,37 @@ ENUMS = {
 }
 
 TICK_VALUES = ["done", "open", "n/a", "deferred"]
+"""The values a gate tick may hold in `state.yaml` (OPERATING-LOOP → move 5). Closed: the linter's
+check G3 rejects anything else, so a typo (`Done`, `skipped`) cannot silently read as `open`."""
+
+# What a gate item's tick *means* once read against the disk — the state the console shows and the
+# linter's G2 judges. Derived, never written: state.yaml records only TICK_VALUES.
+GATE_READINGS = {
+    "recorded":   "the tick is `done` / `n/a` / `deferred` — move 5 ran and said so",
+    "blank":      "tick `open` (or absent) and nothing written beyond the shell — not started",
+    "unrecorded": "written, tick `open`, and no move-5 trace — the pass wrote the section and stopped "
+                  "before Record: the cycle's recorded position fell behind the disk (G2 warns)",
+    "re-sign":    "written, tick `open`, and the artifact change log records the section on or after "
+                  "`last_pass` with no later pass recorded — the reopen was a recorded choice (the "
+                  "content changed and the owner's sign-off is awaited), not a forgotten Record",
+    "invalid":    "the tick holds a value outside TICK_VALUES — records nothing (G3 errors)",
+    "unknown":    "no state.yaml — nothing to read a tick from",
+}
+"""The tick states, as code (hub F-10). `open` alone is overloaded: "Record not finished" (real debt)
+and "reopened for re-sign" (a legitimate waiting state) both leave the tick `open` on a written
+section. The trace that tells them apart is the one move 5 always leaves — a change-log entry
+naming the section: if that entry is dated on/after `state.last_pass` and nothing in the log is newer
+than `last_pass`, Record ran for this section and chose `open`; otherwise Record did not run."""
+
+
+def gate_reading(tick, written, recorded):
+    """One of GATE_READINGS for (tick value, worked?, move-5 trace present?)."""
+    if tick == "unknown":
+        return "unknown"
+    if tick in ("done", "n/a", "deferred"):
+        return "recorded"
+    if tick != "open":
+        return "invalid"
+    if not written:
+        return "blank"
+    return "re-sign" if recorded else "unrecorded"

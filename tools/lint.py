@@ -17,12 +17,39 @@ Checks (ERROR fails CI · WARN never does):
   B2 a card that writes `section:X` is named on X's template marker — the marker is how a reader
      and check P find its worklog (first = primary, later = contributing / revisit)
   C  library index rows <-> tool folders, and index "Steps" <-> the card's `steps`
+  C1 an anchor a method's SKILL.md names (`N#x` · `{#x}` · `section:x`, in the body or its
+     prerequisites) is inside its perimeter — a matching `section:` atom in `reads:` or `writes:`.
+     Exempt: the cumulative/inbox sections (hypotheses, to-clarify, …); a mention inside an
+     `## Output` / `## Downstream` / `## Worklog & projection` section; a block that hands OFF rather
+     than reads (`→`, feeds, downstream, anchors, owns, contributes, into `{#x}`, "filled later",
+     "after `{#x}`", a `<!--w:adds-->` recorded door)  (WARN)
   C2 a section whose method's template-fragment declares a card slot (a live `<!-- card -->` in the
      fragment) carries a card mark of its own — the missing-mark half of the slot contract; whether
      the mark sits on the *right* element is semantic, audited by step-close  (WARN)
-  D  register enums per instance (hypothesis type/status/confidence · post-test signal/decision ·
-     risk category/status · metric kind/instrumentation; signal/decision enforced-if-present)
-  E  metrics.csv ids are a subset of metric-tree.md ids
+  C3 a method with `evidence_standard: decision` ships the decision line in its fragment (a keyed
+     `**Decided:**` — CONVENTIONS → The decision line)  (WARN)
+  C4 a fragment of a step ≥ 4 method that projects a SECTION (a `## … {#anchor}` heading) declares a
+     card slot (`<!-- card -->`) — without one the console shows title + status for most of the
+     plan; an item-block or worklog-shaped fragment has no section to face and is exempt  (WARN)
+  C4b two fragments that project the same section anchor declare the same card face label (the
+     `**Label:**` opening the `<!-- card -->` block) — one section, one face, whichever method
+     re-projected last  (WARN)
+  C6 a method whose `volume_rule` states a NUMERIC floor (`≥ N`, `N–M`, `at least N`) puts it in
+     questions.yaml as `min:` on the gathering question (library README → The quality declaration);
+     a structural rule ("every element of X …", "one row per …") has no list to floor  (WARN)
+  C9 template ↔ fragment column parity for the sections a fragment projects: every fragment column
+     has a counterpart in the step template's keyed form (matched by header prose — a fragment
+     carries no keys, check O), and the section's PRIMARY tool's fragment carries every template
+     column  (WARN)
+  D  register enums per instance, read through the read layer (instance.load health): hypothesis
+     type/status/confidence · post-test signal/decision · risk category/status · metric kind/
+     instrumentation · feature state/confidence/priority · surface state; a value outside its enum is
+     an ERROR; a missing required key column WARNs on a product instance and ERRORs on `examples/`
+     (the same product-vs-reference split as O2)
+  E  metrics.csv through the ONE reader (instance.metric_rows): every id has a definition row in
+     metric-tree.md; a data row's field count equals the header's (an unquoted comma); every `id` is
+     an `M-…` (no comment lines) — ERROR: a series nobody can interpret is a broken register, not a
+     prose slip (E2 stays WARN because a prose citation is heuristic)
   E2 a cited `F-…`/`S-…` id in an instance artifact or register has a definition row in
      features.md/surfaces.md — the feature-register mirror of check E  (WARN)
   E3 a worked `6#must` item carries its full pre-registration: a `- **Feature:**` line naming an
@@ -35,10 +62,15 @@ Checks (ERROR fails CI · WARN never does):
      (H-/R-/M-/F-/S-) — the cut rule and the impact-readout both read this link  (WARN)
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
-  G2 a gate item whose sections are all written but whose state.yaml tick is still `open` —
-     move 5 (Record) was not finished, the cycle's recorded position fell behind the disk  (WARN);
-     "written" means worked content beyond the template's placeholder shell, not a mere anchor —
-     an instantiated-whole step artifact (2–6) no longer trips this on untouched skeletons
+  G2 a gate item whose sections are written but whose tick reads `unrecorded` (framework.GATE_READINGS):
+     tick `open` and no move-5 trace — the pass wrote the section and stopped before Record  (WARN).
+     "Written" is worked content beyond the shell in any language (framework.worked); a section
+     reopened for re-sign (its change log records it on/after `last_pass`) reads `re-sign` and is silent
+  G3 every state.yaml tick value is one of framework.TICK_VALUES (done · open · n/a · deferred)
+  G4 every state.yaml tick id names a real gate item of its step (a stale or misspelled id ticks
+     nothing)  (WARN)
+  G5 the instance's content is written in `config.language`: a file whose letters are dominantly in
+     the other script (Cyrillic vs Latin) contradicts the owner's decision (hub F-08)  (WARN)
   D2 confidence/source tags in instance artifacts and worklogs come from the closed CONVENTIONS
      vocabulary, verbatim and never localized: `[assumption]` bare · `[sourced: <where>]` ·
      `[validated: <evidence>]` · `[refuted: <why>]` — a compounded, translated or near-synonym
@@ -50,6 +82,8 @@ Checks (ERROR fails CI · WARN never does):
      value shapes: `language` is a code, `directions` a list, `active_status` a real status file
   H2 an instance artifact's frontmatter carries the template's keys and invents none — an invented
      key (a worklog list, an active_status) is a second home for something the canon stores elsewhere
+  H3 a HANDOFF.md names the registers it was verified against (N3: a handoff restores state, not
+     truth — its Registers block cites at least one register file)  (WARN)
   I  a product's own skills (product-loops/tool-skills/…) obey the same wiring rules as vendored ones
   I2 a vendored framework is pinned and pointed at: FRAMEWORK-VERSION (tag + SHA) at the vendor root,
      a pointer + standing delegation approval in the product repo's root AGENTS.md (install/README →
@@ -72,10 +106,14 @@ Checks (ERROR fails CI · WARN never does):
      all or none) and its alternatives field is neither empty, a bare *none*, nor an unfilled
      placeholder; an English `**Decided:**` label with no keys WARNs (best-effort by construction)
   P  step worklogs: a step folder holds only `node_type: worklog` files named for the tools its
-     sections use; required — every artifact section that names a method (or synthesis) has its worklog
-  P2 the worklog inputs line (`<!--w:reads-->` · `<!--w:adds-->`): both keys or none, legal reads
-     atoms, and the primary working's citations (section anchors, register ids) stay inside the
-     declared perimeter — the change log and the orchestrator's-conclusions block are exempt;
+     sections use; required — every artifact section that names a method (or synthesis) has its worklog.
+     A revisit (a later step's method on an earlier step's marker) lives in its OWN step's folder; a
+     worklog in the wrong step's folder, and one no artifact names at all, get distinct messages  (WARN)
+  P2 the worklog inputs BLOCK (`<!--w:reads-->` · `<!--w:adds-->` — a line names a block, so a wrapped
+     paragraph reads whole): both keys or none, legal reads atoms, and the primary working's citations
+     (section anchors, register ids incl. `M-7d`-style) stay inside the declared perimeter. Exempt:
+     the change log, the orchestrator's-conclusions block, inline code and fences, an id quoted from a
+     declared section's own text or from a table row sourced to a declared atom (daisy F-03, hub F-09);
      worklogs predating the line get one aggregate WARN per instance  (all WARN)
   P3 a step README's skeleton row and the template marker name the same tools for a section; with a
      single marker the first tool agrees too (it owns the worklog)
@@ -85,6 +123,10 @@ Checks (ERROR fails CI · WARN never does):
      section is both `confirmed:` and `contested:` (a verdict is one or the other)
   S  rests-on provenance: a `rests-on: <step>#<id>` target resolves to a real section, and a confirmed
      section resting on an unconfirmed foundation is surfaced  (WARN)
+  T2 raw captures stay out of git: the instance (or a host repo up to the git root) carries a
+     `.gitignore` rule for `sources/snapshots/` (or all of `sources/`) — N8, boundary-layout  (WARN)
+  T3 no secret in instance text: an API key / token shape (`sk-…`, `AKIA…`, `ghp_…`, `xox…`, a long
+     opaque value after `key:`/`token:`/`secret:`/`password:`, a private-key header) is an ERROR (N8)
   T  the boundary layer: sources/ holds only originals/ · snapshots/ · access/ (+INDEX.md; a flat
      legacy file WARNs); a passport (sources/access/*) is not an all-`— to clarify —` invented stub
      (WARN); an instance exchange skill (<instance>/skills/<slug>/) has a SKILL.md, and a `cadence:`
@@ -100,8 +142,13 @@ Checks (ERROR fails CI · WARN never does):
      in that step's template (how data is gathered belongs in the goals prose)
   W  the always-loaded canon (AGENTS.md + OVERVIEW + OPERATING-LOOP + goal-map + CONVENTIONS) stays
      visible in size — a guideline that WARNs, never a gate (EXTENDING -> subtraction rule)
+  W2 a method's `## Worklog & projection` section stays under 120 words — the mechanics live in
+     worklog-resolution; the card lists only what is method-specific (audit C5)  (WARN)
   Y  questions.yaml is machine-readable: every question `type` is from the shared vocabulary
      (no `type: x_from: y` double-colon scalars)
+  Y2 every YAML the framework reads — a card's frontmatter, an artifact's or worklog's frontmatter,
+     config.yaml, state.yaml — stays inside the reader's subset: a flow map `{a: b}` or a list of maps
+     `- k: v` parses to a bare string in silence (yamlite.unsupported names the line)
   X  every card fills the one questionnaire (process/reference/card-schema.md): the core is present,
      `kind` and the atoms of reads/writes/surfaces come from the controlled vocabularies, the
      per-kind fields hold (a method has `steps` and no `surfaces` — the law of ranks), and a card the
@@ -109,8 +156,9 @@ Checks (ERROR fails CI · WARN never does):
   Z  a card's home follows its author: `kind: exchange` only inside an instance's `skills/`, and a
      framework kind never there
 
-Run:  python3 tools/lint.py            # every instance discoverable from here
-      python3 tools/lint.py product    # or name the instance(s) to check
+Run:  python3 tools/lint.py                 # every instance discoverable from here
+      python3 tools/lint.py product-loops   # or name the instance(s) to check
+      python3 tools/lint.py --ci            # skip gitignored instances (what CI's checkout sees)
 """
 import glob
 import os
@@ -127,6 +175,10 @@ from loops import text as T  # noqa: E402
 from loops import yamlite  # noqa: E402
 
 ERRORS, WARNS = [], []
+SKIPPED = []          # instances `--ci` left out (gitignored), reported so a local run explains itself
+# the framework's reference instances — held to ERROR on template shape (they ARE the form); a test
+# points this at a fixture to exercise the `examples/` semantics without touching the real examples
+EXAMPLE_ROOTS = [os.path.join(ROOT, "examples")]
 
 
 def err(msg):
@@ -137,8 +189,35 @@ def warn(msg):
     WARNS.append(msg)
 
 
+def reset():
+    """Forget one run's findings and caches — the test runner lints several fixtures in one process."""
+    del ERRORS[:]
+    del WARNS[:]
+    del SKIPPED[:]
+    _SNAPSHOTS.clear()
+    _READ.clear()
+    _MEMO.clear()
+
+
+_READ = {}
+
+
 def read(path):
-    return T.read(path)
+    """One read per file per run — the linter never writes, so a file cannot change underneath it
+    (a test that rewrites a fixture between runs calls `reset()`)."""
+    if path not in _READ:
+        _READ[path] = T.read(path)
+    return _READ[path]
+
+
+_MEMO = {}
+
+
+def _memo(key, make):
+    """Per-run memo for the framework-side tables several checks rebuild (templates, steps)."""
+    if key not in _MEMO:
+        _MEMO[key] = make()
+    return _MEMO[key]
 
 
 def rel(path):
@@ -167,7 +246,7 @@ def check_tools(tools, homed):
                 err("A2 [%s] questions.yaml declares `writes:`/`produces:` — the write perimeter lives "
                     "in SKILL.md frontmatter only; the interview script asks, it does not write" % name)
         # B — every written section is homed in a step artifact
-        writers = _template_writers()
+        writers = _template_writers()                 # memoized — one read of the templates per run
         for sid in secs:
             if sid not in homed:
                 err("B [%s] writes `section:%s` with no home — not in any step template {#%s} "
@@ -192,22 +271,11 @@ def check_readme_markers(tools):
     first tool must agree too, since the first tool owns the section's worklog.
     """
     writers = _template_writers()
-    for readme in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "README.md"))):
-        step = os.path.basename(os.path.dirname(readme))
-        body = read(readme)
-        i = body.find("## Artifact skeleton")
-        if i < 0:
-            continue
-        for line in body[i:].splitlines()[1:]:
-            if not line.startswith("|"):
-                if line.startswith("## "):
-                    break
-                continue
-            cells = [c.strip() for c in line.strip("|").split("|")]
-            if len(cells) < 3 or not cells[0].startswith("`") or cells[0].startswith("`Section"):
-                continue
-            sid = cells[0].split("`")[1]
-            row = [t for t in re.findall(r"`([a-z0-9-]+)`", cells[-1]) if t in tools]
+    for st in _steps():                            # the skeleton rows as the read layer parses them
+        step = os.path.basename(st["dir"])
+        for sk in st["skeleton"]:
+            sid = sk["id"]
+            row = [t for t in sk["tools"] if t in tools]
             mark = writers.get(sid)
             if mark is None:
                 continue                                  # no marker (synthesis) — nothing to compare
@@ -226,6 +294,10 @@ def check_readme_markers(tools):
 
 def _template_writers():
     """{section id: [tools its `<!-- tool: -->` marker names]} across the step templates."""
+    return _memo("writers", _template_writers_now)
+
+
+def _template_writers_now():
     out = {}
     for tpl in glob.glob(os.path.join(ROOT, "steps", "*", "template.md")):
         for sec in T.sections(read(tpl)):
@@ -299,6 +371,213 @@ def check_quality(tools):
                 "shows what it cut and why" % (name, " and ".join("`%s`" % c for c in cuts)))
 
 
+
+
+# sections every method may name without declaring them: cumulative register projections and the
+# agent→human inboxes (CONVENTIONS → Section confirmation: `<!-- open -->` sections), plus the
+# worklog's own intake anchor
+AMBIENT_SECTIONS = {"hypotheses", "global-hypotheses", "to-clarify", "open-questions", "blockers",
+                    "intake", "change-log"}
+BODY_ANCHOR_RE = re.compile(r"\b[1-6]#([a-z][a-z0-9-]*)|\{#([a-z][a-z0-9-]*)\}|\bsection:([a-z][a-z0-9-]*)")
+# a SKILL.md section whose mentions are hand-OFFS, not reads: what the method produces and where it goes
+HANDOFF_SECTION_RE = re.compile(r"output|downstream|feeds|worklog\s*&\s*projection", re.I)
+# a block that hands a section off, defers it, or names another owner — the anchor in it is not read
+HANDOFF_BLOCK_RE = re.compile(
+    r"→|\bfeeds?\b|\bdownstream\b|\banchors\b|\bowns\b|\bcontribut|recorded door|w:adds"
+    r"|\binto\s+`?\{#|\bfilled later\b|\blater in\b|\bafter\s+`?\{#"
+    # a relation or comparison, not a read: "the temporal view behind {#x}", "a flat {#x} list would …"
+    r"|\bbehind\s+`?\{#|\bwould\b|\brather than\b|\binstead of\b", re.I)
+CARD_LABEL_RE = re.compile(r"^\*\*([^*]+?):?\*\*")
+WORKLOG_SECTION_RE = re.compile(r"worklog", re.I)
+WORKLOG_SECTION_WORDS = 120
+
+
+def _read_anchors(body):
+    """Anchors a SKILL.md body READS: every `N#x` / `{#x}` / `section:x` mention that is not a hand-off —
+    not inside an Output/Downstream/Worklog section, and not in a block that passes the section on
+    (`→`, feeds, into `{#x}`, "filled later", …). Mentions in prerequisites count as reads."""
+    out = set()
+    body = re.sub(r"```.*?```", "", body, flags=re.S)
+    for sec in T.sections(body):
+        if HANDOFF_SECTION_RE.search(sec["title"] or ""):
+            continue
+        lines = sec["body"].split("\n")
+        seen_blocks = set()
+        for n, line in enumerate(lines, 1):
+            if not BODY_ANCHOR_RE.search(line):
+                continue
+            first, _, blk = T.block_at(sec["body"], n)
+            if first in seen_blocks:
+                continue
+            seen_blocks.add(first)
+            text = " ".join(x.strip() for x in blk)
+            if HANDOFF_BLOCK_RE.search(text):
+                continue
+            out.update(a or b or c for a, b, c in BODY_ANCHOR_RE.findall(text))
+    return out
+
+
+def _card_labels(fragment_text):
+    """{anchor: label} — the bold label opening the `<!-- card -->` block of each SECTION a fragment
+    projects (a `## … {#anchor}` heading; `**Journey read:**` → `journey read`). A `{#x}` mentioned in
+    the fragment's prose is not a projected section. The face two methods projecting one section
+    must agree on."""
+    out = {}
+    for sec in T.sections(fragment_text):
+        if not sec["id"]:
+            continue
+        lead = T.card_line(sec["body"])
+        if lead:
+            m = CARD_LABEL_RE.match(lead.strip())
+            out[sec["id"]] = m.group(1).strip().lower() if m else lead.strip()[:40].lower()
+    return out
+
+
+def _header_names(headers):
+    """Header cells reduced to comparable names: prose only (no key, no emphasis), lower-cased, cut
+    before a parenthesised aside — `Links (H-…/M-…) <!--c:links-->` and `Links` are one column."""
+    out = []
+    for h in headers:
+        n = T.plain(T.header_name(h)).lower()
+        n = re.sub(r"\s*\(.*$", "", n).strip(" .:")
+        if n:
+            out.append(n)
+    return out
+
+
+_HEADER_STOP = {"the", "a", "an", "of", "to", "in", "on", "it", "is", "this", "that", "at", "for",
+                "by", "with", "and", "or", "our", "us", "we", "be", "its", "per", "vs", "how", "what"}
+
+
+def _header_words(name):
+    return {w for w in re.findall(r"[a-z0-9]{2,}", name) if w not in _HEADER_STOP}
+
+
+def _header_match(a, b):
+    """Two header names mean one column when one contains the other or they share a content word —
+    prose is matched by meaning at projection, so the test is lenient on purpose (`Why now` ~ `Why`,
+    `Success threshold` ~ `Success`); a column with no word in common is the drift worth a WARN."""
+    return a in b or b in a or bool(_header_words(a) & _header_words(b))
+
+
+def check_library_bodies(tools, homed):
+    """C1 · C3 · C4 · C6 · C9 — what a method's card, fragment and questions promise each other.
+
+    C1: an anchor the SKILL.md names in its body or prerequisites (`3#pricing`, `{#segments}`,
+    `section:jtbd`) is a read or a write — a method that reasons from a section it never declared has
+    a nominal perimeter (14 cards on steps 4–6 did, audit C1). C3: a `decision` method ships the
+    decision line in its fragment, or O4 has nothing to hold on the instance. C4: a step ≥ 4 fragment
+    declares its card slot, or the console shows title + status for most of the plan. C6: a
+    `volume_rule` states its floor as `min:` on the gathering question — the rule the library README
+    already makes. C9: template ↔ fragment column parity for the sections a fragment projects — a
+    fragment column with no counterpart in the template's keyed form is adapted away at projection
+    (the thread breaks: F-… between spec and ranking, audit C9), and the primary tool's fragment
+    carries every template column. Fragments carry no keys (check O), so columns match by header
+    prose. All WARN — the library is a moving target while its cards are rewritten.
+    """
+    writers = _template_writers()
+    tkeys = _template_section_keys()
+    faces = {}                                   # {anchor: {tool: card label}} for C4b
+    theaders = {}
+    for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+        for sec in T.sections(read(path)):
+            if not sec["id"]:
+                continue
+            for t in T.tables(sec["body"]):
+                if any(T.column_keys(t["headers"])):
+                    theaders[sec["id"]] = _header_names(t["headers"])
+                    break
+    for name, t in sorted(tools.items()):
+        fm = t["fm"]
+        skill_text = read(t["skill"])
+        perimeter = set()
+        for field in ("reads", "writes"):
+            for atom in T.as_list(fm.get(field)):
+                head, arg = C.split_atom(atom)
+                if head == "section":
+                    perimeter.add(arg)
+        named = _read_anchors(T.body_after_frontmatter(skill_text))
+        prereq = " ".join(str(x) for x in T.as_list(fm.get("prerequisites")))
+        named |= {a or b or c for a, b, c in BODY_ANCHOR_RE.findall(prereq)}
+        stray = sorted(a for a in named if a in homed and a not in AMBIENT_SECTIONS
+                       and a not in perimeter and "*" not in perimeter)
+        if stray:
+            warn("C1 [%s] SKILL.md names section(s) %s but neither `reads` nor `writes` carries the "
+                 "`section:` atom — a section the method works from is a declared input, or the "
+                 "perimeter is nominal (card-schema → reads is a perimeter)"
+                 % (name, ", ".join("`#%s`" % a for a in stray)))
+        frag = os.path.join(t["dir"], "template-fragment.md")
+        frag_text = read(frag) if os.path.exists(frag) else ""
+        live_frag = re.sub(r"```.*?```", "", frag_text, flags=re.S)
+        if str(fm.get("evidence_standard", "")).strip() == "decision" and frag_text \
+                and not (D_KEY_RE.search(live_frag) or D_LABEL_RE.search(live_frag)):
+            warn("C3 [%s] evidence_standard is `decision` but template-fragment.md carries no decision "
+                 "line (`**Decided:** <!--d:date--> … <!--d:by--> … <!--d:alts--> …`) — the choice the "
+                 "method rests on has no keyed home (CONVENTIONS → The decision line)" % name)
+        steps = [str(x) for x in T.as_list(fm.get("steps"))]
+        # only a fragment that projects a SECTION (`## … {#anchor}`) has a face to declare; an
+        # item-block fragment (feature-/activity-/task-spec) or a worklog-shaped one has none
+        projects_section = bool(re.search(r"^#{2,3}\s.*\{#[a-z0-9-]+\}\s*$", live_frag, re.M))
+        if frag_text and projects_section and steps and steps[0].isdigit() and int(steps[0]) >= 4 \
+                and not T.CARD_RE.search(live_frag):
+            warn("C4 [%s] a step-%s method whose template-fragment.md declares no `<!-- card -->` slot "
+                 "— the console shows title + status for its section (CONVENTIONS → Card line; the "
+                 "mark's canonical home is the fragment)" % (name, steps[0]))
+        q = os.path.join(t["dir"], "questions.yaml")
+        vr = fm.get("volume_rule")
+        # a rule that states a numeric floor ("10–15 …", "≥ 5", "at least 3") owes a `min:`; a
+        # structural rule ("one row per player", "every moat") has no number to state
+        numeric = (isinstance(vr, str)
+                   and bool(re.search(r"\d+\s*[–-]\s*\d+|≥\s*\d|>=\s*\d|at least \d|min(?:imum)?\s*\d", vr))
+                   and not re.match(r"\s*(every|each|all|one\b)", vr, re.I))   # "every X maps to ≥1 Y": per element
+        if os.path.exists(q) and numeric and not re.search(r"^\s+min:\s*\d", read(q), re.M):
+            warn("C6 [%s] declares a volume_rule (%r) but questions.yaml states no `min:` on the "
+                 "gathering question — the floor lives on the `list` question so it runs before any "
+                 "cut (library README → The quality declaration)" % (name, vr[:50]))
+        # W2 — the boilerplate budget of the "Worklog & projection" section (audit C5)
+        for sec in T.sections(skill_text):
+            if WORKLOG_SECTION_RE.search(sec["title"] or ""):
+                n = len(sec["body"].split())
+                if n > WORKLOG_SECTION_WORDS:
+                    warn("W2 [%s] `## %s` is %d words (guideline %d) — the mechanics live in "
+                         "worklog-resolution; keep only what is method-specific here"
+                         % (name, sec["title"], n, WORKLOG_SECTION_WORDS))
+        if not frag_text:
+            continue
+        # C4b — one section, one face: collect the card label per projected anchor
+        for sid, label in _card_labels(live_frag).items():
+            faces.setdefault(sid, {})[name] = label
+        for sec in T.sections(frag_text):
+            sid = sec["id"]
+            if not sid or sid not in tkeys or sid not in theaders:
+                continue
+            ftables = T.tables(sec["body"])
+            if not ftables:
+                continue
+            fh = _header_names(ftables[0]["headers"])
+            th = theaders[sid]
+            extra = [h for h in fh if not any(_header_match(h, x) for x in th)]
+            # the draft MAY be wider than the form (column-keys.md: adapted by meaning), so a spare
+            # column is not drift — a table whose columns MOSTLY miss the form is another table
+            if extra and len(extra) * 2 > len(fh):
+                warn("C9 [%s] template-fragment.md#%s: %d of %d column(s) have no counterpart in the "
+                     "step template's form — %s vs keys %s — the fragment projects a different table "
+                     "than the section holds (CONVENTIONS → Column keys)"
+                     % (name, sid, len(extra), len(fh), ", ".join("`%s`" % h for h in extra),
+                        ", ".join(tkeys[sid])))
+            primary = (writers.get(sid) or [None])[0]
+            missing = [h for h in th if not any(_header_match(h, x) for x in fh)]
+            if primary == name and missing:
+                warn("C9 [%s] template-fragment.md#%s (the section's primary tool) lacks template "
+                     "column(s) %s — the form's keys %s have no source in the draft, so the projected "
+                     "row is born empty" % (name, sid, ", ".join("`%s`" % h for h in missing),
+                                            ", ".join(tkeys[sid])))
+    for sid, by_tool in sorted(faces.items()):
+        if len(set(by_tool.values())) > 1:
+            warn("C4b {#%s}: %s declare different card faces — %s — one section shows one face, "
+                 "whichever method re-projected last (CONVENTIONS → Card line)"
+                 % (sid, " and ".join("`%s`" % t for t in sorted(by_tool)),
+                    " vs ".join("`**%s:**` (%s)" % (lbl, t) for t, lbl in sorted(by_tool.items()))))
 
 
 def check_operations():
@@ -538,62 +817,33 @@ def check_index(tools):
 
 
 def check_instance(inst):
+    """D + E — register enums and the metrics csv, read through `instance.load` and nothing else.
+
+    The linter and the console used to read the registers with two parsers (the linter every table,
+    the console the first; the linter the csv by hand, the console with `csv`) and disagreed on the
+    same file — CI green, console red (hub F-01/F-05). Now both read one model; this check only
+    *reports* what the read layer found, so the two verdicts cannot drift.
+    """
     name = rel(inst)
-    reg = os.path.join(inst, "registers")
-    files = {
-        "hypothesis type": os.path.join(reg, "hypotheses.md"),
-        "hypothesis status": os.path.join(reg, "hypotheses.md"),
-        "hypothesis confidence": os.path.join(reg, "hypotheses.md"),
-        "hypothesis signal": os.path.join(reg, "hypotheses.md"),
-        "hypothesis decision": os.path.join(reg, "hypotheses.md"),
-        "risk category": os.path.join(reg, "risks.md"),
-        "risk status": os.path.join(reg, "risks.md"),
-        "metric kind": os.path.join(reg, "metric-tree.md"),
-        "metric instrumentation": os.path.join(reg, "metric-tree.md"),
-        "feature state": os.path.join(reg, "features.md"),
-        "feature priority": os.path.join(reg, "features.md"),
-        "feature confidence": os.path.join(reg, "features.md"),
-        "surface state": os.path.join(reg, "surfaces.md"),
-    }
-    for label, (allowed, key) in F.ENUMS.items():
-        path = files[label]
-        if not os.path.exists(path):
-            continue
-        text = read(path)
-        # a register column is found by its language-independent `<!--c:key-->`, never by header prose
-        vals = T.column_key_values(text, key)
-        if vals is None:
-            # A post-test grade (signal/decision) is filled only once a readout exists, so its
-            # absence is normal, not a gap to flag. Required columns still warn when missing.
-            if label not in OPTIONAL_ENUM_LABELS:
-                warn("D [%s] %s: no column keyed `<!--c:%s-->` to check %s (a register the console reads "
-                     "must key its columns)" % (name, os.path.basename(path), key, label))
-            continue
-        for v in vals:
-            cv = T.enum_value(v)
-            if not cv:
-                continue
-            if cv not in allowed:
-                err("D [%s] %s: `%s` = %r not in enum %s (a qualifier belongs in `note`, a "
-                    "cross-cutting theme in `tags` — never compounded into the value)"
-                    % (name, os.path.basename(path), key, cv, sorted(allowed)))
-    # E — metrics.csv ids subset of metric-tree.md ids
-    csv = os.path.join(reg, "metrics.csv")
-    mt = os.path.join(reg, "metric-tree.md")
-    if os.path.exists(csv) and os.path.exists(mt):
-        md_ids = set()
-        for v in (T.table_column(read(mt), "id") or []):
-            t = T.clean_cell(v)
-            if t.startswith("M-"):
-                md_ids.add(t)
-        for ln in read(csv).splitlines()[1:]:
-            cid = ln.split(",")[0].strip()
-            if cid and cid.startswith("M-") and cid not in md_ids:
-                # Name the cause: the message used to be formally correct and read as a linter bug,
-                # which is the same as not reporting it (field report, point 6).
-                err("E [%s] metrics.csv id `%s` has no definition row in metric-tree.md — a typo, a "
-                    "node renamed without minting a new id, or several ids written into one "
-                    "definition cell (a row defines exactly one id)" % (name, cid))
+    snap = _snapshot(inst)
+    shape = err if _is_framework_example(inst) else warn
+    for h in snap["health"]:
+        code, msg = h["code"], h["message"]
+        if code == "register-column":
+            # a required key column missing: visible debt on a product instance (the register still
+            # works by header prose), an ERROR on the reference examples — they ARE the form (as O2)
+            shape("D [%s] %s" % (name, msg))
+        elif code == "enum":
+            err("D [%s] %s" % (name, msg))
+        elif code == "metric-undefined":
+            # Name the cause: the message used to be formally correct and read as a linter bug,
+            # which is the same as not reporting it (field report, point 6).
+            mid = re.search(r"`(M-[^`]+)`", msg)
+            err("E [%s] metrics.csv id `%s` has no definition row in metric-tree.md — a typo, a "
+                "node renamed without minting a new id, or several ids written into one "
+                "definition cell (a row defines exactly one id)" % (name, mid.group(1) if mid else "?"))
+        elif code in ("metrics-fields", "metrics-id", "metrics-header"):
+            err("E [%s] %s" % (name, msg))
 
 
 # a section may name several methods (`<!-- tool: A, B -->`); the first is the primary that owns
@@ -653,6 +903,7 @@ def check_worklogs(inst):
     there) is a WARN.
     """
     name = rel(inst)
+    worked = _worked_sections(inst)
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         stem = os.path.basename(art)[:-3]                 # "2-analysis"
         folder = os.path.join(inst, stem)
@@ -660,12 +911,12 @@ def check_worklogs(inst):
         # only the FIRST tool of a marker owes a worklog up front; any named tool may own one
         # (a second tool's pass creates its worklog when that pass actually runs)
         named = {t.strip() for m in TOOL_MARK_RE.findall(text) for t in m.split(",")}
-        # a section consciously skipped (`n/a` tick) owes no worklog — only live sections do;
-        # a tool also named by a live section stays owed
+        # a section consciously skipped (`n/a` tick) or not yet worked (an untouched shell — steps
+        # 2–6 instantiate whole) owes no worklog — only a FILLED section projects from one
         na = {sid for (st, sid) in _na_sections(inst) if str(st) == stem[0]}
         expected = set()
         for sec in T.sections(text):
-            if sec["id"] in na:
+            if sec["id"] in na or (int(stem[0]), sec["id"]) not in worked:
                 continue
             expected.update(m.split(",")[0].strip() for m in TOOL_MARK_RE.findall(sec["body"]))
         if SYNTH_MARK_RE.search(text):
@@ -686,17 +937,29 @@ def check_worklogs(inst):
             if fm.get("node_type") != "worklog":
                 err("P [%s] %s/%s is not `node_type: worklog` — a step folder holds only worklogs"
                     % (name, stem, base))
+                continue
             # a revisit (a later step's method named on an EARLIER step's marker) keeps its worklog
-            # in its own step's folder, which this folder's artifact never names — legal when some
-            # artifact of the instance names the tool and the tool's card runs at this step
-            # (worklog-resolution -> A revisit from a later step)
-            revisit = (base[:-3] in _named_anywhere(inst)
-                       and stem[0] in _card_atoms(base[:-3], inst, "steps"))
-            if base[:-3] not in named and base[:-3] != "metrics-capture" and not revisit:
-                # `metrics-capture` is event-driven (an operations skill): its derivation worklog may
-                # appear in any step folder without a section marker — the csv row cites it.
-                warn("P [%s] %s/%s is an orphan — no section uses tool `%s`"
-                     % (name, stem, base, base[:-3]))
+            # in its OWN step's folder (worklog-resolution -> A revisit from a later step): a tool
+            # named by any artifact whose card runs at this step belongs here; one whose card runs
+            # elsewhere sits in the wrong folder — even when this artifact's marker names it second.
+            # `metrics-capture` is event-driven (an operations skill): its derivation worklog may
+            # appear in any step folder without a section marker — the csv row cites it.
+            tool = base[:-3]
+            if tool in ("metrics-capture", "synthesis"):
+                continue
+            card_steps = _card_atoms(tool, inst, "steps")
+            if tool in named or tool in _named_anywhere(inst):
+                if not card_steps or stem[0] in card_steps:
+                    continue                          # its own step's folder (or a card with no steps)
+                where = ", ".join(sorted("%s-…/" % st for st in card_steps)) or "its method's step folder"
+                warn("P [%s] %s/%s sits in the wrong step's folder — the tool is named by another "
+                     "step's marker, and a revisit's worklog lives in its OWN step's folder (%s), "
+                     "never the folder of the section it revisits (worklog-resolution → A revisit "
+                     "from a later step)" % (name, stem, base, where))
+            else:
+                warn("P [%s] %s/%s is an orphan — no section of any artifact names tool `%s` in a "
+                     "`<!-- tool: … -->` marker (daisy F-05: a marker on another step's section "
+                     "would make it a revisit, not an orphan)" % (name, stem, base, tool))
         for miss in sorted(expected - present):
             err("P [%s] %s uses tool `%s` but %s/%s.md is missing — the section has no source of truth "
                 "to project from (CONVENTIONS -> Step folders & worklogs)" % (name, stem, miss, stem, miss))
@@ -707,10 +970,19 @@ def check_worklogs(inst):
 
 def _named_anywhere(inst):
     """Every tool any artifact of the instance names in a `<!-- tool: -->` marker."""
-    out = set()
-    for art in glob.glob(os.path.join(inst, "[1-6]-*.md")):
-        out.update(t.strip() for m in TOOL_MARK_RE.findall(read(art)) for t in m.split(","))
-    return out
+    def make():
+        out = set()
+        for art in glob.glob(os.path.join(inst, "[1-6]-*.md")):
+            out.update(t.strip() for m in TOOL_MARK_RE.findall(read(art)) for t in m.split(","))
+        return out
+    return _memo(("named", inst), make)
+
+
+def _worked_sections(inst):
+    """{(step, section_id)} the read layer counts as worked (framework.worked) — the one definition
+    checks P, O2/O3 and C2 gate on: an untouched shell owes neither worklog, nor keys, nor a face."""
+    snap = _snapshot(inst)
+    return {(st["step"], sec["id"]) for st in snap["steps"] for sec in st["sections"] if sec.get("worked")}
 
 
 def _card_atoms(tool, inst, field):
@@ -769,10 +1041,7 @@ def check_boundary(inst):
                      "recorded answers, not an invented stub (reference/boundary-layout)"
                      % (name, os.path.basename(pf)))
     # instance exchange skills
-    state_path = os.path.join(inst, "state.yaml")
-    state, _ = yamlite.load(state_path) if os.path.exists(state_path) else ({}, [])
-    last_runs = state.get("last_run") if isinstance(state, dict) else None
-    last_runs = last_runs if isinstance(last_runs, dict) else {}
+    last_runs = _snapshot(inst).get("last_run") or {}
     for sk in sorted(glob.glob(os.path.join(inst, "skills", "*"))):
         if not os.path.isdir(sk):
             continue
@@ -809,11 +1078,170 @@ def check_boundary(inst):
                     % (name, step_a, os.path.basename(wl), m.group(1), atom))
 
 
+def _gitignore_rules(start):
+    """Every `.gitignore` rule from `start` up to the git root (or the filesystem root), as one list."""
+    rules, d = [], os.path.abspath(start)
+    while True:
+        gi = os.path.join(d, ".gitignore")
+        if os.path.exists(gi):
+            rules.extend(ln.strip() for ln in read(gi).splitlines()
+                         if ln.strip() and not ln.strip().startswith("#"))
+        if os.path.isdir(os.path.join(d, ".git")) or os.path.dirname(d) == d:
+            return rules
+        d = os.path.dirname(d)
+
+
+def check_sources_ignored(inst):
+    """T2 — raw captures never reach git (N8; boundary-layout → snapshots/).
+
+    The rule lived in prose only: the linter checked the subfolder *names* and nothing checked that
+    `sources/snapshots/` is actually ignored. An instance with a `sources/` folder needs a rule for
+    `sources/snapshots/` (or all of `sources/`) in its own `.gitignore` or any host `.gitignore` up to
+    the git root; the framework repo ships one for its private instances.
+    """
+    if not os.path.isdir(os.path.join(inst, "sources")):
+        return
+    rules = _gitignore_rules(inst)
+    if not any(re.search(r"(^|/)sources/(snapshots/?)?$|(^|/)sources/snapshots", r.rstrip("/") + "/")
+               for r in rules):
+        warn("T2 [%s] no `.gitignore` rule keeps `sources/snapshots/` out of git — raw captures are "
+             "never committed (N8); add `sources/snapshots/` (or `sources/`) to the instance's or "
+             "the host repo's .gitignore (reference/boundary-layout)" % rel(inst))
+
+
+SECRET_RES = (
+    ("an OpenAI-style key", re.compile(r"\bsk-(?:proj-|ant-)?[A-Za-z0-9_-]{20,}\b")),
+    ("an AWS access key id", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
+    ("a GitHub token", re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{36,}\b|\bgithub_pat_[A-Za-z0-9_]{40,}\b")),
+    ("a Slack token", re.compile(r"\bxox[abprs]-[A-Za-z0-9-]{10,}\b")),
+    ("a private key block", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY")),
+    ("a long opaque value after a key/token/secret/password label",
+     re.compile(r"(?i)\b(?:api[_-]?key|access[_-]?key|secret(?:[_-]?key)?|token|password|passwd)\b"
+                r"\s*[:=]\s*[\"'`]?([A-Za-z0-9+/_=-]{32,})")),
+)
+
+
+def check_secrets(inst):
+    """T3 — no secret in instance text (N8): a cheap regex sweep over every text file of the instance.
+
+    A key pasted into a passport or a worklog "for now" is committed with the next `git add .`; the
+    rule had no carrier. Shapes only — the sweep never decodes or validates a credential.
+    """
+    name = rel(inst)
+    for path in sorted(glob.glob(os.path.join(inst, "**", "*"), recursive=True)):
+        if not os.path.isfile(path) or not path.endswith((".md", ".yaml", ".yml", ".csv", ".txt", ".json")):
+            continue
+        try:
+            text = read(path)
+        except (OSError, UnicodeDecodeError):
+            continue
+        for what, rx in SECRET_RES:
+            for m in rx.finditer(text):
+                token = m.group(m.lastindex or 0)
+                if re.fullmatch(r"[0-9a-f]{32,}", token or ""):
+                    continue                                   # a git SHA, not a credential
+                lineno = text[:m.start()].count("\n") + 1
+                err("T3 [%s] %s:%d carries what reads as %s (`%s…`) — no secrets or PII in artifacts, "
+                    "handoffs or worklogs (N8); move it to an access passport's *where it lives*, "
+                    "never its value" % (name, os.path.relpath(path, inst), lineno, what, (token or "")[:6]))
+                break
+
+
+def check_handoff_registers(inst):
+    """H3 — a handoff names the registers it was verified against (N3).
+
+    A handoff restores state, not truth: its claims are checked against the registers before anyone
+    relies on them. The `Registers (by reference only)` block is where that check leaves its trace —
+    a handoff whose registers block (or whole body) never names a register file was written blind.
+    """
+    snap = _snapshot(inst)
+    ho = snap.get("handoff") or {}
+    if not ho.get("present"):
+        return
+    regs = ("hypotheses.md", "risks.md", "metric-tree.md", "metrics.csv", "features.md", "surfaces.md",
+            "registers/")
+    body = "\n".join(sec["body"] for sec in ho.get("sections", []))
+    if not any(r in body for r in regs):
+        warn("H3 [%s] HANDOFF.md names no register (registers/…, hypotheses.md, metrics.csv …) — a "
+             "handoff restores state, not truth (N3): say which registers its claims were verified "
+             "against, by reference" % rel(inst))
+
+
+CYRILLIC_LANGS = {"ru", "uk", "be", "bg", "sr", "mk", "kk", "ky", "mn", "tg"}
+NON_LATIN_LANGS = CYRILLIC_LANGS | {"el", "he", "ar", "fa", "zh", "ja", "ko", "hi", "th", "ka", "hy"}
+_CYR_RE = re.compile(r"[\u0400-\u04FF]")
+_LAT_RE = re.compile(r"[A-Za-z]")
+
+
+def check_language(inst):
+    """G5 — the instance's content is written in `config.language` (hub F-08).
+
+    The canon and every card are English; in a long session an agent continues the instance in the
+    language it has been reading, not the owner's. The decision is recorded in config.yaml and nothing
+    guarded it. Cheap by design: count Cyrillic vs Latin letters per artifact/worklog (code, comments,
+    tags and links stripped); a file whose letters are ≥ 60% in the contradicting script WARNs. Only
+    the Cyrillic/Latin pair is judged — other scripts are not mapped, so they never fire.
+    """
+    snap = _snapshot(inst)
+    lang = (snap.get("language") or "en").split("-")[0].lower()
+    if lang in NON_LATIN_LANGS and lang not in CYRILLIC_LANGS:
+        return
+    expect_cyr = lang in CYRILLIC_LANGS
+    files = sorted(glob.glob(os.path.join(inst, "[1-6]-*.md")))
+    for folder in sorted(glob.glob(os.path.join(inst, "[1-6]-*"))):
+        if os.path.isdir(folder):
+            files.extend(sorted(glob.glob(os.path.join(folder, "*.md"))))
+    for path in files:
+        text = _live(T.body_after_frontmatter(read(path)))
+        text = re.sub(r"<!--.*?-->|\[(?:assumption|sourced|validated|refuted)[^\]]*\]|https?://\S+", "", text, flags=re.S)
+        cyr, lat = len(_CYR_RE.findall(text)), len(_LAT_RE.findall(text))
+        if cyr + lat < 200:
+            continue
+        other = lat if expect_cyr else cyr
+        if other / float(cyr + lat) >= 0.6:
+            warn("G5 [%s] %s is %d%% %s letters but config.yaml says `language: %s` — the content "
+                 "language is the owner's decision, not the canon's (hub F-08); write the instance in "
+                 "its declared language" % (rel(inst), os.path.relpath(path, inst),
+                                            round(100.0 * other / (cyr + lat)),
+                                            "Latin" if expect_cyr else "Cyrillic", lang))
+
+
+def check_yaml_forms(inst=None):
+    """Y2 — every YAML the framework reads stays inside the reader's subset (yamlite.unsupported).
+
+    A flow map (`products: {path: …}`) or a list of maps (`- key: value`) parses to a bare string with
+    no error, and the consumer fails later or — worse — reads an empty perimeter. The reader stays
+    tolerant (the console must render drift); the linter turns each such line into an ERROR with file
+    and line. Framework cards are checked once (no `inst`), an instance's files per instance.
+    """
+    def report(label, issues):
+        for i in issues:
+            err("Y2 [%s:%d] %s — %s" % (label, i["line"], i["text"], i["reason"]))
+    if inst is None:
+        for path, _plane in _cards():
+            report(rel(path), T.frontmatter_issues(read(path)))
+        return
+    name = rel(inst)
+    for path, _plane in _cards(inst):
+        if path.startswith(os.path.abspath(inst)):
+            report(os.path.join(name, os.path.relpath(path, inst)), T.frontmatter_issues(read(path)))
+    files = sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))) + \
+        sorted(glob.glob(os.path.join(inst, "[1-6]-*", "*.md"))) + \
+        sorted(glob.glob(os.path.join(inst, "registers", "*.md"))) + \
+        [p for p in (os.path.join(inst, "HANDOFF.md"),) if os.path.exists(p)]
+    for path in files:
+        report(os.path.join(name, os.path.relpath(path, inst)), T.frontmatter_issues(read(path)))
+    for fname in ("config.yaml", "state.yaml"):
+        path = os.path.join(inst, fname)
+        if os.path.exists(path):
+            report(os.path.join(name, fname), yamlite.unsupported(read(path)))
+
+
 W_KEY_RE = re.compile(r"<!--\s*w:([a-z-]+)\s*-->")
 W_FIELDS = ("reads", "adds")
 # a citation of an artifact section: a link/mention `<n>-<slug>.md#anchor` or an inline `` `#anchor` ``
 ANCHOR_CITE_RE = re.compile(r"(?:[1-6]-[a-z][a-z0-9-]*\.md|`)#([a-z][a-z0-9-]*)")
-REG_ID_CITE_RE = re.compile(r"\b([HRFS])-\d+\b|\b(M)-[a-z][a-z0-9-]+\b")
+REG_ID_CITE_RE = re.compile(r"\b([HRFS]-\d+)\b")
 ID_FAMILY = {"H": "hypotheses", "R": "risks", "F": "features", "S": "surfaces"}
 ORCH_HEAD_RE = re.compile(r"<!--\s*orchestrator\s*-->|orchestrator|оркестратор", re.I)
 
@@ -830,7 +1258,7 @@ def _w_value(line, key):
 def _primary_region(text):
     """The worklog minus its two unrestricted zones — the change log and every orchestrator's-
     conclusions block (projection step 0). Only what remains is held to the perimeter."""
-    body = text.split("\n## Change log")[0]
+    body = T.without_change_log(text)
     out, skip_level = [], None
     for line in body.split("\n"):
         m = re.match(r"^(#{2,6})\s", line)
@@ -859,17 +1287,21 @@ def check_perimeter(inst):
     per instance (the S2 introduction pattern).
     """
     name = rel(inst)
+    snap = _snapshot(inst)
+    section_text = {}                          # {anchor: every artifact section body with that id}
+    for a in snap["artifacts"]:
+        for sec in a["sections"]:
+            section_text[sec["id"]] = section_text.get(sec["id"], "") + "\n" + sec["body"]
     legacy = 0
-    for folder in sorted(glob.glob(os.path.join(inst, "[1-6]-*"))):
-        if not os.path.isdir(folder):
-            continue
-        step = os.path.basename(folder)
-        for wl in sorted(glob.glob(os.path.join(folder, "*.md"))):
-            base = os.path.basename(wl)
-            tool = base[:-3]
+    for step, logs in sorted(snap["worklogs"].items()):
+        folder = os.path.join(inst, step)
+        for tool, log in sorted(logs.items()):
+            base = os.path.basename(log["file"])
+            wl = os.path.join(folder, base)
             text = read(wl)
-            lineno, line = next(((i, l) for i, l in enumerate(text.split("\n"), 1)
-                                 if W_KEY_RE.search(l)), (0, None))
+            # the inputs LINE names a block (B14): a paragraph wrapped for file width — `w:reads` on
+            # line 1, the atoms and `w:adds` on lines 2–3 — is one declaration (daisy F-02)
+            lineno, line = T.marked_block(text, W_KEY_RE)
             if line is None:
                 legacy += 1
                 continue
@@ -896,24 +1328,50 @@ def check_perimeter(inst):
             adds = [a.strip() for a in re.split(r"[·,]", adds_val) if a.strip()
                     and ":" in a and not a.startswith("<")]
             perimeter = [C.split_atom(a) for a in atoms + adds]
+            declared = {"%s:%s" % (h, a) for h, a in perimeter}
             allowed_anchors = {arg for head, arg in perimeter if head == "section"}
             allowed_anchors |= set(C.sections_written(_card_atoms(tool, inst, "writes")))
             allowed_anchors.add("intake")
+            any_section = "*" in allowed_anchors
             allowed_regs = {arg for head, arg in perimeter if head == "register"}
+            # the text of every declared door: an id that travels inside a quoted line of a declared
+            # section (daisy F-03) or a declared foreign worklog is that door's, not a leak
+            door_text = "".join(section_text.get(a, "") for a in allowed_anchors)
+            for head, arg in perimeter:
+                if head == "worklog" and "/" in arg:
+                    fstep, ftool = arg.split("/", 1)
+                    door_text += (snap["worklogs"].get(fstep, {}).get(ftool) or {}).get("body", "")
             region = _primary_region(text)
-            for a in sorted(set(ANCHOR_CITE_RE.findall(region)) - allowed_anchors):
-                warn("P2 [%s] %s/%s: cites `#%s` outside the inputs line — a citation names its "
-                     "door: the card's `reads` (`section:%s`) or a recorded supplement (`w:adds`)"
-                     % (name, step, base, a, a))
-            fams = {m.group(1) or m.group(2) for m in REG_ID_CITE_RE.finditer(region)}
-            for fam in sorted(fams):
+            # a table row whose source cell names a declared atom quotes that door (hub F-09): the
+            # ids inside it are provenance, not readings — drop the row before reading citations
+            kept = []
+            for ln in region.split("\n"):
+                if ln.strip().startswith("|"):
+                    first = T.clean_cell(ln.strip().strip("|").split("|")[0])
+                    if first in declared or (first.startswith("section:") and any_section):
+                        continue
+                kept.append(ln)
+            region = _live("\n".join(kept))     # ids inside inline code / fences are not citations
+            if not any_section:
+                for a in sorted(set(ANCHOR_CITE_RE.findall(region)) - allowed_anchors):
+                    warn("P2 [%s] %s/%s: cites `#%s` outside the inputs line — a citation names its "
+                         "door: the card's `reads` (`section:%s`) or a recorded supplement (`w:adds`)"
+                         % (name, step, base, a, a))
+            cited = set(REG_ID_CITE_RE.findall(region)) | set(T.METRIC_RE.findall(region))
+            leaks = {}
+            for cid in sorted(cited):
+                fam = cid[0]
                 covered = ({"metrics", "metric-tree"} & allowed_regs if fam == "M"
-                           else ID_FAMILY[fam] in allowed_regs and {ID_FAMILY[fam]})
-                if not covered:
-                    reg = "metrics" if fam == "M" else ID_FAMILY[fam]
-                    warn("P2 [%s] %s/%s: cites `%s-…` ids but `register:%s` is not on the inputs "
-                         "line — declare the register in the card's `reads`, or record the "
-                         "supplement (`w:adds`)" % (name, step, base, fam, reg))
+                           else ID_FAMILY[fam] in allowed_regs)
+                if covered or "*" in allowed_regs or cid in door_text:
+                    continue
+                leaks.setdefault(fam, []).append(cid)
+            for fam, ids in sorted(leaks.items()):
+                reg = "metrics" if fam == "M" else ID_FAMILY[fam]
+                warn("P2 [%s] %s/%s: cites %s but `register:%s` is not on the inputs line and none "
+                     "of them is quoted from a declared section — declare the register in the "
+                     "card's `reads`, or record the supplement (`w:adds`)"
+                     % (name, step, base, ", ".join("`%s`" % i for i in ids[:5]), reg))
     if legacy:
         warn("P2 [%s] %d worklog(s) predate the `**Inputs:**` line — a new worklog copies it from "
              "the skeleton; a rework pass adds it (worklog-skeleton)" % (name, legacy))
@@ -1097,7 +1555,7 @@ def check_feature_refs(inst):
             continue  # definitions themselves are checked by D/K
         # the change log is history — ids there may legitimately predate a rename or the register
         # (the heading is a fixed machine-read literal, but match it case-insensitively)
-        text = re.split(r"\n## Change log\b", read(path), maxsplit=1, flags=re.I)[0]
+        text = T.without_change_log(read(path))
         cited = sorted(set(FS_ID_RE.findall(text)))
         for cid in cited:
             if defined is None:
@@ -1128,47 +1586,45 @@ def check_item_features(inst):
     if not os.path.exists(path):
         return
     for sec in T.sections(read(path)):
-        if sec["id"] == "backlog":
-            feats = T.column_key_values(sec["body"], "feature")
-            items = T.column_key_values(sec["body"], "item") or []
-            for i, cell in enumerate(feats or []):
-                item = T.clean_cell(items[i]) if i < len(items) else ""
-                if "<" in item or item in ("", "…"):
-                    continue  # template sample row, not a worked one
-                cell = T.clean_cell(cell)
-                if not (FS_ID_RE.search(cell) or T.TO_CLARIFY_RE.search(cell)):
-                    warn("E3 [%s] 6-sprint-plan.md#backlog row `%s`: Feature cell names neither an "
-                         "`F-…` row nor a declared `— to clarify —` gap — a candidate without an id "
-                         "cannot re-enter a later ranking" % (name, item))
+        if sec["id"] != "backlog":
             continue
-        if sec["id"] != "must":
-            continue
-        blocks = ITEM_HEAD_RE.split(sec["body"])
-        # split() yields [pre, name1, body1, name2, body2, …]
-        for item_name, body in zip(blocks[1::2], blocks[2::2]):
-            if "<" in item_name:
-                continue  # template placeholder, not a worked item
-            if "**Feature:**" not in body:
-                warn("E3 [%s] 6-sprint-plan.md#must item `%s` has no `- **Feature:** F-…` line — "
-                     "every item names the register row it advances" % (name, item_name))
-            else:
-                line = next((ln for ln in body.splitlines() if "**Feature:**" in ln), "")
-                if not (FS_ID_RE.search(line) or T.TO_CLARIFY_RE.search(line)):
-                    warn("E3 [%s] 6-sprint-plan.md#must item `%s`: the `**Feature:**` line names "
-                         "neither an `F-…` row nor a declared `— to clarify —` gap — a placeholder "
-                         "is not an identity" % (name, item_name))
-            if "**Expected impact:**" not in body:
-                warn("E3 [%s] 6-sprint-plan.md#must item `%s` pre-registers no `**Expected "
-                     "impact:**` — the next impact-readout has nothing to read the shipped work "
-                     "against" % (name, item_name))
-            elif "check-by" not in body.lower():
-                warn("E3 [%s] 6-sprint-plan.md#must item `%s`: Expected impact carries no "
-                     "`check-by` — without a read-date the readout can neither read it nor call it "
-                     "`pending`" % (name, item_name))
-            if "**Estimate:**" not in body:
-                warn("E3 [%s] 6-sprint-plan.md#must item `%s` pre-registers no `**Estimate:**` — "
-                     "the readout's calibration read (est → actual) has no baseline"
-                     % (name, item_name))
+        feats = T.column_key_values(sec["body"], "feature")
+        items = T.column_key_values(sec["body"], "item") or []
+        for i, cell in enumerate(feats or []):
+            item = T.clean_cell(items[i]) if i < len(items) else ""
+            if "<" in item or item in ("", "…"):
+                continue  # template sample row, not a worked one
+            cell = T.clean_cell(cell)
+            if not (FS_ID_RE.search(cell) or T.TO_CLARIFY_RE.search(cell)):
+                warn("E3 [%s] 6-sprint-plan.md#backlog row `%s`: Feature cell names neither an "
+                     "`F-…` row nor a declared `— to clarify —` gap — a candidate without an id "
+                     "cannot re-enter a later ranking" % (name, item))
+    # the must-items as the read layer parses them (instance._sprint_items) — one item parser for
+    # the console's step-6 board and this check
+    for it in _snapshot(inst)["sprint_items"]:
+        item_name = it["name"]
+        if "<" in item_name:
+            continue  # template placeholder, not a worked item
+        fields = {k.strip().lower(): v for k, v in it["fields"]}
+        if "feature" not in fields:
+            warn("E3 [%s] 6-sprint-plan.md#must item `%s` has no `- **Feature:** F-…` line — "
+                 "every item names the register row it advances" % (name, item_name))
+        elif not (FS_ID_RE.search(fields["feature"]) or T.TO_CLARIFY_RE.search(fields["feature"])):
+            warn("E3 [%s] 6-sprint-plan.md#must item `%s`: the `**Feature:**` line names "
+                 "neither an `F-…` row nor a declared `— to clarify —` gap — a placeholder "
+                 "is not an identity" % (name, item_name))
+        if "expected impact" not in fields:
+            warn("E3 [%s] 6-sprint-plan.md#must item `%s` pre-registers no `**Expected "
+                 "impact:**` — the next impact-readout has nothing to read the shipped work "
+                 "against" % (name, item_name))
+        elif "check-by" not in fields["expected impact"].lower():
+            warn("E3 [%s] 6-sprint-plan.md#must item `%s`: Expected impact carries no "
+                 "`check-by` — without a read-date the readout can neither read it nor call it "
+                 "`pending`" % (name, item_name))
+        if "estimate" not in fields:
+            warn("E3 [%s] 6-sprint-plan.md#must item `%s` pre-registers no `**Estimate:**` — "
+                 "the readout's calibration read (est → actual) has no baseline"
+                 % (name, item_name))
 
 
 def check_register_sources(inst):
@@ -1260,10 +1716,7 @@ def check_config(inst):
         if not os.path.exists(parent):
             err("H [%s] no config.yaml, and no parent instance to inherit one from" % name)
         return
-    data, skipped = yamlite.load(path)
-    for ln, raw in skipped:
-        warn("H [%s] config.yaml line %d not parseable by the framework's YAML subset: %s"
-             % (name, ln, raw.strip()))
+    data, _skipped = yamlite.load(path)      # unsupported lines are check Y2's, with a reason each
     for key in CONFIG_REQUIRED:
         if data.get(key) in (None, "", [], {}):
             err("H [%s] config.yaml is missing required key `%s`" % (name, key))
@@ -1477,10 +1930,12 @@ def _section_enums(text):
 
 
 def _template_section_enums():
-    out = {}
-    for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
-        out.update(_section_enums(read(path)))
-    return out
+    def make():
+        out = {}
+        for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+            out.update(_section_enums(read(path)))
+        return out
+    return _memo("enums", make)
 
 
 SCHEMA_FILES = ("steps/*/template.md",
@@ -1544,17 +1999,25 @@ def _template_section_keys():
     A section id is homed in exactly one step template (CONVENTIONS → section anchors), so a flat map
     across all templates has no collisions.
     """
-    out = {}
-    for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
-        out.update(_section_keys(read(path)))
-    return out
+    def make():
+        out = {}
+        for path in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "template.md"))):
+            out.update(_section_keys(read(path)))
+        return out
+    return _memo("keys", make)
+
+
+def _steps():
+    """The steps as the read layer parses them, once per run."""
+    return _memo("steps", lambda: F.steps(ROOT))
 
 
 def _is_framework_example(inst):
     """The framework's own reference instances (`examples/` in the dev repo). They are held to ERROR
     on template shape — they ARE the form. A product instance that vendored the framework gets WARN:
     a template that moved under a filled instance is visible debt, not a blocker (install/UPDATE.md)."""
-    return os.path.abspath(inst).startswith(os.path.join(os.path.abspath(ROOT), "examples") + os.sep)
+    p = os.path.abspath(inst)
+    return any(p.startswith(os.path.abspath(r) + os.sep) for r in EXAMPLE_ROOTS)
 
 
 def check_instance_conformance(inst):
@@ -1573,8 +2036,10 @@ def check_instance_conformance(inst):
     debt = "" if _is_framework_example(inst) else (
         " — a template that moved under a filled instance is visible debt, not a blocker: re-project "
         "the section as an ordinary pass (install/UPDATE.md)")
+    worked = _worked_sections(inst)
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         text = read(art)
+        step = int(os.path.basename(art).split("-", 1)[0])
         bodies = {sec["id"]: sec["body"] for sec in T.sections(text) if sec["id"]}
         present = set(bodies)
         inst_keys = _section_keys(text)   # {sid: [keys]} for keyed instance tables only
@@ -1583,8 +2048,8 @@ def check_instance_conformance(inst):
         for sid, tks in tkeys.items():
             if sid not in present:
                 continue                  # section not in this artifact (or step not reached)
-            if sid in na:
-                continue                  # consciously skipped (`n/a` tick) — no projection owed
+            if sid in na or (step, sid) not in worked:
+                continue                  # skipped (`n/a` tick) or an untouched shell — no projection owed
             iks = inst_keys.get(sid)
             if iks is None:
                 shape("O2 %s#%s: the template keys this section but the instance carries no column keys — "
@@ -1599,7 +2064,7 @@ def check_instance_conformance(inst):
         # token reads plausibly and slips through every human pass — this is the machine's catch.
         for sid, enums in tenums.items():
             body = bodies.get(sid)
-            if body is None:
+            if body is None or (step, sid) not in worked:
                 continue
             for key, toks in enums.items():
                 for v in (T.column_key_values(body, key) or ()):
@@ -1632,10 +2097,12 @@ def check_card_slots(tools, inst):
             slotted.add(name)
     if not slotted:
         return
+    worked = _worked_sections(inst)
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
+        step = int(os.path.basename(art).split("-", 1)[0])
         for sec in T.sections(read(art)):
-            if not sec["id"]:
-                continue
+            if not sec["id"] or (step, sec["id"]) not in worked:
+                continue                                   # an unwritten shell owes no face yet
             m = TOOL_MARK_RE.search(sec["body"])
             if not m:
                 continue
@@ -1709,7 +2176,7 @@ def _decision_blocks(text):
     The artifact's **change log** is cut first: it is the last section by convention (CONVENTIONS →
     Change logs) and it talks *about* sections, so a decision line never lives there.
     """
-    text = text.split("\n## Change log")[0]
+    text = T.without_change_log(text)
     lines = text.split("\n")
     out, i = [], 0
     while i < len(lines):
@@ -1794,7 +2261,7 @@ def check_decision_lines(inst):
                        "empty" if not alts else "a bare %r" % alts))
         # Best-effort, and only where the prose happens to be English: a decision line with no keys
         # at all is unreadable to this check. The keys are the contract; the label never was.
-        for m in D_LABEL_RE.finditer(text.split("\n## Change log")[0]):
+        for m in D_LABEL_RE.finditer(T.without_change_log(text)):
             lineno = text[:m.start()].count("\n") + 1
             if lineno not in keyed_lines:
                 warn("O4 [%s] %s:%d: a `**Decided:**` line carries no `d:` field keys — nothing can "
@@ -1877,14 +2344,30 @@ def check_gate_ticks(inst):
     if not os.path.exists(os.path.join(inst, "state.yaml")):
         return  # instance health already reports a missing state.yaml on its own
     snap = _snapshot(inst)
+    known = set()
     for s in snap["steps"]:
         for g in s["gate"]:
-            if g.get("written") and g.get("tick") == "open":
-                warn("G2 [%s] step %d gate `%s`: its section(s) are written but state.yaml carries "
-                     "no tick (`done`/`n/a`/`deferred`) — move 5 (Record) was not finished; update "
-                     "state.yaml (gates → %d-…) or the cycle's position stays behind the disk"
-                     % (rel(inst), s["step"],
-                        g.get("tick_id") or ",".join(g.get("sections") or []), s["step"]))
+            if g.get("tick_id"):
+                known.add(g["tick_id"])
+            # the reading, not the raw tick: `re-sign` (a recorded reopen awaiting the owner) is a
+            # legitimate waiting state and stays silent — hub F-10 (framework.GATE_READINGS)
+            if g.get("reading") == "unrecorded":
+                warn("G2 [%s] step %d gate `%s`: its section(s) are written but the tick is `open` with "
+                     "no move-5 trace (no change-log entry for the section on/after `last_pass`) — "
+                     "Record was not finished; tick it (`done`/`n/a`/`deferred`) in state.yaml "
+                     "(gates → %d-…), or record the reopen in the artifact's change log if the "
+                     "section awaits re-sign" % (rel(inst), s["step"],
+                                                 g.get("tick_id") or ",".join(g.get("sections") or []),
+                                                 s["step"]))
+    # G3 — the tick vocabulary is closed; G4 — a tick id names a real gate item
+    for tick_id, val in sorted(snap.get("ticks", {}).items()):
+        if val not in F.TICK_VALUES:
+            err("G3 [%s] state.yaml tick `%s` = `%s` — a tick is one of %s (OPERATING-LOOP move 5); "
+                "anything else records nothing" % (rel(inst), tick_id, val, " · ".join(F.TICK_VALUES)))
+        if tick_id not in known:
+            warn("G4 [%s] state.yaml ticks `%s`, which is no gate item of any step (ids are "
+                 "`<artifact>#<section>` or the item's `tick-id`) — a stale or misspelled id ticks "
+                 "nothing; the real item stays `open`" % (rel(inst), tick_id))
 
 
 CANON_TAG_WORDS = ("assumption", "sourced", "validated", "refuted")
@@ -2013,37 +2496,35 @@ def check_evidence_shown(inst):
     tools = F.load_tools(ROOT)
     external = {t for t, d in tools.items()
                 if str(d["fm"].get("evidence_standard", "")).strip() == "external-sources"}
-    tpl_lines = F.template_section_lines(ROOT)
-    for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
-        step = int(os.path.basename(art).split("-", 1)[0])
-        for sec in T.sections(read(art)):
-            if not sec["id"]:
+    snap = _snapshot(inst)
+    bodies = {(a["step"], s["id"]): s["body"] for a in snap["artifacts"] for s in a["sections"]}
+    for st in snap["steps"]:
+        for sec in st["sections"]:
+            body = bodies.get((st["step"], sec["id"]))
+            if body is None or not sec.get("worked"):      # one definition of worked: framework.worked
                 continue
-            mm = TOOL_MARK_RE.search(sec["body"])
+            mm = TOOL_MARK_RE.search(body)
             primary = mm.group(1).split(",")[0].strip() if mm else None
             if primary not in external:
                 continue
-            tpl = tpl_lines.get((step, sec["id"]))
-            lines = F.norm_lines(sec["body"])
-            worked = True if tpl is None else any(ln not in tpl for ln in lines)
-            if not worked:
-                continue
-            body = _live(sec["body"])
-            if "[sourced:" not in body and not CLARIFY_RE.search(body):
+            # the citation is read live (a documented `[sourced:` in code is not evidence); the gap
+            # marker is read raw — an agent that writes `— to clarify —` in backticks still declared it
+            if "[sourced:" not in _live(body) and not T.TO_CLARIFY_RE.search(body):
                 warn("L2 [%s] %s#%s: written by `%s` (evidence_standard: external-sources) with no "
                      "`[sourced: …]` and no `— to clarify —` — settled-looking analysis that shows "
                      "no evidence and declares no gap; cite the source, dispatch research/"
-                     "source-intake, or mark the missing input" % (name, os.path.basename(art),
+                     "source-intake, or mark the missing input" % (name, st["artifact_file"],
                                                                    sec["id"], primary))
 
 
 def check_gates(homed):
-    for readme in glob.glob(ROOT + "/steps/*/README.md"):
-        for mm in re.finditer(r"[→>]\s*`?[a-z0-9-]+#([a-z0-9-]+)`?", read(readme)):
-            sid = mm.group(1)
-            if sid not in homed:
-                warn("G %s: gate item references section `%s` not found in any step template"
-                     % (rel(readme), sid))
+    """G — every gate item's target section exists (the items as framework.steps reads them)."""
+    for st in _steps():
+        for item in st["gate"]:
+            for sid in item["sections"]:
+                if sid not in homed:
+                    warn("G %s/README.md: gate item `%s` references section `%s` not found in any step "
+                         "template" % (st["dir"], item["label"][:60], sid))
 
 
 # ---------------------------------------------------------------- main
@@ -2073,6 +2554,18 @@ def instances(argv):
     return sorted({c["path"] for c in I.discover(ROOT, ROOT)})
 
 
+def tracked_only(paths):
+    """`--ci`: the instances CI's checkout actually contains — gitignored folders dropped and named.
+
+    A local run sees the private instances (`instances/`, the stale example runs) and reports dozens
+    of errors CI never will; the noise hides the signal and two runs of the same linter disagree.
+    Skipped folders are printed so the local verdict explains itself.
+    """
+    ignored = I.gitignored(paths, ROOT)
+    SKIPPED.extend(sorted(rel(p) for p in ignored))
+    return [p for p in paths if p not in ignored]
+
+
 # The per-pass canon: every agent reads these before every pass, so each word here is paid on every
 # read. The guideline number makes growth *visible* — it is a reference point, never a gate (the
 # author's call: mechanics and the entity invariant decide acceptance, not a word count). Growth
@@ -2100,18 +2593,36 @@ def check_word_budget():
              % (total, BUDGET_GUIDELINE_WORDS))
 
 
-USAGE = """usage: python3 tools/lint.py [instance-folder ...]
+def _catalogue():
+    """The check catalogue from this module's docstring — `--help` lists every check from one source."""
+    doc = __doc__
+    start, end = doc.find("Checks ("), doc.find("\nRun:")
+    return doc[start:end].rstrip() if start >= 0 and end > start else doc
+
+
+USAGE = """usage: python3 tools/lint.py [--ci] [instance-folder ...]
 
 Checks the framework's wiring (tools, canon, links) and every instance it can find.
 With no arguments, instances are discovered from the framework root by marker
 (config.yaml / state.yaml / registers/); in a vendored install pass the instance
-folder, e.g. `python3 tools/lint.py product-loops`. Exit code 1 on any ERROR."""
+folder, e.g. `python3 tools/lint.py product-loops`. Exit code 1 on any ERROR.
+
+  --ci   skip gitignored instance folders (the tree CI's checkout sees) and name them
+  -h     this help, with the check catalogue
+"""
 
 
 def main(argv=()):
+    argv = list(argv)
     if any(a in ("-h", "--help") for a in argv):
         print(USAGE)
+        print(_catalogue())
         return 0
+    ci = False
+    for flag in ("--ci", "--tracked-only"):
+        while flag in argv:
+            argv.remove(flag)
+            ci = True
     tools = F.load_tools(ROOT)
     homed = F.homed_sections(ROOT)
 
@@ -2119,31 +2630,40 @@ def main(argv=()):
     check_tools(tools, homed)
     check_quality(tools)
     check_questions(tools)
+    check_library_bodies(tools, homed)
     check_single_step(tools)
     check_reachable(tools)
     check_status_tools(tools)
     check_operations()
     check_card_schema()
     check_card_home()
+    check_yaml_forms()
     check_subagent_defs()
     check_column_keys()
     check_schema_not_confirmed()
     check_index(tools)
     check_readme_markers(tools)
-    checked = instances(list(argv))
+    checked = instances(argv)
+    if ci:
+        checked = tracked_only(checked)
     for inst in checked:
         check_instance(inst)
         check_config(inst)
+        check_yaml_forms(inst)
         check_artifact_frontmatter(inst)
         check_local_skills(inst)
         check_card_schema(inst)
         check_card_home(inst)
         check_worklogs(inst)
         check_gate_ticks(inst)
+        check_language(inst)
         check_tag_vocabulary(inst)
         check_evidence_shown(inst)
         check_source_types(inst)
         check_boundary(inst)
+        check_sources_ignored(inst)
+        check_secrets(inst)
+        check_handoff_registers(inst)
         check_perimeter(inst)
         check_card_slots(tools, inst)
         check_instance_conformance(inst)
@@ -2164,9 +2684,12 @@ def main(argv=()):
 
     print("very-ai-product-loops linter — %d tool(s), canon: relative links + strict enums" % len(tools))
     # Say what was covered: "0 instances" must read as a problem, not as a clean run.
-    print("instances checked: %d%s\n"
+    print("instances checked: %d%s"
           % (len(checked), (" — " + ", ".join(rel(c) for c in checked)) if checked else
              " (none found — pass a path, e.g. `python3 tools/lint.py product-loops`)"))
+    if SKIPPED:
+        print("instances skipped (--ci, gitignored): %s" % ", ".join(SKIPPED))
+    print()
     for w in WARNS:
         print("  WARN  " + w)
     if WARNS:

@@ -13,6 +13,11 @@
 # private product instances (real data) — never publish
 instances/
 
+# raw captures of the outside world (N8, reference/boundary-layout → snapshots/): a snapshot lands
+# its values in the registers and is deleted, never committed — lint T2 checks this rule exists.
+# Un-ignore one aggregate deliberately (`!path`) if it must travel with the repo.
+sources/snapshots/
+
 # stale local example runs — superseded by examples/decksmith (the reference run); never publish
 examples/tolmach/
 examples/decksmith-rebuild/

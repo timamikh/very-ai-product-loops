@@ -7,8 +7,8 @@ dependency: the framework's promise is "clone it and it runs on plain python3".
 Supported: nested mappings by indentation · `- item` sequences · inline `[a, b]` lists · `{}` empty
 map · block scalars (`>` and `|`) · quoted strings · `#` comments. Anything richer (anchors, multi-doc,
 flow maps with pairs, tags) is out of scope by design — if the canon ever needs it, that is a change
-to the canon first. `unsupported()` reports lines this reader had to skip so a caller can surface
-them instead of silently losing data.
+to the canon first. `unsupported()` reports lines this reader had to skip — with the reason — so a
+caller can surface them instead of silently losing data (the linter's check Y2 does).
 """
 import re
 
@@ -66,8 +66,58 @@ def _scalar(v):
     return v
 
 
+# the two YAML forms real files reach for that this reader does NOT model — each parses to a plain
+# string where a map or a list of maps was meant, so a caller that only looked at the data would
+# never know. `unsupported()` names them; the linter (check Y2) turns them into a reported defect.
+_FLOW_MAP_RE = re.compile(r"^\{.*:.*\}$")
+_MAP_ITEM_RE = re.compile(r"^[A-Za-z_][\w.-]*:(\s|$)")
+
+REASON_FLOW_MAP = "a flow map `{k: v}` — write it as indented `key: value` lines"
+REASON_LIST_OF_MAPS = "a list of maps `- key: value` — write one `key:` block per item, or a plain list"
+REASON_STRAY_ITEM = "a `- item` under a key that already holds a scalar or a map"
+REASON_NOT_A_PAIR = "not a `key: value` pair"
+
+
+def _unsupported_reason(s):
+    """Why a content line is outside the subset, or None when it is fine."""
+    if s.startswith("- "):
+        v = s[2:].strip()
+        if _FLOW_MAP_RE.match(v):
+            return REASON_FLOW_MAP
+        if _MAP_ITEM_RE.match(v) and not (len(v) >= 2 and v[0] in "\"'" and v[-1] == v[0]):
+            return REASON_LIST_OF_MAPS
+        return None
+    m = re.match(r"^([^:]+):\s*(.*)$", s)
+    if m and _FLOW_MAP_RE.match(m.group(2).strip()):
+        return REASON_FLOW_MAP
+    return None
+
+
+def unsupported(text):
+    """Lines this reader cannot model, as [{line, text, reason}] (1-based lines).
+
+    Never raises: the reader stays tolerant (an instance must render with its drift showing), but a
+    caller that wants a verdict — the linter — gets every offending line with the reason, instead of
+    a string where a map was meant. Flow maps `{a: b}` (config-schema once asked for one under
+    `products:`) and lists of maps `- key: v` are the two forms seen in the wild; stray items and
+    non-pair lines round it out.
+    """
+    out = []
+    _, skipped = parse(text)
+    for ln, raw in skipped:
+        s = _strip_comment(raw).strip()
+        out.append({"line": ln, "text": raw.strip(), "reason": _unsupported_reason(s) or
+                    (REASON_STRAY_ITEM if s.startswith("- ") else REASON_NOT_A_PAIR)})
+    return out
+
+
 def parse(text):
-    """Parse the supported subset. Returns (data, skipped_lines)."""
+    """Parse the supported subset. Returns (data, skipped_lines).
+
+    `skipped_lines` is [(lineno, raw)] for every line the reader could not model — including the two
+    forms it deliberately does not (flow maps, lists of maps), which used to parse to a bare string
+    in silence. `unsupported()` gives the same lines with a reason each.
+    """
     lines = text.splitlines()
     root = {}
     # stack of (indent, container); a container is a dict or a list
@@ -89,6 +139,12 @@ def parse(text):
 
         # sequence item
         if s.startswith("- "):
+            if _unsupported_reason(s):
+                skipped.append((i + 1, raw))
+                if isinstance(container, list):
+                    container.append(_scalar(s[2:]))   # keep the string so nothing downstream indexes past it
+                i += 1
+                continue
             item = _scalar(s[2:])
             if isinstance(container, list):
                 container.append(item)
@@ -153,6 +209,8 @@ def parse(text):
             i += 1
             continue
 
+        if _FLOW_MAP_RE.match(rest):
+            skipped.append((i + 1, raw))               # a flow map: kept as its string, reported
         container[key] = _scalar(rest)
         i += 1
     return root, skipped

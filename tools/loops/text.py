@@ -62,6 +62,21 @@ def frontmatter_from(text):
     return fm
 
 
+def frontmatter_issues(text):
+    """YAML forms in the frontmatter block that the canon's notation does not admit, as
+    [{line, text, reason}] with `line` numbered in the FILE (the `---` fence is line 1).
+
+    `frontmatter_from` never raises — a card with a flow map (`{a: b}`) or a list of maps
+    (`- key: v`) parses to a string where a list or map was meant, and nothing downstream notices.
+    The linter surfaces these (check Y2) so a mis-parse is a reported defect, not silent data loss.
+    """
+    from . import yamlite
+    m = re.match(r"^---\n(.*?)\n---", text, re.S)
+    if not m:
+        return []
+    return [dict(i, line=i["line"] + 1) for i in yamlite.unsupported(m.group(1))]
+
+
 def body_after_frontmatter(text):
     m = re.match(r"^---\n.*?\n---\n?", text, re.S)
     return text[m.end():] if m else text
@@ -128,7 +143,8 @@ def enum_value(v):
     if m:
         s = m.group(1).strip()
     s = s.split(":", 1)[0].strip()
-    return "" if s in ("—", "-", "– to clarify –", "— to clarify —", "- to clarify -") else s
+    # `…` is the template's slot marker — an unfilled cell, not a value (every reader agrees)
+    return "" if s in ("—", "-", "…", "...", "– to clarify –", "— to clarify —", "- to clarify -") else s
 
 
 def _is_divider(line):
@@ -529,9 +545,89 @@ def digest(body, max_bullets=3, width=190):
             "table_rows": table_rows, "table_head": table_head}
 
 
+# ---------------------------------------------------------------- blocks
+
+_BLOCK_EDGE_RE = re.compile(r"^\s*(?:#{1,6}\s|\||```|~~~)")
+
+
+def _is_block_edge(line):
+    """A line that can never be part of a prose block: blank, heading, table row, fence."""
+    return not line.strip() or bool(_BLOCK_EDGE_RE.match(line))
+
+
+def block_at(text, lineno):
+    """(first_lineno, last_lineno, lines) of the prose BLOCK containing 1-based `lineno`.
+
+    The canon's rule for every "line" it names — the card line, the decision line, the inputs line —
+    is that a line names a **block**, never a physical line (CONVENTIONS → Card line): files hard-wrap
+    prose, so a physical line is a soft-wrap accident. A block is the run of non-blank lines around
+    `lineno`, cut at a blank line, a heading, a table row or a fence; a list item starts a new block
+    (its wrapped continuation lines belong to it). This is the one primitive every such reader uses.
+    """
+    lines = text.split("\n")
+    i = max(0, min(lineno - 1, len(lines) - 1))
+    if _is_block_edge(lines[i]):
+        return lineno, lineno, [lines[i]]
+    start = i
+    while start > 0 and not _is_block_edge(lines[start - 1]) and not _BULLET_RE.match(lines[start].strip()):
+        start -= 1
+    end = i
+    while end + 1 < len(lines) and not _is_block_edge(lines[end + 1]) \
+            and not _BULLET_RE.match(lines[end + 1].strip()):
+        end += 1
+    return start + 1, end + 1, lines[start:end + 1]
+
+
+def marked_block(text, marker):
+    """(first_lineno, block_text) of the first block carrying `marker` (a compiled regex or a string),
+    the block's lines joined with single spaces — or (0, None) when nothing carries it."""
+    rx = marker if hasattr(marker, "search") else re.compile(re.escape(marker))
+    for n, line in enumerate(text.split("\n"), 1):
+        if rx.search(line):
+            first, _, lines = block_at(text, n)
+            return first, re.sub(r"\s+", " ", " ".join(ln.strip() for ln in lines)).strip()
+    return 0, None
+
+
+def block_after(label, text):
+    """The block a `**Label:**` line opens (label matched case-insensitively at the block's start),
+    joined into one string — or None. `block_after("Inputs", body)` reads the whole inputs paragraph
+    of a worklog even when it wraps; `block_after("North Star", body)` the North-Star statement."""
+    rx = re.compile(r"^\s*(?:[-*+]\s+|\d+\.\s+|>\s*)?\*\*%s[^*]*\*\*" % re.escape(label), re.I)
+    for n, line in enumerate(text.split("\n"), 1):
+        if rx.match(line):
+            _, _, lines = block_at(text, n)
+            return re.sub(r"\s+", " ", " ".join(ln.strip() for ln in lines)).strip()
+    return None
+
+
 # ---------------------------------------------------------------- change logs
 
 CHANGELOG_ENTRY_RE = re.compile(r"^###\s+(\d{4}-\d{2}-\d{2})\s*[—–-]\s*(.*)$", re.M)
+_CHANGELOG_TITLE_RE = re.compile(r"change\s*log|журнал\s+изменен|changelog", re.I)
+
+
+def is_change_log_title(title):
+    """True for the change-log heading in any language the framework has met (CONVENTIONS → Change
+    logs). One predicate, so a reader that cuts the history off (the linter's regions) and the
+    reader that parses it (`change_log`) can never disagree about where the history starts."""
+    return bool(_CHANGELOG_TITLE_RE.search(title or ""))
+
+
+def without_change_log(text):
+    """The file with its change-log section removed — what a check that reads *current state* looks at.
+
+    The change log is the last `##` section by convention and talks *about* sections, so ids, anchors
+    and decision lines inside it are history, not claims. A localized heading (`## Журнал изменений`)
+    is cut the same way; a literal `split("\\n## Change log")` was not, and history leaked into the
+    perimeter, decision-line and feature-reference checks on every non-English instance.
+    """
+    body = body_after_frontmatter(text)
+    for m in HEADING_RE.finditer(body):
+        if len(m.group(1)) == 2 and (is_change_log_title(m.group(2)) or m.group(3) == "change-log"):
+            cut = len(text) - len(body) + m.start()
+            return text[:cut]
+    return text
 
 
 def change_log(text):
@@ -540,8 +636,7 @@ def change_log(text):
     Returns [{date, summary, body}] — body keeps the From→To / Why / Trigger bullets verbatim.
     """
     for sec in sections(text):
-        title = (sec["title"] or "").lower()
-        if "change log" in title or "журнал изменен" in title:
+        if is_change_log_title(sec["title"]) or sec["id"] == "change-log":
             entries = []
             marks = list(CHANGELOG_ENTRY_RE.finditer(sec["body"]))
             for i, m in enumerate(marks):

@@ -1,0 +1,6 @@
+id,period_start,period_end,measured_at,value,observed_n,population,basis,source,note
+M-a,2026-08-01,2026-08-31,2026-09-01,12,,,fact,ci,"a quoted comma, kept in one cell"
+M-zzz,2026-08-01,2026-08-31,2026-09-01,1,,,fact,ci,no definition row
+# --- a comment line the canon does not allow ---
+# a ten-field comment,,,,,,,,,
+M-b,2026-08-01,2026-08-31,2026-09-01,3,,,fact,ci,an unquoted comma, shifts the columns

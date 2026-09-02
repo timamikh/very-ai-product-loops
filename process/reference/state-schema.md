@@ -44,6 +44,10 @@ Rules:
 - **Ticks are conditional writes.** A tick on a section resting mainly on the agent's own reasoning
   waits for a `verify` that did not write it (OPERATING-LOOP move 5); `n/a` carries its reason as a
   comment, `deferred` names when in the change log of the artifact.
+- **An `open` tick on a written section has one legal meaning besides "Record not finished":** the section
+  was **reopened for re-sign** — its content changed and the owner's sign-off is awaited. A reopen is
+  recorded, never implied: the artifact's change-log entry names the section (`#<id>`) and is dated on
+  or after `last_pass`; without that entry the linter reads the tick as an unfinished Record (check G2).
 - **Nothing else is load-bearing.** Extra keys are tolerated by the reader and reported by the
   linter, so a private key cannot quietly become schema.
 - **The console reads the same file.** A step's gate view is `gates` merged onto the step README's

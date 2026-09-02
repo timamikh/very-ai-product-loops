@@ -1,0 +1,5 @@
+tool: fx-reader
+questions:
+  - id: stages
+    type: list
+    ask: "Which stages?"

@@ -1,0 +1,14 @@
+# Cycle position of the fixture. Deliberate defects: `skipped` is not a tick value (G3),
+# `concept#nope` is no gate item (G4); `concept#jtbd` is written-but-open with no trace (G2);
+# `concept#segments` is written-but-open with a change-log entry on last_pass (re-sign — silent).
+current_step: 1
+last_pass: 2026-09-01
+gates:
+  1-concept:
+    "concept#idea": done
+    "concept#jtbd": open
+    "concept#segments": open
+    "concept#problems": open
+    "concept#solution": skipped
+    "concept#to-clarify": done
+    "concept#nope": done
