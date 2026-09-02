@@ -41,12 +41,10 @@ As part of vendoring, the agent also:
   the disciplined loop instead of an ad-hoc bulk-fill — and what stops a *first* run from walking
   into `start-work`, which has nothing to resume before setup. Two names, one home: the rules are
   never copied into either pointer.
-- adds, next to that pointer in the root `AGENTS.md`, the owner's **standing approval of
-  delegation**: *"The repo owner pre-approves spawning subagents for framework passes (the
-  `loops-*` read-only types) — per the vendored `process/OPERATING-LOOP.md` → Delegation."* The
-  operating loop runs on subagents; without this line, a session whose environment restricts agent
-  spawning would silently fall back to working solo. (It lives in `AGENTS.md`, not `CLAUDE.md` —
-  the pointer files carry nothing normative.)
+- does **not** write a delegation approval anywhere: the one home of that switch is
+  `product-loops/config.yaml` → `delegation` (`allowed` by default; set at `product-setup`, schema in
+  `process/reference/config-schema.md`). In the canon layout the root `AGENTS.md` *is* the vendored
+  framework file, and an install never edits a framework file.
 - reminds the human at the end: **restart the session once** — agent definitions and skills
   vendored mid-session are picked up only at the next session start.
 

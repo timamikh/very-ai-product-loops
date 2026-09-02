@@ -35,9 +35,17 @@ def check(cond, what):
 def main():
     print("loops selftest\n")
 
+    # -- the committed example is a dev-repo fixture: `examples/` is never vendored (install/README ->
+    #    What lands in your repo), so in a product install every block that reads it is skipped, not
+    #    failed. The framework-side and synthetic-instance checks below run everywhere.
+    ex = os.path.join(ROOT, "examples", "decksmith")
+    have_example = os.path.exists(os.path.join(ex, "config.yaml"))
+    if not have_example:
+        print("  skip  examples/decksmith is not present (not vendored) — example-bound checks skipped")
+
     # -- yaml subset: the two instance files must parse with nothing skipped
-    for name in ("config.yaml", "state.yaml"):
-        p = os.path.join(ROOT, "examples", "decksmith", name)
+    for name in (("config.yaml", "state.yaml") if have_example else ()):
+        p = os.path.join(ex, name)
         data, skipped = yamlite.load(p)
         check(isinstance(data, dict) and data, "%s parses" % name)
         check(not skipped, "%s parses with no unsupported lines" % name)
@@ -59,8 +67,19 @@ def main():
     check(len(F.load_tools(ROOT)) >= 30, "the library is read")
 
     # -- instance side, on the committed example
-    ex = os.path.join(ROOT, "examples", "decksmith")
-    m = I.load(ex, ROOT)
+    m = I.load(ex, ROOT) if have_example else None
+    if have_example:
+        example_side(m)
+    else:
+        print("  skip  instance side (example), discovery, history — need examples/decksmith")
+
+    synthetic_side()
+    print("\n%d check(s) failed." % len(FAILED) if FAILED else "\nall checks passed.")
+    return 1 if FAILED else 0
+
+
+def example_side(m):
+    """Checks that read the committed example instance (dev repo only)."""
     check(m["product"] and m["active_status"], "example instance identity is read")
     check(m["state_present"] and m["current_step"] == 6, "cycle state is read from state.yaml")
     check(len(m["artifacts"]) == 6, "six artifacts are found by frontmatter (got %d)" % len(m["artifacts"]))
@@ -100,6 +119,15 @@ def main():
     found = [c["name"] for c in I.discover(ROOT, ROOT)]
     check("decksmith" in found, "discovery finds the example instance")
 
+    # -- the trail of one item is assembled from the change logs that name its id — no second store
+    hist = m["history"]
+    check(hist.get("H-001"), "a hypothesis' trail is assembled from the change logs naming it")
+    check(all(e["date"] >= f["date"] for e, f in zip(hist["H-001"], hist["H-001"][1:])),
+          "a trail reads newest first")
+
+
+def synthetic_side():
+    """Checks on primitives and throw-away instances — run in every install."""
     # -- a register split across two tables is ONE register (a real instance grows a second table for
     #    newly instrumented nodes; a first-table-only reader validated the top half and reported the
     #    bottom half's ids as undefined)
@@ -172,12 +200,6 @@ def main():
     finally:
         shutil.rmtree(ft_tmp, ignore_errors=True)
 
-    # -- the trail of one item is assembled from the change logs that name its id — no second store
-    hist = m["history"]
-    check(hist.get("H-001"), "a hypothesis' trail is assembled from the change logs naming it")
-    check(all(e["date"] >= f["date"] for e, f in zip(hist["H-001"], hist["H-001"][1:])),
-          "a trail reads newest first")
-
     # -- a `<!-- card -->` mark names a section's showcase headline. Both forms name a BLOCK, never a
     #    physical line: above-the-line collects the paragraph below, trailing collects the whole
     #    paragraph or bullet the marked line sits in (real instances hard-wrap prose, and a mark on a
@@ -236,9 +258,6 @@ def main():
         check(I.load(inst, ROOT)["product"] == "Out of tree", "it loads and names its product")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
-
-    print("\n%d check(s) failed." % len(FAILED) if FAILED else "\nall checks passed.")
-    return 1 if FAILED else 0
 
 
 if __name__ == "__main__":

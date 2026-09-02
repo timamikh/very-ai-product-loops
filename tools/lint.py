@@ -86,8 +86,8 @@ Checks (ERROR fails CI · WARN never does):
      truth — its Registers block cites at least one register file)  (WARN)
   I  a product's own skills (product-loops/tool-skills/…) obey the same wiring rules as vendored ones
   I2 a vendored framework is pinned and pointed at: FRAMEWORK-VERSION (tag + SHA) at the vendor root,
-     a pointer + standing delegation approval in the product repo's root AGENTS.md (install/README →
-     Acceptance); detected by layout — the framework at the product repo's root with the instance
+     a pointer to `start-work` in the product repo's root AGENTS.md (install/README → point 1; the
+     delegation switch is config.yaml `delegation`, check H); detected by layout — the framework at the product repo's root with the instance
      beside it (canon), or in a sub-folder (legacy) — and silent in the framework's own dev repo
   J  a register table is not split by a blank line  (WARN)
   K  a register `id` cell names exactly one item (one row = one id)
@@ -1880,17 +1880,12 @@ def check_install(checked):
         agents = os.path.join(repo, "AGENTS.md")
         if not os.path.exists(agents):
             err("I2 [%s] no AGENTS.md at the product repo root (%s) — the install owes it the "
-                "pointer into the framework and the standing delegation approval "
-                "(install/README -> point 1)" % (tag, rel(repo) or repo))
+                "pointer into the framework (install/README -> point 1)" % (tag, rel(repo) or repo))
         else:
             body = read(agents)
             if "start-work" not in body:
                 warn("I2 [%s] the root AGENTS.md never names `start-work` — without the pointer, "
                      "\"continue the strategy\" lands outside the loop" % tag)
-            if "loops-" not in body:
-                warn("I2 [%s] the root AGENTS.md carries no standing delegation approval "
-                     "(`loops-*`) — a restricted session will silently fall back to working solo"
-                     % tag)
 
 
 def check_local_skills(inst):
