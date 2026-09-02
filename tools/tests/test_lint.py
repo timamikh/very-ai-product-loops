@@ -69,7 +69,7 @@ class FixtureVerdict(unittest.TestCase):
         cls.errors, cls.warns = run_lint(FIXTURE)
 
     def test_error_ids(self):
-        self.assertEqual(ids(self.errors), ["D", "E", "G3", "P", "T3", "X", "Y2"])
+        self.assertEqual(ids(self.errors), ["D", "E", "G3", "P", "T3", "X", "X2", "Y2"])
 
     def test_warn_ids(self):
         self.assertEqual(ids(self.warns),
@@ -256,6 +256,40 @@ class SourcesIgnored(unittest.TestCase):
         self.assertFalse(grep(warns, "T2", ""))
 
 
+class NodeTypeVocabulary(unittest.TestCase):
+    """X2 (hub F-03): a source passport with an off-matrix node_type ERRORs with the nearest legal
+    value; the fixture itself, all in vocabulary, is silent."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix="lint-x2-")
+        self.inst = os.path.join(self.tmp, "fixture-x2")
+        shutil.copytree(FIXTURE, self.inst)
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_fixture_fires_only_on_the_step_folder_note(self):
+        # the fixture's one off-vocabulary file is the `node_type: note` P plants in 1-concept/
+        errs, _ = run_lint(self.inst, tag="fixture-x2")
+        hits = grep(errs, "X2", "")
+        self.assertEqual(len(hits), 1)
+        self.assertIn("1-concept/notes.md", hits[0])
+
+    def test_unknown_type_errors_with_hint(self):
+        with open(os.path.join(self.inst, "sources", "db-prod-readonly.md"), "w") as f:
+            f.write("---\nnode_type: source-access\ntitle: prod db passport\n---\n# passport\n")
+        errs, _ = run_lint(self.inst, tag="fixture-x2")
+        hits = grep(errs, "X2", "source-access")
+        self.assertTrue(hits)
+        self.assertIn("did you mean `source`", hits[0])
+
+    def test_vocabulary_comes_from_the_matrix(self):
+        vocab = lint._node_type_vocabulary()
+        for v in ("artifact", "worklog", "register", "source", "sources-index", "handoff", "card"):
+            self.assertIn(v, vocab)
+        self.assertNotIn("node_type", vocab)
+
+
 class ReadLayerPrimitives(unittest.TestCase):
     """The primitives the checks lean on, in isolation."""
 
@@ -367,7 +401,7 @@ class Help(unittest.TestCase):
         with redirect_stdout(out):
             lint.main(["--help"])
         text = out.getvalue()
-        for cid in ("C1", "C3", "C4", "C4b", "C6", "C9", "G3", "G4", "G5", "H3", "T2", "T3", "W2", "Y2", "--ci"):
+        for cid in ("C1", "C3", "C4", "C4b", "C6", "C9", "G3", "G4", "G5", "H3", "T2", "T3", "W2", "X2", "Y2", "--ci"):
             self.assertIn(cid, text)
 
 

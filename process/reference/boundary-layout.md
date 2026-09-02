@@ -2,8 +2,8 @@
 node_type: reference
 title: The boundary layer — sources, snapshots, access, and instance exchange skills
 status: draft
-version: 0.3.0
-updated: 2026-09-02
+version: 0.3.1
+updated: 2026-09-03
 ---
 
 # The boundary layer
@@ -60,7 +60,9 @@ re-imports what was excluded.
 One file per external **point** — a source to read from **or** a destination to push to (a push
 endpoint is not a source, which is why access lives here, not folded into a source file). It carries
 only what the human supplies: what the point is, its URL/location, its owner, how to verify reach,
-how to recover access. **A passport is written only as the human's recorded answers.** No access file,
+how to recover access. It carries `node_type: source` — the matrix's `source` row, whose raw-data and
+secret rules are exactly a passport's; there is no passport type of its own (check X2 reads the
+matrix). **A passport is written only as the human's recorded answers.** No access file,
 no answers → the pass asks (`questions.yaml`) and, if unanswered, stops with an open item. A passport
 of bare `— to clarify —` is the defect this whole split exists to make impossible — an agent
 inventing a source. A source that *is* a human (a manual recount, a founder's figure) needs no

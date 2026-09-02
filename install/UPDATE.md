@@ -2,8 +2,8 @@
 node_type: install
 title: Update — move an installed framework to a newer version
 status: draft
-version: 0.3.0
-updated: 2026-09-02
+version: 0.3.1
+updated: 2026-09-03
 ---
 
 # Update
@@ -33,10 +33,13 @@ is the design: the only way to keep a change is to put it where the update canno
 
 1. **Read what changed** — diff the vendored tree between your pinned SHA and the new one
    (`git diff <old-sha> <new-sha> -- steps/ process/ tool-skills/ statuses/`); the CHANGELOG is a
-   reading aid, the diff is the truth. Four things matter more than the rest, because only these can
+   reading aid, the diff is the truth. Five things matter more than the rest, because only these can
    leave a filled instance off-form:
-   **step templates** (a section, a column, a key), **register schemas**, **new or renamed checks**, and
-   **methods removed or recut**.
+   **step templates** (a section, a column, a key), **register schemas**, **new or renamed checks**,
+   **methods removed or recut**, and **a changed meaning of an existing column** — same name, new
+   semantics (`metrics.csv` once carried the population inside `basis`; now `basis` is *how counted*
+   and `population` *who*): append-only rows written under the old meaning stay, so the register's
+   header notes the date the meaning changed and a reader compares across it with care.
 2. **Re-vendor at the new tag** — overwrite the paths in the left column above, and touch nothing under
    `product-loops/`.
 3. **Rewrite `FRAMEWORK-VERSION`** with the new tag **and** its commit SHA. The tag is the human-readable
@@ -62,7 +65,7 @@ is the design: the only way to keep a change is to put it where the update canno
 
 ## Checklist
 
-- [ ] The CHANGELOG was read for the four things that can leave an instance off-form.
+- [ ] The CHANGELOG was read for the five things that can leave an instance off-form.
 - [ ] Nothing under `product-loops/` was touched by the re-vendor.
 - [ ] `FRAMEWORK-VERSION` carries the new tag **and** SHA.
 - [ ] The session was restarted once.

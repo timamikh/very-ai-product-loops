@@ -16,6 +16,20 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Tooling — the run journals read back: two findings closed, the rest were already in
+
+- **X2 — `node_type` against the matrix, for every instance file** (hub F-03). Cards, worklogs and
+  artifacts were checked by kind; a source passport with `node_type: source-access` fell out of every
+  convention silently. The vocabulary is read from `node-type-matrix.md`, the error names the nearest
+  legal value. A passport carries `node_type: source` — said once in `boundary-layout.md`.
+- **A fifth thing that leaves an instance off-form** (hub F-04): a changed meaning of an existing
+  column, `install/UPDATE.md`. The `basis`/`population` split of `metrics.csv` is the worked case.
+- Of the fifteen findings in the daisy and hub journals, eleven were closed by the audit of
+  2026-09-02 (shared csv reader, P2 as a block and its two false positives, P across steps, the
+  revisit rule, G2 `re-sign`, G5 language, the typed index header, adopt-an-instance) and one was
+  declined by the owner (a STOP semantics in the loop). Open: `claimed` for surfaces — a register enum,
+  the owner's call.
+
 ### Library — steps 4–6 brought to the form, the duplicates cut
 
 - **Three owners settled.** Guardrails belong to `guardrails` (Step 5) alone — `metric-tree` no

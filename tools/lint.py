@@ -153,6 +153,9 @@ Checks (ERROR fails CI · WARN never does):
      `kind` and the atoms of reads/writes/surfaces come from the controlled vocabularies, the
      per-kind fields hold (a method has `steps` and no `surfaces` — the law of ranks), and a card the
      goal map routes to owes a non-empty `surfaces`; an off-schema key WARNs
+  X2 every instance file that carries a `node_type` names one the matrix knows
+     (process/reference/node-type-matrix.md) — an unknown value drops the file out of every
+     convention silently (hub F-03); the vocabulary is read from the matrix, never listed here
   Z  a card's home follows its author: `kind: exchange` only inside an instance's `skills/`, and a
      framework kind never there
 
@@ -1171,6 +1174,49 @@ CYRILLIC_LANGS = {"ru", "uk", "be", "bg", "sr", "mk", "kk", "ky", "mn", "tg"}
 NON_LATIN_LANGS = CYRILLIC_LANGS | {"el", "he", "ar", "fa", "zh", "ja", "ko", "hi", "th", "ka", "hy"}
 _CYR_RE = re.compile(r"[\u0400-\u04FF]")
 _LAT_RE = re.compile(r"[A-Za-z]")
+
+
+def _node_type_vocabulary():
+    """The `node_type` values the matrix names — its first column, backticked, plus the framework
+    row's closed set. Read from the file so the matrix stays the one home of the enumeration."""
+    vocab = set()
+    for line in read(os.path.join(ROOT, "process", "reference", "node-type-matrix.md")).split("\n"):
+        if not line.startswith("|") or line.startswith("|-"):
+            continue
+        first = line.strip("|").split("|")[0]
+        vocab.update(re.findall(r"`([a-z][a-z0-9-]*)`", first))
+    vocab.discard("node_type")
+    return vocab
+
+
+def check_node_types(inst):
+    """X2 — every instance file with a `node_type` names one the matrix knows (hub F-03).
+
+    `node_type` selects which conventions apply to a file (CONVENTIONS → Which conventions apply
+    where). Cards, worklogs and artifacts were already checked by kind; sources, passports, registers
+    and the handoff were not, so a typo (`source-access`) dropped the file out of every check without
+    a word. The vocabulary comes from the matrix itself — a second list in code would drift.
+    """
+    import difflib
+    vocab = _node_type_vocabulary()
+    if not vocab:
+        return
+    name = rel(inst)
+    for dirpath, dirnames, files in os.walk(inst):
+        dirnames[:] = [d for d in dirnames if d not in (".git", "snapshots", "node_modules")]
+        for fn in files:
+            if not fn.endswith(".md"):
+                continue
+            path = os.path.join(dirpath, fn)
+            fm = T.frontmatter_from(read(path))
+            nt = fm.get("node_type")
+            if nt is None or str(nt).strip() in vocab:
+                continue
+            near = difflib.get_close_matches(str(nt).strip(), sorted(vocab), n=1, cutoff=0.5)
+            hint = " — did you mean `%s`?" % near[0] if near else ""
+            err("X2 [%s] %s: node_type `%s` is not in the matrix (process/reference/node-type-matrix.md)"
+                "%s — an unknown type drops the file out of every convention silently"
+                % (name, os.path.relpath(path, inst), nt, hint))
 
 
 def check_language(inst):
@@ -2657,6 +2703,7 @@ def main(argv=()):
         check_worklogs(inst)
         check_gate_ticks(inst)
         check_language(inst)
+        check_node_types(inst)
         check_tag_vocabulary(inst)
         check_evidence_shown(inst)
         check_source_types(inst)
