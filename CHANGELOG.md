@@ -16,6 +16,28 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Console — value boards survive their edge cases
+
+- **One number grammar.** `figures()` is the only reader of a figure in a cell: `$29`, `$29–49`
+  (a range), `2 990 ₽` and `₽2 990`, `$3,990` (a comma before three digits is a thousands mark),
+  `$1.5k` / `$2M`, `45%`; an ISO read-date is never a price. `money()` and `pctNum()` read through it.
+- **A board names what it did not draw.** Every value board hangs a note under itself listing the
+  rows it could not place and why — a price cell with no figure, an emotion outside the ▲ ▼ glyphs,
+  a likelihood `Hi` instead of `H`, a cohort with one reading, a rung in another currency.
+- **Price ladder.** The mark stays at its true height; only the label yields to its neighbour, joined
+  by a leader. A range draws as a bar on the rail. Three round axis ticks; a square-root scale past a
+  1:20 spread; another currency than ours is dropped and named, never converted. Our rungs come from
+  the tier table when the anchor table is absent. Past 14 rungs the board becomes a ranked bar table.
+- **Journey curve** draws at its own size and scrolls in its wrapper instead of shrinking labels;
+  long words break; past 10 stages the axis carries numbers and a numbered list follows; the
+  `(was …)` layer is drawn only where recorded — an isolated prior shows as a hollow dot.
+- **Heatmaps** show eight dots per cell and a `+n` that unfolds the rest. **Retention** clamps a
+  reading outside 0–100% (and says so), colours its legend, reads period labels from the header, and
+  falls back to the table past six cohorts; the line is a line, not an area. **Unit economics** puts a
+  short bar's figure outside the bar and names rows in more than one currency. **Threshold gauges**
+  size their zones from the two thresholds when both are figures of one unit (a lower-is-better pair
+  reverses), else stay schematic and say so.
+
 ### Audit batch 4 — one read layer, tested
 
 - **The linter reads everything through `tools/loops`.** `metrics.csv` via the new

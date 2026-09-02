@@ -190,6 +190,13 @@ const STR = {
     dirNone: 'direction not named', 
     keyMissing: 'board not drawn — the section’s table lacks the column key(s):',
     keyMissingCard: 'shown as its card instead',
+    dropRow: 'row not drawn', dropRows: 'rows not drawn', dropWhy: 'value unreadable',
+    dropPrice: 'no price figure in the cell (write $29, $29–49 or — to clarify —)',
+    dropEmotion: 'emotion not in ▲ ▼ glyphs', dropLevel: 'likelihood or impact not H / M / L',
+    dropPct: 'fewer than two % readings',
+    ladderSqrt: 'Square-root scale — the spread is past 1:20; the axis ticks say where a rung sits.',
+    ueMixed: 'rows in more than one currency:', retClamped: 'reading(s) outside 0–100% drawn at the edge',
+    thSchematic: 'Zones are schematic here — the two bars are not figures of one unit.',
     z5Lanes: 'Period goals, by direction', z5Targets: 'Goal targets', z5Bundles: 'Market-entry bundles',
     z5Hyp: 'Hypotheses to test', z5Readouts: 'Readouts', z5ItemReadouts: 'Item readouts',
     grMust: 'must stay', grRed: 'red line', rsConstraint: 'constraint',
@@ -1241,18 +1248,57 @@ function canvasIdea(s) {
    of a tier ladder. A number with no currency in a prose cell is noise (a token count, a read
    date), never a price; a cell that is one bare number still counts; a cell carrying a gap mark
    has no price by definition. Spaces/NBSPs are thousand separators (JS \s covers both). */
-const priceNums = c => {
-  const s = plain(c);
-  if (/—\s*(to clarify|уточнить)\s*—/i.test(s)) return [];
+/* ---- the ONE reader of a figure the author wrote in a cell. Every board that positions by value
+   reads through `figures()`; there is no second number grammar in this file.
+   `$29` → {lo:29, hi:29, sym:'$'} · `$29–49` → {lo:29, hi:49} (a range is two figures joined by a
+   dash) · `2 990 ₽` and `₽2 990` → 2990 · `$3,990` → 3990 (a comma before exactly three digits is a
+   thousands mark; any other comma is a decimal) · `$1.5k` → 1500, `$2M` → 2 000 000 (tolerated — the
+   canon asks for plain figures) · `45%` → {lo:45, pct:true} · an ISO date is never a figure · a
+   `— to clarify —` cell yields nothing. `sym` is the author's own mark or '' — the board never stamps
+   a currency of its own. */
+const GAP_RE = /—\s*(to clarify|уточнить)\s*—/i;
+function figures(cellRaw) {
+  let s = plain(cellRaw);
+  if (GAP_RE.test(s)) return [];
+  s = s.replace(/\b\d{4}-\d{2}-\d{2}\b/g, ' ')                         // read dates are not prices
+    .replace(/(\d)[ ,](?=\d{3}(?!\d))/g, '$1');                         // thousands marks out
+  const re = /([$€£₽])?\s*~?\s*(\d+(?:[.,]\d+)?)([kKmM](?![\p{L}]))?\s*(₽|руб\.?|[$€£]|%)?/gu;
   const out = [];
-  const re = /(?:[$€£]\s*(\d[\d\s]*(?:[.,]\d+)?))|(?:(\d[\d\s]*(?:[.,]\d+)?)\s*(?:₽|руб|[$€£]))/g;
-  let m;
-  while ((m = re.exec(s))) out.push(parseFloat((m[1] || m[2]).replace(/\s/g, '').replace(',', '.')));
-  if (!out.length && /^\d[\d\s]*(?:[.,]\d+)?$/.test(s.trim())) {
-    out.push(parseFloat(s.replace(/\s/g, '').replace(',', '.')));
+  let m, prevEnd = -1;
+  while ((m = re.exec(s))) {
+    if (!m[2]) { re.lastIndex++; continue; }
+    let n = parseFloat(m[2].replace(',', '.'));
+    if (isNaN(n)) continue;
+    if (m[3]) n *= /k/i.test(m[3]) ? 1e3 : 1e6;
+    const sym = m[1] || (m[4] && m[4] !== '%' ? m[4].replace(/^руб\.?$/, '₽') : '');
+    const pct = m[4] === '%';
+    const between = prevEnd >= 0 ? s.slice(prevEnd, m.index) : '';
+    const last = out[out.length - 1];
+    if (last && /^\s*[–—-]\s*$/.test(between) && last.pct === pct && (!sym || !last.sym || sym === last.sym)) {
+      last.hi = Math.max(last.hi, n); last.lo = Math.min(last.lo, n); last.sym = last.sym || sym;
+    } else out.push({ lo: n, hi: n, sym, pct });
+    prevEnd = m.index + m[0].length;
   }
-  return out.filter(n => !isNaN(n));
+  return out;
+}
+/* Money figures of a cell (a currency mark on the figure, or a cell that is nothing but a number) —
+   the price boards' reading; a percentage or a bare count inside prose is not a price. */
+const priceFigs = c => {
+  const all = figures(c).filter(f => !f.pct);
+  const marked = all.filter(f => f.sym);
+  if (marked.length) return marked;
+  return /^\s*~?\s*\d[\d\s.,]*[kKmM]?\s*$/.test(plain(c)) ? all.slice(0, 1) : [];
 };
+/* The note a board hangs under itself for the rows it could not draw — named, never a silent drop:
+   "3 rows not drawn — value unreadable: Acme, Beta, …". `items` are the labels (or raw cells). */
+function dropNote(items, why) {
+  if (!items || !items.length) return null;
+  const shown = items.slice(0, 4).map(x => plain(x) || '—');
+  return h('p', { class: 'small faint dropnote' },
+    `${items.length} ${items.length === 1 ? t('dropRow') : t('dropRows')} — ${why || t('dropWhy')}: `,
+    shown.join(', ') + (items.length > shown.length ? ', …' : ''));
+}
+const withDrop = (node, items, why) => (node && items && items.length) ? h('div', {}, node, dropNote(items, why)) : node;
 const anotherStep = n => (S.model.steps || []).find(x => x.step === n && x.artifact_file);
 
 /* Price ladder — our price against every anchor the instance names: the step-3 anchor table
@@ -1261,11 +1307,14 @@ const anotherStep = n => (S.model.steps || []).find(x => x.step === n && x.artif
 function priceLadder(s) {
   const a = bodyOf(s, 'pricing');
   if (!a) return null;
-  const rungs = [];
+  const rungs = [], dropped = [];
   const add = (label, cellRaw, one, ours) => {
-    const ns = priceNums(cellRaw);
-    (one ? ns.slice(0, 1) : ns).forEach(p => {
-      if (!rungs.some(r => r.price === p && r.label === label)) rungs.push({ label, price: p, ours: !!ours });
+    const fs = priceFigs(cellRaw);
+    if (!fs.length) { if (plain(cellRaw) && !GAP_RE.test(plain(cellRaw))) dropped.push(label); return; }
+    (one ? fs.slice(0, 1) : fs).forEach(f => {
+      if (!rungs.some(r => r.lo === f.lo && r.hi === f.hi && r.label === label)) {
+        rungs.push({ label, lo: f.lo, hi: f.hi, sym: f.sym, ours: !!ours });
+      }
     });
   };
   // the anchor table is the second table of #pricing (tiers, then anchors): the one carrying c:altprice
@@ -1276,31 +1325,81 @@ function priceLadder(s) {
   if (anchor && anchor.rows) {
     anchor.rows.forEach(r => {
       add(plain(r.alt), r.altprice, true);
-      if (!rungs.some(x => x.ours)) add(t('lOurs') + (plain(r.segment) ? ' · ' + plain(r.segment) : ''), r.ourprice, true, true);
+      add(t('lOurs') + (plain(r.segment) ? ' · ' + plain(r.segment) : ''), r.ourprice, true, true);
     });
+  }
+  // no anchor table → our rungs are the tier table's price points (c:tier · c:price)
+  if (!rungs.some(r => r.ours)) {
+    const tiers = keyed(a.body, ['tier', 'price']);
+    if (tiers && tiers.rows) tiers.rows.forEach(r => add(t('lOurs') + ' · ' + plain(r.tier), r.price, true, true));
   }
   const s2 = anotherStep(2);
   const p2 = s2 ? artSection(s2.artifact_file, 'competitor-pricing') : null;
   const k2 = p2 ? keyed(p2.body, ['name', 'price']) : null;
   if (k2 && k2.rows) k2.rows.forEach(r => add(plain(r.name), r.price));
-  if (rungs.length < 2 || !rungs.some(r => r.ours)) return null;
-  const max = Math.max(...rungs.map(r => r.price)) || 1;
-  rungs.sort((x, y) => y.price - x.price);
-  const H = 360;
-  let lastY = -99;
+  if (!rungs.some(r => r.ours)) return null;
+  // one scale, one currency: a rung in another currency than ours is named under the rail, not converted
+  const ourSym = (rungs.find(r => r.ours && r.sym) || {}).sym || '';
+  if (ourSym) {
+    rungs.filter(r => r.sym && r.sym !== ourSym).forEach(r => dropped.push(`${r.label} (${r.sym} ≠ ${ourSym})`));
+    for (let i = rungs.length - 1; i >= 0; i--) if (rungs[i].sym && rungs[i].sym !== ourSym) rungs.splice(i, 1);
+  }
+  if (rungs.length < 2) return dropped.length ? dropNote(dropped, t('dropPrice')) : null;
+  const foot = h('p', { class: 'small faint', style: 'margin:6px 0 0' }, t('ladderFrom'));
+  rungs.sort((x, y) => (y.hi + y.lo) - (x.hi + x.lo));
+  // past LADDER_MAX rungs a rail stops reading: the same rows as a ranked bar table instead
+  if (rungs.length > LADDER_MAX) {
+    return withDrop(h('div', { class: 'ladwrap' }, barTable(rungs), foot), dropped, t('dropPrice'));
+  }
+  const max = Math.max(...rungs.map(r => r.hi)) || 1;
+  const min = Math.min(...rungs.map(r => r.lo));
+  // a spread past 1:20 squashes the cluster into the outlier's shadow — a square-root scale keeps both readable
+  const sqrtScale = min > 0 && max / min > 20;
+  const H = 360, TOP = 10, SPAN = H - 42, PITCH = 18;
+  const Y = p => TOP + (1 - (sqrtScale ? Math.sqrt(p / max) : p / max)) * SPAN;
+  // the mark stays at its true height; only the LABEL yields to its neighbour, and a leader joins the two
+  let lastLab = -99;
   rungs.forEach(r => {
-    let y = 10 + (1 - r.price / max) * (H - 42);
-    if (y - lastY < 30) y = lastY + 30;
-    lastY = y;
-    r.y = y;
+    r.yHi = Y(r.hi); r.yLo = Y(r.lo);
+    r.yMark = (r.yHi + r.yLo) / 2;
+    r.yLab = Math.max(r.yMark, lastLab + PITCH);
+    lastLab = r.yLab;
   });
-  return h('div', { class: 'ladwrap' },
-    h('div', { class: 'ladder', style: `height:${Math.max(H, lastY + 36)}px` },
+  // axis: three ticks in the price domain at round figures, so a label pushed off its mark still reads
+  // against the scale (the top rung is the fourth tick, its own label says the max)
+  const nice = v => { const p = Math.pow(10, Math.floor(Math.log10(v)) - 1); return Math.round(v / p) * p; };
+  const ticks = [0.25, 0.5, 0.75].map(f => nice(sqrtScale ? f * f * max : f * max)).filter(v => v > 0 && v < max);
+  const sym = (rungs.find(r => r.ours) || rungs[0]).sym || '';
+  const fmt = r => (r.sym || sym) + (r.lo === r.hi ? num(r.lo) : num(r.lo) + '–' + num(r.hi));
+  const height = Math.max(H, lastLab + 30);
+  return withDrop(h('div', { class: 'ladwrap' },
+    h('div', { class: 'ladder', style: `height:${height}px` },
       h('div', { class: 'ladrail', 'aria-hidden': 'true' }),
-      rungs.map(r => h('div', { class: 'ladrung' + (r.ours ? ' lad-ours' : ''), style: `top:${r.y}px` },
-        h('span', { class: 'ladprice' }, num(r.price)),
-        h('span', { class: 'ladwho', title: r.label }, r.label)))),
-    h('p', { class: 'small faint', style: 'margin:6px 0 0' }, t('ladderFrom')));
+      ticks.map(p => h('div', { class: 'ladtick', style: `top:${Y(p)}px`, 'aria-hidden': 'true' },
+        h('span', { class: 'ladtickv' }, sym + num(p)))),
+      rungs.map(r => [
+        r.lo !== r.hi ? h('div', { class: 'ladrange' + (r.ours ? ' lad-ours' : ''), style: `top:${r.yHi}px;height:${Math.max(2, r.yLo - r.yHi)}px` }) : null,
+        h('div', { class: 'ladmark' + (r.ours ? ' lad-ours' : ''), style: `top:${r.yMark}px` }),
+        Math.abs(r.yLab - r.yMark) > 2 ? h('div', { class: 'ladlead', style: `top:${Math.min(r.yMark, r.yLab)}px;height:${Math.abs(r.yLab - r.yMark)}px` }) : null,
+        h('div', { class: 'ladrung' + (r.ours ? ' lad-ours' : ''), style: `top:${r.yLab}px` },
+          h('span', { class: 'ladprice' }, fmt(r)),
+          h('span', { class: 'ladwho', title: r.label }, r.label)),
+      ])),
+    sqrtScale ? h('p', { class: 'small faint', style: 'margin:6px 0 0' }, t('ladderSqrt')) : null,
+    foot), dropped, t('dropPrice'));
+}
+const LADDER_MAX = 14;
+/* The ranked bar table a value board falls to past its readable size: one row per item, label, the
+   figure, and a bar proportional to it — the same rows, no positioning to collide. */
+function barTable(rungs) {
+  const max = Math.max(...rungs.map(r => r.hi)) || 1;
+  return h('div', { class: 'bartab' }, rungs.map(r => h('div', { class: 'bartab-row' + (r.ours ? ' lad-ours' : '') },
+    h('span', { class: 'ladwho', title: r.label }, r.label),
+    h('span', { class: 'bartab-track' },
+      r.lo === r.hi
+        ? h('span', { class: 'bartab-bar', style: `left:0;width:${Math.max(1, Math.round(r.lo / max * 100))}%` })
+        : h('span', { class: 'bartab-bar bartab-range', style: `left:${Math.round(r.lo / max * 100)}%;width:${Math.max(1, Math.round((r.hi - r.lo) / max * 100))}%` })),
+    h('span', { class: 'ladprice' }, (r.sym || '') + (r.lo === r.hi ? num(r.lo) : num(r.lo) + '–' + num(r.hi))))));
 }
 
 /* An Emotion cell → its levels: ▲ = 1, ▼ = −1, ▼▼ = −2; a split rating (▲ … ▼ naming two actors)
@@ -1333,7 +1432,10 @@ function leadDash(s) {
    however many lines that takes. */
 function wrapLabel(s, width) {
   const lines = [];
-  for (const w of String(s).split(/\s+/).filter(Boolean)) {
+  // a single word longer than the line (a compound, an id) is broken hard, so it never runs into the neighbour
+  const words = String(s).split(/\s+/).filter(Boolean)
+    .flatMap(w => w.length <= width ? [w] : w.match(new RegExp(`.{1,${width - 1}}`, 'g')).map((p, i, arr) => i < arr.length - 1 ? p + '-' : p));
+  for (const w of words) {
     const last = lines[lines.length - 1];
     if (last !== undefined && (last + ' ' + w).length <= width) lines[lines.length - 1] = last + ' ' + w;
     else lines.push(w);
@@ -1349,17 +1451,23 @@ function journeyCurve() {
   const k = a ? keyed(a.body, ['stage', 'emotion']) : null;
   if (!k) return null;
   if (k.missing) return keyMissing(k.missing);
-  const pts = k.rows
-    .map(r => ({ stage: plain(r.stage), ...emoLevel(r.emotion) }))
-    .filter(p => p.now !== null);
-  if (pts.length < 2) return null;
+  const all = k.rows.map(r => ({ stage: plain(r.stage), ...emoLevel(r.emotion) }));
+  const pts = all.filter(p => p.now !== null);
+  // a stage whose Emotion cell is not in the canon's glyphs (▲ ▼) is named under the curve, never lost
+  const dropped = all.filter(p => p.now === null).map(p => p.stage + (p.raw ? ' (' + p.raw + ')' : ''));
+  if (pts.length < 2) return dropped.length ? dropNote(dropped, t('dropEmotion')) : null;
   // the stage label is the lead of the cell (before its ` — ` qualifier), wrapped whole on word
-  // boundaries; the drawing is as tall as the longest label needs
-  const labels = pts.map(p => wrapLabel(leadDash(p.stage).replace(/\s*\([^)]*\)\s*$/, ''), 18));
+  // boundaries; the drawing is as tall as the longest label needs. Past CURVE_MAX stages the labels
+  // give way to numbers on the axis and a numbered list under the curve.
+  const numbered = pts.length > CURVE_MAX;
+  const leads = pts.map(p => leadDash(p.stage).replace(/\s*\([^)]*\)\s*$/, ''));
+  const labels = numbered ? pts.map((p, i) => [String(i + 1)]) : leads.map(l => wrapLabel(l, 18));
   const maxLines = Math.max(1, ...labels.map(l => l.length));
-  const X = i => 78 + i * 104, Y = l => 118 - l * 36;   // levels 1…−2 → y 82…190
+  const PITCH = numbered ? 40 : 104;
+  const X = i => 78 + i * PITCH, Y = l => 118 - l * 36;   // levels 1…−2 → y 82…190
   const W = X(pts.length - 1) + 52, HH = 214 + maxLines * 12 + 8;
-  const el = svg('svg', { viewBox: `0 0 ${W} ${HH}`, class: 'jcurve', role: 'img' });
+  // drawn at its own size — the wrapper scrolls sideways rather than shrinking the labels to nothing
+  const el = svg('svg', { viewBox: `0 0 ${W} ${HH}`, width: W, height: HH, class: 'jcurve', role: 'img' });
   // the y scale, spelled in the canon's own glyphs: what a point's height means
   [[1, '▲'], [0, '▲▼'], [-1, '▼'], [-2, '▼▼']].forEach(([l, lab]) => {
     el.append(svg('line', { x1: 54, x2: W - 12, y1: Y(l), y2: Y(l), class: 'jgrid' }));
@@ -1369,9 +1477,14 @@ function journeyCurve() {
   });
   const hasWas = pts.some(p => p.was !== null);
   if (hasWas) {
-    el.append(svg('polyline', {
-      points: pts.map((p, i) => `${X(i)},${Y(p.was === null ? p.now : p.was)}`).join(' '), class: 'jline jwas',
-    }));
+    // the concept layer is drawn only where the author recorded `(was …)`: a stage without it is a
+    // gap in the dashed line, not a copy of the revised value pretending nothing changed
+    let seg = [];
+    const flush = () => { if (seg.length > 1) el.append(svg('polyline', { points: seg.join(' '), class: 'jline jwas' })); seg = []; };
+    pts.forEach((p, i) => { if (p.was === null) flush(); else seg.push(`${X(i)},${Y(p.was)}`); });
+    flush();
+    // an isolated `(was …)` still shows: a hollow dashed dot at the prior level under the revised one
+    pts.forEach((p, i) => { if (p.was !== null && p.was !== p.now) el.append(svg('circle', { cx: X(i), cy: Y(p.was), r: 3.5, class: 'jdot jwasdot' })); });
   }
   el.append(svg('polyline', { points: pts.map((p, i) => `${X(i)},${Y(p.now)}`).join(' '), class: 'jline jnow' }));
   const minNow = Math.min(...pts.map(p => p.now));
@@ -1393,12 +1506,14 @@ function journeyCurve() {
     lb.lastChild.textContent = p.stage;
     el.append(lb);
   });
-  return h('div', { class: 'jwrap' }, el,
+  return withDrop(h('div', { class: 'jwrap' }, el,
+    numbered ? h('ol', { class: 'jstages small faint' }, leads.map(l => h('li', {}, l))) : null,
     h('p', { class: 'small faint', style: 'margin:4px 0 0' },
       t('curveAxis'),
       hasWas ? [' · ', h('span', { class: 'jkey jkey-was' }), ' ' + t('curveWas') + '   ',
-        h('span', { class: 'jkey jkey-now' }), ' ' + t('curveNow')] : null));
+        h('span', { class: 'jkey jkey-now' }), ' ' + t('curveNow')] : null)), dropped, t('dropEmotion'));
 }
+const CURVE_MAX = 10;
 
 /* Pre-mortem heatmap — likelihood × impact as a 3×3 grid read straight from the section's H/M/L
    cells; each risk is a focusable dot, the panel under the grid shows the formulation on
@@ -1416,22 +1531,30 @@ function heatmap(items, hint, renderDetail) {
   for (let imp = 2; imp >= 0; imp--) {
     grid.push(h('div', { class: 'heatax' }, hlBadge(['L', 'M', 'H'][imp])));
     for (let lik = 0; lik <= 2; lik++) {
-      grid.push(h('div', { class: 'heatcell' + (lik === 2 && imp === 2 ? ' heat-hot' : '') },
-        items.filter(x => x.L === lik && x.I === imp).map(it =>
-          h('button', {
-            class: 'heatdot' + (it.cls ? ' ' + it.cls : ''), type: 'button',
-            'aria-label': `${it.id} — ${plain(it.risk)}`,
-            onmouseenter: () => { if (!pinned) show(it); },
-            onfocus: () => { if (!pinned) show(it); },
-            onclick: e => {
-              e.stopPropagation();
-              const btn = e.currentTarget;
-              if (pinned) pinned.btn.classList.remove('on');
-              pinned = (pinned && pinned.btn === btn) ? null : { btn };
-              if (pinned) btn.classList.add('on');
-              show(it);
-            },
-          }, it.id.replace(/^R-0*/, '')))));
+      const dot = it => h('button', {
+        class: 'heatdot' + (it.cls ? ' ' + it.cls : ''), type: 'button',
+        'aria-label': `${it.id} — ${plain(it.risk)}`,
+        onmouseenter: () => { if (!pinned) show(it); },
+        onfocus: () => { if (!pinned) show(it); },
+        onclick: e => {
+          e.stopPropagation();
+          const btn = e.currentTarget;
+          if (pinned) pinned.btn.classList.remove('on');
+          pinned = (pinned && pinned.btn === btn) ? null : { btn };
+          if (pinned) btn.classList.add('on');
+          show(it);
+        },
+      }, it.id.replace(/^R-0*/, '') || '—');
+      const here = items.filter(x => x.L === lik && x.I === imp);
+      // past HEAT_MAX dots a cell shows the first ones and a "+n" that unfolds the rest in place
+      const cell = h('div', { class: 'heatcell' + (lik === 2 && imp === 2 ? ' heat-hot' : '') },
+        here.slice(0, HEAT_MAX).map(dot));
+      if (here.length > HEAT_MAX) {
+        const more = h('button', { class: 'heatmore', type: 'button', 'aria-label': t('expandBtn'),
+          onclick: e => { e.stopPropagation(); more.replaceWith(...here.slice(HEAT_MAX).map(dot)); } }, '+' + (here.length - HEAT_MAX));
+        cell.append(more);
+      }
+      grid.push(cell);
     }
   }
   return h('div', { class: 'heatwrap' },
@@ -1440,18 +1563,24 @@ function heatmap(items, hint, renderDetail) {
       h('div', { class: 'heataxes small faint' }, `${t('rImp')} ↑ · ${t('rLik')} →`)),
     detail);
 }
+const HEAT_MAX = 8;
 const levelIdx = v => ({ L: 0, M: 1, H: 2 })[levelOf(v)] ?? null;
+/* The rows a heatmap could not place — a likelihood or impact outside H/M/L — named with the token
+   the author wrote, so `Hi` or `Medium-high` is a finding under the grid, not a vanished risk. */
+const unplaced = (items, lik, imp) => items.filter(x => x.L === null || x.I === null)
+  .map(x => `${x.id || '—'} (${plain(lik(x)) || '—'} × ${plain(imp(x)) || '—'})`);
 /* Pre-mortem heatmap — #product-risks, id · risk · likelihood · impact by key. */
 function riskHeatmap(s) {
   const a = bodyOf(s, 'product-risks');
   const k = a ? keyed(a.body, ['id', 'risk', 'likelihood', 'impact']) : null;
   if (!k) return null;
   if (k.missing) return keyMissing(k.missing);
-  const items = k.rows.map(r => ({ id: plain(r.id), risk: r.risk, L: levelIdx(r.likelihood), I: levelIdx(r.impact) }))
-    .filter(x => x.L !== null && x.I !== null);
-  if (!items.length) return null;
-  return heatmap(items, t('keyboardHint'), it => [
-    h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) })]);
+  const all = k.rows.map(r => ({ id: plain(r.id), risk: r.risk, L: levelIdx(r.likelihood), I: levelIdx(r.impact), lik: r.likelihood, imp: r.impact }));
+  const items = all.filter(x => x.L !== null && x.I !== null);
+  const dropped = unplaced(all, x => x.lik, x => x.imp);
+  if (!items.length) return dropped.length ? dropNote(dropped, t('dropLevel')) : null;
+  return withDrop(heatmap(items, t('keyboardHint'), it => [
+    h('code', { class: 'rid risk' }, it.id), h('span', { class: 'md', html: ' ' + inline(it.risk) })]), dropped, t('dropLevel'));
 }
 
 /* Bets board — the wagers as ordered chips: play order, the H- id, the bet, the moat it leans on,
@@ -1598,19 +1727,14 @@ function canvasStrategy(s) {
    reads the first of a range; a percentage or a token count is not money. `~`, thousands spaces and
    `,`/`.` decimals tolerated; a gap cell yields null. */
 function money(cellRaw) {
-  const s = plain(cellRaw);
-  if (/—\s*(to clarify|уточнить)\s*—/i.test(s)) return null;
-  const m = s.match(/([$€£])\s*~?\s*(\d[\d\s]*(?:[.,]\d+)?)|(\d[\d\s]*(?:[.,]\d+)?)\s*(₽|руб)/i);
-  if (!m) return null;
-  const n = parseFloat((m[2] || m[3]).replace(/\s/g, '').replace(',', '.'));
-  return isNaN(n) ? null : { n, sym: m[1] || m[4] || '' };
+  const f = priceFigs(cellRaw)[0];
+  return f ? { n: f.lo, hi: f.hi, sym: f.sym } : null;
 }
-/* First percentage in a cell → a number in 0…100, or null. `45% (n=120)` → 45; `—` → null. */
+/* First percentage in a cell → a number, or null. `45% (n=120)` → 45; `—` → null. Read through
+   figures(), the one number grammar. */
 function pctNum(cellRaw) {
-  const m = plain(cellRaw).match(/(\d+(?:[.,]\d+)?)\s*%/);
-  if (!m) return null;
-  const n = parseFloat(m[1].replace(',', '.'));
-  return isNaN(n) ? null : n;
+  const f = figures(cellRaw).find(x => x.pct);
+  return f ? f.lo : null;
 }
 /* The metric-tree Driver column is an enum the template declares (4#metric-tree →
    `enum:c:driver: acquisition | activation | engagement | retention | referral | revenue | quality |
@@ -1716,12 +1840,19 @@ function econWaterfall(s) {
   const rev = val('revenue'), cogs = val('cogs'), contrib = val('contribution');
   if (!rev || !contrib) return null;
   const sym = rev.sym || contrib.sym || (cogs && cogs.sym) || '';   // the author's mark, or none
+  // three rows in two currencies is not a waterfall: the bars still draw, the mismatch is named
+  const syms = [...new Set([rev, cogs, contrib].filter(Boolean).map(x => x.sym).filter(Boolean))];
   const max = Math.max(rev.n, contrib.n + (cogs ? cogs.n : 0)) || 1;
-  const bar = (lab, val, cls, from) => h('div', { class: 'ue-bar-row' },
-    h('div', { class: 'ue-bar-lab small' }, lab),
-    h('div', { class: 'ue-bar-track' },
-      h('div', { class: 'ue-bar ue-' + cls, style: `width:${Math.max(2, Math.round((val / max) * 100))}%` },
-        h('span', { class: 'ue-bar-val' }, (from ? '−' : '') + sym + num(val)))));
+  const bar = (lab, val, cls, from) => {
+    const pct = Math.max(2, Math.round((val / max) * 100));
+    const label = h('span', { class: 'ue-bar-val' + (pct < 24 ? ' ue-out' : '') }, (from ? '−' : '') + sym + num(val));
+    // a bar too short to hold its figure carries it outside, never clipped inside the track
+    return h('div', { class: 'ue-bar-row' },
+      h('div', { class: 'ue-bar-lab small' }, lab),
+      h('div', { class: 'ue-bar-track' },
+        h('div', { class: 'ue-bar ue-' + cls, style: `width:${pct}%` }, pct < 24 ? null : label),
+        pct < 24 ? label : null));
+  };
   const bars = [
     bar(t('ueRev'), rev.n, 'rev'),
     cogs ? bar(t('ueCogs'), cogs.n, 'cogs', true) : null,
@@ -1738,6 +1869,7 @@ function econWaterfall(s) {
   return h('div', { class: 'uewrap' },
     h('div', { class: 'ue-bars' }, bars),
     h('div', { class: 'ue-from small faint' }, t('ueFrom')),
+    syms.length > 1 ? h('p', { class: 'small faint dropnote' }, t('ueMixed') + ' ' + syms.join(' · ')) : null,
     tiles.length ? h('div', { class: 'ue-tiles' }, tiles) : null);
 }
 
@@ -1749,11 +1881,21 @@ function retentionCurve(s) {
   const k = a ? keyed(a.body, ['cohort', 'p1', 'p3', 'p6', 'p12'], ['flattens']) : null;
   if (!k) return null;
   if (k.missing) return keyMissing(k.missing);
-  const lines = k.rows.map(r => ({
+  const PERIODS = [['p1', 1], ['p3', 3], ['p6', 6], ['p12', 12]];
+  let clamped = 0;
+  const allLines = k.rows.map(r => ({
     label: plain(r.cohort), flat: plain(r.flattens),
-    pts: [['p1', 1], ['p3', 3], ['p6', 6], ['p12', 12]].map(([key, x]) => [x, pctNum(r[key])]).filter(([, y]) => y !== null),
-  })).filter(l => l.pts.length >= 2);
-  if (!lines.length) return null;
+    // a share outside 0…100 is drawn at the edge and counted — never off the plot
+    pts: PERIODS.map(([key, x]) => [x, pctNum(r[key])]).filter(([, y]) => y !== null)
+      .map(([x, y]) => { if (y < 0 || y > 100) clamped++; return [x, Math.max(0, Math.min(100, y))]; }),
+  }));
+  const lines = allLines.filter(l => l.pts.length >= 2);
+  const dropped = allLines.filter(l => l.pts.length < 2).map(l => l.label);
+  if (!lines.length) return dropped.length ? dropNote(dropped, t('dropPct')) : null;
+  // past RET_MAX cohorts the colours repeat and the lines blur: the keyed table stands in for the curve
+  if (lines.length > RET_MAX) return withDrop(h('div', { class: 'jwrap' }, md(k.tb.raw.join('\n'))), dropped, t('dropPct'));
+  // the period labels are the header's own words (P1 · M1 · W1 …), never a stamped month
+  const plab = key => { const i = colKey(k.tb, key); return i >= 0 ? (k.tb.head[i].split(/\s|—|\(/)[0] || key.toUpperCase()) : key.toUpperCase(); };
   const W = 460, H = 180, P = { t: 14, r: 14, b: 26, l: 34 };
   const X = x => P.l + (x - 1) / 11 * (W - P.l - P.r);
   const Y = y => P.t + (1 - y / 100) * (H - P.t - P.b);
@@ -1763,18 +1905,21 @@ function retentionCurve(s) {
     const tx = svg('text', { x: P.l - 6, y: Y(g) + 3.5, class: 'jstage', 'text-anchor': 'end' });
     tx.textContent = g + '%'; el.append(tx);
   });
-  [1, 3, 6, 12].forEach(x => {
+  PERIODS.forEach(([key, x]) => {
     const tx = svg('text', { x: X(x), y: H - 8, class: 'jstage', 'text-anchor': 'middle' });
-    tx.textContent = 'P' + x; el.append(tx);
+    tx.textContent = plab(key); el.append(tx);
   });
-  lines.forEach((l, k) => {
-    el.append(svg('polyline', { points: l.pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' '), class: 'retline ret-' + (k % 4) }));
-    l.pts.forEach(([x, y]) => el.append(svg('circle', { cx: X(x), cy: Y(y), r: 3, class: 'retdot ret-' + (k % 4) })));
+  lines.forEach((l, i) => {
+    el.append(svg('polyline', { points: l.pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' '), class: 'retline ret-' + (i % RET_MAX) }));
+    l.pts.forEach(([x, y]) => el.append(svg('circle', { cx: X(x), cy: Y(y), r: 3, class: 'retdot ret-' + (i % RET_MAX) })));
   });
-  return h('div', { class: 'jwrap' }, el,
-    h('div', { class: 'retlegend small faint' }, lines.map(l =>
-      h('span', { class: 'retkey' }, l.label + (l.flat && !/^—/.test(l.flat) ? ' · ' + t('retFlattens') + ' ' + l.flat : '')))));
+  return withDrop(h('div', { class: 'jwrap' }, el,
+    h('div', { class: 'retlegend small faint' }, lines.map((l, i) =>
+      h('span', { class: 'retkey' }, h('span', { class: 'retsw ret-' + (i % RET_MAX), 'aria-hidden': 'true' }),
+        l.label + (l.flat && !/^—/.test(l.flat) ? ' · ' + t('retFlattens') + ' ' + l.flat : '')))),
+    clamped ? h('p', { class: 'small faint dropnote' }, `${clamped} ${t('retClamped')}`) : null), dropped, t('dropPct'));
 }
+const RET_MAX = 6;
 
 /* Capability shields — #capabilities as state plates, the moat-shield form reused: the band is the
    level (have / partial / missing, each its colour), the capability name bold, what it serves and its
@@ -1814,17 +1959,38 @@ function thresholdGauges(s, sectionId, textKey, extra) {
         /^H-\d/.test(plain(r.register)) ? h('code', { class: 'rid hyp' }, plain(r.register)) : null,
         plain(r.node) && !/^—/.test(plain(r.node)) ? h('span', { class: 'md small', html: inline(r.node) }) : null),
       h('div', { class: 'thbet', html: inline(r[textKey]) }),
-      h('div', { class: 'thbar' },
-        h('div', { class: 'thzone th-fail' }),
-        h('div', { class: 'thzone th-gap' }),
-        h('div', { class: 'thzone th-pass' })),
-      h('div', { class: 'thlabs small' },
+      gaugeBar(r.success, r.failure),
+      h('div', { class: 'thlabs small' + ((gaugeZones(r.success, r.failure) || {}).passLow ? ' th-rev' : '') },
         h('span', { class: 'th-fail-t', html: t('thFailure') + ' ' + inline(r.failure) }),
         h('span', { class: 'th-pass-t', html: t('thSuccess') + ' ' + inline(r.success) })),
       (extra || []).filter(key => plain(r[key])).map(key => h('div', { class: 'small faint md',
         html: `<span class="k">${esc(t({ sample: 'thSample', decision: 'thRule' }[key] || key))}:</span> ` + inline(r[key]) })))),
-    h('p', { class: 'small faint', style: 'grid-column:1/-1;margin:0' }, t('thLegend')),
+    h('p', { class: 'small faint', style: 'grid-column:1/-1;margin:0' },
+      rows.every(r => gaugeZones(r.success, r.failure)) ? t('thLegend') : t('thLegend') + ' ' + t('thSchematic')),
   ]);
+}
+/* The gauge's zones from the two bars: when success and failure both parse to a figure of one unit
+   (both %, or one currency), the fail / gap / pass widths are proportional on a 0…1.25×max scale and
+   the pass side follows the direction (a lower-is-better pair puts pass on the left). Otherwise null —
+   the bar stays the schematic 30/25/45 and the legend says so. */
+function gaugeZones(successRaw, failureRaw) {
+  const sf = figures(successRaw), ff = figures(failureRaw);
+  if (!sf.length || !ff.length) return null;
+  const s = sf[0], f = ff[0];
+  if (s.pct !== f.pct || (s.sym && f.sym && s.sym !== f.sym)) return null;
+  const sv = s.lo, fv = f.lo;
+  if (sv === fv) return null;
+  const top = Math.max(sv, fv) * 1.25 || 1;
+  const lo = Math.min(sv, fv) / top * 100, hi = Math.max(sv, fv) / top * 100;
+  return { lo, hi, passLow: sv < fv };
+}
+function gaugeBar(successRaw, failureRaw) {
+  const z = gaugeZones(successRaw, failureRaw);
+  if (!z) return h('div', { class: 'thbar' },
+    h('div', { class: 'thzone th-fail' }), h('div', { class: 'thzone th-gap' }), h('div', { class: 'thzone th-pass' }));
+  const seg = (cls, w) => h('div', { class: 'thzone ' + cls, style: `flex:0 0 ${w.toFixed(1)}%` });
+  return h('div', { class: 'thbar th-scaled' + (z.passLow ? ' th-rev' : '') },
+    seg(z.passLow ? 'th-pass' : 'th-fail', z.lo), seg('th-gap', z.hi - z.lo), seg(z.passLow ? 'th-fail' : 'th-pass', 100 - z.hi));
 }
 
 /* Risk mitigation heatmap — the step-3 pre-mortem grid, now with answers: the same likelihood × impact
@@ -1838,13 +2004,15 @@ function mitigationHeatmap(s) {
   // the status is the register's `risk status` enum (DEBT: undeclared on this column) — exact token;
   // open and mitigating get their colours, every other lifecycle token the neutral one
   const STAT = { open: 'mit-open', mitigating: 'mit-mit' };
-  const items = k.rows.map(r => ({
-    id: plain(r.register), risk: r.risk, L: levelIdx(r.likelihood), I: levelIdx(r.impact),
+  const all = k.rows.map(r => ({
+    id: plain(r.register), risk: r.risk, L: levelIdx(r.likelihood), I: levelIdx(r.impact), lik: r.likelihood, imp: r.impact,
     cls: STAT[debtToken(enumMap('risk status'), r.status)] || 'mit-na',
     mit: r.mitigation, owner: plain(r.owner), trig: plain(r.trigger), due: plain(r.due),
-  })).filter(x => x.L !== null && x.I !== null);
-  if (!items.length) return null;
-  return heatmap(items, t('mitHint'), it => {
+  }));
+  const items = all.filter(x => x.L !== null && x.I !== null);
+  const dropped = unplaced(all, x => x.lik, x => x.imp);
+  if (!items.length) return dropped.length ? dropNote(dropped, t('dropLevel')) : null;
+  return withDrop(heatmap(items, t('mitHint'), it => {
     const foot = [it.owner && t('mitOwner') + ': ' + it.owner, it.trig && t('mitTrigger') + ': ' + it.trig,
       it.due && t('mitDue') + ': ' + it.due].filter(Boolean);
     return [
@@ -1852,7 +2020,7 @@ function mitigationHeatmap(s) {
       plain(it.mit) ? h('div', { class: 'small', style: 'margin-top:5px', html: inline(it.mit) }) : null,
       foot.length ? h('div', { class: 'small faint', style: 'margin-top:5px' }, foot.join(' · ')) : null,
     ].filter(Boolean);
-  });
+  }), dropped, t('dropLevel'));
 }
 /* A register enum (model.framework.enums) as a token→token map for debtToken: the value list the
    linter validates against, read from the model so the console can never carry a second copy. */
