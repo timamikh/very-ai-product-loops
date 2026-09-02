@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.4
+version: 0.2.5
 updated: 2026-09-02
 ---
 # Pricing & Packaging (strategy)
@@ -71,7 +71,7 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
    direct WTP, price talks (`source:interview`), pilot records (`source:kb`), published benchmarks
    (`source:research`). Tag each price point `[sourced: …]` or `[assumption]`; at Step 3 most are
    `[assumption]`, and that is fine — Step 4 checks them against the margin, it does not
-   re-evidence them; the `H-…` of step 6 is what firms a price point up.
+   re-evidence them; the test of its `H-…` at Step 5 is what firms a price point up.
 5. **Set price points and the model.** Subscription / usage / hybrid / one-off; the actual numbers
    per tier. Note free/trial mechanics and how they convert to the first paid action.
 6. **Hand off and seed hypotheses.** Pass the decision to Step 4's `pricing-strategic-plan` (which

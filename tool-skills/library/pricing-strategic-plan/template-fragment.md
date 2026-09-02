@@ -29,9 +29,6 @@ cannot be placed on the scale next to ours is `— to clarify —`, not a prose 
 |---------|--------------------------------------------|-------------|-----------|------------------------------------|------------|
 | … | … | … | … | … | [assumption] |
 
-**Willingness-to-pay evidence:** carried verbatim from Step 3 (`pricing-strategy`'s data gate) —
-never gathered here; a gap stays `— to clarify —`. …
-
 **Margin revisit (Step 4)** — the decision above read against `{#unit-economics}`, per tier:
 
 | Tier | Price | Contribution margin (per payer) | Inference COGS (per payer) | Fence caps usage-cost? | Read |

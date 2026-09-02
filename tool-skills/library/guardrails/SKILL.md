@@ -13,7 +13,7 @@ volume_rule: "all 7 break-categories checked against every period goal before an
 selection_rule: "a category becomes a guardrail only with an M- node and a stated floor/ceiling; the rest are logged as considered"
 rejects_shown: required
 status: draft
-version: 0.1.6
+version: 0.1.7
 updated: 2026-09-02
 ---
 # Guardrails
@@ -34,7 +34,7 @@ reconciliation: each cycle names the gate it moves *and* the things it protects.
 - Revisit if a goal starts eroding a protected metric.
 
 ## Prerequisites
-- **Metric tree** (`M-…`) — guardrails are protected metric nodes; a candidate `metric-tree` flagged is
+- **Metric tree** (`M-…`) — guardrails are protected metric nodes; a candidate flagged by `metric-tree` is
   a starting point, not a guardrail yet. *Missing → Step 4.*
 - **Period goals** — you guardrail *against* the current goals. *Missing → set them first.*
 

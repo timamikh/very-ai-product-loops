@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
+version: 0.2.3
 updated: 2026-09-02
 ---
 # Pricing — Strategic-Plan Revisit
