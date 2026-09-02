@@ -6,8 +6,14 @@ questions:
     type: per_item
     why: "A category nobody checked and one checked-and-cleared are indistinguishable afterwards."
   - id: protected
-    ask: "Which metrics must NOT drop, and what's the floor/ceiling?"
+    ask: "Which M-… nodes must NOT cross a threshold, and what's the floor/ceiling for each? (⚙️ agent proposes from the break-categories that failed; a candidate metric-tree flagged is a starting point)"
     type: list
+    why: "A category becomes a guardrail only with a metric node AND a stated number; a protected metric with no floor cannot be breached."
   - id: red_lines
     ask: "Any qualitative red lines — things we never do to hit the goal?"
     type: free_text
+    why: "Some limits have no metric (dark patterns, off-brand content); unstated, they are crossed by the first tactic that works."
+  - id: monitoring
+    ask: "For each guardrail — where is it watched (dashboard / query) and how often?"
+    type: per_item
+    why: "A guardrail nobody reads is breached before anyone notices."

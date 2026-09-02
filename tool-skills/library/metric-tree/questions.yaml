@@ -15,7 +15,3 @@ questions:
     ask: "What is the strategy's engagement axis — what does 'using the product deeper' mean here?"
     type: free_text
     why: "Defines the deepening driver."
-  - id: guardrail-lines
-    ask: "Which lines must not be crossed while growing the North Star (margin floor, quality, cost)?"
-    type: list
-    why: "Defines the guardrails."

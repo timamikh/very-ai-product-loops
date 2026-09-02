@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Pricing — Strategic-Plan Revisit
@@ -31,12 +31,15 @@ was strategically right and economically underwater is a finding — routed back
 home, not patched locally.
 
 > **Relation to neighbours (one mechanism, one way).**
-> - `pricing-strategy` (Step 3) is **the only place the price and packaging are decided**. This method
->   *checks* the decision against margin; if it fails, the change is proposed *there* (⚙️ on
->   `3-strategy.md#pricing`), re-confirmed by the human — never enacted here.
+> - `pricing-strategy` (Step 3) is **the only place the price and packaging are decided**, and
+>   where **willingness-to-pay is fixed** behind its data gate. This method *checks* the price
+>   points against margin and gathers no WTP — a WTP gap stays `— to clarify —` on the Step-3
+>   section; if the check fails, the change is proposed *there* (⚙️ on `3-strategy.md#pricing`),
+>   re-confirmed by the human — never enacted here.
 > - `unit-economics` supplies the contribution margin and COGS lines this revisit reads; this
 >   method does not recompute them.
-> - `financial-model` projects the (held or changed) price forward; a proposed change flags the
+> - `financial-model` projects the (held or changed) price forward; this method reads which tier the
+>   base scenario leans on (`4-strategic-plan/financial-model` worklog); a proposed change flags the
 >   model's revenue lines too.
 
 ## When to apply
@@ -53,9 +56,9 @@ home, not patched locally.
   the Step-3 argument repeated.*
 
 ## How to do it
-1. **Restate the decision under test.** The value metric, tiers, fences, and price points as
-   decided at Step 3 — verbatim, with their `[sourced: …]`/`[assumption]` tags. This is the object
-   being checked, not re-derived.
+1. **Restate the decision under test.** The value metric, tiers, fences, price points and WTP
+   evidence as decided at Step 3 — verbatim, with their `[sourced: …]`/`[assumption]` tags. This is
+   the object being checked, not re-derived and not re-evidenced.
 2. **Read contribution margin per tier.** From `unit-economics`: revenue per payer minus COGS per
    payer, per tier. Name the tier(s) where the margin is thin or negative.
 3. **Trace inference COGS per tier.** What each tier's usage pattern costs in LLM inference (and

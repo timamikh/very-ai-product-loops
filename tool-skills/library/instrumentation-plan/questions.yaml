@@ -4,6 +4,7 @@ questions:
   - id: components
     ask: "Which components are we mapping? (⚙️ agent unions 3-strategy.md#architecture boxes with #product-surface touchpoints — confirm or add)"
     type: list
+    why: "A component left off the map is a metric nobody can source and a cost nobody books."
   - id: instrumentation_state
     ask: "For each component — instrumented, proxy, or not-instrumented? (proxy: name what it actually measures and where it lies)"
     type: per_item

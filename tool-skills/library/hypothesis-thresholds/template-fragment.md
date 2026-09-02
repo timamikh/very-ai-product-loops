@@ -23,3 +23,7 @@ references them and never re-decides them. A bet whose metric node doesn't exist
 
 **Seeded registers:** each `H-…` → hypothesis register (metric node link, success bar, failure bar,
 rationale), ready for Step 5 to attach the smallest sufficient test.
+
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <the bar values weighed and not taken, and why these —
+never a bare "none">

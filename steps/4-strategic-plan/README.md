@@ -6,14 +6,14 @@ step: 4
 title: "Step 4 — Strategic Plan"
 output: 4-strategic-plan.md
 prerequisites: [the strategy artifact `3-strategy.md` exists]
-reads: [file:3-strategy.md, source:metrics, source:research, source:kb]
+reads: [file:2-analysis.md, file:3-strategy.md, source:metrics, source:kb, source:git]
 writes: [section:*]
 surfaces: [ticks, register:hypotheses, register:risks, register:metric-tree, sign-off, change-log]
 cadence: "~3–12 mo; with strategy / on a financial or metric shift"
 method_basis: "Instrumentation mapping · North Star Framework (metric tree) · cohort retention curve · unit economics incl. LLM inference COGS · simple projection · horizon targets off the projection · pricing margin revisit · capabilities & management systems (PTW choices 4–5) · risk mitigation (owner · trigger · due) · hypothesis thresholds"
 status: draft
-version: 0.5.1
-updated: 2026-08-19
+version: 0.5.2
+updated: 2026-09-02
 ---
 # Step 4 — Strategic Plan
 
@@ -23,7 +23,8 @@ This is where the strategy's choices get numbers, a metric tree, and mitigations
 > **Boundary 3 ↔ 4:** choices live in Step 3; this step is instruments and resources.
 
 ## Inputs (source slots)
-The strategy (`3-strategy.md`), `metrics`, `research`, `kb`.
+The strategy (`3-strategy.md`), the analysis (`2-analysis.md` — `market-sizing` caps the projection),
+`metrics`, `kb`, `git` — the union of the step's methods' `reads`.
 
 ## Output
 `4-strategic-plan.md` — assembled from the section skeleton below. Template: [`template.md`](template.md).
@@ -50,8 +51,9 @@ against a working model.
 exists, re-reads the Step-3 pricing decision against contribution margin, inference COGS per tier,
 and free-tier burn; the verdict is "holds" (logged) or a ⚙️ proposed change to `3-strategy.md#pricing`
 (triggering that section's re-confirmation). It is reached as the **second tool** of the `{#pricing}`
-marker, works in its own worklog (`3-strategy/pricing-strategic-plan.md`), and re-reads the step-4
-economics workings as **declared worklog inputs** (its card's `reads`).
+marker, works in its own worklog (`4-strategic-plan/pricing-strategic-plan.md`), and re-reads the
+step-4 economics workings as **declared worklog inputs** (its card's `reads`). WTP is not gathered
+here — it is fixed at Step 3 by `pricing-strategy`.
 
 ## Register touchpoints
 - **Metric tree** — **built here** (`M-…`); the canonical decomposition all lower steps reference.

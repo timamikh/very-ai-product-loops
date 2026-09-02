@@ -213,7 +213,7 @@ don't turn a tool into a literature review.
 | `experiment-readout` | Read a finished test against its pre-registered rule | Pre-registered readout; signal/decision written back to the hypotheses register | 5 | draft |
 | `impact-readout` | Read shipped items against their pre-registered expectations | Expected impact vs fact + estimate vs actual; flips the feature register, `pending` until check-by | 5 | draft |
 | `prioritization-sprint-plan` | Rank must vs backlog, show excluded | RICE / ICE as ranking aid, ranked by contribution to the period gate; capacity-bounded must/backlog line | 6 | draft |
-| `feature-spec` | Development item as a Feature | Description/Scope/Acceptance criteria/Business value/User value/User stories | 6 | draft |
+| `feature-spec` | Development item as a Feature | Description/Scope/Acceptance criteria/Business value/User value/User stories/Expected impact/Owner/Estimate/Groom | 6 | draft |
 | `activity-spec` | Go-to-market item as an Activity | Feature-altitude activity tied to a metric/hypothesis | 6 | draft |
 | `task-spec` | Back-office item as a Task | Description · why-link · binary DoD · owner · estimate | 6 | draft |
 | `feature-grooming` | Groom a featured item to spec-readiness | Scope 1:1 · product forks closed by the owner · technical forks recorded · doc type; hands to `outputs/feature-to-spec` | 6 | draft |

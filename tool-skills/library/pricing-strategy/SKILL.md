@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.2
+version: 0.2.4
 updated: 2026-09-02
 ---
 # Pricing & Packaging (strategy)
@@ -33,11 +33,12 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
 > **Relation to neighbours (one mechanism, one way).**
 > - `competitor-pricing` captures **what others charge** (the Step-2 dated scan) —
 >   that is an *input* to this tool, not the decision.
-> - **`pricing-strategic-plan` (Step 4)** firms the price points up with WTP evidence and runs
->   them through the margin: `unit-economics` checks whether the chosen price **survives**
->   (CAC/LTV/contribution, incl. LLM inference COGS), `financial-model` projects it forward. Those
->   *validate* the decision; they do not set it. If the margin check fails, the iteration comes
->   back **here** — the choice of value metric and packaging is this skill's and no one else's.
+> - **`pricing-strategic-plan` (Step 4)** only re-checks the price points against unit economics
+>   (the margin: contribution incl. LLM inference COGS, free-tier burn) and re-projects `{#pricing}`;
+>   WTP is fixed **here**, at Step 3, behind the data gate — Step 4 gathers none. `financial-model`
+>   projects the price forward. Those *validate* the decision; they do not set it. If the margin
+>   check fails, the iteration comes back **here** — the choice of value metric and packaging is
+>   this skill's and no one else's.
 > - `uvp-cpv` states the value; `pricing-strategy` puts a number and a package on that value.
 
 ## When to apply
@@ -69,7 +70,8 @@ WTP questions, or observed pilot/price-talk behaviour — never guessed.
    `— to clarify —` naming the survey that would settle it, **never constructed bands**. Otherwise
    direct WTP, price talks (`source:interview`), pilot records (`source:kb`), published benchmarks
    (`source:research`). Tag each price point `[sourced: …]` or `[assumption]`; at Step 3 most are
-   `[assumption]`, and that is fine — `pricing-strategic-plan` firms them up at Step 4.
+   `[assumption]`, and that is fine — Step 4 checks them against the margin, it does not
+   re-evidence them; the `H-…` of step 6 is what firms a price point up.
 5. **Set price points and the model.** Subscription / usage / hybrid / one-off; the actual numbers
    per tier. Note free/trial mechanics and how they convert to the first paid action.
 6. **Hand off and seed hypotheses.** Pass the decision to Step 4's `pricing-strategic-plan` (which

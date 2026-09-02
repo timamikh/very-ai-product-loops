@@ -3,8 +3,8 @@ node_type: card
 kind: method
 name: resource-check
 steps: [5]
-prerequisites: []
-reads: [source:interview]
+prerequisites: [the period's dates, the candidate goals in draft, the capacity owners — a roster or the human — available to answer]
+reads: [section:period-goals, source:interview, source:kb]
 writes: [worklog, section:resources]
 opinionated: false
 method_basis: "Lightweight capacity survey (people · budget · time); full resource planning is a future integration"
@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.4
+version: 0.2.5
 updated: 2026-09-02
 ---
 # Resource Check
@@ -27,19 +27,24 @@ planning is a future integration; don't fake precision we don't have.
 ## When to apply
 - Step 5, before drawing the must/backlog line — capacity bounds the plan.
 
+## Prerequisites
+- **The period's dates.** *Missing → confirm the cadence with the owner.*
+- **Candidate goals in draft** — `{#period-goals}` as a candidate set per direction, so capacity
+  is surveyed against something. *Missing → survey per the instance's directions, figures ⚙️.*
+- **The capacity owners** — a roster filed in `sources/` (`source:kb`), the leads' answers
+  (`source:interview`), or the owner on the questionnaire. *Missing → the survey cannot run.*
+
 ## How to do it
 1. **People** — who's available per direction (dev / go-to-market / back-office) and at what capacity.
-   A survey of the leads whose answers return as filed notes is `source:interview`; the owner's own
-   answers are the questionnaire.
+   A filed roster is `source:kb`; a survey of the leads whose answers return as filed notes is
+   `source:interview`; the owner's own answers are the questionnaire.
 2. **Budget** — spend available this period (and what it's earmarked for).
 3. **Time** — the period length and any fixed dates/constraints.
 4. **Flag the binding constraint** — the resource most likely to cap the plan.
-5. **Record it as a commitment, not an observation.** Capacity is not measured here, it is *stated*
-   by the people who own it — so the number is only worth the name attached to it. Write who
-   confirmed each figure and when, and name the alternative that was declined ("two engineers, not
-   three; the third stays on support"). An unattributed capacity number is the one everyone
-   remembers differently at the end of the period, which is why this method is a `decision` and not a
-   reading.
+5. **Record it as a commitment, not an observation.** Capacity is *stated* by the people who own
+   it, so a number is worth the name attached to it: write who confirmed each figure and when, and
+   the alternative declined ("two engineers, not three; the third stays on support"). That is why
+   this method is a `decision`, not a reading.
 6. Feed into `prioritization-tactical-plan` so the period goals fit the capacity.
 
 ## Anti-patterns

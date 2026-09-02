@@ -1,31 +1,26 @@
-# prioritization-tactical-plan — interview
+# prioritization-tactical-plan — interview (goals, Step 5)
+# Per-candidate RICE inputs (reach · impact · confidence · effort) are asked only for items, at Step 6
+# (prioritization-sprint-plan/questions.yaml); for goals the agent proposes the score from the artifact
+# — references/rice-procedure.md step 3. Procedure shared with the sprint card, asked once.
 tool: prioritization-tactical-plan
 questions:
   - id: gate
-    ask: "What's the goal/gate of this period — the metric node to move (M-…) or the Definition of Done every candidate is ranked against?"
+    ask: "What's the gate of this period — the metric node to move (M-…) or the Definition of Done every candidate goal is ranked against?"
     type: free_text
-    why: "Candidates are ranked by contribution to the gate, not by an abstract score."
+    why: "Goals are ranked by contribution to the gate, not by an abstract score."
   - id: candidates
-    ask: "List every candidate goal current for this period, grouped by direction — none pre-cut; record the count N that entered the ranking."
+    ask: "List every candidate goal current for this period, grouped by direction — none pre-cut; the count N that entered the ranking is recorded."
     type: list
     why: "A pre-cut list hides the ranking's real input; N makes the cut visible."
   - id: capacity
-    ask: "What's the available capacity this period (people, budget, time) that bounds the goal set? (from resource-check)"
+    ask: "What's the available capacity this period (people, budget, time) that bounds the goal set? (⚙️ agent reads 5#resources; confirm or correct)"
     type: free_text
     why: "The period's goal set is bounded by capacity, not by wishful scope."
-  - id: reach
-    ask: "For each candidate — reach: how many users / how much of the base does it touch?"
+  - id: contribution
+    ask: "For each candidate goal — how much does it move the period gate, and which M-… node or H-… hypothesis carries that? (⚙️ agent proposes from goal-targets and the metric register; correct where the artifact is wrong)"
     type: per_item
-  - id: impact
-    ask: "For each candidate — impact / contribution: how much does it move the period gate?"
+    why: "Gate contribution is the ordering key; a goal that moves no metric and tests no hypothesis is a cut candidate."
+  - id: feature_priority
+    ask: "For each goal that made the period — which planned F-… rows serve it (→ priority now)? Any structurally heavy row that waits (→ next)?"
     type: per_item
-  - id: confidence
-    ask: "For each candidate — confidence: how sure are we of the reach and impact?"
-    type: per_item
-  - id: effort
-    ask: "For each candidate — effort: how much capacity does it consume? (skip for ICE)"
-    type: per_item
-  - id: moves
-    ask: "For each candidate — what does it move or test? (the M-… node or H-… hypothesis)"
-    type: per_item
-    why: "A goal that moves no metric and tests no hypothesis is a candidate to cut."
+    why: "Step 6 ranks from this weighted pool; a cold register makes the sprint re-derive the period's choices."

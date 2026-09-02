@@ -1,29 +1,31 @@
-# task-spec — interview (back-office direction)
+# task-spec — interview (back-office direction); one answer per item
 tool: task-spec
 questions:
   - id: feature_row
-    ask: "Which F-… register row does this item advance? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves.)"
-    type: free_text
-    why: "The item is sprint-local; the F-… is its cross-sprint identity — without it the backlog dies with the sprint."
+    ask: "Which F-… register row does this task advance — the lasting capability? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves. A genuine one-off keeps '— to clarify —'.)"
+    type: per_item
+    why: "The task is sprint-local; the F-… is its cross-sprint identity — a run of one-offs with none is a capability row hiding."
   - id: expected_impact
-    ask: "Pre-registered expected impact: which M-… (baseline → expected, from metrics.csv) / R-… / H-…, and the check-by when it becomes readable?"
-    type: free_text
+    ask: "Pre-registered expected impact: which M-… (baseline → expected, from metrics.csv) / R-… → target status / H-…, and the check-by when it becomes readable?"
+    type: per_item
     why: "Read at the next Step-5 gate by impact-readout; an expectation set after the numbers land is a negotiation, not a read."
   - id: estimate_class
     ask: "Estimate: size class S/M/L + a range?"
-    type: free_text
+    type: per_item
     why: "[assumption] until the readout records the actual; misses calibrate the sizing."
   - id: description
     ask: "What needs doing? (one clear description, at task altitude — not sub-tasks)"
-    type: free_text
+    type: per_item
+    why: "One task per block; a description in implementation steps drags the item below task altitude."
   - id: why
     ask: "Why does the business need it — which M-… does it move, R-… does it mitigate, or H-… does it serve?"
-    type: free_text
+    type: per_item
     why: "A task with no link moves nothing, mitigates nothing, tests nothing — a candidate to cut."
   - id: dod
-    ask: "The binary Definition of Done — answerable yes/no at sprint end?"
-    type: free_text
+    ask: "The binary Definition of Done — answerable yes/no at sprint end? (which piece of the goal's DoD in 5#goal-targets it closes)"
+    type: per_item
     why: "A DoD you can't answer yes/no to never closes and never fails."
   - id: owner
     ask: "Who owns it landing? (a named person, not 'the team')"
-    type: free_text
+    type: per_item
+    why: "'The team' delivers nothing on time; the owner answers for the check-by."

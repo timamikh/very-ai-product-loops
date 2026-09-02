@@ -7,13 +7,13 @@ prerequisites: [period goals, the metric tree, baselines in metrics.csv]
 reads: [section:period-goals, section:metric-tree, section:strategic-targets, register:metrics]
 writes: [worklog, section:goal-targets]
 opinionated: false
-method_basis: "Per-goal target setting: go-to-market goals steer an existing metric node (baseline from metrics.csv → target with reasoned size); technical & back-office goals get a binary DoD; every target traces to the period gate"
-evidence_standard: derived
+method_basis: "Per-goal target setting: go-to-market goals steer an existing metric node (baseline from metrics.csv → a proposed target with reasoned size, laddered to strategic-targets; the human sets the bar); technical & back-office goals get a binary DoD; every target traces to the period gate"
+evidence_standard: decision
 volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Goal Targets
@@ -29,6 +29,11 @@ same read the register already makes. The baseline comes from `registers/metrics
 `metrics-capture`), **never invented**: a target set against a guessed baseline is a guess squared.
 Goals that no metric can honestly measure this period (a build, a compliance task) get a **binary
 DoD** instead — done or not, no percentages of done.
+
+**The target is the human's bar.** The method *derives a proposal*: from the `{#strategic-targets}`
+commitment the period must step toward, the tree and the baseline it reads. The human *decides* the
+size — and the size not chosen (the derived one, a bolder or a safer one) goes into the decision line,
+so a miss at period end can be read against the bar someone owned, not against arithmetic.
 
 ## When to apply
 - Step 5, right after `{#period-goals}` — every goal that made the period gets its target here.
@@ -52,15 +57,20 @@ DoD** instead — done or not, no percentages of done.
 3. **Read the baseline from the register.** The current value comes from `registers/metrics.csv`
    (captured via `metrics-capture`), cited as `[sourced: …]`. A baseline that isn't in the csv is
    not a baseline — capture it first.
-4. **Set the target, and reason about its size.** Baseline → target, with *why this size*: what the
-   period gate needs, what the historical trend supports, what capacity allows. A target with no
-   reasoning is a wish; record the reasoning so a miss can be diagnosed (wrong size vs wrong work).
+4. **Propose the target, and reason about its size.** Baseline → ⚙️ target, with *why this size*:
+   what the period gate needs, what the trend supports, what capacity allows, and what share of the
+   `{#strategic-targets}` gap this period must close. A target with no reasoning is a wish; record
+   the reasoning so a miss can be diagnosed (wrong size vs wrong work).
 5. **Give technical & back-office goals a binary DoD.** Done / not done, checkable at period end —
    no "80% migrated" unless the percentage itself is the defined outcome.
 6. **Trace every target to the period gate — and up the ladder.** Each target states how hitting
    it moves the gate, and which `4#strategic-targets` commitment it is a step toward. A target that
    doesn't serve the gate belongs to another period; a period in which no horizon target moves is
    drift — flag it, don't pad a target to hide it.
+7. **Put the bar to the human, and record the decision.** The human confirms or resizes each ⚙️
+   target; the ⚙️ drops. The decision line names who set the bars, when, and the sizes weighed and
+   not taken — a bare "none" is a defect (the derived proposal itself is an alternative whenever the
+   human moved it).
 
 ## Anti-patterns
 - **Invented baseline.** A "current value" that exists nowhere in `metrics.csv` — the target's size
@@ -73,9 +83,11 @@ DoD** instead — done or not, no percentages of done.
   direction, not a DoD.
 - **Orphan target.** A target that doesn't trace to the period gate — effort spent moving a number
   the period doesn't need.
+- **The proposal signed as the bar.** ⚙️ targets carried into the period with nobody's name on them
+  — at period end the miss belongs to the arithmetic, and nothing is learned about the judgement.
 
 ## Worklog & projection
-Worklog: `5-tactical-plan/goal-targets.md` — per goal the `M-…` selected or the binary DoD, the baseline with its `metrics.csv` citation, the target with the reasoning for its size, the trace to the gate and up the ladder. Projects `{#goal-targets}`; face: the **Trace to the gate** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `5-tactical-plan/goal-targets.md` — per goal the `M-…` selected or the binary DoD, the baseline with its `metrics.csv` citation, the proposed target with the reasoning for its size, the trace to the gate and up the ladder, the bar the human set and the sizes not taken. Projects `{#goal-targets}`; face: the **Trace to the gate** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#goal-targets}` (Step 5) via [`template-fragment.md`](template-fragment.md) from the

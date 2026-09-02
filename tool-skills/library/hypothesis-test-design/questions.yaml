@@ -2,21 +2,22 @@
 tool: hypothesis-test-design
 questions:
   - id: hypothesis
-    ask: "Which H-… are we testing, and what's the riskiest assumption behind it? (the one that would kill the bet, not the comfortable one)"
-    type: free_text
+    ask: "Which H-… do we test this period, and for each — what's the riskiest assumption behind it? (the one that would kill the bet, not the comfortable one; ⚙️ agent proposes from global-hypotheses and the staged bundles)"
+    type: list
+    why: "Testing the comfortable assumption spends the period's test slot on a bet that cannot lose."
   - id: metric_node
-    ask: "Which metric node (M-…) reflects this hypothesis? (must be a defined node in the metric tree, not a number invented for the test)"
-    type: free_text
+    ask: "For each H-… — which metric node (M-…) reflects it? (must be a defined node in the metric tree, not a number invented for the test)"
+    type: per_item
     why: "A metric invented for the test can't be compared or trusted."
   - id: thresholds
-    ask: "What are the success threshold (validated) and the failure threshold (refuted), as set at Step 4 by hypothesis-thresholds? The gap between them is the inconclusive zone."
-    type: free_text
+    ask: "For each H-… — the success threshold (validated) and the failure threshold (refuted), as set at Step 4 by hypothesis-thresholds? The gap between them is the inconclusive zone."
+    type: per_item
     why: "Thresholds are referenced from Step 4, never re-decided here; no pre-declared bar means any result can be spun as a win."
   - id: sample_duration
-    ask: "What sample size or duration is available — the smallest that can tell success from failure at that threshold?"
-    type: free_text
+    ask: "For each H-… — what sample size or duration is available — the smallest that can tell success from failure at that threshold?"
+    type: per_item
     why: "Unspecified sample/duration means the test stops when someone likes the number, not when it's conclusive."
   - id: decision_rule
-    ask: "What's the decision rule, fixed before running? (≥ success → validated; < failure → refuted; in between → inconclusive, and what we do then)"
-    type: free_text
+    ask: "For each H-… — the decision rule, fixed before running? (≥ success → validated; < failure → refuted; in between → inconclusive, and what we do then)"
+    type: per_item
     why: "'Let's look at the data' with no rule means the verdict gets negotiated after the fact."

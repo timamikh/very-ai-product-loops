@@ -1,13 +1,20 @@
 # financial-model — interview
 tool: financial-model
 questions:
+  - id: driver-assumptions
+    ask: "For each driver — the projected assumption and what it rests on? (⚙️ agent proposes from the metrics.csv trend)"
+    type: per_item
+    why: "A driver with no stated basis is a hand-drawn curve wearing a node id."
   - id: cap-policy
     ask: "If a scenario hits your slot/registration caps — do we model raising them (and the capacity/economics cost of that), or treat caps as policy?"
     type: single_select
     options: [model raising the caps, caps are policy]
+    why: "Whether a cap can move decides what 'binds in month N' means."
   - id: stretch-hypothesis
     ask: "Which named hypothesis powers the stretch scenario (e.g. activation fix, new channel)?"
     type: free_text
+    why: "A stretch tied to no H-… is optimism, not a scenario."
   - id: divergence-trigger
     ask: "What actual-vs-model divergence (%, months) should force a Step-4 revisit?"
     type: free_text
+    why: "Without a trigger the model is re-forecast quietly or never."

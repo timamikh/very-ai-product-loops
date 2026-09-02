@@ -21,5 +21,9 @@ Every target traces to the period gate._
 
 _A baseline not in `metrics.csv` is not a baseline — capture it first (`metrics-capture`). A goal no
 existing node can measure is a gap for `metric-tree`, never a bespoke number minted here. A DoD must
-be answerable yes/no._
+be answerable yes/no. The target is the human's bar: ⚙️ marks the derived proposal until the human
+confirms or resizes it._
 
+**Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
+**alternatives considered:** <!--d:alts--> <the target sizes weighed and not taken — the derived
+proposal, a bolder or a safer bar — and why these; never a bare "none">

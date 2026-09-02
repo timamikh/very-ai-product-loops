@@ -2,12 +2,15 @@
 tool: feature-grooming
 questions:
   - id: product_forks
-    ask: "For each product/UX/business fork found in this feature: here are 2–4 options with a recommended default — which do you pick? (scope boundaries · surface · who may do what · tier/plan access · monetization · visible behaviour · told-or-silent · media in/out · one-or-many · success threshold · check targets · fate of user data)"
-    type: list
+    ask: "For each product/UX/business fork found in this feature: here are 2–4 options with a recommended default — which do you pick? (the dimensions swept: references/grooming-dimensions.md)"
+    type: per_item
     why: "An unasked product question gets answered silently by a developer at implementation time. The agent presents the concrete forks; only the human closes them."
   - id: deferred
-    ask: "Any fork you explicitly defer? (a deferred fork blocks spec-readiness until closed or scoped out — say which and until when)"
+    ask: "Any fork you explicitly defer? (say which and until when)"
     type: list
+    why: "A deferred fork blocks spec-readiness until closed or scoped out; recording it keeps 'deferred' from reading as 'done'."
   - id: doc_type
     ask: "Document type for the spec: BRD/PRD (product behaviour — the default) · tech spec (engine-internal, audience is an engineer/AI agent) · both (large feature)?"
-    type: free_text
+    type: single_select
+    options: [brd-prd, tech-spec, both]
+    why: "The type sets the audience and the altitude feature-to-spec writes at; picked here, not guessed by the author."

@@ -13,31 +13,30 @@ volume_rule: "every candidate current for the sprint enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the must/backlog line is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.3.1
+version: 0.3.2
 updated: 2026-09-02
 ---
 # Prioritization — Sprint Plan
 
-Rank the sprint's candidate items by their **contribution to the gate of the period** — not by an
-abstract score — and draw the **must / backlog line by capacity**. Fills `{#must}` / `{#backlog}` /
-`{#excluded}` (Step 6). The period-level ranking of goals is the sibling method
-[`prioritization-tactical-plan`](../prioritization-tactical-plan/SKILL.md) (Step 5) — one step, one
-skill.
+Rank the sprint's candidate **items** by their contribution to the gate of the period and draw the
+**must / backlog line by capacity**. Fills `{#must}` / `{#backlog}` / `{#excluded}` (Step 6).
 
-**Goal vs item.** An *item* is one sprint-level piece of work — a Feature, Activity or Task carrying
-an `F-…`, a pre-registered `Expected impact` and an `Estimate` — and is what this method ranks and
-lines. A *goal* is the period-level outcome the item advances (`5#period-goals`, sized by
-`goal-targets`); goals are ranked at Step 5 by `prioritization-tactical-plan`, never here. **One
-notion of estimate:** the spec's `Estimate` field — a size class S/M/L plus a range, `[assumption]`
-until `impact-readout` reads the actual. This method sums those classes against the capacity
-carried from `5#resources` to draw the must/backlog line; it never re-estimates an item, and the
+**Item vs goal — the boundary with `prioritization-tactical-plan`.** An *item* is one sprint-level
+piece of work — a Feature, Activity or Task carrying an `F-…`, a pre-registered `Expected impact`
+and an `Estimate` — and is what this method ranks and lines. A *goal* is the period-level outcome
+the item advances (`5#period-goals`, sized in `5#goal-targets`); goals are ranked at Step 5 by
+[`prioritization-tactical-plan`](../prioritization-tactical-plan/SKILL.md), never here. Both cards
+run the same ranking procedure — [`references/rice-procedure.md`](../references/rice-procedure.md)
+— and neither restates it.
+
+**One notion of estimate.** The spec's `Estimate` field — a size class S/M/L plus a range,
+`[assumption]` until `impact-readout` reads the actual. This method sums those classes against the
+capacity carried from `5#resources` to draw the line; it never re-estimates an item, and the
 backlog's `Est.` column repeats the spec's class.
 
-**Method basis.** RICE/ICE scoring (Reach · Impact · Confidence · Effort) used as a *ranking* aid,
-not an oracle: the ordering key is how much each item moves the period gate. The must-set is the
-minimum without which the period goal is unreachable; the line between must and backlog is set by
-the available capacity from `resource-check` (as carried into the tactical plan), not by wishful
-scope.
+**Method basis.** RICE/ICE as a ranking aid, ordered by contribution to the period gate; the
+must-set is the minimum without which the period goal is unreachable, and the line between must and
+backlog is set by capacity, not by wishful scope.
 
 ## When to apply
 - Step 6, to split the sprint's items into a minimal **must** set, a prioritized **backlog**, and a
@@ -47,54 +46,46 @@ scope.
 ## Prerequisites
 - **Candidate items** — the features/activities/tasks to rank. The standing pool is the feature
   register's `planned` rows — a candidate cut last sprint is still there, by id. *Missing → generate
-  them from the period goals, the metric tree, the hypothesis register and the `planned` rows.*
-- **The period gate / goal** — the target each item is ranked against. *Missing → run the Step 5
-  gate (`period-goals` / `goal-targets`).*
-- **Available resources** — the capacity that sets the must/backlog line. *Missing → run
-  `resource-check` (Step 5) or state the sprint's capacity explicitly.*
+  them from `5#period-goals`, the hypothesis register and the `planned` rows.*
+- **The period gate / goal** — `5#period-goals` / `5#goal-targets`. *Missing → run the Step 5 gate.*
+- **Available resources** — `5#resources`. *Missing → run `resource-check` (Step 5) or state the
+  sprint's capacity explicitly.*
 
 ## How to do it
-1. **State the gate first.** Name the goal of the period (a metric node to move or a Definition of
-   Done) and the sprint's contribution to it. Every item is ranked against *this*, not against a
-   generic score.
-2. **List the candidates.** All of them, per direction — the feature register's `planned` rows
-   first (the pool that survives between sprints, **already weighted**: its `priority` column
-   carries Step 4's structural seed re-weighed by Step 5's period fit — `now` rows lead, and a
-   `now` row left out of the must-set owes a written reason), then the new ideas. Don't pre-cut before ranking. **Record the
-   count that entered the ranking (N).** A list with no N cannot be audited later: a candidate quietly
-   dropped before scoring is invisible, and "we prioritized" reads the same whether ten items competed
-   or three did.
-3. **Score each (RICE or ICE).** Reach · Impact · Confidence · (Effort). Use the score to *order*
-   candidates; keep the number honest with a confidence tag, and remember it is an aid, not the
-   verdict.
-4. **Re-rank by gate contribution.** Sort by how much each item moves the period gate. A high score
-   that doesn't move the gate ranks below a lower score that does.
-5. **Check the link.** Each item must move a metric node (`M-…`) or test a hypothesis (`H-…`). An
-   item that does neither is a candidate to cut — and a cut item is **recorded with its reason**, not
-   deleted. Backlog is the visible reject of the must-set; an item excluded outright (no `M-…`/`H-…`
-   link, out of scope, superseded) has nowhere else to be seen, so it gets its own line in
-   `{#excluded}` — and its `F-…` row **stays `planned`** in the register (with the cut noted), so
-   the pool never silently shrinks.
-6. **Pick the must-set.** The minimum without which the period goal is unreachable — nothing more.
-7. **Draw the line by capacity.** Fit the must-set inside the available capacity; everything past
-   the line is backlog, ordered. If the must-set overflows capacity, cut scope or renegotiate the
+1. **State the sprint's contribution to the gate.** The gate is the period's (`5#period-goals`);
+   name what *this sprint* must move or prove toward it — the ordering key for items.
+2. **List the candidates — the weighted pool first.** The feature register's `planned` rows lead, in
+   `priority` order: `now` rows (Step 4's structural seed re-weighed by Step 5's period fit) come
+   first, and a `now` row left out of the must-set owes a written reason. Then the new ideas.
+   Record N.
+3. **Run the ranking procedure on the items** — RICE/ICE per item as the aid, rank by gate
+   contribution, link check, every cut with its reason:
+   [`rice-procedure.md`](../references/rice-procedure.md). Reach, impact, confidence and effort are
+   asked per item ([`questions.yaml`](questions.yaml)) — items are new work nothing on file scores.
+4. **Pick the must-set.** The minimum without which the period goal is unreachable — nothing more.
+5. **Draw the line by capacity.** Sum the must-set's estimate classes against `5#resources`;
+   everything past the line is backlog, ordered. If must overflows, cut scope or renegotiate the
    gate — do not inflate must.
+6. **Place the rejects.** Backlog is the visible reject of the must-set. An item excluded outright
+   (no `M-…`/`H-…` link, out of scope, superseded) has nowhere else to be seen, so it gets its own
+   line in `{#excluded}` — and its `F-…` row **stays `planned`** in the register with the cut noted,
+   so the pool never silently shrinks.
 
 > **Boundary with the item specs (one mechanism, one way).** This method decides the *order* and
-> the *line*; what each item **is** comes from its spec: a development item follows
-> [`feature-spec`](../feature-spec/SKILL.md), a go-to-market item
-> [`activity-spec`](../activity-spec/SKILL.md), a back-office item
-> [`task-spec`](../task-spec/SKILL.md). This method does not re-describe items, and the specs do
-> not re-rank them.
+> the *line*; what each item **is** comes from its spec — [`feature-spec`](../feature-spec/SKILL.md)
+> · [`activity-spec`](../activity-spec/SKILL.md) · [`task-spec`](../task-spec/SKILL.md). This method
+> does not re-describe items, and the specs do not re-rank them.
 
 ## Anti-patterns
-- **Flat list, no rank.** A pile of items with no ordering — the line can't be drawn.
-- **Must inflated past capacity.** A "must" that doesn't fit the available resources; it's a wish
-  list, not a plan.
-- **Score for score's sake.** Ranking by RICE/ICE number with no tie back to the gate.
-- **Orphan items.** Items with no `M-…` / `H-…` link — they move nothing and test nothing.
+The shared five are in the reference. This card's own:
+- **Must inflated past capacity.** A "must" that doesn't fit the available resources is a wish list,
+  not a plan.
 - **Silent exclusion.** An item cut from the ranking with no `{#excluded}` line — the next sprint
   re-proposes it and the selection can't be audited.
+- **Re-estimated in the ranking.** An `Est.` that differs from the spec's class — two estimates for
+  one item, and the readout can calibrate neither.
+- **A `now` row skipped without a word.** The feature register's weighting ignored — Step 5's
+  period pass wasted.
 
 ## Worklog & projection
 Worklog: `6-sprint-plan/prioritization-sprint-plan.md` — the gate stated first, the full candidate list with N, the RICE/ICE scores, the re-rank by gate contribution, the must-set at the capacity line, the ordered backlog, every excluded item with its reason. Projects `{#must}` (face: **Gate of the period**), `{#backlog}` (face: **Backlog read**) and `{#excluded}` (face: **Excluded read**) via [`template-fragment.md`](template-fragment.md). In `{#must}`'s per-direction subsections the spec named first owns the item blocks; the ranking and the line live here. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).

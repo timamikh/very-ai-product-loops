@@ -8,12 +8,12 @@ reads: [section:bets, section:metric-tree, register:hypotheses, register:metrics
 writes: [worklog, section:global-hypotheses, register:hypotheses]
 opinionated: false
 method_basis: "Pre-registered read (Bland/Osterwalder assumption mapping): success bar · failure bar · conscious inconclusive zone, each bound to an existing metric node"
-evidence_standard: derived
+evidence_standard: decision
 volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-09-02
 ---
 # Hypothesis Thresholds
@@ -59,7 +59,9 @@ the bars; it does not design the experiment.
    "below success": the gap between the two bars is the **inconclusive zone**, and its width is a
    conscious choice — wide means "we tolerate ambiguity here", narrow means "this must resolve".
 5. **Write why these numbers.** One line per row: where the bars come from. A threshold with no
-   provenance gets re-litigated the moment the result lands near it.
+   provenance gets re-litigated the moment the result lands near it. The bars are a choice the
+   humans own: the section ends in the canonical decision line, its alternatives the bar values
+   weighed and not taken.
 6. **Write back to the register.** Upsert each `H-…` with its `M-…` link, both thresholds, and the
    rationale, so Step 5's test design can reference them without asking again.
 

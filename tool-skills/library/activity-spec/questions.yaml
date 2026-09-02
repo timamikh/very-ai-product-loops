@@ -1,27 +1,39 @@
-# activity-spec — interview (go-to-market direction)
+# activity-spec — interview (go-to-market direction); one answer per item
 tool: activity-spec
 questions:
   - id: feature_row
-    ask: "Which F-… register row does this item advance? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves.)"
-    type: free_text
-    why: "The item is sprint-local; the F-… is its cross-sprint identity — without it the backlog dies with the sprint."
+    ask: "Which F-… register row does this activity advance — the campaign or content line? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves.)"
+    type: per_item
+    why: "The run is sprint-local; the F-… is its cross-sprint identity — without it the backlog dies with the sprint."
   - id: expected_impact
-    ask: "Pre-registered expected impact: which M-… (baseline → expected, from metrics.csv) / R-… / H-…, and the check-by when it becomes readable?"
-    type: free_text
+    ask: "Pre-registered expected impact: which M-… (baseline → expected, from metrics.csv) / H-…, and the check-by when it becomes readable?"
+    type: per_item
     why: "Read at the next Step-5 gate by impact-readout; an expectation set after the numbers land is a negotiation, not a read."
   - id: estimate_class
     ask: "Estimate: size class S/M/L + a range?"
-    type: free_text
+    type: per_item
     why: "[assumption] until the readout records the actual; misses calibrate the sizing."
   - id: description
     ask: "What is the activity? (e.g. reactivation mailing, TG post, landing test)"
-    type: free_text
+    type: per_item
+    why: "One activity per block, at feature altitude — a campaign plan in sub-steps is not an item."
   - id: scope
     ask: "What steps run it? (draft, audience, schedule, publish, measure)"
     type: list
+    why: "The measurement step is where attribution lives; a scope without it cannot be read at the gate."
   - id: business_value
-    ask: "Which metric node does it move / hypothesis does it test?"
-    type: free_text
+    ask: "Which metric node does it move / hypothesis does it test? If it runs a Step-5 market-entry bundle, which B-…?"
+    type: per_item
+    why: "An activity that moves no M-… and tests no H-… is a cut candidate; without the B-… the sprint doesn't say which bundle it tests."
   - id: audience_value
     ask: "Why does the audience care (so it isn't spam)?"
-    type: free_text
+    type: per_item
+    why: "Channel-first, value-last is the failure mode; the audience's reason is asked apart from ours."
+  - id: surface
+    ask: "Which S-… surface does it run on? (a surface the register does not hold → a new planned S-… row)"
+    type: per_item
+    why: "A channel no S-… names is invisible to the instrumentation plan and the surface register."
+  - id: owner
+    ask: "Who runs it? (a named person, not 'the team')"
+    type: per_item
+    why: "An ownerless activity has no one to answer for its check-by."

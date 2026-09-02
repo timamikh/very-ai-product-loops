@@ -14,9 +14,13 @@ questions:
     type: per_item
     why: "A target set against a guessed baseline is a guess squared."
   - id: target
-    ask: "For each node — the target for the period, and WHY this size (what the gate needs, what the trend supports, what capacity allows)?"
+    ask: "For each node — the target for the period, and WHY this size (what the gate needs, what the trend supports, what capacity allows, what share of the strategic-targets gap this period closes)? (⚙️ agent proposes; you set the bar)"
     type: per_item
     why: "A target with no reasoning is a wish; a miss can't be diagnosed."
+  - id: alternatives
+    ask: "For each target you resized — which size did you not take (the derived proposal, a bolder or a safer bar), and why?"
+    type: per_item
+    why: "The decision line names the alternative weighed; a bare 'none' is a defect."
   - id: dod
     ask: "For each technical / back-office goal — the binary Definition of Done (answerable yes/no at period end)?"
     type: per_item

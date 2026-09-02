@@ -5,10 +5,13 @@ questions:
     ask: "For the honest base: hardware depreciation from capex, or market compute price? (pick one rule)"
     type: single_select
     options: [hardware depreciation from capex, market compute price]
+    why: "One named rule makes the honest basis reproducible."
   - id: free-burn-owner
     ask: "Who carries free-tier/grant inference burn — marketing (CAC-like), product (COGS), or the infra supplier?"
     type: single_select
     options: [marketing (CAC-like), product (COGS), infra supplier]
+    why: "Unassigned, free usage vanishes from every basis."
   - id: cac-claim
-    ask: "Is CAC≈0 still true for every active channel (incl. paid bloggers when they start)?"
-    type: free_text
+    ask: "For each active channel — is CAC≈0 still true (incl. paid bloggers when they start), and on what source?"
+    type: per_item
+    why: "CAC≈0 must be sourced, not assumed."

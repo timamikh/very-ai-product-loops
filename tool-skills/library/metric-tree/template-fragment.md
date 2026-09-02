@@ -27,8 +27,8 @@ for). One token, read literally onto the console's family grouping; a qualifier 
 funnels are **views** of these families, not families — a cohort is retention read by join period, a
 funnel is acquisition→revenue in order; neither is a driver token._
 
-**Guardrails:** `M-…` — <what must not drop and why>.
-**Not instrumented (→ Steps 5–6):** list of nodes + how to close each.
+**Not instrumented (→ Steps 5–6):** nodes + how to close each — `instrumentation-plan`'s per-surface
+status (`{#architecture-instrumentation}`) projected onto the nodes that read from those surfaces.
 
 **North Star candidates considered** — including the ones that lost, and on which filter. This is the
 most re-litigated decision in the tree; without it the same argument restarts next quarter from a

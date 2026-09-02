@@ -4,6 +4,7 @@ questions:
   - id: bets
     ask: "Which bets (H-…) from 3-strategy.md#bets are we quantifying? (⚙️ agent pulls them from the register)"
     type: list
+    why: "This method quantifies existing bets; a bet not in the register was never stated."
   - id: metric_node
     ask: "For each bet — which existing metric node (M-…) would prove or refute it? (a defined node in the metric tree, not a number invented for the test)"
     type: per_item

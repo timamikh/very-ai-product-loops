@@ -13,7 +13,7 @@ volume_rule: "all 7 break-categories checked against every period goal before an
 selection_rule: "a category becomes a guardrail only with an M- node and a stated floor/ceiling; the rest are logged as considered"
 rejects_shown: required
 status: draft
-version: 0.1.5
+version: 0.1.6
 updated: 2026-09-02
 ---
 # Guardrails
@@ -21,6 +21,10 @@ updated: 2026-09-02
 Define **what must not drop while we chase the period's goals** — the metrics and limits we
 refuse to sacrifice. Fills `{#guardrails}`. A goal without guardrails invites winning the number
 and losing the product (e.g. spiking signups while retention or unit economics collapse).
+
+**This card is the sole owner of guardrails.** `metric-tree` (Step 4) defines the nodes and no
+longer declares guardrails; it may flag candidate protected nodes, and those reach this card through
+`{#metric-tree}` — a guardrail is set here, against the period's goals, or it is not set.
 
 **Method basis.** Guardrail metrics + red lines, in the spirit of a steering-committee
 reconciliation: each cycle names the gate it moves *and* the things it protects.
@@ -30,7 +34,8 @@ reconciliation: each cycle names the gate it moves *and* the things it protects.
 - Revisit if a goal starts eroding a protected metric.
 
 ## Prerequisites
-- **Metric tree** (`M-…`) — guardrails are usually protected metric nodes. *Missing → Step 4.*
+- **Metric tree** (`M-…`) — guardrails are protected metric nodes; a candidate `metric-tree` flagged is
+  a starting point, not a guardrail yet. *Missing → Step 4.*
 - **Period goals** — you guardrail *against* the current goals. *Missing → set them first.*
 
 ## How to do it

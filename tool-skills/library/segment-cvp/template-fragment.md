@@ -24,12 +24,12 @@ register (`type: desirability`)._
 message, ② the landing/offer, ③ the sales first-contact script. If not → back to
 `segment-pains`/`uvp-cpv`, not staged.
 
-**Signal scale** — weak = click · like · page view (channel diagnostics, not fit) · medium =
-lead · registration · outreach reply · diagnostic completed · strong = meeting with a real
-decision-maker · trial · price talk · pilot · prepayment · sale.
+**Signal tier** — `weak` / `medium` / `strong` per `process/reference/scales.md`; a weak signal is
+channel diagnostics, not fit.
 
-**Test-readiness score** — ready bundles only, 1 · 3 · 5 per criterion, sum 5–25. Top 3–5 are staged.
-A criterion that cannot be judged is `— to clarify —`, never a 3. Scores are ⚙️ until confirmed.
+**Test-readiness score** — ready bundles only; the priority score of `process/reference/scales.md`:
+1 · 3 · 5 per criterion, sum 5–25. Top 3–5 are staged. A criterion that cannot be judged is
+`— to clarify —`, never a 3. Scores are ⚙️ until confirmed.
 
 | Bundle | Pain acuteness | Reachability | Deliverability | Willingness to pay | Speed to a signal | Sum | Staged? |
 |--------|----------------|--------------|----------------|--------------------|-------------------|-----|---------|
@@ -45,9 +45,9 @@ never reached.
 | B-04 | score 11 of 25 | slow to a signal (needs a 3-week pilot to learn anything) | the offer can be cut down to a 2-day diagnostic |
 
 <!-- card -->
-**Staged for test this period** (top 3–5 by the score above; `prioritization-tactical-plan` then
-decides whether they fit the period's capacity and does not re-score them; test designed by
-`hypothesis-test-design`): B-…, B-…
+**Staged for test this period:** <one sentence — the 3–5 bundles staged by score, the one that
+leads and why; `prioritization-tactical-plan` capacity-bounds them without re-scoring,
+`hypothesis-test-design` designs them>.
 
 **Seeded registers:** each `ready` bundle → hypothesis register (`H-…`, `type: desirability`,
 statement = the whole bundle). Decision after test is one of **scale · iterate · reject ·

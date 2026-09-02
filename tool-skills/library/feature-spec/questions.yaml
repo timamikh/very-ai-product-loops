@@ -1,34 +1,43 @@
-# feature-spec — interview (development direction)
+# feature-spec — interview (development direction); one answer per item
 tool: feature-spec
 questions:
   - id: feature_row
     ask: "Which F-… register row does this item advance? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves.)"
-    type: free_text
+    type: per_item
     why: "The item is sprint-local; the F-… is its cross-sprint identity — without it the backlog dies with the sprint."
   - id: expected_impact
     ask: "Pre-registered expected impact: which M-… (baseline → expected, from metrics.csv) / R-… / H-…, and the check-by when it becomes readable?"
-    type: free_text
+    type: per_item
     why: "Read at the next Step-5 gate by impact-readout; an expectation set after the numbers land is a negotiation, not a read."
   - id: estimate_class
     ask: "Estimate: size class S/M/L + a range?"
-    type: free_text
+    type: per_item
     why: "[assumption] until the readout records the actual; misses calibrate the sizing."
   - id: description
-    ask: "What is the feature? (one clear description)"
-    type: free_text
+    ask: "What is the feature? (one clear description, at feature altitude — not sub-tasks)"
+    type: per_item
+    why: "The block's altitude is set here; a description in implementation steps drags the whole item below feature level."
   - id: scope
     ask: "What tasks are needed to implement it? (the scope list)"
     type: list
+    why: "Scope is what we build — the list feature-grooming later enumerates one-to-one."
   - id: acceptance_criteria
     ask: "Acceptance criteria — binary, checkable statements for 'the feature is done', each answerable yes/no (how we know it's done, distinct from the scope's what-we-build)?"
     type: list
     why: "Criteria you can't answer yes/no to leave 'done' negotiable."
   - id: business_value
     ask: "Business value — which metric node / hypothesis does it move?"
-    type: free_text
+    type: per_item
+    why: "A feature with no M-…/H-… behind it moves nothing the plan can read."
   - id: user_value
     ask: "User value — what does the user get?"
-    type: free_text
+    type: per_item
+    why: "Business value without user value is a feature nobody adopts; the two are asked apart so neither hides the other."
   - id: user_stories
     ask: "Any user stories? (As a … I want … so that …) — optional"
     type: list
+    why: "A story names the role and the benefit; it catches a feature written from the system's point of view."
+  - id: owner
+    ask: "Who owns it landing? (a named person, not 'the team')"
+    type: per_item
+    why: "An ownerless feature has no one to answer for its check-by."

@@ -1,27 +1,14 @@
-# retention-analysis — cohort retention & engagement (intake)
+# retention-analysis — intake: only what a human knows
+# The curve, the splits, the loop and the drivers are read from source:metrics / register:metrics,
+# never asked.
 tool: retention-analysis
 questions:
   - id: active_definition
-    ask: "What counts as a retained ACTIVE action, and what is the product's natural frequency (daily / weekly / monthly)?"
+    ask: "What counts as a retained ACTIVE action (the value action, not a login), and which activation event starts a member's clock?"
     type: free_text
-    why: "The curve is meaningless without a crisp 'active' and the right cadence."
-  - id: cohort_data
-    ask: "Do we have per-user/per-account usage with timestamps to form cohorts? If not, what's the gap?"
-    type: free_text
-    why: "No timestamped usage → no cohort curve; instrument first."
-  - id: curve
-    ask: "What does the cohort curve look like — does it flatten at a non-zero floor, or decay to zero?"
-    type: free_text
-    why: "A flattening floor is the PMF signal; decay-to-zero means no retained value."
-  - id: splits
-    ask: "How does retention differ by segment / plan / acquisition channel? Which cohort retains best?"
-    type: list
-    why: "A blended curve hides a retained core inside a churning average."
-  - id: engagement_loop
-    ask: "For the retained core: trigger → action → reward → investment? Where do drop-off cohorts fall off, and is there a resurrection path?"
-    type: free_text
-    why: "The loop is what you'd change to bend the curve up."
-  - id: drivers
-    ask: "Which retention drivers would we act on (and thus test)?"
-    type: list
-    why: "Each becomes an H-… tested via hypothesis-test-design."
+    why: "The curve is meaningless without a crisp 'active'; a vanity 'active' makes the tree steer by opens."
+  - id: cohort_period
+    ask: "What join period does the business think in for cohorts — daily, weekly or monthly?"
+    type: single_select
+    options: [daily, weekly, monthly]
+    why: "A monthly-value product judged on daily retention lies; the period fixes the cadence every cell is read on."

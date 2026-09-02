@@ -1,45 +1,35 @@
 # segment-cvp — market-entry bundle (intake to compose & gate the bundles)
+# Segment, situation, pain, alternative and CVP are read from {#segments} · {#problems} · {#uvp-cpv};
+# candidate channels from {#channels-expansion}. The interview asks only what no section answers.
 tool: segment-cvp
 questions:
   - id: bundle_slate
-    ask: "The candidate slate first — ≥3 distinct situations per priority segment, ≥8 segment×situation bundles in total (⚙️ agent drafts from segments + pains). The questions below run per bundle."
+    ask: "The candidate slate first — ≥3 distinct situations per priority segment, ≥8 segment×situation×pain bundles in total (⚙️ agent drafts from segments · problems · uvp-cpv; add, split or strike). The questions below run per bundle."
     type: list
     min: 8
-    why: "Staging the first bundle that comes to mind skips the comparison the 6 filters exist for."
-  - id: segment_situation
-    ask: "Which segment, in which specific SITUATION/trigger? (not demographics — the moment the pain bites)"
-    type: free_text
-    why: "A segment without a situation can't have a channel or a message built for it."
-  - id: pain
-    ask: "What is the pain, and what is the cost of NOT solving it? (money lost, risk, time)"
-    type: free_text
-    why: "No cost of inaction → nothing to sell against; the bundle fails the Pain filter."
-  - id: alternative
-    ask: "How does this segment solve it TODAY (rival, substitute, do-nothing)?"
-    type: free_text
-    why: "Value is relative to today's way; 'nohow / unknown' means the bundle isn't ready."
-  - id: cvp
-    ask: "What concrete RESULT do we promise (not a feature)? Would the segment recognize themselves?"
-    type: free_text
-    why: "'Become more efficient / convenient / with AI' promises nothing testable."
+    why: "Staging the first bundle that comes to mind skips the comparison the 6 filters exist for; the floor is on distinct situations, not rows."
   - id: offer
-    ask: "What is the first concrete step of the offer — demo / diagnostic / trial / calculation / pilot?"
-    type: single_select
+    ask: "For each bundle — the first concrete step of the offer?"
+    type: per_item
     options: [demo, diagnostic, trial, calculation, pilot, consultation, other]
-    why: "A bundle must contain a first step you can actually offer and measure."
+    why: "A bundle must contain a first step you can actually offer and measure; no section carries it."
   - id: channel
-    ask: "Where EXACTLY do we reach this segment — a named community, base, or partner? (not 'somewhere online')"
-    type: free_text
+    ask: "For each bundle — where EXACTLY do we reach this segment: a named community, base or partner? (⚙️ agent proposes from channels-expansion; a channel type is not a place)"
+    type: per_item
     why: "If you can't name where to find them, the bundle fails the Find filter."
   - id: signal
-    ask: "What qualified action would prove interest, and which tier is it (weak/medium/strong)?"
-    type: free_text
-    why: "Clicks diagnose the channel; success is a qualified action (reply/meeting/trial/payment)."
+    ask: "For each bundle — what qualified action would prove interest, and which tier is it (weak / medium / strong per scales.md)?"
+    type: per_item
+    why: "Clicks diagnose the channel; success is a qualified action (reply / meeting / trial / payment)."
   - id: readiness
-    ask: "Run the 6 filters (Find · Recognize · Pain · Alternative · CVP · Action) and the three-things test — which pass, which fail?"
+    ask: "For each bundle — the 6 filters (Find · Recognize · Pain · Alternative · CVP · Action) and the three-things test: which pass, which fail? (⚙️ agent proposes the verdict)"
     type: per_item
     why: "A bundle failing any filter is kept for reference but not staged for test."
+  - id: score
+    ask: "For each ready bundle — the 1/3/5 on pain acuteness · reachability · deliverability · willingness to pay · speed to a signal? (⚙️ agent proposes from the sections' evidence; an unknown is — to clarify —, not a 3)"
+    type: per_item
+    why: "The gate says what is testable; the score says what deserves a test slot — top 3–5 are staged."
   - id: decision_rule
-    ask: "What decision will each outcome trigger — scale / iterate / reject / research?"
-    type: free_text
+    ask: "For each staged bundle — what decision will each outcome trigger: scale / iterate / reject / research?"
+    type: per_item
     why: "A bundle isn't tested until a decision is recorded."

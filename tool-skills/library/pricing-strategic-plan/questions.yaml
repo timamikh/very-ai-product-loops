@@ -13,6 +13,7 @@ questions:
     ask: "Does the Step-3 pricing decision hold against these margins?"
     type: single_select
     options: [holds, propose-change]
+    why: "Binary and logged — a silent 'mostly holds' is how an underwater tier survives."
   - id: proposed_change
     ask: "If it doesn't hold — what change do you propose to 3-strategy.md#pricing (new price point / moved fence / usage cap / re-metered value metric), and why does the margin force it?"
     type: free_text

@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.3
+version: 0.2.4
 updated: 2026-09-02
 ---
 # Retention Analysis
@@ -60,9 +60,12 @@ metric that judges a monthly product on daily use lies), and paired with the **e
   meaningless without a crisp "active"). *Missing → define it (a `metric-tree` node) before reading.*
 
 ## How to do it
-1. **Define "active" and the natural frequency.** State what a retained active action is and the
-   product's natural cadence (daily/weekly/monthly). Read retention on that cadence.
-2. **Build the cohort curve.** Group users by join period; plot % still active at N periods.
+1. **Define "active", the activation event and the cohort period.** State what a retained active
+   action is, the event that starts a member's clock, and the product's natural cadence
+   (daily/weekly/monthly) — the period the business thinks in. These are the only inputs a human
+   supplies; the curve itself is read from `source:metrics` / `metrics.csv`, never asked for.
+2. **Build the cohort curve.** Group users by join period (the cohort period); plot % still active
+   at N periods.
    Read the **shape**: does it flatten at a non-zero floor (value recurs), or decay to zero (no
    retained value)? The floor height and where it flattens are the headline.
 3. **Divide by the observed, never by the cohort.** At period N the denominator is only the members

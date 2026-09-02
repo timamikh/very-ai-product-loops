@@ -1,31 +1,42 @@
-# prioritization-sprint-plan — interview
+# prioritization-sprint-plan — interview (items, Step 6)
+# The per-candidate RICE inputs live here only: items are new work nothing on file scores yet
+# (references/rice-procedure.md step 3). The goal-level questions are prioritization-tactical-plan's.
 tool: prioritization-sprint-plan
 questions:
   - id: gate
-    ask: "What's the goal/gate of this period — the metric node to move (M-…) or the Definition of Done every item is ranked against — and what must this sprint contribute to it?"
+    ask: "What must this sprint contribute to the period gate (5#period-goals) — what does it move or prove?"
     type: free_text
-    why: "Items are ranked by contribution to the gate, not by an abstract score."
+    why: "Items are ranked by contribution to the gate, not by an abstract score; the sprint's share of it is the ordering key."
   - id: candidates
-    ask: "List every candidate item current for this sprint (features/activities/tasks), grouped by direction — none pre-cut; record the count N that entered the ranking."
+    ask: "List every candidate item current for this sprint (features/activities/tasks), grouped by direction — the feature register's planned rows first, in priority order, then new ideas; none pre-cut."
     type: list
-    why: "A pre-cut list hides the ranking's real input; N makes the cut visible."
+    why: "A pre-cut list hides the ranking's real input; N makes the cut visible, and a `now` row left out owes a reason."
   - id: capacity
-    ask: "What's the available capacity this sprint (people, budget, time) that sets the must/backlog line?"
+    ask: "What's the available capacity this sprint (people, budget, time) that sets the must/backlog line? (⚙️ agent carries 5#resources; confirm or correct)"
     type: free_text
     why: "The must/backlog line is drawn by capacity, not by wishful scope."
   - id: reach
     ask: "For each candidate — reach: how many users / how much of the base does it touch?"
     type: per_item
+    why: "Reach is the RICE input a new item carries nowhere else; without it the score is impact alone."
   - id: impact
     ask: "For each candidate — impact / contribution: how much does it move the period gate?"
     type: per_item
+    why: "Gate contribution is the ordering key; the score only breaks ties."
   - id: confidence
     ask: "For each candidate — confidence: how sure are we of the reach and impact?"
     type: per_item
+    why: "An untagged score reads as fact; confidence keeps the ordering honest."
   - id: effort
-    ask: "For each candidate — effort: how much capacity does it consume? (skip for ICE)"
+    ask: "For each candidate — effort: how much capacity does it consume? (skip for ICE; the spec's Estimate class is the answer where one exists)"
     type: per_item
+    why: "Effort is the denominator and the line is drawn by capacity — but it is never a second estimate of the item."
   - id: moves
     ask: "For each candidate — what does it move or test? (the M-… node or H-… hypothesis)"
     type: per_item
     why: "An item that moves no metric and tests no hypothesis is a candidate to cut."
+  - id: must_set
+    ask: "Which items are the must-set — the minimum without which the period goal is unreachable? (⚙️ agent proposes from the ranking and the line)"
+    type: multi_select
+    from: candidates
+    why: "Must is the gate's minimum, not everything that fits; the human draws the line."

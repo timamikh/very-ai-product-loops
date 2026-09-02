@@ -4,6 +4,7 @@ questions:
   - id: carried_risks
     ask: "Which R-… are marked carried in the register? (⚙️ agent pulls them — surfacing/triage happened in pre-mortem / niche-risks, not here)"
     type: list
+    why: "This method manages the carried set; a risk not in the register goes back through triage, not around it."
   - id: mitigation
     ask: "For each carried risk — what will we actually do about it? (an action, not 'monitor closely')"
     type: per_item

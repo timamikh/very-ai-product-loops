@@ -4,7 +4,7 @@ kind: method
 name: instrumentation-plan
 steps: [4]
 prerequisites: [the step-3 architecture sketch, the step-3 product-surface map]
-reads: [section:architecture, section:product-surface, section:unit-economics, register:metrics, source:kb, source:git]
+reads: [section:architecture, section:product-surface, section:unit-economics, register:metric-tree, register:metrics, source:kb, source:git]
 writes: [worklog, section:architecture-instrumentation]
 opinionated: false
 method_basis: "Instrumentation mapping: component → instrumented/proxy/not-instrumented → data yielded → infra cost driven; every metric node needs a data source or an explicit gap"
@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.1
+version: 0.1.2
 updated: 2026-09-02
 ---
 # Instrumentation Plan
@@ -33,9 +33,10 @@ touch it) and answers, per component: can we measure it, with what fidelity, at 
 > - `architecture-c4` (Step 3) sketches the system and its dependencies; `product-surface` (Step 3)
 >   maps the touchpoints. This method **refines both into the Step-4 instrumentation map** — it does
 >   not redraw the architecture or re-list the surfaces.
-> - `metric-tree` marks its *nodes* `instrumented | proxy | not-instrumented`; this map is **where
->   those marks come from** — a node's data source traces to a component row here, or the node
->   carries an explicit gap.
+> - This method **owns the per-surface instrumentation status** (`instrumented | proxy |
+>   not-instrumented`) and the **not-instrumented work list at surface level**. `metric-tree`
+>   projects that status onto its nodes — a node carries the mark of the surface its data comes
+>   from, or an explicit gap — and never re-marks a surface.
 > - The infra cost drivers named here must **reconcile with `unit-economics`' COGS lines** — a cost
 >   driver with no COGS line (or vice versa) is a hole in one of the two.
 
@@ -61,8 +62,9 @@ touch it) and answers, per component: can we measure it, with what fidelity, at 
    signal today. The mark comes from the analytics configuration or filed instrumentation docs
    (`source:kb`) or the codebase passport (`source:git`) — never from memory.
 3. **Name the data each yields.** What events/measures the component produces (or would). This is
-   the supply side of the metric tree: every future `M-…` node must trace to a row here — a node
-   with no source row is an **explicit gap**, written down, not glossed.
+   the supply side of the metric tree: every `M-…` node already defined (`registers/metric-tree.md`,
+   readings in `metrics.csv`) and every future one must trace to a row here — a node with no source
+   row is an **explicit gap**, written down, not glossed.
 4. **Name the infra cost each drives.** What the component costs to run and to instrument (LLM
    inference, analytics stack, session capture, email provider…). These drivers must reconcile with
    `unit-economics`' COGS lines (`{#unit-economics}`, when it already exists — on the first pass

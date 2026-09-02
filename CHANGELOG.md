@@ -16,6 +16,30 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Library — steps 4–6 brought to the form, the duplicates cut
+
+- **Three owners settled.** Guardrails belong to `guardrails` (Step 5) alone — `metric-tree` no
+  longer declares them, its "Not instrumented" line is `instrumentation-plan`'s per-surface status
+  projected onto nodes. Willingness-to-pay is fixed at Step 3 by `pricing-strategy` behind its data
+  gate; `pricing-strategic-plan` only re-checks the price points against the margin and re-projects
+  `{#pricing}`. The three target-setters — `strategic-targets`, `goal-targets`,
+  `hypothesis-thresholds` — are all `evidence_standard: decision` and carry the decision line.
+- **Shared procedure written once.** The RICE-style ranking of the two prioritization cards lives in
+  `references/rice-procedure.md`; the eight grooming dimensions in `references/grooming-dimensions.md`.
+  `segment-cvp` points at `scales.md` instead of re-telling it (1899 → 1087 words); the step-6 README
+  no longer restates the item formats the template carries.
+- **Specs get a How.** `feature-spec`, `activity-spec`, `task-spec` each gain *How to do it*; their
+  field lists match the frozen `{#must}` blocks (Owner and Groom on a feature, Surface on an
+  activity); `Groom` joins the fixed literals in `column-keys.md`.
+- **Mechanics.** Every `reads`/`writes` atom of steps 4–6 is named in its card's body or dropped;
+  `register:metric-tree` declared where node definitions land; `resource-check` gets prerequisites;
+  `retention-analysis` asks the human only for the "active" definition and the cohort period;
+  every question carries `why:`, `per_item` where the answer is per row; stale pointers to
+  `value-definition` and `product-surface` resolved; step READMEs 4–6 carry their cards' perimeter
+  and a `#to-clarify` gate item.
+- Deferred on purpose: the form of `{#backlog}` (table vs blocks) and who is primary at `{#must}`
+  — both need a template change; key migration on the example waits for its unfreeze.
+
 ### Library — steps 1–3 sharpened, the scans bounded
 
 - **Three methods stop pulling toward a 50-site scan.** `competitor-dynamics`: a proxy ladder for

@@ -4,6 +4,7 @@ questions:
   - id: hypothesis
     ask: "Which H-… does this experiment test, and against which metric node (M-…)? (if it has no threshold yet, run hypothesis-test-design first)"
     type: free_text
+    why: "An experiment with no pre-set bar on a defined node can be read as a win whatever it shows."
   - id: oec
     ask: "What is the OEC — the single primary metric the decision hangs on? (one M-…, not three co-equal metrics)"
     type: free_text
@@ -15,6 +16,7 @@ questions:
   - id: randomization
     ask: "What is the randomization unit (user/account/session) and the arms + split? (the unit must match the metric's grain and avoid spillover)"
     type: free_text
+    why: "A unit finer than the metric's grain, or arms that leak into each other, confound the read."
   - id: sizing
     ask: "Baseline rate, minimum detectable effect (MDE), power/α → required sample per arm and run length. Can you actually reach it?"
     type: free_text
@@ -26,3 +28,4 @@ questions:
   - id: pitfalls
     ask: "Which pitfall checks will you run before trusting the read — SRM, novelty/primacy, cross-arm spillover, segment interactions?"
     type: list
+    why: "A sample-ratio mismatch voids the read; unchecked, a broken assignment looks like a result."

@@ -9,7 +9,7 @@ prerequisites:
   - acquisition channel costs (or an explicit CAC≈0 claim with its source)
   - churn/retention if instrumented — otherwise model as scenarios, never as a guessed constant
 reads: [section:pricing, section:retention, section:architecture-instrumentation, register:metrics]
-writes: [worklog, section:unit-economics, register:metrics]
+writes: [worklog, section:unit-economics, register:metric-tree, register:metrics]
 opinionated: true
 method_basis: "Contribution margin; LLM inference as explicit COGS; dual basis operational/honest own-compute"
 evidence_standard: internal-data
@@ -17,7 +17,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.6
+version: 0.2.7
 updated: 2026-09-02
 ---
 # Unit economics — does one customer pay for themselves?
@@ -34,11 +34,12 @@ compute a single basis and say so.
 - Step 4, when you need to know whether a single customer pays for themselves before scaling.
 
 ## Prerequisites
-- **Revenue and paying-customer counts by tariff** (billing).
+- **Revenue and paying-customer counts by tariff** (billing; the tariffs are `3#pricing`'s).
 - **Cost lines incl. LLM inference** — fact external spend AND own-compute cost (server + hardware
   depreciation).
 - **Acquisition channel costs** — or an explicit CAC≈0 claim with its source.
-- **Churn/retention if instrumented** — otherwise model as scenarios, never as a guessed constant.
+- **Churn/retention if instrumented** — the cohort curve in `{#retention}`; otherwise model as
+  scenarios, never as a guessed constant.
 
 *Any of these missing as a number rather than as a source → [`metrics-capture`](../../operations/metrics-capture/SKILL.md)
 (operations) is the pass that lands it in the register; this tool reads the register, it does not query.*
@@ -50,13 +51,14 @@ compute a single basis and say so.
    revenue per paying account, blended AND by tariff (price ≠ ARPPU when one-time/PAYG mix in).
 2. **COGS per paying account** in both bases. Allocate inference by actual usage share (tokens),
    not headcount; state the allocation rule as an `[assumption]`. Non-paying usage (free tier,
-   grants) is a real cost — decide explicitly who "carries" it and write that down.
+   grants) is a real cost — decide explicitly who "carries" it and write that down. Each COGS line
+   reconciles with a cost driver in `{#architecture-instrumentation}`; a mismatch is flagged.
 3. **Contribution margin** = revenue − COGS, per account and %; both bases.
 4. **CAC & payback** — per channel; CAC≈0 must be sourced, not assumed.
-5. **LTV only if churn is honest.** No instrumented product churn → LTV as scenarios
+5. **LTV only if churn is honest.** No cohort curve in `{#retention}` → LTV as scenarios
    (e.g. 3/5/10%/mo), marked ⚙️, with the instrumentation gap flagged to the metric register.
-6. **Register:** unit metrics become `M-…` nodes (ARPPU, contribution, CAC) with basis column
-   in `metrics.csv`.
+6. **Register:** unit metrics become `M-…` nodes (ARPPU, contribution, CAC) — definition in
+   `registers/metric-tree.md`, readings with a basis column in `metrics.csv`.
 
 ## Anti-patterns
 - One blended number hiding a money-losing segment.
@@ -71,4 +73,4 @@ Worklog: `4-strategic-plan/unit-economics.md` — the reading window, revenue pe
 ## Output
 Projects `{#unit-economics}` via [`template-fragment.md`](template-fragment.md) from the worklog;
 inputs via [`questions.yaml`](questions.yaml); unit metrics become `M-…` nodes (ARPPU, contribution,
-CAC) with a basis column in `metrics.csv`.
+CAC) — definition in `registers/metric-tree.md`, readings with a basis column in `metrics.csv`.

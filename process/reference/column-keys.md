@@ -2,8 +2,8 @@
 node_type: reference
 title: Keys — columns, and the decision line's fields
 status: draft
-version: 0.3.0
-updated: 2026-08-20
+version: 0.3.1
+updated: 2026-09-02
 ---
 
 # Column keys
@@ -110,4 +110,6 @@ detaches the linter and the console from the data):
   console builds trails from it);
 - the step-6 item field labels **`**Feature:**`**, **`**Expected impact:**`** (with its `check-by`
   keyword) and **`**Estimate:**`** — the item's pre-registration, read by check E3, the console's
-  sprint-item view and `impact-readout`.
+  sprint-item view and `impact-readout`;
+- the step-6 item field label **`**Groom:**`** (value `spec-ready | blocked: <fork>`) — the
+  feature's readiness, written by `feature-grooming`, read by the console's sprint-item view.

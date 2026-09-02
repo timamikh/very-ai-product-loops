@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.1.3
+version: 0.1.4
 updated: 2026-09-02
 ---
 # A/B Test
@@ -45,8 +45,9 @@ test selection, it executes one kind of test.
 - **Enough traffic/sample to detect the effect** — the volume to reach the required n in a sane
   window. *Missing → the experiment is underpowered; pick a cheaper test instead.*
 - **A way to randomize and instrument both arms** — an assignment mechanism and metrics logged per
-  arm. *Missing → run `product-surface` to close the instrumentation gap, or use an honest
-  before/after and label it as such.*
+  arm. *Missing → the instrumentation gap is `instrumentation-plan`'s (Step 4) to close — its
+  per-component status says what is unmeasured; until it is closed, use an honest before/after and
+  label it as such.*
 
 ## How to do it
 1. **Confirm the experiment is the right instrument.** Defer test *selection* to

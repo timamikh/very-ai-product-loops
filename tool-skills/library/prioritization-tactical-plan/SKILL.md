@@ -3,7 +3,7 @@ node_type: card
 kind: method
 name: prioritization-tactical-plan
 steps: [5]
-prerequisites: [candidate items, the period gate/goal, available resources]
+prerequisites: [candidate goals, the period gate/goal, available resources]
 reads: [section:metric-tree, section:resources, section:market-bundles, register:metrics, register:hypotheses, register:features]
 writes: [worklog, section:period-goals, register:features]
 opinionated: false
@@ -13,24 +13,24 @@ volume_rule: "every candidate current for the period enters the ranking — none
 selection_rule: "RICE/ICE as an ordering aid, re-ranked by contribution to the period gate; the goal set is capacity-bounded"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Prioritization — Tactical Plan
 
-Rank the period's candidate goals by their **contribution to the gate of the period** — not by an
-abstract score — and keep only what **fits the period's capacity**. Fills `{#period-goals}` (Step 5).
-The sprint-level split of items into must/backlog is the sibling method
-[`prioritization-sprint-plan`](../prioritization-sprint-plan/SKILL.md) (Step 6) — one step, one skill.
+Rank the period's candidate **goals** by their contribution to the gate of the period and keep only
+what fits the period's capacity. Fills `{#period-goals}` (Step 5).
 
-**Goal vs item.** A *goal* is a period-level outcome per direction — a measurable movement of an
-`M-…` or a Definition of Done, sized by `goal-targets` — and is what this method ranks. An *item* is
-one sprint-level piece of work (a Feature, Activity or Task carrying an `F-…`) that advances a goal;
-items are ranked at Step 6 by `prioritization-sprint-plan`, never here.
+**Goal vs item — the boundary with `prioritization-sprint-plan`.** A *goal* is a period-level
+outcome per direction — a measurable movement of an `M-…` or a Definition of Done, sized by
+`goal-targets` — and is what this method ranks. An *item* is one sprint-level piece of work (a
+Feature, Activity or Task carrying an `F-…`) that advances a goal; items are ranked at Step 6 by
+[`prioritization-sprint-plan`](../prioritization-sprint-plan/SKILL.md), never here. Both cards run
+the same ranking procedure — [`references/rice-procedure.md`](../references/rice-procedure.md) —
+and neither restates it.
 
-**Method basis.** RICE/ICE scoring (Reach · Impact · Confidence · Effort) used as a *ranking* aid,
-not an oracle: the ordering key is how much each candidate moves the period gate. The goal set is
-the minimum without which the period gate is unreachable, bounded by the available capacity from
+**Method basis.** RICE/ICE as a ranking aid, ordered by contribution to the period gate; the goal
+set is the minimum without which the gate is unreachable, bounded by the capacity from
 `resource-check`, not by wishful scope.
 
 ## When to apply
@@ -38,53 +38,42 @@ the minimum without which the period gate is unreachable, bounded by the availab
 - Whenever candidate goals exceed capacity and the period's set has to be drawn.
 
 ## Prerequisites
-- **Candidate items** — the candidate goals per direction to rank. *Missing → generate them from
-  the metric tree and hypothesis register, or run the upstream step.*
+- **Candidate goals** — per direction. *Missing → generate them from the metric tree
+  (`4#metric-tree`) and the hypothesis register, or run the upstream step.*
 - **The period gate / goal** — the target each candidate is ranked against. *Missing → state the
   stage-gate of the period first (the status's learning goal / the metric node it must move).*
-- **Available resources** — the capacity that bounds the goal set. *Missing → run
-  `resource-check`.*
+- **Available resources** — the capacity that bounds the goal set. *Missing → run `resource-check`
+  (`5#resources`).*
 
 ## How to do it
-1. **State the gate first.** Name the gate of the period (a metric node to move or a Definition of
-   Done). Every candidate is ranked against *this*, not against a generic score.
-2. **List the candidates.** All of them, per direction — don't pre-cut before ranking. **Record the
-   count that entered the ranking (N).** A list with no N cannot be audited later: a candidate quietly
-   dropped before scoring is invisible, and "we prioritized" reads the same whether ten items competed
-   or three did.
-3. **Score each (RICE or ICE).** Reach · Impact · Confidence · (Effort). Use the score to *order*
-   candidates; keep the number honest with a confidence tag, and remember it is an aid, not the
-   verdict.
-4. **Re-rank by gate contribution.** Sort by how much each candidate moves the period gate. A high
-   score that doesn't move the gate ranks below a lower score that does.
-5. **Check the link.** Each candidate must move a metric node (`M-…`) or test a hypothesis (`H-…`).
-   A candidate that does neither is a candidate to cut — and a cut candidate is **recorded with its
-   reason**, not deleted: without the visible reject the next pass re-proposes the same goal.
-6. **Bound the set by capacity.** Keep the goals that fit inside the capacity from `resource-check`;
-   what doesn't fit is cut for the period, with the reason recorded. If the minimum set overflows
-   capacity, cut scope or renegotiate the gate — do not inflate the period.
-7. **Finalize the feature priorities.** With the period's goals set, re-weigh `priority` in
+1. **Run the ranking procedure on the goals** — gate stated, every candidate with N, RICE/ICE as
+   the aid, rank by gate contribution, link check, capacity bound, every cut with its reason:
+   [`rice-procedure.md`](../references/rice-procedure.md). The score inputs come from the
+   artifact — reach from the metric register, impact from the node movement the goal names — ⚙️
+   proposed, asked only where nothing on file answers ([`questions.yaml`](questions.yaml)).
+2. **Keep the set at the gate's minimum.** The period holds the goals without which the gate is
+   unreachable, and no more — a goal that fits capacity but does not move the gate is a cut, with
+   the reason.
+3. **Finalize the feature priorities.** With the period's goals set, re-weigh `priority` in
    `registers/features.md`: a `planned` row serving a goal of *this* period → `now`; structurally
-   heavy (Step-4 seed) but not this period → `next`; the rest → `later`. This is the cascade's
-   period pass — Step 4 said what the model needs, this step says what of it happens now, so the
-   Step-6 ranking starts from a weighted pool instead of a cold list. The method declares the
-   write, the orchestrator writes the cells.
+   heavy (Step-4 seed) but not this period → `next`; the rest → `later`. Step 4 said what the model
+   needs, this step says what of it happens now, so the Step-6 ranking starts from a weighted pool
+   instead of a cold list. The method declares the write, the orchestrator writes the cells.
 
-> **Boundary with `segment-cvp` (one mechanism, one way).** A market-entry bundle arrives here
-> **already scored for test-readiness** by `segment-cvp` — which bet is worth learning about first,
-> on a scale that includes speed to a signal, an axis RICE does not have. This method does **not**
-> re-score it. It answers the other question: does the staged test fit this period's capacity against
-> the period gate. One object, one scale each; scoring a bundle twice on two scales is the drift the
-> canon forbids.
+> **Boundary with `segment-cvp` (one mechanism, one way).** A market-entry bundle
+> (`5#market-bundles`) arrives here **already scored for test-readiness** by `segment-cvp` — on a
+> scale that includes speed to a signal, an axis RICE does not have. This method does **not**
+> re-score it; it answers only whether the staged test fits this period's capacity against the
+> period gate. One object, one scale each.
 
 ## Anti-patterns
-- **Flat list, no rank.** A pile of goals with no ordering — the set can't be bounded.
-- **Goals inflated past capacity.** A period plan that doesn't fit the available resources; it's a
-  wish list, not a plan.
-- **Score for score's sake.** Ranking by RICE/ICE number with no tie back to the gate.
-- **Orphan goals.** Goals with no `M-…` / `H-…` link — they move nothing and test nothing.
-- **Invisible cuts.** A candidate dropped before or after the ranking with no recorded reason — the
-  next pass re-derives it and no one can audit the selection.
+The shared five are in the reference. This card's own:
+- **Goals inflated past capacity.** A period plan that doesn't fit the available resources is a wish
+  list, not a plan.
+- **A bundle re-scored.** RICE run over a `B-…` that `segment-cvp` already gated — two scales on
+  one object.
+- **Feature priorities left cold.** The goal set signed with `priority` in the feature register
+  untouched — Step 6 then ranks from an unweighted pool.
 
 ## Worklog & projection
 Worklog: `5-tactical-plan/prioritization-tactical-plan.md` — the gate stated first, the full candidate list with N, the RICE/ICE scores, the re-rank by gate contribution, the goal set bounded at the capacity line, every cut with its reason. Projects `{#period-goals}`; face: the **Gate of the period** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).

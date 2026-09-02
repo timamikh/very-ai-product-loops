@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Task Spec (back-office direction)
@@ -32,22 +32,32 @@ it (linked, not asserted), a binary Definition of Done, who owns it, and what it
 ## Prerequisites
 - **Period goals** — a task must trace to a goal / metric node / risk / hypothesis. *Missing → Step 5.*
 
-## The format
-Each task has exactly these fields (keep them tight):
+## Inputs
+`5#period-goals` for the goal the task serves; `5#goal-targets` for that goal's Definition of Done
+(back-office goals map to a DoD, and the task's DoD is one yes/no piece of it); the metric, risk and
+hypothesis registers for the `M-…` / `R-…` / `H-…` the **Why** links; the feature register for the
+`F-…` capability.
 
-- **Feature** — the `F-…` register row this task advances (a lasting capability: "automated ticket
-  triage", not the migration script that builds it). A genuine one-off with no lasting row keeps
-  `— to clarify —` here — that is legal for tasks, and a run of such one-offs is a hint a
-  capability row is hiding.
-- **Description** — what needs doing.
-- **Why** — the business reason, as a link: the `M-…` it moves, the `R-…` it mitigates, or the
-  `H-…` it serves.
-- **Definition of Done** — binary: answerable yes/no at sprint end.
-- **Expected impact** — pre-registered: the `M-…` it moves (baseline → expected) or the `R-…` →
-  target status, plus a **check-by**. Read at the next Step-5 gate by `impact-readout`.
-- **Owner** — who is accountable for it landing.
-- **Estimate** — a size class **S/M/L + a range**, `[assumption]` until the readout records the
-  actual.
+## How to do it
+1. **Start from the goal.** Pick the period goal (`5#period-goals`) the task serves and the `M-…` /
+   `R-…` / `H-…` behind it — the **Why** is that link, not an assertion. A task with none is a cut
+   candidate.
+2. **Find or mint the `F-…` row** — the lasting capability ("automated ticket triage", not the
+   migration script that builds it). A genuine one-off with no lasting row keeps `— to clarify —`
+   here — legal for tasks; a run of such one-offs is a hint a capability row is hiding.
+3. **Fill the block, field for field** — the form is [`template-fragment.md`](template-fragment.md).
+   The **Definition of Done** is binary — answerable yes/no at sprint end — and rolls up to the
+   goal's DoD in `5#goal-targets`.
+4. **Pre-register the Expected impact** — the `M-…` baseline → expected or the `R-…` → target
+   status, plus a **check-by**. `impact-readout` reads exactly this at the next Step-5 gate.
+5. **Estimate as a class + range** — S/M/L, `[assumption]` until the readout records the actual.
+   Name the **Owner** and close the block with the decision line.
+
+## The format
+Field for field, the `{#must}` block of the step template: **Feature** (the `F-…` capability, or
+`— to clarify —` for a one-off) · **Description** (what needs doing) · **Why** (the `M-…` it moves /
+`R-…` it mitigates / `H-…` it serves) · **Definition of Done** (binary) · **Expected impact** ·
+**Owner** · **Estimate**.
 
 ## Anti-patterns
 - **A DoD you can't answer yes/no to.** "Improve the onboarding docs" is a direction, not a DoD —

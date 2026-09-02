@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.2
+version: 0.3.3
 updated: 2026-09-02
 ---
 # Hypothesis Test Design
@@ -35,11 +35,18 @@ re-decided here** — this method designs the smallest test that can reach that 
 - Whenever a bet is about to drive spend or build effort and its truth is still an assumption.
 
 ## Prerequisites
-- **A hypothesis with a threshold** — a falsifiable `H-…` and the quantified bar that means success.
-  *Missing threshold → quantify it at Step 4 via `hypothesis-thresholds`; missing hypothesis → seed
-  it via the tool that surfaced the bet (e.g. `channels-expansion`, `value-definition`).*
-- **Its metric node** — the `M-…` in the metric tree that the threshold is read against.
-  *Missing → run `metric-tree` so the test reads against a defined, instrumented node.*
+- **A hypothesis with a threshold** — a falsifiable `H-…` from the hypothesis register and the
+  quantified bars set on it in `{#global-hypotheses}` (Step 4). *Missing threshold → quantify it at
+  Step 4 via `hypothesis-thresholds`; missing hypothesis → seed it via the Step-3 tool that surfaces
+  the bet (`bets`, or `channels-expansion` for a channel claim).*
+- **Its metric node** — the `M-…` the threshold is read against, with its definition and baseline
+  in the metric register. *Missing → run `metric-tree` so the test reads against a defined,
+  instrumented node.*
+
+**Where the candidates come from.** Two doors, both already in the register: a strategy bet
+quantified in `{#global-hypotheses}`, or a go-to-market bundle staged in `{#market-bundles}` this
+period (`segment-cvp` stages, this method designs). A hypothesis that entered through neither is
+not a candidate for a test slot.
 
 ## How to do it
 1. **Name the hypothesis and its riskiest assumption.** Which `H-…`, and what has to be true for the
@@ -50,7 +57,8 @@ re-decided here** — this method designs the smallest test that can reach that 
    (`hypothesis-thresholds`) — cite both; the gap between them is the inconclusive zone. A missing
    bar is a Step 4 gap to close there, never a number decided here.
 4. **Size the smallest sufficient test.** The sample size or duration that can distinguish success
-   from failure at that threshold — no larger. If the test costs more than the answer is worth, shrink
+   from failure at that threshold — no larger; the baseline rate comes from the node's reading in
+   `registers/metrics.csv`, not from memory. If the test costs more than the answer is worth, shrink
    the question or drop it.
 5. **Fix the decision rule in advance.** Before running: "at ≥ threshold → `validated`; at < failure
    bar → `refuted`; in between → `inconclusive`, and what we do then." No post-hoc goalposts.

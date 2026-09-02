@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.1
+version: 0.4.2
 updated: 2026-09-02
 ---
 # Risk Mitigation

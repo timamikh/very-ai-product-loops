@@ -9,7 +9,7 @@ prerequisites:
   - current run-rate (MRR/revenue/cost lines) from the metric register
   - capacity constraints (slot caps, registration caps, compute limits) — explicit
 reads: [section:market-sizing, section:pricing, section:metric-tree, section:unit-economics, register:metrics, register:hypotheses]
-writes: [worklog, section:financial-model, register:metrics]
+writes: [worklog, section:financial-model]
 opinionated: true
 method_basis: "Driver-based modeling; churn as scenario axis; capacity caps as first-class constraint"
 evidence_standard: derived
@@ -17,7 +17,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.2.3
+version: 0.2.4
 updated: 2026-09-02
 ---
 # Financial model — a simple projection off the metric tree
@@ -30,8 +30,8 @@ cost-per-usage), never a hand-drawn revenue curve. At pmf the model is 10 lines,
 - Step 4, once the metric tree and unit economics exist — the drivers are the model's inputs.
 
 ## Prerequisites
-- **Metric tree** — drivers are the model's inputs; no tree, no model.
-- **Unit economics** — ARPPU, contribution, both bases.
+- **Metric tree** (`{#metric-tree}`) — drivers are the model's inputs; no tree, no model.
+- **Unit economics** (`{#unit-economics}`) — ARPPU per tier (`3#pricing`), contribution, both bases.
 - **Current run-rate** — MRR/revenue/cost lines from the metric register.
 - **Capacity constraints** — slot caps, registration caps, compute limits, made explicit.
 
@@ -41,9 +41,11 @@ cost-per-usage), never a hand-drawn revenue curve. At pmf the model is 10 lines,
 2. **Churn honesty rule:** no instrumented product churn → churn is a SCENARIO AXIS (e.g.
    3/5/10%), never a single guessed constant.
 3. **Compound monthly, 12 months, 2–4 scenarios** (conservative / base ⚙️ / stretch tied to a
-   named hypothesis — e.g. "activation fixed"). MRR_{t+1} = MRR_t × (1 − churn) + new × ARPPU.
-4. **Apply capacity constraints** — slot caps, registration caps, compute ceilings. If a
-   scenario hits a cap, SAY WHEN: "the cap binds in month N" is often the model's main output.
+   named `H-…` from the hypothesis register — e.g. "activation fixed").
+   MRR_{t+1} = MRR_t × (1 − churn) + new × ARPPU.
+4. **Apply capacity constraints** — slot caps, registration caps, compute ceilings, and the SOM
+   from `2#market-sizing` as the outer ceiling. If a scenario hits a cap, SAY WHEN: "the cap binds
+   in month N" is often the model's main output.
 5. **Carry both cost bases** (operational / honest) to breakeven lines.
 6. **Declare invalidation triggers:** which actual-vs-model divergence forces a revisit
    (feeds the step's cadence rules).

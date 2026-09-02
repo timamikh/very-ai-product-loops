@@ -2,15 +2,19 @@
 tool: resource-check
 questions:
   - id: people
-    ask: "Who is available this period, per direction (dev / go-to-market / back-office), and at what capacity?"
-    type: free_text
+    ask: "Who is available this period, per direction (dev / go-to-market / back-office), at what capacity — and who confirms each figure?"
+    type: per_item
+    why: "Capacity is stated, not measured; an unattributed number is the one everyone remembers differently at period end."
   - id: budget
     ask: "What budget is available this period, and is any of it earmarked?"
     type: free_text
+    why: "Earmarked money is not capacity for the plan; counting it plans goals the budget can't fund."
   - id: time
     ask: "How long is the period, and are there fixed dates/constraints?"
     type: free_text
+    why: "A fixed date caps the plan as hard as headcount does."
   - id: binding
-    ask: "Which resource is most likely to cap the plan (people / budget / time)?"
+    ask: "Which resource is most likely to cap the plan (people / budget / time) — and what alternative was declined (e.g. two engineers, not three)?"
     type: single_select
     options: [people, budget, time]
+    why: "prioritization-tactical-plan bounds the goals on the binding constraint; the declined alternative is what the decision line records."
