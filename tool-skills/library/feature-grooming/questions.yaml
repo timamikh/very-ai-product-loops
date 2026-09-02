@@ -1,6 +1,5 @@
 # feature-grooming — interview (the product forks; asked grouped, in one sitting)
 tool: feature-grooming
-writes: [section:must, section:backlog]
 questions:
   - id: product_forks
     ask: "For each product/UX/business fork found in this feature: here are 2–4 options with a recommended default — which do you pick? (scope boundaries · surface · who may do what · tier/plan access · monetization · visible behaviour · told-or-silent · media in/out · one-or-many · success threshold · check targets · fate of user data)"

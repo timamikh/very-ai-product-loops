@@ -1,6 +1,5 @@
 # pricing-strategic-plan — interview
 tool: pricing-strategic-plan
-writes: [section:pricing]
 questions:
   - id: usage_per_tier
     ask: "For each tier — what does a typical account's usage cost in inference (and other usage-scaling COGS)? (from unit-economics; ⚙️ agent pulls the COGS lines)"

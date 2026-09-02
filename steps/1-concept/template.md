@@ -92,7 +92,7 @@ _How the product solves each problem above. No orphan features._
 | … | … | [assumption] |
 
 ## Value & Defensibility {#value-defensibility}
-<!-- tool: value-definition-concept -->
+<!-- tool: value-definition-concept, value-definition-strategy -->
 _The value and the moat(s). See the tool for the base/derivative taxonomy._
 
 - Intended moat(s): …  [assumption]

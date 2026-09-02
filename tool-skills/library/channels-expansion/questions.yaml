@@ -1,6 +1,5 @@
 # channels-expansion — interview
 tool: channels-expansion
-writes: [section:channels-expansion]
 questions:
   - id: channels
     ask: "Which acquisition/comms channels could reach these segments? ≥8 candidates across ≥3 channel-type categories (⚙️ agent brainstorms the full Bullseye list, not just the obvious ones)"

@@ -4,7 +4,7 @@ kind: method
 name: pricing-strategic-plan
 steps: [4]
 prerequisites: [the step-3 pricing decision, unit economics]
-reads: [register:hypotheses, register:metrics, source:metrics, source:kb, section:pricing, worklog:4-strategic-plan/unit-economics, worklog:4-strategic-plan/financial-model]
+reads: [register:hypotheses, register:metrics, source:metrics, source:kb, section:pricing, worklog:3-strategy/pricing-strategy, worklog:4-strategic-plan/unit-economics, worklog:4-strategic-plan/financial-model]
 writes: [worklog, section:pricing, register:hypotheses]
 opinionated: true
 method_basis: "Margin revisit of a value-based pricing decision: chosen price vs contribution margin, inference COGS per tier, free-tier burn; outcome is 'holds' or a proposed change to the Step-3 decision — never a silent re-decision"

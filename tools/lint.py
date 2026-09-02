@@ -14,6 +14,8 @@ Checks (ERROR fails CI · WARN never does):
   A2 tool `questions.yaml` `writes` (atoms, same grammar as the card) matches the card's sections;
      the old `produces:` spelling is an ERROR
   B  every written section is homed in some step's artifact (a step template `{#id}`)
+  B2 a card that writes `section:X` is named on X's template marker — the marker is how a reader
+     and check P find its worklog (first = primary, later = contributing / revisit)
   C  library index rows <-> tool folders, and index "Steps" <-> the card's `steps`
   C2 a section whose method's template-fragment declares a card slot (a live `<!-- card -->` in the
      fragment) carries a card mark of its own — the missing-mark half of the slot contract; whether
@@ -51,7 +53,8 @@ Checks (ERROR fails CI · WARN never does):
   I  a product's own skills (product-loops/tool-skills/…) obey the same wiring rules as vendored ones
   I2 a vendored framework is pinned and pointed at: FRAMEWORK-VERSION (tag + SHA) at the vendor root,
      a pointer + standing delegation approval in the product repo's root AGENTS.md (install/README →
-     Acceptance); detected by layout, silent in the framework's own dev repo
+     Acceptance); detected by layout — the framework at the product repo's root with the instance
+     beside it (canon), or in a sub-folder (legacy) — and silent in the framework's own dev repo
   J  a register table is not split by a blank line  (WARN)
   K  a register `id` cell names exactly one item (one row = one id)
   L  every library tool carries the quality declaration (evidence_standard · volume_rule ·
@@ -74,6 +77,8 @@ Checks (ERROR fails CI · WARN never does):
      atoms, and the primary working's citations (section anchors, register ids) stay inside the
      declared perimeter — the change log and the orchestrator's-conclusions block are exempt;
      worklogs predating the line get one aggregate WARN per instance  (all WARN)
+  P3 a step README's skeleton row and the template marker name the same tools for a section; with a
+     single marker the first tool agrees too (it owns the worklog)
   Q  section confirmation: no schema (template/fragment) ships a `confirmed:`/`contested:` marker, and
      an artifact's `confirmed:` marker parses as a YYYY-MM-DD date (ERROR) else it silently means pending
   R  confirmation consistency: an `<!-- open -->` section (inbox) carries no `confirmed:`, and no
@@ -153,26 +158,82 @@ def check_tools(tools, homed):
             if sid not in frag_ids:
                 err("A [%s] writes `section:%s` but its template-fragment.md has no {#%s}"
                     % (name, sid, sid))
-        # A2 — questions.yaml `writes` matches the sections the card writes (one word, one grammar:
-        # the file uses the same atoms as the card header; `produces` is the pre-wave-3.1 spelling)
+        # A2 — questions.yaml carries no write perimeter of its own: the card header is the one
+        # home of `writes` (a second copy drifted in 38 of 47 files and nothing read it)
         q = os.path.join(t["dir"], "questions.yaml")
         if os.path.exists(q):
             qtext = read(q)
-            if re.search(r"^produces:", qtext, re.M):
-                err("A2 [%s] questions.yaml still says `produces:` — the field is `writes:`, in "
-                    "atoms (`writes: [section:idea]`); one write perimeter, one word" % name)
-            mm = re.search(r"^writes:\s*(.+)$", qtext, re.M)
-            if mm:
-                qp = set(C.sections_written(T.as_list(T.parse_scalar(mm.group(1)))))
-                sp = set(secs)
-                if qp != sp:
-                    err("A2 [%s] questions.yaml writes %s != the sections the card writes %s"
-                        % (name, sorted(qp), sorted(sp)))
+            if re.search(r"^(writes|produces):", qtext, re.M):
+                err("A2 [%s] questions.yaml declares `writes:`/`produces:` — the write perimeter lives "
+                    "in SKILL.md frontmatter only; the interview script asks, it does not write" % name)
         # B — every written section is homed in a step artifact
+        writers = _template_writers()
         for sid in secs:
             if sid not in homed:
                 err("B [%s] writes `section:%s` with no home — not in any step template {#%s} "
                     "(homeless output)" % (name, sid, sid))
+            # B2 — and the section's marker names this method: the marker is how a reader (and
+            # check P) finds the method's worklog; a writer the marker omits has a file nobody can
+            # resolve (worklog-resolution -> A revisit from a later step)
+            elif sid in writers and name not in writers[sid]:
+                err("B2 [%s] writes `section:%s` but the template marker on {#%s} names only %s — "
+                    "add it to the marker (first = primary, later = contributing / revisit)"
+                    % (name, sid, sid, ", ".join(writers[sid])))
+
+
+def check_readme_markers(tools):
+    """P3 — a step README's *Artifact skeleton* rows and the step template's `<!-- tool: -->` markers name
+    the same tools, section by section.
+
+    Two homes for "which method fills this section": the README row is what a human (and the console)
+    reads, the template marker is what the linter and check P resolve the worklog from. When they
+    drift, the console links one worklog and the linter demands another — live finding on `6#must`.
+    Only library tool names are compared (a row's prose aside is not a claim); with a single marker the
+    first tool must agree too, since the first tool owns the section's worklog.
+    """
+    writers = _template_writers()
+    for readme in sorted(glob.glob(os.path.join(ROOT, "steps", "*", "README.md"))):
+        step = os.path.basename(os.path.dirname(readme))
+        body = read(readme)
+        i = body.find("## Artifact skeleton")
+        if i < 0:
+            continue
+        for line in body[i:].splitlines()[1:]:
+            if not line.startswith("|"):
+                if line.startswith("## "):
+                    break
+                continue
+            cells = [c.strip() for c in line.strip("|").split("|")]
+            if len(cells) < 3 or not cells[0].startswith("`") or cells[0].startswith("`Section"):
+                continue
+            sid = cells[0].split("`")[1]
+            row = [t for t in re.findall(r"`([a-z0-9-]+)`", cells[-1]) if t in tools]
+            mark = writers.get(sid)
+            if mark is None:
+                continue                                  # no marker (synthesis) — nothing to compare
+            if set(row) != set(mark):
+                err("P3 %s/README.md `%s`: the skeleton row names %s, the template marker names %s — one "
+                    "section, one set of writers (the console reads the row, check P the marker)"
+                    % (step, sid, row or "no tool", mark))
+            elif row and mark and row[0] != mark[0] and len(set(mark)) == len(mark):
+                # a section with several markers (per-direction blocks) has no single first tool
+                tpl = read(os.path.join(ROOT, "steps", step, "template.md"))
+                sec = next((s for s in T.sections(tpl) if s["id"] == sid), None)
+                if sec and len(TOOL_MARK_RE.findall(sec["body"])) == 1:
+                    err("P3 %s/README.md `%s`: the row lists `%s` first, the marker `%s` — the first tool "
+                        "owns the section's worklog, so the order is a claim" % (step, sid, row[0], mark[0]))
+
+
+def _template_writers():
+    """{section id: [tools its `<!-- tool: -->` marker names]} across the step templates."""
+    out = {}
+    for tpl in glob.glob(os.path.join(ROOT, "steps", "*", "template.md")):
+        for sec in T.sections(read(tpl)):
+            if not sec["id"]:
+                continue
+            for m in TOOL_MARK_RE.findall(sec["body"]):
+                out.setdefault(sec["id"], []).extend(t.strip() for t in m.split(","))
+    return out
 
 
 EVIDENCE_STANDARDS = {"external-sources", "primary-research", "internal-data", "derived", "decision"}
@@ -625,7 +686,13 @@ def check_worklogs(inst):
             if fm.get("node_type") != "worklog":
                 err("P [%s] %s/%s is not `node_type: worklog` — a step folder holds only worklogs"
                     % (name, stem, base))
-            if base[:-3] not in named and base[:-3] != "metrics-capture":
+            # a revisit (a later step's method named on an EARLIER step's marker) keeps its worklog
+            # in its own step's folder, which this folder's artifact never names — legal when some
+            # artifact of the instance names the tool and the tool's card runs at this step
+            # (worklog-resolution -> A revisit from a later step)
+            revisit = (base[:-3] in _named_anywhere(inst)
+                       and stem[0] in _card_atoms(base[:-3], inst, "steps"))
+            if base[:-3] not in named and base[:-3] != "metrics-capture" and not revisit:
                 # `metrics-capture` is event-driven (an operations skill): its derivation worklog may
                 # appear in any step folder without a section marker — the csv row cites it.
                 warn("P [%s] %s/%s is an orphan — no section uses tool `%s`"
@@ -636,6 +703,14 @@ def check_worklogs(inst):
         if SOURCES_LINK_RE.search(text):
             warn("P [%s] %s links sources/ directly — a source citation routes through the worklog, "
                  "never the artifact (see source-intake)" % (name, stem))
+
+
+def _named_anywhere(inst):
+    """Every tool any artifact of the instance names in a `<!-- tool: -->` marker."""
+    out = set()
+    for art in glob.glob(os.path.join(inst, "[1-6]-*.md")):
+        out.update(t.strip() for m in TOOL_MARK_RE.findall(read(art)) for t in m.split(","))
+    return out
 
 
 def _card_atoms(tool, inst, field):
@@ -1268,24 +1343,31 @@ def check_artifact_frontmatter(inst):
 def check_install(checked):
     """I2 — a vendored framework is pinned and pointed at (install/README -> Acceptance).
 
-    Detected by layout, not by flag: an instance whose repo root CONTAINS this framework means the
-    framework is a vendored copy inside a product repo. Then the install's two machine-checkable
-    debts become errors: the FRAMEWORK-VERSION pin at the vendor root (tag AND commit SHA — without
-    it nobody can say what version the instance runs on), and the pointer in the product repo's
-    root AGENTS.md (what makes a plain "continue the strategy" land in the loop instead of an
-    ad-hoc bulk fill). In the framework's own dev repo nothing fires: its instances (examples/)
-    live INSIDE the framework, not beside it.
+    Detected by layout, not by flag. The canon layout is the vendored framework AT the product repo's
+    root with the instance beside its folders (`product-loops/`); a framework in a sub-folder of the
+    product repo is still read. Either way the install's two machine-checkable debts become errors:
+    the FRAMEWORK-VERSION pin at the vendor root (tag AND commit SHA — without it nobody can say what
+    version the instance runs on), and the pointer in the product repo's root AGENTS.md (what makes a
+    plain "continue the strategy" land in the loop instead of an ad-hoc bulk fill). The framework's
+    own dev repo (it ships `examples/`) is not an install and stays silent.
     """
     root_abs = os.path.abspath(ROOT)
+    dev_repo = os.path.isdir(os.path.join(root_abs, "examples"))   # the framework's own repo ships examples/
     seen = set()
     for inst in checked:
-        repo = os.path.dirname(os.path.abspath(inst))
+        ia = os.path.abspath(inst)
+        repo = os.path.dirname(ia)
         if repo in seen or repo in ("", os.sep):
             continue
         seen.add(repo)
-        # vendored layout: the framework sits somewhere under the instance's repo root, and is not
-        # an ancestor of the instance itself (examples/ inside the dev repo must stay silent)
-        if not root_abs.startswith(repo + os.sep) or os.path.abspath(inst).startswith(root_abs + os.sep):
+        # the canon layout (install/README -> What lands in your repo): the vendored framework IS the
+        # product repo's root and the instance sits beside its folders (`product-loops/`). The
+        # framework's own dev repo (examples/ present) is not an install and stays silent. A legacy
+        # layout — framework in a sub-folder of the product repo — is still read.
+        if repo == root_abs:
+            if dev_repo:
+                continue
+        elif not root_abs.startswith(repo + os.sep) or ia.startswith(root_abs + os.sep):
             continue
         tag = rel(inst)
         pin = os.path.join(root_abs, "FRAMEWORK-VERSION")
@@ -1468,6 +1550,13 @@ def _template_section_keys():
     return out
 
 
+def _is_framework_example(inst):
+    """The framework's own reference instances (`examples/` in the dev repo). They are held to ERROR
+    on template shape — they ARE the form. A product instance that vendored the framework gets WARN:
+    a template that moved under a filled instance is visible debt, not a blocker (install/UPDATE.md)."""
+    return os.path.abspath(inst).startswith(os.path.join(os.path.abspath(ROOT), "examples") + os.sep)
+
+
 def check_instance_conformance(inst):
     """O2 — an instance's artifact section carries its template's column keys (the projection contract).
 
@@ -1480,6 +1569,10 @@ def check_instance_conformance(inst):
     """
     tkeys = _template_section_keys()
     tenums = _template_section_enums()
+    shape = err if _is_framework_example(inst) else warn
+    debt = "" if _is_framework_example(inst) else (
+        " — a template that moved under a filled instance is visible debt, not a blocker: re-project "
+        "the section as an ordinary pass (install/UPDATE.md)")
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         text = read(art)
         bodies = {sec["id"]: sec["body"] for sec in T.sections(text) if sec["id"]}
@@ -1494,13 +1587,13 @@ def check_instance_conformance(inst):
                 continue                  # consciously skipped (`n/a` tick) — no projection owed
             iks = inst_keys.get(sid)
             if iks is None:
-                err("O2 %s#%s: the template keys this section but the instance carries no column keys — "
-                    "the chistovik must carry its template's form so the console reads it by key "
-                    "(CONVENTIONS → Column keys)" % (rel(art), sid))
+                shape("O2 %s#%s: the template keys this section but the instance carries no column keys — "
+                      "the chistovik must carry its template's form so the console reads it by key "
+                      "(CONVENTIONS → Column keys)%s" % (rel(art), sid, debt))
             elif set(iks) != set(tks):
-                err("O2 %s#%s: instance table keys %s do not match the template's form %s — the "
-                    "chistovik must carry its template's keys (CONVENTIONS → Column keys)"
-                    % (rel(art), sid, sorted(iks), sorted(tks)))
+                shape("O2 %s#%s: instance table keys %s do not match the template's form %s — the "
+                      "chistovik must carry its template's keys (CONVENTIONS → Column keys)%s"
+                      % (rel(art), sid, sorted(iks), sorted(tks), debt))
         # O3 — a column with a template-declared vocabulary holds only its tokens. The template is
         # the schema (the same contract check D holds for registers): a truncated or improvised
         # token reads plausibly and slips through every human pass — this is the machine's catch.
@@ -1512,9 +1605,9 @@ def check_instance_conformance(inst):
                 for v in (T.column_key_values(body, key) or ()):
                     cv = T.enum_value(v)
                     if cv and cv not in toks:
-                        err("O3 %s#%s: `%s` = %r not in the template's enum %s — the template is "
-                            "the schema; a qualifier belongs in a note or the worklog, never "
-                            "compounded into the value" % (rel(art), sid, key, cv, sorted(toks)))
+                        shape("O3 %s#%s: `%s` = %r not in the template's enum %s — the template is "
+                              "the schema; a qualifier belongs in a note or the worklog, never "
+                              "compounded into the value%s" % (rel(art), sid, key, cv, sorted(toks), debt))
 
 
 CONFIRM_LOOSE_RE = re.compile(r"<!--\s*confirmed:\s*(.*?)\s*-->")
@@ -2036,6 +2129,7 @@ def main(argv=()):
     check_column_keys()
     check_schema_not_confirmed()
     check_index(tools)
+    check_readme_markers(tools)
     checked = instances(list(argv))
     for inst in checked:
         check_instance(inst)

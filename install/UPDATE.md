@@ -20,10 +20,10 @@ outside that tree and is not touched.
 
 | Overwritten by the update | Survives untouched |
 |---|---|
-| `steps/` · `statuses/` · `process/` · `tool-skills/` · `tools/` | `product-loops/` — every artifact, register, worklog, source, `config.yaml`, `state.yaml`, `HANDOFF.md` |
-| `AGENTS.md` (the rules) · `EXTENDING.md` + `extending/` | `product-loops/tool-skills/` — the product's own methods and operations |
-| `.claude/skills/` · `.claude/agents/` | `product-loops/skills/` — the product's own exchange cards |
-| `FRAMEWORK-VERSION` | your repo's root `AGENTS.md` / `CLAUDE.md` pointers |
+| the vendored set — the list under [`README.md` → *What lands in your repo*](README.md#what-lands-in-your-repo), `FRAMEWORK-VERSION` included | `product-loops/` — every artifact, register, worklog, source, `config.yaml`, `state.yaml`, `HANDOFF.md` |
+| | `product-loops/tool-skills/` — the product's own methods and operations |
+| | `product-loops/skills/` — the product's own exchange cards |
+| | your repo's root `CLAUDE.md` pointer, if you added one |
 
 **Anything you edited inside the vendored tree is lost.** That is not a warning about carelessness — it
 is the design: the only way to keep a change is to put it where the update cannot reach, which is what
@@ -31,8 +31,10 @@ is the design: the only way to keep a change is to put it where the update canno
 
 ## Procedure
 
-1. **Read what changed** — [`../CHANGELOG.md`](../CHANGELOG.md) between your tag and the new one. Four
-   things matter more than the rest, because only these can leave a filled instance off-form:
+1. **Read what changed** — diff the vendored tree between your pinned SHA and the new one
+   (`git diff <old-sha> <new-sha> -- steps/ process/ tool-skills/ statuses/`); the CHANGELOG is a
+   reading aid, the diff is the truth. Four things matter more than the rest, because only these can
+   leave a filled instance off-form:
    **step templates** (a section, a column, a key), **register schemas**, **new or renamed checks**, and
    **methods removed or recut**.
 2. **Re-vendor at the new tag** — overwrite the paths in the left column above, and touch nothing under
@@ -41,15 +43,16 @@ is the design: the only way to keep a change is to put it where the update canno
    version, the SHA the immutable anchor.
 4. **Restart the session once.** Agent definitions and skills vendored mid-session are picked up only at
    the next start.
-5. **Run `python3 tools/lint.py <instance>`.** Expect errors that were legal before — a new check
-   reporting on old content is the update working, not failing. Check the `instances checked:` line names
-   your instance.
+5. **Run `python3 tools/lint.py <instance>`.** Expect reports that were silent before — a new check
+   reading old content is the update working, not failing. A section left off-form by a moved template
+   (checks O2/O3) reports as a **WARN** on a product instance: visible debt, worked as an ordinary pass,
+   never a blocker. Check the `instances checked:` line names your instance.
 6. **Work the report as ordinary passes**, not as a cleanup sweep:
    - a **shape** error → re-project the section into the new form
      ([`../extending/section.md`](../extending/section.md) → step 6);
    - a **homeless method** → the card it pointed at moved or was recut; re-home it
      ([`../extending/method.md`](../extending/method.md));
-   - a **removed method** you relied on → the CHANGELOG names what replaced it; if nothing did, that is a
+   - a **removed method** you relied on → the diff (and the CHANGELOG) name what replaced it; if nothing did, that is a
      local card ([`../extending/method.md`](../extending/method.md)), not a reason to stay behind.
 7. **Re-check your local cards that shadow a vendored one.** A local card of the same name still wins —
    but it now shadows a *newer* card, which may fill a section whose shape changed under it. A shadow that

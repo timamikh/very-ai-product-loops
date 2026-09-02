@@ -1,6 +1,5 @@
 # ab-test — interview
 tool: ab-test
-writes: [section:hypotheses-to-test]
 questions:
   - id: hypothesis
     ask: "Which H-… does this experiment test, and against which metric node (M-…)? (if it has no threshold yet, run hypothesis-test-design first)"

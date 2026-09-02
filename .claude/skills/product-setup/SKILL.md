@@ -21,8 +21,9 @@ The first-run experience. Its job: get from "framework installed + a pile of exi
 clearly marked, a chosen status, and a plan for what to work on first." Good onboarding is the
 difference between the framework feeling alive on day one and feeling like blank templates.
 
-**Install ≠ setup.** Installing the framework (vendoring `process/ steps/ statuses/ tool-skills/
-.claude/`, pinned to a version) is a separate, earlier step — see [`install/`](../../../install/README.md).
+**Install ≠ setup.** Installing the framework (vendoring the set listed in
+[`install/README.md` → *What lands in your repo*](../../../install/README.md), pinned to a version)
+is a separate, earlier step.
 This skill assumes the framework is already present and sets up the **product**; it does not vendor
 the framework.
 

@@ -45,9 +45,9 @@ swap or add tools per product (see [library](../../tool-skills/library/README.md
 | `jtbd` | The job + the four forces that gate switching (anchors segments/pains; feeds Step 2 substitutes) | `jtbd-concept` |
 | `segments` | Who it's for — segments and how they're cut | `segmentation` |
 | `problems` | Each segment's problems (severity × frequency) | `segment-pains` |
-| `cjm` (optional) | The segment's journey over time — where it breaks (the temporal view behind `problems`) | `cjm-concept` |
+| `cjm` (optional) | The segment's journey over time — where it breaks (the temporal view behind `problems`) | `cjm-concept`, `cjm-strategy` (Step-3 revisit) |
 | `solution` | How the product solves each problem | `concept-expansion` |
-| `value-defensibility` | Value and moats (base; derivatives deferred to Step 3) | `value-definition-concept` |
+| `value-defensibility` | Value and moats (base; derivatives deferred to Step 3) | `value-definition-concept`, `value-definition-strategy` (Step-3 revisit) |
 
 ## Register touchpoints
 

@@ -1,6 +1,5 @@
 # cjm-concept — interview
 tool: cjm-concept
-writes: [section:cjm]
 questions:
   - id: segment_job
     ask: "Whose journey is this — which one segment/persona, doing which one job, from what start to what end?"

@@ -1,6 +1,5 @@
 # substitutes — interview
 tool: substitutes
-writes: [section:substitutes]
 questions:
   - id: job
     ask: "What job is the customer actually trying to get done? (define competition by the job, not by our product category)"

@@ -1,6 +1,5 @@
 # concept-formation — interview
 tool: concept-formation
-writes: [section:idea]
 questions:
   - id: raw_idea
     ask: "Describe the idea in your own words — what is it and why now?"

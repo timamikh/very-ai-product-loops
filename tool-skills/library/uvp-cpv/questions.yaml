@@ -1,6 +1,5 @@
 # uvp-cpv — interview
 tool: uvp-cpv
-writes: [section:uvp-cpv]
 questions:
   - id: best_fit
     ask: "From the where-to-play segments — who is this UVP for? (the best-fit customer)"

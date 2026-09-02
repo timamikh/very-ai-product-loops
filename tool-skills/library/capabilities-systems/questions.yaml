@@ -1,6 +1,5 @@
 # capabilities-systems — interview
 tool: capabilities-systems
-writes: [section:capabilities]
 questions:
   - id: capabilities
     ask: "For each element of the winning logic (3#how-to-win) — what must we be reliably great at for it to be true? (⚙️ agent drafts the walk element by element)"

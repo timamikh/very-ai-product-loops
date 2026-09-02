@@ -37,7 +37,7 @@ strategy = find fit; `pmf` = prove repeatable value; `growth` = scale + defend.
 | `where-to-play` | Segments / markets / arena chosen | `where-to-play-how-to-win` |
 | `how-to-win` | The winning logic + which moats we leverage | `where-to-play-how-to-win`, `value-definition-strategy` |
 | `uvp-cpv` | Unique value proposition / customer-perceived value (per situation for the lead segment) | `uvp-cpv` |
-| `pricing` | Pricing model & packaging (value metric, tiers/fences, price vs the alternative) | `pricing-strategy` |
+| `pricing` | Pricing model & packaging (value metric, tiers/fences, price vs the alternative) | `pricing-strategy`, `pricing-strategic-plan` (Step-4 revisit) |
 | `channels-expansion` | Acquisition/comms channels + expansion paths | `channels-expansion` |
 | `product-surface` | Every user-interaction surface + instrumentation: channels, landings, mailings, admin, metric collection, behavior-study tools | `product-surface`, `product-baseline` |
 | `architecture` | System architecture at **C4 Context** level (product, its users, external systems) | `architecture-c4` |

@@ -1,6 +1,5 @@
 # task-spec — interview (back-office direction)
 tool: task-spec
-writes: [section:must, section:backlog]
 questions:
   - id: feature_row
     ask: "Which F-… register row does this item advance? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves.)"

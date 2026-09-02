@@ -4,7 +4,7 @@ kind: method
 name: value-definition-strategy
 steps: [3]
 prerequisites: [the step-1 value-defensibility section, competitor-context, strategy choices (where-to-play / how-to-win)]
-reads: [section:value-defensibility, section:competitor-strategy, section:where-to-play, section:how-to-win, register:hypotheses, source:interview, source:kb]
+reads: [section:value-defensibility, worklog:1-concept/value-definition-concept, section:competitor-strategy, section:where-to-play, section:how-to-win, register:hypotheses, source:interview, source:kb]
 writes: [worklog, section:value-defensibility, register:hypotheses]
 opinionated: true
 method_basis: "7 Powers (Helmer) revisited at strategy — derivative moats once customers/scale exist, moat trajectory over time; post-AI lens (software isn't the moat, position is)"
@@ -97,17 +97,20 @@ not create a second one.
   standing — a signed-off thesis that no longer says what was signed.
 
 ## Worklog & projection
-This skill revises a section owned at Step 1, so its working **continues the section's one source
-of truth**: `1-concept/value-definition-concept.md` — the worklog of the `{#value-defensibility}`
-section's primary tool (`process/CONVENTIONS.md` → *Step folders & worklogs*; a second worklog for
-the same section would be the drift the layer exists to stop). The revisit adds the strategy-informed
-pass — the re-tested base moats, the derivative table with dependencies, the trajectory, the new
-kills — to that worklog with a dated change-log entry, and re-projects `{#value-defensibility}` from
-it via [`template-fragment.md`](template-fragment.md). The contributions to `{#how-to-win}` and
-`{#bets}` land in `3-strategy/where-to-play-how-to-win.md` and `3-strategy/bets.md`, those sections'
-primary worklogs. External inputs arrive dispatched from `sources/` by `source-intake`, cited in the
-worklog, never linked from the artifact.
-
+This method **revisits** a section owned at Step 1 — `{#value-defensibility}`, marker
+`<!-- tool: value-definition-concept, value-definition-strategy -->`, second tool. A revisit works
+in **its own worklog** in its own step's folder: `3-strategy/value-definition-strategy.md`
+(`node_type: worklog`) — the re-tested base moats, the derivative table with dependencies, the
+trajectory, the new kills, with a dated change-log entry. The Step-1 working it builds on is a
+**declared worklog input** (`worklog:1-concept/value-definition-concept` in `reads`) — read, never
+written: no method writes another method's worklog (the write rule, N6). `{#value-defensibility}`
+is re-projected from this worklog via [`template-fragment.md`](template-fragment.md), which drops
+the section's stale `confirmed:` marker. The method is also named second on `{#how-to-win}`: that
+contribution is worked in this same worklog and reaches the section when its primary
+(`where-to-play-how-to-win`) re-projects; `{#bets}` reads the re-projected sections and the
+registers (`process/reference/worklog-resolution.md` → *Several methods → one section*). External
+inputs arrive dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from
+the artifact.
 ## Output
 Re-projects the Step-1 `{#value-defensibility}` via [`template-fragment.md`](template-fragment.md)
 (the update drops the section's `confirmed:` marker — it awaits re-confirmation); contributes moats

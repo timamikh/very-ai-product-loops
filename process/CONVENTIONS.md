@@ -104,8 +104,9 @@ The artifact `<step-number>-<slug>.md` is a **projection**; its working lives in
 of the same stem, one **worklog per method**: `<step-folder>/<tool>.md`, where `<tool>` is the id in
 the section's `<!-- tool: <tool> -->` marker. **The worklog is the source of truth; the artifact
 section is its projection** — every projected section has a worklog (check P), and the method's
-change-log history lives there, not in the artifact. How a section resolves to exactly one worklog —
-the id-thread, synthesis sections, a marker naming several tools —
+change-log history lives there, not in the artifact. How a section resolves to its worklogs —
+the id-thread, synthesis sections, a marker naming several tools, a later step's **revisit** that
+keeps its worklog in its own step's folder —
 [`reference/worklog-resolution.md`](reference/worklog-resolution.md). Raw external inputs are never
 worked in a worklog directly: they live in `sources/` and are dispatched in by `source-intake`
 (see *Raw data & access*). A worklog is **private to its method** — read only by that method, its

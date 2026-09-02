@@ -1,13 +1,14 @@
 # unit-economics — interview
 tool: unit-economics
-writes: [section:unit-economics]
 questions:
   - id: honest-base
     ask: "For the honest base: hardware depreciation from capex, or market compute price? (pick one rule)"
     type: single_select
+    options: [hardware depreciation from capex, market compute price]
   - id: free-burn-owner
     ask: "Who carries free-tier/grant inference burn — marketing (CAC-like), product (COGS), or the infra supplier?"
     type: single_select
+    options: [marketing (CAC-like), product (COGS), infra supplier]
   - id: cac-claim
     ask: "Is CAC≈0 still true for every active channel (incl. paid bloggers when they start)?"
     type: free_text

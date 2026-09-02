@@ -1,6 +1,5 @@
 # resource-check — interview (survey)
 tool: resource-check
-writes: [section:resources]
 questions:
   - id: people
     ask: "Who is available this period, per direction (dev / go-to-market / back-office), and at what capacity?"

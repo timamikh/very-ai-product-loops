@@ -22,10 +22,10 @@ and onboard the product later.
 > "Install the very-ai-product-loops framework from
 > https://github.com/timamikh/very-ai-product-loops for this project."
 
-The agent **vendors** the framework (read-only) into the repo, pinned to a version tag:
-`steps/` · `statuses/` · `process/` · `tool-skills/` (library · operations · outputs) · `AGENTS.md`
-(the rules) · `EXTENDING.md` + `extending/` (how to adapt it) · the `product-setup` and `start-work`
-skills. That's it — the framework is present and configured; **no product is set up yet.**
+The agent **vendors** the framework (read-only) into the repo root, pinned to a version tag — the
+exact set is the list under [*What lands in your repo*](#what-lands-in-your-repo) below, and that
+list is the only one. That's it — the framework is present and configured; **no product is set up
+yet.**
 
 As part of vendoring, the agent also:
 - writes a **`FRAMEWORK-VERSION`** file at the vendor root recording the exact **tag _and_ commit
@@ -83,12 +83,16 @@ skill — it self-bootstraps the rules and runs the operating loop one pass at a
 
 ## What lands in your repo
 
-- **Framework (vendored, read-only, versioned):** `steps/`, `statuses/`, `process/`,
-  `tool-skills/` (library · operations · outputs), `AGENTS.md`, `EXTENDING.md` + `extending/`, `.claude/skills/`,
-  `tools/` (the linter and the local console, including the double-click launchers
-  `tools/ui/console.command` and `console.bat`), and a `FRAMEWORK-VERSION` file (pinned tag + SHA).
-  Update by bumping the tag and re-vendoring — your product's own cards under `product-loops/skills/`
-  survive it untouched (the law of two homes: a framework update never enters an instance's `skills/`).
+- **Framework (vendored, read-only, versioned) — at your repo root:** `AGENTS.md` (the rules),
+  `EXTENDING.md` + `extending/`, `process/`, `steps/`, `statuses/`, `tool-skills/` (library ·
+  operations · outputs), `tools/` (the linter and the local console, including the double-click
+  launchers `tools/ui/console.command` and `console.bat`), `.claude/skills/` + `.claude/agents/`,
+  `install/` (so `UPDATE.md` is at hand), and a `FRAMEWORK-VERSION` file (pinned tag + SHA). Not
+  vendored: `examples/`, `README.md`, `CHANGELOG.md`, `docs/`, `runs/`. This list is the one home of
+  "what is vendored" — `UPDATE.md` and `product-setup` point here. Update by bumping the tag and
+  re-vendoring — your product's own cards under `product-loops/skills/` survive it untouched (the law
+  of two homes: a framework update never enters an instance's `skills/`). The linter's check I2 reads
+  this layout: framework folders at the root, the product beside them.
 - **Your product (yours, edited over time):** `product-loops/` — kept **separate from your code** so it
   never interferes with development.
 

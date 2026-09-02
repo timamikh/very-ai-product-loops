@@ -1,7 +1,6 @@
 # segmentation — interview
-# Drives an LLM survey OR renders to a fillable file. ⚙️ = agent-proposed default; free-text always allowed.
+# The agent's interview script — asked only where no artifact already answers. ⚙️ = agent-proposed default; free-text always allowed.
 tool: segmentation
-writes: [section:segments]
 
 questions:
   - id: candidate_cuts

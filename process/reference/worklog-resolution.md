@@ -53,13 +53,30 @@ A method that fills several sections keeps **one** worklog; every one of its mar
 When a section's marker lists more than one tool
 (`<!-- tool: where-to-play-how-to-win, value-definition-strategy -->`), the **first** tool is the
 section's **primary**: its worklog `<step-folder>/<first-tool>.md` backs the section, carries the
-id-thread, and is what the section projects from. The others are **contributing methods** — their
-working for *this* section lands in the primary's worklog, not a file of their own (a contributing
-method still owns its own worklog for any section where *it* is primary).
+id-thread, and is what the section projects from. Every other tool named is a **contributing
+method**. It works in **its own worklog** — `<its-step-folder>/<tool>.md`, the same file it keeps
+wherever it is primary — never in the primary's: no method writes another method's worklog (the
+write rule, OPERATING-LOOP → Delegation). Its contribution reaches the section when the section is
+re-projected; the marker names every writer, so a reader resolves the section to the primary's
+worklog for its thread and to each named worklog for its history.
 
-So every section resolves to exactly one worklog, whether its marker names one method or several —
-the rule a reader and the linter both apply is *the first tool in the marker owns the section's
-worklog*.
+## A revisit from a later step: its own worklog, in its own step folder
+
+A **revisit** is a later step's method named on an earlier step's marker
+(`1#cjm` → `cjm-concept, cjm-strategy` · `1#value-defensibility` → `value-definition-concept,
+value-definition-strategy` · `3#pricing` → `pricing-strategy, pricing-strategic-plan`). It is the
+one sanctioned way a later step rewrites an earlier section: it builds on the earlier working and
+refines it, it does not redo it. Its worklog lives in **its own step's folder**
+(`3-strategy/cjm-strategy.md`); the earlier method's worklog is a **declared read**
+(`worklog:1-concept/cjm-concept` in `reads`); the section is re-projected from the revisit's
+worklog, which drops the section's `confirmed:` marker (CONVENTIONS → Section confirmation). A
+revisit exists only where the template marker names it (linter check B2); any other return to an
+earlier section comes through a register revision — a hypothesis refuted, a risk fired, a metric
+moved — and is worked by the section's primary.
+
+So every section resolves to exactly one **primary** worklog, and to every worklog its marker
+names — the rule a reader and the linter both apply is *the first tool in the marker owns the
+section's thread; each named tool owns its own file, in its own step's folder*.
 
 ## Raw inputs are not worked here
 

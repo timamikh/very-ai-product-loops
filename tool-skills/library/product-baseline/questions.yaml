@@ -1,6 +1,5 @@
 # product-baseline — interview
 tool: product-baseline
-writes: [register:features, register:surfaces, section:product-surface]
 questions:
   - id: trigger
     ask: "What triggered this baseline — first pmf/growth pass, drift found, a major release? (No trigger → no pass; there is no calendar cadence.)"

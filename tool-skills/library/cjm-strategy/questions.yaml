@@ -1,6 +1,5 @@
 # cjm-strategy — interview
 tool: cjm-strategy
-writes: [section:cjm]
 questions:
   - id: strategy_delta
     ask: "Which strategy choices (arena, winning logic, channels) change the Step-1 journey — and at which stages?"

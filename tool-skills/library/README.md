@@ -36,7 +36,7 @@ tool-skills/library/<tool>/
                        # It may be richer than the step template: the subagent drafts at full depth,
                        # the orchestrator projects only the theses into the step artifact (whose
                        # schema is steps/<n>/template.md). Never put <!--c:key--> keys here.
-  questions.yaml       # the interview to gather inputs (also renders to a fillable file)
+  questions.yaml       # the interview script — what to ask a human, and nothing an artifact already answers
   references/          # deeper method notes, worked examples
 
 tool-skills/library/references/   # shared by many methods — not a tool folder

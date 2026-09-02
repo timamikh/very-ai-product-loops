@@ -1,6 +1,5 @@
 # strategic-targets — interview
 tool: strategic-targets
-writes: [section:strategic-targets]
 questions:
   - id: horizon
     ask: "What is the strategy horizon date? (⚙️ agent reads it from 3#winning-aspiration — if the aspiration has no 'by when', that gap goes upstream, not invented here)"

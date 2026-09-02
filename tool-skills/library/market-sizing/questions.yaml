@@ -1,6 +1,5 @@
 # market-sizing — interview
 tool: market-sizing
-writes: [section:market-sizing]
 questions:
   - id: arena
     ask: "Which arena/segment are we sizing? (who · where · which job — you can only size a market you can name)"

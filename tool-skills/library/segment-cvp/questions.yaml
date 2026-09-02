@@ -1,6 +1,5 @@
 # segment-cvp — market-entry bundle (intake to compose & gate the bundles)
 tool: segment-cvp
-writes: [section:market-bundles]
 questions:
   - id: bundle_slate
     ask: "The candidate slate first — ≥3 distinct situations per priority segment, ≥8 segment×situation bundles in total (⚙️ agent drafts from segments + pains). The questions below run per bundle."

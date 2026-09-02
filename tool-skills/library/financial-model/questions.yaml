@@ -1,10 +1,10 @@
 # financial-model — interview
 tool: financial-model
-writes: [section:financial-model]
 questions:
   - id: cap-policy
     ask: "If a scenario hits your slot/registration caps — do we model raising them (and the capacity/economics cost of that), or treat caps as policy?"
     type: single_select
+    options: [model raising the caps, caps are policy]
   - id: stretch-hypothesis
     ask: "Which named hypothesis powers the stretch scenario (e.g. activation fix, new channel)?"
     type: free_text

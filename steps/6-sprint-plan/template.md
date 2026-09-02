@@ -84,7 +84,7 @@ _Minimal mandatory items — without which the period goal is unreachable. Group
 - **Estimate:** class S/M/L + range — [assumption] until the readout reads the actual
 
 ## Backlog {#backlog}
-<!-- tool: prioritization-sprint-plan -->
+<!-- tool: prioritization-sprint-plan, feature-spec, activity-spec, task-spec, feature-grooming -->
 _The rest, prioritized (not a flat list), grouped by direction. Same item formats as above._
 
 | Rank <!--c:rank--> | Direction <!--c:direction--> | Item <!--c:item--> | Format <!--c:format--> | Feature <!--c:feature--> | Links (`H-…`/`M-…`/`B-…`) <!--c:links--> | Est. <!--c:est--> | Confidence <!--c:conf--> |

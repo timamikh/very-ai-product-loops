@@ -1,6 +1,5 @@
 # impact-readout — interview
 tool: impact-readout
-writes: [section:item-readouts, register:features]
 questions:
   - id: shipped
     ask: "Which sprint items actually shipped last period (from 6#must, plus any backlog item that shipped)? Every shipped item gets a row."

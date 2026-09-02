@@ -1,6 +1,5 @@
 # feature-spec — interview (development direction)
 tool: feature-spec
-writes: [section:backlog, section:must, register:features]
 questions:
   - id: feature_row
     ask: "Which F-… register row does this item advance? (Check registers/features.md first — pick up an existing planned row; a new candidate mints one: direction, surface S-…, serves.)"

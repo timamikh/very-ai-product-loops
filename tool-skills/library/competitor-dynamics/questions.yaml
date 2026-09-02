@@ -1,6 +1,5 @@
 # competitor-dynamics — interview
 tool: competitor-dynamics
-writes: [section:competitor-dynamics]
 questions:
   - id: sources
     ask: "For each detailed-table competitor — point to a public financials source, or give the company-registry identifier for its jurisdiction (registry pulls go through a regional adapter when one is configured)."

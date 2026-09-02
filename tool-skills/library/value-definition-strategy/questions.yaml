@@ -1,6 +1,5 @@
 # value-definition-strategy — interview
 tool: value-definition-strategy
-writes: [section:value-defensibility]
 
 questions:
   - id: base_retest

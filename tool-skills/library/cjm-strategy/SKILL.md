@@ -89,16 +89,19 @@ is asked *does the chosen strategy change what happens here?*
   triage are `pre-mortem`'s method.
 
 ## Worklog & projection
-This skill revises a section owned at Step 1, so its working **continues the map's one source of
-truth**: `1-concept/cjm-concept.md` — the worklog of the `{#cjm}` section's primary tool
-(`process/CONVENTIONS.md` → *Step folders & worklogs*; a second worklog for the same section would
-be the drift the layer exists to stop). The revisit adds the strategy-informed pass — the stages
-re-walked, what changed and why, the drop-offs converted to `R-…` — to that worklog with a dated
-change-log entry, and re-projects `{#cjm}` from it via
-[`template-fragment.md`](template-fragment.md). The touchpoint contribution to `{#product-surface}`
-lands in `3-strategy/product-surface.md`, that section's primary worklog. External inputs arrive
-dispatched from `sources/` by `source-intake`, cited in the worklog, never linked from the artifact.
-
+This method **revisits** a section owned at Step 1 — `{#cjm}`, marker
+`<!-- tool: cjm-concept, cjm-strategy -->`, second tool. A revisit works in **its own worklog** in
+its own step's folder: `3-strategy/cjm-strategy.md` (`node_type: worklog`) — the stages re-walked
+against the chosen arena and channels, what changed and why, the drop-offs converted to `R-…`, with
+a dated change-log entry. The Step-1 working it builds on is a **declared worklog input**
+(`worklog:1-concept/cjm-concept` in `reads`) — read, never written: no method writes another
+method's worklog (the write rule, N6). `{#cjm}` is re-projected from this worklog via
+[`template-fragment.md`](template-fragment.md); the section's marker names both worklogs, so a
+reader finds the concept pass and the strategy pass without a guess
+(`process/reference/worklog-resolution.md` → *A revisit from a later step*). The touchpoint list
+reaches `{#product-surface}` through the re-projected section, never through that method's worklog.
+External inputs arrive dispatched from `sources/` by `source-intake`, cited in the worklog, never
+linked from the artifact.
 ## Output
 Re-projects the Step-1 `{#cjm}` via [`template-fragment.md`](template-fragment.md) (the update drops
 the section's `confirmed:` marker — it awaits re-confirmation); inputs via

@@ -216,7 +216,7 @@ points it at that file; the framework never depends on a vendor's boot behaviour
 
 ## Status
 
-Released as **v0.9.0** under the MIT license — usable and open for others to vendor. Since 0.8:
+MIT license — usable and open for others to vendor. The last tag is **v0.9.0**; everything since accumulates under *Unreleased* in the CHANGELOG until the current rework lands on a green CI. Since 0.8:
 the reference run (`examples/decksmith/`, steps 1–6 from a founder brief, raw run + review pass as
 two commits), section sign-off (`theses`: confirmed / contested / rests-on), register gradations,
 and the console rework (step boards, dual rings, worklog drill-through). Built in phases:

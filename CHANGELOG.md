@@ -8,12 +8,36 @@ All notable changes to very-ai-product-loops are recorded here. The format follo
 - **MINOR** — new capability, backward compatible.
 - **MAJOR** — a breaking change; adopters must adjust their instance.
 
-The version you pin to is the **git tag**; this file is its human-readable story.
+The version you pin to is the **git tag**; this file is its human-readable story — a record, never a
+rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 
 ## [Unreleased]
 
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
+
+### Audit batch 1 — the canon decisions
+
+- **A revisit owns its worklog.** A later step's method named on an earlier step's marker
+  (`cjm-strategy` on `1#cjm`, `value-definition-strategy` on `1#value-defensibility`,
+  `pricing-strategic-plan` on `3#pricing`) works in its own worklog in its own step's folder, reads
+  the earlier worklog as a declared input, and re-projects the section. A contributing method of the
+  same step likewise keeps its own file; the first tool in the marker owns the section's thread.
+  `worklog-resolution` carries the rule, the two revisit cards follow it, check P accepts the
+  revisit's folder, and two new checks hold the wiring: **B2** (a card that writes a section is named
+  on its marker) and **P3** (a step README's skeleton row and the template marker name the same
+  tools). Any other return to an earlier section comes through a register revision.
+- **No tag = `assumption`**, once: N7 now says it the way CONVENTIONS and check D2 always did.
+- **Template drift is debt on a product, an error on the example.** O2/O3 report WARN on a vendored
+  instance whose template moved under it (install/UPDATE.md) and ERROR on `examples/`.
+- **questions.yaml is the agent's interview script** and nothing more: the fillable-file promise and
+  the duplicated `writes:` are gone from all 47 files (check A2 now forbids the field); three
+  `single_select` questions got their options.
+- **The vendored layout is canon**: the framework's folders at the product repo's root, the product
+  beside them in `product-loops/`. Check I2 reads that layout (and still the legacy sub-folder one);
+  install/README holds the one list of what is vendored, UPDATE.md and product-setup point at it.
+- **CHANGELOG is a record, never a rule**; UPDATE.md reads the diff between pinned SHAs. No tag is cut
+  until the rework lands on a green CI; README says so.
 
 ### Audit batch 0 — what was broken now, mechanics only
 

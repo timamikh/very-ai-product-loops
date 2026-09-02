@@ -1,6 +1,5 @@
 # competitor-analysis — interview
 tool: competitor-analysis
-writes: [section:competitors, section:competitor-strategy]
 questions:
   - id: competitors
     ask: "Who are the direct and indirect competitors? ≥5 named players, incl. ≥1 the team did not name first (⚙️ agent adds from its registry/search/app-store sweep)"

@@ -55,8 +55,9 @@ reason it exists.
   brief? You are a **subagent**: a `draft` writes exactly one file (its method's worklog); the rest
   return text. Never close a fork, never tick a gate, never mint an id. Transitive down the tree.
   (OPERATING-LOOP → *Delegation*.)
-- **N7 · Confidence tags on every claim**; agent proposals ⚙️. Never blanket-source your own
-  derived conclusions — an untagged claim silently becomes a fact.
+- **N7 · Confidence tags**: every number or fact from outside names its source (`[sourced: …]`,
+  `[validated: …]`, `[refuted: …]`); **no tag = `assumption`** — never blanket-source your own derived
+  conclusions. Agent proposals ⚙️.
 - **N8 · No secrets or PII** in artifacts, handoffs, or chat. Raw captures are **never committed**,
   deleted once their values land in the registers.
 - **N9 · In chat: no bare IDs or links** — decode what each one means in the same sentence, so the
