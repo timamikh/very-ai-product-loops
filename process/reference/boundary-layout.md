@@ -2,8 +2,8 @@
 node_type: reference
 title: The boundary layer — sources, snapshots, access, and instance exchange skills
 status: draft
-version: 0.2.0
-updated: 2026-08-23
+version: 0.3.0
+updated: 2026-09-02
 ---
 
 # The boundary layer
@@ -42,6 +42,18 @@ An agent that would write its own thinking into `sources/` has picked the wrong 
 
 A GA4 export the human downloaded by hand → `originals/`; the same export pulled by a script →
 `snapshots/`. The test is *who performed the delivery*, never a judgement call.
+
+**The INDEX header is typed, and copied verbatim** — every column carries its `<!--c:key-->` (the
+console and check S2 read the keys, never the header words; `type` is the closed slot list):
+
+```markdown
+| File <!--c:file--> | Role <!--c:role--> | Type <!--c:type--> | What it contains <!--c:what--> | In scope <!--c:in-scope--> | Out of scope <!--c:out-of-scope--> | Feeds steps <!--c:feeds--> | Dispatched into <!--c:dispatched--> | Confidence / freshness <!--c:conf--> |
+```
+
+`Role` is `access` · `evidence`; `Type` is the `reads:` slot the source serves (`kb` · `interview` ·
+`research` · `metrics` · `git`); `Dispatched into` is filled by `source-intake` as it routes the
+source into step worklogs; `Out of scope` records boundary decisions so a later agent never
+re-imports what was excluded.
 
 ## The passport (`access/<slug>.md`)
 
@@ -90,7 +102,11 @@ scripts alongside. It is a *card* (the goal map routes to it); the skeleton runs
 
 ## Secrets and PII at the boundary
 
-N8 holds throughout; made concrete per subfolder:
+N8 holds throughout. **Raw source captures are never committed**: a raw export, a transcript, a
+scraped page under `sources/` is evidence for the pass that lands its values — once they are in the
+registers (or dispatched into a worklog), the capture is deleted; what must stay for provenance is
+the dated, aggregated snapshot, never the raw rows. `sources/snapshots/` is gitignored by default (the framework ships the rule; check T2 holds it in a vendored repo); an aggregate that must travel with the repo is un-ignored deliberately (`!sources/snapshots/<file>`), never by removing the rule. The linter's secret scan is the check behind the
+rule. Per subfolder:
 
 - **`originals/`** — the human's responsibility (they brought it); if it carries product-user PII and
   the `origin` may be public, it lives outside the repo like any raw capture.

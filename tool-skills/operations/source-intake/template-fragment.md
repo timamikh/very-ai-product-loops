@@ -1,7 +1,7 @@
 <!--
   template-fragment: source-intake → seeds/updates the INTAKE BLOCK of a step worklog,
   product-loops/<step-folder>/<tool>.md (node_type: worklog). It does NOT write a whole artifact section.
-  Follow process/CONVENTIONS.md → Step folders & worklogs. ⚙️ = agent proposal awaiting approval.
+  Follow process/CONVENTIONS.md → Artifacts, step folders & worklogs. ⚙️ = agent proposal awaiting approval.
   One intake block per worklog; each row is a single dispatched fact, dated and cited to its source.
   The reasoning below the block is the method's Act pass, not source-intake's.
 -->

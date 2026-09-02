@@ -2,14 +2,14 @@
 node_type: reference
 title: Which conventions apply where — the node_type matrix
 status: draft
-version: 0.3.0
-updated: 2026-08-19
+version: 0.4.0
+updated: 2026-09-02
 ---
 
 # Which conventions apply where
 
 *Read this when in doubt **which conventions apply** to a file. The one-line pointer stays in*
-[`CONVENTIONS.md`](../CONVENTIONS.md) → *Which conventions apply where*.
+[`CONVENTIONS.md`](../CONVENTIONS.md) → *Which conventions apply where — and change logs*.
 
 Conventions are **not** uniform across file types — applying all of them everywhere creates the
 same on-the-fly ambiguity "one mechanism, one way" is meant to kill (does a source file need a
@@ -26,7 +26,12 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `deliverable` (an authored export file in `export-files/` — a brief, an interview guide) | **yes** — on every non-trivial claim | n/a (a standalone file, no `{#anchors}`) | reference by ID | **yes** | authored by an outputs skill, signed by the human; itself the source of truth (unlike a rendered view, which regenerates) |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
 | `card` (every instruction an agent acts on — a step README, a library method, an operations/outputs skill, an instance exchange skill) | n/a — a procedure, not claims | **yes** where sectioned | reference by ID | **by home** — see below | one entity, five `kind`s, one frontmatter schema: [`card-schema.md`](card-schema.md) |
-| framework files (`status`, `conventions`, `operating-loop`, `goal-map`, `library-*`, `template-fragment`, `reference`, …) | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
+| framework files — the closed set: `agent-rules` · `process-overview` · `operating-loop` · `conventions` · `registers` · `goal-map` · `reference` · `extending` · `install` · `status` · `statuses-index` · `artifact-template` · `template-fragment` · `tool-skills-index` · `library-index` · `library-reference` · `operations-index` · `outputs-index` · `readme` | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
+
+**The set of `node_type` values is closed** — the eight instance rows above plus the framework list.
+A value outside it is a new entity, which is a framework change ([`../../extending/rules.md`](../../extending/rules.md)),
+never a private spelling. Retired values (`step`, `instance-exchange-skill`, `source-method`) are
+listed in [`GLOSSARY.md`](GLOSSARY.md) → *Renames* and appear nowhere else.
 
 **A card's change log follows its home, because its home says who owns its history.** A card in the
 framework's home (`tool-skills/`) ships with the framework: **no** change log of its own, history in
@@ -36,4 +41,4 @@ the root `CHANGELOG.md`, like every other framework file. A card in a product's 
 (`cadence` in frontmatter, `last_run` in `state.yaml` — see [`boundary-layout.md`](boundary-layout.md)).
 
 If a convention is marked n/a / no for a node_type, **omitting it is correct** — not a lapse.
-A convention not listed here (e.g. "Talking to the human") is behavioral and applies always.
+The behavioral rules (`AGENTS.md` N1 · N9) are not in the matrix and apply always.

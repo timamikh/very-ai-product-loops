@@ -16,6 +16,73 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Audit batch 5 — one home per rule
+
+- **The always-loaded core is deduplicated.** `AGENTS.md` is a door: reading order plus the
+  non-negotiables as one-line pointers to each rule's one home. OVERVIEW is concept only,
+  OPERATING-LOOP the procedure, CONVENTIONS the notation, the reference files the detail. Core
+  5760 → 4597 words; check W is silent.
+- **One section per pass** is canon in OPERATING-LOOP move 1 (with its one widening: a method whose
+  single worklog fills several sections); start-work and product-setup point there.
+- **The write rule has one text** — OPERATING-LOOP → Delegation: the orchestrator writes registers,
+  sections, sign-off and ticks; a `draft` subagent writes exactly the worklog its brief names,
+  change-log entry included; gather/research/verify write nothing. The brief template §2 and the four
+  `loops-*` agent definitions carry it verbatim; everything else points there.
+- **The goal map loses its *Move-5 surfaces* column** — a card's `surfaces:` is the home.
+- **REGISTERS.md opens with the one enumeration** — four registers, six files, five id prefixes,
+  their atom names; product-setup scaffolds exactly that set.
+- **Vocabularies that lived only in code get a canon carrier:** `process/reference/state-schema.md`
+  (state.yaml shape, tick values, the recorded reopen for re-sign), the typed `sources/INDEX.md`
+  header in boundary-layout, the closed `node_type` set in the matrix, the question types in
+  `extending/method.md`, the word budget in `extending/rules.md`, the "worked section" in
+  CONVENTIONS, the shared scales in `process/reference/scales.md`.
+- **Rules name their checks:** `projection` writes in `config.language` (check G5); N8 names the
+  linter's secret scan; `sources/snapshots/` is gitignored by default (check T2); `metrics.csv`
+  holds data rows only (check E).
+- **install/README** describes delegation on a non-Claude agent (the orchestrator runs each brief
+  itself); **UPDATE.md** gains *Adopt an existing instance* for a filled instance from an earlier
+  framework version.
+
+### Audit batch 3 — the console reads keys, shows what was written
+
+- **Every board reads by column key only.** A table that lacks a key the board needs shows an
+  explicit "board not drawn — lacks `c:key`" note beside the section's card instead of a guessed
+  column. One table parser (`tablesOf`), blank-line continuation identical to the linter's.
+- **Prose heuristics are gone.** Driver family, instrumentation, channel state, moat state, risk and
+  hypothesis status are read as exact enum tokens from the model. The few reads the templates do not
+  key yet sit in one TEMPLATE-KEY-DEBT table at the top of `app.js`, to be deleted with the key
+  migration.
+- **No composed text.** No truncated tiles or labels, no invented bullets, currency taken from the
+  author's cell; the four competitor sections are four cards, not a merged table; North Star and
+  Horizon shown whole.
+- **Step 5 gets its canvas:** goal lanes by direction, target tiles, guardrail plates, resources,
+  bundle cards, threshold gauges, readout tables. **Step 6** items group by whatever direction token
+  they carry; F-ties resolve by id pattern.
+- **Accessibility:** expand is a real button (no nested interactives), skill rows are
+  keyboard-operable, tooltips reachable by focus, tag meanings in visible text.
+- **Export** carries instance-relative paths, no worklog bodies (private to the method), lint
+  findings and counts only; the console README describes `--export` writing into `export-files/`.
+
+### Audit batch 2 — the library declares what it reads and shows
+
+- **The reads perimeter is closed for steps 4–6.** Every section a method reasons from is a
+  `section:` atom on its card; declared-but-unused register and source atoms are removed (a register
+  atom is used when the card cites its id family); `impact-readout` names its one forward edge to
+  `6#must`.
+- **Every step 4–6 fragment declares its `<!-- card -->` face**; the three double-faced sections
+  (`{#cjm}`, `{#value-defensibility}`, `{#pricing}`) project one slot each; every
+  `evidence_standard: decision` method ships a Decided line (`where-to-play-how-to-win` one per
+  section).
+- **`process/reference/scales.md`** is the one home of the hypothesis, priority, signal, decision and
+  risk gradations; six methods point there instead of `hypothesis-test-design` §Scales.
+- **"Worklog & projection" is method-specific** in all 47 cards (5336 → 2458 words) plus a pointer
+  to `worklog-resolution`; the gap-report paragraph (check L2) and the long Decided placeholder are
+  gone.
+- **Step-6 product axis:** item fragments mirror the template field for field (Owner, Groom); the
+  backlog carries Feature and Est.; one notion of estimate (class S/M/L plus range, set by the spec,
+  summed by the ranking); `pricing-strategic-plan` re-projects the full `{#pricing}` form; each
+  fragment's first table carries its template's column names. `volume_rule` floors carry `min:`.
+
 ### Audit batch 1 — the canon decisions
 
 - **A revisit owns its worklog.** A later step's method named on an earlier step's marker

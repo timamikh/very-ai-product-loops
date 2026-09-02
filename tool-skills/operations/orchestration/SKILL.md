@@ -12,8 +12,8 @@ surfaces: []
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.6.0
-updated: 2026-08-25
+version: 0.7.0
+updated: 2026-09-02
 ---
 # Orchestration — running one pass with subagents
 
@@ -112,9 +112,8 @@ separable, not that the brief needs to be longer).
 
 4. **Launch.** Parallel where the parts are independent; sequential where one part's output is
    another's input (and then ask whether it is really two tasks). A subagent may spawn its own
-   subagents — the write rule is transitive: the only file anything below you may write is a `draft`'s
-   own worklog, never a register, an artifact section or `state.yaml`. Keep the fan-out to what you can
-   actually read back: *n* returns you skim is worse than *n/2* you check.
+   subagents — the write rule is transitive (OPERATING-LOOP → *Delegation*). Keep the fan-out to
+   what you can actually read back: *n* returns you skim is worse than *n/2* you check.
 
 5. **Check every return against the passport, before reading it for content.** In that order — a
    return that fails the passport is not evidence, and reading it for content first is how its
@@ -137,15 +136,15 @@ separable, not that the brief needs to be longer).
 
 7. **Check the worklog, then project — this is the writing the orchestrator owns.** A `draft` return
    points at a **worklog the subagent wrote**; read it against the passport, then **project** it into
-   the artifact section (the clean copy the human signs) — the writing move itself is the
-   [`projection`](../projection/SKILL.md) operations skill. Delegation adds its own rules on top:
-   a subagent's tag is never laundered (its `[assumption]` stays an assumption, and never re-tag a
-   return as `[sourced: subagent]` — the source is what the subagent opened, named in your text);
-   you **mint the register ids** the worklog described in words, you write the rows, you tick the
-   gate (after a `verify`), you write the change log — none of that is ever the subagent's. A
-   `gather`/`research` return is **not** a worklog: you file its values where they belong (the
-   method's worklog, a source, a register row) yourself. Where a return named an unresolved fork, it
-   becomes your fork with the human — with the options as returned.
+   the artifact section — the writing move itself is the [`projection`](../projection/SKILL.md)
+   operations skill, and who writes what after that (ids, rows, ticks, change log) is the write rule
+   (OPERATING-LOOP → *Delegation*); the tick follows move 5 — conditional on a `verify` for a section
+   resting on reasoning. Delegation adds one rule of its own: a subagent's tag is never laundered
+   (its `[assumption]` stays an assumption, and never re-tag a return as `[sourced: subagent]` — the
+   source is what the subagent opened, named in your text). A `gather`/`research` return is **not** a
+   worklog: you file its values where they belong (the method's worklog, a source, a register row)
+   yourself. Where a return named an unresolved fork, it becomes your fork with the human — with the
+   options as returned.
 
 8. **Close the pass normally.** Delegation changes who read the material, not what a pass owes:
    move 5 of the loop still runs — registers, change log, open items — and anything the delegation
@@ -303,8 +302,6 @@ procedure is otherwise the same; only the plumbing changes.
 
 No artifact section of its own. It produces **briefs** (ephemeral — handed to a subagent, and if
 written down at all, written outside the repository like any raw capture) and it produces the
-**integration**: a `draft` subagent has already written its method's worklog, and the orchestrator
-**projects** that worklog into the artifact section and writes the registers, the gate ticks and the
-change log around it. A `gather`/`research`/`verify` return carries no worklog — the orchestrator files
-its values into whatever worklog, register or source they serve. The one writing that is never a
-subagent's: the artifact, the registers and `state.yaml`.
+**integration**: the accepted returns projected and recorded by the orchestrator per the write rule
+(OPERATING-LOOP → *Delegation*). A `gather`/`research`/`verify` return carries no worklog — the
+orchestrator files its values into whatever worklog, register or source they serve.

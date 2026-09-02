@@ -11,15 +11,15 @@ surfaces: []
 opinionated: true
 method_basis: "Single-source publishing: the worklog is the source of truth, the artifact section is its projection — the conclusion re-shaped into the method's fixed fragment schema, every claim carrying its original tag, the section's own headline marked for display, and any human sign-off dropped because the thesis it signed no longer exists"
 status: draft
-version: 0.6.0
-updated: 2026-08-25
+version: 0.7.0
+updated: 2026-09-02
 ---
 # Projection — write an artifact section from its worklog
 
 **What it is.** The writing move at [operating-loop](../../../process/OPERATING-LOOP.md) **move 4**
 that turns a **worklog** (the method's working — inputs, reasoning, numbers, open items) into its
 **artifact section** (the clean copy the human signs). The *invariants* are canon: the worklog is the
-source of truth and the section is its projection (CONVENTIONS → *Step folders & worklogs*), the
+source of truth and the section is its projection (CONVENTIONS → *Artifacts, step folders & worklogs*), the
 projection is writing only the orchestrator owns (OPERATING-LOOP → *Delegation*). This file is the
 *how* — the procedure an agent follows every time a section is written or re-written.
 
@@ -86,9 +86,11 @@ one-id thread (`<!-- tool: <tool> -->` names both).
 source, the agent's own proposals stay ⚙️-prefixed. A gap is `— to clarify —`, never a plausible
 fill; an open fork is written as options, never closed in transit. Keep the skeleton's `{#id}` and
 `<!-- tool: -->` / `<!-- synthesis -->` markers exactly — the id is how every reader and tool finds
-the section and its worklog. And write it to pass the **duck test**: a reader with no context of
-the pass must understand the section as it stands. The fragment's labels stay — translate them,
-never rename or multiply them ("The shift, re-read for segment Г" in place of "The shift" is a
+the section and its worklog. **The content language is the instance's `config.yaml` → `language`**
+— the section is written in it whatever language the worklog, the brief or the chat ran in; keys,
+markers, tags and enum values stay in their canon spelling. And write it to pass the **duck test**:
+a reader with no context of the pass must understand the section as it stands. The fragment's labels
+stay — translate them into that language, never rename or multiply them ("The shift, re-read for segment Г" in place of "The shift" is a
 defect); a metaphor is unfolded into what it means; a code name is expanded at first use.
 
 **3 · Mark the section's headline — on the slot, where one is declared.** The mark's canonical home
@@ -104,7 +106,10 @@ whose judgement is only implied has lost a line it needed on its own merit, and 
 [`step-close`](../step-close/SKILL.md), which returns it through the worklog — never a headline
 improvised here to give the card something to show. A section with genuinely nothing to state (a list
 of open items) stays **unmarked**: title + status is its honest face, and the body is one expand
-away. One mark per section.
+away. One mark per section. **What the console shows:** the marked block verbatim — it never
+summarises; alongside it the section's first table, full-width (on a data-bearing step that is the
+norm); a section declared `<!-- open -->` is shown whole, since a list of open items has nothing to
+collapse.
 
 **4 · Drop a sign-off the change invalidated.** A re-projection that changes the conclusion removes
 the section's `<!-- confirmed: … -->` or `<!-- contested: … -->` marker — the human signed (or

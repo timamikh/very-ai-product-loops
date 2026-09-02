@@ -2,8 +2,8 @@
 node_type: reference
 title: The card — the pinned schema for every instruction an agent acts on
 status: draft
-version: 0.3.0
-updated: 2026-08-25
+version: 0.3.1
+updated: 2026-09-02
 ---
 
 # The card — the pinned schema
@@ -44,7 +44,7 @@ wherever a bare word would be ambiguous: `metrics` is both a register and a sour
 
 | Atom | What it names | Legal in |
 |---|---|---|
-| `register:<name>` | a register — `hypotheses` · `risks` · `metrics` · `metric-tree` · `features` · `surfaces` | reads · writes · surfaces |
+| `register:<name>` | a register **file** — the six names in [`REGISTERS.md`](../REGISTERS.md)'s enumeration (`hypotheses` · `risks` · `metrics` · `metric-tree` · `features` · `surfaces`) | reads · writes · surfaces |
 | `source:<slot>` | an external input slot — `kb` · `interview` · `research` · `metrics` · `git` | reads |
 | `section:<anchor>` | an artifact section by its `{#anchor}` | reads · writes · surfaces |
 | `worklog` | bare: **its own** worklog; the path is resolved by [`worklog-resolution.md`](worklog-resolution.md), never restated here | reads · writes · surfaces |

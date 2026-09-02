@@ -8,8 +8,8 @@ description: >
   fill. Use at the start of any working session, on resume after a restart/compaction, or when
   picking up an instance someone else set up.
 status: draft
-version: 0.5.0
-updated: 2026-08-20
+version: 0.6.0
+updated: 2026-09-02
 ---
 
 # Start work (begin / resume a session)
@@ -18,8 +18,9 @@ The reliable entry point into the working loop. Onboarding (`product-setup`) set
 **this skill runs every working session after that.** Its whole job is to make sure the rules are
 loaded and the agent works the disciplined loop instead of bulk-filling.
 
-> Golden rule holds: **the agent prepares, the human decides.** One section per pass, drafts are ⚙️,
-> real product forks are 2–4 options + a recommendation and then you **wait**; gaps stay `— to clarify —`.
+> Golden rule holds: **the agent prepares, the human decides.** One section per pass (OPERATING-LOOP
+> move 1), drafts are ⚙️, real product forks are 2–4 options + a recommendation and then you **wait**;
+> gaps stay `— to clarify —`.
 
 ## Step 0 — bootstrap the rules (before anything)
 
@@ -38,6 +39,12 @@ before the first pass and tell the human if either fails:
 2. spawning agents is permitted — the host repo's root `AGENTS.md` carries the owner's standing
    approval (written at install); if this session is still restricted, say so: every pass then runs
    solo and gate ticks that need a `verify` stay `open`. Never work around it silently.
+
+**On an agent other than Claude Code** (Codex, Cursor, a plain chat) the `loops-*` types do not exist
+and there is nothing to check: you are the orchestrator and you run each brief yourself, in this
+session, writing the worklog directly — the write rule is unchanged (OPERATING-LOOP → *Delegation*,
+the `delegation: off` bullet; [`install/README.md`](../../../install/README.md) → *Running on an agent
+other than Claude Code*). Say so once at session start.
 
 ## Step 1 — Orient (read state, never guess)
 
@@ -84,15 +91,15 @@ this skill holds you to is the shape of a pass:
    recommendation, then **wait**), act within the declared perimeter, tag every claim, and end at
    move 5 unconditionally: change-log entry, open items, every surface the header names.
 
-**Hard rule: one section per pass.** Propose the next section and let the human steer — do **not**
-barrel through the artifact set in one go. A bulk fill bypasses the method, the prerequisites, and
-the human's decisions all at once (see anti-patterns).
+**One section per pass** is canon (OPERATING-LOOP move 1) — propose the next section and let the
+human steer; a bulk fill is the failure this skill exists to prevent (see anti-patterns).
 
 **Delegation is the loop's default posture, not an exception:** subagents gather, research, draft
-and verify; **only you write** — they never edit a file, close a fork or tick a gate, and a return
-that fails its passport is not integrated. The contract is canon (`process/OPERATING-LOOP.md` →
-*Delegation*); the procedure is `tool-skills/operations/orchestration/`. The one case not to
-delegate: the pass fits comfortably in one context — delegation costs more tokens, not fewer.
+and verify; **the write rule is a split** — the orchestrator writes the shared canon, a `draft`
+writes only the worklog its brief names, the rest return text, and a return that fails its passport
+is not integrated. The one home of that rule is `process/OPERATING-LOOP.md` → *Delegation*; the
+procedure is `tool-skills/operations/orchestration/`. The one case not to delegate: the pass fits
+comfortably in one context — delegation costs more tokens, not fewer.
 
 ## Step 3 — At a session boundary
 
@@ -104,11 +111,11 @@ boundary — so the next `start-work` can resume cleanly.
 
 - **Trusting auto-load.** Starting work without Step 0 because "AGENTS.md is in the repo" — it isn't
   in context unless it auto-loaded, which a skill invocation / cross-session start does not do.
-- **Bulk-filling.** Producing several sections (or a whole "first cycle") in one pass. One section,
-  one method, one pass — then propose the next.
+- **Bulk-filling.** Producing several sections (or a whole "first cycle") in one pass — against
+  *one section per pass* (OPERATING-LOOP move 1).
 - **Template without method.** Filling `template.md` sections without opening each one's `SKILL.md`.
 - **Working from the handoff alone.** It restores state, not rules — Step 0 still runs first.
-- **Letting a subagent write.** Even "just the register row". Two agents allocating `H-0xx` at once
-  is a corrupted register, and the fix costs more than the delegation saved.
+- **Letting a subagent write past its worklog.** Even "just the register row". Two agents allocating
+  `H-0xx` at once is a corrupted register, and the fix costs more than the delegation saved.
 - **Asking technical gaps as forks.** Only product decisions become 2–4 options; implementation gaps
   are noted as forks in the artifact, not put to the human.

@@ -54,7 +54,10 @@ exactly like a vendored one, so a local method cannot quietly produce a homeless
    ([`../process/reference/column-keys.md`](../process/reference/column-keys.md)) — with one named
    exception, the decision line, whose fields the framework fixes and the method copies verbatim.
 5. **Write `questions.yaml`** — what the method must ask a human, and nothing it could read from an
-   artifact instead.
+   artifact instead. Every question carries a `type` from the closed vocabulary — `free_text` ·
+   `list` · `per_item` · `single_select` · `multi_select` (the machine home is `lint.QUESTION_TYPES`,
+   check Y); a select names its `options: [...]` or `from: <question-id>` on its own line, never
+   inside the `type` scalar.
 6. **Give its output a home.** The step template must carry `<!-- tool: <name> -->` on the section it
    fills (`section.md` if that section does not exist yet). A method that contributes to a section it
    does not own is named **second** in that section's marker (`<!-- tool: A, B -->`) and is recommended

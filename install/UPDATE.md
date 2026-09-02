@@ -2,8 +2,8 @@
 node_type: install
 title: Update — move an installed framework to a newer version
 status: draft
-version: 0.2.0
-updated: 2026-08-20
+version: 0.3.0
+updated: 2026-09-02
 ---
 
 # Update
@@ -71,6 +71,32 @@ is the design: the only way to keep a change is to put it where the update canno
 - [ ] Every local card that shadows a vendored one was re-read against the new version.
 - [ ] Every artifact the update changed carries a dated change-log entry with the why.
 - [ ] No confirmation marker was left standing over a conclusion that changed.
+
+## Adopt an existing instance
+
+The case: a `product-loops/` instance was filled under an earlier framework version — by you, by
+another team, or by a run whose vendored copy is gone — and must now live under the current one.
+Adoption is an update whose starting point is the instance, not the framework:
+
+1. **Pin the new version** — vendor the framework at the current tag and write `FRAMEWORK-VERSION`
+   (tag **and** SHA). If the instance carries no record of the version it was built under, note that
+   in its `HANDOFF.md`: the diff step below is then read from the instance's own change logs.
+2. **Run `python3 tools/lint.py <instance>`** and keep the report — it is the adoption work list.
+   Check the `instances checked:` line names the instance.
+3. **Treat O2/O3 drift as debt, not as a blocker** — a section in an older template's form is a WARN
+   on a product instance (ERROR only under `examples/`); the instance is usable while sections wait.
+4. **Re-project each drifted section with its owning method** — the `<!-- tool: -->` marker names
+   it; the section is rebuilt from its worklog into the new form
+   ([`../extending/section.md`](../extending/section.md) → step 6), one section per pass, on the
+   human's order. Missing worklogs (check P) are the first debt to work: a section with no working
+   behind it is re-worked, not copied.
+5. **Never hand-edit an artifact into shape.** A section patched straight into the new form says
+   something its worklog does not; the sign-off it carried is dropped either way, and `theses`
+   re-confirms the new version.
+
+Registers follow the same path: a register missing a file or a key the current
+[`REGISTERS.md`](../process/REGISTERS.md) enumerates is completed from the skeletons (headers copied,
+never retyped); rows are never invented to fill a new column.
 
 ## Migrating a filled instance
 

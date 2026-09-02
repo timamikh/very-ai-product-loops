@@ -64,7 +64,7 @@ know is stale.
      link, profile/account it lives under, where the token goes). "It worked yesterday" is not
      a state; extensions vanish, tokens rot, sessions expire.
    - **Open forks** carry the full 2–4 options + the ⚙️ recommendation, not just "next action" —
-     the next agent must be able to present the fork again verbatim, per CONVENTIONS "Forks & options".
+     the next agent must be able to present the fork again verbatim, per OPERATING-LOOP move 3 (forks).
    - **Registers** are referenced by ID (`H-…`, `R-…`, `M-…`), never copied — the registers are
      the single home; a handoff duplicate goes stale silently.
 3. Keep it under ~2 pages. A handoff is an index into the instance, not a second copy of it.

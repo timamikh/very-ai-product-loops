@@ -2,8 +2,8 @@
 node_type: tool-skills-index
 title: Tool-skills — the pluggable skills the agent runs
 status: draft
-version: 0.7.0
-updated: 2026-08-21
+version: 0.8.0
+updated: 2026-09-02
 ---
 
 # Tool-skills
@@ -171,10 +171,8 @@ harness as slash-skills. `tool-skills/` holds **framework skills** — markdown 
 *reads and applies* as part of the workflow. Different mechanism, different home.
 
 `.claude/agents/` is the same distinction one step further: the `loops-*` subagent definitions there
-are **runtime enforcement** of a rule that is written in markdown. The write rule is a split — a
-`draft` subagent writes exactly one file (its method's worklog), and `gather`/`research`/`verify`
-write nothing — so three of the four definitions ship with no write tools at all, and `loops-draft`
-carries `Write` and only `Write`. The rule lives in
-[`process/OPERATING-LOOP.md`](../process/OPERATING-LOOP.md) → *Delegation* and the procedure in
-[`operations/orchestration/`](operations/orchestration/SKILL.md); the definitions are how one
-particular runtime happens to enforce it, and the framework runs without them.
+are **runtime enforcement** of the write rule, whose one home is
+[`process/OPERATING-LOOP.md`](../process/OPERATING-LOOP.md) → *Delegation* (procedure:
+[`operations/orchestration/`](operations/orchestration/SKILL.md)). Three of the four ship with no
+write tools at all; `loops-draft` carries `Write` for its one worklog. The definitions are how one
+particular runtime enforces the rule, and the framework runs without them.

@@ -2,8 +2,8 @@
 node_type: reference
 title: Glossary — the entities of very-ai-product-loops
 status: draft
-version: 0.6.0
-updated: 2026-08-23
+version: 0.7.0
+updated: 2026-09-02
 ---
 
 # Glossary
@@ -29,7 +29,7 @@ product stages). Most entities below belong to one side or the other; a few are 
 | Entity | Where | What it is |
 |--------|-------|------------|
 | **Process core** / **steps** | `steps/` | The thin, fixed skeleton: six gated steps. Each owns an artifact's structure and its gate — **no methods inside**. |
-| **Registers** | an instance's `registers/` | The vertical, living, shared state: the **metric**, **hypothesis**, **risk**, and **feature** registers. Born once, refined down, results flow back up. |
+| **Registers** | an instance's `registers/` | The vertical, living, shared state: four registers in six files (`H-` · `R-` · `M-` · `F-`/`S-`), enumerated once in [`REGISTERS.md`](../REGISTERS.md). Born once, refined down, results flow back up. |
 | **Library** | `tool-skills/library/` | Product **methods** as skills (segmentation, pricing-strategy, jtbd-concept, …). The plane meant to grow and be adapted per company. |
 | **Statuses** | `statuses/` | Product **stages** as config: `concept-viability` · `pmf` · `growth` (extensible). Each re-prioritises goals and tool emphasis per step. |
 
@@ -37,7 +37,7 @@ Alongside the library sit two more `tool-skills/` planes:
 
 | Entity | Where | What it is |
 |--------|-------|------------|
-| **Operations** | `tool-skills/operations/` | Runtime skills, not product methods: `handoff`, `metrics-capture`, `orchestration`, `source-intake`, `theses`. |
+| **Operations** | `tool-skills/operations/` | Runtime skills, not product methods: `handoff`, `metrics-capture`, `orchestration`, `projection`, `source-intake`, `step-close`, `theses`. |
 | **Outputs** | `tool-skills/outputs/` | The **output layer** — skills that produce the files leaving the framework, landing in the instance's `export-files/`. Two kinds, told apart by `output_kind:` in one schema: **renderers** (`rendered` — read the instance, render a regeneratable view: `to-table`, `to-document`, `to-deck`) and **authored deliverables** (`authored` — author a signed document: `brief`, `interview`). |
 
 The runtime that consumes all four planes is `process/OPERATING-LOOP.md` (the seven-move skeleton);
@@ -119,6 +119,10 @@ folder, and the worklog file.
 | `questions.yaml` | the interview that gathers the method's inputs. |
 | `references/` | deeper method notes (optional). |
 
+**Scales** — the shared scoring scales the hypothesis and prioritization methods use (the 1/3/5
+tiers, the priority score) live once in `process/reference/scales.md`; a method's `§Scales` points
+there instead of restating them.
+
 ---
 
 ## An instance (one product's working area)
@@ -127,7 +131,7 @@ folder, and the worklog file.
 |--------|-------|------------|
 | **Instance** | `product-loops/` (a host repo), `instances/<name>/` (a dev repo, gitignored), or `examples/<name>/` | One product's folder: config, state, artifacts, worklogs, registers, sources. Discovered by **marker** (`config.yaml`/`state.yaml`/`registers/`), never by folder name. |
 | **`config.yaml`** | instance root | Human-authored, rarely changes: `product` (the product's **name**), `language`, `active_status`, `directions`, `delegation`, metric source slots. |
-| **`state.yaml`** | instance root | Agent-written each pass: `current_step`, `last_pass`, and the **gate ticks** (`artifact#section: done`). The single home of cycle position. |
+| **`state.yaml`** | instance root | Agent-written each pass: `current_step`, `last_pass`, exchange `last_run`, and the **gate ticks** (`artifact#section: done · open · n/a · deferred`). The single home of cycle position; shape in [`state-schema.md`](state-schema.md). |
 | **Worklog** | `<step-folder>/<tool>.md` | The **source of truth** for a method: inputs, reasoning, numbers, open items. Free-form (`node_type: worklog`); the artifact section is its projection. One per method that fills a section. |
 | **`sources/`** | instance | **What comes from outside**, in three subfolders + `INDEX.md`: `originals/` (files the human brought), `snapshots/` (dated, immutable evidence), `access/` (source **passports** — how to reach a point, recorded from the human). **No skill produces a source from inside**; agent reasoning is a worklog. Raw captures and secrets never go under version control. Layout — [`boundary-layout.md`](boundary-layout.md). |
 | **`skills/`** | instance | A product's own **exchange cards** (`<slug>/SKILL.md` + scripts) — repeatable pulls and pushes across the boundary, routed to by the goal map. Same card schema as a vendored one (`kind: exchange`); `cadence` in frontmatter, `last_run` in `state.yaml`. See [`boundary-layout.md`](boundary-layout.md). |
@@ -135,8 +139,8 @@ folder, and the worklog file.
 | **`export-files/`** | instance | **What goes outside** — the mirror of `sources/` (in ↔ out). Rendered views (regeneratable, re-run the renderer) and authored deliverables (`node_type: deliverable` — a brief, an interview guide; themselves the signed source). |
 
 **The three document layers** (do not confuse them): the **worklog** is where the work is done; the
-**registers** are the canon for the `H-`/`R-`/`M-` ids; the **artifact** is the projection
-a human signs. A value lives in exactly one home.
+**registers** are the canon for the shared ids; the **artifact** is the projection a human signs. A
+value lives in exactly one home.
 
 ---
 
@@ -144,8 +148,8 @@ a human signs. A value lives in exactly one home.
 
 | Entity | What it is |
 |--------|------------|
-| **Orchestrator** | The agent holding the human's session. It owns every **shared** write — the projection (artifact sections), the registers, `state.yaml`, the gate ticks, and the change log. The only subagent that writes at all is `loops-draft`, and only its own worklog. |
-| **Subagent** | A spawned worker with a narrow write rule. `loops-draft` **writes exactly one file** — its method's worklog (the draft) — and nothing else; `loops-gather` / `loops-research` / `loops-verify` **write nothing** and return text. Enforced on Claude Code: only `loops-draft` carries a `Write` tool (linter check N). |
+| **Orchestrator** | The agent holding the human's session; the writer of the shared canon per the write rule — `OPERATING-LOOP.md` → *Delegation* (the rule's one home). |
+| **Subagent** | A spawned worker in one of four kinds (`gather` · `research` · `draft` · `verify`) bound by the write rule; on Claude Code the `loops-*` definitions in `.claude/agents/` enforce it by tool list (linter check N). |
 | **Acceptance passport** (a.k.a. *return passport*) | The numbered checklist a subagent's return is scored against **before** its content is used. A return that fails its passport is not integrated. (This is the **only** meaning of "passport" in the framework — see Renames.) |
 | **Direction** | An execution stream in Steps 5–6 (default `development` · `go-to-market` · `back-office`), editable per instance. Named `go-to-market`, not `growth`, to avoid colliding with the `growth` **status**. |
 
@@ -155,7 +159,7 @@ a human signs. A value lives in exactly one home.
 
 | Entity | Notation | What it is |
 |--------|----------|------------|
-| **Surface** | `S-…` in `registers/surfaces.md` | Where the audience meets the product — a landing, the in-product UI, a mailing list, a content channel, an internal admin. The ledger's spine: features hang off surfaces. Not to be confused with a card's `surfaces:` frontmatter field (what a pass surfaces to the human) — same word, unrelated entity. |
+| **Surface** | `S-…` in `registers/surfaces.md` | Where the audience meets the product — a landing, the in-product UI, a mailing list, a content channel, an internal admin. The ledger's spine: features hang off surfaces. Not to be confused with a card's `surfaces:` frontmatter field (what move 5 must touch) — same word, unrelated entity. |
 | **Feature** | `F-…` in `registers/features.md` | One durable unit of product composition on a surface — a capability, a campaign line, a content series — with `state: planned · live · retired` and a `serves` link (`M-…`/`R-…`/`H-…`). The cross-sprint identity of work: sprint items are numbered per sprint, the `F-…` row is what persists. Defined in [`REGISTERS.md`](../REGISTERS.md). |
 | **Sprint item** | `**<n> · <name>**` in `6#must` | One sprint's unit of work in a direction subsection — numbered 1, 2, 3 within its direction, sprint-local. Names its register row in a `Feature:` line and pre-registers its `Expected impact`, read at the next Step-5 gate by `impact-readout`. |
 
@@ -175,6 +179,8 @@ kind is a field value, never a second schema** ([`card-schema.md`](card-schema.m
 | `produces` · `writes_registers` | `writes` | One write perimeter, one field, one atom grammar. |
 | `reads_registers` · `inputs` | `reads` | Likewise for the read perimeter — with a mandatory prefix, since `metrics` is both a register and a source slot. |
 | `used_by_steps` | `steps` (methods only) | An operation or an output is reached through the router, not through a step. |
+| the goal map's *Move-5 surfaces* column | `surfaces:` on the routed card | A fact about a card lives in the card (2026-09-02). |
+| `node_type: source-method` | `node_type: worklog` (`metrics-capture`) | A derivation is agent reasoning, not a source — see the 2026-08-16 table. |
 
 ---
 

@@ -9,7 +9,7 @@ updated: 2026-08-15
 # Instance config (`config.yaml`) — the pinned schema
 
 *Read this when writing or validating an instance's **`config.yaml`** (setup, or adding a key). The
-one-line pointer stays in* [`CONVENTIONS.md`](../CONVENTIONS.md) → *Instance config*; *the linter
+one-line pointer stays in* [`CONVENTIONS.md`](../CONVENTIONS.md) → *Instance config and state*; *the linter
 enforces this table as check **H**.*
 
 `config.yaml` is the **human's decisions** about the instance (the cycle's position lives in
@@ -19,7 +19,7 @@ one way. A second spelling is a place two readers diverge, so the linter enforce
 | Key | Required | Shape | What it is |
 |-----|----------|-------|------------|
 | `product` | **yes** | text | the product's name as a human says it (never inferred from the folder) |
-| `language` | **yes** | `ru` · `en` · … | the documentation language; tools also read it for their own UI |
+| `language` | **yes** | `ru` · `en` · … | the language of every artifact and worklog the instance writes, whatever language the canon and the cards are read in; tools also read it for their own UI; the linter (check G5) warns when a file's dominant script contradicts it |
 | `active_status` | **yes** | a status name from `statuses/` | the stage the loops are parameterized by |
 | `directions` | **yes** | list | execution streams for Steps 5–6 (default: `development` · `go-to-market` · `back-office`) |
 | `delegation` | no | `allowed` · `off` | may the orchestrator spawn subagents this instance? Absent = `allowed` (the framework's normal mode). `off` = the orchestrator runs every pass itself and writes every worklog directly — for restricted environments, or when the human wants no fan-out. Set at setup (`product-setup`), changeable any time |

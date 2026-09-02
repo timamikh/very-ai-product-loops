@@ -34,8 +34,8 @@ this skill seeded.
 truth, the console can no longer drill from a board into where a claim was worked, and `check P` warns.
 Every external fact must land in a worklog first; the artifact section then projects from the worklog,
 and the worklog — never the artifact — points back to the raw file (reachable in the console only under
-*Sources*). See [`CONVENTIONS.md`](../../../process/CONVENTIONS.md) → *Raw data & access* and *Step
-folders & worklogs*.
+*Sources*). See [`CONVENTIONS.md`](../../../process/CONVENTIONS.md) → *Raw data & access* and *Artifacts,
+step folders & worklogs*.
 
 ## When to apply
 

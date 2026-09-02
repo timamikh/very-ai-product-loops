@@ -10,8 +10,8 @@ description: >
   vs what's blank and proposing a gap-closing plan in step order — the point where the working loops
   begin. Step artifacts are NOT created here — each is born by its step's first pass.
 status: draft
-version: 0.9.0
-updated: 2026-08-23
+version: 0.10.0
+updated: 2026-09-02
 ---
 
 # Product Setup (onboarding)
@@ -90,15 +90,11 @@ and the human corrects it:
 | Feeds steps | Which process steps draw on it (1–6) |
 | Confidence / freshness | source date, staleness, `[assumption]` where the split is inferred |
 
-The header is **copied verbatim** — every column carries its `<!--c:key-->` mark (prose is not a
-carrier; the console and the linter read the keys, never the header words):
-
-```markdown
-| File <!--c:file--> | Role <!--c:role--> | Type <!--c:type--> | What it contains <!--c:what--> | In scope <!--c:in-scope--> | Out of scope <!--c:out-of-scope--> | Feeds steps <!--c:feeds--> | Dispatched into <!--c:dispatched--> | Confidence / freshness <!--c:conf--> |
-```
-
-(`Dispatched into` stays empty at setup — `source-intake` fills it as it routes each source into
-step worklogs.)
+The header is **copied verbatim** from its one home —
+[`boundary-layout`](../../../process/reference/boundary-layout.md) → *The INDEX header is typed* —
+every column carries its `<!--c:key-->` mark (prose is not a carrier; the console and the linter read
+the keys, never the header words). `Dispatched into` stays empty at setup — `source-intake` fills it
+as it routes each source into step worklogs.
 
 The out-of-scope column is the point: it durably records boundary decisions (like "take only the
 service part of the strategy, not the infrastructure part") so they are never silently lost when a
@@ -117,8 +113,9 @@ empty-template artifact fails the linter before the loop has run once). What set
 - Route each source to its steps in `INDEX.md` (**Feeds steps** column) — precise enough that the
   step's first pass finds its material without re-reading everything.
 - Where materials conflict, record the conflict in INDEX.md and the placement report.
-- Create the **registers** (hypotheses/risks/metrics/features/surfaces) by **copying the six skeleton files from
-  `process/reference/register-skeletons/` verbatim** into `registers/` — they carry the keyed table
+- Create the **registers** — exactly the files [`REGISTERS.md`](../../../process/REGISTERS.md)
+  enumerates (four registers, six files) — by **copying every skeleton file from
+  `process/reference/register-skeletons/` verbatim** into `registers/`: they carry the keyed table
   headers (`<!--c:key-->`) check D and the console read; substitute only `<product>`/`<date>` in
   the frontmatter, never retype a header. No rows invented; registers carry no worklog obligation.
   Seed a row only for something a source *states outright* and no
@@ -144,14 +141,13 @@ human confirms or overrides. Record the choice in `product-loops/config.yaml` as
 > framework — keep first-run setup to as few forks as possible.
 
 ### 5b. Ask the delegation toggle
-The loop can fan a heavy pass out to **subagents** (a `draft` subagent writes its method's worklog;
-`gather`/`research`/`verify` return text) — but only where the environment allows spawning them, and
-only if the human wants it. Ask one question: *may this instance use subagents?* Recommend `allowed`
+The loop can fan a heavy pass out to **subagents** (the write rule — OPERATING-LOOP → *Delegation*)
+— but only where the environment allows spawning them, and only if the human wants it. Ask one question: *may this instance use subagents?* Recommend `allowed`
 (⚙️) — it is the framework's normal mode and the orchestrator still falls back to running a pass
 itself whenever a pass fits one context. Choose `off` when spawning agents is restricted here, or the
 human prefers no fan-out; then the orchestrator runs every pass itself and writes every worklog
 directly. Record the answer in `product-loops/config.yaml` as `delegation:` (`allowed` · `off`) —
-CONVENTIONS → *Instance config*. This is separate from the session-restart caveat in Phase 2 step 7:
+CONVENTIONS → *Instance config and state*. This is separate from the session-restart caveat in Phase 2 step 7:
 that is about the agent definitions being *available*; this is about whether they are *permitted* at
 all.
 
@@ -184,10 +180,9 @@ Now that the sources are filed and a status is set, give the human a **product s
 - **Proposed plan:** in step order, propose closing the biggest/earliest gaps first — the shortest
   path to a coherent line from concept to sprint, weighted by the active status's `per_step` goals.
 - The human **agrees or proposes their own plan** — then **stop. Setup ends here.** Acting on the
-  plan is the operating loop (OPERATING-LOOP.md): it runs **one section at a time, each produced
-  through its library method** — open the method's `SKILL.md`, check prerequisites, clarify real
-  forks as 2–4 options + ⚙️ and wait, then fill. That is **never** another bulk fill. Do not slide
-  from setup straight into that work; hand the plan over and begin the loop only on the human's go.
+  plan is the operating loop (OPERATING-LOOP.md — *one section per pass*, move 1, each through its
+  library method); never another bulk fill. Do not slide from setup straight into that work; hand
+  the plan over and begin the loop only on the human's go.
 From the next session on, that loop is entered via the **`start-work`** skill (which self-bootstraps
 the rules and runs one pass at a time).
 
@@ -204,7 +199,7 @@ lives in the host repo's root `AGENTS.md` (written at install).
 ```
 product-loops/
   config.yaml            # HUMAN-authored: language · active status · directions · delegation · metric source slots
-  state.yaml             # AGENT-written each pass: current_step · last_pass · gate ticks (cycle position)
+  state.yaml             # AGENT-written each pass: current_step · last_pass · gate ticks (process/reference/state-schema.md)
   HANDOFF.md             # session-to-session: environment/access checks + open forks (see operations/handoff)
   sources/               # what comes from OUTSIDE — never agent reasoning (see reference/boundary-layout)
     INDEX.md             # navigation map: per-source what/in-scope/out-of-scope/feeds-steps
@@ -214,11 +209,13 @@ product-loops/
   skills/                # (optional) the product's own exchange skills: <pull|push>-<endpoint>-<what>/
   # step artifacts (1-concept.md … 6-sprint-plan.md) are NOT created at setup — each is born
   # by its step's first pass and grows section-by-section (projection; linter check P)
-  registers/
-    hypotheses.md        # H-… (single-value type + optional tags)
-    risks.md             # R-… (single-value category + optional tags)
-    metric-tree.md       # M-… node definitions (id/unit/kind/parent/instrumentation/target)
-    metrics.csv          # append-only dated readings (id,period_start,period_end,measured_at,value,basis,source,note)
+  registers/             # exactly the files process/REGISTERS.md enumerates — copied from register-skeletons/
+    hypotheses.md        # H-…
+    risks.md             # R-…
+    metric-tree.md       # M-… node definitions
+    metrics.csv          # append-only dated readings
+    features.md          # F-…
+    surfaces.md          # S-…
   export-files/          # what goes OUTSIDE — rendered views (decks/docs/tables, regeneratable) + authored deliverables (briefs, interview guides — signed source)
 ```
 
@@ -244,7 +241,8 @@ read-only into the repo at install and pinned to a version tag.
   of the root `AGENTS.md` does not fire when this skill runs from install or another session — load
   the rules yourself.
 - **Onboarding as a work cycle.** Bulk-filling downstream artifacts or running a "first cycle" during
-  setup. Setup places sourced material and stops; method work is the loop's job, one section at a time.
+  setup. Setup places sourced material and stops; method work is the loop's job (OPERATING-LOOP →
+  *one section per pass*).
 - **Scaffolding step artifacts.** Creating `1-concept.md` … `6-sprint-plan.md` at setup — filled *or*
   empty. Every `<!-- tool -->` marker in an artifact is a worklog debt (check P), so an unrolled
   template fails the linter before any pass has run. Artifacts are born by passes.

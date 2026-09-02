@@ -31,8 +31,8 @@ a sentence in the canon costs context forever and does. "The linter is the gate"
 
 - **A budget on the always-loaded set.** The per-pass canon (`AGENTS.md` + `process/OVERVIEW.md` +
   `OPERATING-LOOP.md` + `process/goal-map.md` + `CONVENTIONS.md`) is watched by **linter check W** — a
-  guideline that warns, never a gate that fails; the number lives in one place,
-  [`../tools/lint.py`](../tools/lint.py). The method library is several times that size and costs nothing
+  guideline that warns, never a gate that fails; the number lives in one place —
+  `BUDGET_GUIDELINE_WORDS` in [`../tools/lint.py`](../tools/lint.py) (4600 words at this writing). The method library is several times that size and costs nothing
   until used. An addition to `process/` names what it displaces, or why it is neither a check nor a
   method. A reference only one task needs goes to
   [`../process/reference/`](../process/reference/README.md), pointed at from a one-line stub in the core;

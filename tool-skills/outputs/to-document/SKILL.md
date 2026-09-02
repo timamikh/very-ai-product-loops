@@ -48,7 +48,7 @@ layered on top. Base = a real, neutral document; company = the house template.
 2. **Order into a narrative.** Problem → who → value → how we'll know → status, or the profile's
    order. A document reads top-to-bottom; don't just concatenate tables.
 3. **Decode IDs & links for the reader.** In prose, never a bare `H-009`/`M-activation`/section link —
-   write what it means, per CONVENTIONS "Talking to the human". IDs may stay in an appendix/summary
+   write what it means, per `AGENTS.md` N9. IDs may stay in an appendix/summary
    table for traceability.
 4. **Carry confidence honestly.** Keep `[assumption]`/`[validated]` where a claim's status matters;
    for an external doc, translate them to plain phrasing ("early signal", "confirmed") rather than

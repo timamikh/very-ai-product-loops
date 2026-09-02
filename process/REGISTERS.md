@@ -2,16 +2,27 @@
 node_type: registers
 title: Registers — metrics, hypotheses, risks, features
 status: draft
-version: 0.13.0
-updated: 2026-08-24
+version: 0.14.0
+updated: 2026-09-02
 ---
 
 # Registers
 
-Four living, vertical objects, shared across all steps — born once, refined downward, results
-flowing back up, **not re-authored per step**. In an instance: `registers/` at the instance root
-(the working area — `product-loops/` in a live product). IDs, confidence and change logs follow
+**Four registers, six files, five id prefixes** — this table is the one enumeration; every other
+file points here. Living, vertical objects shared across all steps — born once, refined downward,
+results flowing back up, **not re-authored per step**. In an instance: `registers/` at the instance
+root (`product-loops/` in a live product). Confidence tags and change logs follow
 [`CONVENTIONS.md`](CONVENTIONS.md).
+
+| Register | File(s) in `registers/` | Id prefix | Atom (`register:<name>`) |
+|----------|-------------------------|-----------|--------------------------|
+| Hypotheses | `hypotheses.md` | `H-` | `hypotheses` |
+| Risks | `risks.md` | `R-` | `risks` |
+| Metrics | `metric-tree.md` (node definitions) + `metrics.csv` (dated readings) | `M-` | `metric-tree` · `metrics` |
+| Features & surfaces | `features.md` + `surfaces.md` | `F-` · `S-` | `features` · `surfaces` |
+
+Numbered ids count sequentially and are never reused; a changed metric definition mints a new `M-`
+id (below).
 
 *Read this file at its named moments* (OPERATING-LOOP): **move 2** — pulling register rows as
 inputs, when field semantics or gradations are in doubt — and **move 5** — before writing rows.
@@ -28,6 +39,13 @@ read), zero rows. Never retype a header from the field tables below: prose is no
 | Risks | Steps 2 (niche) · 3 (product) · 4 (capability gaps) | 4 (mitigation) → 5 (period blockers) |
 | Metric tree | Step 4 | 5 (select nodes) → 6 (task ↔ metric) |
 | Features & surfaces | Steps 3 (surfaces: `product-surface` ledgers the designed ones `planned` pre-build, `product-baseline` inventories the live ones; live features via `product-baseline`) · 6 (planned feature candidates via the item specs; a new g2m surface via `activity-spec`) | 4 (strategic targets seed `priority`) → 5 (period goals finalize `priority`; item readouts flip `planned → live`) → 6 (sprint items advance their `F-…`) |
+
+## Gradation vs confirmation — two orthogonal axes
+
+**Confirmation** answers *has a human signed this?* — the binary section marker (CONVENTIONS →
+*Section confirmation*). **Gradation** answers *how good is it?* — the ordinal scales carried inside
+a register row (the enums below). The axes are independent: a reader renders **two chips**, never
+folding one into the other.
 
 ## What earns a register — the four-sign test
 
@@ -58,10 +76,10 @@ A cross-cutting theme is **not** a fifth type (`viability/moat` is wrong — `ty
 is defined **here**; CONVENTIONS carries only the link form.
 
 `signal` and `decision` are **gradations** (in the row), orthogonal to the human's confirmation
-marker (CONVENTIONS → *Gradation vs confirmation*). A refuted bet or a `reject`/`research` decision
+marker (*Gradation vs confirmation*, above). A refuted bet or a `reject`/`research` decision
 can trigger an upward revisit (step cadence/invalidation). The test-selection **priority score**
 (1/3/5 tiers) is not a register column — it is defined by
-[`hypothesis-test-design`](../tool-skills/library/hypothesis-test-design/SKILL.md) §Scales and
+[`process/reference/scales.md`](reference/scales.md) and
 operated at Step 5 by [`segment-cvp`](../tool-skills/library/segment-cvp/SKILL.md).
 
 ## Risk register (`risks.md`)
@@ -122,8 +140,10 @@ id,period_start,period_end,measured_at,value,observed_n,population,basis,source,
 - `basis` = **how the value was computed**, nothing else (`operational` · `with_depreciation` ·
   `metered` · `fact` …). *Who* was counted is `population`; *which slice* is a node of its own.
   Rows are comparable across `basis`, not across `population`.
-- Rows are appended, never edited or deleted. Every csv `id` must be defined in `metric-tree.md`
-  (check E) — lint after every csv write.
+- Rows are appended, never edited or deleted. The file holds data rows only — no comment or
+  separator lines; a reading's context goes in its `note` column, a group's context in
+  `metric-tree.md` prose. Every csv `id` must be defined in `metric-tree.md` (check E) — lint after
+  every csv write.
 
 **Where metric readings live (hard rule).** Any captured metric value goes into **`metrics.csv` as a
 dated row at capture time**, even before Step 4 builds the tree. A raw capture in `sources/` is

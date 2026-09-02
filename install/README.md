@@ -2,8 +2,8 @@
 node_type: install
 title: Install — add very-ai-product-loops to your product repo
 status: draft
-version: 0.8.0
-updated: 2026-08-20
+version: 0.9.0
+updated: 2026-09-02
 ---
 
 # Install
@@ -123,6 +123,17 @@ and the workaround for each:
 | auto-loads the rules from `CLAUDE.md` | `AGENTS.md` is the same content under the cross-vendor name — Codex and Cursor auto-load it; elsewhere say *"read `AGENTS.md` first and follow its reading order"* |
 | `/product-setup` and `/start-work` as slash-skills | they are plain markdown: *"read `.claude/skills/start-work/SKILL.md` and follow it"* — the file itself assumes nothing auto-loaded |
 | runs `python3 tools/lint.py` on request | run it yourself in a terminal; CI runs it too |
+| spawns the typed `loops-*` subagents from `.claude/agents/` | they do not exist — see below |
+
+**Delegation without subagents.** The `loops-gather` · `loops-research` · `loops-draft` · `loops-verify`
+definitions are Claude Code runtime enforcement of a rule written in markdown
+(`process/OPERATING-LOOP.md` → *Delegation*). On any other agent the orchestrator **does the brief
+itself, in the same session**: it still writes the brief from the `orchestration` template (the
+scope and stop condition are what keep the work honest), runs it, scores the return against the
+passport, and writes the worklog directly — the write rule is unchanged, and a gate tick that would
+wait for a `verify` stays `open` with its reason surfaced. Set `delegation: off` in `config.yaml` at
+setup so `start-work` does not look for agent types that cannot be there. Where a second session is
+available, pasting the brief there and the return back is the same procedure with different plumbing.
 
 Nothing else changes. If your agent can open a file, edit a file, and stay disciplined about the loop,
 it can run this framework — and the local console reads the same folder regardless of who wrote it.

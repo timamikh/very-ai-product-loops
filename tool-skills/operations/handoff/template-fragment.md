@@ -42,7 +42,7 @@ read_me_first: true
 
 ## Open forks (awaiting the human)
 For each fork: 2–4 options with one-line trade-offs + the ⚙️ recommendation — verbatim
-re-presentable, per CONVENTIONS "Forks & options".
+re-presentable, per OPERATING-LOOP move 3 (forks).
 
 ## Key decisions already made (do not re-ask)
 Dated one-liners with source (`[PO 2026-07-17]`), newest first.
