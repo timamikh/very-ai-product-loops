@@ -13,7 +13,7 @@ volume_rule: "the three baseline substitutes (do nothing · do it manually · bu
 selection_rule: "a substitute that wins in a real segment is promoted to the risk register; the rest stay in the map"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Substitutes
@@ -47,17 +47,21 @@ our price and adoption regardless of how few "direct" rivals exist.
    - **Do nothing** — living with the problem / status quo.
    - **Do it manually** — spreadsheets, email, a person, a one-off script.
    - **Build / host it themselves** — in-house build or self-hosted open source.
-3. **Add at least two adjacent ones.** Repurposed tools, generalist platforms, and services from
-   other categories that happen to close the job. The baseline three plus two adjacent is the floor:
-   a substitute map that stops at "do nothing" has not left the room the product was designed in.
+3. **Add at least two adjacent ones — by walking the ODI outcomes.** For each desired outcome in
+   `{#jtbd}`, ask which tool category already serves it; repurposed tools, generalist platforms and
+   services from other categories surface there, with **zero lookups**. The baseline three plus two
+   adjacent is the floor: a map that stops at "do nothing" has not left the room the product was
+   designed in.
 4. **For each substitute, answer two questions.** *Why does the customer choose it?* and *When does
    it win against us?* — the specific segment, price point, or trigger where the substitute is the
    rational pick. Both answers are claims about the outside world: tag each `[sourced: interview …]` /
    `[sourced: <named source>, as_of …]` / `[assumption]`, judged per fact type against
    [`../references/evidence-standards.md`](../references/evidence-standards.md). "Everyone just uses
    spreadsheets" with nothing behind it is an assumption, and usually a comforting one.
-5. **Find the self-build threshold.** Name the point where "just build it ourselves" beats buying
-   from us (team capability, volume, data sensitivity, cost crossover).
+5. **Find the self-build threshold — a 3-line Fermi in the worklog.** With `[assumption]` inputs:
+   build cost + 24-month run cost · our price × 24 · the segment's data sensitivity / volume.
+   Self-build wins when the first is below the second **and** sensitivity or volume is high; name the
+   team capability that makes the build real.
 6. **Name the switching friction.** What keeps a customer on the substitute — habit, sunk cost,
    integration, trust — is the barrier our offer must overcome.
 7. **Seed the risk register.** Every *strong* substitute — one that wins in a real segment — becomes
@@ -74,7 +78,7 @@ our price and adoption regardless of how few "direct" rivals exist.
   compared, defended against, or triaged into the risk register.
 
 ## Worklog & projection
-Worklog: `2-analysis/substitutes.md` — the baseline three plus ≥2 adjacent, each with why the customer chooses it and when it wins, the self-build threshold, the switching friction, the promoted `R-…`. Projects `{#substitutes}`; face: the **Strongest substitute** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `2-analysis/substitutes.md` — the baseline three plus ≥2 adjacent, each with why the customer chooses it and when it wins, the self-build Fermi with its `[assumption]` inputs, the switching friction, the promoted `R-…`. Projects `{#substitutes}`; face: the **Strongest substitute** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#substitutes}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

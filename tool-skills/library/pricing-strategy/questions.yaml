@@ -10,13 +10,13 @@ questions:
     type: per_item
     why: "One price fits no one; fences let one product serve several WTP levels."
   - id: alternative_anchor
-    ask: "For each segment, what is the next-best alternative (rival / substitute / do-nothing) and what would they pay or spend on it?"
+    ask: "For each segment, what is the next-best alternative (rival / substitute / do-nothing), what would they pay or spend on it, and what is the value gap in the buyer's currency (hours × rate, revenue uplift)?"
     type: per_item
-    why: "Value-based price is anchored to the alternative, not to our cost."
+    why: "Value-based price is anchored to the alternative, not to our cost — and the gap is a number, not an adjective."
   - id: wtp
-    ask: "What willingness-to-pay evidence do we have — van Westendorp bands, direct WTP answers, or pilot price-talk? Per segment; [assumption] is fine at Step 3."
+    ask: "What willingness-to-pay evidence do we have — van Westendorp survey (how many responses on file? bands need ≥~30), direct WTP answers, or pilot price-talk? Per segment; [assumption] is fine at Step 3."
     type: free_text
-    why: "A price with no WTP evidence is a guess dressed as a fact."
+    why: "A price with no WTP evidence is a guess dressed as a fact; bands from a dozen answers are constructed, not measured."
   - id: price_points
     ask: "Proposed price points and model per tier (subscription / usage / hybrid / one-off)?"
     type: per_item

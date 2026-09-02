@@ -36,7 +36,7 @@ Recommended tools are soft; the active [status](../../statuses/README.md) sets w
 | `competitor-pricing` | Dated competitor pricing — input to our pricing (Step 3), sizing's price anchor & the financial model | `competitor-pricing` |
 | `competitor-dynamics` | How each competitor develops over time (revenue/headcount trend) — compares strategy effectiveness | `competitor-dynamics` |
 | `substitutes` | Non-obvious competition incl. "do nothing / do it manually" | `substitutes` |
-| `niche-risks` | Structural risks of the niche (light Five Forces) | synthesis — no library method; its worklog is `2-analysis/synthesis.md` (check P requires it) |
+| `niche-risks` | Structural risks of the niche (light Five Forces — checklist: [`five-forces-light.md`](../../tool-skills/library/references/five-forces-light.md)) | synthesis — no library method; its worklog is `2-analysis/synthesis.md` (check P requires it) |
 | `opportunity` | The "so what" — where the white space / the threat is | synthesis — projects from the same `2-analysis/synthesis.md` |
 
 ## Register touchpoints

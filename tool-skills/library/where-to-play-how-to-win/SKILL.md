@@ -13,7 +13,7 @@ volume_rule: "≥3 distinct where-to-play / how-to-win possibilities before one 
 selection_rule: "the chosen cascade must be internally consistent end to end; the others are recorded with why they lose"
 rejects_shown: required
 status: draft
-version: 0.3.1
+version: 0.3.2
 updated: 2026-09-02
 ---
 # Where to Play / How to Win
@@ -48,8 +48,11 @@ players in that arena — not a list of things we'd like to be good at.
 2. **Generate at least 3 distinct possibilities before choosing.** A possibility is a whole
    candidate cascade — a different arena *with* the winning logic that would fit it — not three
    variations on the arena you already assumed. One strategy, arrived at directly, is a rationalized
-   default: nobody can tell it from the only option that was ever on the table. Record the ones that
-   lost **and why they lose**, which is also the answer to the question a board asks first.
+   default: nobody can tell it from the only option that was ever on the table. For each cascade,
+   list **3–5 "what would have to be true" conditions** in the worklog, marking the least-confident
+   one. A loser loses because a condition is **known false** — say which; that is also the answer to
+   the question a board asks first. The winner's weakest condition is handed to `bets` as its lead
+   wager.
 3. **Where to play.** Choose the arena: which segments, geographies, channels, product scope,
    stage of value chain. **List the exclusions explicitly** — the segments/arenas we deliberately
    will NOT pursue. A where-to-play with nothing excluded is not a choice.
@@ -68,11 +71,14 @@ players in that arena — not a list of things we'd like to be good at.
   or named moat behind it.
 - **Aspiration as slogan.** A mission statement standing in for a definition of winning.
 - **Disconnected cascade.** A winning logic that doesn't actually win in the chosen arena.
+- **Losers lost on taste.** A rejected cascade with no condition named false — it will be
+  re-proposed next quarter.
 
 ## Worklog & projection
-Worklog: `3-strategy/where-to-play-how-to-win.md` — one worklog for three sections: the aspiration, the ≥3 candidate cascades with why the losers lose, the arena with its exclusions, the winning logic with the moats it leverages, the integration check. Projects `{#winning-aspiration}` (face: **Aspiration**), `{#where-to-play}` (face: **Arena call**) and `{#how-to-win}` (face: **Winning logic**), each ending in its own Decided line, via [`template-fragment.md`](template-fragment.md). Primary of the `{#how-to-win}` marker; `value-definition-strategy`'s moat contribution reaches that section at re-projection, from its own worklog. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `3-strategy/where-to-play-how-to-win.md` — one worklog for three sections: the aspiration, the ≥3 candidate cascades each with its 3–5 what-would-have-to-be-true conditions (least-confident marked) and the false condition each loser fails on, the arena with its exclusions, the winning logic with the moats it leverages, the integration check. Projects `{#winning-aspiration}` (face: **Aspiration**), `{#where-to-play}` (face: **Arena call**) and `{#how-to-win}` (face: **Winning logic**), each ending in its own Decided line, via [`template-fragment.md`](template-fragment.md). Primary of the `{#how-to-win}` marker; `value-definition-strategy`'s moat contribution reaches that section at re-projection, from its own worklog. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#winning-aspiration}`, `{#where-to-play}`, `{#how-to-win}` via
 [`template-fragment.md`](template-fragment.md) from the single worklog; inputs via
-[`questions.yaml`](questions.yaml).
+[`questions.yaml`](questions.yaml). Downstream: the winner's weakest what-would-have-to-be-true
+condition is the lead wager `bets` opens with.

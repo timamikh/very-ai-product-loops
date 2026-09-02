@@ -1,6 +1,10 @@
 # competitor-pricing — interview
 tool: competitor-pricing
 questions:
+  - id: reference_config
+    ask: "The lead segment's typical account — how many seats, how much usage per month? (⚙️ agent proposes from segments; every competitor's price is expressed per month at this configuration)"
+    type: free_text
+    why: "Unlike plans become comparable only at one named configuration."
   - id: pricing
     ask: "For each detailed-table competitor — do you know their pricing, or should the agent scan sites/search for it?"
     type: per_item

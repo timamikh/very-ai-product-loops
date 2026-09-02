@@ -7,13 +7,13 @@ prerequisites: [the job and forces (jtbd), strategy choices (where-to-play / how
 reads: [section:jtbd, section:where-to-play, section:how-to-win, section:value-defensibility, register:hypotheses]
 writes: [worklog, section:bets, register:hypotheses]
 opinionated: false
-method_basis: "Strategic bets framed on the JTBD forces — '<segment> will hire us over <status quo> for <job> because pull > anxiety + habit' — each tied to a named moat; one bet = one typed hypothesis"
+method_basis: "Strategic bets framed on the JTBD forces — '<segment> will hire us over <status quo> for <job> because pull > anxiety + habit' — each tied to a named moat; one bet = one typed hypothesis; play order from Bland's assumption map (importance × evidence)"
 evidence_standard: decision
 volume_rule: "3–7 bets; each names the segment, the job/circumstance, the status quo it displaces, and the moat it leans on"
 selection_rule: "a bet must beat the status quo on the forces (pull > anxiety + habit) and lean on a named moat; candidates that can't say why they win are recorded, not carried"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Strategic Bets
@@ -39,8 +39,7 @@ is testable; "we will win on quality" is not. The moat (from `value-definition-s
 >   arena is chosen. A bet here often *is* one of those assumptions made concrete — **reconcile
 >   before minting** (see step 4 below); a duplicate `H-` for the same claim splits its evidence.
 > - **Downstream:** `segment-cvp` (Step 5) sharpens a staged bet into a testable market-entry
->   bundle; `hypothesis-test-design` designs the actual test. This skill produces the *wager*, not
->   the experiment.
+>   bundle; `hypothesis-test-design` designs the actual test.
 
 ## When to apply
 - **Step 3, last** — after where-to-play / how-to-win, the UVP, and the moats are chosen. The bets
@@ -74,10 +73,16 @@ is testable; "we will win on quality" is not. The moat (from `value-definition-s
    do not mint a second one. Two ids for one claim means each accumulates half the evidence and
    neither ever settles.
 5. **Cut to 3–7 and record what you cut.** Fewer than 3 usually means the strategy's assumptions
-   haven't been examined; more than 7 is a backlog, not a strategy — nobody can hold ten wagers
-   accountable. Every candidate not carried stays in the worklog with the reason (no moat, no
-   testable status quo, duplicate of `H-…`, out-scoped by where-to-play).
-6. **Seed the register and tag confidence.** Each carried bet → `H-…` in the hypothesis register
+   haven't been examined; more than 7 is a backlog, not a strategy. Every candidate not carried stays
+   in the worklog with the reason (no moat, no testable status quo, duplicate of `H-…`, out-scoped by
+   where-to-play).
+6. **Place the carried bets on the assumption map (Bland) — importance × evidence.** The
+   leap-of-faith quadrant (important, little evidence) takes **play order 1** unless a dependency
+   forbids it; the winner's weakest what-would-have-to-be-true condition from
+   `where-to-play-how-to-win` arrives here as the lead wager. For each carried bet write one worklog
+   line `this bet is dead if …` — an observation; numeric thresholds stay in Step 4's
+   `hypothesis-thresholds`.
+7. **Seed the register and tag confidence.** Each carried bet → `H-…` in the hypothesis register
    (new id or the reconciled existing one), statement carrying segment · status quo · job · forces ·
    moat; confidence per `process/CONVENTIONS.md` — at this point almost everything is
    `[assumption]`, and that is the point.
@@ -95,7 +100,7 @@ is testable; "we will win on quality" is not. The moat (from `value-definition-s
 - **Ten bets.** A wager list nobody can be held to. Cut to 3–7; the cuts stay visible.
 
 ## Worklog & projection
-Worklog: `3-strategy/bets.md` — every candidate with segment · status quo · job · forces · moat, the register reconciliation (which `H-…` each reuses or mints), the carried 3–7, every cut with its reason. Projects `{#bets}`; face: the **Lead bet** line, via [`template-fragment.md`](template-fragment.md). Primary of the `{#bets}` marker; `value-definition-strategy`'s moats reach it through the re-projected `{#value-defensibility}` and `{#how-to-win}`, never through this worklog. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `3-strategy/bets.md` — every candidate with segment · status quo · job · forces · moat, the register reconciliation (which `H-…` each reuses or mints), the carried 3–7 placed on the assumption map with a `this bet is dead if …` line each, every cut with its reason. Projects `{#bets}`; face: the **Lead bet** line, via [`template-fragment.md`](template-fragment.md). Primary of the `{#bets}` marker; `value-definition-strategy`'s moats reach it through the re-projected `{#value-defensibility}` and `{#how-to-win}`, never through this worklog. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#bets}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs via

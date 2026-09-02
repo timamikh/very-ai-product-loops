@@ -27,3 +27,11 @@ questions:
     ask: "Which 3–7 do we carry, and why is each cut candidate cut?"
     type: free_text
     why: "Fewer than 3 means unexamined assumptions; more than 7 is a backlog, not a strategy."
+  - id: assumption_map
+    ask: "For each carried bet — importance (H/M/L) and evidence on file (H/M/L)? The important-but-unevidenced one plays first unless a dependency forbids."
+    type: per_item
+    why: "Play order comes from the assumption map, not from comfort."
+  - id: dead_if
+    ask: "For each carried bet — one line: 'this bet is dead if we observe …' (an observation; numeric thresholds are set at Step 4)"
+    type: per_item
+    why: "A bet with no kill observation cannot lose, so it cannot be a bet."

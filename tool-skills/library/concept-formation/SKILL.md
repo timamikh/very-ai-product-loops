@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.1
+version: 0.4.2
 updated: 2026-09-02
 ---
 # Concept Formation
@@ -44,8 +44,9 @@ versus the current alternative, not by its features) + explicit problem→soluti
    nothing / do it manually"), and what does this product make possible instead? The shift is
    the concept's spine.
 3. **Riskiest assumption.** State the single belief the concept most depends on — the thing
-   that, if false, sinks it. Seed it as a hypothesis (`H-…`). At `concept-viability` this is the
-   center of gravity.
+   that, if false, sinks it. Seed it as a hypothesis (`H-…`). Beside it, pre-register one **kill
+   sentence** in the worklog: `we drop/pivot the concept if we observe …` — an observation, not a
+   feeling. At `concept-viability` this is the center of gravity.
 4. **Sketch the solution stub** — 2–4 lines on *how* it delivers the shift, kept in the worklog;
    `concept-expansion` reads it there as its **declared** worklog input
    (`worklog:1-concept/concept-formation` in that card's `reads`). Do not design features here; the
@@ -58,9 +59,10 @@ versus the current alternative, not by its features) + explicit problem→soluti
 - **Feature soup.** A list of capabilities instead of one repeatable sentence.
 - **No alternative.** Describing the product without naming what it replaces — no shift, no edge.
 - **Hiding the bet.** Not stating the riskiest assumption, so it never gets tested.
+- **Unobservable kill sentence.** "…if it doesn't work out" — nothing anyone could see and act on.
 
 ## Worklog & projection
-Worklog: `1-concept/concept-formation.md` — the one-line concept, the shift versus the current alternative, the riskiest assumption, the solution stub (`concept-expansion` reads it as a declared worklog input). Projects `{#idea}`; face: the concept sentence, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `1-concept/concept-formation.md` — the one-line concept, the shift versus the current alternative, the riskiest assumption with its kill sentence, the solution stub (`concept-expansion` reads it as a declared worklog input). Projects `{#idea}`; face: the concept sentence, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

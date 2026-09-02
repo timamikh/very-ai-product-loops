@@ -5,13 +5,17 @@ questions:
     ask: "Which arena/segment are we sizing? (who · where · which job — you can only size a market you can name)"
     type: free_text
   - id: units
-    ask: "Bottom-up — how many reachable customers/accounts are in this segment?"
+    ask: "Bottom-up — how many reachable customers/accounts are in this segment? Give low / base / high."
     type: free_text
-    why: "SAM is built units × price, not taken from the headline market."
+    why: "SAM is built units × price, not taken from the headline market — and it is a range."
   - id: price
-    ask: "Bottom-up — what price would each pay per period (and how often)?"
+    ask: "Bottom-up — what price would each pay per period (and how often)? Give low / base / high."
     type: free_text
     why: "Units × price is the load-bearing SAM number."
+  - id: som_derivation
+    ask: "SOM — which channels reach how many accounts per period, at what close rate, over how many periods? (share = channel capacity × conversion, never a bare %)"
+    type: free_text
+    why: "A bare percentage of SAM is a wish; capacity × conversion is a derivation."
   - id: topdown_source
     ask: "Top-down cross-check — which published market figure or analog can we derive the same SAM from? (⚙️ agent pulls via its desk-research gathering)"
     type: free_text

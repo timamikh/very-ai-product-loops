@@ -9,11 +9,11 @@ writes: [worklog, section:problems, register:hypotheses]
 opinionated: false
 method_basis: "Jobs-to-be-Done + Value Proposition Canvas (jobs/pains/gains), scored by severity × frequency, cost of inaction named per pain, classified differentiator vs table-stakes"
 evidence_standard: primary-research
-volume_rule: "≥5 candidate pains per segment before any is ranked"
+volume_rule: "≥5 candidate pains per segment before any is ranked; stop at ~10 or when the last three are rephrasings"
 selection_rule: "severity × frequency; differentiator vs table-stakes; the top 3 carry forward, the rest stay ranked in the table"
 rejects_shown: required
 status: draft
-version: 0.3.1
+version: 0.3.2
 updated: 2026-09-02
 ---
 # Segment Pains
@@ -45,9 +45,13 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
 2. **List at least 5 candidate pains per segment, then score** each on **severity** (how much it
    hurts) × **frequency** (how often). Lead with high×high. Five is the floor because two or three
    pains are always the ones the team already talks about — the ranking has nothing to do and the
-   result is the starting opinion with a table around it. **The top 3 carry forward** into the CVP
-   and the bundle; the rest stay in the table with their rank, never deleted — a pain ranked low this
-   quarter is the cheapest thing to re-check next quarter, and the most expensive to re-derive.
+   result is the starting opinion with a table around it. **Stop at ~10**, or when the last three
+   candidates are rephrasings of earlier ones — past that the list grows and the ranking does not.
+   **The top 3 carry forward** into the CVP and the bundle; the rest stay in the table with their
+   rank, never deleted — a pain ranked low this quarter is the cheapest thing to re-check next
+   quarter, and the most expensive to re-derive. For each top-3 pain write one worklog line
+   `gain sought: …` — the outcome the segment wants past the pain; `uvp-cpv`'s gain creators read
+   their source there.
 3. **Name the cost of inaction per pain** — what the segment does about it today:
    `nice-to-have` / `recurring irritation` / `already paying or improvising` — tokens exactly as
    written: the step template declares this vocabulary (`<!-- enum:c:inaction -->`) and the linter
@@ -75,7 +79,7 @@ pain is scored **severity × frequency** and classified **differentiator vs tabl
 - **Guessed severity.** Numbers with no source, tagged as fact.
 
 ## Worklog & projection
-Worklog: `1-concept/segment-pains.md` — the job, the ≥5 pains per segment scored severity × frequency with cost of inaction and class, the top 3 carried and the rest kept ranked. Projects `{#problems}`; face: the **Top pains forward** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `1-concept/segment-pains.md` — the job, the ≥5 pains per segment scored severity × frequency with cost of inaction and class, the top 3 carried with a `gain sought:` line each and the rest kept ranked. Projects `{#problems}`; face: the **Top pains forward** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

@@ -9,11 +9,11 @@ writes: [worklog, section:competitors, section:competitor-strategy, register:ris
 opinionated: false
 method_basis: "'What game are they playing' + moat comparison (pricing scan and growth-dynamics are separate methods)"
 evidence_standard: external-sources
-volume_rule: "≥5 named players, including ≥1 the team did not name first (registry/search/app-store sweep)"
+volume_rule: "≥5 named players, including ≥1 the team did not name first; one bounded sweep per channel type (registry · app store · search · community), stopped when the last three finds are already listed or fail segment ∧ job"
 selection_rule: "the players sharing our segment AND our job enter the detailed table; the rest are listed and excluded"
 rejects_shown: required
 status: draft
-version: 0.3.1
+version: 0.3.2
 updated: 2026-09-02
 ---
 # Competitor Analysis
@@ -43,14 +43,17 @@ social capital — and how), compared against our moats.
 
 ## How to do it
 1. **List** direct + indirect competitors (substitutes are a separate tool). **At least 5 named
-   players, of which at least one is a player the team did not name first** — found by a registry,
-   search, app-store or community sweep, not from memory. The failure this prevents is the two-rival
-   analysis: the incumbents everyone already worries about get studied, and the entrant that actually
-   takes the segment is not on the page. Then say which players enter the detailed table (they share
-   our segment **and** our job) and **list the ones excluded with the reason** — an excluded player
-   with no reason is indistinguishable from one nobody thought of.
+   players, of which at least one is a player the team did not name first** — found by a sweep, not
+   from memory. **Bound the sweep: one pass per channel type** — one registry, one app store, one
+   search, one community — and **stop when the last three finds are already listed or fail
+   segment ∧ job**; record in the worklog where each sweep stopped. Then say which players enter the
+   detailed table (they share our segment **and** our job) and **list the ones excluded with the
+   reason** — an excluded player with no reason is indistinguishable from one nobody thought of.
 2. **Name each one's game** — are they chasing revenue, profit, share, or social capital, and by
-   what strategy? Compare on the Step-1 moat axes (who has data / distribution / brand …).
+   what strategy? Read it from **observable moves**, recorded beside the game in the worklog:
+   share → free tier, land-grab discounting · revenue → upsell, tier proliferation · profit → price
+   rises, feature cuts · social capital → OSS, community, thought leadership. Compare on the Step-1
+   moat axes.
 3. **Hand the list on.** The detailed-table players are the input to the two scans:
    [`competitor-pricing`](../competitor-pricing/SKILL.md) (dated pricing, feeds `market-sizing`'s
    price input, Step-3 `pricing-strategy`, and the Step-4 financial model) and
@@ -65,7 +68,7 @@ social capital — and how), compared against our moats.
 - **A game with no evidence.** Asserting what a competitor is chasing without a move that shows it.
 
 ## Worklog & projection
-Worklog: `2-analysis/competitor-analysis.md` — one worklog for two sections: the ≥5 players with the excluded ones and why, each player's game and the moat comparison, the white-space / threat read. Projects `{#competitors}` (face: **Field read**) and `{#competitor-strategy}` (face: **Strategy read**) via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `2-analysis/competitor-analysis.md` — one worklog for two sections: the ≥5 players with the excluded ones and why, where each sweep stopped, each player's game with the move that shows it and the moat comparison, the white-space / threat read. Projects `{#competitors}` (face: **Field read**) and `{#competitor-strategy}` (face: **Strategy read**) via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#competitors}` and `{#competitor-strategy}` via

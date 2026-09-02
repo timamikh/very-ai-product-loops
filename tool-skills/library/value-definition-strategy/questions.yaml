@@ -8,6 +8,11 @@ questions:
     options: [have, building, aspiration]
     why: "A year of evidence and a chosen arena change the answers; a degraded moat stays in the table with its new rating."
 
+  - id: counter_positioning
+    ask: "For each competitor in the Step-2 strategy read — what would this incumbent have to give up to copy us (a revenue line, a channel, a promise to its customers)? 'Nothing' is an allowed answer."
+    type: per_item
+    why: "An incumbent that loses nothing by copying us has no reason not to — the moat is a feature."
+
   - id: derivatives
     ask: "Which derivative moats are now reachable (lock-in / switching costs · network effects · economies of scale) — and what exactly does each depend on (which base moat + which customer/scale threshold)?"
     type: per_item

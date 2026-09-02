@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Value & Defensibility (strategy revisit)
@@ -36,8 +36,7 @@ not create a second one.
 > - **`where-to-play-how-to-win`** owns `{#how-to-win}`; **`bets`** owns `{#bets}`. This skill is
 >   the *second* tool on both markers — its contribution is worked in its own worklog and reaches
 >   those sections when their primaries re-project; it never writes another method's worklog (N6).
-> - **`competitor-analysis` (Step 2)** supplies the context that decides whether a moat is actually
->   differentiated — a moat every rival also has is table stakes.
+> - **`competitor-analysis` (Step 2)** supplies the rivals the moats are tested against.
 
 ## When to apply
 - **Step 3**, after where-to-play/how-to-win choices are drafted and before the bets are fixed —
@@ -60,29 +59,33 @@ not create a second one.
    post-AI rebuild test on each base moat *in the chosen arena, against the known competitors*.
    Update have/building/aspiration honestly; a moat that quietly degraded stays in the table with
    its new rating, not deleted.
-2. **Derive the derivatives — now that there is something to derive from.** Given each base value
+2. **Counter-positioning check, per competitor in `{#competitor-strategy}`.** One worklog line each:
+   *what would this incumbent have to give up to copy us?* — a revenue line, a channel, a promise
+   to its customers. `nothing` is the finding: the moat is a feature. Taxonomy row:
+   [`moat-taxonomy.md`](../value-definition-concept/references/moat-taxonomy.md) → counter-positioning.
+3. **Derive the derivatives — now that there is something to derive from.** Given each base value
    and the customers/scale that now exist: which derivative moats (lock-in/switching costs ←
    exclusive access + an existing customer; network effects ← audience; economies of scale ←
    volume) are reachable? Name the **dependency** explicitly ("lock-in *if* integration X ships and
    a customer embeds it"). A derivative claimed with no named dependency is an aspiration —
    tag it so. Taxonomy: [`moat-taxonomy.md`](../value-definition-concept/references/moat-taxonomy.md).
-3. **Draw the moat trajectory.** Moats are not static: which base moat is being converted into
+4. **Draw the moat trajectory.** Moats are not static: which base moat is being converted into
    which derivative, over what horizon, and what erodes meanwhile (expertise commoditizes, access
    contracts expire)? State the order of construction — the strategy leans on the moats in the
    sequence they will actually exist, not all at once.
-4. **Contribute to `{#how-to-win}` and `{#bets}`.** The winning logic names the moats it leverages;
+5. **Contribute to `{#how-to-win}` and `{#bets}`.** The winning logic names the moats it leverages;
    each bet names the moat it leans on. That working stays in **this method's worklog**; the
    primaries (`where-to-play-how-to-win`, `bets`) read the re-projected `{#value-defensibility}`
    and pick the moats up when they re-project — the first tool in a `<!-- tool: A, B -->` marker
    owns the section's thread, each named tool owns its own file
    (`process/reference/worklog-resolution.md`).
-5. **Keep the kills current.** Candidates the rebuild test kills at this pass — including
+6. **Keep the kills current.** Candidates the rebuild test kills at this pass — including
    derivatives that turned out to have no dependency path — join the rejected table with reasons.
-6. **Update the Step-1 section — and say what that costs.** Project the revised picture back into
+7. **Update the Step-1 section — and say what that costs.** Project the revised picture back into
    `{#value-defensibility}`. **Re-projection drops the section's `confirmed:` marker**
    (`process/CONVENTIONS.md` → *Section confirmation*): the revised moat story is a new thesis the
    human has not signed — walk it back through confirmation rather than leaving a stale sign-off.
-7. **Seed hypotheses.** Each newly claimed derivative and each dependency → `H-…` (e.g. "customers
+8. **Seed hypotheses.** Each newly claimed derivative and each dependency → `H-…` (e.g. "customers
    will accept the switching cost of integration X"); reconcile with existing moat hypotheses
    rather than minting duplicates.
 
@@ -93,13 +96,15 @@ not create a second one.
   customer, or threshold it derives from.
 - **A static moat story.** A table with no trajectory — moats presented as possessions rather than
   positions that compound or erode.
+- **Incumbents who lose nothing.** Every counter-positioning line reads "nothing" and the moat
+  story stands unchanged — that line was the verdict.
 - **A second value section.** Writing a Step-3 defensibility section beside the Step-1 one. One
   moat story, one section; the revisit updates it in place.
 - **Silent re-projection.** Updating the Step-1 section and leaving its old `confirmed:` marker
   standing — a signed-off thesis that no longer says what was signed.
 
 ## Worklog & projection
-Worklog: `3-strategy/value-definition-strategy.md` — a **revisit** in its own step's folder: the re-tested base moats, the derivatives with their dependencies, the trajectory, the new kills, a dated change-log entry; the Step-1 working is a declared read (`worklog:1-concept/value-definition-concept`), never written. Re-projects `{#value-defensibility}` (which drops the section's `confirmed:` marker); face: the **Moat read** line — the same slot as `value-definition-concept`, via [`template-fragment.md`](template-fragment.md). Named second on `{#how-to-win}`: that contribution is worked here and reaches the section when `where-to-play-how-to-win` re-projects. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `3-strategy/value-definition-strategy.md` — a **revisit** in its own step's folder: the re-tested base moats, one counter-positioning line per competitor, the derivatives with their dependencies, the trajectory, the new kills, a dated change-log entry; the Step-1 working is a declared read (`worklog:1-concept/value-definition-concept`), never written. Re-projects `{#value-defensibility}` (which drops the section's `confirmed:` marker); face: the **Moat read** line — the same slot as `value-definition-concept`, via [`template-fragment.md`](template-fragment.md). Named second on `{#how-to-win}`: that contribution is worked here and reaches the section when `where-to-play-how-to-win` re-projects. Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Re-projects the Step-1 `{#value-defensibility}` via [`template-fragment.md`](template-fragment.md)

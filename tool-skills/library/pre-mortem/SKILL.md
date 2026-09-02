@@ -9,11 +9,11 @@ writes: [worklog, section:product-risks, register:risks]
 opinionated: false
 method_basis: "Pre-mortem (Klein) on the chosen strategy + risk-register triage (probability × impact); disposition of every candidate"
 evidence_standard: decision
-volume_rule: "≥8 named failure modes from the pre-mortem before any triage"
+volume_rule: "≥8 named failure modes across ≥4 categories (market · competitor · channel/GTM · pricing/viability · tech dependency · team/key-person · regulatory · runway) before any triage"
 selection_rule: "probability × impact; every candidate carried · parked · dropped, each with the reason"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Pre-mortem
@@ -42,12 +42,13 @@ disposition — carried · parked · dropped — for every failure mode surfaced
   *Missing → run `where-to-play-how-to-win` (and related Step-3 tools) first.*
 
 ## How to do it
-1. **Run the pre-mortem — to at least 8 named failure modes.** Assume it's 12 months out and the
-   strategy failed. Ask *why* — force concrete failure stories, not abstract worries. Cover execution
-   and key-person risks, not just external/market ones. Stopping at three is the pre-mortem's
-   characteristic failure: the first three are always the ones already being discussed, and the risk
-   that kills the plan is rarely among them. Failure stories gathered in a team session arrive as
-   filed notes (`source:interview`); the owner's own answers are the questionnaire.
+1. **Run the pre-mortem — to at least 8 named failure modes across at least 4 categories.** Assume
+   it's 12 months out and the strategy failed. Ask *why* — force concrete failure stories, not
+   abstract worries. In the worklog, tag each story with one category from the fixed list: **market ·
+   competitor · channel/GTM · pricing/viability · tech dependency · team/key-person · regulatory ·
+   runway**. Fewer than four categories means the session stayed in one room — the first three
+   stories are always the ones already being discussed. Stories from a team session arrive as filed
+   notes (`source:interview`); the owner's own answers are the questionnaire.
 2. **Pull existing risks.** Read the R- register for risks already logged — e.g. journey risks
    seeded by `cjm-strategy` — and fold them into the triage; don't re-invent them, and don't mint a
    duplicate `R-` for a failure the register already carries.
@@ -69,8 +70,8 @@ from Step 4 — everything carried from here enters the register as `open`.
 ## Anti-patterns
 - **Stopping at three.** The first three failure modes are the ones already being discussed; the
   volume rule (≥8) exists because the killer is rarely among them.
-- **Only external risks.** Listing market/competitor risks while ignoring execution and
-  key-person risks — usually the ones that actually sink it.
+- **One room.** Eight stories from one or two categories — market and competitor — while team,
+  runway, tech dependency and regulatory go unasked; usually where the plan actually sinks.
 - **Mitigations at Step 3.** Assigning a mitigation/owner/trigger here — that fakes management the
   step hasn't earned and duplicates `risk-mitigation`'s job at Step 4.
 - **Severity theatre.** Scoring everything high so nothing is prioritized.
@@ -79,7 +80,7 @@ from Step 4 — everything carried from here enters the register as `open`.
 - **Register drift.** Risks triaged here but never written back to R-.
 
 ## Worklog & projection
-Worklog: `3-strategy/pre-mortem.md` — the ≥8 failure modes, the likelihood × impact triage, the disposition of every risk with its reason, the ranked carried set. Projects `{#product-risks}`; face: the **Death read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `3-strategy/pre-mortem.md` — the ≥8 failure modes each tagged with its category (≥4 covered), the likelihood × impact triage, the disposition of every risk with its reason, the ranked carried set. Projects `{#product-risks}`; face: the **Death read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#product-risks}` via [`template-fragment.md`](template-fragment.md) from the worklog;

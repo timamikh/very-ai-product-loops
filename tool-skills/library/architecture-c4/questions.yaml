@@ -8,5 +8,6 @@ questions:
     ask: "What external systems does it integrate with or depend on (auth, payments, LLM providers, analytics, email, data)?"
     type: list
   - id: cost_risk
-    ask: "For each external system — is it a cost driver, a dependency risk, and/or a potential moat?"
+    ask: "For each external system — single-vendor? tested fallback? share of COGS above the stated threshold? (an R-… is seeded when single-vendor AND no fallback OR above the share) — and is it a potential moat?"
     type: per_item
+    why: "The criterion keeps the register to the dependencies that can actually stop the product.

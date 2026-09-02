@@ -2,8 +2,8 @@
 node_type: reference
 title: Moat taxonomy — base vs derivative
 status: draft
-version: 0.2.0
-updated: 2026-08-16
+version: 0.3.0
+updated: 2026-09-02
 ---
 
 # Moat taxonomy — base vs derivative
@@ -27,6 +27,7 @@ lock-in) at concept stage, before there is anything to derive it from.
 | Processes (speed & precision) | soft | Ship & iterate faster/more accurately | Everyone ships at the same speed |
 | Product complexity / depth | soft | Hard-to-replicate surface area | The surface is thin |
 | Real-world assets / IRL processes | soft | Physical assets or offline ops an IT-only rival can't cheaply copy (servers, facilities, licences) | The asset is rentable/commoditized, or the ops are digital-only |
+| Counter-positioning | soft | A business model the incumbent cannot copy without damaging its own business — **name the incumbent and what it would lose** (a revenue line, a channel, a promise to existing customers) | The incumbent's legacy shrinks enough that copying no longer hurts, or an entrant with no legacy copies it; "nothing to lose" means the moat is a feature |
 
 ## Derivative moats
 
@@ -35,6 +36,26 @@ lock-in) at concept stage, before there is anything to derive it from.
 | Lock-in / switching costs | exclusive access/integration | an **existing customer** embedded in it | Strongest when tied to the customer's own data/workflow |
 | Network effects | audience | enough users that value grows with each new one | Not every audience creates them |
 | Economies of scale / cost advantage | audience / scale | volume | Turns a soft barrier into a cost moat |
+
+## Mapping to Helmer's seven powers
+
+The taxonomy is the working vocabulary; `method_basis` cites *7 Powers*. Where each power sits, and
+what does not map:
+
+| Helmer power | Here | Layer |
+|---|---|---|
+| Cornered resource | unique data · unique algorithms / IP · exclusive access / rights · real-world assets | base |
+| Branding | brand / trust | base |
+| Process power | processes (speed & precision) · expertise | base |
+| Counter-positioning | counter-positioning | base |
+| Switching costs | lock-in / switching costs | derivative |
+| Network economies | network effects | derivative |
+| Scale economies | economies of scale / cost advantage | derivative |
+
+Not a power in Helmer's sense: **audience / distribution** (a barrier that becomes one only when it
+converts into network or scale economies) and **product complexity / depth** (surface area, not a
+position). Both stay in the taxonomy because teams claim them; the mapping says they are the
+weakest rows.
 
 ## Why post-AI
 

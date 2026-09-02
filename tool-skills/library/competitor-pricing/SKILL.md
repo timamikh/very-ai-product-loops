@@ -13,7 +13,7 @@ volume_rule: "one row per player in the {#competitors} detailed table — a pric
 selection_rule: "only comparable, dated prices enter the table; a price that can't anchor a comparison goes to the reject table with the reason"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Competitor Pricing
@@ -39,17 +39,21 @@ price is a claim about an unknown month.
 
 ## How to do it
 
-1. **One row per detailed-table player.** Plan / model / price / source, straight from the
+1. **Fix the reference configuration once.** In the worklog, define the lead segment's typical
+   account — N seats, M usage/month. For each competitor pick the plan that fits it and express its
+   price **per month at that configuration**, beside the list price. The face's *comparable range*
+   is read from that worklog column, never from list prices of unlike plans.
+2. **One row per detailed-table player.** Plan / model / price / source, straight from the
    competitor's site or a search hit. Not public → `— to clarify —`, tagged as such; never a guess
    and never a silently missing row.
-2. **Date every price.** Record the day you read it. A pricing page is a snapshot, not a fact about
+3. **Date every price.** Record the day you read it. A pricing page is a snapshot, not a fact about
    today.
-3. **Keep only comparable prices.** A price you cannot anchor a comparison on — enterprise
+4. **Keep only comparable prices.** A price you cannot anchor a comparison on — enterprise
    "contact us", a reseller's markup, an out-of-region plan — goes to the **reject table** with the
    reason, not into the comparison.
-4. **Note the model, not just the number.** Per-seat vs usage vs flat changes what the number
+5. **Note the model, not just the number.** Per-seat vs usage vs flat changes what the number
    means; a naked price without its model misleads the sizing and the Step-3 decision.
-5. **Feed the readers.** `market-sizing` takes a price anchor from here; `pricing-strategy` (Step 3)
+6. **Feed the readers.** `market-sizing` takes a price anchor from here; `pricing-strategy` (Step 3)
    positions against it; the financial model (Step 4) stress-tests with it.
 
 ## Anti-patterns
@@ -57,10 +61,10 @@ price is a claim about an unknown month.
 - **Guessed pricing.** Numbers with no source, stated as fact.
 - **Undated prices.** "Their Pro is $29" — read when? Repricing is routine; the date is the claim.
 - **Averaging models.** Blending a per-seat and a usage price into one "market price" — the models
-  are not commensurable.
+  are not commensurable until read at the reference configuration.
 
 ## Worklog & projection
-Worklog: `2-analysis/competitor-pricing.md` — the dated scan per player, the prices rejected as inputs with reasons, the not-public `— to clarify —` list. Projects `{#competitor-pricing}`; face: the **Price anchor** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `2-analysis/competitor-pricing.md` — the reference configuration (N seats · M usage/month), the dated scan per player with its per-month price at that configuration, the prices rejected as inputs with reasons, the not-public `— to clarify —` list. Projects `{#competitor-pricing}`; face: the **Price anchor** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

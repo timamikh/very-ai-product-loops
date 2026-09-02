@@ -7,5 +7,6 @@ questions:
     min: 5
     why: "A list only the team wrote is the team's mental model, not the market."
   - id: game
-    ask: "For each — what are they chasing (revenue/profit/share/social capital) and how?"
+    ask: "For each — what are they chasing (revenue/profit/share/social capital), and which observable move shows it (free tier · discounting · upsell · tier proliferation · price rises · feature cuts · OSS/community)?"
     type: per_item
+    why: "A game with no move behind it is a guess about a rival's intent."

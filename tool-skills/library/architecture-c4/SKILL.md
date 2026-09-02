@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.3.1
+version: 0.3.2
 updated: 2026-09-02
 ---
 # Architecture (C4 Context)
@@ -36,21 +36,26 @@ enough to reason about integrations, dependencies, and cost, not to design the b
 1. **The system** — one box: the product.
 2. **Actors** — who uses it (map to segments).
 3. **External systems** — what it integrates with or depends on (auth, payments, LLM providers,
-   analytics, email, data sources). Each is a potential cost, dependency, and moat/lock-in. For an
+   analytics, email, data sources). Each is a potential cost, dependency, and moat/lock-in; for an
    existing system read them from architecture docs (`source:kb`) or the codebase passport
    (`source:git`).
 4. **Relationships** — who talks to what, and why.
-5. **Feed downstream** — external LLM/infra → Step-4 COGS; critical dependencies → `R-…` risks;
-   exclusive integrations → a moat in `value-definition`.
+5. **Feed downstream** — external LLM/infra → Step-4 COGS; exclusive integrations → a moat in
+   `value-definition`. **Dependency criterion:** a dependency seeds `R-…` when it is **single-vendor
+   AND** (no tested fallback **OR** above a stated share of COGS). In the worklog, record the three
+   answers beside each external system; one failing the criterion is listed, not registered. Step 2's
+   niche-risk read takes supplier power from this list.
 
 Express as a simple list or a Mermaid diagram — keep it Context-level.
 
 ## Anti-patterns
-- **Over-designing.** Dropping into Container/Component detail — that's engineering's job, later.
+- **Over-designing.** Container/Component detail — engineering's job, later.
 - **Hiding dependencies.** Omitting the external systems that carry cost and risk.
+- **Every vendor a risk.** Every external system registered as `R-…` — the criterion keeps the
+  register to those that can stop the product.
 
 ## Worklog & projection
-Worklog: `3-strategy/architecture-c4.md` — the system, the actors mapped to segments, the external systems, the relationships, the downstream feeds (COGS · `R-…` · moat). Projects `{#architecture}`; face: the **Context read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `3-strategy/architecture-c4.md` — the system, the actors mapped to segments, the external systems each with its three criterion answers (single-vendor · tested fallback · COGS share), the relationships, the downstream feeds (COGS · `R-…` · moat). Projects `{#architecture}`; face: the **Context read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#architecture}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs

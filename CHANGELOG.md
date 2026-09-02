@@ -16,6 +16,29 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Library — steps 1–3 sharpened, the scans bounded
+
+- **Three methods stop pulling toward a 50-site scan.** `competitor-dynamics`: a proxy ladder for
+  private firms and at most two sources per player, then `— to clarify —` naming the proxy; single-
+  sourced rows stay, labelled. `competitor-analysis`: one sweep per channel type with a stop rule,
+  observable signals per game. `channels-expansion`: a sourced reach claim only for the inner ring.
+- **Named frameworks become operations.** JTBD forces rated H/M/L with a `net:` line and ODI
+  outcomes capped at 5–8 (`jtbd-concept`); Moore's beachhead check (`segmentation`); a kill sentence
+  beside the riskiest assumption (`concept-formation`); a ceiling and a `gain sought:` line
+  (`segment-pains`); counter-positioning and a mapping to Helmer's seven powers in the moat
+  taxonomy (`value-definition-concept`, `-strategy`); light Five Forces as a reference checklist
+  pointed at from the step-2 README (`references/five-forces-light.md`).
+- **Numbers get a shape.** Low/base/high inputs, SAM as a range, a sensitivity line that seeds the
+  first hypothesis, SOM as channel capacity × conversion (`market-sizing`); a reference configuration
+  so competitor prices compare per month at one account shape (`competitor-pricing`); self-build as a
+  three-line Fermi (`substitutes`); a data gate for van Westendorp, the value gap in the buyer's
+  currency, a value-metric test (`pricing-strategy`); a dependency criterion (`architecture-c4`).
+- **Choices become falsifiable.** "What would have to be true" per cascade, the winner's weakest
+  condition handed to `bets` (`where-to-play-how-to-win`); Bland's assumption map and a `dead if`
+  line per bet (`bets`); the alternative must be a row of step 2 and the market category must match
+  `{#idea}` (`uvp-cpv`, reads widened); ≥8 failure modes across ≥4 named categories (`pre-mortem`).
+- No template or fragment column changed; every rule lands in the worklog or the card.
+
 ### Console — value boards survive their edge cases
 
 - **One number grammar.** `figures()` is the only reader of a figure in a cell: `$29`, `$29–49`

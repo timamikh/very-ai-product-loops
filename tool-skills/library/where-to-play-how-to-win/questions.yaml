@@ -10,6 +10,10 @@ questions:
     type: list
     min: 3
     why: "A cascade chosen without alternatives is the first idea, not a choice."
+  - id: conditions
+    ask: "For each candidate cascade — 3–5 'what would have to be true' conditions; mark the least-confident one. (⚙️ agent drafts; a loser must fail on a condition known false)"
+    type: per_item
+    why: "A cascade rejected on taste is re-proposed next quarter; the winner's weakest condition becomes bets' lead wager."
   - id: cascade_choice
     ask: "Which possibility do we develop into the full cascade below?"
     type: single_select

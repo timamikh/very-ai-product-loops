@@ -7,13 +7,13 @@ prerequisites: [concept, audience-knowledge-or-analytics]
 reads: [section:idea, register:hypotheses, register:metrics, source:interview, source:metrics, source:research, source:kb]
 writes: [worklog, section:segments, register:hypotheses]
 opinionated: false
-method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics)"
+method_basis: "JTBD / needs-based segmentation, priority-tiered (segment by the job/context, not demographics); Moore beachhead check on the lead"
 evidence_standard: primary-research
 volume_rule: "≥3 candidate cuts on different bases (situation · job · behaviour · buying trigger) before one is chosen"
 selection_rule: "priority tiers 1–3 on need-difference × reachability (moat-fit deferred — the moat is stated later in the step, so it re-cuts segments on a later pass, not this one); ⚙️ proposed, human decides; lower tiers kept, never deleted"
 rejects_shown: required
 status: draft
-version: 0.7.1
+version: 0.7.2
 updated: 2026-09-02
 ---
 # Segmentation
@@ -72,7 +72,11 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
    addition in that pass's worklog (a recorded door, not a standing input), or the Step-3
    `where-to-play-how-to-win` revisit. Everything downstream (problems, solution, value) leads with
    the priority-1 segment; lower tiers are kept, not dropped.
-5. **Tag confidence & seed hypotheses — and name which evidence the cut rests on.** Say plainly
+5. **Beachhead check on the proposed lead (Moore).** Four yes/no lines in the worklog: compelling
+   reason to buy · reachable through one community/channel · small enough to dominate, big enough to
+   matter · whole product deliverable now. A `no` is recorded, not fatal — it names what leading
+   with this segment will cost.
+6. **Tag confidence & seed hypotheses — and name which evidence the cut rests on.** Say plainly
    whether this segmentation comes from customer conversations, from usage data, or from desk
    research, because the three fail differently and a reader cannot tell them apart from the table.
    Each segment is `[assumption]` until evidenced; turn "segment X exists and is reachable at Y" into
@@ -86,7 +90,7 @@ Checked before the tool runs. If missing, the agent asks or offers to help obtai
 - **Too many too early.** Five segments before there's a single validated one.
 
 ## Worklog & projection
-Worklog: `1-concept/segmentation.md` — the ≥3 candidate cuts with the rejected ones and why, the 1–3 segments with reachability, the tier ranking with the ground that decided each placement. Projects `{#segments}`; face: the **Lead segment** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `1-concept/segmentation.md` — the ≥3 candidate cuts with the rejected ones and why, the 1–3 segments with reachability, the tier ranking with the ground that decided each placement, the four beachhead yes/no lines on the lead. Projects `{#segments}`; face: the **Lead segment** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

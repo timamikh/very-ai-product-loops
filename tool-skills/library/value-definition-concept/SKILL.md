@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: "the post-AI test — a value that does not survive an LLM rebuild is a feature, not a moat"
 rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Value & Defensibility (concept)
@@ -59,7 +59,10 @@ access, and execution — not by features.
 **Derivative values** (lock-in/switching costs, network effects, economies of scale) emerge when a
 base value meets a **customer** or **scale** — there is nothing to derive them from at concept
 stage. **Do not claim them here**; they are the Step-3 revisit's job
-(`value-definition-strategy`). Full taxonomy: [`references/moat-taxonomy.md`](references/moat-taxonomy.md).
+(`value-definition-strategy`). Full taxonomy: [`references/moat-taxonomy.md`](references/moat-taxonomy.md) —
+it also carries **counter-positioning** (a model the incumbent cannot copy without damaging its own
+business; name the incumbent and what it would lose) and the mapping of this taxonomy onto Helmer's
+seven powers, so the method basis is honest about what maps and what does not.
 
 ## Prerequisites
 

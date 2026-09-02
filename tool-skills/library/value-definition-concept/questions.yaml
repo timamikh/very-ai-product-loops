@@ -10,7 +10,7 @@ questions:
     why: "Forces value onto position, not features."
 
   - id: base_moats
-    ask: "Which base moats do you actually have or can build? (unique data · unique algorithms/IP · exclusive access/integrations/rights · audience/distribution · brand/trust · expertise · processes · product depth · real-world assets)"
+    ask: "Which base moats do you actually have or can build? (unique data · unique algorithms/IP · exclusive access/integrations/rights · audience/distribution · brand/trust · expertise · processes · product depth · real-world assets · counter-positioning — name the incumbent and what it would lose)"
     type: list
     why: "Base primitives only at concept stage — derivatives have nothing to derive from yet."
 

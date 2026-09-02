@@ -6,10 +6,11 @@ questions:
     type: free_text
     why: "Pains are obstacles to the job, not generic complaints."
   - id: pains
-    ask: "List ≥5 candidate pains in that job. (⚙️ agent drafts from concept + any evidence)"
+    ask: "List ≥5 candidate pains in that job; stop at ~10 or when the last three are rephrasings. (⚙️ agent drafts from concept + any evidence)"
     type: list
     min: 5
-    why: "Fewer than 5 means only the pains already on the team's mind get ranked."
+    max: 10
+    why: "Fewer than 5 means only the pains already on the team's mind get ranked; past 10 the list grows and the ranking does not."
   - id: score
     ask: "For each pain — severity (how much it hurts) × frequency (how often)?"
     type: per_item
@@ -23,6 +24,10 @@ questions:
     ask: "For each pain — is it a differentiator (where we compete) or table-stakes (must-have, won't win)?"
     type: per_item
     options: [differentiator, table-stakes]
+  - id: gain_sought
+    ask: "For each top-3 pain — what gain does the segment want past it? One line: 'gain sought: …' (⚙️ agent drafts; uvp-cpv's gain creators read it)"
+    type: per_item
+    why: "Gain creators at Step 3 need a source; a pain with no gain behind it relieves, never sells."
   - id: lead_pain
     ask: "Which pain do we lead on?"
     type: single_select

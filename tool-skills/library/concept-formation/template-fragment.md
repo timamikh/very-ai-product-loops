@@ -9,7 +9,7 @@ _<Product> is a <category> that <core thing> for <who>._  [sourced: … | assump
 
 **The shift:** today <current alternative>; with <Product>, <what becomes possible instead>.  [assumption]
 
-**Riskiest assumption:** <the belief the concept most depends on>.  [assumption] → `H-001`
+**Riskiest assumption:** <the belief the concept most depends on>.  [assumption] → `H-…`
 
 **Decided:** <!--d:date--> <YYYY-MM-DD> · **by:** <!--d:by--> <who — prefix ⚙️ while unconfirmed> ·
 **alternatives considered:** <!--d:alts--> <one alternative weighed and why it lost, or what makes

@@ -13,7 +13,7 @@ volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.1
+version: 0.4.2
 updated: 2026-09-02
 ---
 # Market Sizing
@@ -42,7 +42,9 @@ answer. Every input is a **named assumption** traced to its source; sizing assum
 ## How to do it
 1. **Build SAM bottom-up.** Estimate *units × price*: number of reachable customers/accounts in the
    segment × the price they'd pay per period. This — not the headline TAM — is the number that
-   matters. Show the arithmetic.
+   matters. Show the arithmetic. **Carry each input as low / base / high, so SAM is a range**, and
+   write one worklog line naming the input SAM is most sensitive to — that input is the first `H-…`
+   seeded.
 2. **Cross-check top-down.** Pull a published market figure or a defensible analog and derive the
    same SAM from it — from a source that survives the per-fact-type test in
    [`../references/evidence-standards.md`](../references/evidence-standards.md) (a vendor's "market
@@ -56,23 +58,23 @@ answer. Every input is a **named assumption** traced to its source; sizing assum
 4. **Name and trace every assumption.** Each input (segment size, adoption %, price, frequency)
    gets a `[sourced: …]` or `[assumption]` tag. A number with no visible input is not a size.
 5. **Keep SAM honest.** SAM is who you can actually serve — the right segment, geography, channel,
-   and regulatory reach — not "the whole market". SOM is the share you can realistically win in the
-   horizon, with a stated rationale.
-6. **Avoid round-number theatre.** Derive figures from inputs; a clean "$1B" with no derivation is
-   a red flag, not a result.
-7. **Seed the register.** Each load-bearing sizing assumption → `H-…` (`type: viability`) so the
+   and regulatory reach — not "the whole market". SOM is the share you can win in the horizon,
+   derived as **channel capacity × conversion over the horizon** (accounts the chosen channels can
+   reach per period × close rate × periods) — never a bare percentage of SAM.
+6. **Seed the register.** Each load-bearing sizing assumption → `H-…` (`type: viability`) so the
    business viability of the bet can be tested, not just stated.
 
 ## Anti-patterns
 - **TAM as SOM.** Reporting the total market as if it were obtainable — the single most common
   sizing lie.
+- **SOM as a bare %.** "We take 2%" with no channel capacity or conversion behind the share.
 - **Sizing with no method or source.** A figure with no bottom-up arithmetic and no cited origin.
 - **Round numbers with no derivation.** "$10B market" pulled clean from nowhere.
 - **Averaging away divergence.** Splitting the difference between bottom-up and top-down instead of
   reconciling why they disagree.
 
 ## Worklog & projection
-Worklog: `2-analysis/market-sizing.md` — the bottom-up arithmetic, the top-down cross-check, the growth layer, every assumption with its tag — or the explicit gap report when nothing external has landed. Projects `{#market-sizing}`; face: the **Sizing read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `2-analysis/market-sizing.md` — the bottom-up arithmetic with low/base/high per input, the sensitivity line, the top-down cross-check, the growth layer, the SOM derivation, every assumption with its tag — or the explicit gap report when nothing external has landed. Projects `{#market-sizing}`; face: the **Sizing read** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 Projects `{#market-sizing}` via [`template-fragment.md`](template-fragment.md) from the worklog; inputs

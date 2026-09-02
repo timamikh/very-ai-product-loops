@@ -10,10 +10,10 @@ opinionated: false
 method_basis: "Jobs-to-be-Done — Christensen 'progress' + Ulwick ODI: job statement · forces (push/pull/anxiety/habit) · desired outcomes"
 evidence_standard: primary-research
 volume_rule: n/a
-selection_rule: n/a
-rejects_shown: n/a
+selection_rule: "ODI outcomes capped at 5–8, ranked by importance × dissatisfaction (Ulwick opportunity score, read qualitatively); the rest stay in the worklog"
+rejects_shown: required
 status: draft
-version: 0.2.1
+version: 0.2.2
 updated: 2026-09-02
 ---
 # Jobs-to-be-Done (concept)
@@ -63,11 +63,14 @@ habit.
    - **Pull** — what attracts them to the new solution.
    - **Anxiety** — fears/uncertainty about the new solution.
    - **Habit / inertia** — attachment to the existing way (allegiance to the status quo).
-   Progress happens only when **push + pull > anxiety + habit**. Name all four; a missing force is
-   usually the one that kills adoption.
+   Progress happens only when **push + pull > anxiety + habit**. Rate each force **H/M/L with its
+   evidence** in the worklog, then write one net line: `net: pull+push > anxiety+habit? yes / no /
+   unclear — weakest force: …`. The weakest force is usually the one that kills adoption.
 3. **Name the desired outcomes (ODI).** How does the customer *measure* success at this job?
    State outcomes as measurable directions (minimize / increase the time/likelihood/effort of …),
-   not features. These are what `segment-pains` later scores and what metrics later track.
+   not features. **Cap at 5–8**, ranked by importance × dissatisfaction (Ulwick's opportunity score,
+   read qualitatively); further candidates stay in the worklog unranked. These are what
+   `segment-pains` later scores and what metrics later track.
 4. **Tag confidence & source.** `[sourced: interview …]` / `[sourced: kb …]` / `[assumption]` per
    `process/CONVENTIONS.md`. Early on the job and forces are largely `[assumption]`. Where a force is
    sourced from interviews, name the sample (how many, who) — the four forces are the part of this
@@ -92,7 +95,7 @@ habit.
   skill supplies the job and forces they are framed on, nothing more.
 
 ## Worklog & projection
-Worklog: `1-concept/jtbd-concept.md` — the job statement, the four forces with their sources, the desired outcomes. Projects `{#jtbd}`; face: the **Job statement** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
+Worklog: `1-concept/jtbd-concept.md` — the job statement, the four forces rated H/M/L with their sources and the net line, the 5–8 ranked outcomes. Projects `{#jtbd}`; face: the **Job statement** line, via [`template-fragment.md`](template-fragment.md). Path form, primary/contributing and revisit rules: [`worklog-resolution.md`](../../../process/reference/worklog-resolution.md).
 
 ## Output
 

@@ -5,7 +5,7 @@ questions:
     ask: "What job is the customer actually trying to get done? (define competition by the job, not by our product category)"
     type: free_text
   - id: current_way
-    ask: "How does the customer get this job done today without us? (⚙️ agent forces the baseline three — do nothing, do it manually, build/host it themselves — plus ≥2 adjacent tools)"
+    ask: "How does the customer get this job done today without us? (⚙️ agent forces the baseline three — do nothing, do it manually, build/host it themselves — plus ≥2 adjacent tools found by walking the jtbd outcomes: which tool category serves each)"
     type: list
     min: 5
   - id: why_and_when
@@ -13,9 +13,9 @@ questions:
     type: per_item
     why: "A substitute with no winning condition can't be compared or triaged into risks."
   - id: self_build_threshold
-    ask: "Where's the threshold at which 'just build it ourselves' beats buying from us? (team capability, volume, data sensitivity, cost crossover)"
+    ask: "Self-build Fermi — rough build cost + 24-month run cost vs our price × 24; is the segment's data sensitivity or volume high? Which team capability makes the build real? ([assumption] inputs are fine)"
     type: free_text
-    why: "Capable customers self-build past a threshold — name it or under-rate it."
+    why: "Capable customers self-build past a crossover — three lines of arithmetic beat a feeling about it."
   - id: switching_friction
     ask: "What keeps a customer on the substitute — what makes it hard to leave for us? (habit, sunk cost, integration, trust)"
     type: free_text

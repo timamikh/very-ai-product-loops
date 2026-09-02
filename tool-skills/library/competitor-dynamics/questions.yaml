@@ -2,9 +2,9 @@
 tool: competitor-dynamics
 questions:
   - id: sources
-    ask: "For each detailed-table competitor — point to a public financials source, or give the company-registry identifier for its jurisdiction (registry pulls go through a regional adapter when one is configured)."
+    ask: "For each detailed-table competitor — point to a public financials source, or give the company-registry identifier for its jurisdiction (registry pulls go through a regional adapter when one is configured). Private firm with neither: which proxy rung should the agent try first — filings/headcount · job postings · funding rounds · app-store review velocity · pricing-page archive? (≤2 tried per player)"
     type: per_item
-    why: "Dynamics are external claims about other companies; the source must fit the fact type and the jurisdiction."
+    why: "Dynamics are external claims about other companies; the source must fit the fact type and the jurisdiction — and the hunt stops at two."
   - id: known_moves
     ask: "Any competitor moves you already know of (funding, layoffs, pivot, big client win)?"
     type: list
