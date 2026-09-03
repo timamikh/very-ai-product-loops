@@ -226,6 +226,11 @@ def synthetic_side():
           "the mark on a wrapped paragraph's LAST line returns the whole paragraph (the hub-v012 case)")
     check(T.card_line("no mark here at all\n") is None, "no mark yields no card")
 
+    # -- a signer with a space is one signer; the marker must not void on it (J-09)
+    signed = "Body.\n\n<!-- confirmed: 2026-09-03 by:acting PO -->\n"
+    check(T.confirmed(signed) == "2026-09-03", "a `by:` value with a space does not void the confirmation")
+    check(T.confirmed_by(signed) == "acting PO", "the signer is read whole, spaces included")
+
     # -- the section digest and the to-clarify view read the same BLOCKS the card reader does: a
     #    hard-wrapped bullet is one bullet, and its continuation line never becomes the section's lead
     #    (the decksmith-v013 case: `{#to-clarify}` surfaced "until signed — *the human chooses*..." as

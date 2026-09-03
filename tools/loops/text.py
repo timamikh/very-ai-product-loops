@@ -242,7 +242,10 @@ def column_key_values(text, key):
     return vals if found else None
 
 
-CONFIRMED_RE = re.compile(r"<!--\s*confirmed:\s*(\d{4}-\d{2}-\d{2})(?:\s+by:\s*([\w.@-]+))?\s*-->")
+# `by:<who>` is free text up to the marker's end (CONVENTIONS -> Section confirmation): an operator
+# identity with a space ("acting PO") used to void the WHOLE marker, so a signed section read as
+# pending while check Q, validating only the date, reported clean (decksmith-v013 run, J-09).
+CONFIRMED_RE = re.compile(r"<!--\s*confirmed:\s*(\d{4}-\d{2}-\d{2})(?:\s+by:\s*(.+?))?\s*-->")
 
 
 def confirmed(body):

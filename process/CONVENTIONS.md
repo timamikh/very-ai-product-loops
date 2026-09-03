@@ -8,10 +8,9 @@ updated: 2026-09-02
 
 # Conventions
 
-The shared notation every step template, library tool and instance file uses — each section a
-**contract** two independent readers (an agent and a tool, or two agents) must agree on. Procedures
-live in the operations skills, authoring detail in [`reference/`](reference/README.md) — every
-pointer below names the moment to read it.
+The shared notation every template, tool and instance file uses — each section a **contract** two
+independent readers must agree on. Procedures live in the operations skills, authoring detail in
+[`reference/`](reference/README.md), read at the moment each pointer below names.
 
 ## Confidence tags
 
@@ -19,7 +18,7 @@ Every non-trivial claim ends with a tag; **no tag = `assumption`**:
 `[assumption]` · `[sourced: <where>]` (e.g. `[sourced: metrics W24]`) ·
 `[validated: <evidence>]` · `[refuted: <why>]` (kept, never deleted — see change log). The agent's
 own derived conclusion is `[assumption]` — never blanket-sourced to the inputs it rests on.
-Agent-proposed defaults awaiting human approval are prefixed **⚙️**.
+An agent's default awaiting human approval is prefixed **⚙️**.
 
 ## Sources
 
@@ -31,7 +30,7 @@ a slot — an ambient input every perimeter carries ([`reference/card-schema.md`
 
 ## Sections and their IDs
 
-Every artifact section carries a stable, kebab-case ID so tools can fill it and links can target it:
+Every artifact section carries a stable kebab-case ID, so tools fill it and links target it:
 `## Value & Defensibility {#value-defensibility}`. Rename the heading text freely; keep the ID.
 A section is **worked** when its body carries at least one line beyond the step template's
 placeholder shell (compared by normalized line); a bare anchor or an untouched skeleton is *present*,
@@ -106,7 +105,8 @@ An artifact section is a **thesis** — the linter holds its *structure*, a **hu
 <!-- confirmed: 2026-08-13 -->
 ```
 
-- **`confirmed: YYYY-MM-DD`** (optional ` by:<who>`) — approval of *this* version. Absence = pending.
+- **`confirmed: YYYY-MM-DD`** (optional ` by:<who>`, any text to the marker's end) — approval of
+  *this* version. Absence = pending.
   Re-projection from a changed worklog **drops** the marker.
 - **`contested: YYYY-MM-DD`** — a human reviewed and pushed back. Confirmed or contested, never both
   (check R); the reason goes in the change log.
@@ -115,7 +115,8 @@ An artifact section is a **thesis** — the linter holds its *structure*, a **hu
 - **`open`** — an agent→human inbox (`to-clarify`, `open-questions`, `blockers`): resolved by
   *removing* items, never confirmed (check R), outside the "N of M confirmed" count. **Every item
   names its kind**: *the human chooses* · *nobody knows yet* · *a later step owns it* (naming the
-  step); in a table with an owner column (`#blockers`), that column *is* the kind.
+  step, or the owning section inside this step); in a table with an owner column (`#blockers`), that
+  column *is* the kind.
 
 The procedure — walking the human through each thesis, never self-issued — is the
 [`theses`](../tool-skills/operations/theses/SKILL.md) operations skill (OPERATING-LOOP move 5).

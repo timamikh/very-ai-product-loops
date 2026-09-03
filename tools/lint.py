@@ -2185,11 +2185,20 @@ def check_confirm_dates(inst):
     signed, so the mismatch is silent and one-directional. Cheap and unambiguous to catch — an ERROR.
     """
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
-        for raw in CONFIRM_LOOSE_RE.findall(read(art)):
+        text = read(art)
+        for raw in CONFIRM_LOOSE_RE.findall(text):
             if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", _confirm_date(raw)):
                 err("Q [%s] %s: `confirmed: %s` is not a YYYY-MM-DD date, so it reads as *pending* — "
                     "a typo silently un-confirms the section (CONVENTIONS → Section confirmation)"
                     % (rel(inst), os.path.basename(art), raw))
+        # the date alone is not enough: the WHOLE marker must parse the way the read layer parses it,
+        # or the section is pending while its author believes it is signed (J-09: a `by:` value the
+        # regex refused voided the marker and this check stayed silent)
+        for m in re.finditer(r"<!--\s*confirmed:[^>]*-->", _live(text)):
+            if not T.CONFIRMED_RE.fullmatch(m.group(0)):
+                err("Q [%s] %s: `%s` does not parse as a confirmation marker, so it reads as *pending* "
+                    "— write `<!-- confirmed: YYYY-MM-DD by:<who> -->` (CONVENTIONS → Section confirmation)"
+                    % (rel(inst), os.path.basename(art), m.group(0)))
 
 
 D_KEY_RE = re.compile(r"<!--\s*d:([a-z0-9-]+)\s*-->")
