@@ -127,10 +127,7 @@ empty-template artifact fails the linter before the loop has run once). What set
   simply a gap the plan (step 7) names, not an invented draft.
 
 Produce a **placement report**: which sources feed which steps, what conflicts were found, what's
-still open. Its home is the instance's **`HANDOFF.md`** (first version, per the
-[`handoff`](../../../tool-skills/operations/handoff/SKILL.md) skill) — the only file that survives the
-next context reset; `sources/` may not hold agent reasoning, no step artifact exists yet, and
-`export-files/` is for what leaves. The gap-closing plan of step 7 lands there too.
+still open.
 
 ### 5. Propose the status (agent proposes, human picks)
 Do **not** ask "what status?" cold — the human may not know the options. **Present the choice:**
@@ -138,10 +135,6 @@ read [`statuses/README.md`](../../../statuses/README.md) → "Choosing a status"
 available status with its short description (you're here when · what it optimizes for · main
 evidence), then **recommend one** (⚙️) inferred from the materials, with a one-line reason. The
 human confirms or overrides. Record the choice in `product-loops/config.yaml` as `active_status`.
-Until the human has picked, write the ⚙️ recommendation as the value with a comment line above it
-marking it *proposed, not yet confirmed* (check H requires the key; the reader drops `#` comments) and
-list the choice under *Open forks* in `HANDOFF.md`; the pick replaces the comment with a dated
-change-log line.
 
 > **Directions are not asked in v1.** Default them to `development · go-to-market · back-office` in
 > `config.yaml` and move on. They are an instance config power users edit later when they tailor the

@@ -26,7 +26,7 @@ An agent that would write its own thinking into `sources/` has picked the wrong 
 <instance>/sources/
   INDEX.md      — every file across the subfolders: role, typed slot (`type`: kb · interview ·
                   research · metrics · git — the `reads:` slot it serves; lint S2), routing (orchestrator writes)
-  originals/    — files the human brought; body as delivered, plus the filing header and change log
+  originals/    — files the human brought, byte-for-byte as delivered
   snapshots/    — dated, immutable captures of the outside world
   access/       — one passport per external point: how to reach it
 ```
@@ -35,7 +35,7 @@ An agent that would write its own thinking into `sources/` has picked the wrong 
 
 | Subfolder | Who writes it | Trust | Lifecycle |
 |-----------|---------------|-------|-----------|
-| `originals/` | the human (`product-setup` *files* what the human brought — a format conversion for diffability is allowed, never a reinterpretation; the **body** stays as delivered, and the only additions are the filing frontmatter/header and the change log the node-type matrix requires of every `source`) | the human's content, not agent-derived | kept forever |
+| `originals/` | the human (`product-setup` *files* what the human brought — a format conversion for diffability is allowed, never a reinterpretation) | the human's content, not agent-derived | kept forever |
 | `snapshots/` | the **couriers**: `source-intake` (a URL → a dated extract) and a **pull** exchange skill (an export) | checkable against origin by its date | datable evidence; may be deleted once its values are in the registers |
 | `access/` | an agent as **scribe** of the human's answers (via the card's `questions.yaml`) | co-authored (human decides, agent records) | living; updated with a change log |
 | `INDEX.md` | the orchestrator | navigation only | living |
