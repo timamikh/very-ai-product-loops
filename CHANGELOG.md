@@ -16,6 +16,64 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Step 1 of the decksmith run read back — the findings of nine passes, landed by layer
+
+The decksmith-v013 run closed Step 1 with every method scored and seventeen framework findings
+(`FRAMEWORK-FEEDBACK.md` F-06…F-17 there). Each is landed at the cheapest layer that holds it —
+tooling where a check can see it, a method's fragment where a slot was missing, canon only where a
+rule had no carrier. The run itself stays pinned at e62cc59.
+
+- **Tooling — five things only step-close used to see.** `G6`: an explicit `n/a` tick with no comment
+  beside it (the skip that killed `cjm-concept` three runs running rested on a missing source, D-43).
+  `G7`: a `deferred` tick with no `until:` — the deferral that outlived the decision retiring it
+  (F-16d). `D2`: a tag nested in a tag's argument, which `TAG_TOKEN_RE` could never see (F-15). `C2`
+  grows its second half: on an English instance the section's card mark must sit on a block opening
+  with the label the fragment's face declares (`**Moat read:**`), so a mark drifted off its slot is a
+  WARN and not a step-close finding (F-16b); a translated instance is left to step-close. `E6`: a
+  cited decision id resolves to a row of `decisions.md`. The tick comments are read from the raw
+  `state.yaml` — the YAML reader drops them by design, and here the comment is the data. A
+  quote-without-tag check was prototyped and dropped: 11 + 17 false hits on the two live runs. The
+  frontmatter reader now drops a trailing `# comment` like yamlite does, so a card may explain a
+  key beside it.
+- **Canon — a home for the dated human decision.** `<instance>/decisions.md`, `node_type: decisions`
+  (matrix row; skeleton in `register-skeletons/`, copied beside `HANDOFF.md` at setup): a log, not a
+  register — one dated `D-…` row per decision, the row a `[sourced: decision D-16]` tag names, so a
+  `verify` can read what half a step's claims rest on (F-11: 52 decisions cited in the decksmith
+  instance, every one in a journal outside it). A fork the human closes is recorded twice the same
+  pass — the row, and the disposition in the worklog whose fork it was (worklog-resolution; F-16c).
+- **Canon — the tick's comment is schema.** `state-schema.md`: `n/a` carries its reason beside the
+  tick, and the reason is a statement about the concept, never about a source the instance lacks;
+  `deferred` carries `until: <decision | pass | date>`, and step-close (step 5) reads every deferral
+  against it.
+- **Canon — the verify brief is narrow.** Orchestration step 3: one section or one worklog per
+  brief, at most three lenses (measured: a seven-lens brief on a step stalled ~85 minutes, three-lens
+  briefs on one section returned in 3–6); where the section carries a `Decided:` line the default
+  lens is refutation of the decided claim. The conformance lens reads tags in both directions — a tag
+  with no cell behind it and a quoted source with no tag (F-17c). The brief's rule block gains two
+  lines (F-15): a qualifier goes after the tag, never inside the bracket; a fork is `Fork N`, never
+  `<letter>-<number>`. *Known context* facts arrive tagged and addressed like any input (F-13b).
+- **Canon — the Step-1 gate stops assuming every named segment is a market** (F-06, F-07a). The
+  `concept#problems` item reads: the lead segment has ≥1 problem; every other named segment has its
+  own rows or is named in the section's *Segments without a pain profile* line (an instrument, not a
+  market · deferred to `market-sizing`). The template caption and the skeleton row say the same; the
+  `segment-pains` fragment carries the line.
+- **Library — the slots the worklogs kept producing without a home** (F-09a, F-12a/b, F-14,
+  F-17b): `jtbd-concept` — a `**Net:**` verdict line with the force ratings, outcomes rated by
+  importance × dissatisfaction, `**Rejected candidates:**`; the card names `{#problems}` as a
+  supplement when it is signed first (F-09b). `concept-expansion` — a `**Closure:**` line (`closes ·
+  partly · conditional · none`) and the reverse reject `no backing asset`. `value-definition-concept`
+  — `**Silent rows:**`, `**Confidence ceiling:**`, `**Directions, not moats:**`, a keyed `Decided:`
+  line for the lead-moat choice, and `⚙️ candidate: … — placement: PO` as the legal form of a seeded
+  hypothesis before its id is minted. `cjm-concept` — an `**Actors:**` line for the buyer ≠ user
+  path. All lines, no columns: the step templates stay thin (check C9 unchanged).
+- **Library — `evidence_standard` is a destination, not a precondition** (F-17a). The library README
+  says so in one paragraph; the `cjm-concept` card says it beside the key. A pass that skipped a
+  section because the standard's source was absent had read the key backwards.
+- **Not done, on purpose.** The limitations blockquote that appeared in four Step-1 sections (F-12c)
+  is a template-level question, not a fragment slot; the cost-of-inaction token `rejects the category`
+  (F-07b) and the `Actor` *column* (F-17b) would change the Step-1 template's form; the placement of a
+  worklog's fork labels stays the orchestrator's. The console does not yet show `decisions.md`.
+
 ### Console 0.7.0 — the dependency graph
 
 - **A Graph tab.** The instance as a dependency graph in a pannable, zoomable stage, two views: *the
