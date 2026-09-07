@@ -24,8 +24,10 @@ Checks (ERROR fails CI · WARN never does):
      than reads (`→`, feeds, downstream, anchors, owns, contributes, into `{#x}`, "filled later",
      "after `{#x}`", a `<!--w:adds-->` recorded door)  (WARN)
   C2 a section whose method's template-fragment declares a card slot (a live `<!-- card -->` in the
-     fragment) carries a card mark of its own — the missing-mark half of the slot contract; whether
-     the mark sits on the *right* element is semantic, audited by step-close  (WARN)
+     fragment) carries a card mark of its own — the missing-mark half of the slot contract; and where
+     the fragment's face opens with a bold label (`**Moat read:**`) and the instance is written in
+     English, the section's mark sits on a block opening with that same label — a mark drifted off its
+     slot (decksmith F-16b); a translated instance is matched by step-close, not here  (WARN)
   C3 a method with `evidence_standard: decision` ships the decision line in its fragment (a keyed
      `**Decided:**` — CONVENTIONS → The decision line)  (WARN)
   C4 a fragment of a step ≥ 4 method that projects a SECTION (a `## … {#anchor}` heading) declares a
@@ -60,6 +62,9 @@ Checks (ERROR fails CI · WARN never does):
      inventory from memory  (WARN)
   E5 an id a features.md `serves` cell cites resolves to a row in its own register
      (H-/R-/M-/F-/S-) — the cut rule and the impact-readout both read this link  (WARN)
+  E6 a decision id (`D-…`) cited in an artifact, worklog or HANDOFF resolves to a row of the instance's
+     `decisions.md` — the home of the dated human decision a `[sourced: decision D-…]` tag names; an
+     instance that cites decisions and has no `decisions.md` gets one WARN (decksmith F-11)  (WARN)
   F  link canon: no GitMark-lite `[[...]]` links remain (canon = relative path + stable {#anchor})
   G  step gate-checklist items reference a real section id  (WARN)
   G2 a gate item whose sections are written but whose tick reads `unrecorded` (framework.GATE_READINGS):
@@ -71,10 +76,16 @@ Checks (ERROR fails CI · WARN never does):
      nothing)  (WARN)
   G5 the instance's content is written in `config.language`: a file whose letters are dominantly in
      the other script (Cyrillic vs Latin) contradicts the owner's decision (hub F-08)  (WARN)
+  G6 an explicit `n/a` tick carries its reason as a comment beside it (state-schema) — a skip is a
+     statement about the concept, never about a source the instance lacks (decksmith D-43 / F-17); a
+     bare `n/a` WARNs
+  G7 a `deferred` tick names what retires it — `until: <decision | pass | date>` in the tick's comment —
+     so step-close can ask whether it has arrived; a `deferred` with no `until:` WARNs (decksmith F-16d)
   D2 confidence/source tags in instance artifacts and worklogs come from the closed CONVENTIONS
      vocabulary, verbatim and never localized: `[assumption]` bare · `[sourced: <where>]` ·
      `[validated: <evidence>]` · `[refuted: <why>]` — a compounded, translated or near-synonym
-     (`[inference]`, `[estimate]`, …) tag WARNs (promote to ERROR once the examples are cleaned)
+     (`[inference]`, `[estimate]`, …) tag is an ERROR; a tag whose argument carries a second bare tag
+     (`[sourced: the brief — [assumption] on the count]`) is two verdicts in one bracket  (WARN)
   L2 a worked section of an `evidence_standard: external-sources` method that carries neither a
      `[sourced: …]` citation nor a single `— to clarify —` — settled-looking external analysis
      with no evidence shown and no gap declared  (WARN)
@@ -1752,6 +1763,50 @@ CONFIG_BANNED = {"metric_sources": "metric_source_slots", "metric_slots": "metri
                  "sources_dir": "sources"}
 
 
+def check_decisions(inst):
+    """E6 — a cited decision id resolves to a row of the instance's `decisions.md`.
+
+    A dated human decision is a legal `[sourced:]` origin (CONVENTIONS → Sources) and its home is the
+    instance's `decisions.md` (node-type-matrix → `decisions`): one dated row per decision, `D-…` ids.
+    Before that home existed a run kept its decisions in a journal outside the instance, and the
+    `[sourced: acting PO decision D-16]` tags pointed where no verify could read (decksmith F-11) —
+    half the load-bearing claims of a step rested on a source inside nobody's perimeter. WARN: the
+    id grammar is shared with nothing else, but a prose `D-…` can still be a quoted label.
+    """
+    name = rel(inst)
+    files = sorted(glob.glob(os.path.join(inst, "[1-6]-*.md")))
+    for folder in sorted(glob.glob(os.path.join(inst, "[1-6]-*"))):
+        if os.path.isdir(folder):
+            files.extend(sorted(glob.glob(os.path.join(folder, "*.md"))))
+    handoff = os.path.join(inst, "HANDOFF.md")
+    if os.path.exists(handoff):
+        files.append(handoff)
+    cited = {}
+    for path in files:
+        for did in T.DECISION_RE.findall(_live(read(path))):
+            cited.setdefault(did, os.path.relpath(path, inst))
+    if not cited:
+        return
+    home = os.path.join(inst, "decisions.md")
+    if not os.path.exists(home):
+        warn("E6 [%s] %d decision id(s) cited (%s) but the instance has no decisions.md — the home of a "
+             "dated human decision is the instance's decisions.md, one `D-…` row each, so a "
+             "`[sourced: decision D-…]` tag points where a verify can read (CONVENTIONS → Sources; "
+             "reference/register-skeletons/decisions.md)"
+             % (name, len(cited), ", ".join("`%s`" % d for d in sorted(cited)[:5])
+                + (", …" if len(cited) > 5 else "")))
+        return
+    _, rows = T.table_rows(read(home), "ID")
+    defined = set()
+    for r in rows:
+        defined.update(T.DECISION_RE.findall(r.get("id", "")))
+    for did in sorted(cited):
+        if did not in defined:
+            warn("E6 [%s] %s cites `%s`, which has no row in decisions.md — a decision a tag names "
+                 "is a row (id · date · by · where · decision · why), or the claim rests on a memory "
+                 "(CONVENTIONS → Sources)" % (name, cited[did], did))
+
+
 def check_config(inst):
     """H — the instance config follows the pinned schema (CONVENTIONS → Instance config)."""
     name = rel(inst)
@@ -2131,13 +2186,23 @@ def check_card_slots(tools, inst):
     is projection judgement and an honestly faceless section is legal, so only declared-but-absent
     warns.
     """
-    slotted = set()
+    slotted, faces = set(), {}
     for name, t in tools.items():
         frag = os.path.join(t["dir"], "template-fragment.md")
         if os.path.exists(frag) and T.CARD_RE.search(_live(read(frag))):
             slotted.add(name)
+            # the slot's machine-readable half: the bold label the fragment's face opens with. A
+            # face with no label (`_<Product> is a …_`) declares only that a mark exists
+            for sid, sec in ((s["id"], s) for s in T.sections(_live(read(frag))) if s["id"]):
+                lead = T.card_line(sec["body"])
+                lm = CARD_LABEL_RE.match(lead.strip()) if lead else None
+                if lm:
+                    faces[(name, sid)] = (_face_label(lm.group(1)), lm.group(1).strip(" .:"))
     if not slotted:
         return
+    # labels are prose, and the fragment's is English: a translated instance (`language: ru`) is
+    # matched by step-close's reading, never by a string compare that would flag every section
+    match_labels = (_snapshot(inst).get("language") or "en").lower().startswith("en")
     worked = _worked_sections(inst)
     for art in sorted(glob.glob(os.path.join(inst, "[1-6]-*.md"))):
         step = int(os.path.basename(art).split("-", 1)[0])
@@ -2148,11 +2213,32 @@ def check_card_slots(tools, inst):
             if not m:
                 continue
             primary = m.group(1).split(",")[0].strip()
-            if primary in slotted and T.card_line(sec["body"]) is None:
+            lead = T.card_line(sec["body"])
+            if primary in slotted and lead is None:
                 warn("C2 [%s] %s#%s: the %s fragment declares a card slot, but the section carries "
                      "no `<!-- card -->` mark — the face the method decided on once is not shown "
                      "(CONVENTIONS → Card line; projection step 3)"
                      % (rel(inst), os.path.basename(art), sec["id"], primary))
+                continue
+            declared, declared_text = faces.get((primary, sec["id"]), (None, None))
+            if not (declared and lead and match_labels):
+                continue
+            lm = CARD_LABEL_RE.match(lead.strip())
+            shown = _face_label(lm.group(1)) if lm else ""
+            if shown != declared and not (shown and (shown in declared or declared in shown)):
+                warn("C2 [%s] %s#%s: the `<!-- card -->` mark sits on %s, but the %s fragment declares "
+                     "the slot on `**%s:**` — the mark drifted off its slot, so the board shows a "
+                     "different face than the method decided on (CONVENTIONS → Card line; step-close "
+                     "step 4)" % (rel(inst), os.path.basename(art), sec["id"],
+                                  ("`**%s:**`" % lm.group(1).strip()) if lm else "an unlabelled block",
+                                  primary, declared_text))
+
+
+def _face_label(label):
+    """A card face label reduced for comparison — case, emphasis, a trailing colon or period, and a
+    parenthesised aside (`Moat read (concept)` ~ `Moat read`) do not make two faces."""
+    s = re.sub(r"\s*\(.*$", "", T.plain(label)).strip().lower()
+    return s.strip(" .:*_")
 
 
 def check_schema_not_confirmed():
@@ -2418,6 +2504,50 @@ def check_gate_ticks(inst):
             warn("G4 [%s] state.yaml ticks `%s`, which is no gate item of any step (ids are "
                  "`<artifact>#<section>` or the item's `tick-id`) — a stale or misspelled id ticks "
                  "nothing; the real item stays `open`" % (rel(inst), tick_id))
+    # G6 / G7 — the comment beside a tick is the ONE home of a skip's reason and a deferral's
+    # condition (state-schema → Rules). The reader drops comments, so they are read from the raw file
+    # here: a `n/a` with no reason was how a section got skipped for a missing source (decksmith
+    # D-43), and a `deferred` with no condition outlived the decision that retired it (F-16d)
+    notes = _tick_comments(os.path.join(inst, "state.yaml"))
+    for tick_id, val in sorted(snap.get("ticks", {}).items()):
+        note = notes.get(tick_id, "")
+        if val == "n/a" and not note.strip():
+            warn("G6 [%s] state.yaml tick `%s` = `n/a` with no comment — a skip carries its reason "
+                 "beside the tick (state-schema), and the reason is a statement about the concept, "
+                 "never about a source the instance lacks (Step-1 template → `#cjm`)"
+                 % (rel(inst), tick_id))
+        if val == "deferred" and not re.search(r"\buntil\s*:", note, re.I):
+            warn("G7 [%s] state.yaml tick `%s` = `deferred` with no `until:` in its comment — a "
+                 "deferral names what retires it (`until: <decision | pass | date>`, state-schema), "
+                 "or nothing ever asks whether that has arrived (step-close step 5)"
+                 % (rel(inst), tick_id))
+
+
+# a tick line of state.yaml: a quoted or bare key, the value, an optional trailing comment
+_TICK_LINE_RE = re.compile(r'^\s*(?:"([^"]+)"|\'([^\']+)\'|([^\s"\'#][^:#]*?))\s*:\s*([^#\s][^#]*?)\s*(?:#\s*(.*))?$')
+
+
+def _tick_comments(path):
+    """{tick_id: comment} from the raw state.yaml — the trailing `# …` of a tick line joined with the
+    block of comment lines directly above it (no blank line between). The YAML reader strips comments
+    by design; here the comment IS the data (G6, G7)."""
+    if not os.path.exists(path):
+        return {}
+    out, pending = {}, []
+    for raw in read(path).splitlines():
+        s = raw.strip()
+        if s.startswith("#"):
+            pending.append(s[1:].strip())
+            continue
+        if not s:
+            pending = []
+            continue
+        m = _TICK_LINE_RE.match(raw)
+        if m:
+            key = m.group(1) or m.group(2) or (m.group(3) or "").strip()
+            out[key] = " ".join(pending + ([m.group(5).strip()] if m.group(5) else []))
+        pending = []
+    return out
 
 
 CANON_TAG_WORDS = ("assumption", "sourced", "validated", "refuted")
@@ -2426,6 +2556,13 @@ CANON_TAG_WORDS = ("assumption", "sourced", "validated", "refuted")
 TAG_SYNONYMS = {"inference", "inferred", "estimate", "estimated", "fact", "opinion",
                 "guess", "derived", "observed"}
 TAG_TOKEN_RE = re.compile(r"(?<!!)\[([^\[\]\n]+)\]")
+# a tag whose argument holds a second bare tag — `[sourced: the brief — [assumption] on the count]`.
+# TAG_TOKEN_RE cannot see the outer bracket (it never matches across a nested one), so without this
+# the compound passes D2 in silence; a backticked mention (`[assumption]`) is already gone from the
+# live text the check reads
+NESTED_TAG_RE = re.compile(
+    r"\[(?:sourced|validated|refuted):[^\[\]\n]*\[(?:assumption|sourced|validated|refuted)\b[^\]\n]*\]"
+    r"[^\[\]\n]*\]")
 NON_LATIN_RE = re.compile(r"[^\x00-\x7F]")
 
 
@@ -2444,11 +2581,14 @@ def check_tag_vocabulary(inst):
       consumer. Trailing-position only (end of a claim line or table cell — where the canon puts
       tags), because mid-sentence brackets are legitimate prose devices (`для [клиента]…`, a UVP
       slot template) that must not be second-guessed;
-    - a trailing single-word bracket from the curated near-synonym list.
+    - a trailing single-word bracket from the curated near-synonym list;
+    - a tag nested inside another tag's argument (WARN) — one claim carries one verdict, and the
+      qualifier that wants to be a second tag goes after the bracket, in words (decksmith F-15: the
+      first draft of one pass wrote seventeen compounded tags; the step-close found the nested form).
 
     A markdown link, a fenced/inline-code example, and mid-sentence prose brackets are all skipped —
-    the check reads tags, it does not police prose. Every tier is an ERROR (promoted 2026-08-23,
-    once the shipped example cleaned its pre-grammar tag debt).
+    the check reads tags, it does not police prose. Every tier but the last is an ERROR (promoted
+    2026-08-23, once the shipped example cleaned its pre-grammar tag debt).
     """
     name = rel(inst)
     files = sorted(glob.glob(os.path.join(inst, "[1-6]-*.md")))
@@ -2487,6 +2627,12 @@ def check_tag_vocabulary(inst):
                 err("D2 [%s] %s:%d: `[%s]` looks like an invented confidence tag — the vocabulary "
                      "is closed (no tag = `assumption`; an inferred claim is `[assumption]` too, "
                      "with its reasoning in the worklog)" % (name, base, lineno, inner))
+        for m in NESTED_TAG_RE.finditer(text):
+            lineno = text[:m.start()].count("\n") + 1
+            warn("D2 [%s] %s:%d: `%s` nests one tag inside another — a claim carries ONE verdict; "
+                 "the argument of `[sourced:]` names where, and a qualifier goes after the bracket in "
+                 "words, never as a second tag (CONVENTIONS → Confidence tags)"
+                 % (name, base, lineno, m.group(0)))
 
 
 def check_source_types(inst):
@@ -2728,6 +2874,7 @@ def main(argv=()):
         check_item_features(inst)
         check_register_sources(inst)
         check_serves_links(inst)
+        check_decisions(inst)
     check_install(checked)
     check_links()
     check_gates(homed)

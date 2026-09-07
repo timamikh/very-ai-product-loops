@@ -16,6 +16,8 @@ _What the product is and the shift it makes._
 
 The fixture product is a tiny slide generator for linter tests, and it carries risk R-001 on purpose. <!-- card -->
 
+It was cut to one step by decision D-001 and its name by D-002 [sourced: the brief — [assumption] on the count].
+
 **Decided:** <!--d:date--> 2026-09-01 · **by:** <!--d:by--> the fixture author · **alternatives considered:**
 <!--d:alts--> a real instance (rejected — too slow to lint in CI)
 
@@ -33,7 +35,7 @@ When a check has no test, I want a fixture that fails in a known way, so that a 
 <!-- tool: segmentation -->
 _Who it's for and how segments are cut._
 
-Framework maintainers who edit the linter are the lead segment; they read this first. <!-- card -->
+**Lead segment:** framework maintainers who edit the linter; they read this first. <!-- card -->
 
 | Priority <!--c:priority--> | Segment <!--c:segment--> | How it's cut <!--c:cut--> | Buyer / user <!--c:buyer--> | Why it matters <!--c:why--> | Where to reach them <!--c:reach--> | Confidence <!--c:conf--> |
 |----------|---------|--------------|--------------|----------------|---------------------|------------|

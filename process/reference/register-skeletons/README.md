@@ -1,6 +1,6 @@
 # Register skeletons — copy, don't retype
 
-These six files are the **copyable carriers** of the register schema: the frontmatter and the
+Six of these files are the **copyable carriers** of the register schema: the frontmatter and the
 keyed table header (`<!--c:key-->`), with **zero rows**. Semantics — what each field means, its
 enums, the four-sign test — live in `process/REGISTERS.md`; this folder only makes that schema
 copyable, because a header retyped from prose loses its keys (the test-run lesson: what is in a
@@ -13,6 +13,11 @@ their column keys and their order are the schema the linter (check D) and the co
 
 Seed **no rows** — a register row is seeded only for something a source states outright and no
 method will produce (see `product-setup`); everything else is method work on its pass.
+
+The seventh file, `decisions.md`, is **not a register** and does not go into `registers/`: copy it to
+`<instance>/decisions.md`, beside `HANDOFF.md`. It is the log of the run's dated human decisions
+(`node_type: decisions` — [`../node-type-matrix.md`](../node-type-matrix.md)), the row a
+`[sourced: decision D-…]` tag names; check E6 resolves every cited `D-…` against it.
 
 The full layout of a register *file* (beyond the header) is a wave-4 subject (data unification);
 these skeletons deliberately carry only what the tools already read today.

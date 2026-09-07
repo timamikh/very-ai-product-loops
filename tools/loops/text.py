@@ -367,6 +367,9 @@ TO_CLARIFY_RE = re.compile(r"—\s*to clarify\s*—|—\s*уточнить\s*—
 PROPOSAL_RE = re.compile(r"⚙️")
 HYP_RE = re.compile(r"\bH-\d+\b")
 RISK_RE = re.compile(r"\bR-\d+\b")
+# a dated human decision's id in the instance's decisions.md (node-type-matrix → `decisions`) — not a
+# register id: it stays out of ID_RES so the graph and the sprint links never treat it as one
+DECISION_RE = re.compile(r"\bD-\d+\b")
 METRIC_RE = re.compile(r"\bM-[a-z0-9][a-z0-9-]*\b")
 # free width (CONVENTIONS → ids count sequentially, padding is style): a v0.12 instance has no
 # positional `F-<n>` item ids left to collide with — pre-v0.12 instances rename items on migration

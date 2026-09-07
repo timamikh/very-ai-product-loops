@@ -1,6 +1,9 @@
 # Cycle position of the fixture. Deliberate defects: `skipped` is not a tick value (G3),
 # `concept#nope` is no gate item (G4); `concept#jtbd` is written-but-open with no trace (G2);
-# `concept#segments` is written-but-open with a change-log entry on last_pass (re-sign — silent).
+# `concept#segments` is written-but-open with a change-log entry on last_pass (re-sign — silent);
+# `concept#cjm` is `n/a` with no comment (G6) while `concept#value-defensibility` is `n/a` with one
+# (silent); `concept#hypotheses` is `deferred` with no `until:` (G7) while `concept#to-clarify` is
+# `deferred` with one (silent).
 current_step: 1
 last_pass: 2026-09-01
 gates:
@@ -10,5 +13,9 @@ gates:
     "concept#segments": open
     "concept#problems": open
     "concept#solution": skipped
-    "concept#to-clarify": done
+    "concept#cjm": n/a
+    # the fixture's moat is the test runner; nothing to defend beyond it this cycle
+    "concept#value-defensibility": n/a
+    "concept#hypotheses": deferred
+    "concept#to-clarify": deferred  # until: D-001 — the fixture author decides whether open items are tested at all
     "concept#nope": done

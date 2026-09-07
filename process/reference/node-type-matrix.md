@@ -2,8 +2,8 @@
 node_type: reference
 title: Which conventions apply where — the node_type matrix
 status: draft
-version: 0.4.0
-updated: 2026-09-02
+version: 0.5.0
+updated: 2026-09-07
 ---
 
 # Which conventions apply where
@@ -25,10 +25,11 @@ The matrix below is authoritative; a file's `node_type` (frontmatter) selects it
 | `sources-index` | n/a | n/a | reference by ID | **yes** | navigation only; no captured values |
 | `deliverable` (an authored export file in `export-files/` — a brief, an interview guide) | **yes** — on every non-trivial claim | n/a (a standalone file, no `{#anchors}`) | reference by ID | **yes** | authored by an outputs skill, signed by the human; itself the source of truth (unlike a rendered view, which regenerates) |
 | `handoff` | tag any state that is an assumption | n/a | reference by ID | **yes** | never the home of rules or truth |
+| `decisions` (`<instance>/decisions.md` — the dated human decisions of the run) | **no** — a decision is a fact of the run, not a claim about the world | n/a | **defines** `D-…` | **no** — the table is the log: append-only, every row dated | the home a `[sourced: decision D-…]` tag names (CONVENTIONS → *Sources*); one row per decision — id · date · by · where · decision · why — copied from [`register-skeletons/decisions.md`](register-skeletons/decisions.md). Not a register: it has no lifecycle and flows one way. A fork the human closes is written here **and** as the disposition in the worklog whose fork it was, the same pass |
 | `card` (every instruction an agent acts on — a step README, a library method, an operations/outputs skill, an instance exchange skill) | n/a — a procedure, not claims | **yes** where sectioned | reference by ID | **by home** — see below | one entity, five `kind`s, one frontmatter schema: [`card-schema.md`](card-schema.md) |
 | framework files — the closed set: `agent-rules` · `process-overview` · `operating-loop` · `conventions` · `registers` · `goal-map` · `reference` · `extending` · `install` · `status` · `statuses-index` · `artifact-template` · `template-fragment` · `tool-skills-index` · `library-index` · `library-reference` · `operations-index` · `outputs-index` · `readme` | n/a | **yes** where sectioned | n/a | **no** — see root `CHANGELOG.md` | authored by maintainers; `version`-bumped, history in the central changelog |
 
-**The set of `node_type` values is closed** — the eight instance rows above plus the framework list.
+**The set of `node_type` values is closed** — the nine instance rows above plus the framework list.
 A value outside it is a new entity, which is a framework change ([`../../extending/rules.md`](../../extending/rules.md)),
 never a private spelling. Retired values (`step`, `instance-exchange-skill`, `source-method`) are
 listed in [`GLOSSARY.md`](GLOSSARY.md) → *Renames* and appear nowhere else.

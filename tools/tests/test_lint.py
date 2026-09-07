@@ -73,7 +73,51 @@ class FixtureVerdict(unittest.TestCase):
 
     def test_warn_ids(self):
         self.assertEqual(ids(self.warns),
-                         ["D", "E2", "G2", "G4", "G5", "H3", "J", "O2", "P", "P2", "T"])
+                         ["C2", "D", "D2", "E2", "E6", "G2", "G4", "G5", "G6", "G7", "H3", "J", "O2",
+                          "P", "P2", "T"])
+
+    # -- G6 / G7 · the comment beside a tick is the data (decksmith D-43, F-16d)
+    def test_na_without_comment_warns(self):
+        self.assertTrue(grep(self.warns, "G6", "`concept#cjm` = `n/a` with no comment"))
+
+    def test_na_with_a_reason_beside_it_is_silent(self):
+        self.assertFalse(grep(self.warns, "G6", "concept#value-defensibility"))
+
+    def test_deferred_without_until_warns(self):
+        self.assertTrue(grep(self.warns, "G7", "`concept#hypotheses` = `deferred` with no `until:`"))
+
+    def test_deferred_naming_what_retires_it_is_silent(self):
+        self.assertFalse(grep(self.warns, "G7", "concept#to-clarify"))
+
+    def test_tick_comments_join_the_block_above_and_the_trailing_note(self):
+        notes = lint._tick_comments(os.path.join(FIXTURE, "state.yaml"))
+        self.assertIn("test runner", notes["concept#value-defensibility"])
+        self.assertTrue(notes["concept#to-clarify"].startswith("until: D-001"))
+        self.assertEqual(notes["concept#cjm"], "")
+
+    # -- D2 · a tag nested in a tag's argument (decksmith F-15)
+    def test_nested_tag_warns_not_errors(self):
+        self.assertTrue(grep(self.warns, "D2", "`[sourced: the brief — [assumption] on the count]` nests"))
+        self.assertFalse(grep(self.errors, "D2", "nests"))
+
+    # -- C2 · the mark sits on the slot the fragment declares (decksmith F-16b)
+    def test_card_mark_off_its_slot_warns(self):
+        self.assertTrue(grep(self.warns, "C2", "1-concept.md#jtbd: the `<!-- card -->` mark sits on an unlabelled block"))
+        self.assertTrue(grep(self.warns, "C2", "declares the slot on `**Job statement:**`"))
+
+    def test_card_mark_on_its_slot_is_silent(self):
+        self.assertFalse(grep(self.warns, "C2", "#segments"))
+
+    def test_unlabelled_fragment_face_imposes_no_label(self):
+        # concept-formation's face is `_<Product> is a …_` — a slot, but no label to hold the mark to
+        self.assertFalse(grep(self.warns, "C2", "#idea"))
+
+    # -- E6 · a cited decision id has a row in decisions.md (decksmith F-11)
+    def test_decision_without_a_row_warns(self):
+        self.assertTrue(grep(self.warns, "E6", "cites `D-002`, which has no row in decisions.md"))
+
+    def test_decision_with_a_row_is_silent(self):
+        self.assertFalse(grep(self.warns, "E6", "`D-001`"))
 
     # -- E · metrics.csv through the one reader (hub F-01, F-05)
     def test_csv_undefined_id_is_error(self):
@@ -231,6 +275,32 @@ class ExampleSemantics(unittest.TestCase):
         self.assertTrue(grep(errors, "O2", "1-concept.md#jtbd"))
         self.assertTrue(grep(errors, "D", "risks.md has no column keyed `<!--c:category-->`"))
         self.assertFalse(grep(warns, "O2", ""))
+
+
+class DecisionsHome(unittest.TestCase):
+    """E6 when the instance has no decisions.md at all: one aggregate WARN naming the cited ids."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix="lint-e6-")
+        self.inst = os.path.join(self.tmp, "fixture")
+        shutil.copytree(FIXTURE, self.inst)
+        os.remove(os.path.join(self.inst, "decisions.md"))
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_cited_decisions_with_no_home_warn_once(self):
+        _, warns = run_lint(self.inst, tag="fixture")
+        hits = grep(warns, "E6", "has no decisions.md")
+        self.assertEqual(len(hits), 1)
+        self.assertIn("`D-001`, `D-002`", hits[0])
+
+    def test_translated_instance_is_not_held_to_english_labels(self):
+        cfg = os.path.join(self.inst, "config.yaml")
+        text = open(cfg, encoding="utf-8").read()
+        open(cfg, "w", encoding="utf-8").write(re.sub(r"(?m)^language:.*$", "language: ru", text))
+        _, warns = run_lint(self.inst, tag="fixture")
+        self.assertFalse(grep(warns, "C2", "drifted off its slot"))
 
 
 class SourcesIgnored(unittest.TestCase):
