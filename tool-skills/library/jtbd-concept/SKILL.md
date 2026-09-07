@@ -13,8 +13,8 @@ volume_rule: n/a
 selection_rule: "ODI outcomes capped at 5–8, ranked by importance × dissatisfaction (Ulwick opportunity score, read qualitatively); the rest stay in the worklog"
 rejects_shown: required
 status: draft
-version: 0.2.2
-updated: 2026-09-02
+version: 0.2.3
+updated: 2026-09-07
 ---
 # Jobs-to-be-Done (concept)
 
@@ -52,6 +52,10 @@ habit.
 - **A segment / customer** — whose job we're framing. Circumstance and forces are read *for a
   specific customer in a specific situation*, not in the abstract. *Missing → run `segmentation`,
   or name the customer the concept targets.*
+- **`{#problems}`, if already signed when this pass runs.** The card's `reads` does not carry it — the
+  job is reached before the pains by design — so the orchestrator hands it over as a **supplement**
+  (`w:adds`, dated), and the job must not contradict a signed pain list. *Absent → nothing to
+  reconcile.*
 
 ## How to do it
 

@@ -23,10 +23,18 @@ _The middle clause is progress, not a product or feature._
 
 _Progress happens only when **push + pull > anxiety + habit**._
 
+**Net:** push + pull > anxiety + habit? — <yes · no · — to clarify —>, each force rated <H/M/L> —
+_the method's verdict, not a summary; a `no` is a reading of the evidence, not a gate failure._
+
 **Desired outcomes (ODI).** Measurable directions the customer judges success by — minimize /
 increase the time / likelihood / effort of …
 
-- … [assumption]
+- … — importance <H/M/L> · dissatisfaction <H/M/L> [assumption]
+
+_Ranked by importance × dissatisfaction; the ranking is the order._
+
+**Rejected candidates:** <job statements and forces weighed and cut, one line each — so the next pass
+does not re-propose them>
 
 _Feeds Step 2: this job is the frame for `substitutes` — "what else gets this job done" (do-nothing,
 do-it-manually, self-build, adjacent tools). At Step 3, `bets` frames the strategic wagers on it._

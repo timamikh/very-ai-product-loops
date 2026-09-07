@@ -8,13 +8,13 @@ reads: [section:segments, section:jtbd, register:hypotheses, register:metrics, s
 writes: [worklog, section:cjm, register:hypotheses]
 opinionated: false
 method_basis: "Journey mapping — stages · actions · touchpoints · thoughts/emotions · pains → opportunities; moments that matter"
-evidence_standard: primary-research
+evidence_standard: primary-research   # what the map converges to — an [assumption]-tagged first pass is legal (first paragraph)
 volume_rule: n/a
 selection_rule: n/a
 rejects_shown: n/a
 status: draft
-version: 0.4.1
-updated: 2026-09-02
+version: 0.4.2
+updated: 2026-09-07
 ---
 # Customer Journey Map (concept)
 

@@ -2,8 +2,8 @@
 node_type: library-index
 title: Library — product methods as skills
 status: draft
-version: 0.12.1
-updated: 2026-09-02
+version: 0.12.2
+updated: 2026-09-07
 ---
 
 # Library
@@ -88,7 +88,12 @@ frontmatter keys make each method state it, and the linter checks that all four 
 (a check costs nothing at read time; a paragraph of good intentions in the canon costs every pass).
 
 **`evidence_standard`** — the class of evidence that carries the method's load-bearing claims.
-Exactly one value; a secondary class is discussed in the body, never compounded into the key.
+Exactly one value; a secondary class is discussed in the body, never compounded into the key. The
+standard names what the claims must **come to rest on** — never a precondition for running the pass: a
+first pass tagged `[assumption]` throughout is legal under every standard (the Step-1 `cjm-concept`
+map draws the interview plan before an interview exists), and the section's tags say how far it still
+stands from its standard. A pass that skips a section because the standard's source is absent has
+read the key backwards.
 
 | Value | The claims rest on | Obligation it creates |
 |-------|--------------------|------------------------|

@@ -20,6 +20,10 @@ irritation` / `already paying or improvising`. Same gradation as pain acuteness 
 `process/reference/scales.md`, so this column feeds the Step-3 CVP (`uvp-cpv`) and the Step-5
 priority score without translation._
 
+**Segments without a pain profile:** <segment — why it owes none: an instrument, not a market (a judge
+panel, a channel) · deferred to Step-2 `market-sizing`> — _a segment is not a market by being named;
+the gate reads this line for every named segment with no row above._
+
 **Top pains forward:** ⚙️ _the judgement the rows add up to — which ranked pains go to `{#solution}`,
 and which of them actually differentiate rather than just qualify._ [assumption] <!-- card -->
 

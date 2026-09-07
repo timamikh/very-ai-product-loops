@@ -9,6 +9,9 @@
 _Scope: one segment, one job, start → end. Evidence-anchored; mark unverified rows `[assumption]`
 and say how many people each stage rests on._
 
+**Actors:** <one actor — or `buyer` / `user` where the segment splits them, with the hand-off stages
+named; a two-actor path is the rule, not the exception, when `{#segments}` shows a buyer ≠ user>
+
 | Stage | Actions | Touchpoints | Thoughts / emotions | Pains | Emotion (▲ high / ▼ low) | Confidence |
 |-------|---------|-------------|---------------------|-------|--------------------------|------------|
 | e.g. aware | … | … | … | … | ▼ | [assumption] |

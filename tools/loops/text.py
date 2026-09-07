@@ -6,6 +6,8 @@ written to be greppable, and every consumer must see the *same* interpretation o
 import os
 import re
 
+from . import yamlite as _yamlite
+
 # ---------------------------------------------------------------- files
 
 
@@ -50,7 +52,9 @@ def frontmatter_from(text):
         mm = re.match(r"^([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$", line)
         if mm:
             key = mm.group(1)
-            fm[key] = parse_scalar(mm.group(2))
+            # a trailing `# comment` is YAML's, not the value's — the same rule yamlite applies, so a
+            # card may explain a key beside it (`evidence_standard: primary-research  # …`)
+            fm[key] = parse_scalar(_yamlite._strip_comment(mm.group(2)).rstrip())
             continue
         # a block-list item under the last key — the empty-string scalar becomes a list
         mi = re.match(r"^\s+-\s+(.*)$", line)
