@@ -2,8 +2,8 @@
 node_type: conventions
 title: Conventions — markers, IDs, links, change logs
 status: draft
-version: 0.34.0
-updated: 2026-09-02
+version: 0.35.0
+updated: 2026-09-07
 ---
 
 # Conventions
@@ -25,9 +25,10 @@ Agent-proposed defaults awaiting human approval are prefixed **⚙️**.
 
 `[sourced: ...]` names the origin. Source slots a tool/step may draw from:
 `kb` · `interview` · `research` · `metrics` · `git` — the machine home is `cards.SOURCE_SLOTS`,
-a new slot is a framework change. A **dated human decision** is a legal `[sourced:]` origin but not
-a slot — an ambient input every perimeter carries ([`reference/card-schema.md`](reference/card-schema.md)
-→ *reads is a perimeter*). Missing data is written literally as `— to clarify —`, never guessed.
+a new slot is a framework change. A **dated human decision** is a legal `[sourced:]` origin, not a
+slot; it lives in the instance's `decisions.md` ([`reference/node-type-matrix.md`](reference/node-type-matrix.md)
+→ `decisions`) and the tag names its row: `[sourced: decision D-16]`. Missing data is written
+literally as `— to clarify —`, never guessed.
 
 ## Sections and their IDs
 
@@ -92,8 +93,8 @@ working lives in the sibling folder of the same stem, one **worklog per method**
 is **private to its method**: read by it, its projection, an audit, and a card that **declares** it
 (`worklog:<step>/<method>` in `reads`); anything else crosses steps through the registers and the
 signed sections (check T). Resolution — id-thread, synthesis, several tools on one marker, a revisit
-in its own folder — [`reference/worklog-resolution.md`](reference/worklog-resolution.md); the
-copyable shape — [`reference/worklog-skeleton.md`](reference/worklog-skeleton.md).
+in its own folder, a fork the human closes — [`reference/worklog-resolution.md`](reference/worklog-resolution.md);
+the copyable shape — [`reference/worklog-skeleton.md`](reference/worklog-skeleton.md).
 
 ## Section confirmation
 
@@ -124,8 +125,7 @@ The procedure — walking the human through each thesis, never self-issued — i
 
 `config.yaml` is the **human's decisions** (keys spelled one way, check H —
 [`reference/config-schema.md`](reference/config-schema.md)); `state.yaml` is the **agent-written
-position** ([`reference/state-schema.md`](reference/state-schema.md)). Read the schema when writing
-or validating the file.
+position** ([`reference/state-schema.md`](reference/state-schema.md)).
 
 ## Cards
 

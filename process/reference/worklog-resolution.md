@@ -2,8 +2,8 @@
 node_type: reference
 title: Worklog resolution — how a section finds its worklog
 status: draft
-version: 0.2.0
-updated: 2026-08-20
+version: 0.3.0
+updated: 2026-09-07
 ---
 
 # Worklog resolution
@@ -77,6 +77,16 @@ moved — and is worked by the section's primary.
 So every section resolves to exactly one **primary** worklog, and to every worklog its marker
 names — the rule a reader and the linter both apply is *the first tool in the marker owns the
 section's thread; each named tool owns its own file, in its own step's folder*.
+
+## A fork the human closes: two records, one pass
+
+A fork a pass surfaced is closed by the human, often in a later session. The disposition is recorded
+**twice, the same pass that receives it**: as a dated row in the instance's `decisions.md` (the source a
+`[sourced: decision D-…]` tag names — [`node-type-matrix.md`](node-type-matrix.md) → `decisions`), and
+in the **worklog whose fork it was**, as the orchestrator's conclusions block naming the option taken
+and the decision id. The artifact's change log alone is not the record: the next pass reads the worklog
+through `worklog:` in its `reads`, never the log, so a fork closed only there is re-opened by the pass
+that follows (decksmith F-16c — five fork tables reading "nothing decided" under five closed decisions).
 
 ## Raw inputs are not worked here
 

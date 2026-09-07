@@ -4,8 +4,8 @@ artifact: concept
 step: 1
 title: "Product Concept — <Product>"
 status: template
-version: 0.9.0
-updated: 2026-08-27
+version: 0.10.0
+updated: 2026-09-07
 ---
 
 <!--
@@ -58,7 +58,9 @@ _Who it's for and how segments are cut._
 
 ## Problems {#problems}
 <!-- tool: segment-pains -->
-_Each segment's problems, scored by severity × frequency._
+_The lead segment's problems, scored by severity × frequency. Another named segment either has its
+rows here or is named below with why it owes none (an instrument, not a market · deferred to Step-2
+sizing) — a segment is not a market by being named._
 
 | Problem <!--c:problem--> | Severity <!--c:severity--> | Frequency <!--c:frequency--> | Cost of inaction <!--c:inaction--> | Class <!--c:class--> | Confidence <!--c:conf--> |
 |---------|----------|-----------|------------------|-------|------------|

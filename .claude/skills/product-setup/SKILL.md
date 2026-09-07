@@ -10,8 +10,8 @@ description: >
   vs what's blank and proposing a gap-closing plan in step order — the point where the working loops
   begin. Step artifacts are NOT created here — each is born by its step's first pass.
 status: draft
-version: 0.10.0
-updated: 2026-09-02
+version: 0.11.0
+updated: 2026-09-07
 ---
 
 # Product Setup (onboarding)
@@ -122,6 +122,10 @@ empty-template artifact fails the linter before the loop has run once). What set
   method will produce (a metric already being measured, a risk the founder names). **Anything a step's
   method owns is that method's to seed**, on its pass: a concept bet becomes `H-…` in `concept-formation`,
   not here. Both sides seeding is how one id gets issued twice.
+- Copy `register-skeletons/decisions.md` to **`product-loops/decisions.md`** — beside `HANDOFF.md`,
+  not into `registers/`: the log of the run's dated human decisions, one `D-…` row each, the row a
+  `[sourced: decision D-…]` tag names (check E6). Setup's own decisions — the language, the lead
+  status, what was excluded — are its first rows.
 - **Only place what the sources say.** Do NOT derive numbers, thresholds, hypotheses, test designs,
   or pricing here — those are method work for the loop. A section that will need a library method is
   simply a gap the plan (step 7) names, not an invented draft.
@@ -153,7 +157,7 @@ all.
 
 ### 6. Scaffold the working area
 Create `product-loops/` (see layout below), in the chosen language: `config.yaml`, `state.yaml`,
-`HANDOFF.md`, `sources/` (already filed in step 3), `registers/` (seeded per step 4),
+`HANDOFF.md`, `decisions.md` and `registers/` (both per step 4), `sources/` (already filed in step 3),
 `export-files/`. **Do not create the step artifacts** (`1-concept.md` … `6-sprint-plan.md`) — not
 even as empty templates: each is born by its step's first pass and grows section-by-section; a step
 the instance has not reached has no artifact file, and that is the linter's expected state. Write an
@@ -209,6 +213,7 @@ product-loops/
   skills/                # (optional) the product's own exchange skills: <pull|push>-<endpoint>-<what>/
   # step artifacts (1-concept.md … 6-sprint-plan.md) are NOT created at setup — each is born
   # by its step's first pass and grows section-by-section (projection; linter check P)
+  decisions.md           # D-… — the run's dated human decisions; the row a [sourced: decision D-…] tag names
   registers/             # exactly the files process/REGISTERS.md enumerates — copied from register-skeletons/
     hypotheses.md        # H-…
     risks.md             # R-…

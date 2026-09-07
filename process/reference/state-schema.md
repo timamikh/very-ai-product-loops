@@ -2,8 +2,8 @@
 node_type: reference
 title: Instance state (state.yaml) — the pinned shape
 status: draft
-version: 0.1.0
-updated: 2026-09-02
+version: 0.2.0
+updated: 2026-09-07
 ---
 
 # Instance state (`state.yaml`) — the pinned shape
@@ -13,7 +13,8 @@ writes it). The one-line pointer stays in* [`CONVENTIONS.md`](../CONVENTIONS.md)
 and state*; *the console and the linter read the file by this shape.*
 
 `state.yaml` is the **agent-written position** of the cycle — the single home of *where we are*,
-never of rules or truth. Human decisions live in `config.yaml` ([`config-schema.md`](config-schema.md)).
+never of rules or truth. Human *settings* live in `config.yaml` ([`config-schema.md`](config-schema.md));
+the run's dated human *decisions* in `decisions.md` ([`node-type-matrix.md`](node-type-matrix.md) → `decisions`).
 It is rewritten at move 5 of every pass; a missing file is reconstructed from the artifacts and
 confirmed with the human (OPERATING-LOOP move 0).
 
@@ -27,7 +28,8 @@ last_run:                       # one line per instance exchange skill (skills/<
 gates:                          # gate ticks, grouped by step folder
   1-concept:
     "concept#idea": done
-    "concept#cjm": n/a          # a comment may carry the reason
+    "concept#cjm": n/a          # the reason, always: the journey's time structure does not matter here
+    "concept#value-defensibility": deferred  # until: D-12 — which moat leads
   3-strategy:
     "strategy#bets": open
 ```
@@ -42,8 +44,14 @@ gates:                          # gate ticks, grouped by step folder
 Rules:
 
 - **Ticks are conditional writes.** A tick on a section resting mainly on the agent's own reasoning
-  waits for a `verify` that did not write it (OPERATING-LOOP move 5); `n/a` carries its reason as a
-  comment, `deferred` names when in the change log of the artifact.
+  waits for a `verify` that did not write it (OPERATING-LOOP move 5).
+- **`n/a` carries its reason as a comment beside the tick** (check G6) — and the reason is a
+  statement about the concept, never about a source the instance lacks (the Step-1 template says so
+  of `#cjm`): a missing source makes an `[assumption]`-tagged first pass, not a skip.
+- **`deferred` carries what retires it** in the same comment — `until: <decision id | pass | date>`
+  (check G7). Step-close reads every `deferred` against its `until:` and re-ticks or rewrites the
+  condition; a deferral with no condition outlives the decision that ended it. The artifact's change
+  log still names *when* the deferral was made.
 - **An `open` tick on a written section has one legal meaning besides "Record not finished":** the section
   was **reopened for re-sign** — its content changed and the owner's sign-off is awaited. A reopen is
   recorded, never implied: the artifact's change-log entry names the section (`#<id>`) and is dated on

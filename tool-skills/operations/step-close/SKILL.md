@@ -11,8 +11,8 @@ surfaces: [ticks, change-log]
 opinionated: true
 method_basis: "The whole is a different reader: a step worked one section per pass is never read whole by anyone, so every conclusion that only the union shows — a link between two sections, a tension, a gap no single section could be missing — has no moment in which it can be found. This pass is that moment, and it lands what it finds through the ordinary channels"
 status: draft
-version: 0.3.0
-updated: 2026-08-25
+version: 0.4.0
+updated: 2026-09-07
 ---
 # Step close — read the step whole, land what only the whole shows
 
@@ -118,7 +118,9 @@ returned through the worklog. A board where most sections show title-and-status 
 finding, not the board's problem.
 
 **5 · Close.** The gate's derived items are ticked here if this pass is what closes them
-(`#to-clarify` is complete, `#hypotheses` carries what the step seeded), a dated **change-log** entry
+(`#to-clarify` is complete, `#hypotheses` carries what the step seeded); every `deferred` tick is read
+against its `until:` — arrived → re-ticked through the ordinary pass, not arrived → left standing, no
+condition named → this pass's finding (`state-schema.md`); a dated **change-log** entry
 records what the whole showed — including *nothing new* if that is the answer — and
 `python3 tools/lint.py <instance>` reports 0 errors. Then `theses`: the human signs a step that has
 been read whole.

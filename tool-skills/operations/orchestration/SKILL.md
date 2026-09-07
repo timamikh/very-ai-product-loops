@@ -12,8 +12,8 @@ surfaces: []
 opinionated: true
 method_basis: "Supervisor/worker delegation with a written brief and an acceptance gate: a `draft` worker writes its own worklog, the orchestrator alone owns the projection, the registers and state, and every return is accepted against a passport rather than on trust"
 status: draft
-version: 0.7.0
-updated: 2026-09-02
+version: 0.8.0
+updated: 2026-09-07
 ---
 # Orchestration — running one pass with subagents
 
@@ -98,6 +98,11 @@ separable, not that the brief needs to be longer).
    - **Scope and stop condition** — what is out of scope, and what "enough" is (four sources · the
      three named competitors · this section only). Without a stop condition a subagent expands until
      it runs out of room, and returns breadth where you needed depth.
+   - **A `verify` is narrow.** One section or one worklog per brief, at most three lenses. Measured
+     on the decksmith run: a seven-lens brief on a whole step stalled for ~85 minutes; three-lens
+     briefs on one section returned in three to six. Where the section carries a `Decided:` line,
+     the default lens is the **refutation** of the decided claim (*The two lenses*, below) — a
+     conformance pass cannot ask whether the choice was right.
    - **What to return** — the exact shape. You are going to read *n* of these; they must be
      comparable without re-reading the briefs.
    - **The passport** — pasted into the brief, so the subagent is checked against the same list it
@@ -187,7 +192,9 @@ A `verify` brief names a lens, and there are two kinds.
 internal consistency, **decision lines** (an empty or bare-*none* alternatives field —
 [`library/README.md`](../../library/README.md) → *The rejected alternative*), gate coverage, and the
 **input perimeter** — a worklog fact whose origin is neither on the inputs line (`w:reads`/`w:adds`)
-nor general method knowledge is the semantic leak the P2 lint cannot see. It answers
+nor general method knowledge is the semantic leak the P2 lint cannot see. Tags are read in **both
+directions**: a tag that points at no cell of the worklog, and a quoted source that carries no tag —
+the second was found only once a brief stopped asking for the first alone. It answers
 *is this written correctly?*
 
 **Refutation** — the brief names **one conclusion** and asks for the strongest case that it is

@@ -2,8 +2,8 @@
 node_type: template-fragment
 title: Task brief & return — the two halves of one contract
 status: draft
-version: 0.4.0
-updated: 2026-08-25
+version: 0.5.0
+updated: 2026-09-07
 ---
 
 # Task brief & return
@@ -46,6 +46,11 @@ You are a **subagent**. You read, search, fetch and reason.
   in place of a missing one is the single worst thing you can return.
 - **Every claim carries a confidence tag** — `[sourced: <where>]` · `[assumption]` ·
   `[validated: <evidence>]` · `[refuted: <why>]` — and your own proposals are marked ⚙️.
+- **A qualifier goes after the tag, in words** — `[assumption] — the founder's own figure`, never
+  `[assumption — founder's figure]` and never a tag inside a tag: the vocabulary is closed, and a
+  compounded tag is unreadable to every consumer.
+- **A fork is labelled `Fork 1`, `Fork 2`, …** — never `<letter>-<number>`, which is the shape of a
+  register id (`F-1` is a feature).
 - **Fail loudly.** A source you could not open, a page behind a paywall, an export that was empty:
   say so by name in §"Could not do". Silence there reads as "done", and that is how a gap becomes
   a fabricated fact one hand later.
@@ -68,8 +73,10 @@ the activity to perform.>
   card's `reads:`, resolved — the closed perimeter, nothing beyond it; a missing input is named
   here as a gap to declare, never filled in. A rework brief lists its additions separately under
   **Supplements:**, and the orchestrator records them in the worklog>
-- **Known context:** <the two or three facts without which the task is ambiguous — not your context
-  dump; if it takes more than a short list, the task is not separable>
+- **Known context:** <the two or three facts without which the task is ambiguous — each **tagged
+  and addressed** like any input (`[sourced: 1-concept.md#segments, tier-1 row]`), so the draft checks
+  it instead of carrying it; not your context dump — if it takes more than a short list, the task is
+  not separable>
 - **Already known / do not re-derive:** <what exists, so the return does not repeat it>
 
 ## 6 · What to return

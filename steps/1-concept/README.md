@@ -12,8 +12,8 @@ surfaces: [ticks, register:hypotheses, sign-off, change-log]
 cadence: "~ product lifetime; revisit on pivot or major learning"
 method_basis: "Concept as a positioning shift (Dunford) · JTBD/needs-based segmentation · severity×frequency pains · base/derivative moats (7 Powers, post-AI lens)"
 status: draft
-version: 0.6.0
-updated: 2026-08-16
+version: 0.7.0
+updated: 2026-09-07
 ---
 # Step 1 — Concept
 
@@ -44,7 +44,7 @@ swap or add tools per product (see [library](../../tool-skills/library/README.md
 | `idea` | The idea in a few lines: what it is, the shift it makes | `concept-formation` |
 | `jtbd` | The job + the four forces that gate switching (anchors segments/pains; feeds Step 2 substitutes) | `jtbd-concept` |
 | `segments` | Who it's for — segments and how they're cut | `segmentation` |
-| `problems` | Each segment's problems (severity × frequency) | `segment-pains` |
+| `problems` | The lead segment's problems (severity × frequency); another named segment has its own rows or a recorded reason it owes none | `segment-pains` |
 | `cjm` (optional) | The segment's journey over time — where it breaks (the temporal view behind `problems`) | `cjm-concept`, `cjm-strategy` (Step-3 revisit) |
 | `solution` | How the product solves each problem | `concept-expansion` |
 | `value-defensibility` | Value and moats (base; derivatives deferred to Step 3) | `value-definition-concept`, `value-definition-strategy` (Step-3 revisit) |
@@ -64,7 +64,7 @@ checks, so "done" is verifiable, not vibes).
 - [ ] states what the product is and the shift it makes → `concept#idea`
 - [ ] the customer's job stated with its four forces (push/pull/anxiety/habit) → `concept#jtbd`
 - [ ] at least one segment named, with its cut rationale → `concept#segments`
-- [ ] each named segment has ≥1 problem with severity × frequency → `concept#problems`
+- [ ] the lead segment has ≥1 problem with severity × frequency; every other named segment either has its own rows or is named in the section's *Segments without a pain profile* line (an instrument, not a market · deferred to `market-sizing`) → `concept#problems`
 - [ ] (optional) journey mapped where a drop-off needs explaining → `concept#cjm`
 - [ ] solution maps to the stated problems, no orphan features → `concept#solution`
 - [ ] intended moat(s) named, each with a confidence tag → `concept#value-defensibility`
