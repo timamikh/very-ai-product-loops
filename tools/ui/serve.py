@@ -36,6 +36,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 from loops import framework as F  # noqa: E402
+from loops import graph as G  # noqa: E402
 from loops import instance as I  # noqa: E402
 from loops import text as T  # noqa: E402
 
@@ -140,6 +141,7 @@ def model_payload(inst_path):
         "confidence": F.CONFIDENCE,
         "homed_sections": sorted(F.homed_sections(ROOT)),
     }
+    m["framework"]["graph"] = G.framework_graph(F.steps(ROOT), m["framework"]["skills"])
     return m
 
 

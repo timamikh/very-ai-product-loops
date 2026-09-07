@@ -1039,3 +1039,105 @@ details.acc .accbody { padding:13px 15px 16px }
 .heatdot.mit-mit:hover, .heatdot.mit-mit:focus-visible, .heatdot.mit-mit.on { background:var(--warn); color:var(--paper) }
 .heatdot.mit-na { color:var(--muted); background:var(--sunk); border-color:var(--line-2) }
 .heatdot.mit-na:hover, .heatdot.mit-na:focus-visible, .heatdot.mit-na.on { background:var(--muted); color:var(--paper) }
+
+/* ================================================================ graph */
+.gbar { display:flex; gap:22px; flex-wrap:wrap; align-items:center; margin-bottom:10px }
+.ggroup { display:flex; gap:6px; align-items:center; flex-wrap:wrap }
+.ggroup .glab { font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:600; margin-right:2px }
+.gseg { display:inline-flex; border:1px solid var(--line-2); border-radius:6px; overflow:hidden; background:var(--paper) }
+.gseg button { font:inherit; font-size:12px; padding:5px 12px; border:0; background:transparent; color:var(--muted); cursor:pointer }
+.gseg button + button { border-left:1px solid var(--line-2) }
+.gseg button[aria-pressed="true"] { background:var(--ink); color:var(--paper); font-weight:600 }
+.gtog { font:inherit; font-size:11.5px; cursor:pointer; padding:3px 9px; border-radius:999px; border:1px solid var(--line-2);
+  background:var(--paper); color:var(--muted) }
+.gtog[aria-pressed="true"] { color:var(--ink); border-color:var(--ink-2) }
+.gtog.plain[aria-pressed="true"] { background:var(--sunk); font-weight:600 }
+.gtog:disabled { opacity:.45; cursor:default }
+.gtog.hypotheses[aria-pressed="true"] { border-color:var(--hyp); color:var(--hyp); background:var(--hyp-soft) }
+.gtog.risks[aria-pressed="true"] { border-color:var(--risk); color:var(--risk); background:var(--risk-soft) }
+.gtog.metrics[aria-pressed="true"] { border-color:var(--met); color:var(--met); background:var(--met-soft) }
+.gtog.features[aria-pressed="true"] { border-color:var(--feat); color:var(--feat); background:var(--feat-soft) }
+.gtog.surfaces[aria-pressed="true"] { border-color:var(--surf); color:var(--surf); background:var(--surf-soft) }
+.gtog.hypotheses:not([aria-pressed="true"]), .gtog.risks:not([aria-pressed="true"]), .gtog.metrics:not([aria-pressed="true"]),
+.gtog.features:not([aria-pressed="true"]), .gtog.surfaces:not([aria-pressed="true"]) { text-decoration:line-through; opacity:.7 }
+
+.gsplit { display:flex; flex-direction:column; gap:12px; min-width:0 }
+.gstage { position:relative; height:62vh; min-height:420px; border:1px solid var(--line); border-radius:8px;
+  background:var(--paper); overflow:hidden; cursor:grab; user-select:none; touch-action:none }
+.gstage.panning { cursor:grabbing }
+.gsvg { display:block; width:100%; height:100%; font-family:var(--sans) }
+.gzoom { position:absolute; top:8px; right:8px; display:flex; gap:3px; align-items:center; background:var(--paper);
+  border:1px solid var(--line-2); border-radius:6px; padding:2px }
+.gzoom button { font:inherit; font-size:12px; min-width:26px; padding:3px 7px; border:0; border-radius:4px;
+  background:transparent; color:var(--ink-2); cursor:pointer }
+.gzoom button:hover { background:var(--sunk) }
+.gzoom .gpct { font-size:11px; color:var(--muted); min-width:36px; text-align:center; font-family:var(--mono) }
+.ghint { position:absolute; left:10px; bottom:8px; font-size:10.5px; color:var(--faint); pointer-events:none }
+.gcol { font-size:10.5px; font-weight:600; fill:var(--muted); letter-spacing:.02em; text-transform:uppercase }
+.gcolrule { stroke:var(--line-2); stroke-width:1 }
+.glane { font-size:9px; fill:var(--faint); letter-spacing:.04em; text-transform:uppercase }
+.ge { fill:none; stroke:var(--ink-2); stroke-width:1; opacity:.55; pointer-events:none; transition:opacity .12s }
+.ge.ref { stroke:var(--faint); opacity:.07; stroke-width:.7 }
+.ge.implied { stroke:var(--ink-2); opacity:.38; stroke-dasharray:4 3 }   /* derived from the card, not stated in the file */
+.ge.serves, .ge.on, .ge.parent, .ge.test { stroke:var(--faint); opacity:.35 }
+.ge.reads { stroke:var(--faint); opacity:.16; stroke-width:.8 }
+.ge.writes { stroke:var(--ink-2); opacity:.5 }
+.ge.worklog { stroke:var(--brand); opacity:.6; stroke-dasharray:3 2 }
+.gn { cursor:pointer }
+.gn rect { fill:var(--paper); stroke:var(--line-2); stroke-width:1; transition:opacity .12s }
+.gn.section.confirmed rect { stroke:var(--ink) }
+.gn.section.confirmed .gdot { fill:var(--ink) }
+.gn.section.written .gdot { fill:none; stroke:var(--ink-2); stroke-width:1 }
+.gn.section.open rect { stroke:var(--warn) }
+.gn.section.open .gdot { fill:var(--warn) }
+.gn.section.contested rect { stroke:var(--brand) }
+.gn.section.contested .gdot { fill:var(--brand) }
+.gn.section.empty rect, .gn.section.missing rect { stroke-dasharray:2 2; stroke:var(--faint) }
+.gn.section.empty .gdot, .gn.section.missing .gdot { fill:none; stroke:var(--faint); stroke-width:1 }
+.gn.card rect { fill:var(--sunk); stroke:var(--line-2) }
+.gn.register rect { fill:var(--brand-soft); stroke:var(--brand) }
+.glab { font-size:10.4px; fill:var(--ink); font-family:var(--mono) }
+.gn.card .glab { font-family:var(--sans); font-size:10px }
+.ggap { font-size:9px; fill:var(--brand); font-weight:700 }
+.gn.picked rect { stroke:var(--brand); stroke-width:1.8 }
+.g-focus .gn:not(.hi) { opacity:.16 }
+.g-focus .ge:not(.hi) { opacity:.04 }
+.g-focus .ge.hi { opacity:1; stroke:var(--brand); stroke-width:1.4 }
+.g-focus .gn.hi rect { stroke-width:1.4 }
+.glegend { display:flex; gap:14px; flex-wrap:wrap; align-items:center; font-size:11px; color:var(--muted); margin:0 0 8px }
+.glegend .lg::before { content:''; display:inline-block; vertical-align:middle; margin-right:5px }
+.glegend .lg.rests::before { width:18px; border-top:1.5px solid var(--ink-2) }
+.glegend .lg.implied::before { width:18px; border-top:1.5px dashed var(--ink-2) }
+.glegend .lg.ref::before { width:18px; border-top:1px dotted var(--faint) }
+.glegend .lg.serves::before, .glegend .lg.writes::before { width:18px; border-top:1px solid var(--faint) }
+.glegend .lg.node::before { width:8px; height:8px; border-radius:50%; border:1px solid var(--ink-2) }
+.glegend .lg.node.confirmed::before { background:var(--ink); border-color:var(--ink) }
+.glegend .lg.node.open::before { background:var(--warn); border-color:var(--warn) }
+.glegend .lg.node.empty::before { border-style:dashed; border-color:var(--faint) }
+.glegend .gcount { margin-left:auto }
+.gside { border:1px solid var(--line); border-radius:8px; background:var(--paper); padding:14px 18px 16px; min-width:0 }
+.gside .hint { color:var(--muted); font-size:12px }
+.ghead { display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:13px }
+.ghead .grow { flex:1 }
+.gkind { font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); font-weight:600 }
+.gtitle { margin:6px 0 8px; font-size:12.5px; color:var(--ink-2); max-width:90ch }
+.gcontent .gbody { font-size:13px; border:1px solid var(--line); border-radius:6px; padding:10px 14px; background:var(--sunk); overflow-x:auto }
+.gcontent .gbody p, .gcontent .gbody li { max-width:90ch }
+.gcells { width:100%; border-collapse:collapse; font-size:12px; margin:6px 0 }
+.gcells th { text-align:left; font-weight:600; color:var(--muted); font-size:10.5px; text-transform:uppercase; letter-spacing:.03em;
+  padding:4px 8px 4px 0; vertical-align:top; white-space:nowrap; width:1% }
+.gcells td { padding:4px 0; border-bottom:1px solid var(--line); vertical-align:top }
+.glist { margin-top:8px }
+.glabel { font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); font-weight:600; margin-bottom:4px }
+.glabel.gsep { margin-top:14px; padding-top:10px; border-top:1px solid var(--line) }
+.gitems { display:flex; flex-wrap:wrap; gap:5px }
+.gitem { font:inherit; font-size:11px; font-family:var(--mono); cursor:pointer; padding:2px 7px;
+  border-radius:4px; border:1px solid var(--line-2); background:var(--paper); color:var(--ink) }
+.gitem.hypotheses { border-color:var(--hyp); background:var(--hyp-soft) }
+.gitem.risks { border-color:var(--risk); background:var(--risk-soft) }
+.gitem.metrics { border-color:var(--met); background:var(--met-soft) }
+.gitem.features { border-color:var(--feat); background:var(--feat-soft) }
+.gitem.surfaces { border-color:var(--surf); background:var(--surf-soft) }
+.gitem.card { font-family:var(--sans); background:var(--sunk) }
+.gitem.register { font-family:var(--sans); background:var(--brand-soft); border-color:var(--brand) }
+.tip .tk { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em }

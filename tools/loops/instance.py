@@ -12,6 +12,7 @@ import os
 import re
 
 from . import framework as F
+from . import graph as G
 from . import text as T
 from . import yamlite
 
@@ -711,7 +712,8 @@ def _sprint_items(artifacts, directions=()):
                          else heading_dir)
             cur = {"id": iid, "direction": direction,
                    "name": m.group(2).strip(),
-                   "links": re.findall(r"\b[HMRB]-[\w.-]+", m.group(3) or ""),
+                   "links": (T.register_ids(m.group(3), ("hypotheses", "metrics", "risks"))
+                             + T.BUNDLE_RE.findall(m.group(3) or "")),
                    "fields": []}
             items.append(cur)
             continue
@@ -769,7 +771,8 @@ def load(path, framework_root=F.ROOT):
                           check("feature priority", True)])
     surfaces = _register(path, "surfaces.md", "S-", health, [check("surface state")])
 
-    steps = _merge_steps(F.steps(framework_root), artifacts, state, health,
+    fw_steps = F.steps(framework_root)
+    steps = _merge_steps(fw_steps, artifacts, state, health,
                          F.template_section_lines(framework_root))
 
     # rests-on provenance: a confirmed thesis whose foundation section is not itself confirmed is a
@@ -875,6 +878,10 @@ def load(path, framework_root=F.ROOT):
         "handoff": _handoff(path),
         "deliverables": deliverables,
         "gaps": gaps,
+        "graph": G.instance_graph(artifacts, {"hypotheses": hypotheses, "risks": risks,
+                                              "metric_tree": metric_tree, "features": features,
+                                              "surfaces": surfaces},
+                                  fw_steps, F.skills(framework_root, instance=path)),
         "timeline": timeline,
         "history": _history(timeline),
         "health": health,

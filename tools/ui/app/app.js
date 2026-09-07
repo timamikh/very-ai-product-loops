@@ -78,7 +78,28 @@ const STR = {
   en: {
     tabs: { overview: 'Overview', step: 'Step', artifacts: 'Artifacts', registers: 'Registers',
       metrics: 'Metrics', open: 'Open questions', sources: 'Sources', skills: 'Skills',
-      log: 'Change log', checks: 'Checks', guide: 'Guide' },
+      log: 'Change log', checks: 'Checks', guide: 'Guide', graph: 'Graph' },
+    gr: {
+      product: 'The product', method: 'The method', section: 'section', registerFile: 'register',
+      opsCol: 'operations · outputs', methods: 'methods', allRows: 'all register rows',
+      focus: 'neighbours only', hop: 'hop', links: 'links', nodes: 'nodes', edges: 'edges',
+      view: 'view', registers: 'registers', pinned: 'pinned node', hubs: 'most linked',
+      zoomIn: 'zoom in', zoomOut: 'zoom out', fit: 'fit', actual: 'actual size',
+      stageHint: 'click a node to open it · drag to pan · pinch or ctrl+wheel to zoom · double-click to zoom in',
+      lgRests: 'rests on', lgImplied: "the section's card reads", lgRef: 'names a register id',
+      lgRegs: 'serves · on surface · parent', lgWrites: 'writes · reads',
+      pickHint: 'Hover a node to light up what it touches; click to pin it and read its links as lists.',
+      isolated: 'nothing links here yet', unpin: 'unpin',
+      openSection: 'open the section', openRow: 'open the row', openCard: 'open the card',
+      restsOn: 'rests on', feeds: 'feeds', impliedOn: 'its card reads', impliedFeeds: 'read by the card of',
+      names: 'names', namedIn: 'named in',
+      serves: 'serves', servedBy: 'served by', onSurface: 'on surface', carries: 'carries',
+      feedsMetric: 'feeds metric', fedBy: 'fed by', tests: 'tests', testedBy: 'tested by',
+      reads: 'reads', readBy: 'read by', writes: 'writes', writtenBy: 'written by',
+      readsWorklog: 'reads the worklog of', worklogReadBy: 'worklog read by',
+      st: { confirmed: 'confirmed', written: 'written, unsigned', open: 'open inbox', empty: 'empty',
+        contested: 'contested', missing: 'not written yet' },
+    },
     status: 'status', step: 'step', of: 'of', lastPass: 'last pass',
     noState: 'not recorded', theme: 'theme', themeauto: 'auto', themelight: 'light', themedark: 'dark',
     addFolder: 'Add a product folder', addHint: 'add a folder…',
@@ -329,6 +350,7 @@ const S = {
   tab: 'overview', step: null, artifact: null, section: null, worklog: null,
   reg: 'hypotheses', regFilter: 'all', regSearch: '', regItem: null,
   skillPlane: 'library', skillPick: null, skillFile: null, logFile: 'all', guideSec: 'how',
+  graphMode: 'product', graphPick: null, graphFocus: false, graphHops: 1, graphAll: false, graphRegs: {}, graphView: null,
   hist: [], histIdx: -1, navigating: false,
 };
 
@@ -365,7 +387,7 @@ function h(tag, attrs, ...kids) {
     else if (k === 'html') e.innerHTML = v;
     else if (k === 'text') e.textContent = v;
     else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
-    else e.setAttribute(k, v === true ? '' : v);
+    else e.setAttribute(k, v === true ? (k.startsWith('aria-') ? 'true' : '') : v);
   }
   for (const kid of kids.flat(9)) {
     if (kid === null || kid === undefined || kid === false) continue;
@@ -3167,10 +3189,437 @@ function viewGuide() {
   return h('div', {}, subs, (body[S.guideSec] || guideHow)());
 }
 
-const VIEWS = { overview: viewOverview, step: viewStep, artifacts: viewArtifacts, registers: viewRegisters,
+/* ---------------------------------------------------------------- graph
+   The dependency graph, drawn from `model.graph` (the product: sections + register rows) or
+   `model.framework.graph` (the method: template sections + cards + registers). Both are assembled in
+   tools/loops/graph.py from edges the files already state — this view only lays them out. Columns are
+   the six steps in order, then the registers; a node's row is its file order. No library, no network:
+   inline SVG through the same `svg()` helper the metric charts use, so the snapshot carries it.
+
+   The drawing sits in a fixed-height stage that pans (drag) and zooms (buttons, pinch, ctrl+wheel);
+   the page itself never scrolls sideways for it. Picking a node updates the highlight and the side
+   panel in place — the page does not re-render, so the scroll position holds. */
+const GR = { rowH: 18, nodeH: 14, secW: 136, regW: 96, cardW: 140, gap: 36, top: 32, pad: 14, lane: 14, maxRows: 28 };
+const GR_REG_KINDS = ['hypotheses', 'risks', 'metrics', 'features', 'surfaces'];
+const GR_REG_VAR = { hypotheses: 'hyp', risks: 'risk', metrics: 'met', features: 'feat', surfaces: 'surf' };
+const GR_REL = {                                  // edge kind → [label when I am `from`, label when I am `to`]
+  rests: ['gr.feeds', 'gr.restsOn'], implied: ['gr.impliedFeeds', 'gr.impliedOn'],
+  ref: ['gr.names', 'gr.namedIn'], serves: ['gr.serves', 'gr.servedBy'],
+  on: ['gr.onSurface', 'gr.carries'], parent: ['gr.feedsMetric', 'gr.fedBy'], test: ['gr.testedBy', 'gr.tests'],
+  reads: ['gr.readBy', 'gr.reads'], writes: ['gr.writes', 'gr.writtenBy'], worklog: ['gr.worklogReadBy', 'gr.readsWorklog'],
+};
+const GR_ORDER = ['gr.restsOn', 'gr.feeds', 'gr.impliedOn', 'gr.impliedFeeds', 'gr.names', 'gr.namedIn', 'gr.serves', 'gr.servedBy', 'gr.onSurface',
+  'gr.carries', 'gr.feedsMetric', 'gr.fedBy', 'gr.tests', 'gr.testedBy', 'gr.reads', 'gr.readBy', 'gr.writes',
+  'gr.writtenBy', 'gr.readsWorklog', 'gr.worklogReadBy'];
+
+function graphData() {
+  const m = S.model;
+  return S.graphMode === 'method' ? (m.framework.graph || { nodes: [], edges: [] })
+    : (m.graph || { nodes: [], edges: [] });
+}
+function graphAdjacency(g) {
+  if (g._adj) return g._adj;
+  const adj = {};
+  const add = (a, b) => { (adj[a] = adj[a] || new Set()).add(b); };
+  g.edges.forEach(e => { add(e.from, e.to); add(e.to, e.from); });
+  return (g._adj = adj);
+}
+function graphNeighbourhood(g, root, hops) {
+  const adj = graphAdjacency(g);
+  const seen = new Set([root]);
+  let frontier = [root];
+  for (let i = 0; i < hops; i++) {
+    const next = [];
+    frontier.forEach(n => (adj[n] || []).forEach(x => { if (!seen.has(x)) { seen.add(x); next.push(x); } }));
+    frontier = next;
+  }
+  return seen;
+}
+
+/* Columns. The product: the six steps (sections), then one column per register kind — a register row
+   is shown only when something links to it unless "all rows" is on. The method: operations + outputs,
+   then the six steps — each column holds the step's sections and, below a lane, its methods — then
+   the six register files. Eight columns, so the whole method fits one screen. */
+function graphColumns(g) {
+  const cols = [];
+  const steps = [1, 2, 3, 4, 5, 6];
+  if (S.graphMode === 'method') {
+    cols.push({ key: 'ops', title: t('gr.opsCol'), w: GR.cardW,
+      groups: [{ cls: 'card', nodes: g.nodes.filter(n => n.kind === 'card' && !(n.steps || []).length) }] });
+    steps.forEach(s => cols.push({ key: 's' + s, title: `${t('step')} ${s}`, w: GR.secW, groups: [
+      { cls: 'section', nodes: g.nodes.filter(n => n.kind === 'section' && n.step === s) },
+      { cls: 'card', lane: t('gr.methods'), nodes: g.nodes.filter(n => n.kind === 'card' && (n.steps || []).includes(s)) },
+    ] }));
+    cols.push({ key: 'g', title: t('registers'), w: GR.regW,
+      groups: [{ cls: 'register', nodes: g.nodes.filter(n => n.kind === 'register') }] });
+  } else {
+    steps.forEach(s => cols.push({ key: 's' + s, title: `${t('step')} ${s}`, w: GR.secW,
+      groups: [{ cls: 'section', nodes: g.nodes.filter(n => n.kind === 'section' && n.step === s) }] }));
+    GR_REG_KINDS.forEach(k => {
+      if (S.graphRegs[k] === false) return;
+      const rows = g.nodes.filter(n => n.kind === k && (S.graphAll || n.degree > 0));
+      if (rows.length) cols.push({ key: k, title: t(k === 'metrics' ? 'metricNodes' : k), w: GR.regW,
+        groups: [{ cls: k, nodes: rows }] });
+    });
+  }
+  return cols;
+}
+
+function graphLayout(g) {
+  let keep = null;
+  if (S.graphFocus && S.graphPick) keep = graphNeighbourhood(g, S.graphPick, S.graphHops);
+  const cols = graphColumns(g).map(c => ({ ...c,
+    groups: c.groups.map(gr => ({ ...gr, nodes: keep ? gr.nodes.filter(n => keep.has(n.id)) : gr.nodes }))
+      .filter(gr => gr.nodes.length) })).filter(c => c.groups.length);
+  const pos = {};
+  let x = GR.pad, H = 0;
+  cols.forEach(c => {
+    c.x = x;
+    let y = GR.top;
+    let lanes = 1;
+    c.groups.forEach((gr, gi) => {
+      if (gi > 0) { gr.laneY = y + 4; y += GR.lane + 6; }
+      const per = GR.maxRows, n0 = y;
+      lanes = Math.max(lanes, Math.ceil(gr.nodes.length / per));
+      gr.nodes.forEach((n, i) => {
+        const lane = Math.floor(i / per);
+        pos[n.id] = { x: x + lane * (c.w + 10), y: n0 + (i % per) * GR.rowH, w: c.w, col: c, cls: gr.cls };
+      });
+      y = n0 + Math.min(gr.nodes.length, per) * GR.rowH + 4;
+    });
+    c.span = lanes * c.w + (lanes - 1) * 10;
+    H = Math.max(H, y);
+    x += c.span + GR.gap;
+  });
+  return { cols, pos, W: x - GR.gap + GR.pad, H: H + GR.pad };
+}
+
+function graphDraw(g) {
+  const L = graphLayout(g);
+  const root = svg('svg', { class: 'gsvg', role: 'img' });
+  const view = svg('g', { class: 'gview' });
+  root.append(view);
+
+  L.cols.forEach(c => {
+    const head = svg('text', { x: c.x, y: 18, class: 'gcol' });
+    head.textContent = `${c.title} · ${c.groups.reduce((n, gr) => n + gr.nodes.length, 0)}`;
+    view.append(head, svg('line', { x1: c.x, x2: c.x + (c.span || c.w), y1: 23, y2: 23, class: 'gcolrule' }));
+    c.groups.forEach(gr => {
+      if (!gr.laneY) return;
+      const lab = svg('text', { x: c.x, y: gr.laneY + 9, class: 'glane' });
+      lab.textContent = gr.lane;
+      view.append(lab);
+    });
+  });
+
+  const eg = svg('g', { class: 'gedges' });
+  const drawn = g.edges.filter(e => L.pos[e.from] && L.pos[e.to]);
+  drawn.forEach(e => {
+    const a = L.pos[e.from], b = L.pos[e.to];
+    const ay = a.y + GR.nodeH / 2, by = b.y + GR.nodeH / 2;
+    let d;
+    if (a.col === b.col) {
+      const x0 = a.x + a.w, bow = 16 + Math.abs(by - ay) / 5;
+      d = `M${x0},${ay} C${x0 + bow},${ay} ${x0 + bow},${by} ${x0},${by}`;
+    } else if (a.x < b.x) {
+      const x0 = a.x + a.w, x1 = b.x, dx = Math.max(24, (x1 - x0) / 2);
+      d = `M${x0},${ay} C${x0 + dx},${ay} ${x1 - dx},${by} ${x1},${by}`;
+    } else {
+      const x0 = a.x, x1 = b.x + b.w, dx = Math.max(24, (x0 - x1) / 2);
+      d = `M${x0},${ay} C${x0 - dx},${ay} ${x1 + dx},${by} ${x1},${by}`;
+    }
+    eg.append(svg('path', { d, class: `ge ${e.kind}`, 'data-from': e.from, 'data-to': e.to }));
+  });
+  view.append(eg);
+
+  const ng = svg('g', { class: 'gnodes' });
+  g.nodes.forEach(n => {
+    const p = L.pos[n.id];
+    if (!p) return;
+    const grp = svg('g', { class: `gn ${p.cls} ${n.status || ''}`, 'data-id': n.id,
+      transform: `translate(${p.x},${p.y})` });
+    const fillVar = GR_REG_VAR[n.kind] ? `var(--${GR_REG_VAR[n.kind]}-soft)` : null;
+    const strokeVar = GR_REG_VAR[n.kind] ? `var(--${GR_REG_VAR[n.kind]})` : null;
+    grp.append(svg('rect', { x: 0, y: 0, width: p.w, height: GR.nodeH, rx: 3, fill: fillVar, stroke: strokeVar }));
+    if (n.kind === 'section') grp.append(svg('circle', { cx: 7.5, cy: GR.nodeH / 2, r: 2.8, class: 'gdot' }));
+    const label = svg('text', { x: n.kind === 'section' ? 15 : 6, y: GR.nodeH - 3.8, class: 'glab' });
+    const maxCh = Math.floor((p.w - (n.kind === 'section' ? 20 : 10)) / 5.9);
+    label.textContent = n.label.length > maxCh ? n.label.slice(0, maxCh - 1) + '…' : n.label;
+    grp.append(label);
+    if (n.kind === 'section' && n.gaps) {
+      const b = svg('text', { x: p.w - 5, y: GR.nodeH - 3.8, 'text-anchor': 'end', class: 'ggap' });
+      b.textContent = n.gaps;
+      grp.append(b);
+    }
+    grp.addEventListener('mouseenter', ev => { graphHighlight(root, g, n.id); graphTip(n, ev); });
+    grp.addEventListener('mousemove', ev => graphTip(n, ev));
+    grp.addEventListener('mouseleave', () => { graphHighlight(root, g, S.graphPick); hideTip(); });
+    grp.addEventListener('pointerdown', ev => ev.stopPropagation());   // a node is not a pan handle
+    grp.addEventListener('click', ev => { ev.stopPropagation(); graphPick(S.graphPick === n.id ? null : n.id); });
+    ng.append(grp);
+  });
+  view.append(ng);
+  root._layout = L;
+  return root;
+}
+
+/* Pan and zoom — a transform on the inner group. Drag pans; the buttons, a pinch, or ctrl/⌘+wheel
+   zoom (a plain wheel scrolls the page as everywhere else). `S.graphView` keeps k·x·y across in-place
+   updates and is dropped when the mode changes, so a new drawing opens fitted. */
+function graphApplyView(stage) {
+  const v = S.graphView;
+  const g = stage.querySelector('.gview');
+  if (g && v) g.setAttribute('transform', `translate(${v.x},${v.y}) scale(${v.k})`);
+  const pct = stage.querySelector('.gzoom .gpct');
+  if (pct && v) pct.textContent = Math.round(v.k * 100) + '%';
+}
+function graphFit(stage) {
+  const root = stage.querySelector('.gsvg');
+  const L = root && root._layout;
+  if (!L) return;
+  const cw = stage.clientWidth, ch = stage.clientHeight;
+  if (!cw || !ch) return;
+  const k = Math.min(cw / L.W, ch / L.H, 1.6);
+  S.graphView = { k, x: (cw - L.W * k) / 2, y: Math.max(0, (ch - L.H * k) / 2) };
+  graphApplyView(stage);
+}
+function graphZoomBy(stage, f, cx, cy) {
+  const v = S.graphView || { k: 1, x: GR.pad, y: 0 };
+  if (cx === undefined) { cx = stage.clientWidth / 2; cy = stage.clientHeight / 2; }
+  const k = Math.min(4, Math.max(0.15, v.k * f));
+  const r = k / v.k;
+  S.graphView = { k, x: cx - (cx - v.x) * r, y: cy - (cy - v.y) * r };
+  graphApplyView(stage);
+}
+function graphStage(g) {
+  const root = graphDraw(g);
+  const zoom = h('div', { class: 'gzoom' },
+    h('button', { title: t('gr.zoomOut'), onclick: () => graphZoomBy(stage, 1 / 1.3) }, '−'),
+    h('span', { class: 'gpct' }, ''),
+    h('button', { title: t('gr.zoomIn'), onclick: () => graphZoomBy(stage, 1.3) }, '+'),
+    h('button', { title: t('gr.fit'), onclick: () => graphFit(stage) }, t('gr.fit')),
+    h('button', { title: t('gr.actual'), onclick: () => {
+      S.graphView = { k: 1, x: GR.pad, y: 0 }; graphApplyView(stage); } }, '1:1'));
+  const stage = h('div', { class: 'gstage' }, root, zoom,
+    h('div', { class: 'ghint' }, t('gr.stageHint')));
+  // drag to pan; a click on the background (no drag) unpins
+  let drag = null;
+  stage.addEventListener('pointerdown', ev => {
+    if (ev.button !== 0 || ev.target.closest('.gzoom')) return;
+    if (!S.graphView) graphFit(stage);
+    if (!S.graphView) return;
+    drag = { x: ev.clientX, y: ev.clientY, vx: S.graphView.x, vy: S.graphView.y, moved: false };
+    stage.setPointerCapture(ev.pointerId);
+    stage.classList.add('panning');
+  });
+  stage.addEventListener('pointermove', ev => {
+    if (!drag) return;
+    const dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
+    if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+    S.graphView = { ...S.graphView, x: drag.vx + dx, y: drag.vy + dy };
+    graphApplyView(stage);
+  });
+  const end = ev => {
+    if (!drag) return;
+    const wasClick = !drag.moved;
+    drag = null;
+    stage.classList.remove('panning');
+    if (wasClick && !ev.target.closest('.gn') && !ev.target.closest('.gzoom') && S.graphPick) graphPick(null);
+  };
+  stage.addEventListener('pointerup', end);
+  stage.addEventListener('pointercancel', end);
+  stage.addEventListener('wheel', ev => {
+    if (!(ev.ctrlKey || ev.metaKey)) return;         // plain wheel: the page scrolls, as everywhere
+    ev.preventDefault();
+    const r = stage.getBoundingClientRect();
+    graphZoomBy(stage, Math.exp(-ev.deltaY * 0.01), ev.clientX - r.left, ev.clientY - r.top);
+  }, { passive: false });
+  stage.addEventListener('dblclick', ev => {
+    if (ev.target.closest('.gn') || ev.target.closest('.gzoom')) return;
+    const r = stage.getBoundingClientRect();
+    graphZoomBy(stage, 1.6, ev.clientX - r.left, ev.clientY - r.top);
+  });
+  // `load()` renders once with the model and again when the lint result lands a moment later, so at
+  // boot the first stage is detached before this frame runs — the guard keeps the fit from measuring
+  // a box that is no longer in the page. Left as two renders on purpose: the lint pass is the one
+  // thing worth waiting on separately, and holding the first paint for it would cost every load.
+  requestAnimationFrame(() => {
+    if (!stage.isConnected) return;                    // replaced by a later render before the frame
+    const key = S.graphMode + (S.graphFocus ? 'f' : '');
+    if (S.graphView && S.graphView.mode === key) graphApplyView(stage);
+    else { graphFit(stage); if (S.graphView) S.graphView.mode = key; }
+    if (S.graphPick) graphHighlight(root, g, S.graphPick);
+  });
+  return stage;
+}
+
+function graphHighlight(root, g, id) {
+  const hi = id ? graphNeighbourhood(g, id, 1) : null;
+  root.classList.toggle('g-focus', !!hi);
+  root.querySelectorAll('.gn').forEach(el => {
+    el.classList.toggle('hi', !!(hi && hi.has(el.dataset.id)));
+    el.classList.toggle('picked', el.dataset.id === S.graphPick);
+  });
+  root.querySelectorAll('.ge').forEach(el => el.classList.toggle('hi',
+    !!(hi && (el.dataset.from === id || el.dataset.to === id))));
+}
+function graphTip(n, ev) {
+  const kind = n.kind === 'section' ? `${t('step')} ${n.step} · ${t('gr.section')}`
+    : n.kind === 'card' ? `${n.plane} · ${n.card_kind}` : n.kind === 'register' ? t('gr.registerFile')
+    : t(n.kind === 'metrics' ? 'metricNodes' : n.kind);
+  const st = n.status ? `<span class="tag">${esc(t('gr.st.' + n.status))}</span>` : n.state ? `<span class="tag">${esc(n.state)}</span>` : '';
+  showTip(`<div class="tk">${esc(kind)}</div><b>${esc(n.label)}</b> ${st}<div>${esc(n.title || '')}</div>`
+    + `<div class="tk">${n.degree} ${t('gr.links')}</div>`, ev.clientX, ev.clientY);
+}
+
+/* Picking updates in place: the highlight, the side panel, the hash. Only a pick under "neighbours
+   only" changes what is drawn, and then the stage is redrawn — never the page. */
+function graphPick(id) {
+  S.graphPick = id;
+  writeHash();
+  const g = graphData();
+  const host = document.querySelector('.gsplit');
+  if (!host) return render();
+  if (S.graphFocus) {
+    const stage = host.querySelector('.gstage');
+    if (stage) stage.replaceWith(graphStage(g));
+  } else {
+    const root = host.querySelector('.gsvg');
+    if (root) graphHighlight(root, g, id);
+  }
+  const side = host.querySelector('.gside');
+  const fresh = graphPanel(g);
+  if (side && fresh) side.replaceWith(fresh);
+  else if (side) side.remove();
+  else if (fresh) host.append(fresh);
+  if (fresh && id) {
+    const r = fresh.getBoundingClientRect();
+    if (r.top > window.innerHeight - 120) fresh.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+  const focusBtn = document.querySelector('.gbar .gfocus');
+  if (focusBtn) focusBtn.disabled = !id;
+}
+
+/* The side panel: what the pinned node contains, then what it is linked to. A section shows its
+   confidence mix, its worklog link and its full projected text; a register row its cells; a card its
+   header. Every link is one click to the node in the graph and one to its home. */
+function graphPanel(g) {
+  const m = S.model;
+  const byId = Object.fromEntries(g.nodes.map(n => [n.id, n]));
+  const n = byId[S.graphPick];
+  if (!n) return null;
+  const groups = {};
+  g.edges.forEach(e => {
+    if (e.from === n.id && byId[e.to]) (groups[GR_REL[e.kind][0]] = groups[GR_REL[e.kind][0]] || []).push(byId[e.to]);
+    else if (e.to === n.id && byId[e.from]) (groups[GR_REL[e.kind][1]] = groups[GR_REL[e.kind][1]] || []).push(byId[e.from]);
+  });
+  const head = h('div', { class: 'ghead' },
+    h('span', { class: `gkind ${n.kind}` }, n.kind === 'section' ? `${t('step')} ${n.step}` : n.kind === 'card' ? n.plane : n.kind),
+    h('b', {}, n.label),
+    n.status ? h('span', { class: `tag ${n.status}` }, t('gr.st.' + n.status)) : n.state ? h('span', { class: 'tag' }, n.state) : null,
+    h('span', { class: 'grow' }),
+    graphHome(n),
+    h('button', { class: 'golink', onclick: () => graphPick(null) }, t('gr.unpin')));
+  const title = h('div', { class: 'gtitle' }, n.title || '');
+  const content = graphContent(m, n);
+  const lists = GR_ORDER.filter(k => groups[k]).map(k => h('div', { class: 'glist' },
+    h('div', { class: 'glabel' }, `${t(k)} · ${groups[k].length}`),
+    h('div', { class: 'gitems' }, groups[k].map(o => graphChip(o)))));
+  return h('div', { class: 'gside' }, head, title, content,
+    h('div', { class: 'glabel gsep' }, t('gr.links')),
+    lists.length ? lists : h('div', { class: 'hint' }, t('gr.isolated')));
+}
+function graphChip(o, label) {
+  return h('button', { class: `gitem ${o.kind}`, title: o.title || '', onclick: () => graphPick(o.id) }, label || o.label);
+}
+function graphContent(m, n) {
+  if (n.kind === 'section' && n.file) {
+    const art = m.artifacts.find(a => a.file === n.file);
+    const sec = art && art.sections.find(s => s.id === n.anchor);
+    if (!sec) return null;
+    const stem = n.file.replace(/\.md$/, '');          // the step folder: `1-concept.md` → `1-concept/`
+    const tool = worklogTool(stem, sec.body);
+    return h('div', { class: 'gcontent' },
+      h('div', { class: 'row', style: 'flex-wrap:wrap;gap:6px;margin:6px 0 8px' },
+        confChips(sec.markers.confidence),
+        sec.markers.proposals ? h('span', { class: 'gear' }, `${t('proposalMark')} ×${sec.markers.proposals}`) : null,
+        sec.gaps.length ? h('span', { class: 'tag warn' }, `${sec.gaps.length} ${t('gaps')}`) : null,
+        tool ? goWorklog(stem, tool) : null),
+      sec.body && sec.body.trim() ? h('div', { class: 'md gbody', html: md(sec.body) })
+        : h('div', { class: 'hint' }, t('gr.st.empty')));
+  }
+  if (n.kind === 'section') return h('div', { class: 'hint' }, t('gr.st.missing'));
+  if (GR_REG_VAR[n.kind]) {
+    const reg = m.registers[n.kind === 'metrics' ? 'metric_tree' : n.kind];
+    const row = reg && reg.rows.find(r => r.id === n.label);
+    if (!row) return null;
+    const keys = (reg.col_keys && reg.col_keys.length ? reg.col_keys : Object.keys(row)).filter(k => k && k !== 'id');
+    return h('table', { class: 'gcells' }, keys.map(k => {
+      const v = row[k];
+      if (v === undefined || v === null || String(v).trim() === '') return null;
+      return h('tr', {}, h('th', {}, k), h('td', { class: 'md', html: inline(String(v)) }));
+    }));
+  }
+  if (n.kind === 'card') {
+    const c = (m.framework.skills || []).find(s => s.name === n.label);
+    if (!c) return null;
+    const atoms = (lab, xs) => xs && xs.length ? h('div', { class: 'glist' },
+      h('div', { class: 'glabel' }, lab), h('div', { class: 'gitems' }, xs.map(a => h('code', { class: 'tag' }, a)))) : null;
+    return h('div', { class: 'gcontent' },        // the summary is already the panel's title line
+      c.steps && c.steps.length ? h('div', { class: 'kick' }, `${t('step')} ${c.steps.join(', ')}`) : null,
+      atoms(t('gr.reads'), c.reads), atoms(t('gr.writes'), c.writes), atoms('surfaces', c.surfaces));
+  }
+  return null;
+}
+function graphHome(n) {
+  if (n.kind === 'section' && n.file) return goSection(n.file, n.anchor, t('gr.openSection'), n.title);
+  if (GR_REG_VAR[n.kind]) return h('button', { class: 'golink',
+    onclick: () => { S.tab = 'registers'; S.reg = n.kind; S.regItem = n.label; S.regFilter = 'all'; render(); } }, t('gr.openRow'));
+  if (n.kind === 'card') return h('button', { class: 'golink',
+    onclick: () => { S.tab = 'skills'; S.skillPlane = n.plane || 'library'; S.skillPick = n.label; render(); } }, t('gr.openCard'));
+  return null;
+}
+
+function viewGraph() {
+  const g = graphData();
+  const group = (label, ...kids) => h('div', { class: 'ggroup' }, h('span', { class: 'glab' }, label), ...kids);
+  const bar = h('div', { class: 'gbar' },
+    group(t('gr.view'), h('div', { class: 'gseg' }, ['product', 'method'].map(k => h('button', {
+      'aria-pressed': String(S.graphMode === k),
+      onclick: () => { S.graphMode = k; S.graphPick = null; S.graphView = null; render(); } }, t('gr.' + k))))),
+    S.graphMode === 'product' ? group(t('gr.registers'),
+      GR_REG_KINDS.map(k => h('button', { class: `gtog ${k}`, 'aria-pressed': String(S.graphRegs[k] !== false),
+        onclick: () => { S.graphRegs = { ...S.graphRegs, [k]: S.graphRegs[k] === false }; S.graphView = null; render(); } },
+        t(k === 'metrics' ? 'metricNodes' : k))),
+      h('button', { class: 'gtog plain', 'aria-pressed': String(S.graphAll),
+        onclick: () => { S.graphAll = !S.graphAll; S.graphView = null; render(); } }, t('gr.allRows'))) : null,
+    group(t('gr.pinned'),
+      h('button', { class: 'gtog plain gfocus', 'aria-pressed': String(S.graphFocus), disabled: !S.graphPick,
+        onclick: () => { S.graphFocus = !S.graphFocus; S.graphView = null; render(); } }, t('gr.focus')),
+      S.graphFocus ? h('div', { class: 'gseg' }, [1, 2].map(k => h('button', { 'aria-pressed': String(S.graphHops === k),
+        onclick: () => { S.graphHops = k; S.graphView = null; render(); } }, `${k} ${t('gr.hop')}`))) : null),
+  );
+  const edgesShown = graphLayout(g);
+  const nShown = Object.keys(edgesShown.pos).length;
+  const eShown = g.edges.filter(e => edgesShown.pos[e.from] && edgesShown.pos[e.to]).length;
+  const legend = h('div', { class: 'glegend' },
+    h('span', { class: 'lg rests' }, t('gr.lgRests')),
+    S.graphMode === 'product' ? h('span', { class: 'lg implied' }, t('gr.lgImplied')) : null,
+    h('span', { class: 'lg ref' }, t('gr.lgRef')),
+    S.graphMode === 'product' ? h('span', { class: 'lg serves' }, t('gr.lgRegs')) : h('span', { class: 'lg writes' }, t('gr.lgWrites')),
+    h('span', { class: 'lg node confirmed' }, t('gr.st.confirmed')),
+    h('span', { class: 'lg node written' }, t('gr.st.written')),
+    h('span', { class: 'lg node open' }, t('gr.st.open')),
+    h('span', { class: 'lg node empty' }, t('gr.st.empty')),
+    h('span', { class: 'gcount' }, `${nShown} ${t('gr.nodes')} · ${eShown} ${t('gr.edges')}`));
+  return h('div', {}, bar, legend, h('div', { class: 'gsplit' }, graphStage(g), graphPanel(g)));
+}
+
+
+const VIEWS = { graph: viewGraph, overview: viewOverview, step: viewStep, artifacts: viewArtifacts, registers: viewRegisters,
   metrics: viewMetrics, open: viewOpen, sources: viewSources, skills: viewSkills, log: viewLog,
   checks: viewChecks, worklog: viewWorklog, guide: viewGuide };
-const TAB_ORDER = ['overview', 'artifacts', 'registers', 'metrics', 'open',
+const TAB_ORDER = ['overview', 'artifacts', 'registers', 'metrics', 'open', 'graph',
   null, 'sources', 'skills', 'log', 'checks', 'guide'];
 
 /* ---------------------------------------------------------------- shell */
@@ -3198,6 +3647,7 @@ function counts() {
     sources: (m.sources.files || []).length || null,
     skills: (m.framework.skills || []).length || null,
     log: m.timeline.length || null,
+    graph: (m.graph && m.graph.edges.length) || null,
     checks: (m.health.filter(x => x.level === 'error').length + lintN) || null,
   };
 }
@@ -3210,6 +3660,7 @@ function writeHash() {
   if (S.tab === 'registers') parts.push(S.reg);
   if (S.tab === 'skills') parts.push(S.skillPlane, S.skillPick || '');
   if (S.tab === 'guide') parts.push(S.guideSec);
+  if (S.tab === 'graph') parts.push(S.graphMode, S.graphPick || '');
   const want = '#' + parts.filter(x => x !== '' && x !== null && x !== undefined).join('/');
   if (location.hash !== want) history.replaceState(null, '', want);
 }
@@ -3223,12 +3674,14 @@ function readHash() {
   if (S.tab === 'registers' && p[1]) S.reg = p[1];
   if (S.tab === 'skills') { if (p[1]) S.skillPlane = p[1]; if (p[2]) S.skillPick = p[2]; }
   if (S.tab === 'guide' && GUIDE_SECS.includes(p[1])) S.guideSec = p[1];
+  if (S.tab === 'graph') { if (p[1] === 'product' || p[1] === 'method') S.graphMode = p[1]; if (p[2]) S.graphPick = p.slice(2).join('/'); }
 }
 
 /* In-app history. The page is one hash-routed document, so the browser's own back/forward would leave
    the site; these buttons walk a stack the app keeps itself, so navigation stays inside the console.
    A location is only the "where", not the theme — toggling theme re-renders but adds no history step. */
-const LOC_KEYS = ['tab', 'step', 'artifact', 'section', 'worklog', 'reg', 'skillPlane', 'skillPick', 'guideSec'];
+const LOC_KEYS = ['tab', 'step', 'artifact', 'section', 'worklog', 'reg', 'skillPlane', 'skillPick', 'guideSec',
+  'graphMode', 'graphPick'];
 const locSnap = () => LOC_KEYS.reduce((o, k) => (o[k] = S[k], o), {});
 const locKey = () => JSON.stringify(LOC_KEYS.map(k => S[k]));
 function pushHistory() {

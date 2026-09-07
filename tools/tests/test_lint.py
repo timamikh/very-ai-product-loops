@@ -405,5 +405,96 @@ class Help(unittest.TestCase):
             self.assertIn(cid, text)
 
 
+class GraphTests(unittest.TestCase):
+    """The dependency graph (tools/loops/graph.py) is a view over what the read layer read — every
+    edge names two nodes that exist, and every edge kind is one the files can state."""
+
+    def test_instance_graph_is_closed_over_its_nodes(self):
+        from loops import graph as G
+        m = I.load(FIXTURE, ROOT)
+        g = m["graph"]
+        ids = {n["id"] for n in g["nodes"]}
+        for e in g["edges"]:
+            self.assertIn(e["from"], ids, e)
+            self.assertIn(e["to"], ids, e)
+            self.assertIn(e["kind"], {"rests", "implied", "ref", "serves", "on", "parent", "test"})
+        # a section's rests-on marker is an edge from the foundation to the section
+        rests = [(e["from"], e["to"]) for e in g["edges"] if e["kind"] == "rests"]
+        for art in m["artifacts"]:
+            for sec in art["sections"]:
+                for tgt in sec["rests_on"]:
+                    self.assertIn(("s:" + tgt, "s:%d#%s" % (art["step"], sec["id"])), rests)
+        # a register id a section names is an edge to that row — and only to a row that exists
+        rows = {n["id"] for n in g["nodes"] if n["kind"] != "section"}
+        for e in g["edges"]:
+            if e["kind"] == "ref":
+                self.assertIn(e["to"], rows)
+        self.assertEqual(G.instance_graph([], {}), {"nodes": [], "edges": []})
+
+    def _two_sections(self, rests_on=()):
+        """A one-step instance with `segments` and `problems` written; `problems` may carry markers."""
+        def sec(sid, rests):
+            return {"id": sid, "title": sid, "words": 10, "confirmed": True, "contested": False,
+                    "open": False, "gaps": [], "card": "", "markers": {}, "rests_on": list(rests)}
+        return [{"step": 1, "file": "1-concept.md",
+                 "sections": [sec("segments", []), sec("problems", rests_on)]}]
+
+    def test_implied_edges_come_from_the_skeleton_and_never_double_a_rests_on(self):
+        from loops import graph as G
+        steps, skills = F.steps(ROOT), F.skills(ROOT)
+        # the skeleton names `segment-pains` on `problems`; the card reads `segments` and `jtbd`
+        g = G.instance_graph(self._two_sections(), {}, steps, skills)
+        kinds = {(e["from"], e["to"]): e["kind"] for e in g["edges"]}
+        self.assertEqual(kinds.get(("s:1#segments", "s:1#problems")), "implied")
+        # `jtbd` is read too, but not written here — a prescription never makes a node
+        self.assertNotIn("s:1#jtbd", {n["id"] for n in g["nodes"]})
+        # the same pair stated by a `rests-on` marker is drawn once, as the stated kind
+        g2 = G.instance_graph(self._two_sections(["1#segments"]), {}, steps, skills)
+        pairs = [(e["from"], e["to"], e["kind"]) for e in g2["edges"]]
+        self.assertEqual(pairs.count(("s:1#segments", "s:1#problems", "rests")), 1)
+        self.assertNotIn(("s:1#segments", "s:1#problems", "implied"), pairs)
+        # without the skeleton or the cards the graph holds stated edges only
+        self.assertEqual(G.instance_graph(self._two_sections(), {})["edges"], [])
+
+    def test_a_missing_rests_on_target_is_one_node(self):
+        from loops import graph as G
+        arts = self._two_sections(["2#market-sizing"])
+        arts[0]["sections"][0]["rests_on"] = ["2#market-sizing"]      # two sections rest on the same absent one
+        g = G.instance_graph(arts, {})
+        missing = [n for n in g["nodes"] if n["status"] == "missing"]
+        self.assertEqual([n["id"] for n in missing], ["s:2#market-sizing"])
+        self.assertEqual(sum(1 for e in g["edges"] if e["from"] == "s:2#market-sizing"), 2)
+
+    def test_register_ids_is_the_one_grammar(self):
+        from loops import graph as G
+        self.assertIs(G._ids, T.register_ids)
+        self.assertEqual(T.register_ids("M-requests-30d, M-mau · S-03 · S-04 (H-2 twice H-2)"),
+                         ["M-requests-30d", "M-mau", "S-03", "S-04", "H-2"])
+        self.assertEqual(T.register_ids("H-1 M-x B-01", ("metrics",)), ["M-x"])
+        self.assertEqual(T.register_ids(None), [])
+
+    def test_framework_graph_reads_the_atoms(self):
+        from loops import graph as G
+        g = G.framework_graph(F.steps(ROOT), F.skills(ROOT))
+        ids = {n["id"] for n in g["nodes"]}
+        for e in g["edges"]:
+            self.assertIn(e["from"], ids, e)
+            self.assertIn(e["to"], ids, e)
+            self.assertIn(e["kind"], {"reads", "writes", "worklog"})
+        # every template section is a node, every card is a node, the six registers are nodes
+        for st in F.steps(ROOT):
+            for sec in st["skeleton"]:
+                self.assertIn("s:%d#%s" % (st["step"], sec["id"]), ids)
+        for c in F.skills(ROOT):
+            self.assertIn("c:" + c["name"], ids)
+        self.assertIn("g:hypotheses", ids)
+        # a wildcard atom (`section:*`, `register:*`) names no node
+        self.assertNotIn("g:*", ids)
+        self.assertFalse([i for i in ids if i.endswith("#*")])
+        # a declared foreign worklog input is a card-to-card edge
+        wl = {(e["from"], e["to"]) for e in g["edges"] if e["kind"] == "worklog"}
+        self.assertIn(("c:cjm-concept", "c:cjm-strategy"), wl)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)

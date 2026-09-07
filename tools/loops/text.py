@@ -372,7 +372,28 @@ METRIC_RE = re.compile(r"\bM-[a-z0-9][a-z0-9-]*\b")
 # positional `F-<n>` item ids left to collide with — pre-v0.12 instances rename items on migration
 FEATURE_RE = re.compile(r"\bF-\d+\b")
 SURFACE_RE = re.compile(r"\bS-\d+\b")
+# the one table of register-id grammars — the linter, the read model and the graph all match ids
+# through it, so an id that counts as a reference in one place counts everywhere
+ID_RES = {"hypotheses": HYP_RE, "risks": RISK_RE, "metrics": METRIC_RE,
+          "features": FEATURE_RE, "surfaces": SURFACE_RE}
+# a Step-5 market-entry bundle (`B-01`) is linked from sprint items like a register id, but it is a
+# table row of an artifact, not a register — so it is matched here and never counted as a reference
+BUNDLE_RE = re.compile(r"\bB-\d+\b")
 LINK_RE = re.compile(r"\[\[[^\]]+\]\]")
+
+
+def register_ids(text, kinds=ID_RES):
+    """Every register id a chunk of text names, in order of appearance, each once — `M-requests-30d,
+    M-mau` → both; `S-03 · S-04` → both. `kinds` narrows the match to some registers' grammars."""
+    hits = []
+    for k in kinds:
+        hits.extend((m.start(), m.group(0)) for m in ID_RES[k].finditer(str(text or "")))
+    out, seen = [], set()
+    for _, rid in sorted(hits):
+        if rid not in seen:
+            seen.add(rid)
+            out.append(rid)
+    return out
 
 
 def markers(text):

@@ -2,7 +2,7 @@
 node_type: tooling
 title: The local console — a UI for a very-ai-product-loops instance
 status: draft
-version: 0.6.0
+version: 0.7.0
 updated: 2026-08-21
 ---
 
@@ -219,6 +219,17 @@ truth appear:
 - **A metric's comparable variants.** A series is split by `basis` **and** `population` — how the
   value was computed and who was counted. Two readings that differ in either are two lines, never two
   points of one, and the delta on a KPI tile is computed inside one variant only.
+- **The dependency graph.** [`tools/loops/graph.py`](../loops/graph.py) joins what the reader already
+  holds — sections with their `rests-on` targets and the register ids they name, register rows with
+  their `serves` / `surface` / `parent` cells, cards with their `reads` / `writes` atoms — into nodes and
+  edges. Nothing is stored: the graph is a view, so the console cannot draw an edge the files do not
+  carry, and a row nothing links to shows as exactly that. One edge kind is derived, and drawn dashed
+  to say so: *implied* — the card the step README names for a section reads a sibling section
+  (`segment-pains` reads `segments` and `jtbd`, so `segments → problems`). The templates carry almost
+  no `rests-on` marker inside a step, so without it a step's internal dependencies — which the cards
+  do declare — would not show; a pair a `rests-on` marker already states is drawn once, as stated. The
+  drawing is inline SVG through the same helper as the charts (no library, nothing from the network),
+  so the snapshot carries it.
 - **The product, by surface.** The *Surfaces* tab draws the two product registers as a board: one
   column per `S-…` row in file order, carrying the feature cards whose `surface` cell names that
   `S-id` (a substring match, so `S-04 · S-05` lands on both). A card is coloured by the feature's
@@ -276,6 +287,7 @@ be eroded by a later feature, and the framework keeps one mechanism per change.
 | Registers | Hypotheses / risks / metric nodes / features / surfaces as filterable tables, with non-canon values flagged, a per-item trail, and a link to every artifact section that names the id. The Surfaces tab opens with the board — the product by surface, one column per `S-…` row (see *The read model*) |
 | Metrics | Latest readings as tiles, one chart per node with a dot on every reading, each node's full definition, the raw `metrics.csv` rows, and the nodes defined but never measured |
 | Open questions | Every `— to clarify —`, every gate item still open or unrecorded, every hypothesis in flight — each with a link to the section it sits in |
+| Graph | The instance as a dependency graph in a pannable, zoomable stage (drag · pinch or ctrl+wheel · fit) — *the product*: the six steps' sections and the register rows as columns, joined by `rests-on` markers, the dashed *implied* reads of each section's card, the register ids a section names, and the registers' own `serves` / `surface` / `parent` cells; *the method*: the template sections with their methods, the operations and outputs, and the six registers, joined by the cards' `reads` / `writes` atoms. Hover lights up a node's neighbours; a click pins it and opens a side panel with what the node contains — a section's confidence mix, worklog link and full projected text, a register row's cells, a card's header — and its links, each one click to the node or to its home. *Neighbours only* cuts the drawing to one or two hops. Every solid edge is a fact a file states; the one dashed kind is derived from the cards and labelled as such |
 | Sources | The source index, every file in `sources/` with its role and whether the index knows it, the metric source slots, and the session handoff |
 | Skills | Every skill the agent can reach as a searchable table (one line each — kind, steps, origin); a row opens its full wiring and quality declaration below |
 | Change log | One timeline across all artifacts and registers — what moved and why, filterable by file |

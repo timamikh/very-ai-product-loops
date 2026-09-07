@@ -16,6 +16,40 @@ rule: where a bullet here and the canon in `process/` disagree, the canon wins.
 Work accumulated since 0.8.2, grouped by area (collapsed into one release when a tag is cut).
 Bullets are theses; the reasoning for any item lives in its commit and in the `process/` canon.
 
+### Console 0.7.0 — the dependency graph
+
+- **A Graph tab.** The instance as a dependency graph in a pannable, zoomable stage, two views: *the
+  product* (the six steps' sections and the register rows, joined by `rests-on` markers, the register
+  ids a section names and the registers' own `serves` / `surface` / `parent` / `test` cells) and *the
+  method* (the template sections, the cards and the six registers, joined by the cards' `reads` /
+  `writes` / `worklog` atoms). Both graphs are assembled in one place in the read layer
+  (`tools/loops/graph.py`) and stored nowhere; a `rests-on` target the instance has not written shows
+  as a *not written yet* node — the same fact check S reports. Hover lights up a node's neighbours,
+  a click pins it and opens its links as lists; *neighbours only* cuts the drawing to one or two hops;
+  `#graph/<product|method>/<node>` deep-links a node. Inline SVG, no library, so the exported snapshot
+  carries it.
+- **Implied edges inside a step.** The templates carry almost no `rests-on` marker between a step's own
+  sections (step 1 carries none), while the cards declare those reads. The product graph now draws
+  them dashed as *the section's card reads*, derived from the step README's skeleton (section → card)
+  and the card's `reads` atoms, only between sections the instance has written, and never over a pair
+  a `rests-on` marker already states. Whether the templates should carry those markers themselves is
+  an open canon question, recorded below, not decided here.
+- **Open, for the owner (canon, after the runs).** (a) Whether the templates should carry `rests-on`
+  inside a step wherever the section's card reads a sibling — the edge would become a fact of the file,
+  and check S would start warning about a signed section resting on an unsigned neighbour, which is a
+  change in the linter's behaviour. (b) A template's `rests-on` and the card's `reads` describe one
+  dependency in two places and already diverge: the Step-2 template says `uvp-cpv` rests on
+  `1#segments, 1#problems, 2#substitutes`, the card reads `idea, segments, problems`. Candidate lint
+  check "the template's `rests-on` is consistent with the card's `reads`" — to build once the running
+  instances have closed.
+- **One grammar for register ids.** `text.ID_RES` / `text.register_ids` is the single table the
+  linter, the read model, the sprint-item links and the graph match ids through; the two private
+  copies are gone.
+- **Fix — boolean attributes.** `h()` wrote `aria-pressed=""` / `aria-current=""` for `true`, so no
+  `[aria-…="true"]` selector ever matched: the active tab, the current outline item and the register
+  filters were never highlighted. `aria-*` now writes `"true"`; other boolean attributes keep the
+  empty-string form.
+
 ### Tooling — the run journals read back: two findings closed, the rest were already in
 
 - **X2 — `node_type` against the matrix, for every instance file** (hub F-03). Cards, worklogs and
